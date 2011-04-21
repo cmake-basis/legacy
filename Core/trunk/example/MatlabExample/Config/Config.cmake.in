@@ -1,0 +1,14 @@
+##############################################################################
+# + DO NOT edit file Sbia@PROJECT_NAME@Config.cmake!
+# + DO NOT add file Sbia@PROJECT_NAME@Config.cmake to repository!
+#
+# as it is generated automatically by CMake from
+#
+# \file  Config.cmake.in
+# \brief CMake Config file searched for by find_package () in config-mode.
+#
+# For copyright information please see Copyright.txt in the root
+# directory of the project.
+#
+# Contact: SBIA Group <sbia-software@uphs.upenn.edu>
+##############################################################################

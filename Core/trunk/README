@@ -1,0 +1,92 @@
+INTRODUCTION
+
+  The SBIA Build system And Software Implementation Standard (BASIS) package
+  contains utility source files and libraries written both at SBIA and external
+  sites. This package is required to build SBIA projects which follow BASIS
+  (i.e., projects started after the release of BASIS). BASIS does not only
+  provide the tools for implementing software packages, it also imposes a
+  standardized project structure and CMake-based (http://www.cmake.org) build
+  system. The use of BASIS not only eases the maintainance of SBIA software
+  projects and makes it easier to build and install them, it also enables the
+  fusion of independently developed SBIA projects into one so-called superproject.
+
+  The BASIS package, when build and installed once globally on the target system,
+  is used for the build of dependent SBIA projects. Alternatively, if the
+  package is not found, each SBIA project or superproject which is instantiated
+  from the BASIS Project Template or BASIS Superproject Template, respectively,
+  retrieves and builds a local copy using CMake's ExternalProject module
+  (http://www.kitware.com/products/html/BuildingExternalProjectsWithCMake2.8.html).
+
+
+PACKAGE OVERVIEW
+
+  The components of BASIS are summarized in the following.
+
+
+  CMake Modules
+  -------------
+
+  Source package:
+    - src/cmake : The top-level source directory of the BASIS CMake Modules component.
+
+  Installation:
+    - cmake : The installed BASIS CMake Modules and auxiliary files.
+
+  The CMake modules and corresponding auxiliary files are not only used by the
+  BASIS package itself, but also any SBIA project which follows BASIS for the
+  configuration of the CMake-based build system. These CMake modules in
+  particular define many functions which are used as replacement of CMake's
+  built-in functions. For example, the function sbia_add_executable () is used
+  by SBIA projects as replacement for CMake's add_executable () command.
+  The SBIA CMake functions are convenient to use, extend the functionality of
+  CMake's built-in functions and enable BASIS to impose the standard on the
+  configured build system.
+
+
+  Boost
+  -----
+
+  Source package:
+    - src/boost       : The top-level source directory of the BASIS Boost component.
+    - src/boost/boost : The header files of the BASIS Boost libraries.
+    - src/boost/libs  : Contains one subfolder for each BASIS Boost library.
+
+  Installation:
+    - include/boost : The header files of the BASIS Boost libraries.
+    - lib           : BASIS Boost libraries.
+
+  This component consists only of the minimal required source code files of
+  selected Boost libraries to reduce the size of the libraries each SBIA project
+  depends on. The entire Boost collection would be too huge considering that
+  only few Boost libraries are actually used by most SBIA projects.
+  
+  The official documentation of the Boost libraries can be found online at
+  http://www.boost.org/doc/libs/.
+
+  See LICENSE-Boost file in the project root directory for details on the
+  copyright and license of the Boost source files.
+
+  The following Boost libraries are part of the BASIS Boost component:
+
+    program_options - The Boost.Program_options library
+                      (http://www.boost.org/doc/libs/release/doc/html/program_options.html).
+
+
+  Project Template
+  ----------------
+
+  Every SBIA project that wants to follow BASIS has to be derived from the BASIS
+  Project Template. For convenience, a project creation script is provided which
+  automates the instantiation of the template for new projects.
+
+
+
+CONTACT
+
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+
+  SBIA Group <sbia-software -at- uphs.upenn.edu>
