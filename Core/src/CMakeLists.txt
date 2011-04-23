@@ -9,7 +9,6 @@
 ##############################################################################
 
 add_subdirectory (cmake)
-add_subdirectory (boost)
 
 sbia_add_script (createproject.sh)
 

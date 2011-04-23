@@ -1,6 +1,6 @@
 ##############################################################################
 # \file  CMakeLists.txt
-# \brief CMakeLists.txt file of SBIA Boost prerequisite library.
+# \brief CMakeLists.txt file to configure build of SBIA Boost sources.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 # See LICENSE or Copyright file in project root directory for details.
