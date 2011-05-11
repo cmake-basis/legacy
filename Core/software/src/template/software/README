@@ -1,51 +1,3 @@
-INTRODUCTION
-
-  Introduce your software package here and describe its purpose. This section
-  is very similar to an abstract of a scientific article. The focus here is,
-  however, on the software, not the methodology.
-
-
-PACKAGE OVERVIEW
-
-  In the following, a summary of the top-level files and folders is given. This
-  summary provides an overview of the software package. Items which are only
-  part of the source distribution package are marked by (src), while items which
-  are only part of a binary distribution package or installation, respectively,
-  are marked by (bin).
-
-  Files:
-
-  - AUTHORS           : A list of the people who contributed to this software
-                        package in chronic order.
-  - INSTALL           : Contains build and installation instructions (src).
-  - LICENSE           : The license under which this project is distributed.
-                        See this file for details regarding licensing.
-  - README            : This readme file (src).
-  - CMakeLists.txt    : The root CMakeLists.txt file of this CMake-based project (src).
-  - CTestConfig.cmake : The configuration file for CTest (src).
-
-  Folders:
-
-  - bin     : Contains all the binary executables and shared libraries (bin).
-  - config  : Project configuration files based on CMake are located in this folder (src).
-  - data    : Auxiliary data required by the executables is located in this folder.
-              If no auxiliary data is needed, this folder is omitted.
-  - doc     : Further documentation such as the User Manual can be found here.
-  - example : Example data and implementations using the provided libraries (if any)
-              can be found in this directory tree. The User Manual demonstrates
-              a use case of this software package based on this example data.
-  - include : If the package provides binary libraries for use in other projects,
-              the required public source header files can be found in this folder (bin).
-  - lib     : Static (and import libraries on Windows systems) are installed here (bin).
-  - src     : This folder contains all source files from which the binary executables
-              and libraries are built. Some of the source files are further written
-              in scripting languages such as BASH, Python, and Perl (src).
-  - test    : Additional data which is required for testing the software is
-              located in this folder. Moreover, the implementation of the tests
-              can also be found here (src).
-
-
-CONTACT
 
   Section of Biomedical Image Analysis
   Department of Radiology
@@ -53,4 +5,61 @@ CONTACT
   3600 Market Street, Suite 380
   Philadelphia, PA 19104
 
-  SBIA Group <sbia-software -at- uphs.upenn.edu>
+  Web:   https://www.rad.upenn.edu/sbia/
+  Email: sbia-software -at- uphs.upenn.edu
+
+
+
+INTRODUCTION
+============
+
+  Introduce your software package here and describe its purpose. This section
+  is very similar to an abstract of a scientific article. The focus here is,
+  however, on the software, not the methodology.
+
+
+
+PACKAGE OVERVIEW
+================
+
+  Source Package
+  --------------
+
+  - CMakeLists.txt      Root CMakeLists.txt file.
+  - CTestConfig.cmake   The configuration file for CTest.
+  - config/             Package configuration files.
+  - data/               Auxiliary data required by the executables (optional).
+  - doc/                Package documentation such as the User Manual.
+  - src/                Source files including scripts.
+  - tests/              Implementation of unit tests (optional).
+
+  - AUTHORS             A list of the people who contributed to this software.
+                        This list is in particular also used as input for the
+                        svn2cl utility when generating the ChangeLog.
+  - README              This readme file.
+  - LICENSE             The copyright and license notices.
+  - INSTALL             Build and installation instructions.
+
+
+  Binary Package
+  --------------
+
+  For details on where the built executables and libraries, the auxiliary data,
+  and the documentation files are installed, please refer to the INSTALL file.
+
+
+
+LICENSING
+=========
+
+  See LICENSE file in project root or 'doc' directory for details.
+
+
+
+REFERENCES
+==========
+
+  [1] Reference 1
+
+  [2] Reference 2
+
