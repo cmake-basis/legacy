@@ -1,6 +1,6 @@
 ##############################################################################
 # \file  CMakeLists.txt
-# \brief Root CMakeLists.txt file of SBIA (sub-)project.
+# \brief Root CMakeLists.txt file of software component.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 # See LICENSE or Copyright file in project root directory for details.
@@ -21,28 +21,25 @@ cmake_minimum_required (VERSION 2.8.2)
 # Specifies the tagged project template which this project was instantiated
 # from. This information is required by the automatic update of template
 # files from the project template repository or working copy, respectively.
-# Further, the SBIA CMake Modules package can make use of this variable in
-# order to guarantee backwards compatibility with previous template versions.
+# Further, the BASIS CMake modules can make use of this variable for the
+# purpose of backwards compatibility with previous template versions.
 
-set (TEMPLATE_VERSION "1.0")
+set (TEMPLATE_VERSION "0.0")
 
 # ============================================================================
-# cornerstone
+# BASIS
 # ============================================================================
 
-find_package (SBIA_SRC REQUIRED)
+find_package (BASIS REQUIRED)
 
-if (NOT SBIA_SRC_FOUND)
+if (BASIS_FOUND)
+  include ("${BASIS_USE_FILE}")
+else ()
   return ()
 endif ()
 
-# Includes required SBIA CMake modules and sets CMAKE_MODULE_PATH to
-# SBIA_SRC_MODULE_PATH where the fundamental CMake modules and common
-# CMake Find modules are located.
-include ("${SBIA_SRC_USE_FILE}")
-
 # ============================================================================
-# project directories
+# directory structure
 # ============================================================================
 
 # The following two variables are actually set by CMake. This, however, after
@@ -71,19 +68,17 @@ endforeach()
 get_filename_component (PROJECT_MODULE_PATH "${PROJECT_MODULE_PATH}" ABSOLUTE)
 
 # ============================================================================
-# project attributes and settings
+# start
 # ============================================================================
 
 # The following macro call replaces the CMake command project (). Besides
 # calling this command, it sets further common CMake variables such as
 # PROJECT_NAME_UPPER, PROJECT_NAME_LOWER, PROJECT_VERSION_MAJOR,
 # PROJECT_VERSION_MINOR, PROJECT_VERSION_PATCH,... please refer to
-# the documentation of the macro sbia_project () for a list of all available
-# variables.
+# the documentation of the macro for a list of available variables.
 #
-# The project name and version have to be specified as CMake variables
-# PROJECT_NAME and PROJECT_VERSION in the CMake module
-# PROJECT_CONFIG_DIR/Settings.cmake.
+# The project attributes such as the version have to be specified as CMake
+# variables in the CMake module PROJECT_CONFIG_DIR/Settings.cmake.
 #
 # The common CMake variables PROJECT_SOURCE_DIR and PROJECT_BINARY_DIR
 # should be used in the subsequent CMake code to refer to the source or
@@ -93,74 +88,11 @@ get_filename_component (PROJECT_MODULE_PATH "${PROJECT_MODULE_PATH}" ABSOLUTE)
 #
 # \see sbia_project ()
 
-sbia_project ()
-
-# ============================================================================
-# default auxiliary source files
-# ============================================================================
-
-# get binary directory corresponding to PROJECT_SRC_DIR
-file (RELATIVE_PATH BINARY_SRC_DIR "${PROJECT_SOURCE_DIR}" "${PROJECT_SRC_DIR}")
-set (BINARY_SRC_DIR "${PROJECT_BINARY_DIR}/${BINARY_SRC_DIR}")
-
-# config.h - This file is intended to be included by all source files.
-#            Hence, other projects will indirectly include this file when
-#            they use a library of this project.
-
-set (CONFIG_H_TEMPLATE "${PROJECT_SRC_DIR}/config.h.in")
-set (CONFIG_H_FILE     "${BINARY_SRC_DIR}/config.h")
-
-configure_file (${CONFIG_H_TEMPLATE} ${CONFIG_H_FILE} @ONLY)
-
-# main.h - This file is intended to be included by .(c|cc|cpp|cxx) files
-#          only which further contain the definition of the main () function.
-#          It may not be included by any other source file!
-
-set (MAIN_H_TEMPLATE "${PROJECT_SRC_DIR}/main.h.in")
-set (MAIN_H_FILE     "${BINARY_SRC_DIR}/main.h")
-
-configure_file (${MAIN_H_TEMPLATE} ${MAIN_H_FILE} @ONLY)
-
-set (SBIA_TEMPLATE_HDRS
-  ${CONFIG_H_TEMPLATE}
-  ${MAIN_H_TEMPLATE}
-)
-
-set (SBIA_TEMPLATE_SRCS
-  ""
-)
-
-set (SBIA_TEMPLATE_SOURCES
-  ${SBIA_TEMPLATE_HDRS}
-  ${SBIA_TEMPLATE_SRCS}
-)
-
-set (SBIA_DEFAULT_HDRS
-  ${CONFIG_H_FILE}
-  ${MAIN_H_FILE}
-)
-
-set (SBIA_DEFAULT_SRCS
-  ""
-)
-
-set (SBIA_DEFAULT_SOURCES
-  ${SBIA_DEFAULT_HDRS}
-  ${SBIA_DEFAULT_SRCS}
-)
-
-source_group ("Templates" FILES ${SBIA_TEMPLATE_SOURCES})
-source_group ("Default"   FILES ${SBIA_DEFAULT_SOURCES})
-
-include_directories (BEFORE "${BINARY_SRC_DIR}")
+sbia_project ("ReplaceByProjectName")
 
 # ============================================================================
 # subdirectories
 # ============================================================================
-
-if (EXISTS "${PROJECT_UTILITIES_DIR}")
-  add_subdirectory (${PROJECT_UTILITIES_DIR})
-endif ()
 
 add_subdirectory ("${PROJECT_SRC_DIR}")
 
@@ -168,12 +100,16 @@ if (EXISTS "${PROJECT_DATA_DIR}")
   add_subdirectory ("${PROJECT_DATA_DIR}")
 endif ()
 
+if (EXISTS "${PROJECT_TESTS_DIR}" AND BUILD_TESTING)
+  add_subdirectory ("${PROJECT_TESTS_DIR}")
+endif ()
+
 if (EXISTS "${PROJECT_EXAMPLE_DIR}")
   add_subdirectory ("${PROJECT_EXAMPLE_DIR}")
 endif ()
 
-if (BUILD_TESTING)
-  add_subdirectory ("${PROJECT_TEST_DIR}")
+if (EXISTS "${PROJECT_TESTING_DIR}" AND BUILD_TESTING)
+  add_subdirectory ("${PROJECT_TESTING_DIR}")
 endif ()
 
 add_subdirectory ("${PROJECT_DOC_DIR}")

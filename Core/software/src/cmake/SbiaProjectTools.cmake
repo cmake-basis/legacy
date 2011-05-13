@@ -3,7 +3,7 @@
 # \brief Functions and macros used by any SBIA project.
 #
 # This is the main module that is included by SBIA projects. Most of the other
-# SBIA CMake modules are included by this main module and hence do not need
+# BASIS CMake modules are included by this main module and hence do not need
 # to be included separately.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
@@ -94,16 +94,14 @@ include ("${CMAKE_CURRENT_LIST_DIR}/SbiaUpdate.cmake")
 # the root directory of the source tree.
 #
 # \see sbia_project_finalize ()
+#
+# \param [in] NAME Project name.
 
-macro (sbia_project)
+macro (sbia_project NAME)
   # include project settings
   include ("${PROJECT_CONFIG_DIR}/Settings.cmake")
 
   # check required project information
-  if (NOT PROJECT_NAME)
-    message (FATAL_ERROR "PROJECT_NAME not defined.")
-  endif ()
-
   if (NOT PROJECT_VERSION)
     message (FATAL_ERROR "PROJECT_VERSION not defined.")
   endif ()
@@ -132,7 +130,7 @@ macro (sbia_project)
   endif ()
 
   # start CMake project
-  project ("${PROJECT_NAME}")
+  project ("${NAME}")
 
   set (CMAKE_PROJECT_NAME "${PROJECT_NAME}") # variable used by CPack
 
@@ -283,6 +281,47 @@ macro (sbia_project_finalize)
   # finalize update of files
   sbia_update_finalize ()
 endmacro ()
+
+# ============================================================================
+# example and testing component
+# ============================================================================
+
+# ****************************************************************************
+# \brief Start project example, calls CMake project () command.
+#
+# \param [in] PROJECT_NAME Name of the project this example belongs to.
+
+function (sbia_example PROJECT_NAME)
+  # find software component
+  find_package (${PROJECT_NAME} REQUIRED)
+
+  if (NOT ${PROJECT_NAME}_FOUND)
+    return ()
+  endif ()
+
+  # start example project
+  project ("${PROJECT_NAME}Example")
+endfunction ()
+
+# ****************************************************************************
+# \brief Start software testing project, calls CMake project () command.
+#
+# \param [in] PROJECT_NAME Name of the project whose software is tested.
+
+function (sbia_testing PROJECT_NAME)
+  # find software component
+  find_package (${PROJECT_NAME} REQUIRED)
+
+  if (NOT ${PROJECT_NAME}_FOUND)
+    return ()
+  endif ()
+
+  # start testing project
+  project ("${PROJECT_NAME}Testing")
+
+  # include testing module
+  include (SbiaTest)
+endfunction ()
 
 # ============================================================================
 # set/get any property

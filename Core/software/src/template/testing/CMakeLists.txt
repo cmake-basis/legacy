@@ -1,6 +1,6 @@
 ##############################################################################
 # \file  CMakeLists.txt
-# \brief Root CMakeLists.txt file of testing source tree.
+# \brief Root CMakeLists.txt file of testing component.
 #
 # Copyright (c) University of Pennsylvania. All rights reserved.
 # See LICENSE or Copyright file in project root directory for details.
@@ -9,33 +9,59 @@
 ##############################################################################
 
 # ============================================================================
-# update
+# CMake version
 # ============================================================================
 
-# See documentation of SbiaUpdate.cmake for details.
-
-sbia_update (CTestCustom.cmake.in)
+cmake_minimum_required (VERSION 2.8.2)
 
 # ============================================================================
-# custom settings
+# template version
+# ============================================================================
+
+# Specifies the tagged project template which this project was instantiated
+# from. This information is required by the automatic update of template
+# files from the project template repository or working copy, respectively.
+# Further, the BASIS CMake modules can make use of this variable for the
+# purpose of backwards compatibility with previous template versions.
+
+set (TEMPLATE_VERSION "0.0")
+
+# ============================================================================
+# BASIS
+# ============================================================================
+
+find_package (BASIS REQUIRED)
+
+if (BASIS_FOUND)
+  include ("${BASIS_USE_FILE}")
+else ()
+  return ()
+endif ()
+
+# ============================================================================
+# settings
 # ============================================================================
 
 # configure custom CTest settings and/or copy them to binary tree
 configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in"
-  "${PROJECT_BINARY_DIR}/CTestCustom.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake"
   @ONLY
 )
 
-# directories of test input data and exepected output data
-set (TEST_DATA_DIR     "${CMAKE_CURRENT_SOURCE_DIR}/data")
-set (TEST_EXPECTED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/expected")
+# directories of test input data and expected output data
+set (TESTING_DATA_DIR     "${CMAKE_CURRENT_SOURCE_DIR}/data")
+set (TESTING_EXPECTED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/expected")
 
-# directories for built test executables and test output data
-if (IS_SUBPROJECT)
-  set (TEST_BIN_DIR    "${TEST_BIN_DIR}/${PROJECT_NAME}")
-  set (TEST_OUTPUT_DIR "${TEST_OUTPUT_DIR}/${PROJECT_NAME}")
-endif ()
+# directories for test executables and test output data
+set (TESTING_BIN_DIR    "${TEST_BIN_DIR}/${PROJECT_NAME}")
+set (TESTING_OUTPUT_DIR "${TEST_OUTPUT_DIR}/${PROJECT_NAME}")
+
+# ============================================================================
+# start
+# ============================================================================
+
+sbia_testing ("ReplaceByProjectName")
 
 # ============================================================================
 # subdirectories
