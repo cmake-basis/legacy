@@ -114,23 +114,17 @@ SOURCE TREE
   Directories
   -----------
 
-    - PROJECT_SOURCE_DIR    := PROJECT_SOFTWARE_DIR
-                               | PROJECT_EXAMPLE_DIR
-                               | PROJECT_TESTING_DIR
-
-    - PROJECT_SOFTWARE_DIR  := <source>/software/
-    - PROJECT_EXAMPLE_DIR   := <source>/example/
-    - PROJECT_TESTING_DIR   := <source>/testing/
-
-    - SOFTWARE_CONFIG_DIR   := <source>/software/config/
-    - SOFTWARE_SOURCE_DIR   := <source>/software/src/
-    - SOFTWARE_DATA_DIR     := <source>/software/data/
-    - SOFTWARE_DOC_DIR      := <source>/software/doc/
-    - SOFTWARE_TESTS_DIR    := <source>/software/tests/
-
-    - TESTING_DATA_DIR      := <source>/testing/data
-    - TESTING_EXPECTED_DIR  := <source>/testing/expected
-    - TESTING_TESTS_DIR     := <source>/testing/tests
+    - PROJECT_SOFTWARE_DIR      := <source>/software/
+        / SOFTWARE_CONFIG_DIR   :=   config/
+        / SOFTWARE_SOURCE_DIR   :=   src/
+        / SOFTWARE_DATA_DIR     :=   data/
+        / SOFTWARE_DOC_DIR      :=   doc/
+        / SOFTWARE_TESTS_DIR    :=   tests/
+    - PROJECT_EXAMPLE_DIR       := <source>/example/
+    - PROJECT_TESTING_DIR       := <source>/testing/
+        / TESTING_DATA_DIR      :=   data/
+        / TESTING_EXPECTED_DIR  :=   expected/
+        / TESTING_TESTS_DIR     :=   tests/
 
 
   Software
@@ -185,16 +179,16 @@ BUILD TREE
   Directories
   -----------
 
-    - RUNTIME_OUTPUT_DIRECTORY := <build>/bin/
-    - LIBRARY_OUTPUT_DIRECTORY := <build>/lib/ (UNIX) | <build>/bin (Windows)
-    - ARCHIVE_OUTPUT_DIRECTORY := <build>/lib/
+    - RUNTIME_OUTPUT_DIRECTORY := bin/
+    - LIBRARY_OUTPUT_DIRECTORY := lib/
+    - ARCHIVE_OUTPUT_DIRECTORY := lib/
 
 
   Software
   --------
 
-    - RUNTIME_OUTPUT_DIRECTORY   All executables.
-    - LIBRARY_OUTPUT_DIRECTORY   Shared libraries.
+    - RUNTIME_OUTPUT_DIRECTORY   All executables and shared libraries (Windows).
+    - LIBRARY_OUTPUT_DIRECTORY   Shared libraries (UNIX).
     - ARCHIVE_OUTPUT_DIRECTORY   Static libraries and import libraries (Windows).
 
 
