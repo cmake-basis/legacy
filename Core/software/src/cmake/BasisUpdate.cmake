@@ -151,6 +151,10 @@ mark_as_advanced (PROJECT_TEMPLATE_ROOT)
 # \see basis_update_files ()
 
 function (basis_update_initialize)
+  # initialize only if not done already
+  if (BASIS_UPDATE_INITIALIZED)
+    return ()
+  endif ()
 
   # look for required file udpate script
   find_file (
@@ -261,6 +265,9 @@ function (basis_update_initialize)
     endif ()
  
   endif ()
+
+  # DO NOT cache this variable
+  set (BASIS_UPDATE_INITIALIZED 1)
 endfunction ()
 
 # ============================================================================
@@ -502,8 +509,8 @@ function (basis_update_finalize)
           # add option which user can modify to force update of file
           set (${OPT} "OFF" CACHE BOOL "Whether file '${REL}' should be updated." FORCE)
           # add BASIS_UPDATE_ALL option if not present
-          if ("${BASIS_UPDATE_ALL}" STREQUAL "")
-            set (BASIS_UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
+          if ("${UPDATE_ALL}" STREQUAL "")
+            set (UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
           endif ()
         endif ()
 
@@ -538,7 +545,7 @@ function (basis_update_finalize)
   endforeach ()
 
   if (NOT FILES)
-    set (BASIS_UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
+    set (UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
   endif ()
 
   set (BASIS_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)

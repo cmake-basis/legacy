@@ -3,7 +3,7 @@
 # \brief Root CMakeLists.txt file of testing component.
 #
 # Copyright (c) University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
@@ -53,15 +53,11 @@ configure_file (
 set (TESTING_DATA_DIR     "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set (TESTING_EXPECTED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/expected")
 
-# directories for test executables and test output data
-set (TESTING_BIN_DIR    "${TEST_BIN_DIR}/${PROJECT_NAME}")
-set (TESTING_OUTPUT_DIR "${TEST_OUTPUT_DIR}/${PROJECT_NAME}")
-
 # ============================================================================
 # start
 # ============================================================================
 
-sbia_testing ("ReplaceByProjectName")
+basis_testing ("ReplaceByProjectName")
 
 # ============================================================================
 # subdirectories

@@ -136,6 +136,7 @@ SOURCE TREE
       / LICENSE                   Copyright and license notices.
       / README                    Root documentation file (readme file).
       / INSTALL                   Build and installation instructions.
+      / SOFTWARE_CONFIG_DIR       BASIS CMake configuration files.
       / SOFTWARE_SOURCE_DIR       All source code files.
       / SOFTWARE_DATA_DIR         Auxiliary data such as medical atlases and
                                   pre-computed lookup tables, for example.

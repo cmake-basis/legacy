@@ -30,6 +30,7 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisDirectories.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisTargetTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisSubversionTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisDocTools.cmake")
@@ -90,6 +91,18 @@ include ("${CMAKE_CURRENT_LIST_DIR}/BasisUpdate.cmake")
 # \param [in] NAME Project name.
 
 macro (basis_project NAME)
+  # set common CMake variables which would not be valid before project ()
+  set (PROJECT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+  set (PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+
+  # instantiate project directory structure
+  foreach(P CONFIG SOURCE DATA DOC TESTS)
+    set(VAR SOFTWARE_${P}_DIR)
+    if (NOT IS_ABSOLUTE "${${VAR}}")
+      set (${VAR} "${PROJECT_SOURCE_DIR}/${${VAR}}")
+    endif ()
+  endforeach()
+
   # include project settings
   include ("${SOFTWARE_CONFIG_DIR}/Settings.cmake")
 
@@ -126,15 +139,6 @@ macro (basis_project NAME)
 
   set (CMAKE_PROJECT_NAME "${PROJECT_NAME}") # variable used by CPack
 
-  # determine whether project is configured as subproject
-  # \todo As the software component is within a subfolder, we need a better
-  #       criterium for this.
-  if ("${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
-    set (IS_SUBPROJECT 0)
-  else ()
-    set (IS_SUBPROJECT 1)
-  endif ()
-
   # convert project name to upper and lower case only, respectively
   string (TOUPPER "${PROJECT_NAME}" PROJECT_NAME_UPPER)
   string (TOLOWER "${PROJECT_NAME}" PROJECT_NAME_LOWER)
@@ -156,7 +160,7 @@ macro (basis_project NAME)
 
   # print project information
   if (CMAKE_VERBOSE)
-    message (STATUS "SBIA Project:")
+    message (STATUS "Project:")
     message (STATUS "  Name      = ${PROJECT_NAME}")
     message (STATUS "  Version   = ${PROJECT_VERSION}")
     message (STATUS "  SoVersion = ${PROJECT_SOVERSION}")
@@ -168,11 +172,13 @@ macro (basis_project NAME)
   endif ()
 
   # initialize automatic file update
-  if (NOT IS_SUBPROJECT)
-    basis_update_initialize ()
-  endif ()
+  basis_update_initialize ()
 
   # update CTest configuration and enable testing
+  #
+  # \todo Is it possible to put the CTestConfig.cmake file in the directory
+  #       SOFTWARE_TESTS_DIR? Will the "make test" then still work?
+  #       Where should the BasisTest.cmake module be included?
   if (EXISTS "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
     basis_update (CTestConfig.cmake)
   endif ()
@@ -248,7 +254,7 @@ macro (basis_project_finalize)
     basis_create_addpaths_mfile ()
   endif ()
 
-  # finalize superproject
+  # finalize (super-)project
   if (NOT IS_SUBPROJECT)
     # finalize addition of custom targets
     basis_add_custom_finalize ()
@@ -306,7 +312,7 @@ function (basis_testing PROJECT_NAME)
   project ("${PROJECT_NAME}Testing")
 
   # include testing module
-  include (SbiaTest)
+  include (BasisTest)
 endfunction ()
 
 # ============================================================================

@@ -1,9 +1,9 @@
 ##############################################################################
-# \file  BasisDirectoryStructure.cmake
+# \file  BasisDirectories.cmake
 # \brief Defines the directory structure of BASIS projects.
 #
-# This CMake module defines the variables as specified in the design document
-# DirectoryStructure, which is part of the documentation of the BASIS Core.
+# This CMake module defines the variables as specified in the Directories
+# file which is part of the documentation of the BASIS Core.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 # See LICENSE or Copyright file in project root directory for details.
@@ -11,8 +11,8 @@
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT BASIS_DIRECTORYSTRUCTURE_INCLUDED)
-set (BASIS_DIRECTORYSTRUCTURE_INCLUDED 1)
+if (NOT BASIS_DIRECTORIES_INCLUDED)
+set (BASIS_DIRECTORIES_INCLUDED 1)
 
 
 # get directory of this file
@@ -27,8 +27,11 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # source tree
 # ============================================================================
 
-# \note The following directory names have to match the names used in the
-#       project template in 'src/template'.
+# The directories of the source tree are given here relative to the root
+# directory of the project or corresponding major component, respectively.
+#
+# \note The directory names have to match the names used in the project
+#       template in 'BASIS/<tag>/Core/src/template'.
 
 set (PROJECT_SOFTWARE_DIR "software")
 set (PROJECT_EXAMPLE_DIR  "example")
@@ -121,5 +124,5 @@ set (INSTALL_EXAMPLE_DIR "share/${INSTALL_SINFIX}/example")
 set (INSTALL_MAN_DIR     "share/${INSTALL_SINFIX}/man")
 
 
-endif (NOT BASIS_DIRECTORYSTRUCTURE_INCLUDED)
+endif (NOT BASIS_DIRECTORIES_INCLUDED)
 

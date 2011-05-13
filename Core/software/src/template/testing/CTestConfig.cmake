@@ -3,7 +3,7 @@
 # \brief CTest configuration file.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
@@ -38,3 +38,4 @@ set (CTEST_DROP_SITE_CDASH TRUE)
 #
 # \see CTest.cmake
 set (CTEST_USE_LAUNCHERS 0)
+
