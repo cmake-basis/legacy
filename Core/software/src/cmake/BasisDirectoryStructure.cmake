@@ -87,7 +87,7 @@ endforeach()
 #       INSTALL_PREFIX prefix is excluded from the following paths.
 #       Instead, CMAKE_INSTALL_PREFIX is set to INSTALL_PREFIX.
 #       This has to be done after the project attributes are known, i.e.,
-#       within the macro sbia_project () which also configures the
+#       within the macro basis_project () which also configures the
 #       following variables.
 
 if (WIN32)

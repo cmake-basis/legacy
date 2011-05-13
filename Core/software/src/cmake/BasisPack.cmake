@@ -1,36 +1,39 @@
 ##############################################################################
-# \file  SbiaPack.cmake
+# \file  BasisPack.cmake
 # \brief CPack configuration. Include this module instead of CPack.
+#
+# This module implements the packaging of BASIS projects as described in the
+# document Packaging file in the 'doc' directory.
 #
 # Overwrite the package information set by this module either in a file
 # Package.cmake or a file Package.cmake.in located in the directory
-# specified by PROJECT_CONFIG_DIR. The latter is configured and copied to the
+# specified by SOFTWARE_CONFIG_DIR. The latter is configured and copied to the
 # binary tree before included by this module. Further, to enable a
 # component-based installation, provide either a file Components.cmake or
-# Components.cmake.in again in the directory specified by PROJECT_CONFIG_DIR.
+# Components.cmake.in again in the directory specified by SOFTWARE_CONFIG_DIR.
 # Also in this case, the latter is configured via CMake's configure_file ()
 # before use. This file is referred to as components definition (file).
 #
-# Components can be added in the components definition using the SBIA command
-# sbia_add_component (). Several components can be grouped together and a
-# group description be added using the command sbia_add_component_group ().
+# Components can be added in the components definition using the command
+# basis_add_component (). Several components can be grouped together and a
+# group description be added using the command basis_add_component_group ().
 # Different pre-configured install types which define a certain selection of
-# components to install can be added using sbia_add_install_type (). Note that
-# all these SBIA functions are wrappers around the corresponding CPack
-# functions.
+# components to install can be added using basis_add_install_type ().
+# Note that all these BASIS functions are wrappers around the corresponding
+# CPack functions.
 #
 # \see CPack.cmake
 # \see http://www.vtk.org/Wiki/CMake:Component_Install_With_CPack \
 #      #Component-Based_Installers_with_CPack
 #
 # Copyright (c) 2011 Univeristy of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_PACK_INCLUDED)
-set (SBIA_PACK_INCLUDED 1)
+if (NOT BASIS_PACK_INCLUDED)
+set (BASIS_PACK_INCLUDED 1)
 
 
 # get directory of this file
@@ -81,7 +84,7 @@ if (WIN32 AND NOT UNIX)
 #  set (CPACK_NSIS_DISPLAY_NAME        "${CPACK_PACKAGE_INSTALL_DIRECTORY} ${PROJECT_NAME}")
 #  set (CPACK_NSIS_HELP_LINK           "http:\\\\\\\\www.my-project-home-page.org")
 #  set (CPACK_NSIS_URL_INFO_ABOUT      "http:\\\\\\\\www.my-personal-home-page.com")
-  set (CPACK_NSIS_CONTACT             "sbia-software@uphs.upenn.edu")
+  set (CPACK_NSIS_CONTACT             "sbia-software -at- uphs.upenn.edu")
   set (CPACK_NSIS_MODIFY_PATH         "ON")
 else ()
 #  set (CPACK_STRIP_FILES        "bin/MyExecutable")
@@ -109,12 +112,12 @@ set (
 # include project package information
 # ============================================================================
 
-if (EXISTS "${PROJECT_CONFIG_DIR}/Package.cmake.in")
-  configure_file ("${PROJECT_CONFIG_DIR}/Package.cmake.in"
+if (EXISTS "${SOFTWARE_CONFIG_DIR}/Package.cmake.in")
+  configure_file ("${SOFTWARE_CONFIG_DIR}/Package.cmake.in"
                   "${PROJECT_BINARY_DIR}/Package.cmake" @ONLY)
   include ("${PROJECT_BINARY_DIR}/Package.cmake")
-elseif (EXISTS "${PROJECT_CONFIG_DIR}/Package.cmake")
-  include ("${PROJECT_CONFIG_DIR}/Package.cmake")
+elseif (EXISTS "${SOFTWARE_CONFIG_DIR}/Package.cmake")
+  include ("${SOFTWARE_CONFIG_DIR}/Package.cmake")
 endif ()
 
 # ============================================================================
@@ -143,7 +146,7 @@ include (CPack)
 # \param [in] GRPNAME Name of the component group.
 # \param [in] ARGN    Further arguments passed to cpack_add_component_group ().
 
-function (sbia_add_component_group GRPNAME)
+function (basis_add_component_group GRPNAME)
   set (OPTION_NAME)
   set (PARENT_GROUP)
 
@@ -180,7 +183,7 @@ endfunction ()
 # \param [in] COMPNAME Name of the component.
 # \param [in] ARGN     Further arguments passed to cpack_add_component ().
 
-function (sbia_add_component COMPNAME)
+function (basis_add_component COMPNAME)
   set (OPTION_NAME)
   set (GROUP)
 
@@ -212,7 +215,7 @@ endfunction ()
 # ****************************************************************************
 # \brief Add pre-configured install type.
 
-function (sbia_add_install_type)
+function (basis_add_install_type)
   cpack_add_install_type (${ARGN})
 endfunction ()
 
@@ -220,14 +223,14 @@ endfunction ()
 # include components definition
 # ----------------------------------------------------------------------------
 
-if (EXISTS "${PROJECT_CONFIG_DIR}/Components.cmake.in")
-  configure_file ("${PROJECT_CONFIG_DIR}/Components.cmake.in"
+if (EXISTS "${SOFTWARE_CONFIG_DIR}/Components.cmake.in")
+  configure_file ("${SOFTWARE_CONFIG_DIR}/Components.cmake.in"
                   "${PROJECT_BINARY_DIR}/Components.cmake" @ONLY)
   include ("${PROJECT_BINARY_DIR}/Components.cmake")
-elseif (EXISTS "${PROJECT_CONFIG_DIR}/Components.cmake")
-  include ("${PROJECT_CONFIG_DIR}/Components.cmake")
+elseif (EXISTS "${SOFTWARE_CONFIG_DIR}/Components.cmake")
+  include ("${SOFTWARE_CONFIG_DIR}/Components.cmake")
 endif ()
 
 
-endif (NOT SBIA_PACK_INCLUDED)
+endif (NOT BASIS_PACK_INCLUDED)
 

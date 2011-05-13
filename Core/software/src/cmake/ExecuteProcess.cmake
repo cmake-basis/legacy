@@ -1,5 +1,5 @@
 ##############################################################################
-# \file  SbiaExecuteProcess.cmake
+# \file  BasisExecuteProcess.cmake
 # \brief Execute process using CMake script mode.
 #
 # This CMake script can be used as argument for the -P option of cmake, when
@@ -59,9 +59,9 @@
 # \endcode
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
-# Contact: SBIA Group <sbia-software@uphs.upenn.edu>
+# Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
 # parse arguments
@@ -211,3 +211,4 @@ Output (stderr):
 ${STDERR}")
   endif ()
 endif ()
+

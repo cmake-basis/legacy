@@ -2,30 +2,31 @@
 
 """
   ATTENTION: DO NOT use the tokens used by the file update within this
-             file. Write < sbia-custom > instead, for example.
+             file. Write < basis-custom > instead, for example.
 """
 
 """
 ##############################################################################
-# \file  SbiaUpdateFile.py
+# \file  updatefile.py
 # \brief Update file from template file while preserving custom sections.
 #
-# This script is used by the CMake module SbiaUpdate. This module is used to
-# update files of a project instantiated from a particular revision of the SBIA
-# project template during the configure step of CMake. This way, projects pull the
-# changes of the compatible template automatically. Sections in the original file
-# which are enclosed by the tokens < sbia-custom > and </ sbia-custom > or
-# < sbia-license > and </ sbia-license > (without trailing spaces) are preserved
-# while all other content is replaced by the template file. The customized sections
-# are inserted into the template in the order they appear in the original file and
-# the template file. If more custom sections are present in the original file than
-# in the template file, these custom sections are appended at the end of the
-# resulting file.
+# This script is used by the BasisUpdate CMake module. This module is used to
+# update files of a project instantiated from a particular revision of the
+# BASIS project template during the configure step of CMake. This way,
+# projects pull the changes of the compatible template automatically.
+# Sections in the original file which are enclosed by the tokens
+# < basis-custom > and </ basis-custom > or < basis-license > and
+# </ basis-license > (without trailing spaces) are preserved while all other
+# content is replaced by the template file. The customized sections are
+# inserted into the template in the order they appear in the original file
+# and the template file. If more custom sections are present in the original
+# file than in the template file, these custom sections are appended at the
+# end of the resulting file.
 #
-# See the documentation of SbiaUpdate.cmake for further details.
+# See the documentation of BasisUpdate.cmake for further details.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
@@ -35,8 +36,8 @@
 import os, sys, getopt
 
 # constants
-customTag  = "sbia-custom"
-licenseTag = "sbia-license"
+customTag  = "basis-custom"
+licenseTag = "basis-license"
 
 tokenCustomStart  = "<"  + customTag  + ">"
 tokenCustomEnd    = "</" + customTag  + ">"
@@ -58,17 +59,17 @@ def usage (progName):
     print "  [-t --template] : Filename of template file"
     print
     print "Options:"
-    print "  [-o --out]      : Filename of output file. If this option is not given,"
-    print "                    changes are not applied and the exit code can be used"
-    print "                    to check whether changes would have been applied."
-    print "  [-f --force]    : Force overwrite of output file. Otherwise ask user."
+    print "  [-o --out]     Filename of output file. If this option is not given,"
+    print "                 changes are not applied and the exit code can be used"
+    print "                 to check whether changes would have been applied."
+    print "  [-f --force]   Force overwrite of output file. Otherwise ask user."
     print
     print "Return value:"
-    print "  0 : Merged output differs from input file and output file was"
+    print "  0   Merged output differs from input file and output file was"
     print "      written successfully if option -o or --out was given"
-    print "  1 : Failed to read or write file"
-    print "  2 : Nothing changed, input file not overwritten"
-    print "  3 : Merged output differs from input file but user chose not"
+    print "  1   Failed to read or write file"
+    print "  2   Nothing changed, input file not overwritten"
+    print "  3   Merged output differs from input file but user chose not"
     print "      to overwrite input file"
     print "Example:"
     print "  " + progName + " -i CMakeLists.txt -t CMakeLists.txt.template -o CMakeLists.txt"
@@ -198,7 +199,7 @@ def run (inputFile, templateFile, outputFile, force):
         if not force:
             try:
                 sys.stdout.write ("Template of file '" + inputFile + "' has been modified.\n")
-                sys.stdout.write ("Do you want to apply the changes (<sbia-custom> sections remain unchanged)? ")
+                sys.stdout.write ("Do you want to apply the changes (basis-custom sections remain unchanged)? ")
                 sys.stdout.flush ()
                 apply = raw_input ()
 	        if apply != "y" and apply != "yes":
@@ -230,20 +231,20 @@ if __name__ == "__main__":
     force        = False
     # get options
     try:
-        opts, files = getopt.gnu_getopt (sys.argv [1:], "uhVvfi:t:o:",
-          ["usage","help","version","Version","verbose","force","in=","template=","out="])
+        opts, files = getopt.gnu_getopt (sys.argv [1:], "uhvVfi:t:o:",
+          ["usage","help","version","verbose","force","in=","template=","out="])
     except getopt.GetoptError, err:
         usage (progName)
         print str(err)
         sys.exit(1)
     # parse command line options
     for o, a in opts:
-        if o in ["-v", "--verbose"]:
+        if o in ["-V", "--verbose"]:
             verbosity += 1
         elif o in ["-h", "--help","-u","--usage"]:
             help (progName)
             sys.exit(0)
-        elif o in ["-V", "--version", "--Version"]:
+        elif o in ["-v", "--version", "--Version"]:
             version (progName)
             sys.exit(0)
         elif o in ["-f", "--force"]:
@@ -262,3 +263,4 @@ if __name__ == "__main__":
         sys.exit (1)
     # run
     sys.exit (run (inputFile, templateFile, outputFile, force))
+

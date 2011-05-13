@@ -1,19 +1,19 @@
 ##############################################################################
-# \file  SbiaProjectTools.cmake
-# \brief Functions and macros used by any SBIA project.
+# \file  BasisProjectTools.cmake
+# \brief Functions and macros used by any BASIS project.
 #
-# This is the main module that is included by SBIA projects. Most of the other
+# This is the main module that is included by BASIS projects. Most of the other
 # BASIS CMake modules are included by this main module and hence do not need
 # to be included separately.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_PROJECTTOOLS_INCLUDED)
-set (SBIA_PROJECTTOOLS_INCLUDED 1)
+if (NOT BASIS_PROJECTTOOLS_INCLUDED)
+set (BASIS_PROJECTTOOLS_INCLUDED 1)
 
 
 # get directory of this file
@@ -28,78 +28,70 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # required modules
 # ============================================================================
 
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaGlobals.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaCommon.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaTargetTools.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaSubversionTools.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaDocTools.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaUpdate.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisTargetTools.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisSubversionTools.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisDocTools.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisUpdate.cmake")
 
 # ============================================================================
 # project
 # ============================================================================
 
 # ****************************************************************************
-# \brief SBIA equivalent to CMake's project () command.
+# \brief Equivalent to CMake's project () command.
 #
-# Any SBIA (sub-)project has to call this macro in the beginning of its root
-# CMakeLists.txt file. Further, the macro sbia_project_finalize () macro has
+# Any BASIS project has to call this macro in the beginning of its root
+# CMakeLists.txt file. Further, the macro basis_project_finalize () macro has
 # to be called at the end of the root CMakeLists.txt file.
 #
-# This macro at first searches the package SBIA CMake modules package and
-# includes its CMake Use file which in turn includes all the other SBIA
-# CMake modules required by any SBIA project. If the SBIA CMake modules was
-# already found by a superproject, the CMake Use file of this package will
-# do nothing as it should have been included by the superproject already
-# which may adjust some SBIA settings which then are passed on to each
-# (sub-)project. Note that the Use file also specifies the minimum required
-# CMake version via cmake_minimum_required ().
+# As the BasisTest module has to be included after the project () command was
+# used, this module is not included by the CMake Use file of the of the BASIS
+# Core. Instead, this macro includes it before returning.
 #
-# As the SBIA Testing CMake module has to be included after the project ()
-# command was used, this module is not included by the CMake Use file of the
-# SBIA CMake modules package. Instead, this macro includes it before returning.
-#
-# The CMake module SbiaUpdate.cmake, which is part of the SBIA CMake Modules
-# package, realizes a feature referred to as "(automatic) file update".
-# This feature is initialized by this macro and finalized by the corresponding
-# sbia_project_finalize () macro. As the CTest configuration file is usually
-# maintained by the maintainer of the project template and not the project
-# developer, this file, if present in the project's root source directory,
-# is updated if the template was modified. If you experience problems with the
-# automatic file update, contact the maintainer of the template project and
-# consider to disable the automatic file update for single files  by adding
-# their path relative to the project's source directory to SBIA_UPDATE_EXCLUDE
+# The CMake module BasisUpdate.cmake, which is part of the BASIS CMake modules,
+# realizes a feature referred to as "(automatic) file update". This feature
+# is initialized by this macro and finalized by the corresponding
+# basis_project_finalize () macro. As the CTest configuration file is usually
+# maintained by the maintainer of BASIS and not the project developer, this
+# file, if present in the project's root source directory, is updated if the
+# template was modified. If you experience problems with the automatic file
+# update, contact the maintainer of the template project and consider to
+# disable the automatic file update for single files  by adding their path
+# relative to the project's source directory to BASIS_UPDATE_EXCLUDE
 # in the module Settings.cmake of your project. For example, to prevent the
 # automatic udpate of the CTest configuration file, add "CTestConfig.cmake"
-# to the list SBIA_UPDATE_EXCLUDE.
+# to the list BASIS_UPDATE_EXCLUDE.
 #
-# The project specific attributes such as project name and project version,
-# among others, need to be defined in the Settings.cmake file which can be
-# found in the PROJECT_CONFIG_DIR. The PROJECT_CONFIG_DIR is by default set
-# by SbiaSettings.cmake to the 'Config' subfolder of the project's source tree.
-# The project's Settings.cmake file is included by this macro and the project
-# name is passed unchanged to the project () command of CMake.
+# The project specific attributes such as project version, among others, need
+# to be defined in the Settings.cmake file which can be found in the
+# SOFTWARE_CONFIG_DIR. The SOFTWARE_CONFIG_DIR is by default set by
+# BasisSettings.cmake to the 'config' subfolder of the source tree of the
+# project's software component. The project's Settings.cmake file is included
+# by this macro.
 #
 # Dependencies to external packages should be resolved via find_package ()
-# commands in the file Depends.cmake which as well has to be located in
-# PROJECT_CONFIG_DIR (note that this variable may be modified within
-# Settings.cmake). The Depends.cmake file is included by this macro.
+# or find_sbia_package () commands in the file Depends.cmake which as well
+# has to be located in SOFTWARE_CONFIG_DIR (note that this variable may be
+# modified within Settings.cmake). The Depends.cmake file is included by
+# this macro.
 #
-# Each SBIA project further has to have a ReadMe file in the top directory
-# of the source tree which is the root documentation file. This file may only
-# consist of a reference to the project's actual documentation files that
-# are located in the 'doc' subfolder of the source tree.
+# Each BASIS project further has to have a README file in the root directory
+# of the software component which is the root documentation file. This file
+# may only consist of a reference to the project's actual documentation files
+# that are located in the SOFTWARE_DOC_DIR.
 #
-# A Copyright file with the copyright and license notices must be present in
+# A LICENSE file with the copyright and license notices must be present in
 # the root directory of the source tree.
 #
-# \see sbia_project_finalize ()
+# \see basis_project_finalize ()
 #
 # \param [in] NAME Project name.
 
-macro (sbia_project NAME)
+macro (basis_project NAME)
   # include project settings
-  include ("${PROJECT_CONFIG_DIR}/Settings.cmake")
+  include ("${SOFTWARE_CONFIG_DIR}/Settings.cmake")
 
   # check required project information
   if (NOT PROJECT_VERSION)
@@ -107,23 +99,23 @@ macro (sbia_project NAME)
   endif ()
 
   if (PROJECT_PACKAGE_VENDOR)
-    sbia_list_to_string (PROJECT_PACKAGE_VENDOR ${PROJECT_PACKAGE_VENDOR})
+    basis_list_to_string (PROJECT_PACKAGE_VENDOR ${PROJECT_PACKAGE_VENDOR})
   endif ()
 
   if (PROJECT_DESCRIPTION)
-    sbia_list_to_string (PROJECT_DESCRIPTION ${PROJECT_DESCRIPTION})
+    basis_list_to_string (PROJECT_DESCRIPTION ${PROJECT_DESCRIPTION})
   endif ()
 
   # default project information
   if (NOT PROJECT_README_FILE)
-    set (PROJECT_README_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ReadMe")
+    set (PROJECT_README_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
   endif ()
   if (NOT EXISTS "${PROJECT_README_FILE}")
     message (FATAL_ERROR "Project README file not found.")
   endif ()
 
   if (NOT PROJECT_LICENSE_FILE)
-    set (PROJECT_LICENSE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Copyright")
+    set (PROJECT_LICENSE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
   endif ()
   if (NOT EXISTS "${PROJECT_LICENSE_FILE}")
     message (FATAL_ERROR "Project LICENSE file not found.")
@@ -135,6 +127,8 @@ macro (sbia_project NAME)
   set (CMAKE_PROJECT_NAME "${PROJECT_NAME}") # variable used by CPack
 
   # determine whether project is configured as subproject
+  # \todo As the software component is within a subfolder, we need a better
+  #       criterium for this.
   if ("${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
     set (IS_SUBPROJECT 0)
   else ()
@@ -146,7 +140,7 @@ macro (sbia_project NAME)
   string (TOLOWER "${PROJECT_NAME}" PROJECT_NAME_LOWER)
 
   # extract version numbers from version string
-  sbia_version_numbers (
+  basis_version_numbers (
     "${PROJECT_VERSION}"
       PROJECT_VERSION_MAJOR
       PROJECT_VERSION_MINOR
@@ -158,7 +152,7 @@ macro (sbia_project NAME)
   set (PROJECT_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 
   # get project revision
-  sbia_svn_get_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
+  basis_svn_get_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
 
   # print project information
   if (CMAKE_VERBOSE)
@@ -173,29 +167,21 @@ macro (sbia_project NAME)
     endif ()
   endif ()
 
-  # adjust installation directories
-  if (IS_SUBPROJECT)
-    set (INSTALL_DATA_DIR    "${INSTALL_DATA_DIR}/${PROJECT_NAME}")
-    set (INSTALL_DOC_DIR     "${INSTALL_DOC_DIR}/${PROJECT_NAME}")
-    set (INSTALL_EXAMPLE_DIR "${INSTALL_EXAMPLE_DIR}/${PROJECT_NAME}")
-    set (INSTALL_INCLUDE_DIR "${INSTALL_INCLUDE_DIR}/${PROJECT_NAME}")
-  endif ()
-
   # initialize automatic file update
   if (NOT IS_SUBPROJECT)
-    sbia_update_initialize ()
+    basis_update_initialize ()
   endif ()
 
   # update CTest configuration and enable testing
   if (EXISTS "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
-    sbia_update (CTestConfig.cmake)
+    basis_update (CTestConfig.cmake)
   endif ()
 
-  include ("SbiaTest")
+  include ("BasisTest")
 
   # resolve dependencies
-  if (EXISTS "${PROJECT_CONFIG_DIR}/Depends.cmake")
-    include ("${PROJECT_CONFIG_DIR}/Depends.cmake")
+  if (EXISTS "${SOFTWARE_CONFIG_DIR}/Depends.cmake")
+    include ("${SOFTWARE_CONFIG_DIR}/Depends.cmake")
   endif ()
 
   # copy license to binary tree
@@ -221,7 +207,7 @@ macro (sbia_project NAME)
     if (INSTALL_LICENSE)
       install (
         FILES       "${PROJECT_LICENSE_FILE}"
-        DESTINATION "${INSTALL_DIR}"
+        DESTINATION "${INSTALL_DOC_DIR}"
         RENAME      "${LICENSE_NAME}-${PROJECT_NAME}"
       )
       file (
@@ -233,53 +219,53 @@ macro (sbia_project NAME)
       )
       install (
         FILES       "${CMAKE_BINARY_DIR}/${LICENSE_NAME}"
-        DESTINATION "${INSTALL_DIR}"
+        DESTINATION "${INSTALL_DOC_DIR}"
       )
     endif ()
     set (INSTALL_LICENSE)
   else ()
     install (
       FILES       "${PROJECT_LICENSE_FILE}"
-      DESTINATION "${INSTALL_DIR}"
+      DESTINATION "${INSTALL_DOC_DIR}"
     )
   endif ()
 endmacro ()
 
 # ****************************************************************************
-# \brief Finalize SBIA project configuration.
+# \brief Finalize BASIS project configuration.
 #
 # This macro has to be called at the end of the root CMakeLists.txt file of
-# each SBIA project initialized by sbia_project ().
+# each BASIS project initialized by basis_project ().
 #
 # The project configuration files are generated by including the CMake script
-# PROJECT_CONFIG_DIR/GenerateConfig.cmake when this file exists.
+# SOFTWARE_CONFIG_DIR/GenerateConfig.cmake when this file exists.
 #
-# \see sbia_project ()
+# \see basis_project ()
 
-macro (sbia_project_finalize)
+macro (basis_project_finalize)
   # if project uses MATLAB
   if (MATLAB_FOUND)
-    sbia_create_addpaths_mfile ()
+    basis_create_addpaths_mfile ()
   endif ()
 
   # finalize superproject
   if (NOT IS_SUBPROJECT)
     # finalize addition of custom targets
-    sbia_add_custom_finalize ()
+    basis_add_custom_finalize ()
     # create and add execname executable
-    sbia_add_execname ()
+    basis_add_execname ()
     # add uninstall target
-    sbia_add_uninstall ()
+    basis_add_uninstall ()
   endif ()
 
   # generate configuration files
-  include ("${PROJECT_CONFIG_DIR}/GenerateConfig.cmake" OPTIONAL)
+  include ("${SOFTWARE_CONFIG_DIR}/GenerateConfig.cmake" OPTIONAL)
 
   # create package
-  include (SbiaPack)
+  include (BasisPack)
 
   # finalize update of files
-  sbia_update_finalize ()
+  basis_update_finalize ()
 endmacro ()
 
 # ============================================================================
@@ -291,7 +277,7 @@ endmacro ()
 #
 # \param [in] PROJECT_NAME Name of the project this example belongs to.
 
-function (sbia_example PROJECT_NAME)
+function (basis_example PROJECT_NAME)
   # find software component
   find_package (${PROJECT_NAME} REQUIRED)
 
@@ -308,7 +294,7 @@ endfunction ()
 #
 # \param [in] PROJECT_NAME Name of the project whose software is tested.
 
-function (sbia_testing PROJECT_NAME)
+function (basis_testing PROJECT_NAME)
   # find software component
   find_package (${PROJECT_NAME} REQUIRED)
 
@@ -330,7 +316,7 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's set_property () command.
 
-function (sbia_set_property SCOPE)
+function (basis_set_property SCOPE)
   if (SCOPE MATCHES "^TARGET$|^TEST$")
     set (IDX 0)
     foreach (ARG ${ARGN})
@@ -338,9 +324,9 @@ function (sbia_set_property SCOPE)
         break ()
       endif ()
       if (SCOPE STREQUAL "TEST")
-        sbia_test_uid (UID "${ARG}")
+        basis_test_uid (UID "${ARG}")
       else ()
-        sbia_target_uid (UID "${ARG}")
+        basis_target_uid (UID "${ARG}")
       endif ()
       list (REMOVE_AT ARGN ${IDX})
       list (INSERT ARGN ${IDX} "${UID}")
@@ -353,11 +339,11 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's get_property () command.
 
-function (sbia_get_property VAR SCOPE ELEMENT)
+function (basis_get_property VAR SCOPE ELEMENT)
   if (SCOPE STREQUAL "TARGET")
-    sbia_target_uid (ELEMENT "${ELEMENT}")
+    basis_target_uid (ELEMENT "${ELEMENT}")
   elseif (SCOPE STREQUAL "TEST")
-    sbia_test_uid (ELEMENT "${ELEMENT}")
+    basis_test_uid (ELEMENT "${ELEMENT}")
   endif ()
   get_property (VALUE ${SCOPE} ${ELEMENT} ${ARGN})
   set ("${VAR}" "${VALUE}" PARENT_SCOPE)
@@ -370,13 +356,13 @@ endfunction ()
 # ****************************************************************************
 # \brief Create source code of execname command and add executable target.
 #
-# \see sbia_create_execname
+# \see basis_create_execname
 #
 # \param [in] TARGET_NAME Name of target. Defaults to "execname".
 
-function (sbia_add_execname)
+function (basis_add_execname)
   if (ARGC GREATER 1)
-    message (FATAL_ERROR "Too many arguments given for function sbia_add_execname ().")
+    message (FATAL_ERROR "Too many arguments given for function basis_add_execname ().")
   endif ()
 
   if (ARGC GREATER 0)
@@ -398,7 +384,7 @@ function (sbia_add_execname)
   endif ()
 
   # create source code
-  sbia_create_execname (SOURCES)
+  basis_create_execname (SOURCES)
 
   # add executable target
   add_executable (${TARGET_UID} ${SOURCES})
@@ -409,23 +395,26 @@ endfunction ()
 # \brief Create source code of execname target.
 #
 # The source file of the executable which is build by this target is
-# configured using SBIA_TARGETS and the properties SBIA_TYPE, PREFIX,
+# configured using BASIS_TARGETS and the properties BASIS_TYPE, PREFIX,
 # OUTPUT_NAME, and SUFFIX of these targets. The purpose of the built executable
 # is to map CMake target names to their executable output names.
 #
 # Within source code of a certain project, other SBIA executables are called
-# only indirectly using the target name which must be fixed. The output name
-# of these targets may however vary and depend on whether the project is build
-# as part of a superproject or not. Each SBIA CMake function may adjust the
-# output name in order to resolve name conflicts with other targets or SBIA
-# executables.
+# only indirectly using the target name which must be fixed and unique within
+# the lab. The output name of these targets may however vary and depend on
+# whether the project is build as part of a superproject or not. Each BASIS
+# CMake function may adjust the output name in order to resolve name
+# conflicts with other targets or SBIA executables.
 #
 # The idea is that a target name is supposed to be stable and known to the
 # developer as soon as the target is added to a CMakeLists.txt file, while
 # the name of the actual executable file is not known a priori as it is set
-# by the SBIA CMake functions during the configure step. Thus, the developer
+# by the BASIS CMake functions during the configure step. Thus, the developer
 # should not rely on a particular name of the executable, but on the name of
 # the corresponding CMake target.
+#
+# The execname target implements the calling conventions specified in the
+# design Conventions document in the 'doc' directory.
 #
 # Example template file snippet:
 #
@@ -457,7 +446,7 @@ endfunction ()
 #    TEMPLATE Template source file. If not specified, the default template
 #             which is part of the SBIA CMake Modules package is used.
 
-function (sbia_create_execname SOURCES)
+function (basis_create_execname SOURCES)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (ARGN "" "BASENAME;TEMPLATE" "" ${ARGN})
 
@@ -478,10 +467,10 @@ function (sbia_create_execname SOURCES)
   set (NUMBER_OF_TARGETS "0")
   set (TARGET_NAME_TO_EXECUTABLE_NAME_MAP)
 
-  foreach (TARGET_UID ${SBIA_TARGETS})
-    get_target_property (TYPE "${TARGET_UID}" "SBIA_TYPE")
+  foreach (TARGET_UID ${BASIS_TARGETS})
+    get_target_property (BASIS_TYPE "${TARGET_UID}" "BASIS_TYPE")
   
-    if (TYPE MATCHES "EXECUTABLE|SCRIPT")
+    if (BASIS_TYPE MATCHES "EXECUTABLE|SCRIPT")
       get_target_property (PREFIX      "${TARGET_UID}" "PREFIX")
       get_target_property (SUFFIX      "${TARGET_UID}" "SUFFIX")
       get_target_property (OUTPUT_NAME "${TARGET_UID}" "OUTPUT_NAME")
@@ -515,5 +504,5 @@ function (sbia_create_execname SOURCES)
 endfunction ()
 
 
-endif (NOT SBIA_PROJECTTOOLS_INCLUDED)
+endif (NOT BASIS_PROJECTTOOLS_INCLUDED)
 

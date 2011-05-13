@@ -1,15 +1,15 @@
 ##############################################################################
-# \file  SbiaDocTools.cmake
-# \brief Tools related to gnerating and/or adding software documentation.
+# \file  BasisDocTools.cmake
+# \brief Tools related to gnerating or adding software documentation.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
-# Contact: SBIA Group <sbia-software@uphs.upenn.edu>
+# Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_DOCTOOLS_INCLUDED)
-set (SBIA_DOCTOOLS_INCLUDED 1)
+if (NOT BASIS_DOCTOOLS_INCLUDED)
+set (BASIS_DOCTOOLS_INCLUDED 1)
 
 
 # get directory of this file
@@ -44,15 +44,15 @@ find_package (Doxygen)
 
 # svn2cl - ChangeLog
 find_program (
-  SBIA_CMD_SVN2CL
+  BASIS_CMD_SVN2CL
     NAMES svn2cl
     DOC   "The command line tool svn2cl."
 )
 
-mark_as_advanced (SBIA_CMD_SVN2CL)
+mark_as_advanced (BASIS_CMD_SVN2CL)
 
 # ============================================================================
-# adding/generating documentation
+# adding / generating documentation
 # ============================================================================
 
 # ****************************************************************************
@@ -74,9 +74,9 @@ mark_as_advanced (SBIA_CMD_SVN2CL)
 # Example:
 #
 # \code
-# sbia_add_doc (UserManual.pdf)
-# sbia_add_doc (DeveloperManual.docx COMPONENT dev)
-# sbia_add_doc (SourceManual.html    COMPONENT src)
+# basis_add_doc (UserManual.pdf)
+# basis_add_doc (DeveloperManual.docx COMPONENT dev)
+# basis_add_doc (SourceManual.html    COMPONENT src)
 # \endcode
 #
 # \param [in] TARGET_NAME Name of the documentation target or file.
@@ -98,7 +98,7 @@ mark_as_advanced (SBIA_CMD_SVN2CL)
 # Example:
 #
 # \code
-# sbia_add_doc (
+# basis_add_doc (
 #   API
 #   GENERATOR Doxygen
 #     DOXYFILE        "Doxyfile.in"
@@ -142,7 +142,7 @@ mark_as_advanced (SBIA_CMD_SVN2CL)
 # Example:
 #
 # \code
-# sbia_add_doc (
+# basis_add_doc (
 #   ChangeLog
 #   GENERATOR svn2cl
 #   COMPONENT dev
@@ -150,9 +150,9 @@ mark_as_advanced (SBIA_CMD_SVN2CL)
 # \endcode
 #
 
-function (sbia_add_doc TARGET_NAME)
-  sbia_check_target_name ("${TARGET_NAME}")
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_add_doc TARGET_NAME)
+  basis_check_target_name ("${TARGET_NAME}")
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   # --------------------------------------------------------------------------
   # default common options
@@ -165,7 +165,7 @@ function (sbia_add_doc TARGET_NAME)
     set (ARGN_GENERATOR "NONE")
   endif ()
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
@@ -227,7 +227,7 @@ function (sbia_add_doc TARGET_NAME)
     )
  
     if (NOT DOXYGEN_DOXYFILE)
-      message (FATAL_ERROR "sbia_add_doc (): Missing option DOXYFILE.")
+      message (FATAL_ERROR "basis_add_doc (): Missing option DOXYFILE.")
     endif ()
     if (NOT EXISTS "${DOXYGEN_DOXYFILE}")
       message (FATAL_ERROR "Input Doxyfile ${DOXYGEN_DOXYFILE} not found.")
@@ -344,13 +344,13 @@ function (sbia_add_doc TARGET_NAME)
       set (ERRMSG    "skipped")
     endif ()
 
-    if (NOT SBIA_CMD_SVN2CL)
+    if (NOT BASIS_CMD_SVN2CL)
       message (${ERRMSGTYP} "Could not find svn2cl installation. Skipping build of ${TARGET_UID}.")
       message (STATUS "Adding documentation ${TARGET_UID}... - ${ERRMSG}")
       return ()
     endif ()
 
-    sbia_svn_get_revision ("${PROJECT_SOURCE_DIR}" REV)
+    basis_svn_get_revision ("${PROJECT_SOURCE_DIR}" REV)
 
     if (NOT REV)
       message (${ERRMSGTYP} "Project is not under SVN control. Skipping build of ${TARGET_UID}.")
@@ -397,7 +397,7 @@ function (sbia_add_doc TARGET_NAME)
     # add target
     add_custom_target (
       ${TARGET_UID}
-      COMMAND           "${SBIA_CMD_SVN2CL}" ${SVN2CL_ARGS} "${SVN2CL_PATH}"
+      COMMAND           "${BASIS_CMD_SVN2CL}" ${SVN2CL_ARGS} "${SVN2CL_PATH}"
       WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
       COMMENT           "Generating ${TARGET_UID} from SVN log..."
     )
@@ -437,5 +437,5 @@ function (sbia_add_doc TARGET_NAME)
 endfunction ()
 
 
-endif (NOT SBIA_DOCTOOLS_INCLUDED)
+endif (NOT BASIS_DOCTOOLS_INCLUDED)
 

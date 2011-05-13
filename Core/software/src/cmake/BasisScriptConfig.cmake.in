@@ -1,5 +1,5 @@
 ##############################################################################
-# \file  ScriptConfig.cmake.in
+# \file  BasisScriptConfig.cmake.in
 # \brief Default script configuration file.
 #
 # This CMake file defines CMake variables which can be used within scripts.
@@ -65,7 +65,7 @@
 # ============================================================================
 
 # ****************************************************************************
-# \function sbia_set_script_path
+# \function set_script_path
 # \brief    Sets a variable to the specified path and ensures that it is
 #           relative to the project root directory.
 #
@@ -75,9 +75,9 @@
 #                  If this argument is not given, PATH is used for both the
 #                  build and install tree version of the script.
 
-function (sbia_set_script_path VAR PATH)
+function (set_script_path VAR PATH)
   if (ARGC GREATER 3)
-    message (FATAL_ERROR "Too many arguments given for function sbia_set_script_path ()")
+    message (FATAL_ERROR "Too many arguments given for function set_script_path ()")
   endif ()
 
   if (ARGC EQUAL 3 AND BUILD_INSTALL_SCRIPT)
@@ -97,15 +97,15 @@ endfunction ()
 # project attributes
 # ============================================================================
 
-set (PROJECT_VERSION       "@PROJECT_VERSION@")
-set (PROJECT_VERSION_MAJOR "@PROJECT_VERSION_MAJOR@")
-set (PROJECT_VERSION_MINOR "@PROJECT_VERSION_MINOR@")
-set (PROJECT_VERSION_PATCH "@PROJECT_VERSION_PATCH@")
+set (VERSION       "@PROJECT_VERSION@")
+set (VERSION_MAJOR "@PROJECT_VERSION_MAJOR@")
+set (VERSION_MINOR "@PROJECT_VERSION_MINOR@")
+set (VERSION_PATCH "@PROJECT_VERSION_PATCH@")
 
 # ============================================================================
 # directories
 # ============================================================================
 
-sbia_set_script_path (PROJECT_BIN_DIR "@RUNTIME_OUTPUT_DIRECTORY@" "@INSTALL_BIN_DIR@")
-sbia_set_script_path (PROJECT_DATA_DIR "@PROJECT_DATA_DIR@" "@INSTALL_DATA_DIR@")
+set_script_path (BIN_DIR "@RUNTIME_OUTPUT_DIRECTORY@" "@INSTALL_BIN_DIR@")
+set_script_path (DATA_DIR "@SOFTWARE_DATA_DIR@" "@INSTALL_DATA_DIR@")
 

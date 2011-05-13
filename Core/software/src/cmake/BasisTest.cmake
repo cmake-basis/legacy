@@ -1,15 +1,15 @@
 ##############################################################################
-# \file  SbiaTest.cmake
+# \file  BasisTest.cmake
 # \brief CTest configuration. Include this module instead of CTest.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_TEST_INCLUDED)
-set (SBIA_TEST_INCLUDED 1)
+if (NOT BASIS_TEST_INCLUDED)
+set (BASIS_TEST_INCLUDED 1)
 
 
 # get directory of this file
@@ -24,18 +24,18 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # required modules
 # ============================================================================
 
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaGlobals.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
 
 # ============================================================================
 # directories
 # ============================================================================
 
-set (TEST_BIN_DIR    "test/bin"    CACHE PATH "Output directory for test executables (relative to CMAKE_BINARY_DIR).")
-set (TEST_OUTPUT_DIR "test/output" CACHE PATH "Directory in which tests output generated data (relative to CMAKE_BINARY_DIR).")
+set (TESTING_BIN_DIR    "tests/bin"    CACHE PATH "Output directory for test executables (relative to CMAKE_BINARY_DIR).")
+set (TESTING_OUTPUT_DIR "tests/output" CACHE PATH "Directory in which tests output generated data (relative to CMAKE_BINARY_DIR).")
 
 # make relative paths absolute and make options advanced
 foreach(P BIN OUTPUT)
-  set(VAR TEST_${P}_DIR)
+  set(VAR TESTING_${P}_DIR)
   if(NOT IS_ABSOLUTE "${${VAR}}")
     set(${VAR} "${CMAKE_BINARY_DIR}/${${VAR}}")
   endif()
@@ -51,13 +51,18 @@ include (CTest)
 
 mark_as_advanced (DART_TESTING_TIMEOUT)
 
-if (NOT EXISTS "${PROJECT_TEST_DIR}")
+if (NOT PROJECT_TESTING_DIR)
+  set (PROJECT_TESTING_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+endif ()
+
+if (NOT EXISTS "${PROJECT_TESTING_DIR}")
   set (BUILD_TESTING "OFF" CACHE INTERNAL "No testing tree to build." FORCE)
 else ()
   set (BUILD_TESTING "ON" CACHE BOOL "Build the testing tree.")
 endif ()
 
 # configure custom CTest settings and/or copy them to binary tree
+# \todo How does this go well with the superproject/subproject concept?
 if ("${PROJECT_BINARY_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   set (CTEST_CUSTOM_FILE "CTestCustom.cmake")
 else ()
@@ -94,11 +99,11 @@ endif ()
 # ****************************************************************************
 # \brief Replaces CMake's set_tests_properties () command.
 
-function (sbia_set_tests_properties)
+function (basis_set_tests_properties)
   set (UIDS)
   list (GET ARGN 0 ARG)
   while (ARG AND NOT ARG STREQUAL "PROPERTIES")
-    sbia_test_uid (UID "${ARG}")
+    basis_test_uid (UID "${ARG}")
     list (APPEND UIDS "${UID}")
     list (REMOVE_AT ARGN 0)
     list (GET ARGN 0 ARG)
@@ -109,8 +114,8 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's get_test_property () command.
 
-function (sbia_get_test_property VAR TEST_NAME)
-  sbia_test_uid (TEST_UID "${TEST_NAME}")
+function (basis_get_test_property VAR TEST_NAME)
+  basis_test_uid (TEST_UID "${TEST_NAME}")
   get_test_property (VALUE "${TEST_UID}" ${ARGN})
   set (${VAR} "${VALUE}" PARENT_SCOPE)
 endfunction ()
@@ -121,9 +126,9 @@ endfunction ()
 # \param [in] TEST_NAME Name of the test.
 # \param [in] ARGN      Parameters passed to add_test () (excluding test name).
 
-function (sbia_add_test TEST_NAME)
-  sbia_check_test_name ("${TEST_NAME}")
-  sbia_test_uid (TEST_UID "${TEST_NAME}")
+function (basis_add_test TEST_NAME)
+  basis_check_test_name ("${TEST_NAME}")
+  basis_test_uid (TEST_UID "${TEST_NAME}")
 
   message (STATUS "Adding test ${TEST_UID}...")
 
@@ -133,13 +138,13 @@ function (sbia_add_test TEST_NAME)
 endfunction ()
 
 # ****************************************************************************
-# \function sbia_add_tests_of_default_options
+# \function basis_add_tests_of_default_options
 # \brief    Adds tests of default options for given executable (or script).
 #
 # \param [in] TARGET_NAME Name of executable or script target.
 
-function (sbia_add_tests_of_default_options TARGET_NAME)
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_add_tests_of_default_options TARGET_NAME)
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   if (CMAKE_VERBOSE)
     message (STATUS "Adding tests of default options for ${TARGET_UID}...")
@@ -170,8 +175,8 @@ function (sbia_add_tests_of_default_options TARGET_NAME)
   # executable command
   set (EXEC_CMD "${EXEC_DIR}/${EXEC_NAME}")
 
-  # test option: -V
-  sbia_add_test (${EXEC}VersionS "${EXEC_CMD}" "-V")
+  # test option: -v
+  basis_add_test (${EXEC}VersionS "${EXEC_CMD}" "-v")
 
   set_tests_properties (
     ${EXEC}VersionS
@@ -180,7 +185,7 @@ function (sbia_add_tests_of_default_options TARGET_NAME)
   )
 
   # test option: --version
-  sbia_add_test (${EXEC}VersionL "${EXEC_CMD}" "--version")
+  basis_add_test (${EXEC}VersionL "${EXEC_CMD}" "--version")
 
   set_tests_properties (
     ${EXEC}VersionL
@@ -189,13 +194,13 @@ function (sbia_add_tests_of_default_options TARGET_NAME)
   )
 
   # test option: -h
-  sbia_add_test (${EXEC}HelpS "${EXEC_CMD}" "-h")
+  basis_add_test (${EXEC}HelpS "${EXEC_CMD}" "-h")
 
   # test option: --help
-  sbia_add_test (${EXEC}HelpL "${EXEC_CMD}" "--help")
+  basis_add_test (${EXEC}HelpL "${EXEC_CMD}" "--help")
 
   # test option: -u
-  sbia_add_test (${EXEC}UsageS "${EXEC_CMD}" "-u")
+  basis_add_test (${EXEC}UsageS "${EXEC_CMD}" "-u")
 
   set_tests_properties (
     ${EXEC}UsageS
@@ -204,7 +209,7 @@ function (sbia_add_tests_of_default_options TARGET_NAME)
   )
 
   # test option: --usage
-  sbia_add_test (${EXEC}UsageL "${EXEC_CMD}" "--usage")
+  basis_add_test (${EXEC}UsageL "${EXEC_CMD}" "--usage")
 
   set_tests_properties (
     ${EXEC}UsageL
@@ -218,5 +223,5 @@ function (sbia_add_tests_of_default_options TARGET_NAME)
 endfunction ()
 
 
-endif (NOT SBIA_TEST_INCLUDED)
+endif (NOT BASIS_TEST_INCLUDED)
 

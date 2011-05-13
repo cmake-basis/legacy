@@ -1,10 +1,10 @@
 ##############################################################################
-# \file  SbiaSettings.cmake
-# \brief Default CMake settings used at SBIA.
+# \file  BasisSettings.cmake
+# \brief Default CMake settings used by BASIS projects.
 #
 # This file specifies the common CMake settings such as the common build
-# configuration used by projects developed at SBIA. Note that this file is
-# included in the root CMake file by the macro sbia_project () prior to the
+# configuration used by projects following BASIS. Note that this file is
+# included in the root CMake file by the macro basis_project () prior to the
 # invocation of the CMake command project (). Thus, project related
 # variables are not available at this point.
 #
@@ -14,8 +14,8 @@
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_SETTINGS_INCLUDED)
-set (SBIA_SETTINGS_INCLUDED 1)
+if (NOT BASIS_SETTINGS_INCLUDED)
+set (BASIS_SETTINGS_INCLUDED 1)
 
 
 # get directory of this file
@@ -58,8 +58,8 @@ set (
   FORCE
 )
 
-# default script configuration file \see sbia_add_script ()
-set (SBIA_SCRIPT_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/SbiaScriptConfig.cmake.in")
+# default script configuration file \see basis_add_script ()
+set (BASIS_SCRIPT_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/BasisScriptConfig.cmake.in")
 
 # ----------------------------------------------------------------------------
 # common
@@ -114,5 +114,5 @@ set (CMAKE_MODULE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
 set (CMAKE_SHARED_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
 
 
-endif (NOT SBIA_SETTINGS_INCLUDED)
+endif (NOT BASIS_SETTINGS_INCLUDED)
 

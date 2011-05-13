@@ -1,15 +1,14 @@
-function SbiaRunMcc (varargin)
-% SbiaRunMcc (varargin)  Invokes the MATLAB Compiler with the arguments
-%                        given by varargin. See the documentation of mcc
-%                        for a summary of the arguments. Further, when the
-%                        option -q is given, this function quits the MATLAB
-%                        interpreter on return.
+function basismcc (varargin)
+% basismcc (varargin)  Invokes the MATLAB Compiler with the arguments
+%                      given by varargin. See the documentation of mcc
+%                      for a summary of the arguments. Further, when the
+%                      option -q is given, this function quits the MATLAB
+%                      interpreter on return.
 %
-% Contact:
-%   SBIA Group <sbia-software -at- uphs.upenn.edu>
+% Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 
 % Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-% See LICENSE or Copyright file in project root directory for details.
+% See LICENSE file in project root or 'doc' directory for details.
 
 % parse arguments and append create mcc command
 cmd = 'mcc';
@@ -36,3 +35,4 @@ end
 if (q)
   quit;
 end
+

@@ -1,19 +1,19 @@
 ##############################################################################
-# \file  SbiaGlobals.cmake
+# \file  BasisGlobals.cmake
 # \brief Definition of global CMake constants and variables.
 #
 # This CMake module defines global CMake constants (variables whose value must
-# not be modified), and global CMake variables used across SBIA CMake
+# not be modified), and global CMake variables used across the BASIS CMake
 # functions and macros.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_GLOBALS_INCLUDED)
-set (SBIA_GLOBALS_INCLUDED 1)
+if (NOT BASIS_GLOBALS_INCLUDED)
+set (BASIS_GLOBALS_INCLUDED 1)
 
 
 # get directory of this file
@@ -28,37 +28,37 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # options
 # ============================================================================
 
-option (CMAKE_VERBOSE "Verbose mode" "OFF")
+option (VERBOSE "Verbose mode" "OFF")
 
-mark_as_advanced (CMAKE_VERBOSE)
+mark_as_advanced (VERBOSE)
 
 # ============================================================================
 # constants
 # ============================================================================
 
 # List of names used for special purpose targets.
-set (SBIA_RESERVED_TARGET_NAMES "uninstall" "doc" "changelog" "execname")
+set (BASIS_RESERVED_TARGET_NAMES "uninstall" "doc" "changelog" "execname")
 
 # Default component used when no component is specified.
-set (SBIA_DEFAULT_COMPONENT "Runtime")
+set (BASIS_DEFAULT_COMPONENT "Runtime")
 
 # Character used to separated namespace and target name to build target UID.
-set (SBIA_NAMESPACE_SEPARATOR "@")
+set (BASIS_NAMESPACE_SEPARATOR "@")
 
 # Character used to separated version and project name (e.g., in target UID).
-set (SBIA_VERSION_SEPARATOR "#")
+set (BASIS_VERSION_SEPARATOR "#")
 
-# Prefix used for SBIA package CMake Config files.
-set (SBIA_CONFIG_PREFIX "SBIA_")
+# Prefix used for CMake Config files.
+set (BASIS_CONFIG_PREFIX "")
 
 # Script used to execute a process in CMake script mode.
-set (SBIA_SCRIPT_EXECUTE_PROCESS "${CMAKE_CURRENT_LIST_DIR}/SbiaExecuteProcess.cmake")
+set (BASIS_SCRIPT_EXECUTE_PROCESS "${CMAKE_CURRENT_LIST_DIR}/ExecuteProcess.cmake")
 
 # ============================================================================
 # cached variables
 # ============================================================================
 
-# The following variables are used across SBIA macros and functions. They
+# The following variables are used across BASIS macros and functions. They
 # in particular remember information added by one function or macro and is
 # required by another function or macro.
 #
@@ -66,14 +66,14 @@ set (SBIA_SCRIPT_EXECUTE_PROCESS "${CMAKE_CURRENT_LIST_DIR}/SbiaExecuteProcess.c
 #       time. The guard directive at the beginning of this file protects
 #       these variables to be overwritten each time this module is included.
 
-# Caches all directories given as argument to sbia_include_directories ().
-set (SBIA_CACHED_INCLUDE_DIRECTORIES_DOC "All include directories.")
-set (SBIA_CACHED_INCLUDE_DIRECTORIES "" CACHE INTERNAL "${SBIA_CACHED_INCLUDE_DIRECTORIES_DOC}" FORCE)
+# Caches all directories given as argument to basis_include_directories ().
+set (BASIS_CACHED_INCLUDE_DIRECTORIES_DOC "All include directories.")
+set (BASIS_CACHED_INCLUDE_DIRECTORIES "" CACHE INTERNAL "${BASIS_CACHED_INCLUDE_DIRECTORIES_DOC}" FORCE)
 
-# Caches the global names (UIDs) of all SBIA project targets.
-set (SBIA_TARGETS_DOC "Names of all targets.")
-set (SBIA_TARGETS "" CACHE INTERNAL "${SBIA_TARGETS_DOC}" FORCE)
+# Caches the global names (UIDs) of all project targets.
+set (BASIS_TARGETS_DOC "Names of all targets.")
+set (BASIS_TARGETS "" CACHE INTERNAL "${BASIS_TARGETS_DOC}" FORCE)
 
 
-endif (NOT SBIA_GLOBALS_INCLUDED)
+endif (NOT BASIS_GLOBALS_INCLUDED)
 

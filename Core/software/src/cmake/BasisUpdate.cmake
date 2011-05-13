@@ -1,5 +1,5 @@
 ##############################################################################
-# \file  SbiaUpdate.cmake
+# \file  BasisUpdate.cmake
 # \brief Implements automatic file udpate feature.
 #
 # This file provides functions which implement the automatic file update
@@ -16,7 +16,7 @@
 #
 # The automatic file update feature is only enabled when
 #
-# 1. The option SBIA_UPDATE, which is added by this module, is enabled.
+# 1. The option BASIS_UPDATE, which is added by this module, is enabled.
 #
 # 2. PROJECT_TEMPLATE_ROOT is a valid URL to the root directory
 #    or repository directory in which the project template is stored,
@@ -34,14 +34,13 @@
 #    to the specified version. Therefore, the value of PROJECT_TEMPLATE contains
 #    parts of TEMPLATE_VERSION, e.g.,
 #
-#      "SbiaProject-${TEMPLATE_VERSION_MAJOR}/Template".
+#      "BasisProject-${TEMPLATE_VERSION_MAJOR}".
 #
-# 4. The Python interpreter "python" was found by SbiaCommands and thus
-#    the variable SBIA_CMD_PYTHON is set.
+# 4. The Python interpreter "python" was found and thus the variable
+#    BASIS_CMD_PYTHON is set.
 #
 # 5. The script used to merge the content of the template with the existing
-#    project files has to be in SBIA_CMakeModules_MODULE_PATH and the name of
-#    the script must be "SbiaUpdateFile.py".
+#    project files has to be in the same directory as this CMake module.
 #
 # 6. The project itself has to be under revision control, in particular,
 #    a valid Subversion working copy. This is required to ensure that changes
@@ -51,23 +50,23 @@
 # environment, the automatic file update is disabled. This is in fact desired
 # as the project is not supposed to be modified at this point any more.
 #
-# When this module is included, it adds the advanced option SBIA_UPDATE_AUTO
-# which is ON by default. If SBIA_UPDATE_AUTO is ON, files are updated
+# When this module is included, it adds the advanced option BASIS_UPDATE_AUTO
+# which is ON by default. If BASIS_UPDATE_AUTO is ON, files are updated
 # automatically without interacting with the user to get confirmation for file
 # update. If a project file contains local modifications or is not under
 # revision control, the udpate will not be performed automatically in any case.
 # Moreover, files which are listed with their path relative to the project
-# source directory in SBIA_UPDATE_EXCLUDE are excluded from the automatic file
+# source directory in BASIS_UPDATE_EXCLUDE are excluded from the automatic file
 # update.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_UPDATE_INCLUDED)
-set (SBIA_UPDATE_INCLUDED 1)
+if (NOT BASIS_UPDATE_INCLUDED)
+set (BASIS_UPDATE_INCLUDED 1)
 
 
 # get directory of this file
@@ -82,24 +81,38 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # options
 # ============================================================================
 
-option (SBIA_UPDATE      "Whether the automatic file update is enabled"                    "ON")
-option (SBIA_UPDATE_AUTO "Whether files may be updated automatically without confirmation" "ON")
+option (BASIS_UPDATE      "Whether the automatic file update is enabled"                    "ON")
+option (BASIS_UPDATE_AUTO "Whether files may be updated automatically without confirmation" "ON")
 
-mark_as_advanced (SBIA_UPDATE)
-mark_as_advanced (SBIA_UPDATE_AUTO)
+mark_as_advanced (BASIS_UPDATE)
+mark_as_advanced (BASIS_UPDATE_AUTO)
+
+# ============================================================================
+# required modules
+# ============================================================================
+
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisSubversionTools.cmake")
+
+# ============================================================================
+# required commands
+# ============================================================================
+
+find_program (BASIS_CMD_PYTHON NAMES python DOC "Python interpreter (python).")
+mark_as_advanced (BASIS_CMD_PYTHON)
 
 # ============================================================================
 # template branch
 # ============================================================================
 
-sbia_version_numbers (
+basis_version_numbers (
   ${TEMPLATE_VERSION}
     TEMPLATE_VERSION_MAJOR
     TEMPLATE_VERSION_MINOR
     TEMPLATE_VERSION_PATCH
 )
 
-set (PROJECT_TEMPLATE "SbiaProject-${TEMPLATE_VERSION_MAJOR}/Template")
+set (PROJECT_TEMPLATE "template-${TEMPLATE_VERSION_MAJOR}")
 
 set (
   PROJECT_TEMPLATE_ROOT "@PROJECT_TEMPLATE_ROOT@"
@@ -113,41 +126,41 @@ mark_as_advanced (PROJECT_TEMPLATE_ROOT)
 # ============================================================================
 
 # ****************************************************************************
-# \function sbia_update_initialize
+# \function basis_update_initialize
 # \brief    Initialize file update and update files already scheduled for update.
 #
-# This function has to be called before any sbia_update () call. It performs
+# This function has to be called before any basis_update () call. It performs
 # the update of files already scheduled for updated during a previous CMake
 # configure step and for which the user choose to update them by invoking the
-# function sbia_update_files (). Note that files are only udpated here if the
+# function basis_update_files (). Note that files are only udpated here if the
 # interactive mode is enabled or if there are files which could not be updated
-# automatically by the last execution of sbia_update_finalize (). Otherwise,
+# automatically by the last execution of basis_update_finalize (). Otherwise,
 # no files are updated by this function. Afterwards the update system is
 # initialized for another iteration of CMake's configure step.
 #
 # Example:
 #
 # \code
-# sbia_update_initialize ()
-# sbia_update (CMakeLists.txt)
-# sbia_update_finalize ()
+# basis_update_initialize ()
+# basis_update (CMakeLists.txt)
+# basis_update_finalize ()
 # \endcode
 #
-# \see sbia_update ()
-# \see sbia_update_finalize ()
-# \see sbia_update_files ()
+# \see basis_update ()
+# \see basis_update_finalize ()
+# \see basis_update_files ()
 
-function (sbia_update_initialize)
+function (basis_update_initialize)
 
   # look for required file udpate script
   find_file (
-    SBIA_UPDATE_SCRIPT
-    NAMES SbiaUpdateFile.py
+    BASIS_UPDATE_SCRIPT
+    NAMES updatefile.py
     PATHS "${CMAKE_CURRENT_LIST_DIR}"
     NO_DEFAULT_PATHS
   )
 
-  mark_as_advanced (SBIA_UPDATE_SCRIPT)
+  mark_as_advanced (BASIS_UPDATE_SCRIPT)
 
   # check PROJECT_TEMPLATE_ROOT
   set (PROJECT_TEMPLATE_ROOT_VALID 0)
@@ -158,7 +171,7 @@ function (sbia_update_initialize)
       set (PROJECT_TEMPLATE_ROOT_VALID 1)
     endif ()
   elseif (PROJECT_TEMPLATE_ROOT MATCHES "http.*://.*")
-    sbia_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
+    basis_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
     if (REV)
       set (PROJECT_TEMPLATE_ROOT_VALID 1)
     endif ()
@@ -179,7 +192,7 @@ function (sbia_update_initialize)
           set (PROJECT_TEMPLATE_VALID 1)
         endif ()
       elseif (TMP MATCHES "http.*://.*")
-        sbia_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
+        basis_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
         if (REV)
           set (PROJECT_TEMPLATE_VALID 1)
         endif ()
@@ -192,18 +205,18 @@ function (sbia_update_initialize)
   # --------------------------------------------------------------------------
 
   if (
-        SBIA_UPDATE                          # 1. update is enabled
+        BASIS_UPDATE                # 1. update is enabled
     AND PROJECT_TEMPLATE_ROOT_VALID # 2. valid template root dir
-    AND PROJECT_TEMPLATE_VALID               # 3. valid project template
-    AND SBIA_CMD_PYTHON                      # 4. python interpreter found
-    AND SBIA_UPDATE_SCRIPT                   # 5. update script found
-    AND PROJECT_REVISION                     # 6. project is under revision control
+    AND PROJECT_TEMPLATE_VALID      # 3. valid project template
+    AND BASIS_CMD_PYTHON            # 4. python interpreter found
+    AND BASIS_UPDATE_SCRIPT         # 5. update script found
+    AND PROJECT_REVISION            # 6. project is under revision control
   )
 
     # update files which were not updated during last configure run. Instead,
     # CMake variables where added which enabled the user to specify the files
     # which should be udpated
-    sbia_update_files ()
+    basis_update_files ()
 
   # --------------------------------------------------------------------------
   # update disabled
@@ -211,26 +224,26 @@ function (sbia_update_initialize)
 
   else ()
 
-    if (SBIA_UPDATE)
+    if (BASIS_UPDATE)
       message ("File update not feasible.")
 
       if (CMAKE_VERBOSE)
         message ("Variables related to (automatic) file update:
 
-  SBIA_UPDATE           : ${SBIA_UPDATE}
-  SBIA_UPDATE_AUTO      : ${SBIA_UPDATE_AUTO}
-  SBIA_CMD_PYTHON       : ${SBIA_CMD_PYTHON}
-  SBIA_UPDATE_SCRIPT    : ${SBIA_UPDATE_SCRIPT}
+  BASIS_UPDATE          : ${BASIS_UPDATE}
+  BASIS_UPDATE_AUTO     : ${BASIS_UPDATE_AUTO}
+  BASIS_CMD_PYTHON      : ${BASIS_CMD_PYTHON}
+  BASIS_UPDATE_SCRIPT   : ${BASIS_UPDATE_SCRIPT}
   PROJECT_TEMPLATE_ROOT : ${PROJECT_TEMPLATE_ROOT}
   PROJECT_TEMPLATE      : ${PROJECT_TEMPLATE}
   PROJECT_REVISION      : ${PROJECT_REVISION}
 ")
       endif ()
 
-      if (NOT SBIA_CMD_PYTHON)
+      if (NOT BASIS_CMD_PYTHON)
         message ("=> Python interpreter not found.")
       endif ()
-	  if (NOT SBIA_UPDATE_SCRIPT)
+	  if (NOT BASIS_UPDATE_SCRIPT)
         message ("=> File update script not found.")
       endif ()
       if (NOT PROJECT_TEMPLATE_ROOT_VALID)
@@ -243,8 +256,8 @@ function (sbia_update_initialize)
         message ("=> Project is not under revision control.")
       endif ()
 
-      message ("Setting SBIA_UPDATE to OFF.")
-      set (SBIA_UPDATE "OFF" CACHE BOOL "Whether the automatic file update is enabled" FORCE)
+      message ("Setting BASIS_UPDATE to OFF.")
+      set (BASIS_UPDATE "OFF" CACHE BOOL "Whether the automatic file update is enabled" FORCE)
     endif ()
  
   endif ()
@@ -255,9 +268,9 @@ endfunction ()
 # ============================================================================
 
 # ****************************************************************************
-# \function sbia_update
+# \function basis_update
 # \brief    Checks for availibility of update and adds files for which an
-#           updated template exists to SBIA_UPDATE_FILES.
+#           updated template exists to BASIS_UPDATE_FILES.
 #
 # This function retrieves a copy of the latest revision of the corresponding
 # template file of the project template from which this project was
@@ -265,21 +278,21 @@ endfunction ()
 # available, the cached copy is used. Then, it checks whether the template
 # contains any updated compared to the current project file, ignoring the
 # content of customizable sections. If an udpate is available, the file
-# is added to SBIA_UPDATE_FILE. The updates will be applied by either
-# sbia_update_initialize () if the interactive mode is enabled or by
-# sbia_update_finalize ().
+# is added to BASIS_UPDATE_FILE. The updates will be applied by either
+# basis_update_initialize () if the interactive mode is enabled or by
+# basis_update_finalize ().
 #
 # Files which are listed with their path relative to the project source
-# directory in SBIA_UPDATE_EXCLUDE are excluded from the automatic file
+# directory in BASIS_UPDATE_EXCLUDE are excluded from the automatic file
 # update and will hence be skipped by this function.
 #
-# \see sbia_update_initialize ()
-# \see sbia_update_finalize ()
+# \see basis_update_initialize ()
+# \see basis_update_finalize ()
 #
 # \param [in] FILENAME Name of project file in current source directory.
 
-function (sbia_update FILENAME)
-  if (NOT SBIA_UPDATE)
+function (basis_update FILENAME)
+  if (NOT BASIS_UPDATE)
     return ()
   endif ()
 
@@ -295,8 +308,8 @@ function (sbia_update FILENAME)
   endif ()
 
   # skip file if excluded from file update
-  if (SBIA_UPDATE_EXCLUDE)
-    list (FIND SBIA_UPDATE_EXCLUDE "${REL}" IDX)
+  if (BASIS_UPDATE_EXCLUDE)
+    list (FIND BASIS_UPDATE_EXCLUDE "${REL}" IDX)
 
     if (IDX EQUAL -1)
       if (CMAKE_VERBOSE)
@@ -309,7 +322,7 @@ function (sbia_update FILENAME)
 
   # skip file if it is not under revision control
   if (EXISTS "${CUR}")
-    sbia_svn_get_last_changed_revision ("${CUR}" CURREV)
+    basis_svn_get_last_changed_revision ("${CUR}" CURREV)
 
     if (CURREV EQUAL 0)
       if (CMAKE_VERBOSE)
@@ -321,16 +334,16 @@ function (sbia_update FILENAME)
   endif ()
 
   # retrieve template file
-  sbia_update_cached_template ("${REL}" TMP)             # file name of cached template file
-  sbia_update_template        ("${REL}" "${TMP}" RETVAL) # update cached template file
+  basis_update_cached_template ("${REL}" TMP)             # file name of cached template file
+  basis_update_template        ("${REL}" "${TMP}" RETVAL) # update cached template file
 
   if (NOT RETVAL)
     message (STATUS "Checking for update of file '${REL}'... - template missing")
     return ()
   endif ()
 
-  # get currently cached list of files in SBIA_UPDATE_FILES
-  set (FILES ${SBIA_UPDATE_FILES})
+  # get currently cached list of files in BASIS_UPDATE_FILES
+  set (FILES ${BASIS_UPDATE_FILES})
 
   # --------------------------------------------------------------------------
   # check if update of existing project file is available
@@ -339,7 +352,7 @@ function (sbia_update FILENAME)
   if (EXISTS "${CUR}")
     execute_process (
       COMMAND
-        "${SBIA_CMD_PYTHON}" "${SBIA_UPDATE_SCRIPT}" -i "${CUR}" -t "${TMP}"
+        "${BASIS_CMD_PYTHON}" "${BASIS_UPDATE_SCRIPT}" -i "${CUR}" -t "${TMP}"
       RESULT_VARIABLE
         RETVAL
       OUTPUT_QUIET
@@ -354,7 +367,7 @@ function (sbia_update FILENAME)
         list (REMOVE_ITEM FILES "${REL}")
       endif ()
 
-      sbia_update_option ("${REL}" OPT)
+      basis_update_option ("${REL}" OPT)
 
       if (DEFINED ${OPT})
         set (${OPT} "" CACHE INTERNAL "Unused option." FORCE)
@@ -385,8 +398,8 @@ function (sbia_update FILENAME)
 
   endif ()
 
-  # update cached variable SBIA_UPDATE_FILES
-  set (SBIA_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
+  # update cached variable BASIS_UPDATE_FILES
+  set (BASIS_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
 endfunction ()
 
 # ============================================================================
@@ -394,33 +407,33 @@ endfunction ()
 # ============================================================================
 
 # ****************************************************************************
-# \function sbia_update_finalize
+# \function basis_update_finalize
 # \brief    Adds file update options for user interaction or performs
 #           file update immediately if quiet update enabled.
 #
-# \see sbia_update ()
-# \see sbia_update_initialize ()
-# \see sbia_update_finalize ()
+# \see basis_update ()
+# \see basis_update_initialize ()
+# \see basis_update_finalize ()
 
-function (sbia_update_finalize)
-  if (NOT SBIA_UPDATE)
+function (basis_update_finalize)
+  if (NOT BASIS_UPDATE)
     return ()
   endif ()
 
-  set (FILES ${SBIA_UPDATE_FILES})
+  set (FILES ${BASIS_UPDATE_FILES})
 
   if (FILES)
     list (REMOVE_DUPLICATES FILES)
   endif ()
 
-  # iterate over files added by sbia_update ()
+  # iterate over files added by basis_update ()
   foreach (REL ${FILES})
 
     # absolute path of project file
     set (CUR "${PROJECT_SOURCE_DIR}/${REL}")
 
     # name of cached template file
-    sbia_update_cached_template ("${REL}" TMP)
+    basis_update_cached_template ("${REL}" TMP)
 
     # ------------------------------------------------------------------------
     # project file exists
@@ -430,18 +443,18 @@ function (sbia_update_finalize)
 
       # check if it is under revision control and whether it has local modifications
       if (EXISTS "${CUR}")
-        sbia_svn_get_last_changed_revision (${CUR} CURREV)
-        sbia_svn_status                    (${CUR} CURSTATUS)
+        basis_svn_get_last_changed_revision (${CUR} CURREV)
+        basis_svn_status                    (${CUR} CURSTATUS)
       endif ()
 
-      sbia_update_option ("${REL}" OPT) # name of file update option
+      basis_update_option ("${REL}" OPT) # name of file update option
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # quietly update file w/o user interaction
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       if (
-            SBIA_UPDATE_AUTO           # 1. option SBIA_UPDATE_AUTO is ON
+            BASIS_UPDATE_AUTO          # 1. option BASIS_UPDATE_AUTO is ON
         AND CURREV GREATER 0           # 2. project file is under revision control
         AND "${CURSTATUS}" STREQUAL "" # 3. project file has no local modifications
       )
@@ -451,7 +464,7 @@ function (sbia_update_finalize)
 
         execute_process (
           COMMAND
-            "${SBIA_CMD_PYTHON}" "${SBIA_UPDATE_SCRIPT}" -f -i "${CUR}" -t "${TMP}" -o "${CUR}"
+            "${BASIS_CMD_PYTHON}" "${BASIS_UPDATE_SCRIPT}" -f -i "${CUR}" -t "${TMP}" -o "${CUR}"
           RESULT_VARIABLE
             RETVAL
           OUTPUT_QUIET
@@ -488,14 +501,14 @@ function (sbia_update_finalize)
         if ("${${OPT}}" STREQUAL "")
           # add option which user can modify to force update of file
           set (${OPT} "OFF" CACHE BOOL "Whether file '${REL}' should be updated." FORCE)
-          # add SBIA_UPDATE_ALL option if not present
-          if ("${SBIA_UPDATE_ALL}" STREQUAL "")
-            set (SBIA_UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
+          # add BASIS_UPDATE_ALL option if not present
+          if ("${BASIS_UPDATE_ALL}" STREQUAL "")
+            set (BASIS_UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
           endif ()
         endif ()
 
         # inform user that file update is available
-        message ("Update of file '${REL}' available.\nSet SBIA_UPDATE_ALL or ${OPT} to ON if changes should be applied.")
+        message ("Update of file '${REL}' available.\nSet UPDATE_ALL or ${OPT} to ON if changes should be applied.")
 
       endif ()
 
@@ -525,10 +538,10 @@ function (sbia_update_finalize)
   endforeach ()
 
   if (NOT FILES)
-    set (SBIA_UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
+    set (BASIS_UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
   endif ()
 
-  set (SBIA_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
+  set (BASIS_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
 endfunction ()
 
 # ============================================================================
@@ -540,33 +553,33 @@ endfunction ()
 # ----------------------------------------------------------------------------
 
 # ****************************************************************************
-# \function sbia_update_option
+# \function basis_update_option
 # \brief    Returns name of file update option.
 #
 # The CMake variable name returned by this function is used as file update
 # option which enables the user to select which files should be udpated.
 #
-# \see sbia_update_finalize ()
-# \see sbia_update_files ()
+# \see basis_update_finalize ()
+# \see basis_update_files ()
 #
 # \param [in]  REL         Path of project file relative to project source directory.
 # \param [out] OPTION_NAME Name of file update option.
 #
-function (sbia_update_option REL OPTION_NAME)
+function (basis_update_option REL OPTION_NAME)
   set (TMP "${REL}")
   string (REGEX REPLACE "\\.|\\\\|/|-" "_" TMP ${TMP})
-  set (${OPTION_NAME} "SBIA_UPDATE_${TMP}" PARENT_SCOPE)
+  set (${OPTION_NAME} "UPDATE_${TMP}" PARENT_SCOPE)
 endfunction ()
 
 # ****************************************************************************
-# \function sbia_update_cached_template
+# \function basis_update_cached_template
 # \brief    Get filename of cached template file.
 #
 # \param [in]  REL      Path of project file relative to project source directory.
 # \param [out] TEMPLATE Absolute path of cached template file in binary tree
 #                       of project.
 
-function (sbia_update_cached_template REL TEMPLATE)
+function (basis_update_cached_template REL TEMPLATE)
   # URL of template file
   set (SRC "${PROJECT_TEMPLATE_ROOT}/${PROJECT_TEMPLATE}/${REL}")
 
@@ -574,11 +587,11 @@ function (sbia_update_cached_template REL TEMPLATE)
   # we either did not find the svn client or the file referenced by SRC
   # is not a repository. However, if it is a working copy, we will still
   # get a revision number. Thus, we then need to check if SRC is a URL
-  # starting with 'https://sbia-svn/ or not (see below).
-  sbia_svn_get_last_changed_revision ("${SRC}" REV)
+  # starting with 'https://sbia-svn' or not (see below).
+  basis_svn_get_last_changed_revision ("${SRC}" REV)
 
   if (REV GREATER 0)
-    sbia_svn_status ("${SRC}" STATUS)
+    basis_svn_status ("${SRC}" STATUS)
     if (NOT "${STATUS}" STREQUAL "")
       set (REV "0") # under revision control, but locally modified
     endif ()
@@ -595,19 +608,19 @@ endfunction ()
 # ----------------------------------------------------------------------------
 
 # ****************************************************************************
-# \function sbia_update_clear
+# \function basis_update_clear
 # \brief    Removes cached template files from binary tree.
 #
-# This function is used by sbia_update_template () to remove cached template
+# This function is used by basis_update_template () to remove cached template
 # copies of a particular file in the binary tree when no longer needed.
 #
-# \see sbia_update_template ()
+# \see basis_update_template ()
 #
 # \param [in] REL  Path of the project file whose template copies shall be
 #                  removed relative to the project's source directory.
 # \param [in] ARGN Absolute paths of cached template files to preserve.
 
-function (sbia_update_clear REL)
+function (basis_update_clear REL)
   # collect all cached template files
   file (GLOB FILES "${PROJECT_BINARY_DIR}/${REL}.rev*")
   # remove files which are to be preserved
@@ -623,14 +636,14 @@ function (sbia_update_clear REL)
 endfunction ()
 
 # ****************************************************************************
-# \function sbia_update_template
+# \function basis_update_template
 # \brief    Retrieves latest revision of template file.
 #
 # \param [in]  REL      Path of project/template file relative to project source tree.
 # \param [in]  TEMPLATE Absolute path of cached template file in binary tree of project.
 # \param [out] RETVAL   Boolean variable which indicates success or failure.
 
-function (sbia_update_template REL TEMPLATE RETVAL)
+function (basis_update_template REL TEMPLATE RETVAL)
 
   # URL of template file
   set (SRC "${PROJECT_TEMPLATE_ROOT}/${PROJECT_TEMPLATE}/${REL}")
@@ -640,7 +653,7 @@ function (sbia_update_template REL TEMPLATE RETVAL)
   if (TEMPLATE MATCHES ".*\\.rev[0|-]")
 
     # remove previously exported/downloaded template files
-    sbia_update_clear ("${REL}")
+    basis_update_clear ("${REL}")
 
     # download template file from non-revision controlled template
     file (DOWNLOAD "${SRC}" "${TEMPLATE}" TIMEOUT 30 STATUS RET)
@@ -650,12 +663,12 @@ function (sbia_update_template REL TEMPLATE RETVAL)
   elseif (NOT EXISTS "${TEMPLATE}")
 
     # remove previously exported/downloaded revisions
-    sbia_update_clear ("${REL}")
+    basis_update_clear ("${REL}")
 
     # if template URL is SVN repository, export file using SVN client
-    if ("${SRC}" MATCHES "https://sbia-svn/.*")
+    if ("${SRC}" MATCHES "^https://sbia-svn.*")
       execute_process (
-        COMMAND         "${SBIA_CMD_SVN}" export "${SRC}" "${TEMPLATE}"
+        COMMAND         "${BASIS_CMD_SVN}" export "${SRC}" "${TEMPLATE}"
         TIMEOUT         30
         RESULT_VARIABLE RET
         OUTPUT_QUIET
@@ -667,7 +680,7 @@ function (sbia_update_template REL TEMPLATE RETVAL)
       list (GET RET 0 RET)
     endif ()
   else ()
-    sbia_update_clear ("${REL}" "${TEMPLATE}")
+    basis_update_clear ("${REL}" "${TEMPLATE}")
 	set (RET 0)
   endif ()
 
@@ -680,29 +693,29 @@ function (sbia_update_template REL TEMPLATE RETVAL)
 endfunction ()
 
 # ****************************************************************************
-# \function sbia_update_files
-# \brief    Update files listed in SBIA_UPDATE_FILES for which file
-#           update option exists and is ON or SBIA_UPDATE_ALL is ON.
+# \function basis_update_files
+# \brief    Update files listed in BASIS_UPDATE_FILES for which file
+#           update option exists and is ON or UPDATE_ALL is ON.
 #
-# This function attempts to update all files in SBIA_UPDATE_FILES
-# whose file update option is ON. If the option SBIA_UPDATE_ALL is ON,
+# This function attempts to update all files in BASIS_UPDATE_FILES
+# whose file update option is ON. If the option UPDATE_ALL is ON,
 # the file update options of individual files are ignored and all files
-# are updated. It is called by sbia_update_initialize ().
+# are updated. It is called by basis_update_initialize ().
 #
-# The list SBIA_UPDATE_FILES is populated by the function sbia_update ()
+# The list BASIS_UPDATE_FILES is populated by the function basis_update ()
 # and the file update options for the listed files are added by
-# sbia_update_finalize () if SBIA_UPDATE_QUIET is OFF. Otherwise,
-# the files are updated directly by sbia_update_finalize () if possible.
+# basis_update_finalize () if BASIS_UPDATE_QUIET is OFF. Otherwise,
+# the files are updated directly by basis_update_finalize () if possible.
 #
-# \see sbia_update_initialize ()
-# \see sbia_update_finalize ()
+# \see basis_update_initialize ()
+# \see basis_update_finalize ()
 
-function (sbia_update_files)
-  if (NOT SBIA_UPDATE)
+function (basis_update_files)
+  if (NOT BASIS_UPDATE)
     return ()
   endif ()
 
-  set (FILES ${SBIA_UPDATE_FILES})
+  set (FILES ${BASIS_UPDATE_FILES})
 
   if (FILES)
     list (REMOVE_DUPLICATES FILES)
@@ -716,21 +729,21 @@ function (sbia_update_files)
     # if project file exists, check if it is under revision control and
 	# whether it has local modifications
     if (EXISTS "${CUR}")
-      sbia_svn_status (${CUR} CURSTATUS)
+      basis_svn_status (${CUR} CURSTATUS)
     else ()
       set (CURSTATUS "")
     endif ()
 
     # get name of cached template file
-    sbia_update_cached_template ("${REL}" TMP)
+    basis_update_cached_template ("${REL}" TMP)
 
     # if cached template file exists...
     if (EXISTS "${TMP}")
  
-      sbia_update_option ("${REL}" OPT) # name of file update option
+      basis_update_option ("${REL}" OPT) # name of file update option
 
       # ...and file update option is ON
-      if ("${${OPT}}" STREQUAL "ON" OR "${SBIA_UPDATE_ALL}" STREQUAL "ON")
+      if ("${${OPT}}" STREQUAL "ON" OR "${UPDATE_ALL}" STREQUAL "ON")
 
         if (CMAKE_VERBOSE)
           message (STATUS "Updating file '${REL}'...")
@@ -761,7 +774,7 @@ function (sbia_update_files)
 
           execute_process (
             COMMAND
-              "${SBIA_CMD_PYTHON}" "${SBIA_UPDATE_SCRIPT}" -f -i "${CUR}" -t "${TMP}" -o "${CUR}"
+              "${BASIS_CMD_PYTHON}" "${BASIS_UPDATE_SCRIPT}" -f -i "${CUR}" -t "${TMP}" -o "${CUR}"
             RESULT_VARIABLE
               RETVAL
             OUTPUT_QUIET
@@ -795,19 +808,19 @@ function (sbia_update_files)
 
   endforeach ()
 
-  set (SBIA_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
+  set (BASIS_UPDATE_FILES ${FILES} CACHE INTERNAL "Files to be updated." FORCE)
 
-  # reset option SBIA_UPDATE_ALL
+  # reset option UPDATE_ALL
   if (FILES)
-    if ("${SBIA_UPDATE_ALL}" STREQUAL "ON")
-      message ("Setting SBIA_UPDATE_ALL to OFF.")
-      set (SBIA_UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
+    if ("${UPDATE_ALL}" STREQUAL "ON")
+      message ("Setting UPDATE_ALL to OFF.")
+      set (UPDATE_ALL "OFF" CACHE BOOL "Whether all files should be updated." FORCE)
     endif ()
   else ()
-    set (SBIA_UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
+    set (UPDATE_ALL "" CACHE INTERNAL "Unused option." FORCE)
   endif ()
 endfunction ()
 
 
-endif (NOT SBIA_UPDATE_INCLUDED)
+endif (NOT BASIS_UPDATE_INCLUDED)
 

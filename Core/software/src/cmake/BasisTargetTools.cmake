@@ -1,15 +1,15 @@
 ##############################################################################
-# \file  SbiaTargetTools.cmake
+# \file  BasisTargetTools.cmake
 # \brief Functions and macros to add executable and library targets.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_TARGETTOOLS_INCLUDED)
-set (SBIA_TARGETTOOLS_INCLUDED 1)
+if (NOT BASIS_TARGETTOOLS_INCLUDED)
+set (BASIS_TARGETTOOLS_INCLUDED 1)
 
 
 # get directory of this file
@@ -24,9 +24,9 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # required modules
 # ============================================================================
 
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaGlobals.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaCommon.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SbiaMatlabTools.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/BasisMatlabTools.cmake")
 
 # ============================================================================
 # properties
@@ -35,11 +35,11 @@ include ("${CMAKE_CURRENT_LIST_DIR}/SbiaMatlabTools.cmake")
 # ****************************************************************************
 # \brief Replaces CMake's set_target_properties () command.
 
-function (sbia_set_target_properties TARGET_NAME)
+function (basis_set_target_properties TARGET_NAME)
   set (UIDS)
   list (GET ARGN 0 ARG)
   while (ARG AND NOT ARG STREQUAL "PROPERTIES")
-    sbia_target_uid (UID "${ARG}")
+    basis_target_uid (UID "${ARG}")
     list (APPEND UIDS "${UID}")
     list (REMOVE_AT ARGN 0)
     list (GET ARGN 0 ARG)
@@ -50,8 +50,8 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's get_target_property () command.
 
-function (sbia_get_target_property VAR TARGET_NAME)
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_get_target_property VAR TARGET_NAME)
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
   get_target_property (VALUE "${TARGET_UID}" ${ARGN})
   set (${VAR} "${VALUE}" PARENT_SCOPE)
 endfunction ()
@@ -63,14 +63,14 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's add_definitions () command.
 
-function (sbia_add_definitions)
+function (basis_add_definitions)
   add_definitions (${ARGN})
 endfunction ()
 
 # ****************************************************************************
 # \brief Replaces CMake's remove_definitions () command.
 
-function (sbia_remove_definitions)
+function (basis_remove_definitions)
   remove_definitions (${ARGN})
 endfunction ()
 
@@ -83,18 +83,18 @@ endfunction ()
 #
 # All arguments are passed on to CMake's include_directories () command.
 # Additionally, the list of include directories is stored in the cached CMake
-# variable SBIA_INCLUDE_DIRECTORIES. This variable can be used by custom
+# variable BASIS_INCLUDE_DIRECTORIES. This variable can be used by custom
 # commands for the build process, e.g., it is used as argument for the -I
 # option of the MATLAB Compiler.
 #
 # Additionally, a list of all include directories added is cached. Hence,
 # this list is extended even across subdirectories. Directories are always
 # appended ignoring the BEFORE argument. The value of this internal cache
-# variabel is cleared by sbia_project ().
+# variabel is cleared by basis_project ().
 #
 # \param ARGN Argument list passed on to CMake's include_directories command.
 
-function (sbia_include_directories)
+function (basis_include_directories)
   # CMake's include_directories ()
   include_directories (${ARGN})
 
@@ -102,50 +102,50 @@ function (sbia_include_directories)
   CMAKE_PARSE_ARGUMENTS (ARGN "AFTER;BEFORE;SYSTEM" "" "" ${ARGN})
 
   # current include directories
-  if (SBIA_INCLUDE_DIRECTORIES)
+  if (BASIS_INCLUDE_DIRECTORIES)
     if (ARGN_BEFORE)
       set (
-        SBIA_INCLUDE_DIRECTORIES
-          "${ARGN_UNPARSED_ARGUMENTS};${SBIA_INCLUDE_DIRECTORIES}"
+        BASIS_INCLUDE_DIRECTORIES
+          "${ARGN_UNPARSED_ARGUMENTS};${BASIS_INCLUDE_DIRECTORIES}"
       )
     else ()
       set (
-        SBIA_INCLUDE_DIRECTORIES
-          "${SBIA_INCLUDE_DIRECTORIES};${ARGN_UNPARSED_ARGUMENTS}"
+        BASIS_INCLUDE_DIRECTORIES
+          "${BASIS_INCLUDE_DIRECTORIES};${ARGN_UNPARSED_ARGUMENTS}"
       )
     endif ()
   else ()
-    set (SBIA_INCLUDE_DIRECTORIES "${ARGN_UNPARSED_ARGUMENTS}")
+    set (BASIS_INCLUDE_DIRECTORIES "${ARGN_UNPARSED_ARGUMENTS}")
   endif ()
 
-  if (SBIA_INCLUDE_DIRECTORIES)
-    list (REMOVE_DUPLICATES SBIA_INCLUDE_DIRECTORIES)
+  if (BASIS_INCLUDE_DIRECTORIES)
+    list (REMOVE_DUPLICATES BASIS_INCLUDE_DIRECTORIES)
   endif ()
 
   # cached include directories
-  if (SBIA_CACHED_INCLUDE_DIRECTORIES)
+  if (BASIS_CACHED_INCLUDE_DIRECTORIES)
     set (
-      SBIA_CACHED_INCLUDE_DIRECTORIES
-        "${SBIA_INCLUDE_DIRECTORIES};${ARGN_UNPARSED_ARGUMENTS}"
+      BASIS_CACHED_INCLUDE_DIRECTORIES
+        "${BASIS_INCLUDE_DIRECTORIES};${ARGN_UNPARSED_ARGUMENTS}"
     )
   else ()
-    set (SBIA_CACHED_INCLUDE_DIRECTORIES "${ARGN_UNPARSED_ARGUMENTS}")
+    set (BASIS_CACHED_INCLUDE_DIRECTORIES "${ARGN_UNPARSED_ARGUMENTS}")
   endif ()
 
-  if (SBIA_CACHED_INCLUDE_DIRECTORIES)
-    list (REMOVE_DUPLICATES SBIA_CACHED_INCLUDE_DIRECTORIES)
+  if (BASIS_CACHED_INCLUDE_DIRECTORIES)
+    list (REMOVE_DUPLICATES BASIS_CACHED_INCLUDE_DIRECTORIES)
   endif ()
 
   set (
-    SBIA_CACHED_INCLUDE_DIRECTORIES "${SBIA_CACHED_INCLUDE_DIRECTORIES}"
-    CACHE INTERNAL "${SBIA_CACHED_INCLUDE_DIRECTORIES_DOC}" FORCE
+    BASIS_CACHED_INCLUDE_DIRECTORIES "${BASIS_CACHED_INCLUDE_DIRECTORIES}"
+    CACHE INTERNAL "${BASIS_CACHED_INCLUDE_DIRECTORIES_DOC}" FORCE
   )
 endfunction ()
 
 # ****************************************************************************
 # \brief Replaces CMake's link_directories () command.
 
-function (sbia_link_directories)
+function (basis_link_directories)
   link_directories (${ARGN})
 endfunction ()
 
@@ -156,10 +156,10 @@ endfunction ()
 # ****************************************************************************
 # \brief Replaces CMake's add_dependencies () command.
 
-function (sbia_add_dependencies)
+function (basis_add_dependencies)
   set (UIDS)
   foreach (ARG ${ARGN})
-    sbia_target_uid (UID "${ARG}")
+    basis_target_uid (UID "${ARG}")
     list (APPEND UIDS "${UID}")
   endforeach ()
   add_dependencies (${UIDS})
@@ -170,31 +170,30 @@ endfunction ()
 #
 # The main reason for replacing this function is to treat libraries such as
 # MEX-files which are supposed to be compiled into a MATLAB executable added
-# by sbia_add_executable () special. In this case, these libraries are added
+# by basis_add_executable () special. In this case, these libraries are added
 # to the LINK_DEPENDS property of the given MATLAB Compiler target.
 #
 # Example:
 # \code
-# sbia_add_library (MyMEXFunc MEX myfunc.c)
-# sbia_add_executable (MyMATLABApp main.m)
-# sbia_target_link_libraries (MyMATLABApp MyMEXFunc OtherMEXFunc.mexa64)
+# basis_add_library (MyMEXFunc MEX myfunc.c)
+# basis_add_executable (MyMATLABApp main.m)
+# basis_target_link_libraries (MyMATLABApp MyMEXFunc OtherMEXFunc.mexa64)
 # \endcode
 #
 # \param [in] TARGET_NAME Name of the target.
 # \param [in] ARGN        Link libraries.
 
-function (sbia_target_link_libraries TARGET_NAME)
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_target_link_libraries TARGET_NAME)
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   if (NOT TARGET "${TARGET_UID}")
-    message (FATAL_ERROR "sbia_target_link_libraries (): Unknown target ${TARGET_UID}.")
+    message (FATAL_ERROR "basis_target_link_libraries (): Unknown target ${TARGET_UID}.")
   endif ()
 
-  get_target_property (SBIA_TYPE ${TARGET_UID} "SBIA_TYPE")
+  get_target_property (BASIS_TYPE ${TARGET_UID} "BASIS_TYPE")
 
   # MATLAB Compiler target
-  if (SBIA_TYPE MATCHES "^MCC_")
-
+  if (BASIS_TYPE MATCHES "^MCC_")
     get_target_property (DEPENDS ${TARGET_UID} "LINK_DEPENDS")
 
     if (NOT DEPENDS)
@@ -202,7 +201,7 @@ function (sbia_target_link_libraries TARGET_NAME)
     endif ()
 
     foreach (ARG ${ARGN})
-      sbia_target_uid (UID "${ARG}")
+      basis_target_uid (UID "${ARG}")
       if (TARGET "${UID}")
         list (APPEND DEPENDS ${UID})
       else ()
@@ -211,12 +210,9 @@ function (sbia_target_link_libraries TARGET_NAME)
     endforeach ()
  
     set_target_properties (${TARGET_UID} PROPERTIES LINK_DEPENDS ${DEPENDS})
-
   # other
   else ()
-
     target_link_libraries (${TARGET_UID} ${ARGN})
-
   endif ()
 endfunction ()
 
@@ -254,14 +250,14 @@ endfunction ()
 #                         on to add_executable () or the respective custom commands
 #                         used to build the executable.
 #
-#   COMPONENT Name of the component. Defaults to SBIA_DEFAULT_COMPONENT.
+#   COMPONENT Name of the component. Defaults to BASIS_DEFAULT_COMPONENT.
 #   LANGUAGE  Source code language. By default determined from the extensions of
 #             of the given source files, where CXX is assumed if no other
 #             language is detected.
 
-function (sbia_add_executable TARGET_NAME)
-  sbia_check_target_name (${TARGET_NAME})
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_add_executable TARGET_NAME)
+  basis_check_target_name (${TARGET_NAME})
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   message (STATUS "Adding executable ${TARGET_UID}...")
 
@@ -270,7 +266,7 @@ function (sbia_add_executable TARGET_NAME)
 
   # if no component is specified, use default
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
@@ -298,7 +294,7 @@ function (sbia_add_executable TARGET_NAME)
 
   if (ARGN_LANGUAGE STREQUAL "MATLAB")
 
-    sbia_add_mcc_target (
+    basis_add_mcc_target (
       ${TARGET_NAME}
       TYPE      "EXECUTABLE"
       COMPONENT "${ARGN_COMPONENT}"
@@ -317,7 +313,7 @@ function (sbia_add_executable TARGET_NAME)
     set_target_properties (
       ${TARGET_UID}
       PROPERTIES
-        SBIA_TYPE "EXECUTABLE"
+        BASIS_TYPE "EXECUTABLE"
     )
 
     # target version information
@@ -343,8 +339,8 @@ function (sbia_add_executable TARGET_NAME)
 
     # add target to list of targets
     set (
-      SBIA_TARGETS "${SBIA_TARGETS};${TARGET_UID}"
-      CACHE INTERNAL "${SBIA_TARGETS_DOC}" FORCE
+      BASIS_TARGETS "${BASIS_TARGETS};${TARGET_UID}"
+      CACHE INTERNAL "${BASIS_TARGETS_DOC}" FORCE
     )
 
   endif ()
@@ -385,9 +381,9 @@ endfunction ()
 #     ${MYLIB_PRIVATE_HEADER}
 # )
 #
-# sbia_add_library (MyLib1 STATIC ${MYLIB_SOURCE})
-# sbia_add_library (MyLib2 STATIC ${MYLIB_SOURCE} COMPONENT dev)
-# sbia_add_library (MyLib3 STATIC ${MYLIB_SOURCE} RUNTIME_COMPONENT bin DEVELOPMENT_COMPONENT dev)
+# basis_add_library (MyLib1 STATIC ${MYLIB_SOURCE})
+# basis_add_library (MyLib2 STATIC ${MYLIB_SOURCE} COMPONENT dev)
+# basis_add_library (MyLib3 STATIC ${MYLIB_SOURCE} RUNTIME_COMPONENT bin DEVELOPMENT_COMPONENT dev)
 # \endcode
 #
 # \param [in] TARGET_NAME Name of the library target.
@@ -396,7 +392,7 @@ endfunction ()
 #                         arguments are extracted, all other arguments are passed
 #                         on to add_library ().
 #
-#   COMPONENT                Name of the component. Defaults to SBIA_DEFAULT_COMPONENT.
+#   COMPONENT                Name of the component. Defaults to BASIS_DEFAULT_COMPONENT.
 #   RUNTIME_COMPONENT        Name of runtime component. Defaults to COMPONENT.
 #   DEVELOPMENT_COMPONENT    Name of development component. Defaults to COMPONENT.
 #
@@ -404,9 +400,9 @@ endfunction ()
 #   EXTERNAL                 Whether the library target is an external library, i.e.,
 #                            the project version does not apply.
 
-function (sbia_add_library TARGET_NAME)
-  sbia_check_target_name (${TARGET_NAME})
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+function (basis_add_library TARGET_NAME)
+  basis_check_target_name (${TARGET_NAME})
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
@@ -418,7 +414,7 @@ function (sbia_add_library TARGET_NAME)
   )
 
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
@@ -499,7 +495,7 @@ function (sbia_add_library TARGET_NAME)
 
   if (ARGN_LANGUAGE STREQUAL "MATLAB")
 
-    sbia_add_mcc_target (
+    basis_add_mcc_target (
       ${TARGET_NAME}
       TYPE      "LIBRARY"
       COMPONENT ${ARGN_COMPONENT}
@@ -539,14 +535,14 @@ function (sbia_add_library TARGET_NAME)
 
       # determine extension of MEX-files for this architecture
       if (NOT MEX_EXT)
-        sbia_mexext (MEXEXT)
+        basis_mexext (MEXEXT)
         set (MEX_EXT "${MEXEXT}" CACHE STRING "Extension of MEX-files." FORCE)
         mark_as_advanced (MEX_EXT)
       endif ()
 
       if (NOT MEX_EXT)
         message (FATAL_ERROR "Failed to determine extension of MEX-files. It is required to build target ${TARGET_UID}."
-                             "Set SBIA_CMD_MEXEXT or MEX_EXT and try again.")
+                             "Set BASIS_CMD_MEXEXT or MEX_EXT and try again.")
       endif ()
 
       # add library target
@@ -555,7 +551,7 @@ function (sbia_add_library TARGET_NAME)
       set_target_properties (
         ${TARGET_UID}
         PROPERTIES
-          SBIA_TYPE "MEX_FILE"
+          BASIS_TYPE "MEX_FILE"
       )
 
       target_link_libraries (${TARGET_UID} ${MATLAB_LIBRARIES})
@@ -598,7 +594,7 @@ function (sbia_add_library TARGET_NAME)
       set_target_properties (
         ${TARGET_UID}
         PROPERTIES
-          SBIA_TYPE      "LIBRARY"
+          BASIS_TYPE      "LIBRARY"
           PUBLIC_HEADER  ${${TARGET_NAME}_PUBLIC_HEADER}
           PRIVATE_HEADER ${${TARGET_NAME}_PRIVATE_HEADER}
       )
@@ -638,8 +634,8 @@ function (sbia_add_library TARGET_NAME)
 
     # add target to list of targets
     set (
-      SBIA_TARGETS "${SBIA_TARGETS};${TARGET_UID}"
-      CACHE INTERNAL "${SBIA_TARGETS_DOC}" FORCE
+      BASIS_TARGETS "${BASIS_TARGETS};${TARGET_UID}"
+      CACHE INTERNAL "${BASIS_TARGETS_DOC}" FORCE
     )
 
   endif ()
@@ -665,20 +661,21 @@ endfunction ()
 #
 # This function adds a script "target" to the project, where the script is
 # simply configured via configure_file () and copied to the directory
-# specified by CMAKE_RUNTIME_OUTPUT_DIRECTORY. If the scripts' name ends in
-# ".in", the ".in" suffix is removed from the output name. Further, all
-# occurrences of ".in." anywhere within the script name are removed as well.
-# The extension of the script such as .sh or .py is removed from the output
-# filename if the project is build on UNIX systems and the script file
-# contains a sha-bang directive, i.e., the first two characters on the first
-# line are "#!" followed by the path to the script language interpreter.
+# specified by CMAKE_RUNTIME_OUTPUT_DIRECTORY or INSTALL_BIN_DIR, respectively.
+# If the scripts' name ends in ".in", the ".in" suffix is removed from the
+# output name. Further, all occurrences of ".in." anywhere within the script
+# name are removed as well. The extension of the script such as .sh or .py is
+# removed from the output filename if the project is build on UNIX systems
+# and the script file contains a sha-bang directive, i.e., the first two
+# characters on the first line are "#!" followed by the path to the script
+# language interpreter.
 #
 # Example:
 #
 # \code
-# sbia_add_script (MyShellScript.sh.in)
-# sbia_add_script (AnotherShellScript.in.sh)
-# sbia_add_script (Script SCRIPT Script1.sh)
+# basis_add_script (MyShellScript.sh.in)
+# basis_add_script (AnotherShellScript.in.sh)
+# basis_add_script (Script SCRIPT Script1.sh)
 # \endcode
 #
 # Certain CMake variables within the script are replaced during the configure step.
@@ -693,7 +690,7 @@ endfunction ()
 #
 # Example:
 # \code
-# sbia_add_script (Script1 SCRIPT Script1.sh CONFIG Script1Config.cmake)
+# basis_add_script (Script1 SCRIPT Script1.sh CONFIG Script1Config.cmake)
 # \endcode
 #
 # Script1Config.cmake
@@ -701,18 +698,18 @@ endfunction ()
 # if (BUILD_INSTALL_SCRIPT)
 #   set (DATA_DIR "${INSTALL_DATA_DIR}")
 # else ()
-#   set (DATA_DIR "${PROJECT_SOURCE_DIR}/Data")
+#   set (DATA_DIR "${SOFTWARE_DATA_DIR}")
 # endif ()
 # \endcode
 #
 # Note that this function only adds a custom target and stores all information
 # required to setup the actual custom build command as properties of this target.
-# The custom build command itself is added by sbia_add_script_finalize (), which
+# The custom build command itself is added by basis_add_script_finalize (), which
 # is supposed to be called once at the end of the root CMakeLists.txt file of the
 # (super-)project. This way properties such as the OUTPUT_NAME can still be modified
 # after adding the script target.
 #
-# \see sbia_add_script_finalize ()
+# \see basis_add_script_finalize ()
 #
 # \param [in] TARGET_NAME Name of the target. Alternatively, the script file
 #                         path relative to the current source directory can be
@@ -723,24 +720,24 @@ endfunction ()
 #                         arguments are extracted:
 #
 #   SCRIPT    Script file paths relative to current source directory.
-#   COMPONENT Name of the component. Defaults to SBIA_DEFAULT_COMPONENT.
+#   COMPONENT Name of the component. Defaults to BASIS_DEFAULT_COMPONENT.
 #   CONFIG    Script configuration file. Defaults to the value of
-#             SBIA_SCRIPT_CONFIG_FILE if defined. If no script configuration
+#             BASIS_SCRIPT_CONFIG_FILE if defined. If no script configuration
 #             file is specified or the specified file does not exist, the script
 #             is copied only.
 
-function (sbia_add_script TARGET_NAME)
+function (basis_add_script TARGET_NAME)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (ARGN "" "SCRIPT;CONFIG;COMPONENT" "" ${ARGN})
 
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
   endif ()
   if (NOT ARGN_CONFIG)
-    set (ARGN_CONFIG "${SBIA_SCRIPT_CONFIG_FILE}")
+    set (ARGN_CONFIG "${BASIS_SCRIPT_CONFIG_FILE}")
   endif ()
 
   if (ARGN_CONFIG STREQUAL "NONE" OR ARGN_CONFIG STREQUAL "none" OR ARGN_CONFIG STREQUAL "None")
@@ -748,7 +745,7 @@ function (sbia_add_script TARGET_NAME)
   endif ()
 
   if (ARGN_UNPARSED_ARGUMENTS)
-    message ("Unknown arguments given for sbia_add_script (${TARGET_NAME}): ${ARGN_UNPARSED_ARGUMENTS}")
+    message ("Unknown arguments given for basis_add_script (${TARGET_NAME}): ${ARGN_UNPARSED_ARGUMENTS}")
   endif ()
 
   if (NOT ARGN_SCRIPT)
@@ -763,8 +760,8 @@ function (sbia_add_script TARGET_NAME)
   endif ()
 
   # check target name
-  sbia_check_target_name ("${TARGET_NAME}")
-  sbia_target_uid (TARGET_UID "${TARGET_NAME}")
+  basis_check_target_name ("${TARGET_NAME}")
+  basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
   message (STATUS "Adding script ${TARGET_UID}...")
 
@@ -802,12 +799,12 @@ function (sbia_add_script TARGET_NAME)
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${ARGN_SCRIPT})
 
-  # set target properties required by sbia_add_script_finalize ()
+  # set target properties required by basis_add_script_finalize ()
   set_target_properties (
     ${TARGET_UID}
     PROPERTIES
       TYPE                      "EXECUTABLE"
-      SBIA_TYPE                 "SCRIPT"
+      BASIS_TYPE                "SCRIPT"
       SOURCE_DIRECTORY          "${CMAKE_CURRENT_SOURCE_DIR}"
       BINARY_DIRECTORY          "${CMAKE_CURRENT_BINARY_DIR}"
       RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
@@ -818,8 +815,8 @@ function (sbia_add_script TARGET_NAME)
 
   # add target to list of targets
   set (
-    SBIA_TARGETS "${SBIA_TARGETS};${TARGET_UID}"
-    CACHE INTERNAL "${SBIA_TARGETS_DOC}" FORCE
+    BASIS_TARGETS "${BASIS_TARGETS};${TARGET_UID}"
+    CACHE INTERNAL "${BASIS_TARGETS_DOC}" FORCE
   )
 
   message (STATUS "Adding script ${TARGET_UID}... - done")
@@ -829,18 +826,18 @@ endfunction ()
 # \brief Finalizes addition of script.
 #
 # This function uses the properties of the custom script target added by
-# sbia_add_script () to create the custom build command and adds this build
+# basis_add_script () to create the custom build command and adds this build
 # command as dependency of this added target.
 #
-# \see sbia_add_script ()
+# \see basis_add_script ()
 #
 # \param [in] TARGET_UID "Global" target name. If this function is used
-#                        within the same project as sbia_add_script (),
+#                        within the same project as basis_add_script (),
 #                        the "local" target name may be given alternatively.
 
-function (sbia_add_script_finalize TARGET_UID)
+function (basis_add_script_finalize TARGET_UID)
   # if used within (sub-)project itself, allow user to specify "local" target name
-  sbia_target_uid (TARGET_UID "${TARGET_UID}")
+  basis_target_uid (TARGET_UID "${TARGET_UID}")
 
   # does this target exist ?
   if (NOT TARGET "${TARGET_UID}")
@@ -851,11 +848,11 @@ function (sbia_add_script_finalize TARGET_UID)
   message (STATUS "Adding build command for script ${TARGET_UID}...")
 
   # get target properties
-  sbia_target_name (TARGET_NAME ${TARGET_UID})
+  basis_target_name (TARGET_NAME ${TARGET_UID})
 
   set (
     PROPERTIES
-      "SBIA_TYPE"
+      "BASIS_TYPE"
       "SOURCE_DIRECTORY"
       "BINARY_DIRECTORY"
       "RUNTIME_OUTPUT_DIRECTORY"
@@ -875,8 +872,8 @@ function (sbia_add_script_finalize TARGET_UID)
   endforeach ()
 
   # check target type
-  if (NOT SBIA_TYPE STREQUAL "SCRIPT")
-    message (FATAL_ERROR "Target ${TARGET_UID} is no SBIA script target. Invalid type: ${SBIA_TYPE}")
+  if (NOT BASIS_TYPE STREQUAL "SCRIPT")
+    message (FATAL_ERROR "Target ${TARGET_UID} is no BASIS script target. Invalid type: ${BASIS_TYPE}")
   endif ()
 
   # build directory (note that CMake returns basename of build directory as first element of SOURCES list)
@@ -904,7 +901,7 @@ function (sbia_add_script_finalize TARGET_UID)
   set (INSTALL_FILE "${SCRIPT_FILE}")
   set (OUTPUT_FILES "${OUTPUT_FILE}")
 
-  set (BUILD_COMMANDS "# DO NOT edit. This file is automatically generated by a SBIA CMake function.\n\n")
+  set (BUILD_COMMANDS "# DO NOT edit. This file is automatically generated by BASIS.\n\n")
 
   if (COMPILE_DEFINITIONS)
     set (INSTALL_FILE "${BUILD_DIR}/${OUTPUT_NAME}")
@@ -961,16 +958,16 @@ endfunction ()
 # ****************************************************************************
 # \brief Adds scripts with specified extension.
 #
-# This function calls sbia_add_script () for each script within the current
+# This function calls basis_add_script () for each script within the current
 # source directory which has the extension ".EXT" or ".EXT.in".
 #
 # \param [in] EXT  Script extension, e.g., "sh" for shell scripts.
 # \param [in] ARGN This argument list is parsed and the following
 #                  arguments are extracted:
 #
-#   COMPONENT Name of the component. Defaults to SBIA_DEFAULT_COMPONENT.
+#   COMPONENT Name of the component. Defaults to BASIS_DEFAULT_COMPONENT.
 
-function (sbia_add_scripts_by_extension EXT)
+function (basis_add_scripts_by_extension EXT)
   if (CMAKE_VERBOSE)
     file (RELATIVE_PATH DIR "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
     message (STATUS "Adding scripts in ${DIR} with extension .${EXT} or .${EXT}.in")
@@ -981,14 +978,14 @@ function (sbia_add_scripts_by_extension EXT)
   CMAKE_PARSE_ARGUMENTS (ARGN "" "COMPONENT" "" ${ARGN})
 
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
   endif ()
 
   if (ARGN_UNPARSED_ARGUMENTS)
-    message ("Unknown arguments given for sbia_add_scripts_by_extension (${EXT}): ${ARGN_UNPARSED_ARGUMENTS}")
+    message ("Unknown arguments given for basis_add_scripts_by_extension (${EXT}): ${ARGN_UNPARSED_ARGUMENTS}")
   endif ()
 
   # glob script files with given extension
@@ -998,7 +995,7 @@ function (sbia_add_scripts_by_extension EXT)
   foreach (SCRIPT ${FILES})
     if (NOT IS_DIRECTORY "${SCRIPT}")
       if ("${SCRIPT}" MATCHES ".*\\.${EXT}$|.*\\.${EXT}\\.in$")
-        sbia_add_script ("${SCRIPT}" COMPONENT "${ARGN_COMPONENT}")
+        basis_add_script ("${SCRIPT}" COMPONENT "${ARGN_COMPONENT}")
       endif ()
     endif ()
   endforeach ()
@@ -1007,20 +1004,20 @@ endfunction ()
 # ****************************************************************************
 # \brief Adds scripts with specified extensions.
 #
-# \see sbia_add_scripts_by_extension
+# \see basis_add_scripts_by_extension
 #
 # \param [in] ARGN This argument list is parsed and the following arguments
 #                  are extracted. All other arguments are considered script
 #                  extension.
 #
-#                    COMPONENT Name of the component.
+#   COMPONENT Name of the component.
 
-macro (sbia_add_scripts_by_extensions)
+macro (basis_add_scripts_by_extensions)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (ARGN "" "COMPONENT" "" ${ARGN})
 
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
@@ -1028,7 +1025,7 @@ macro (sbia_add_scripts_by_extensions)
 
   # add scripts by extension
   foreach (EXT ${ARGN_UNPARSED_ARGUMENTS})
-    sbia_add_scripts_by_extension ("${EXT}" COMPONENT "${ARGN_COMPONENT}")
+    basis_add_scripts_by_extension ("${EXT}" COMPONENT "${ARGN_COMPONENT}")
   endforeach ()
 endmacro ()
 
@@ -1036,7 +1033,7 @@ endmacro ()
 # \brief Adds scripts with default extensions.
 #
 # This macro adds each script within the current source directory which has
-# a default extension using sbia_add_script ().
+# a default extension using basis_add_script ().
 #
 # Considered default extensions are "sh" for shell scripts, "py" for Python
 # scripts, and "pl" for Perl scripts.
@@ -1044,42 +1041,42 @@ endmacro ()
 # \param [in] ARGN This argument list is parsed and the following arguments
 #                  are extracted.
 #
-#                    COMPONENT Name of the component.
+#   COMPONENT Name of the component.
 
-macro (sbia_add_scripts)
+macro (basis_add_scripts)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (ARGN "" "COMPONENT" "" ${ARGN})
 
   if (NOT ARGN_COMPONENT)
-    set (ARGN_COMPONENT "${SBIA_DEFAULT_COMPONENT}")
+    set (ARGN_COMPONENT "${BASIS_DEFAULT_COMPONENT}")
   endif ()
   if (NOT ARGN_COMPONENT)
     set (ARGN_COMPONENT "Unspecified")
   endif ()
 
   if (ARGN_UNPARSED_ARGUMENTS)
-    message ("Unknown arguments given for sbia_add_scripts (): '${ARGN_UNPARSED_ARGUMENTS}'")
+    message ("Unknown arguments given for basis_add_scripts (): '${ARGN_UNPARSED_ARGUMENTS}'")
   endif ()
 
   # add scripts with known extensions
-  sbia_add_scripts_by_extension (sh COMPONENT "${ARGN_COMPONENT}") # shell scripts
-  sbia_add_scripts_by_extension (py COMPONENT "${ARGN_COMPONENT}") # python scripts
-  sbia_add_scripts_by_extension (pl COMPONENT "${ARGN_COMPONENT}") # Perl scripts
+  basis_add_scripts_by_extension (sh COMPONENT "${ARGN_COMPONENT}") # shell scripts
+  basis_add_scripts_by_extension (py COMPONENT "${ARGN_COMPONENT}") # python scripts
+  basis_add_scripts_by_extension (pl COMPONENT "${ARGN_COMPONENT}") # Perl scripts
 endmacro ()
 
 # ****************************************************************************
-# \brief Fianlizes addition of custom SBIA targets.
+# \brief Fianlizes addition of custom BASIS targets.
 #
-# \see sbia_add_script_finalize ()
-# \see sbia_add_mcc_target_finalize ()
+# \see basis_add_script_finalize ()
+# \see basis_add_mcc_target_finalize ()
 
-function (sbia_add_custom_finalize)
-  foreach (TARGET_UID ${SBIA_TARGETS})
-    get_target_property (SBIA_TYPE ${TARGET_UID} "SBIA_TYPE")
-    if (SBIA_TYPE STREQUAL "SCRIPT")
-      sbia_add_script_finalize (${TARGET_UID})
-    elseif (SBIA_TYPE MATCHES "^MCC_")
-      sbia_add_mcc_target_finalize (${TARGET_UID})
+function (basis_add_custom_finalize)
+  foreach (TARGET_UID ${BASIS_TARGETS})
+    get_target_property (BASIS_TYPE ${TARGET_UID} "BASIS_TYPE")
+    if (BASIS_TYPE STREQUAL "SCRIPT")
+      basis_add_script_finalize (${TARGET_UID})
+    elseif (BASIS_TYPE MATCHES "^MCC_")
+      basis_add_mcc_target_finalize (${TARGET_UID})
     endif ()
   endforeach ()
 endfunction ()
@@ -1092,10 +1089,10 @@ endfunction ()
 # supports extended cmd.exe syntax (Windows NT 4.0 and newer, maybe Windows
 # NT 3.x too).
 #
-# \author Pau Garcia i Quiles, modified by SBIA
+# \author Pau Garcia i Quiles, modified by the SBIA Group
 # \see    http://www.cmake.org/pipermail/cmake/2007-May/014221.html
 
-function (sbia_add_uninstall)
+function (basis_add_uninstall)
   if (WIN32)
     add_custom_target (
       uninstall
@@ -1120,5 +1117,5 @@ function (sbia_add_uninstall)
 endfunction ()
 
 
-endif (NOT SBIA_TARGETTOOLS_INCLUDED)
+endif (NOT BASIS_TARGETTOOLS_INCLUDED)
 
