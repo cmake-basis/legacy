@@ -1,27 +1,50 @@
-INTRODUCTION
 
-  The SBIA Build system And Software Implementation Standard (BASIS) package
-  contains utility source files and libraries written both at SBIA and external
-  sites. This package is required to build SBIA projects which follow BASIS
-  (i.e., projects started after the release of BASIS). BASIS does not only
-  provide the tools for implementing software packages, it also imposes a
-  standardized project structure and CMake-based (http://www.cmake.org) build
-  system. The use of BASIS not only eases the maintainance of SBIA software
-  projects and makes it easier to build and install them, it also enables the
-  fusion of independently developed SBIA projects into one so-called superproject.
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+
+  Web:   https://www.rad.upenn.edu/sbia/
+  Email: sbia-software -at- uphs.upenn.edu
+
+
+
+INTRODUCTION
+============
+
+  \todo The following is the introduction to BASIS, not only the Core.
+
+  The Build And Software Implementation Standard (BASIS) software package
+  not only provides a project template which standardizes the project directory
+  structure, it also accompanies this template with CMake implementations.
+  These CMake implementations ease and standardize the build, testing,
+  packaging, and installation of software packages developed at SBIA.
+  Besides the software components, the documentation of BASIS defines the
+  lab standard for various asepcts of a software development project.
+  Moreover, utility source files and libraries written both at SBIA and
+  external sites are integrated as components of BASIS.
+
+  Every SBIA software project which was started after the introduction of BASIS
+  in June 2011 is required to built on top of BASIS, i.e., to instantiate the
+  project template and utilize the provided CMake implementations. An extensive
+  documentation is provided with BASIS to ease this task as much as possible.
 
   The BASIS package, when build and installed once globally on the target system,
   is used for the build of dependent SBIA projects. Alternatively, if the
-  package is not found, each SBIA project or superproject which is instantiated
-  from the BASIS Project Template or BASIS Superproject Template, respectively,
-  retrieves and builds a local copy using CMake's ExternalProject module
+  package is not found, each SBIA project or superproject which is built on top
+  of BASIS, retrieves and builds a local copy using CMake's ExternalProject module
   (http://www.kitware.com/products/html/BuildingExternalProjectsWithCMake2.8.html).
+
+  Another feature of BASIS is, that it not only eases the developement and
+  maintenance of separatly managed software projects, it also enables the fusion
+  of these more or less independently developed software packages into so-called
+  superprojects, where each software package is a component of this superproject.
+
 
 
 PACKAGE OVERVIEW
-
-  The components of BASIS are summarized in the following.
-
+================
 
   CMake Modules
   -------------
@@ -79,14 +102,3 @@ PACKAGE OVERVIEW
   Project Template. For convenience, a project creation script is provided which
   automates the instantiation of the template for new projects.
 
-
-
-CONTACT
-
-  Section of Biomedical Image Analysis
-  Department of Radiology
-  University of Pennsylvania
-  3600 Market Street, Suite 380
-  Philadelphia, PA 19104
-
-  SBIA Group <sbia-software -at- uphs.upenn.edu>

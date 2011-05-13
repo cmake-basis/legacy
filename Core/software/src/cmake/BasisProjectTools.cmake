@@ -235,6 +235,23 @@ macro (basis_project NAME)
       DESTINATION "${INSTALL_DOC_DIR}"
     )
   endif ()
+
+  # configure default auxiliary source files
+  basis_configure_auxiliary_sources (DEFAULT_SOURCES)
+
+  set (DEFAULT_SOURCES_DIRS)
+  foreach (DEFAULT_SOURCE ${DEFAULT_SOURCES})
+    get_filename_component (TMP "${DEFAULT_SOURCE}" PATH)
+    list (APPEND DEFAULT_SOURCES_DIRS "${TMP}")
+    set (TMP)
+  endforeach ()
+  if (DEFAULT_SOURCES_DIRS)
+    list (REMOVE_DUPLICATES DEFAULT_SOURCES_DIRS)
+  endif ()
+
+  include_directories (BEFORE ${DEFAULT_SOURCES_DIRS})
+
+  source_group ("Default" ${DEFAULT_SOURCES})
 endmacro ()
 
 # ****************************************************************************
@@ -313,6 +330,46 @@ function (basis_testing PROJECT_NAME)
 
   # include testing module
   include (BasisTest)
+endfunction ()
+
+# ============================================================================
+# auxiliary source files
+# ============================================================================
+
+# ****************************************************************************
+# \brief Configure default auxiliary source files.
+#
+# This function configures the following default auxiliary source files
+# which can be used by the projects which are making use of BASIS.
+#
+#   - config.h    This file is intended to be included by all source files.
+#                 Hence, other projects will indirectly include this file when
+#                 they use a library of this project.
+#
+#   - mainaux.h   This file is intended to be included by .(c|cc|cpp|cxx) files
+#                 only which contain the definition of the main () function.
+#                 It shall not be included by any other source file!
+#
+# \param [out] SOURCES Configured default auxiliary C++ source files.
+
+function (basis_configure_auxiliary_sources SOURCES)
+  # get binary directory corresponding to SOFTWARE_SOURCE_DIR
+  file (RELATIVE_PATH DIR "${PROJECT_SOURCE_DIR}" "${SOFTWARE_SOURCE_DIR}")
+  set (DIR "${PROJECT_BINARY_DIR}/${DIR}")
+
+  # configure auxiliary source files
+  set (CPP_SOURCES "")
+  foreach (SOURCE config.h mainaux.h)
+    set (TEMPLATE   "${CMAKE_CURRENT_LIST_DIR}/${SOURCE}.in")
+    set (CPP_SOURCE "${DIR}/${SOURCE}")
+
+    configure_file (${TEMPLATE} ${CPP_SOURCE} @ONLY)
+
+    list (APPEND CPP_SOURCES "${CPP_SOURCE}")
+  endforeach ()
+
+  # return
+  set (SOURCES "${CPP_SOURCES}" PARENT_SCOPE)
 endfunction ()
 
 # ============================================================================
