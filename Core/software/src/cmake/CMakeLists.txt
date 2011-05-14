@@ -3,19 +3,27 @@
 # \brief Configure and install CMake modules.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
 set (
   MODULES
-    SbiaCommands.cmake
-    SbiaMacros.cmake
-    SbiaSettings.cmake
-    SbiaPackage.cmake
-    SbiaTesting.cmake
-    SbiaUpdate.cmake
+    CMakeParseArguments.cmake
+    BasisCommon.cmake
+    BasisDirectories.cmake
+    BasisDocTools.cmake
+    BasisGlobals.cmake
+    BasisMatlabTools.cmake
+    BasisPack.cmake
+    BasisProjectTools.cmake
+    BasisScriptConfig.cmake.in
+    BasisSettings.cmake
+    BasisSubversionTools.cmake
+    BasisTargetTools.cmake
+    BasisTest.cmake
+    BasisUpdate.cmake
 )
 
 set (
@@ -26,19 +34,16 @@ set (
 
 set (
   AUXILIARY_FILES
-    CMakeParseArguments.cmake
-    SbiaExecuteProcess.cmake
-    SbiaUpdateFile.py
-    SbiaRunMcc.m
+    ExecuteProcess.cmake
+    updatefile.py
+    runmcc.m
+    config.h.in
+    mainaux.h.in
     execname.cpp.in
 )
 
 install (
-  FILES
-    ${MODULES}
-    ${FIND_MODULES}
-    ${AUXILIARY_FILES}
-  DESTINATION
-    "cmake"
+  FILES       ${MODULES} ${FIND_MODULES} ${AUXILIARY_FILES}
+  DESTINATION "cmake"
 )
 

@@ -27,6 +27,28 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 
 
 # ============================================================================
+# required modules
+# ============================================================================
+
+include (CheckTypeSize)
+
+# ============================================================================
+# system checks
+# ============================================================================
+
+# check if type long long is supported
+CHECK_TYPE_SIZE("long long" LONG_LONG)
+
+# check for presence of sstream header
+include (TestForSSTREAM)
+
+if (CMAKE_NO_ANSI_STRING_STREAM)
+  set (HAVE_SSTREAM 0)
+else ()
+  set (HAVE_SSTREAM 1)
+endif ()
+
+# ============================================================================
 # build configuration(s)
 # ============================================================================
 

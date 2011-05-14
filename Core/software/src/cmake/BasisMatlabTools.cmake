@@ -73,9 +73,9 @@ mark_as_advanced (BASIS_CMD_MCC)
 
 find_file (
   BASIS_SCRIPT_MCC
-    NAMES basismcc.m
+    NAMES runmcc.m
     HINTS "${BASIS_MODULE_PATH}"
-    DOC "MATLAB script basismcc.m used to invoke MATLAB Compiler in MATLAB mode."
+    DOC "MATLAB script runmcc.m used to invoke MATLAB Compiler in MATLAB mode."
     NO_DEFAULT_PATH
 )
 

@@ -30,7 +30,6 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/BasisDirectories.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisTargetTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisSubversionTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisDocTools.cmake")
@@ -350,6 +349,11 @@ endfunction ()
 #                 only which contain the definition of the main () function.
 #                 It shall not be included by any other source file!
 #
+# \note If there exists a *.in file of the corresponding source file in the
+#       SOFTWARE_SOURCE_DIR of the project, it will be used as template.
+#       Otherwise, the template file coming with the BASIS CMake modules
+#       is used.
+#
 # \param [out] SOURCES Configured default auxiliary C++ source files.
 
 function (basis_configure_auxiliary_sources SOURCES)
@@ -359,12 +363,13 @@ function (basis_configure_auxiliary_sources SOURCES)
 
   # configure auxiliary source files
   set (CPP_SOURCES "")
-  foreach (SOURCE config.h mainaux.h)
-    set (TEMPLATE   "${CMAKE_CURRENT_LIST_DIR}/${SOURCE}.in")
+  foreach (SOURCE mainaux.h)
+    set (TEMPLATE "${SOFTWARE_CONFIG_DIR}/${SOURCE}.in")
+    if (NOT EXISTS "${TEMPLATE}")
+      set (TEMPLATE "${CMAKE_CURRENT_LIST_DIR}/${SOURCE}.in")
+    endif ()
     set (CPP_SOURCE "${DIR}/${SOURCE}")
-
     configure_file (${TEMPLATE} ${CPP_SOURCE} @ONLY)
-
     list (APPEND CPP_SOURCES "${CPP_SOURCE}")
   endforeach ()
 
