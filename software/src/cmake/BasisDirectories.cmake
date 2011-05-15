@@ -54,35 +54,11 @@ set (TESTING_SOURCE_DIR   "src")
 # build tree
 # ============================================================================
 
-set (
-  CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    "bin"
-  CACHE PATH
-    "Output directory for runtime libraries (relative to build tree)."
-)
+# These directory paths will be made absolute by the initialization functions.
 
-set (
-  CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    "bin"
-  CACHE PATH
-    "Output directory for modules and shared libraries (relative to build tree)."
-)
-
-set (
-  CMAKE_ARCHIVE_OUTPUT_DIRECTORY
-    "lib"
-  CACHE PATH
-    "Output directory for static and import libraries (relative to build tree)."
-)
-
-# make relative paths absolute and make options advanced
-foreach(P RUNTIME LIBRARY ARCHIVE)
-  set(VAR CMAKE_${P}_OUTPUT_DIRECTORY)
-  if (NOT IS_ABSOLUTE "${${VAR}}")
-    set (${VAR} "${CMAKE_BINARY_DIR}/${${VAR}}")
-  endif ()
-  mark_as_advanced (${VAR})
-endforeach()
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "bin")
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY "lib")
 
 # ============================================================================
 # install tree
@@ -113,18 +89,28 @@ else ()
   )
 
   set (
-    INSTALL_SINFIX "sbia/\${PROJECT_NAME_LOWER}"
+    INSTALL_SINFIX "sbia/@PROJECT_NAME_LOWER@"
     CACHE PATH "Installation directories suffix or infix, respectively."
   )
 endif ()
 
-set (INSTALL_BIN_DIR     "bin/${INSTALL_SINFIX}")
-set (INSTALL_LIB_DIR     "lib/${INSTALL_SINFIX}")
-set (INSTALL_INCLUDE_DIR "include/${INSTALL_SINFIX}/sbia/\${PROJECT_NAME_LOWER}")
-set (INSTALL_DOC_DIR     "share/${INSTALL_SINFIX}/doc")
-set (INSTALL_DATA_DIR    "share/${INSTALL_SINFIX}/data")
-set (INSTALL_EXAMPLE_DIR "share/${INSTALL_SINFIX}/example")
-set (INSTALL_MAN_DIR     "share/${INSTALL_SINFIX}/man")
+if (INSTALL_SINFIX)
+  set (INSTALL_BIN_DIR     "bin/${INSTALL_SINFIX}")
+  set (INSTALL_LIB_DIR     "lib/${INSTALL_SINFIX}")
+  set (INSTALL_INCLUDE_DIR "include/${INSTALL_SINFIX}/sbia/@PROJECT_NAME_LOWER@")
+  set (INSTALL_DOC_DIR     "share/${INSTALL_SINFIX}/doc")
+  set (INSTALL_DATA_DIR    "share/${INSTALL_SINFIX}/data")
+  set (INSTALL_EXAMPLE_DIR "share/${INSTALL_SINFIX}/example")
+  set (INSTALL_MAN_DIR     "share/${INSTALL_SINFIX}/man")
+else ()
+  set (INSTALL_BIN_DIR     "bin")
+  set (INSTALL_LIB_DIR     "lib")
+  set (INSTALL_INCLUDE_DIR "include/sbia/@PROJECT_NAME_LOWER@")
+  set (INSTALL_DOC_DIR     "share/doc")
+  set (INSTALL_DATA_DIR    "share/data")
+  set (INSTALL_EXAMPLE_DIR "share/example")
+  set (INSTALL_MAN_DIR     "share/man")
+endif ()
 
 
 endif (NOT BASIS_DIRECTORIES_INCLUDED)

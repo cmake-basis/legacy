@@ -25,9 +25,10 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 
 
 # ============================================================================
-# required modules
+# (required) modules
 # ============================================================================
 
+include ("${CMAKE_CURRENT_LIST_DIR}/ExternalData.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisGlobals.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisCommon.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisTargetTools.cmake")
@@ -70,21 +71,21 @@ include ("${CMAKE_CURRENT_LIST_DIR}/BasisUpdate.cmake")
 #
 # \param [in] NAME Project name.
 
-macro (basis_project_initialize NAME)
+macro (basis_project_initialize PROJECT_NAME)
   # set common CMake variables which would not be valid before project ()
   # such that they can be used in the Settings.cmake file, for example
   set (PROJECT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
   set (PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
-  # instantiate directory structure
+  # instantiate directory structure of source tree
   set (PROJECT_SOFTWARE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
-  foreach(P CONFIG DATA DOC SOURCE)
-    set(VAR SOFTWARE_${P}_DIR)
+  foreach (P CONFIG DATA DOC SOURCE)
+    set (VAR SOFTWARE_${P}_DIR)
     if (NOT IS_ABSOLUTE "${${VAR}}")
       set (${VAR} "${PROJECT_SOFTWARE_DIR}/${${VAR}}")
     endif ()
-  endforeach()
+  endforeach ()
 
   if (IS_ABSOLUTE "${PROJECT_EXAMPLE_DIR}")
     set (PROJECT_EXAMPLE_DIR)
@@ -97,6 +98,20 @@ macro (basis_project_initialize NAME)
   else ()
     set (PROJECT_TESTING_DIR "${PROJECT_SOURCE_DIR}/${PROJECT_TESTING_DIR}")
   endif ()
+
+  # instantiate direcotory structure of build tree
+  foreach (P RUNTIME LIBRARY ARCHIVE)
+    set (VAR CMAKE_${P}_OUTPUT_DIRECTORY)
+    get_filename_component (${VAR} "${${VAR}}" ABSOLUTE)
+  endforeach ()
+
+  # instantiate directory structure of install tree
+  set (CMAKE_INSTALL_PREFIX "${INSTALL_PREFIX}" CACHE INTERNAL "Installation directories prefix." FORCE)
+
+  foreach (P BIN LIB INCLUDE DOC DATA EXAMPLE MAN)
+    set (VAR INSTALL_${P}_DIR)
+    string (CONFIGURE "${${VAR}}" ${VAR} @ONLY)
+  endforeach ()
 
   # include project settings
   if (NOT EXISTS "${SOFTWARE_CONFIG_DIR}/Settings.cmake")
@@ -134,7 +149,7 @@ macro (basis_project_initialize NAME)
   endif ()
 
   # start CMake project
-  project ("${NAME}")
+  project ("${PROJECT_NAME}")
 
   set (CMAKE_PROJECT_NAME "${PROJECT_NAME}") # variable used by CPack
 
@@ -475,24 +490,11 @@ function (basis_add_execname)
     set (TARGET_UID "execname")
   endif ()
 
-  # find required packages
-  if (NOT Boost_PROGRAM_OPTIONS_FOUND)
-    find_package (Boost 1.45.0 COMPONENTS program_options)
-  endif ()
-
-  if (Boost_PROGRAM_OPTIONS_FOUND)
-    include_directories ("${Boost_INCLUDE_DIR}")
-  else ()
-    message (FATAL_ERROR "Boost component program_options not found."
-                         " It is required by target ${TARGET_UID}.")
-  endif ()
-
   # create source code
   basis_create_execname (SOURCES)
 
   # add executable target
   add_executable (${TARGET_UID} ${SOURCES})
-  target_link_libraries (${TARGET_UID} "${Boost_PROGRAM_OPTIONS_LIBRARY}")
 endfunction ()
 
 # ****************************************************************************

@@ -12,10 +12,7 @@
 # CMake version
 # ============================================================================
 
-# minimum required CMake version
-set (MINIMUM_REQUIRED_CMAKE_VERSION "2.8.2")
-
-cmake_minimum_required (VERSION ${MINIMUM_REQUIRED_CMAKE_VERSION})
+cmake_minimum_required (VERSION 2.8.2)
 
 # ============================================================================
 # initialize

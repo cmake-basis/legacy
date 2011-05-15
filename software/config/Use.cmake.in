@@ -29,9 +29,6 @@ if (NOT @PROJECT_NAME@_USE_FILE_INCLUDED)
 set (@PROJECT_NAME@_USE_FILE_INCLUDED 1)
 
 
-# specify minimum required CMake version
-cmake_minimum_required (VERSION "@MINIMUM_REQUIRED_CMAKE_VERSION@")
-
 # set CMake module path
 set (CMAKE_MODULE_PATH "${@PROJECT_NAME@_MODULE_PATH}")
 
