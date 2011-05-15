@@ -36,7 +36,7 @@ include ("${CMAKE_CURRENT_LIST_DIR}/BasisDocTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/BasisUpdate.cmake")
 
 # ============================================================================
-# project
+# initialization / termination of major project components
 # ============================================================================
 
 # ****************************************************************************
@@ -90,6 +90,9 @@ include ("${CMAKE_CURRENT_LIST_DIR}/BasisUpdate.cmake")
 # \param [in] NAME Project name.
 
 macro (basis_project NAME)
+  # set absolute path of root directory of project software component
+  set (PROJECT_SOFTWARE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
   # set common CMake variables which would not be valid before project ()
   set (PROJECT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
   set (PROJECT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
@@ -290,12 +293,8 @@ macro (basis_project_finalize)
   basis_update_finalize ()
 endmacro ()
 
-# ============================================================================
-# example and testing component
-# ============================================================================
-
 # ****************************************************************************
-# \brief Start project example, calls CMake project () command.
+# \brief Initialize example component, calls CMake project () command.
 #
 # \param [in] PROJECT_NAME Name of the project this example belongs to.
 
@@ -312,7 +311,7 @@ function (basis_example PROJECT_NAME)
 endfunction ()
 
 # ****************************************************************************
-# \brief Start software testing project, calls CMake project () command.
+# \brief Initialize testing component, calls CMake project () command.
 #
 # \param [in] PROJECT_NAME Name of the project whose software is tested.
 
@@ -322,6 +321,16 @@ function (basis_testing PROJECT_NAME)
 
   if (NOT ${PROJECT_NAME}_FOUND)
     return ()
+  endif ()
+
+  include ("${${PROJECT_NAME}_USE_FILE}")
+  set (PROJECT_SOFTWARE_DIR "${${PROJECT_NAME}_DIR}")
+
+  # find example component (optional)
+  find_package (${PROJECT_NAME}Example)
+
+  if (${PROJECT_NAME}Example_FOUND)
+    set (PROJECT_EXAMPLE_DIR "${${PROJECT_NAME}Example_DIR}")
   endif ()
 
   # start testing project

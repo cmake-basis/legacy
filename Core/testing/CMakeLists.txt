@@ -1,32 +1,48 @@
+##############################################################################
 # \file  CMakeLists.txt
-# \brief CMake file to configure build system of template tests.
+# \brief Root CMake configuration file of testing component.
 #
-# This CMake files configures the build system of the tests which are used
-# to test the project template itself.
+# Copyright (c) University of Pennsylvania. All rights reserved.
+# See LICENSE file in project root or 'doc' directory for details.
 #
-# For copyright information please see Copyright.txt in the root
-# directory of the project.
-#
-# Contact: SBIA Group <sbia-software@uphs.upenn.edu>
+# Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
+##############################################################################
 
 # ============================================================================
 # CMake version
 # ============================================================================
 
-# minimum required CMake version
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8.2)
 
 # ============================================================================
-# common settings
+# initialize
 # ============================================================================
 
-# disable automatic file update as only the test of the automatic file udpate
-# should make use of it. All other tests are related to other aspects of the
-# project template
-set (SBIA_PROJECT_TEMPLATE_ROOT_DIR)
+# The TEMPLATE_VERSION variable specifies the version of the BASIS Template
+# which this project was instantiated from. This information is required by
+# the automatic update of template files (see documentation of BASIS Core).
+# Further, the BASIS Core functions might make use of this variable to ensure
+# backwards compatibility with previous template versions.
+
+set (TEMPLATE_VERSION "0.0")
+
+find_package (BASIS REQUIRED Core)
+
+if (NOT BASIS_Core_FOUND)
+  return ()
+endif ()
+
+include ("${BASIS_Core_USE_FILE}")
+
+# The following macro call replaces the CMake command project ().
+#
+# \see basis_testing ()
+
+basis_testing ("ReplaceByProjectName")
 
 # ============================================================================
 # subdirectories
 # ============================================================================
 
-add_subdirectory (TestUpdateFile)
+add_subdirectory ("${TESTING_SOURCE_DIR}")
+

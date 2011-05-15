@@ -30,22 +30,24 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # The directories of the source tree are given here relative to the root
 # directory of the project or corresponding major component, respectively.
 #
-# \note The directory names have to match the names used in the project
-#       template in 'BASIS/<tag>/Core/src/template'.
+# \note The BASIS Template must follow this directory structure.
+#       Ideally, when changing the name of one of these directories,
+#       only the directory structure of the tempate needs to be updated.
+#       The BASIS CMake functions should not be required to change as they
+#       are supposed to use these variables instead of the actual names.
 
 set (PROJECT_SOFTWARE_DIR "software")
 set (PROJECT_EXAMPLE_DIR  "example")
 set (PROJECT_TESTING_DIR  "testing")
 
 set (SOFTWARE_CONFIG_DIR  "config")
-set (SOFTWARE_SOURCE_DIR  "src")
 set (SOFTWARE_DATA_DIR    "data")
 set (SOFTWARE_DOC_DIR     "doc")
-set (SOFTWARE_TESTS_DIR   "tests")
+set (SOFTWARE_SOURCE_DIR  "src")
 
-set (TESTING_DATA_DIR     "data")
+set (TESTING_INPUT_DIR    "data")
 set (TESTING_EXPECTED_DIR "expected")
-set (TESTING_TESTS_DIR    "tests")
+set (TESTING_SOURCE_DIR   "test")
 
 # ============================================================================
 # build tree
@@ -85,13 +87,11 @@ endforeach()
 # install tree
 # ============================================================================
 
-# \note In order for CPack to work correctly, the destination paths have to
-#       be given relative (to CMAKE_INSTALL_PREFIX). Therefore, the
-#       INSTALL_PREFIX prefix is excluded from the following paths.
-#       Instead, CMAKE_INSTALL_PREFIX is set to INSTALL_PREFIX.
-#       This has to be done after the project attributes are known, i.e.,
-#       within the macro basis_project () which also configures the
-#       following variables.
+# In order for CPack to work correctly, the destination paths have to be given
+# relative (to CMAKE_INSTALL_PREFIX). Therefore, the INSTALL_PREFIX prefix is
+# excluded from the following paths. Instead, CMAKE_INSTALL_PREFIX is set to
+# INSTALL_PREFIX. This has to be done after the project attributes are known.
+# Hence, it is done by basis_project (), which configures the variables below.
 
 if (WIN32)
   set (
