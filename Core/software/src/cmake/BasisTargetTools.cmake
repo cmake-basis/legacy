@@ -968,7 +968,7 @@ endfunction ()
 #   COMPONENT Name of the component. Defaults to BASIS_DEFAULT_COMPONENT.
 
 function (basis_add_scripts_by_extension EXT)
-  if (CMAKE_VERBOSE)
+  if (BASIS_VERBOSE)
     file (RELATIVE_PATH DIR "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
     message (STATUS "Adding scripts in ${DIR} with extension .${EXT} or .${EXT}.in")
     set (DIR)

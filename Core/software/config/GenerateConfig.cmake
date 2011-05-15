@@ -29,27 +29,17 @@ string (CONFIGURE "${PROJECT_USE_FILE}"     USE_FILE     @ONLY)
 # include directories
 set (INCLUDE_DIR "")
 
-if (NOT USE_SYSTEM_Boost)
-  list (APPEND INCLUDE_DIR "${PROJECT_SOURCE_DIR}/Boost")
-endif ()
+
 
 if (INCLUDE_DIR)
   list (REMOVE_DUPLICATES INCLUDE_DIR)
 endif ()
 
-# link libraries
-set (LIBRARY "")
-
-
-if (LIBRARY)
-  list (REMOVE_DUPLICATES LIBRARY)
-endif ()
-
 # path to CMake modules
-set (CMakeModules_DIR "${PROJECT_SOURCE_DIR}/CMakeModules")
+set (MODULE_PATH "${SOFTWARE_SOURCE_DIR}/src/cmake")
 
 # ----------------------------------------------------------------------------
-
+# configure project configuration file for build tree
 
 configure_file ("${PROJECT_CONFIG_TEMPLATE}"
                 "${PROJECT_BINARY_DIR}/${CONFIG_FILE}" @ONLY)
@@ -60,19 +50,14 @@ configure_file ("${PROJECT_CONFIG_TEMPLATE}"
 # include directories
 set (INCLUDE_DIR "")
 
+
+
 if (INCLUDE_DIR)
-  list (REMOVE_DUPLICATES INCLUDE_DIRS)
-endif ()
-
-# link libraries
-set (LIBRARY "")
-
-if (LIBRARY)
-  list (REMOVE_DUPLICATES LIBRARIES)
+  list (REMOVE_DUPLICATES INCLUDE_DIR)
 endif ()
 
 # path to CMake modules
-set (CMakeModules_DIR "\${CMAKE_CURRENT_LIST_DIR}/CMakeModules")
+set (MODULE_PATH "\${CMAKE_CURRENT_LIST_DIR}")
 
 # ----------------------------------------------------------------------------
 # configure project configuration file for install tree
@@ -86,9 +71,13 @@ configure_file ("${PROJECT_CONFIG_TEMPLATE}"
 get_filename_component (CONFIG_DIR  "${CONFIG_FILE}" PATH)
 get_filename_component (CONFIG_NAME "${CONFIG_FILE}" NAME)
 
+if (NOT CONFIG_DIR)
+  set (CONFIG_DIR ".")
+endif ()
+
 install (
   FILES       "${PROJECT_BINARY_DIR}/${CONFIG_FILE}.install"
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/${CONFIG_DIR}"
+  DESTINATION "${CONFIG_DIR}"
   RENAME      "${CONFIG_NAME}"
 )
 
@@ -108,9 +97,13 @@ configure_file ("${PROJECT_VERSION_TEMPLATE}"
 get_filename_component (VERSION_DIR  "${VERSION_FILE}" PATH)
 get_filename_component (VERSION_NAME "${VERSION_FILE}" NAME)
 
+if (NOT VERSION_DIR)
+  set (VERSION_DIR ".")
+endif ()
+
 install (
   FILES       "${PROJECT_BINARY_DIR}/${VERSION_FILE}"
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/${VERSION_DIR}"
+  DESTINATION "${VERSION_DIR}"
   RENAME      "${VERSION_NAME}"
 )
 
@@ -130,9 +123,13 @@ configure_file ("${PROJECT_USE_TEMPLATE}"
 get_filename_component (USE_DIR  "${USE_FILE}" PATH)
 get_filename_component (USE_NAME "${USE_FILE}" NAME)
 
+if (NOT USE_DIR)
+  set (USE_DIR ".")
+endif ()
+
 install (
   FILES       "${PROJECT_BINARY_DIR}/${USE_FILE}"
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/${USE_DIR}"
+  DESTINATION "${USE_DIR}"
   RENAME      "${USE_NAME}"
 )
 

@@ -1,6 +1,6 @@
 ##############################################################################
 # \file  Use.cmake.in
-# \brief CMake project use file of SBIA @PROJECT_NAME@ package.
+# \brief CMake use file of @PROJECT_NAME@ package.
 #
 # If this CMake module was already included before, it will do nothing.
 #
@@ -20,30 +20,31 @@
 # prerequisite libraries are added to the CMake include search path.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See LICENSE or Copyright file in project root directory for details.
+# See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
 
-if (NOT SBIA_@PROJECT_NAME@_USE_FILE_INCLUDED)
-set (SBIA_@PROJECT_NAME@_USE_FILE_INCLUDED 1)
+if (NOT @PROJECT_NAME@_USE_FILE_INCLUDED)
+set (@PROJECT_NAME@_USE_FILE_INCLUDED 1)
 
 
 # specify minimum required CMake version
 cmake_minimum_required (VERSION "@MINIMUM_REQUIRED_CMAKE_VERSION@")
 
 # set CMake module path
-set (CMAKE_MODULE_PATH "${SBIA_@PROJECT_NAME@_MODULE_PATH}")
-
-# include main module
-include (SbiaProjectTools)
+set (CMAKE_MODULE_PATH "${@PROJECT_NAME@_MODULE_PATH}")
 
 # include default settings
-include (SbiaSettings)
+include (BasisSettings NO_POLICY_SCOPE)
+include (BasisDirectories)
+
+# include functions
+include (BasisProjectTools)
 
 # include directories
-sbia_include_directories ("${SBIA_@PROJECT_NAME@_INCLUDE_DIRS}")
+basis_include_directories ("${@PROJECT_NAME@_INCLUDE_DIRS}")
 
 
-endif () # SBIA_@PROJECT_NAME@_USE_FILE_INCLUDED
+endif () # @PROJECT_NAME@_USE_FILE_INCLUDED
 

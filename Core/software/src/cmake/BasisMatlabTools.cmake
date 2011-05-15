@@ -74,7 +74,7 @@ mark_as_advanced (BASIS_CMD_MCC)
 find_file (
   BASIS_SCRIPT_MCC
     NAMES runmcc.m
-    HINTS "${BASIS_MODULE_PATH}"
+    HINTS "${CMAKE_CURRENT_LIST_DIR}"
     DOC "MATLAB script runmcc.m used to invoke MATLAB Compiler in MATLAB mode."
     NO_DEFAULT_PATH
 )
@@ -509,7 +509,7 @@ function (basis_add_mcc_target_finalize TARGET_UID)
             "-DERROR_EXPRESSION=[E|e]rror"
             "-DOUTPUT_FILE=${BUILD_LOG}"
             "-DERROR_FILE=${BUILD_LOG}"
-            "-DCMAKE_VERBOSE=OFF"
+            "-DBASIS_VERBOSE=OFF"
             "-DLOG_ARGS=ON"
             "-P" "${BASIS_SCRIPT_EXECUTE_PROCESS}"
     # post build command(s)

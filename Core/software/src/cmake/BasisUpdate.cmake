@@ -18,7 +18,7 @@
 #
 # 1. The option BASIS_UPDATE, which is added by this module, is enabled.
 #
-# 2. PROJECT_TEMPLATE_ROOT is a valid URL to the root directory
+# 2. BASIS_TEMPLATE_ROOT is a valid URL to the root directory
 #    or repository directory in which the project template is stored,
 #    respectively, all released versions of the project templates are
 #    stored. Note that local directories must be specified including the
@@ -27,14 +27,14 @@
 # 3. TEMPLATE_VERSION specifies an existent project template version,
 #    i.e., the template root directory
 #
-#      PROJECT_TEMPLATE_ROOT/PROJECT_TEMPLATE
+#      BASIS_TEMPLATE_ROOT/BASIS_TEMPLATE
 #
-#    exists, where the variable PROJECT_TEMPLATE is set by this module when
+#    exists, where the variable BASIS_TEMPLATE is set by this module when
 #    included to the name/directory of the tagged project template corresponding
-#    to the specified version. Therefore, the value of PROJECT_TEMPLATE contains
+#    to the specified version. Therefore, the value of BASIS_TEMPLATE contains
 #    parts of TEMPLATE_VERSION, e.g.,
 #
-#      "BasisProject-${TEMPLATE_VERSION_MAJOR}".
+#      "template-${TEMPLATE_VERSION_MAJOR}".
 #
 # 4. The Python interpreter "python" was found and thus the variable
 #    BASIS_CMD_PYTHON is set.
@@ -101,6 +101,13 @@ include ("${CMAKE_CURRENT_LIST_DIR}/BasisSubversionTools.cmake")
 find_program (BASIS_CMD_PYTHON NAMES python DOC "Python interpreter (python).")
 mark_as_advanced (BASIS_CMD_PYTHON)
 
+find_file (
+  BASIS_UPDATE_SCRIPT
+  NAMES updatefile.py
+  PATHS "${CMAKE_CURRENT_LIST_DIR}"
+  NO_DEFAULT_PATHS
+)
+
 # ============================================================================
 # template branch
 # ============================================================================
@@ -112,14 +119,14 @@ basis_version_numbers (
     TEMPLATE_VERSION_PATCH
 )
 
-set (PROJECT_TEMPLATE "template-${TEMPLATE_VERSION_MAJOR}")
+set (BASIS_TEMPLATE "template-${TEMPLATE_VERSION_MAJOR}")
 
 set (
-  PROJECT_TEMPLATE_ROOT "@PROJECT_TEMPLATE_ROOT@"
+  BASIS_TEMPLATE_ROOT "@BASIS_TEMPLATE_ROOT@"
   CACHE STRING "Root directory of project template(s) (e.g., \"SVN_ROOT_URL/tags\")."
 )
 
-mark_as_advanced (PROJECT_TEMPLATE_ROOT)
+mark_as_advanced (BASIS_TEMPLATE_ROOT)
 
 # ============================================================================
 # initialization
@@ -156,49 +163,41 @@ function (basis_update_initialize)
     return ()
   endif ()
 
-  # look for required file udpate script
-  find_file (
-    BASIS_UPDATE_SCRIPT
-    NAMES updatefile.py
-    PATHS "${CMAKE_CURRENT_LIST_DIR}"
-    NO_DEFAULT_PATHS
-  )
-
   mark_as_advanced (BASIS_UPDATE_SCRIPT)
 
-  # check PROJECT_TEMPLATE_ROOT
-  set (PROJECT_TEMPLATE_ROOT_VALID 0)
+  # check BASIS_TEMPLATE_ROOT
+  set (BASIS_TEMPLATE_ROOT_VALID 0)
 
-  if (PROJECT_TEMPLATE_ROOT MATCHES "file://.*")
-    string (REGEX REPLACE "file://" "" TMP "${PROJECT_TEMPLATE_ROOT}")
+  if (BASIS_TEMPLATE_ROOT MATCHES "file://.*")
+    string (REGEX REPLACE "file://" "" TMP "${BASIS_TEMPLATE_ROOT}")
     if (IS_DIRECTORY "${TMP}")
-      set (PROJECT_TEMPLATE_ROOT_VALID 1)
+      set (BASIS_TEMPLATE_ROOT_VALID 1)
     endif ()
-  elseif (PROJECT_TEMPLATE_ROOT MATCHES "http.*://.*")
-    basis_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
+  elseif (BASIS_TEMPLATE_ROOT MATCHES "http.*://.*")
+    basis_svn_get_revision (${BASIS_TEMPLATE_ROOT} REV)
     if (REV)
-      set (PROJECT_TEMPLATE_ROOT_VALID 1)
+      set (BASIS_TEMPLATE_ROOT_VALID 1)
     endif ()
   endif ()
   
-  # check PROJECT_TEMPLATE
-  set (PROJECT_TEMPLATE_VALID 1) # we cannot know if PROJECT_TEMPLATE_ROOT is not valid...
+  # check BASIS_TEMPLATE
+  set (BASIS_TEMPLATE_VALID 1) # we cannot know if BASIS_TEMPLATE_ROOT is not valid...
 
-  if (PROJECT_TEMPLATE_ROOT_VALID)
-    set (PROJECT_TEMPLATE_VALID 0)
+  if (BASIS_TEMPLATE_ROOT_VALID)
+    set (BASIS_TEMPLATE_VALID 0)
 
-    if (NOT PROJECT_TEMPLATE STREQUAL "")
-      set (TMP "${PROJECT_TEMPLATE_ROOT}/${PROJECT_TEMPLATE}")
+    if (NOT BASIS_TEMPLATE STREQUAL "")
+      set (TMP "${BASIS_TEMPLATE_ROOT}/${BASIS_TEMPLATE}")
 
       if (TMP MATCHES "file://.*")
         string (REGEX REPLACE "file://" "" TMP "${TMP}")
         if (IS_DIRECTORY "${TMP}")
-          set (PROJECT_TEMPLATE_VALID 1)
+          set (BASIS_TEMPLATE_VALID 1)
         endif ()
       elseif (TMP MATCHES "http.*://.*")
-        basis_svn_get_revision (${PROJECT_TEMPLATE_ROOT} REV)
+        basis_svn_get_revision (${BASIS_TEMPLATE_ROOT} REV)
         if (REV)
-          set (PROJECT_TEMPLATE_VALID 1)
+          set (BASIS_TEMPLATE_VALID 1)
         endif ()
       endif ()
     endif ()
@@ -209,12 +208,12 @@ function (basis_update_initialize)
   # --------------------------------------------------------------------------
 
   if (
-        BASIS_UPDATE                # 1. update is enabled
-    AND PROJECT_TEMPLATE_ROOT_VALID # 2. valid template root dir
-    AND PROJECT_TEMPLATE_VALID      # 3. valid project template
-    AND BASIS_CMD_PYTHON            # 4. python interpreter found
-    AND BASIS_UPDATE_SCRIPT         # 5. update script found
-    AND PROJECT_REVISION            # 6. project is under revision control
+        BASIS_UPDATE              # 1. update is enabled
+    AND BASIS_TEMPLATE_ROOT_VALID # 2. valid template root dir
+    AND BASIS_TEMPLATE_VALID      # 3. valid project template
+    AND BASIS_CMD_PYTHON          # 4. python interpreter found
+    AND BASIS_UPDATE_SCRIPT       # 5. update script found
+    AND PROJECT_REVISION          # 6. project is under revision control
   )
 
     # update files which were not updated during last configure run. Instead,
@@ -231,16 +230,16 @@ function (basis_update_initialize)
     if (BASIS_UPDATE)
       message ("File update not feasible.")
 
-      if (CMAKE_VERBOSE)
+      if (BASIS_VERBOSE)
         message ("Variables related to (automatic) file update:
 
-  BASIS_UPDATE          : ${BASIS_UPDATE}
-  BASIS_UPDATE_AUTO     : ${BASIS_UPDATE_AUTO}
-  BASIS_CMD_PYTHON      : ${BASIS_CMD_PYTHON}
-  BASIS_UPDATE_SCRIPT   : ${BASIS_UPDATE_SCRIPT}
-  PROJECT_TEMPLATE_ROOT : ${PROJECT_TEMPLATE_ROOT}
-  PROJECT_TEMPLATE      : ${PROJECT_TEMPLATE}
-  PROJECT_REVISION      : ${PROJECT_REVISION}
+  BASIS_UPDATE        : ${BASIS_UPDATE}
+  BASIS_UPDATE_AUTO   : ${BASIS_UPDATE_AUTO}
+  BASIS_CMD_PYTHON    : ${BASIS_CMD_PYTHON}
+  BASIS_UPDATE_SCRIPT : ${BASIS_UPDATE_SCRIPT}
+  BASIS_TEMPLATE_ROOT : ${BASIS_TEMPLATE_ROOT}
+  BASIS_TEMPLATE      : ${BASIS_TEMPLATE}
+  PROJECT_REVISION    : ${PROJECT_REVISION}
 ")
       endif ()
 
@@ -250,11 +249,11 @@ function (basis_update_initialize)
 	  if (NOT BASIS_UPDATE_SCRIPT)
         message ("=> File update script not found.")
       endif ()
-      if (NOT PROJECT_TEMPLATE_ROOT_VALID)
-        message ("=> Invalid PROJECT_TEMPLATE_ROOT path.")
+      if (NOT BASIS_TEMPLATE_ROOT_VALID)
+        message ("=> Invalid BASIS_TEMPLATE_ROOT path.")
       endif()
-      if (NOT PROJECT_TEMPLATE_VALID)
-        message ("=> Template PROJECT_TEMPLATE does not exist. Check value of TEMPLATE_VERSION.")
+      if (NOT BASIS_TEMPLATE_VALID)
+        message ("=> Template BASIS_TEMPLATE does not exist. Check value of TEMPLATE_VERSION.")
       endif ()
       if (NOT PROJECT_REVISION)
         message ("=> Project is not under revision control.")
@@ -310,7 +309,7 @@ function (basis_update FILENAME)
   file (RELATIVE_PATH REL "${PROJECT_SOURCE_DIR}" "${CUR}")
 
   # must be AFTER REL was set
-  if (CMAKE_VERBOSE)
+  if (BASIS_VERBOSE)
     message (STATUS "Checking for update of file '${REL}'...")
   endif ()
 
@@ -319,7 +318,7 @@ function (basis_update FILENAME)
     list (FIND BASIS_UPDATE_EXCLUDE "${REL}" IDX)
 
     if (IDX EQUAL -1)
-      if (CMAKE_VERBOSE)
+      if (BASIS_VERBOSE)
         message (STATUS "Checking for update of file '${REL}'... - excluded")
       endif ()
 
@@ -332,7 +331,7 @@ function (basis_update FILENAME)
     basis_svn_get_last_changed_revision ("${CUR}" CURREV)
 
     if (CURREV EQUAL 0)
-      if (CMAKE_VERBOSE)
+      if (BASIS_VERBOSE)
         message (STATUS "Checking for update of file '${REL}'... - file unversioned")
       endif ()
 
@@ -381,7 +380,7 @@ function (basis_update FILENAME)
       endif ()
     endif ()
 
-    if (CMAKE_VERBOSE)
+    if (BASIS_VERBOSE)
       if (RETVAL EQUAL 0)
         message (STATUS "Checking for update of file '${REL}'... - update available")
       elseif (RETVAL EQUAL 2)
@@ -399,7 +398,7 @@ function (basis_update FILENAME)
 
     list (APPEND FILES "${REL}")
 
-    if (CMAKE_VERBOSE)
+    if (BASIS_VERBOSE)
       message (STATUS "Checking for update of file '${REL}'... - file missing")
     endif ()
 
@@ -465,7 +464,7 @@ function (basis_update_finalize)
         AND CURREV GREATER 0           # 2. project file is under revision control
         AND "${CURSTATUS}" STREQUAL "" # 3. project file has no local modifications
       )
-        if (CMAKE_VERBOSE)
+        if (BASIS_VERBOSE)
           message (STATUS "Updating file '${REL}'...")
         endif ()
 
@@ -489,7 +488,7 @@ function (basis_update_finalize)
           message ("Failed to update file '${REL}'")
         endif ()
 
-        if (CMAKE_VERBOSE)
+        if (BASIS_VERBOSE)
           if (RETVAL EQUAL 0)
             message (STATUS "Updating file '${REL}'... - done")
           elseif (RETVAL EQUAL 2)
@@ -525,7 +524,7 @@ function (basis_update_finalize)
 
     else ()
 
-      if (CMAKE_VERBOSE)
+      if (BASIS_VERBOSE)
         message (STATUS "Adding file '${REL}'...")
       endif ()
 
@@ -536,7 +535,7 @@ function (basis_update_finalize)
 
       message ("Added file '${REL}'. Do not forget to add it to the repository!")
 
-      if (CMAKE_VERBOSE)
+      if (BASIS_VERBOSE)
         message (STATUS "Adding file '${REL}'... - done")
       endif ()
 
@@ -588,7 +587,7 @@ endfunction ()
 
 function (basis_update_cached_template REL TEMPLATE)
   # URL of template file
-  set (SRC "${PROJECT_TEMPLATE_ROOT}/${PROJECT_TEMPLATE}/${REL}")
+  set (SRC "${BASIS_TEMPLATE_ROOT}/${BASIS_TEMPLATE}/${REL}")
 
   # get revision of template file. If no revision number can be determined,
   # we either did not find the svn client or the file referenced by SRC
@@ -653,7 +652,7 @@ endfunction ()
 function (basis_update_template REL TEMPLATE RETVAL)
 
   # URL of template file
-  set (SRC "${PROJECT_TEMPLATE_ROOT}/${PROJECT_TEMPLATE}/${REL}")
+  set (SRC "${BASIS_TEMPLATE_ROOT}/${BASIS_TEMPLATE}/${REL}")
 
   # if template file is not under revision control or has local modifications
   # we cannot use caching as there is no unique revision number assigned
@@ -752,7 +751,7 @@ function (basis_update_files)
       # ...and file update option is ON
       if ("${${OPT}}" STREQUAL "ON" OR "${UPDATE_ALL}" STREQUAL "ON")
 
-        if (CMAKE_VERBOSE)
+        if (BASIS_VERBOSE)
           message (STATUS "Updating file '${REL}'...")
         endif ()
 
@@ -769,7 +768,7 @@ function (basis_update_files)
             set (${OPT} "OFF" CACHE BOOL "Whether file '${REL}' should be updated." FORCE)
           endif ()
 
-          if (CMAKE_VERBOSE)
+          if (BASIS_VERBOSE)
             message (STATUS "Updating file '${REL}'... - failed")
           endif ()
 
@@ -799,7 +798,7 @@ function (basis_update_files)
             message ("Failed to update file '${REL}'")
           endif ()
 
-          if (CMAKE_VERBOSE)
+          if (BASIS_VERBOSE)
             if (RETVAL EQUAL 0)
               message (STATUS "Updating file '${REL}'... - done")
             elseif (RETVAL EQUAL 2)

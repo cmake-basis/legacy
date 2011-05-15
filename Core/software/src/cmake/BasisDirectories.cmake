@@ -45,9 +45,10 @@ set (SOFTWARE_DATA_DIR    "data")
 set (SOFTWARE_DOC_DIR     "doc")
 set (SOFTWARE_SOURCE_DIR  "src")
 
+set (TESTING_CONFIG_DIR   "config")
 set (TESTING_INPUT_DIR    "data")
 set (TESTING_EXPECTED_DIR "expected")
-set (TESTING_SOURCE_DIR   "test")
+set (TESTING_SOURCE_DIR   "src")
 
 # ============================================================================
 # build tree
@@ -92,6 +93,8 @@ endforeach()
 # excluded from the following paths. Instead, CMAKE_INSTALL_PREFIX is set to
 # INSTALL_PREFIX. This has to be done after the project attributes are known.
 # Hence, it is done by basis_project (), which configures the variables below.
+
+mark_as_advanced (CMAKE_INSTALL_PREFIX)
 
 if (WIN32)
   set (

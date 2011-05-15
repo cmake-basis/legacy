@@ -44,6 +44,6 @@ set (
 
 install (
   FILES       ${MODULES} ${FIND_MODULES} ${AUXILIARY_FILES}
-  DESTINATION "cmake"
+  DESTINATION "${INSTALL_SINFIX}/cmake"
 )
 

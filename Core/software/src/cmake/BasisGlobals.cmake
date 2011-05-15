@@ -28,9 +28,8 @@ get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH
 # options
 # ============================================================================
 
-option (VERBOSE "Verbose mode" "OFF")
-
-mark_as_advanced (VERBOSE)
+option (BASIS_VERBOSE "Whether BASIS functions should be verbose." "OFF")
+mark_as_advanced (BASIS_VERBOSE)
 
 # ============================================================================
 # constants
@@ -48,7 +47,7 @@ set (BASIS_NAMESPACE_SEPARATOR "@")
 # Character used to separated version and project name (e.g., in target UID).
 set (BASIS_VERSION_SEPARATOR "#")
 
-# Prefix used for CMake Config files.
+# Prefix used for CMake package config files.
 set (BASIS_CONFIG_PREFIX "")
 
 # Script used to execute a process in CMake script mode.

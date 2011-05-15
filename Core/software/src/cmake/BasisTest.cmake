@@ -146,7 +146,7 @@ endfunction ()
 function (basis_add_tests_of_default_options TARGET_NAME)
   basis_target_uid (TARGET_UID "${TARGET_NAME}")
 
-  if (CMAKE_VERBOSE)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding tests of default options for ${TARGET_UID}...")
   endif ()
 
@@ -217,7 +217,7 @@ function (basis_add_tests_of_default_options TARGET_NAME)
       PASS_REGULAR_EXPRESSION "[Uu]sage:(\n)( )*${EXEC_NAME}"
   )
 
-  if (CMAKE_VERBOSE)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding tests of default options for ${EXEC}... - done")
   endif ()
 endfunction ()

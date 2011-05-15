@@ -8,6 +8,10 @@
 # invocation of the CMake command project (). Thus, project related
 # variables are not available at this point.
 #
+# \note As this file also sets the CMake policies to be used, it has to
+#       be included using the NO_POLICY_SCOPE in order for these policies
+#       to take effect also in the including file and its subdirectories.
+#
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 # See LICENSE or Copyright file in project root directory for details.
 #
@@ -25,6 +29,12 @@ set (BASIS_SETTINGS_INCLUDED 1)
 #       to maintain compatibility with older CMake versions.
 get_filename_component (CMAKE_CURRENT_LIST_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
+
+# ============================================================================
+# CMake policies
+# ============================================================================
+
+cmake_policy (SET CMP0017 NEW)
 
 # ============================================================================
 # required modules

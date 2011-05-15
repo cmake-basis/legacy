@@ -20,13 +20,6 @@
 # ============================================================================
 
 # ----------------------------------------------------------------------------
-# Specify the name of the project here. This should be the only place where
-# the actual project name is given. All other CMake code uses this variable.
-# Note that the project name shall not contain any whitespaces.
-
-set (PROJECT_NAME "BASIS")
-
-# ----------------------------------------------------------------------------
 # Update package version whenever a new release of the project is published
 # and/or the project is tagged.
 #
@@ -60,35 +53,18 @@ set (PROJECT_PACKAGE_VENDOR "SBIA Group at University of Pennsylvania")
 
 set (PROJECT_DESCRIPTION "This package implements and supports the development"
                          " of software projects which follow the SBIA Build"
-                         " system And Software Implementation Standard (BASIS).")
+                         " And Software Implementation Standard (BASIS).")
 
 # ============================================================================
 # common files, e.g., readme and license files
 # ============================================================================
 
 # ----------------------------------------------------------------------------
-# Specify the main documentation file of the project here. This variable is
-# used for the package creation via CPack, for example.
-#
-# \see SbiaPackage
-
-set (PROJECT_README_FILE "${PROJECT_SOURCE_DIR}/README")
-
-# ----------------------------------------------------------------------------
-# Specify the license file of the project. The content of this file will be
-# displayed during the installation of the package created via CPack, for
-# example.
-#
-# \see SbiaPackage
-
-set (PROJECT_LICENSE_FILE "${PROJECT_SOURCE_DIR}/LICENSE")
-
-# ----------------------------------------------------------------------------
 # Template files of CMake project configuration and version files.
 
-set (PROJECT_CONFIG_TEMPLATE  "${PROJECT_CONFIG_DIR}/Config.cmake.in")
-set (PROJECT_VERSION_TEMPLATE "${PROJECT_CONFIG_DIR}/ConfigVersion.cmake.in")
-set (PROJECT_USE_TEMPLATE     "${PROJECT_CONFIG_DIR}/Use.cmake.in")
+set (PROJECT_CONFIG_TEMPLATE  "${SOFTWARE_CONFIG_DIR}/Config.cmake.in")
+set (PROJECT_VERSION_TEMPLATE "${SOFTWARE_CONFIG_DIR}/ConfigVersion.cmake.in")
+set (PROJECT_USE_TEMPLATE     "${SOFTWARE_CONFIG_DIR}/Use.cmake.in")
 
 # ----------------------------------------------------------------------------
 # Output names of CMake project configuration and version files.
@@ -96,9 +72,9 @@ set (PROJECT_USE_TEMPLATE     "${PROJECT_CONFIG_DIR}/Use.cmake.in")
 # \note These strings are configured by GenerateConfig.cmake.
 # \see GenerateConfig.cmake
 
-set (PROJECT_CONFIG_FILE  "SBIA_@PROJECT_NAME@Config.cmake.in")
-set (PROJECT_VERSION_FILE "SBIA_@PROJECT_NAME@ConfigVersion.cmake.in")
-set (PROJECT_USE_FILE     "SBIA_@PROJECT_NAME@Use.cmake.in")
+set (PROJECT_CONFIG_FILE  "@PROJECT_NAME@Config.cmake.in")
+set (PROJECT_VERSION_FILE "@PROJECT_NAME@ConfigVersion.cmake.in")
+set (PROJECT_USE_FILE     "@PROJECT_NAME@Use.cmake.in")
 
 # ============================================================================
 # options
@@ -110,23 +86,21 @@ set (PROJECT_USE_FILE     "SBIA_@PROJECT_NAME@Use.cmake.in")
 # \see http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:option
 # \see http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:set
 
-# \todo Change PROJECT_TEMPLATE_ROOT to ${PROJECT_NAME}_DIR or similar.
-#       Or consider removing option completely if SbiaUpdate.cmake is
-#       no longer used.
+# \todo Change BASIS_TEMPLATE_ROOT to ${PROJECT_NAME}_DIR or similar.
 
 # root directory of project templates
 set (
-  PROJECT_TEMPLATE_ROOT
+  BASIS_TEMPLATE_ROOT
     ""
   CACHE PATH
     "Root directory of project templates, e.g., \"SVN_ROOT_URL/tags\"."
 )
 
 # make root directory a valid URL
-if (PROJECT_TEMPLATE_ROOT)
-  if (NOT PROJECT_TEMPLATE_ROOT MATCHES "^http://")
-    if (NOT PROJECT_TEMPLATE_ROOT MATCHES "^file://")
-      set (PROJECT_TEMPLATE_ROOT "file://${PROJECT_TEMPLATE_ROOT}")
+if (BASIS_TEMPLATE_ROOT)
+  if (NOT BASIS_TEMPLATE_ROOT MATCHES "^http://")
+    if (NOT BASIS_TEMPLATE_ROOT MATCHES "^file://")
+      set (BASIS_TEMPLATE_ROOT "file://${BASIS_TEMPLATE_ROOT}")
     endif ()
   endif ()
 endif ()
@@ -163,8 +137,8 @@ endif ()
 # exclude certain project files from (automatic) file update
 #
 # \note File paths have to be specified relative to the project source
-#       directory such as "Doc/Doxyfile.in" or "Config/Config.cmake.in".
+#       directory such as "doc/Doxyfile.in" or "config/Config.cmake.in".
 set (
-  SBIA_UPDATE_EXCLUDE
+  BASIS_UPDATE_EXCLUDE
 )
 
