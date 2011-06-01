@@ -20,7 +20,7 @@ cmake_minimum_required (VERSION 2.8.2)
 
 # use invalid template version to indicate that this project is not
 # instantiated from a template as this package contains the template
-set (TEMPLATE_VERSION "ReplaceByTemplateVersion")
+set (TEMPLATE_VERSION "0.0.0")
 
 # find BASIS package
 find_package (BASIS REQUIRED)
@@ -34,9 +34,9 @@ endif ()
 
 # initialize project
 basis_project_initialize (
-  NAME        "ReplaceByProjectName"
+  NAME        "MatlabExample"
   VERSION     "0.0.0"
-  DESCRIPTION "ReplaceByProjectDescription"
+  DESCRIPTION "Matlab and ITK example project following BASIS."
 )
 
 # ============================================================================
@@ -47,8 +47,8 @@ if (EXISTS "${PROJECT_CODE_DIR}")
   add_subdirectory ("${PROJECT_CODE_DIR}")
 endif ()
 
-if (EXISTS "${PROJECT_ETC_DIR}")
-  add_subdirectory ("${PROJECT_ETC_DIR}")
+if (EXISTS "${PROJECT_DATA_DIR}")
+  add_subdirectory ("${PROJECT_DATA_DIR}")
 endif ()
 
 if (EXISTS "${PROJECT_DOC_DIR}")

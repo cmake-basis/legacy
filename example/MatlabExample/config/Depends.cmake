@@ -40,15 +40,3 @@ else ()
   message (FATAL_ERROR "Package Matlab not found.")
 endif ()
 
-# ----------------------------------------------------------------------------
-# ITK
-# ----------------------------------------------------------------------------
-
-find_package (ITK REQUIRED)
-
-if (ITK_FOUND)
-  include (${ITK_USE_FILE})
-else ()
-  # raise fatal error in case FindITK.cmake did not do it
-  message (FATAL_ERROR "Package ITK not found.")
-endif ()

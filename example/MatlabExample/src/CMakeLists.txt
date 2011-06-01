@@ -1,12 +1,36 @@
-##############################################################################
+#############################################################################
 # \file  CMakeLists.txt
-# \brief Root CMake configuration file of build targets.
+# \brief Build configuration of software.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 # See LICENSE file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software -at- uphs.upenn.edu>
 ##############################################################################
+
+# ============================================================================
+# BLAS
+# ============================================================================
+
+add_subdirectory (BLAS)
+
+# ============================================================================
+# common sources
+# ============================================================================
+
+set (
+  TRON_SOURCES
+    tron.h
+    tron.cpp
+)
+
+set (
+  LINEAR_SOURCES
+    linear.h
+    linear.cpp
+    linear_model_matlab.h
+    linear_model_matlab.c
+)
 
 # ============================================================================
 # library target(s)
@@ -21,7 +45,45 @@
 # \see basis_add_library ()
 # \see http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_library
 
+# ----------------------------------------------------------------------------
+# train
+basis_add_library (
+  train MEX
+    train.c
+    ${TRON_SOURCES}
+    ${LINEAR_SOURCES}
+    ${DEFAULT_SOURCES}
+)
 
+basis_target_link_libraries (train BLAS)
+
+# ----------------------------------------------------------------------------
+# predict
+basis_add_library (
+  predict MEX
+    predict.c
+    ${TRON_SOURCES}
+    ${LINEAR_SOURCES}
+    ${DEFAULT_SOURCES}
+)
+
+basis_target_link_libraries (predict BLAS)
+
+# ----------------------------------------------------------------------------
+# libsvmread
+basis_add_library (
+  libsvmread MEX
+    libsvmread.c
+    ${DEFAULT_SOURCES}
+)
+
+# ----------------------------------------------------------------------------
+# libsvmwrite
+basis_add_library (
+  libsvmwrite MEX
+    libsvmwrite.c
+    ${DEFAULT_SOURCES}
+)
 
 # ============================================================================
 # executable target(s)
@@ -59,6 +121,13 @@
 # \see basis_add_scripts_by_extensions
 # \see basis_add_scripts
 
-basis_add_scripts ()
+# ----------------------------------------------------------------------------
+# Example1
+basis_add_executable (Example1 Example1.m func.m)
 
+# ----------------------------------------------------------------------------
+# Example2
+basis_add_executable (Example2 Example2.m func.m)
+
+basis_target_link_libraries (Example2 libsvmread train predict)
 
