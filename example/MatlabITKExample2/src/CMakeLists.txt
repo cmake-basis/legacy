@@ -111,6 +111,7 @@ basis_add_library (
   ${DEFAULT_SOURCES}
 )
 
+basis_target_link_libraries(main_gateway ITKCommon ITKIO)
 #--------------------------------------------------------------
 # target: slicecount_gateway
 #--------------------------------------------------------------
@@ -120,6 +121,8 @@ basis_add_library (
   ${PIPELINE_SOURCES}
   ${DEFAULT_SOURCES}
 )
+
+basis_target_link_libraries(slicecount_gateway ITKCommon ITKIO)
 
 # ============================================================================
 # executable target(s)
