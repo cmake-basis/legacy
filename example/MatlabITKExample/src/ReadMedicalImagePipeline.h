@@ -11,7 +11,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
-//#include "itkRegionOfInterestImageFilter.h"
+#include <iostream>
 
 class ReadMedicalImagePipeline
 {
@@ -47,11 +47,8 @@ protected:
   // filter types
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer m_reader;
-  //typedef itk::RegionOfInterestImageFilter<ImageType, ImageType> ROIType;
-  //ROIType::Pointer m_roi_filter;
 
   char* m_filepath;
-  //unsigned int m_slice;
 
 };
 

@@ -24,26 +24,19 @@ void mexFunction(int nlhs, mxArray *plhs[],
     mexErrMsgTxt("Incorrect arguments, see 'help @MATLAB_FUNCTION_NAME@'");
 
   char* filepath = mxArrayToString(prhs[0]);
-  // we will use Matlab counting, i.e. start from 1 instead of 0
-  //unsigned int slice = 1;
-  //if (nrhs > 1)
-  //  slice = static_cast<unsigned int>(*mxGetPr(prhs[1]));
 
   try
     {
     auto_ptr<ReadMedicalImagePipeline> pipeline(new ReadMedicalImagePipeline(filepath));
     size_t m, n, s;
     pipeline->GetSize(m, n, s);
-    //if(slice > s || slice < 1)
-    //  mexErrMsgTxt("Invalid slice specified.");
 
-    //plhs[0] = mxCreateDoubleMatrix(m, n, mxREAL);
     mwSize dims[3]  ; // = new mwSize[3] ;
     dims[0] = m ;
     dims[1] = n ;
     dims[2] = s ;
     plhs[0] = mxCreateNumericArray(3, dims,  mxDOUBLE_CLASS, mxREAL);
-    double* image = mxGetPr(plhs[0]);
+    double* image = (double *)(mxGetData(plhs[0]));
     double* origin=0, *spacing=0;
     switch(nlhs)
       {
