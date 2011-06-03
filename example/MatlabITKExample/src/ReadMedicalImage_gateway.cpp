@@ -38,8 +38,11 @@ void mexFunction(int nlhs, mxArray *plhs[],
     //  mexErrMsgTxt("Invalid slice specified.");
 
     //plhs[0] = mxCreateDoubleMatrix(m, n, mxREAL);
-    const mwSize *dims = {m,n,s} ;
-    plhs[0] = mxCreateNumericArray(3, const mwSize *dims,  mxDOUBLE_CLASS, mxREAL);
+    mwSize dims[3]  ; // = new mwSize[3] ;
+    dims[0] = m ;
+    dims[1] = n ;
+    dims[2] = s ;
+    plhs[0] = mxCreateNumericArray(3, dims,  mxDOUBLE_CLASS, mxREAL);
     double* image = mxGetPr(plhs[0]);
     double* origin=0, *spacing=0;
     switch(nlhs)

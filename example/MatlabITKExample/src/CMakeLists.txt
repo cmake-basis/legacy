@@ -18,6 +18,8 @@ set (
     MainPipeline.cpp
     SliceCountPipeline.h
     SliceCountPipeline.cpp
+    ReadMedicalImagePipeline.h
+    ReadMedicalImagePipeline.cpp
 )
 
 # ============================================================================
@@ -52,6 +54,17 @@ basis_add_library (
 )
 
 basis_target_link_libraries(slicecount_gateway ITKCommon ITKIO)
+
+#--------------------------------------------------------------
+# readmedicalimage_gateway
+basis_add_library (
+  readmedicalimage_gateway MEX
+  ReadMedicalImage_gateway.cpp
+  ${PIPELINE_SOURCES}
+)
+
+basis_target_link_libraries(readmedicalimage_gateway ITKCommon ITKIO)
+
 
 # ============================================================================
 # executable target(s)

@@ -10,12 +10,13 @@
 #define _READMEDICALIMAGEPIPELINE_H
 
 #include "itkImageFileReader.h"
-#include "itkRegionOfInterestImageFilter.h"
+#include "itkImageRegionConstIterator.h"
+//#include "itkRegionOfInterestImageFilter.h"
 
 class ReadMedicalImagePipeline
 {
 public:
-  ReadMedicalImagePipeline(char* filepath, unsigned int slice=0);
+  ReadMedicalImagePipeline(char* filepath);
 
 
   /** 
@@ -46,11 +47,11 @@ protected:
   // filter types
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer m_reader;
-  typedef itk::RegionOfInterestImageFilter<ImageType, ImageType> ROIType;
-  ROIType::Pointer m_roi_filter;
+  //typedef itk::RegionOfInterestImageFilter<ImageType, ImageType> ROIType;
+  //ROIType::Pointer m_roi_filter;
 
   char* m_filepath;
-  unsigned int m_slice;
+  //unsigned int m_slice;
 
 };
 

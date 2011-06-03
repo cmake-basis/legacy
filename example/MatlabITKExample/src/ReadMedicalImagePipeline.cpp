@@ -1,36 +1,36 @@
 #include "ReadMedicalImagePipeline.h"
 
-ReadMedicalImagePipeline::ReadMedicalImagePipeline(char* filepath, unsigned int slice):
-  m_filepath(filepath),
-  m_slice(slice)
+ReadMedicalImagePipeline::ReadMedicalImagePipeline(char* filepath):
+  m_filepath(filepath)
 {
   m_reader = ReaderType::New();
   m_reader->SetFileName(filepath);
   
-  m_roi_filter = ROIType::New();
+  //m_roi_filter = ROIType::New();
   m_reader->UpdateOutputInformation();
-  m_roi_filter->SetInput(m_reader->GetOutput());
-  ImageType::RegionType in_region = m_reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::SizeType size = in_region.GetSize();
-  ImageType::IndexType index = in_region.GetIndex();
+  //m_roi_filter->SetInput(m_reader->GetOutput());
+  //ImageType::RegionType in_region = m_reader->GetOutput()->GetLargestPossibleRegion();
+  //ImageType::SizeType size = in_region.GetSize();
+  //ImageType::IndexType index = in_region.GetIndex();
   // we only extract one slice because Matlab has memory consumption issues
-  size[2] = 1;
-  index[2] = slice - 1;
-  ImageType::RegionType desired_region;
-  desired_region.SetSize(size);
-  desired_region.SetIndex(index);
-  m_roi_filter->SetRegionOfInterest(desired_region);
+  //size[2] = 1;
+  //index[2] = slice - 1;
+  //ImageType::RegionType desired_region;
+  //desired_region.SetSize(size);
+  //desired_region.SetIndex(index);
+  //m_roi_filter->SetRegionOfInterest(desired_region);
 }
 
 void ReadMedicalImagePipeline::CopyAndTranspose(double* image, double* origin, double* spacing)
 {
-  m_roi_filter->Update();
-  ImageType::Pointer itk_image = m_roi_filter->GetOutput();
+  //m_roi_filter->Update();
+  m_reader->Update() ;
+  ImageType::Pointer itk_image = m_reader->GetOutput();
   ImageType::RegionType region = itk_image->GetLargestPossibleRegion();
   ImageType::SizeType size = region.GetSize();
   typedef itk::ImageRegionConstIterator<ImageType> ConstIteratorType;
   ConstIteratorType imageIt(itk_image, region);
-  unsigned int count = 0;
+  unsigned long int count = 0;
   for (imageIt.GoToBegin(); 
     !imageIt.IsAtEnd(); 
     ++imageIt, count++)
