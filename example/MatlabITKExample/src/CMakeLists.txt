@@ -20,6 +20,8 @@ set (
     SliceCountPipeline.cpp
     ReadMedicalImagePipeline.h
     ReadMedicalImagePipeline.cpp
+    WriteMedicalImagePipeline.h
+    WriteMedicalImagePipeline.cpp
 )
 
 # ============================================================================
@@ -64,6 +66,17 @@ basis_add_library (
 )
 
 basis_target_link_libraries(readmedicalimage_gateway ITKCommon ITKIO)
+
+
+#--------------------------------------------------------------
+# writemedicalimage_gateway
+basis_add_library (
+  writemedicalimage_gateway MEX
+  WriteMedicalImage_gateway.cpp
+  ${PIPELINE_SOURCES}
+)
+
+basis_target_link_libraries(writemedicalimage_gateway ITKCommon ITKIO)
 
 
 # ============================================================================
