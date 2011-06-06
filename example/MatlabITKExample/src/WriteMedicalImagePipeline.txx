@@ -24,8 +24,8 @@ WriteMedicalImagePipeline<PixelType>
   typename ImageType::Pointer itk_image = ImageType::New() ;
   typename ImageType::RegionType region ;
   typename ImageType::SizeType size ;
-  size[0] = dims[0] ;
-  size[1] = dims[1] ;
+  size[0] = dims[1] ;    // in MATLAB: the first item is number of rows 
+  size[1] = dims[0] ;    // in MATLAB: the second item is number of columns
   size[2] = dims[2] ;
   typename ImageType::IndexType start;
   start[0] = 0 ;

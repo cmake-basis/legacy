@@ -56,7 +56,6 @@ void mexFunction(int nlhs, mxArray *plhs[],
   char* pixelType = mxArrayToString(prhs[4]) ;
   if  ( (strcmp(pixelType,"uint8") != 0 ) &&
          (strcmp(pixelType,"uint16") != 0 ) &&
-         (strcmp(pixelType,"uint32") != 0 ) &&
          (strcmp(pixelType,"float") != 0 )  &&
          (strcmp(pixelType,"double") != 0) )
   {
@@ -73,11 +72,6 @@ void mexFunction(int nlhs, mxArray *plhs[],
       else if (strcmp(pixelType,"uint16")==0)
       {
         auto_ptr< WriteMedicalImagePipeline<unsigned int> > pipeline(new WriteMedicalImagePipeline<unsigned int>(filepath));
-        pipeline->CopyAndTranspose(image,dims,origin,spacing);
-      }
-      else if (strcmp(pixelType,"uint32")==0)
-      {
-        auto_ptr< WriteMedicalImagePipeline<unsigned long> > pipeline(new WriteMedicalImagePipeline<unsigned long>(filepath));
         pipeline->CopyAndTranspose(image,dims,origin,spacing);
       }
       else if (strcmp(pixelType,"float")==0)
