@@ -1,4 +1,10 @@
+#pragma once
+#ifndef _WRITEMEDICALIMAGEPIPELINE_TXX
+#define _WRITEMEDICALIMAGEPIPELINE_TXX
+
+
 #include "WriteMedicalImagePipeline.h"
+
 
 template <typename PixelType>
 WriteMedicalImagePipeline<PixelType>::
@@ -71,4 +77,6 @@ WriteMedicalImagePipeline<PixelType>
 
 }
 
+
+#endif // _WRITEMEDICALIMAGEPIPELINE_H
 

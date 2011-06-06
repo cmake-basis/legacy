@@ -9,22 +9,6 @@
 ##############################################################################
 
 # ============================================================================
-# common sources
-# ============================================================================
-
-set (
-  PIPELINE_SOURCES
-    MainPipeline.h
-    MainPipeline.cpp
-    SliceCountPipeline.h
-    SliceCountPipeline.cpp
-    ReadMedicalImagePipeline.h
-    ReadMedicalImagePipeline.cpp
-    WriteMedicalImagePipeline.h
-    WriteMedicalImagePipeline.cpp
-)
-
-# ============================================================================
 # library target(s)
 # ============================================================================
 
@@ -42,7 +26,8 @@ set (
 basis_add_library (
   main_gateway MEX
   main_gateway.cpp
-  ${PIPELINE_SOURCES}
+  MainPipeline.h
+  MainPipeline.cpp
 )
 
 basis_target_link_libraries(main_gateway ITKCommon ITKIO)
@@ -52,7 +37,8 @@ basis_target_link_libraries(main_gateway ITKCommon ITKIO)
 basis_add_library (
   slicecount_gateway MEX
   slicecount_gateway.cpp
-  ${PIPELINE_SOURCES}
+  SliceCountPipeline.h
+  SliceCountPipeline.cpp
 )
 
 basis_target_link_libraries(slicecount_gateway ITKCommon ITKIO)
@@ -62,7 +48,8 @@ basis_target_link_libraries(slicecount_gateway ITKCommon ITKIO)
 basis_add_library (
   readmedicalimage_gateway MEX
   ReadMedicalImage_gateway.cpp
-  ${PIPELINE_SOURCES}
+  ReadMedicalImagePipeline.h
+  ReadMedicalImagePipeline.cpp
 )
 
 basis_target_link_libraries(readmedicalimage_gateway ITKCommon ITKIO)
@@ -73,7 +60,8 @@ basis_target_link_libraries(readmedicalimage_gateway ITKCommon ITKIO)
 basis_add_library (
   writemedicalimage_gateway MEX
   WriteMedicalImage_gateway.cpp
-  ${PIPELINE_SOURCES}
+  WriteMedicalImagePipeline.h
+  WriteMedicalImagePipeline.txx
 )
 
 basis_target_link_libraries(writemedicalimage_gateway ITKCommon ITKIO)

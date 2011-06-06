@@ -56,4 +56,9 @@ protected:
 
 };
 
+
+// include template definitions
+#include "WriteMedicalImagePipeline.txx"
+
+
 #endif // _WRITEMEDICALIMAGEPIPELINE_H
