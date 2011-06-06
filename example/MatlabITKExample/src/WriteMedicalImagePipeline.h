@@ -14,6 +14,7 @@
 
 #include <iostream>
 
+
 template <typename PixelType>
 class WriteMedicalImagePipeline
 {
