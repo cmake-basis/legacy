@@ -5,8 +5,8 @@
 # This CMake file can be configured to build and/or install required
 # thirdpary libraries which are bundled with this software package.
 #
-# For copyright information please see Copyright.txt in the root
-# directory of the project.
+# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
+# See COPYING file in project root or 'doc' directory for details.
 #
 # Contact: SBIA Group <sbia-software@uphs.upenn.edu>
 ##############################################################################
