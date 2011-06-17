@@ -1,9 +1,9 @@
 ##############################################################################
-# \file  nightly.ctest
-# \brief CTest script executed by cron job for nightly testing at SBIA.
+# \file  basisctest
+# \brief CTest script used to test BASIS projects.
 #
 # Usage:
-#   ctest -S nightly.ctest[,option[=value]*
+#   ctest -S basisctest[,option[=value]*
 #
 # Options:
 #   help   Prints help and exits.
@@ -21,7 +21,7 @@
 function (printUsageSection)
   message ("
 Usage:
-  ctest [ctest options] -S nightly.ctest[,option[=value]]*
+  ctest [ctest options] -S basisctest[,option[=value]]*
 
   Note: No commas or equality signs are allowed inside of option values even
         if the value is enclosed by quotation marks.")
@@ -63,7 +63,7 @@ endfunction ()
 # ****************************************************************************
 # \brief Prints help.
 function (printHelp)
-  message ("CTest script nightly.ctest (BASIS)")
+  message ("CTest script basisctest (BASIS)")
   printUsageSection ()
   message ("
 Description:
@@ -75,7 +75,7 @@ Description:
   printOptions ()
   message ("
 Example:
-  ctest -V -S nightly.ctest,project=BASIS,model=Experimental,coverage,memcheck
+  ctest -V -S basis.ctest,project=BASIS,model=Experimental,coverage,memcheck
 
     Performs an experimental nightly test of the main development branch of
     BASIS itself, including coverage analysis and memory checks.
@@ -87,7 +87,7 @@ endfunction ()
 # ****************************************************************************
 # \brief Print usage information.
 function (printUsage)
-  message ("CTest script nightly.ctest (BASIS)")
+  message ("CTest script basisctest (BASIS)")
   printUsageSection ()
   printOptions ()
   printContactSection ()
@@ -99,9 +99,9 @@ function (printVersion)
   set (VERSION  "@VERSION@")
   set (REVISION "@REVISION@")
   if (REVISION GREATER 0)
-    message ("CTest script nightly.ctest (BASIS) ${VERSION} (Rev. ${REVISION})")
+    message ("CTest script basisctest (BASIS) ${VERSION} (Rev. ${REVISION})")
   else ()
-    message ("CTest script nightly.ctest (BASIS) ${VERSION}")
+    message ("CTest script basisctest (BASIS) ${VERSION}")
   endif ()
   message ("Copyright (c) 2011 University of Pennsylvania. All rights reserved.")
   message ("See COPYING file or https://www.rad.upenn.edu/sbia/software/license.html.")
@@ -213,7 +213,7 @@ Failed to parse argument \"${ARG}\" (option: ${OPTION}, value: ${VALUE})")
 endforeach ()
 
 if (NOT CTEST_PROJECT_NAME)
-  help ()
+  printUsage ()
   message (FATAL_ERROR "No project specified!")
 endif ()
 if (NOT CTEST_BINARY_DIRECTORY)
