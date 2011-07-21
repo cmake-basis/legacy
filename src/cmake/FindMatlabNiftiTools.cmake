@@ -1,30 +1,30 @@
 ##############################################################################
-# \file  FindMatlabNiftiTools.cmake
-# \brief Find MATLAB Central package "Tools for NIfTI and ANALYZE Image" (#8797).
-#
-# Input variables:
-#
-#   MatlabNiftiTools_DIR     The MATLAB Central package files are searched
-#                            under the specified root directory. If they are
-#                            not found there, the default search paths are
-#                            considered. This variable can also be set as
-#                            environment variable.
-#   MATLABNIFTITOOLS_DIR     Alternative environment variable for MatlabNiftiTools_DIR.
-#
-# Sets the following CMake variables:
-#
-#   MatlabNiftiTools_FOUND        Whether the package was found and the
-#                                 following CMake variables are valid.
-#   MatlabNiftiTools_INCLUDE_DIR  Cached include directory/ies only related to
-#                                 the searched package.
-#   MatlabNiftiTools_INCLUDE_DIRS Include directory/ies of searched and
-#                                 dependent packages (not cached).
-#   MatlabNiftiTools_INCLUDES     Alias for MatlabNiftiTools_INCLUDE_DIRS (not cached).
-#
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See COPYING file or https://www.rad.upenn.edu/sbia/software/license.html.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
+#! @file  FindMatlabNiftiTools.cmake
+#! @brief Find MATLAB Central package "Tools for NIfTI and ANALYZE Image" (#8797).
+#!
+#! Input variables:
+#!
+#! - MatlabNiftiTools_DIR     The MATLAB Central package files are searched
+#!                            under the specified root directory. If they are
+#!                            not found there, the default search paths are
+#!                            considered. This variable can also be set as
+#!                            environment variable.
+#! - MATLABNIFTITOOLS_DIR     Alternative environment variable for MatlabNiftiTools_DIR.
+#!
+#! Sets the following CMake variables:
+#!
+#! - MatlabNiftiTools_FOUND        Whether the package was found and the
+#!                                 following CMake variables are valid.
+#! - MatlabNiftiTools_INCLUDE_DIR  Cached include directory/ies only related to
+#!                                 the searched package.
+#! - MatlabNiftiTools_INCLUDE_DIRS Include directory/ies of searched and
+#!                                 dependent packages (not cached).
+#! - MatlabNiftiTools_INCLUDES     Alias for MatlabNiftiTools_INCLUDE_DIRS (not cached).
+#!
+#! Copyright (c) 2011 University of Pennsylvania. All rights reserved.
+#! See COPYING file or https://www.rad.upenn.edu/sbia/software/license.html.
+#!
+#! Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
 
 # ============================================================================
