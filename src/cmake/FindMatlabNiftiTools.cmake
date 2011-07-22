@@ -2,24 +2,46 @@
 #! @file  FindMatlabNiftiTools.cmake
 #! @brief Find MATLAB Central package "Tools for NIfTI and ANALYZE Image" (#8797).
 #!
-#! Input variables:
+#! @par Input variables:
+#! <table border="0">
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MatlabNiftiTools_DIR</td>
+#!     <td>The MATLAB Central package files are searched under the specified
+#!         root directory. If they are not found there, the default search
+#!         paths are considered. This variable can also be set as
+#!         environment variable.</td>
+#!   </tr>
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MATLABNIFTITOOLS_DIR</td>
+#!     <td>Alternative environment variable for @p MatlabNiftiTools_DIR.</td>
+#!   </tr>
+#! </table>
 #!
-#! - MatlabNiftiTools_DIR     The MATLAB Central package files are searched
-#!                            under the specified root directory. If they are
-#!                            not found there, the default search paths are
-#!                            considered. This variable can also be set as
-#!                            environment variable.
-#! - MATLABNIFTITOOLS_DIR     Alternative environment variable for MatlabNiftiTools_DIR.
-#!
-#! Sets the following CMake variables:
-#!
-#! - MatlabNiftiTools_FOUND        Whether the package was found and the
-#!                                 following CMake variables are valid.
-#! - MatlabNiftiTools_INCLUDE_DIR  Cached include directory/ies only related to
-#!                                 the searched package.
-#! - MatlabNiftiTools_INCLUDE_DIRS Include directory/ies of searched and
-#!                                 dependent packages (not cached).
-#! - MatlabNiftiTools_INCLUDES     Alias for MatlabNiftiTools_INCLUDE_DIRS (not cached).
+#! @par Output variables:
+#! <table border="0">
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MatlabNiftiTools_FOUND</td>
+#!     <td>Whether the package was found and the following CMake variables are valid.</td>
+#!   </tr>
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MatlabNiftiTools_INCLUDE_DIR</td>
+#!     <td>Cached include directory/ies only related to the searched package.</td>
+#!   </tr>
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MatlabNiftiTools_INCLUDE_DIRS</td>
+#!     <td>Include directory/ies of searched and dependent packages (not cached).</td>
+#!   </tr>
+#!   <tr>
+#!     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
+#!         @b MatlabNiftiTools_INCLUDES</td>
+#!      <td>Alias for MatlabNiftiTools_INCLUDE_DIRS (not cached).</td>
+#!   </tr>
+#! </table>
 #!
 #! Copyright (c) 2011 University of Pennsylvania. All rights reserved.
 #! See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
