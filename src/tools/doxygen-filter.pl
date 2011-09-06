@@ -48,7 +48,6 @@
 use warnings;
 use strict;
 
-use lib "lib";
 use Cwd qw(realpath);
 use File::Basename;
 use DoxyGen::PerlFilter;
