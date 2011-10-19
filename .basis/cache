@@ -1,10 +1,10 @@
 _conf_settings=1
-_conf_depends=-1
-_conf_components=-1
-_conf_package=-1
+_conf_depends=0
+_conf_components=0
+_conf_package=0
 _conf_find=1
-_conf_find_version=-1
-_conf_generate=-1
+_conf_find_version=0
+_conf_generate=0
 _conf_script=1
 _conf_tests=1
 _conf_use=1
