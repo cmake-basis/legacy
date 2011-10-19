@@ -1,5 +1,5 @@
 _conf_settings=1
-_conf_depends=1
+_conf_depends=-1
 _conf_components=-1
 _conf_package=-1
 _conf_find=1
