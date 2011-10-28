@@ -100,8 +100,8 @@ include (FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args (
   MatlabNiftiTools
-# MESSAGE
-    DEFAULT_MSG
-# VARIABLES
+  REQUIRED_ARGS
     MatlabNiftiTools_INCLUDE_DIR
 )
+
+set (MatlabNiftiTools_FOUND "${MATLABNIFTITOOLS_FOUND}")
