@@ -8,70 +8,26 @@
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
 
-# ============================================================================
-# CMake version
-# ============================================================================
-
+# ----------------------------------------------------------------------------
+# minimum required CMake version
 cmake_minimum_required (VERSION 2.8.4)
 
-# ============================================================================
-# initialize
-# ============================================================================
-
-# the version of the template this project was instantiated from
-# this information might be used by BASIS to maintain backwards compatibility
+# ----------------------------------------------------------------------------
+# version of BASIS template used by this project
 set (TEMPLATE_VERSION "ReplaceByTemplateVersion")
 
-# find BASIS package
+# ----------------------------------------------------------------------------
+# include BASIS policies, settings, macros, and functions
+
+# circumvent issue with CMake's find_package() interpreting these variables
+# relative to the current binary directory instead of the top-level directory
+if (BASIS_DIR AND NOT IS_ABSOLUTE "${BASIS_DIR}")
+  set (BASIS_DIR "${CMAKE_BINARY_DIR}/${BASIS_DIR}")
+  get_filename_component (BASIS_DIR "${BASIS_DIR}" ABSOLUTE)
+endif ()
+
 find_package (BASIS REQUIRED)
 
-# include BASIS policies, settings, macros, and functions
-if (BASIS_FOUND)
-  include ("${BASIS_USE_FILE}" NO_POLICY_SCOPE)
-else ()
-  return ()
-endif ()
-
-# initialize project
-basis_project_initialize (
-  NAME        "ReplaceByProjectName"
-  VERSION     "0.0.0"
-  DESCRIPTION "ReplaceByProjectDescription"
-  LANGUAGES   #AddLanguageHere
-)
-
-# ============================================================================
-# subdirectories
-# ============================================================================
-
-# source code of programs
-if (EXISTS "${PROJECT_CODE_DIR}")
-  add_subdirectory ("${PROJECT_CODE_DIR}")
-endif ()
-
-# auxiliary data files
-if (EXISTS "${PROJECT_DATA_DIR}")
-  add_subdirectory ("${PROJECT_DATA_DIR}")
-endif ()
-
-# package documentation
-if (EXISTS "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
-  add_subdirectory ("${PROJECT_DOC_DIR}")
-endif ()
-
-# example application
-if (EXISTS "${PROJECT_EXAMPLE_DIR}" AND BUILD_EXAMPLE)
-  add_subdirectory ("${PROJECT_EXAMPLE_DIR}")
-endif ()
-
-# software testing
-if (EXISTS "${PROJECT_TESTING_DIR}" AND BUILD_TESTING)
-  add_subdirectory ("${PROJECT_TESTING_DIR}")
-endif ()
-
-# ============================================================================
-# finalize
-# ============================================================================
-
-basis_project_finalize ()
-
+# ----------------------------------------------------------------------------
+# configure build system
+basis_project_impl ()
