@@ -5,16 +5,14 @@
 # @par Input variables:
 # <table border="0">
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MatlabNiftiTools_DIR</td>
+#     @tp @b MatlabNiftiTools_DIR @endtp
 #     <td>The MATLAB Central package files are searched under the specified
 #         root directory. If they are not found there, the default search
 #         paths are considered. This variable can also be set as
 #         environment variable.</td>
 #   </tr>
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MATLABNIFTITOOLS_DIR</td>
+#     @tp @b MATLABNIFTITOOLS_DIR @entp
 #     <td>Alternative environment variable for @p MatlabNiftiTools_DIR.</td>
 #   </tr>
 # </table>
@@ -22,23 +20,19 @@
 # @par Output variables:
 # <table border="0">
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MatlabNiftiTools_FOUND</td>
+#     @tp @b MatlabNiftiTools_FOUND @endtp
 #     <td>Whether the package was found and the following CMake variables are valid.</td>
 #   </tr>
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MatlabNiftiTools_INCLUDE_DIR</td>
+#     @tp @b MatlabNiftiTools_INCLUDE_DIR @endtp
 #     <td>Cached include directory/ies only related to the searched package.</td>
 #   </tr>
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MatlabNiftiTools_INCLUDE_DIRS</td>
+#     @tp @b MatlabNiftiTools_INCLUDE_DIRS @endtp
 #     <td>Include directory/ies of searched and dependent packages (not cached).</td>
 #   </tr>
 #   <tr>
-#     <td style="white-space:nowrap; vertical-align:top; padding-right:1em">
-#         @b MatlabNiftiTools_INCLUDES</td>
+#      @tp @b MatlabNiftiTools_INCLUDES @endtp
 #      <td>Alias for MatlabNiftiTools_INCLUDE_DIRS (not cached).</td>
 #   </tr>
 # </table>
