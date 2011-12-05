@@ -51,51 +51,49 @@
 # @ingroup CMakeFindModules
 ##############################################################################
 
-# ============================================================================
+# ----------------------------------------------------------------------------
+# initialize search
+if (NOT MatlabNiftiTools_DIR)
+  if (NOT $ENV{MATLABNIFTITOOLS_DIR} STREQUAL "")
+    set (MatlabNiftiTools_DIR "$ENV{MATLABNIFTITOOLS_DIR}"  CACHE PATH "Installation prefix for MATLAB NIfTI tools." FORCE)
+  else ()
+    set (MatlabNiftiTools_DIR "$ENV{MatlabNiftiTools_DIR}" CACHE PATH "Installation prefix for MATLAB NIfTI tools." FORCE)
+  endif ()
+endif ()
+
+# ----------------------------------------------------------------------------
 # find paths / files
-# ============================================================================
+if (MatlabNiftiTools_DIR)
 
-# ----------------------------------------------------------------------------
-# 1. Look in user-specified package root
-# ----------------------------------------------------------------------------
+  find_path (
+    MatlabNiftiTools_INCLUDE_DIR
+      NAMES load_nii.m
+      HINTS ${MatlabNiftiTools_DIR}
+      DOC   "Path of directory containing load_nii.m"
+      NO_DEFAULT_PATH
+  )
 
-find_path (
-  MatlabNiftiTools_INCLUDE_DIR
-    NAMES         load_nii.m
-    HINTS         ${MatlabNiftiTools_DIR}
-                  ENV MatlabNiftiTools_DIR
-                  ENV MATLABNIFTITOOLS_DIR
-    DOC           "Path of directory containing load_nii.m"
-    NO_DEFAULT_PATH
-)
+else ()
 
-# ----------------------------------------------------------------------------
-# 2. Search default paths
-# ----------------------------------------------------------------------------
-
-find_path (
-  MatlabNiftiTools_INCLUDE_DIR
+  find_path (
+    MatlabNiftiTools_INCLUDE_DIR
     NAMES load_nii.m
     HINTS ENV MATLABPATH
     DOC   "Path of directory containing load_nii.m"
-)
+  )
 
-# ============================================================================
+endif ()
+
+# ----------------------------------------------------------------------------
 # append paths / libraries of packages this package depends on
-# ============================================================================
-
 if (MatlabNiftiTools_INCLUDE_DIR)
   set (MatlabNiftiTools_INCLUDE_DIRS "${MatlabNiftiTools_INCLUDE_DIR}")
   set (MatlabNiftiTools_INCLUDES     "${MatlabNiftiTools_INCLUDE_DIRS}")
 endif ()
 
-# ============================================================================
-# found ?
-# ============================================================================
-
+# ----------------------------------------------------------------------------
 # handle the QUIETLY and REQUIRED arguments and set *_FOUND to TRUE
 # if all listed variables are found or TRUE
-
 include (FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args (
@@ -105,3 +103,9 @@ find_package_handle_standard_args (
 )
 
 set (MatlabNiftiTools_FOUND "${MATLABNIFTITOOLS_FOUND}")
+
+# ----------------------------------------------------------------------------
+# set MatlabNiftiTools_DIR
+if (NOT MatlabNiftiTools_DIR AND MatlabNiftiTools_FOUND)
+  set (MatlabNiftiTools_DIR "${MatlabNiftiTools_INCLUDE_DIR}" CACHE PATH "Installation prefix for MATLAB NIfTI tools." FORCE)
+endif ()
