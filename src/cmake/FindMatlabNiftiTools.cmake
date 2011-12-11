@@ -12,7 +12,7 @@
 #         environment variable.</td>
 #   </tr>
 #   <tr>
-#     @tp @b MATLABNIFTITOOLS_DIR @entp
+#     @tp @b MATLABNIFTITOOLS_DIR @endtp
 #     <td>Alternative environment variable for @p MatlabNiftiTools_DIR.</td>
 #   </tr>
 # </table>
