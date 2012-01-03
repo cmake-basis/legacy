@@ -157,7 +157,7 @@ foreach (E IN ITEMS .txx .hxx .inl .inc)
     "./${INCLUDE_DIR}/.*${E}"
   )
 endforeach ()
-foreach (M IN LISTS "@PROJECT_MODULES_ENABLED@")
+foreach (M IN LISTS @PROJECT_MODULES_ENABLED@)
   foreach (E IN ITEMS .c .cc .cpp .cxx .txx .hxx .inl .inc)
     list (APPEND CTEST_EXTRA_COVERAGE_GLOB
       "./${MODULES_DIR}/${M}/${CODE_DIR}/.*${E}"
