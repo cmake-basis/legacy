@@ -321,21 +321,66 @@ set (BASIS_SCRIPT_CONFIG_FILE "${BASIS_MODULE_PATH}/ScriptConfig.cmake.in")
 # of changelogs.
 set (BASIS_SVN_USERS_FILE "${BASIS_MODULE_PATH}/SubversionUsers.txt")
 
-# TODO Figure how it is used and see if it can be removed or document it
+## @brief Force installation of public header files of BASIS C++ utilities.
+#
+# If this variable is set to FALSE, each header file in the @c PROJECT_INCLUDE_DIR
+# is scanned for an include statement which includes one of the public header
+# files of the BASIS C++ utilities. If such include statement was found in
+# a public header file of the project, the public header files of the BASIS
+# C++ utilities are also installed as the project's public header files depend
+# on them. You can set this variable to TRUE in the Settings.cmake file of your
+# project to force the installation of the public header files of the
+# project-specific BASIS C++ utilities.
+#
+# @sa basis_project_finalize()
 basis_set_if_empty (BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES FALSE)
+
+## @brief Enable/Disable configuration of public header files.
+#
+# By default, BASIS copies the public header files which were found in the
+# @c PROJECT_INCLUDE_DIR to the corresponding include directory in the build
+# tree using the same relative paths as will be used for the installation.
+# Moreover, header files with the .in suffix are configured using CMake's
+# configure_file() command with the <tt>\@ONLY</tt> option.
+#
+# As the copying of header files adds some additional complexity and results
+# in the file path reported by the compiler in error messages and warnings which
+# will name the corresponding copy of the header file in the build tree, causing
+# potential confusion and editing of the copy by mistake, this feature was made
+# optional. A project can disable it in the Settings.cmake file by setting the
+# CMake variable @c BASIS_CONFIGURE_INCLUDES to FALSE.
+#
+# If disabled, the relative path of header files is no longer adjusted to match
+# the actual installation. Therefore, in this case, the project developer
+# themself must maintain the <tt>sbia/&lt:project&gt;</tt> subdirectory structure
+# in the @c PROJECT_INCLUDE_DIR directory tree, where &lt;project&gt; is the
+# project name in lower case only.
+#
+# @sa basis_configure_public_headers()
+set (BASIS_CONFIGURE_INCLUDES TRUE)
 
 # ============================================================================
 # build configuration(s)
 # ============================================================================
 
 ## @brief List of all available/supported build configurations.
-set (
-  CMAKE_CONFIGURATION_TYPES
-    "Debug"
-    "Coverage"
-    "Release"
-  CACHE STRING "Build configurations." FORCE
-)
+if (UNIX)
+  set (
+    CMAKE_CONFIGURATION_TYPES
+      "Debug"
+      "Coverage"
+      "MemCheck"
+      "Release"
+    CACHE INTERNAL "Build configurations." FORCE
+  )
+else ()
+  set (
+    CMAKE_CONFIGURATION_TYPES
+      "Debug"
+      "Release"
+    CACHE INTERNAL "Build configurations." FORCE
+  )
+endif ()
 
 ## @brief List of debug configurations.
 #
@@ -346,7 +391,8 @@ set (DEBUG_CONFIGURATIONS "Debug")
 mark_as_advanced (CMAKE_CONFIGURATION_TYPES)
 mark_as_advanced (DEBUG_CONFIGURATIONS)
 
-if (NOT CMAKE_BUILD_TYPE MATCHES "^Debug$|^Coverage$|^Release$")
+list (FIND CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}" IDX)
+if (IDX EQUAL -1)
   if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
     message ("Invalid build type ${CMAKE_BUILD_TYPE}! Setting CMAKE_BUILD_TYPE to Release.")
   endif ()
@@ -358,12 +404,12 @@ set (
   CMAKE_BUILD_TYPE
     "${CMAKE_BUILD_TYPE}"
   CACHE STRING
-    "Current build configuration. Specify either \"Debug\", \"Coverage\", or \"Release\"."
+    "Current build configuration. Specify either one of ${CMAKE_CONFIGURATION_TYPES}."
   FORCE
 )
 
 # set the possible values of build type for cmake-gui
-set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "Coverage")
+set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_CONFIGURATION_TYPES})
 
 # ----------------------------------------------------------------------------
 # disabled configurations
@@ -381,12 +427,6 @@ foreach (C MINSIZEREL RELWITHDEBINFO)
   set_property (CACHE CMAKE_SHARED_LINKER_FLAGS_${C} PROPERTY TYPE INTERNAL)
 endforeach ()
 
-# disable support for plain C
-set_property (CACHE CMAKE_C_FLAGS PROPERTY TYPE INTERNAL)
-foreach (C DEBUG RELEASE)
-  set_property (CACHE CMAKE_C_FLAGS_${C} PROPERTY TYPE INTERNAL)
-endforeach ()
-
 unset (C)
 
 # ----------------------------------------------------------------------------
@@ -394,49 +434,173 @@ unset (C)
 # ----------------------------------------------------------------------------
 
 # common compiler flags
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set (CMAKE_C_FLAGS "" CACHE INTERNAL "" FORCE)
+
+set (
+  CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}"
+  CACHE STRING "Flags used by the compiler for all builds."
+)
 
 # common linker flags
-set (CMAKE_EXE_LINKER_FLAGS    "${CMAKE_LINKER_FLAGS}")
-set (CMAKE_MODULE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}")
-set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}")
+set (
+  CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
+  CACHE STRING "Flags used by the linker."
+)
+set (
+  CMAKE_MODULE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
+  CACHE STRING "Flags used by the linker for the creation of modules."
+)
+set (
+  CMAKE_SHARED_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
+  CACHE STRING "Flags used by the linker for the creation of dll's."
+)
 
 # ----------------------------------------------------------------------------
 # Debug
 # ----------------------------------------------------------------------------
 
-# compiler flags of Debug configuration
-set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+# This build configuration is suitable for debugging programs.
 
-# linker flags of Debug configuration
-set (CMAKE_EXE_LINKER_FLAGS_DEBUG    "${CMAKE_EXE_LINKER_FLAGS_DEBUG}")
-set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG}")
-set (CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG}")
+# compiler flags
+set (CMAKE_C_FLAGS_DEBUG "" CACHE INTERNAL "" FORCE)
+
+set (
+  CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}"
+  CACHE STRING "Flags used by the compiler for debug builds."
+)
+
+# linker flags
+set (
+  CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG}"
+  CACHE STRING "Flags used by the linker for the debug builds."
+)
+set (
+  CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG}"
+  CACHE STRING "Flags used by the linker for the debug builds."
+)
+set (
+  CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG}"
+  CACHE STRING "Flags used by the linker for the debug builds."
+)
 
 # ----------------------------------------------------------------------------
 # Release
 # ----------------------------------------------------------------------------
 
-# compiler flags of Release configuration
-set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+# This build configuration produces binaries for deployment of the software.
 
-# linker flags of Release configuration
-set (CMAKE_EXE_LINKER_FLAGS_RELEASE    "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
-set (CMAKE_MODULE_LINKER_FLAGS_RELEASE "${CMAKE_MODULE_LINKER_FLAGS_RELEASE}")
-set (CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
+# compiler flags
+set (CMAKE_C_FLAGS_RELEASE "" CACHE INTERNAL "" FORCE)
+
+set (
+  CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}"
+  CACHE STRING "Flags used by the compiler for release builds."
+)
+
+# linker flags
+set (
+  CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE}"
+  CACHE STRING "Flags used by the linker for the release builds."
+)
+set (
+  CMAKE_MODULE_LINKER_FLAGS_RELEASE "${CMAKE_MODULE_LINKER_FLAGS_RELEASE}"
+  CACHE STRING "Flags used by the linker for the release builds."
+)
+set (
+  CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}"
+  CACHE STRING "Flags used by the linker for the release builds."
+)
 
 # ----------------------------------------------------------------------------
 # Coverage
 # ----------------------------------------------------------------------------
 
-# compiler flags for Coverage configuration
+# This build configuration enables coverage analysis.
+#
+# Note: The option -DNDEBUG disables assertions.
+#
+# TODO How can we do code coverage analysis on Windows?
+
+if (UNIX)
+
+# compiler flags
 set (CMAKE_C_FLAGS_COVERAGE "" CACHE INTERNAL "" FORCE)
-set (CMAKE_CXX_FLAGS_COVERAGE "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage")
+
+set (
+  CMAKE_CXX_FLAGS_COVERAGE "-DNDEBUG -fprofile-arcs -ftest-coverage"
+  CACHE STRING "Flags used by the compiler during coverage builds."
+)
+
+# linker flags
+set (
+  CMAKE_EXE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
+  CACHE STRING "Flags used by the linker during coverage builds."
+)
+set (
+  CMAKE_MODULE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
+  CACHE STRING "Flags used by the linker during coverage builds."
+)
+set (
+  CMAKE_SHARED_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
+  CACHE STRING "Flags used by the linker during coverage builds."
+)
+
+endif ()
+
+# ----------------------------------------------------------------------------
+# MemCheck
+# ----------------------------------------------------------------------------
+
+# This build configuration enables memory checks using, for example, valgrind.
+#
+# Note: The use of -O1 results in better performance while line numbers are yet
+#       reasonably close to the actual line. Higher optimization should never
+#       be used. The -g option is required such that line numbers can be reported.
+#
+# To debug detected memory leaks, consider the use of the Debug build
+# configuration instead.
+#
+# TODO How can we do memory checks on Windows?
+
+if (UNIX)
+
+# compiler flags for  configuration
+set (CMAKE_C_FLAGS_MEMCHECK "" CACHE INTERNAL "" FORCE)
+
+set (
+  CMAKE_CXX_FLAGS_MEMCHECK "-g -O1"
+  CACHE STRING "Flags used by the compiler during memcheck builds."
+)
 
 # linker flags for Coverage configuration
-set (CMAKE_EXE_LINKER_FLAGS_COVERAGE    "-fprofile-arcs -ftest-coverage")
-set (CMAKE_MODULE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
-set (CMAKE_SHARED_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
+set (
+  CMAKE_EXE_LINKER_FLAGS_MEMCHECK ""
+  CACHE STRING "Flags used by the linker during memcheck builds."
+)
+set (
+  CMAKE_MODULE_LINKER_FLAGS_MEMCHECK ""
+  CACHE STRING "Flags used by the linker during memcheck builds."
+)
+set (
+  CMAKE_SHARED_LINKER_FLAGS_MEMCHECK ""
+  CACHE STRING "Flags used by the linker during memcheck builds."
+)
+
+endif ()
+
+# ----------------------------------------------------------------------------
+# mark variables as advanced
+# ----------------------------------------------------------------------------
+
+foreach (C IN LISTS CMAKE_CONFIGURATION_TYPES)
+  string (TOUPPER "${C}" U)
+  mark_as_advanced (CMAKE_CXX_FLAGS_${U})
+  mark_as_advanced (CMAKE_EXE_LINKER_FLAGS_${U})
+  mark_as_advanced (CMAKE_MODULE_LINKER_FLAGS_${U})
+  mark_as_advanced (CMAKE_SHARED_LINKER_FLAGS_${U})
+endforeach ()
+unset (C)
+unset (U)
 
 # ============================================================================
 # common options
