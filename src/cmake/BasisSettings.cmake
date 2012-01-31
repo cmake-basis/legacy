@@ -335,9 +335,9 @@ set (BASIS_SVN_USERS_FILE "${BASIS_MODULE_PATH}/SubversionUsers.txt")
 # @sa basis_project_finalize()
 basis_set_if_empty (BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES FALSE)
 
-## @brief Enable/Disable configuration of public header files.
+## @brief Enable/Disable copying of all public header files to the build tree.
 #
-# By default, BASIS copies the public header files which were found in the
+# If enabled, BASIS copies the public header files which were found in the
 # @c PROJECT_INCLUDE_DIR to the corresponding include directory in the build
 # tree using the same relative paths as will be used for the installation.
 # Moreover, header files with the .in suffix are configured using CMake's
@@ -347,260 +347,32 @@ basis_set_if_empty (BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES FALSE)
 # in the file path reported by the compiler in error messages and warnings which
 # will name the corresponding copy of the header file in the build tree, causing
 # potential confusion and editing of the copy by mistake, this feature was made
-# optional. A project can disable it in the Settings.cmake file by setting the
-# CMake variable @c BASIS_CONFIGURE_INCLUDES to FALSE.
+# optional. Further, the inclusion of uncovered files works only if the file
+# is in the source tree, not the build tree. This is a restriction of CTest.
+# A bug report has been submitted (#12910). A project can enable the copying
+# of public header files in the Settings.cmake file by setting this
+# CMake variable to TRUE. The advantage is that the files in the source
+# tree need not to be organized in subdirectories.
 #
-# If disabled, the relative path of header files is no longer adjusted to match
+# If disabled, the relative path of header files is not adjusted to match
 # the actual installation. Therefore, in this case, the project developer
-# themself must maintain the <tt>sbia/&lt:project&gt;</tt> subdirectory structure
-# in the @c PROJECT_INCLUDE_DIR directory tree, where &lt;project&gt; is the
-# project name in lower case only.
+# themself must maintain the <tt>sbia/&lt:project&gt;</tt> subdirectory
+# structure in the @c PROJECT_INCLUDE_DIR directory tree, where
+# &lt;project&gt; is the project name in lower case only.
+set (BASIS_AUTO_PREFIX_INCLUDES FALSE)
+
+## @brief Specify public header files which are excluded from check
+#         whether their path is prefixed by the @c INCLUDE_PREFIX.
 #
-# @sa basis_configure_public_headers()
-set (BASIS_CONFIGURE_INCLUDES TRUE)
-
-# ============================================================================
-# build configuration(s)
-# ============================================================================
-
-## @brief List of all available/supported build configurations.
-if (UNIX)
-  set (
-    CMAKE_CONFIGURATION_TYPES
-      "Debug"
-      "Coverage"
-      "MemCheck"
-      "Release"
-    CACHE INTERNAL "Build configurations." FORCE
-  )
-else ()
-  set (
-    CMAKE_CONFIGURATION_TYPES
-      "Debug"
-      "Release"
-    CACHE INTERNAL "Build configurations." FORCE
-  )
-endif ()
-
-## @brief List of debug configurations.
-#
-# Used by the target_link_libraries() CMake command, for example,
-# to determine whether to link to the optimized or debug libraries.
-set (DEBUG_CONFIGURATIONS "Debug")
-
-mark_as_advanced (CMAKE_CONFIGURATION_TYPES)
-mark_as_advanced (DEBUG_CONFIGURATIONS)
-
-list (FIND CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}" IDX)
-if (IDX EQUAL -1)
-  if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
-    message ("Invalid build type ${CMAKE_BUILD_TYPE}! Setting CMAKE_BUILD_TYPE to Release.")
-  endif ()
-  set (CMAKE_BUILD_TYPE "Release")
-endif ()
-
-## @brief Current build configuration for GNU Make Makefiles generator.
-set (
-  CMAKE_BUILD_TYPE
-    "${CMAKE_BUILD_TYPE}"
-  CACHE STRING
-    "Current build configuration. Specify either one of ${CMAKE_CONFIGURATION_TYPES}."
-  FORCE
-)
-
-# set the possible values of build type for cmake-gui
-set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_CONFIGURATION_TYPES})
-
-# ----------------------------------------------------------------------------
-# disabled configurations
-# ----------------------------------------------------------------------------
-
-# disable support for MinSizeRel and RelWithDebInfo
-foreach (C MINSIZEREL RELWITHDEBINFO)
-  # compiler flags
-  set_property (CACHE CMAKE_C_FLAGS_${C} PROPERTY TYPE INTERNAL)
-  set_property (CACHE CMAKE_CXX_FLAGS_${C} PROPERTY TYPE INTERNAL)
-
-  # linker flags
-  set_property (CACHE CMAKE_EXE_LINKER_FLAGS_${C} PROPERTY TYPE INTERNAL)
-  set_property (CACHE CMAKE_MODULE_LINKER_FLAGS_${C} PROPERTY TYPE INTERNAL)
-  set_property (CACHE CMAKE_SHARED_LINKER_FLAGS_${C} PROPERTY TYPE INTERNAL)
-endforeach ()
-
-unset (C)
-
-# ----------------------------------------------------------------------------
-# common
-# ----------------------------------------------------------------------------
-
-# common compiler flags
-set (CMAKE_C_FLAGS "" CACHE INTERNAL "" FORCE)
-
-set (
-  CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}"
-  CACHE STRING "Flags used by the compiler for all builds."
-)
-
-# common linker flags
-set (
-  CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
-  CACHE STRING "Flags used by the linker."
-)
-set (
-  CMAKE_MODULE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
-  CACHE STRING "Flags used by the linker for the creation of modules."
-)
-set (
-  CMAKE_SHARED_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}"
-  CACHE STRING "Flags used by the linker for the creation of dll's."
-)
-
-# ----------------------------------------------------------------------------
-# Debug
-# ----------------------------------------------------------------------------
-
-# This build configuration is suitable for debugging programs.
-
-# compiler flags
-set (CMAKE_C_FLAGS_DEBUG "" CACHE INTERNAL "" FORCE)
-
-set (
-  CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}"
-  CACHE STRING "Flags used by the compiler for debug builds."
-)
-
-# linker flags
-set (
-  CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG}"
-  CACHE STRING "Flags used by the linker for the debug builds."
-)
-set (
-  CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG}"
-  CACHE STRING "Flags used by the linker for the debug builds."
-)
-set (
-  CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG}"
-  CACHE STRING "Flags used by the linker for the debug builds."
-)
-
-# ----------------------------------------------------------------------------
-# Release
-# ----------------------------------------------------------------------------
-
-# This build configuration produces binaries for deployment of the software.
-
-# compiler flags
-set (CMAKE_C_FLAGS_RELEASE "" CACHE INTERNAL "" FORCE)
-
-set (
-  CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}"
-  CACHE STRING "Flags used by the compiler for release builds."
-)
-
-# linker flags
-set (
-  CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE}"
-  CACHE STRING "Flags used by the linker for the release builds."
-)
-set (
-  CMAKE_MODULE_LINKER_FLAGS_RELEASE "${CMAKE_MODULE_LINKER_FLAGS_RELEASE}"
-  CACHE STRING "Flags used by the linker for the release builds."
-)
-set (
-  CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}"
-  CACHE STRING "Flags used by the linker for the release builds."
-)
-
-# ----------------------------------------------------------------------------
-# Coverage
-# ----------------------------------------------------------------------------
-
-# This build configuration enables coverage analysis.
-#
-# Note: The option -DNDEBUG disables assertions.
-#
-# TODO How can we do code coverage analysis on Windows?
-
-if (UNIX)
-
-# compiler flags
-set (CMAKE_C_FLAGS_COVERAGE "" CACHE INTERNAL "" FORCE)
-
-set (
-  CMAKE_CXX_FLAGS_COVERAGE "-DNDEBUG -fprofile-arcs -ftest-coverage"
-  CACHE STRING "Flags used by the compiler during coverage builds."
-)
-
-# linker flags
-set (
-  CMAKE_EXE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
-  CACHE STRING "Flags used by the linker during coverage builds."
-)
-set (
-  CMAKE_MODULE_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
-  CACHE STRING "Flags used by the linker during coverage builds."
-)
-set (
-  CMAKE_SHARED_LINKER_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage"
-  CACHE STRING "Flags used by the linker during coverage builds."
-)
-
-endif ()
-
-# ----------------------------------------------------------------------------
-# MemCheck
-# ----------------------------------------------------------------------------
-
-# This build configuration enables memory checks using, for example, valgrind.
-#
-# Note: The use of -O1 results in better performance while line numbers are yet
-#       reasonably close to the actual line. Higher optimization should never
-#       be used. The -g option is required such that line numbers can be reported.
-#
-# To debug detected memory leaks, consider the use of the Debug build
-# configuration instead.
-#
-# TODO How can we do memory checks on Windows?
-
-if (UNIX)
-
-# compiler flags for  configuration
-set (CMAKE_C_FLAGS_MEMCHECK "" CACHE INTERNAL "" FORCE)
-
-set (
-  CMAKE_CXX_FLAGS_MEMCHECK "-g -O1"
-  CACHE STRING "Flags used by the compiler during memcheck builds."
-)
-
-# linker flags for Coverage configuration
-set (
-  CMAKE_EXE_LINKER_FLAGS_MEMCHECK ""
-  CACHE STRING "Flags used by the linker during memcheck builds."
-)
-set (
-  CMAKE_MODULE_LINKER_FLAGS_MEMCHECK ""
-  CACHE STRING "Flags used by the linker during memcheck builds."
-)
-set (
-  CMAKE_SHARED_LINKER_FLAGS_MEMCHECK ""
-  CACHE STRING "Flags used by the linker during memcheck builds."
-)
-
-endif ()
-
-# ----------------------------------------------------------------------------
-# mark variables as advanced
-# ----------------------------------------------------------------------------
-
-foreach (C IN LISTS CMAKE_CONFIGURATION_TYPES)
-  string (TOUPPER "${C}" U)
-  mark_as_advanced (CMAKE_CXX_FLAGS_${U})
-  mark_as_advanced (CMAKE_EXE_LINKER_FLAGS_${U})
-  mark_as_advanced (CMAKE_MODULE_LINKER_FLAGS_${U})
-  mark_as_advanced (CMAKE_SHARED_LINKER_FLAGS_${U})
-endforeach ()
-unset (C)
-unset (U)
+# If @c BASIS_AUTO_PREFIX_INCLUDES is @c FALSE and a public header
+# file is encountered whose path is not prefixed by @c INCLUDE_PREFIX,
+# a warning is output by BASIS. This warning can be suppressed for certain
+# public header files using this variable. If the path of the public header
+# file relative to @c PROJECT_INCLUDE_DIR matches either one of the listed
+# regular expressions, the warning is not displayed. Note that special
+# characters in the regular expressions will have to be escaped twice, e.g.,
+# "\\\\." corresponds to the regular expression "\.", i.e., matches a dot (.).
+set (BASIS_INCLUDES_CHECK_EXCLUDE "")
 
 # ============================================================================
 # common options

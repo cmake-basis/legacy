@@ -3,7 +3,7 @@
 # @brief Dashboard configuration file.
 #
 # Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
@@ -38,4 +38,3 @@ set (CTEST_DROP_SITE_CDASH TRUE)
 #
 # See CTest.cmake module.
 set (CTEST_USE_LAUNCHERS 0)
-

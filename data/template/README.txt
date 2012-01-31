@@ -5,11 +5,11 @@
   3600 Market Street, Suite 380
   Philadelphia, PA 19104
 
-  Web:   https://www.rad.upenn.edu/sbia/
+  Web:   http://www.rad.upenn.edu/sbia/
   Email: sbia-software at uphs.upenn.edu
 
   Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-  See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+  See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 
 
 
@@ -50,15 +50,15 @@ PACKAGE OVERVIEW
   Binary Package
   --------------
 
-  For details on where the built executables and libraries, the auxiliary data,
-  and the documentation files are installed, please refer to the INSTALL file.
+  Please refer to the INSTALL file for details on where the built executables
+  and libraries, the auxiliary data, and the documentation files are installed.
 
 
 
 LICENSING
 =========
 
-  See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+  See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 
 
 

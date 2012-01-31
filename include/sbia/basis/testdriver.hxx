@@ -124,24 +124,27 @@ void testdriversetup(int* argc, char** argv[])
     }
 
     // -----------------------------------------------------------------------
-    // output host name and test driver information
-    if (verbose.getValue() > 0) {
-        char hostname[256] = "unknown";
-        #if WINDOWS
-            WSADATA wsaData;
-            WSAStartup(MAKEWORD(2, 2), &wsaData);
-            gethostname(hostname, sizeof(hostname));
-            WSACleanup();
-        #else
-            gethostname(hostname, sizeof(hostname));
-        #endif
-        hostname[255] = '\0';
-        cout << "Host: " << hostname << endl;
-        #ifdef ITK_VERSION
-        cout << "ITK:  " << ITK_VERSION << endl;
-        #endif
-        cout << endl;
-    }
+    // add host name as Dart/CDash measurement
+    char hostname[256] = "unknown";
+    #if WINDOWS
+        WSADATA wsaData;
+        WSAStartup(MAKEWORD(2, 2), &wsaData);
+        gethostname(hostname, sizeof(hostname));
+        WSACleanup();
+    #else
+        gethostname(hostname, sizeof(hostname));
+    #endif
+    hostname[255] = '\0';
+
+    cout << "<DartMeasurement name=\"Host Name\" type=\"string\">";
+    cout << hostname;
+    cout <<  "</DartMeasurement>" << endl;
+
+    #ifdef ITK_VERSION
+    cout << "<DartMeasurement name=\"ITK Version\" type=\"string\">";
+    cout << ITK_VERSION;
+    cout <<  "</DartMeasurement>" << endl;
+    #endif
 
     // -----------------------------------------------------------------------
     // register ITK IO factories
