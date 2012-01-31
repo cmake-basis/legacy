@@ -415,13 +415,13 @@ endmacro ()
 ## @brief Configure public header files.
 #
 # Copy public header files to build tree using the same relative paths
-# as will be used for the installation. We need to use configure_file()
-# here such that the header files in the build tree are updated whenever
-# the source header file was modified. Moreover, this gives us a chance to
+# as will be used for the installation. Moreover, this gives us a chance to
 # configure header files with the .in suffix.
 #
 # @note This function configures also the public header files of the modules
 #       already. Hence, it must not be called if this project is a module.
+#
+# @sa BASIS_CONFIGURE_INCLUDES
 function (basis_configure_public_headers)
   # --------------------------------------------------------------------------
   # settings
@@ -453,32 +453,41 @@ function (basis_configure_public_headers)
     endforeach ()
   endif ()
 
-  # dump currently defined CMake variables such that these can be used in .h.in files
+  # dump currently defined CMake variables such that these can be used in .in files
   basis_dump_variables ("${PROJECT_BINARY_DIR}/PublicHeadersVariables.cmake")
 
   # --------------------------------------------------------------------------
-  # clean up last run before the error because a file was added/removed
-
-  file (REMOVE "${CMAKE_FILE}")
-  file (REMOVE "${CMAKE_FILE}.tmp")
-  file (REMOVE "${CMAKE_FILE}.updated")
+  # common arguments to following commands
+  # Attention: Arguments which have a CMake list as value cannot be set this way,
+  #            i.e., the arguments PROJECTS_INCLUDE_DIRS and EXTENSIONS.
+  set (COMMON_ARGS
+    -D "BASE_INCLUDE_DIR=${PROJECT_INCLUDE_DIR}"
+    -D "BINARY_INCLUDE_DIR=${BINARY_INCLUDE_DIR}"
+    -D "INCLUDE_PREFIX=${INCLUDE_PREFIX}"
+    -D "VARIABLE_NAME=PUBLIC_HEADERS"
+  )
 
   # --------------------------------------------------------------------------
-  # configure public header files already during the configure step
+  # clean up last run before the error because a file was added/removed
+  file (REMOVE "${CMAKE_FILE}.tmp")
+  file (REMOVE "${CMAKE_FILE}.updated")
+  if (EXISTS "${CMAKE_FILE}")
+    # required to be able to remove now obsolete files from the build tree
+    file (RENAME "${CMAKE_FILE}" "${CMAKE_FILE}.tmp")
+  endif ()
+
+  # --------------------------------------------------------------------------
+  # configure public header files
   if (BASIS_VERBOSE)
     message (STATUS "Configuring public header files...")
   endif ()
 
   execute_process (
-    COMMAND "${CMAKE_COMMAND}"
-            -D "INCLUDE_FILE=${PROJECT_BINARY_DIR}/PublicHeadersVariables.cmake"
-            -D "BASE_INCLUDE_DIR=${PROJECT_INCLUDE_DIR}"
+    COMMAND "${CMAKE_COMMAND}" ${COMMON_ARGS}
             -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
-            -D "BINARY_INCLUDE_DIR=${BINARY_INCLUDE_DIR}"
-            -D "INCLUDE_PREFIX=${INCLUDE_PREFIX}"
             -D "EXTENSIONS=${EXTENSIONS}"
+            -D "INCLUDE_FILE=${PROJECT_BINARY_DIR}/PublicHeadersVariables.cmake"
             -D "CMAKE_FILE=${CMAKE_FILE}"
-            -D "VARIABLE_NAME=PUBLIC_HEADERS"
             -P "${BASIS_MODULE_PATH}/ConfigureIncludeFiles.cmake"
     RESULT_VARIABLE RT
   )
@@ -493,6 +502,29 @@ function (basis_configure_public_headers)
 
   if (NOT EXISTS "${CMAKE_FILE}")
     message (FATAL_ERROR "File ${CMAKE_FILE} not generated as it should have been!")
+  endif ()
+
+  # remove header files from build tree which were copied there before but
+  # are part of a now disabled module or were simply removed from the source tree
+  if (EXISTS "${CMAKE_FILE}.tmp")
+    execute_process (
+      # Compare current list of headers to list of previously configured files.
+      # If the lists differ, this command removes files which have been removed
+      # from the directory tree with root PROJECT_INCLUDE_DIR also from the
+      # tree with root directory BINARY_INCLUDE_DIR.
+      COMMAND "${CMAKE_COMMAND}" ${COMMON_ARGS}
+              -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
+              -D "OUTPUT_FILE=${CMAKE_FILE}.tmp"
+              -D "REFERENCE_FILE=${CMAKE_FILE}"
+              -D "REMOVE_OBSOLETE_FILES=TRUE"
+              -P "${BASIS_MODULE_PATH}/CheckPublicHeaders.cmake"
+      VERBATIM
+    )
+    file (REMOVE "${CMAKE_FILE}.tmp")
+    if (NOT RT EQUAL 0)
+      message (FATAL_ERROR "Failed to remove obsolete header files from build tree."
+                           " Remove the ${BINARY_INCLUDE_DIR} directory and rerun CMake.")
+    endif ()
   endif ()
 
   if (BASIS_VERBOSE)
@@ -522,14 +554,10 @@ function (basis_configure_public_headers)
   # custom command which globs the files in the project's include directory
   add_custom_command (
     OUTPUT  "${CMAKE_FILE}.tmp"
-    COMMAND "${CMAKE_COMMAND}"
-            -D "BASE_INCLUDE_DIR=${PROJECT_INCLUDE_DIR}"
+    COMMAND "${CMAKE_COMMAND}" ${COMMON_ARGS}
             -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
-            -D "BINARY_INCLUDE_DIR=${BINARY_INCLUDE_DIR}"
-            -D "INCLUDE_PREFIX=${INCLUDE_PREFIX}"
             -D "EXTENSIONS=${EXTENSIONS}"
             -D "CMAKE_FILE=${CMAKE_FILE}.tmp"
-            -D "VARIABLE_NAME=PUBLIC_HEADERS"
             -D "PREVIEW=TRUE" # do not actually configure the files
             -P "${BASIS_MODULE_PATH}/ConfigureIncludeFiles.cmake"
     COMMENT "Checking if public header files were added or removed"
@@ -543,16 +571,14 @@ function (basis_configure_public_headers)
     # trigger execution of custom command that generates the list
     # of current files in the project's include directory
     DEPENDS "${CMAKE_FILE}.tmp"
-    # compare current list of header to list of previously configured files
-    # if the lists differ, remove the CMAKE_FILE which was included in
-    # this function such that CMake re-configures the build system
-    COMMAND "${CMAKE_COMMAND}"
+    # Compare current list of headers to list of previously configured files.
+    # If the lists differ, the build of this target fails with the given error message.
+    COMMAND "${CMAKE_COMMAND}" ${COMMON_ARGS}
+            -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
             -D "OUTPUT_FILE=${CMAKE_FILE}"
             -D "REFERENCE_FILE=${CMAKE_FILE}.tmp"
-            -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
-            -D "BINARY_INCLUDE_DIR=${BINARY_INCLUDE_DIR}"
-            -D "INCLUDE_PREFIX=${INCLUDE_PREFIX}"
             -D "ERRORMSG=${ERRORMSG}"
+            -D "REMOVE_FILES_IF_DIFFERENT=TRUE" # triggers reconfigure on next build
             -P "${BASIS_MODULE_PATH}/CheckPublicHeaders.cmake"
     # remove temporary file again to force its regeneration
     COMMAND "${CMAKE_COMMAND}" -E remove "${CMAKE_FILE}.tmp"
@@ -566,13 +592,10 @@ function (basis_configure_public_headers)
       OUTPUT  "${CMAKE_FILE}.updated" # do not use same file as included
                                       # before otherwise CMake will re-configure
                                       # the build system next time
-      COMMAND "${CMAKE_COMMAND}"
-              -D "INCLUDE_FILE=${PROJECT_BINARY_DIR}/PublicHeadersVariables.cmake"
-              -D "BASE_INCLUDE_DIR=${PROJECT_INCLUDE_DIR}"
+      COMMAND "${CMAKE_COMMAND}" ${COMMON_ARGS}
               -D "PROJECT_INCLUDE_DIRS=${INCLUDE_DIRS}"
-              -D "BINARY_INCLUDE_DIR=${BINARY_INCLUDE_DIR}"
-              -D "INCLUDE_PREFIX=${INCLUDE_PREFIX}"
               -D "EXTENSIONS=${EXTENSIONS}"
+              -D "INCLUDE_FILE=${PROJECT_BINARY_DIR}/PublicHeadersVariables.cmake"
               -P "${BASIS_MODULE_PATH}/ConfigureIncludeFiles.cmake"
       COMMAND "${CMAKE_COMMAND}" -E touch "${CMAKE_FILE}.updated"
       DEPENDS ${PUBLIC_HEADERS}
@@ -586,17 +609,6 @@ function (basis_configure_public_headers)
       DEPENDS ${CHECK_HEADERS_TARGET} "${CMAKE_FILE}.updated"
       SOURCES ${PUBLIC_HEADERS}
     )
-  endif ()
-
-  # --------------------------------------------------------------------------
-  # add directory of configured headers to include search path
-  basis_include_directories (BEFORE "${BINARY_INCLUDE_DIR}")
-
-  # Attention: BASIS includes public header files which are named the
-  #            same as system-wide header files. Therefore, avoid to add
-  #            include/sbia/basis/ to the include search path.
-  if (NOT PROJECT_NAME MATCHES "^BASIS$")
-    basis_include_directories (BEFORE "${BINARY_INCLUDE_DIR}/${INCLUDE_PREFIX}")
   endif ()
 endfunction ()
 
@@ -664,13 +676,6 @@ endmacro ()
 # ----------------------------------------------------------------------------
 ## @brief Initialize project, calls CMake's project() command.
 #
-# @par Default documentation:
-# Each BASIS project has to have a README.txt file in the top directory of the
-# software component. This file is the root documentation file which refers the
-# user to the further documentation files in @c PROJECT_DOC_DIR.
-# The same applies to the COPYING.txt file with the copyright and license
-# notices which must be present in the top directory of the source tree as well.
-#
 # @sa basis_project()
 # @sa basis_project_impl()
 #
@@ -695,6 +700,43 @@ endmacro ()
 #                                          - "revision 42" (if version is 0.0.0)
 #                                          - "version unknown" (otherwise)
 macro (basis_project_initialize)
+  # --------------------------------------------------------------------------
+  # CMake version and policies
+  cmake_minimum_required (VERSION 2.8.4)
+
+  # Add policies introduced with CMake versions newer than the one specified
+  # above. These policies would otherwise trigger a policy not set warning by
+  # newer CMake versions.
+
+  if (POLICY CMP0016)
+    cmake_policy (SET CMP0016 NEW)
+  endif ()
+
+  if (POLICY CMP0017)
+    cmake_policy (SET CMP0017 NEW)
+  endif ()
+
+  # --------------------------------------------------------------------------
+  # reset
+
+  # only set if not set by top-level project before configuring a module
+  basis_set_if_empty (PROJECT_IS_MODULE FALSE)
+
+  # hide it here to avoid that it shows up in the GUI on error
+  set (CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "" FORCE)
+
+  # --------------------------------------------------------------------------
+  # project meta-data
+  if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake")
+    set (BASIS_basis_project_CALLED FALSE)
+    include ("${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake")
+    if (NOT BASIS_basis_project_CALLED)
+      message (FATAL_ERROR "Missing basis_project() command in BasisProject.cmake!")
+    endif ()
+  else ()
+    message (FATAL_ERROR "Missing BasisProject.cmake file!")
+  endif ()
+
   # --------------------------------------------------------------------------
   # Slicer extension
 
@@ -743,6 +785,11 @@ macro (basis_project_initialize)
   # note that SlicerConfig.cmake will invoke project() by itself
   if (NOT Slicer_FOUND)
     project ("${PROJECT_NAME}")
+  endif ()
+
+  # work-around for issue with CMAKE_PROJECT_NAME always being set to 'Project'
+  if ("${PROJECT_SOURCE_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+    set_property (CACHE CMAKE_PROJECT_NAME PROPERTY VALUE "${PROJECT_NAME}")
   endif ()
 
   # convert project name to upper and lower case only, respectively
@@ -829,8 +876,47 @@ macro (basis_project_initialize)
   endif ()
 
   # --------------------------------------------------------------------------
-  # settings
+  # reset project properties - *after* PROJECT_NAME was set
 
+  # The following variables are used across BASIS macros and functions. They
+  # in particular remember information added by one function or macro which
+  # is required by another function or macro.
+  #
+  # These variables need to be properties such that they can be set in
+  # subdirectories. Moreover, they have to be assigned with the project's
+  # root source directory such that a top-level project's properties are restored
+  # after this subproject is finalized such that the top-level project itself can
+  # be finalized properly.
+  #
+  # Attention: In particular the IMPORTED_* properties are already used
+  #            during the import of targets when including the use files of
+  #            external packages. Hence, this property has to be reset before.
+
+  # see basis_add_imported_target()
+  basis_set_project_property (PROPERTY IMPORTED_TARGETS "")
+  basis_set_project_property (PROPERTY IMPORTED_TYPES "")
+  basis_set_project_property (PROPERTY IMPORTED_LOCATIONS "")
+  basis_set_project_property (PROPERTY IMPORTED_RANKS "")
+  # see basis_include_directories()
+  basis_set_project_property (PROPERTY PROJECT_INCLUDE_DIRS "")
+  # see add_executable(), add_library()
+  basis_set_project_property (PROPERTY TARGETS "")
+  # see basis_add_*() functions
+  basis_set_project_property (PROPERTY EXPORT_TARGETS "")
+  basis_set_project_property (PROPERTY CUSTOM_EXPORT_TARGETS "")
+  basis_set_project_property (PROPERTY TEST_EXPORT_TARGETS "")
+  # see basis_add_script()
+  basis_set_project_property (PROPERTY PROJECT_USES_PYTHON_UTILITIES FALSE)
+  basis_set_project_property (PROPERTY PROJECT_USES_PERL_UTILITIES   FALSE)
+  basis_set_project_property (PROPERTY PROJECT_USES_BASH_UTILITIES   FALSE)
+  # yet unused
+  basis_set_project_property (PROPERTY PROJECT_USES_JAVA_UTILITIES   FALSE)
+  basis_set_project_property (PROPERTY PROJECT_USES_MATLAB_UTILITIES FALSE)
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Initialize project settings.
+macro (basis_initialize_settings)
   # configure and include BASIS directory structure
   configure_file (
     "${BASIS_MODULE_PATH}/Directories.cmake.in"
@@ -1011,7 +1097,11 @@ macro (basis_project_finalize)
     if (BASIS_UTILITIES_PUBLIC_HEADERS)
       set (PUBLIC_HEADERS)
       if (PROJECT_INCLUDE_DIR AND NOT BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES)
-        file (GLOB_RECURSE PUBLIC_HEADERS "${PROJECT_INCLUDE_DIR}/*.h")
+        if (BASIS_CONFIGURE_INCLUDES)
+          file (GLOB_RECURSE PUBLIC_HEADERS "${BINARY_INCLUDE_DIR}/*.h")
+        else ()
+          file (GLOB_RECURSE PUBLIC_HEADERS "${PROJECT_INCLUDE_DIR}/*.h")
+        endif ()
       endif ()
       set (REGEX)
       foreach (P ${BASIS_UTILITIES_PUBLIC_HEADERS})
@@ -1092,79 +1182,8 @@ endmacro ()
 # @ingroup CMakeAPI
 macro (basis_project_impl)
   # --------------------------------------------------------------------------
-  # CMake version and policies
-  cmake_minimum_required (VERSION 2.8.4)
-
-  # Add policies introduced with CMake versions newer than the one specified
-  # above. These policies would otherwise trigger a policy not set warning by
-  # newer CMake versions.
-
-  if (POLICY CMP0016)
-    cmake_policy (SET CMP0016 NEW)
-  endif ()
-
-  if (POLICY CMP0017)
-    cmake_policy (SET CMP0017 NEW)
-  endif ()
-
-  # --------------------------------------------------------------------------
-  # reset
-
-  # only set if not set by top-level project before configuring a module
-  basis_set_if_empty (PROJECT_IS_MODULE FALSE)
-
-  # hide it here to avoid that it shows up in the GUI on error
-  set (CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "" FORCE)
-
-  # --------------------------------------------------------------------------
-  # project meta-data
-  if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake")
-    set (BASIS_basis_project_CALLED FALSE)
-    include ("${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake")
-    if (NOT BASIS_basis_project_CALLED)
-      message (FATAL_ERROR "Missing basis_project() command in BasisProject.cmake!")
-    endif ()
-  else ()
-    message (FATAL_ERROR "Missing BasisProject.cmake file!")
-  endif ()
-
-  # --------------------------------------------------------------------------
-  # reset project properties - *after* PROJECT_NAME was set
-
-  # The following variables are used across BASIS macros and functions. They
-  # in particular remember information added by one function or macro which
-  # is required by another function or macro.
-  #
-  # These variables need to be properties such that they can be set in
-  # subdirectories. Moreover, they have to be assigned with the project's
-  # root source directory such that a top-level project's properties are restored
-  # after this subproject is finalized such that the top-level project itself can
-  # be finalized properly.
-  #
-  # Attention: In particular the IMPORTED_* properties are already used
-  #            during the import of targets when including the use files of
-  #            external packages. Hence, this property has to be reset before.
-
-  # see basis_add_imported_target()
-  basis_set_project_property (PROPERTY IMPORTED_TARGETS "")
-  basis_set_project_property (PROPERTY IMPORTED_TYPES "")
-  basis_set_project_property (PROPERTY IMPORTED_LOCATIONS "")
-  basis_set_project_property (PROPERTY IMPORTED_RANKS "")
-  # see basis_include_directories()
-  basis_set_project_property (PROPERTY PROJECT_INCLUDE_DIRS "")
-  # see add_executable(), add_library()
-  basis_set_project_property (PROPERTY TARGETS "")
-  # see basis_add_*() functions
-  basis_set_project_property (PROPERTY EXPORT_TARGETS "")
-  basis_set_project_property (PROPERTY CUSTOM_EXPORT_TARGETS "")
-  basis_set_project_property (PROPERTY TEST_EXPORT_TARGETS "")
-  # see basis_add_script()
-  basis_set_project_property (PROPERTY PROJECT_USES_PYTHON_UTILITIES FALSE)
-  basis_set_project_property (PROPERTY PROJECT_USES_PERL_UTILITIES   FALSE)
-  basis_set_project_property (PROPERTY PROJECT_USES_BASH_UTILITIES   FALSE)
-  # yet unused
-  basis_set_project_property (PROPERTY PROJECT_USES_JAVA_UTILITIES   FALSE)
-  basis_set_project_property (PROPERTY PROJECT_USES_MATLAB_UTILITIES FALSE)
+  # initialize project
+  basis_project_initialize ()
 
   # --------------------------------------------------------------------------
   # load information of modules
@@ -1192,8 +1211,8 @@ macro (basis_project_impl)
   endif ()
 
   # --------------------------------------------------------------------------
-  # initialize project
-  basis_project_initialize ()
+  # initialize settings
+  basis_initialize_settings ()
 
   # --------------------------------------------------------------------------
   # assertions
@@ -1214,8 +1233,22 @@ macro (basis_project_impl)
   # --------------------------------------------------------------------------
   # public header files
   basis_include_directories (BEFORE "${PROJECT_CODE_DIR}")
-  if (NOT PROJECT_IS_MODULE OR BASIS_USE_MODULE_NAMESPACES)
+  if (BASIS_CONFIGURE_INCLUDES AND
+      (NOT PROJECT_IS_MODULE OR BASIS_USE_MODULE_NAMESPACES))
     basis_configure_public_headers ()
+    set (INCLUDE_DIR "${BINARY_INCLUDE_DIR}")
+  else ()
+    set (INCLUDE_DIR "${PROJECT_INCLUDE_DIR}")
+  endif ()
+
+  # add directory of configured headers to include search path
+  basis_include_directories (BEFORE "${INCLUDE_DIR}")
+
+  # Attention: BASIS includes public header files which are named the
+  #            same as system-wide header files. Therefore, avoid to add
+  #            include/sbia/basis/ to the include search path.
+  if (NOT PROJECT_NAME MATCHES "^BASIS$")
+    basis_include_directories (BEFORE "${INCLUDE_DIR}/${INCLUDE_PREFIX}")
   endif ()
 
   # --------------------------------------------------------------------------
