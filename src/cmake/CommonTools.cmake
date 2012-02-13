@@ -2,8 +2,8 @@
 # @file  CommonTools.cmake
 # @brief Definition of common CMake functions.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
@@ -168,7 +168,7 @@ macro (basis_find_package PACKAGE)
     elseif (ARGN_REQUIRED)
       list (APPEND FIND_ARGN "REQUIRED")
     endif ()
-    if ("${PKG}" MATCHES "^(BLAS|MFC|wxWidgets)$")
+    if ("${PKG}" MATCHES "^(MFC|wxWidgets)$")
       # if Find<Pkg>.cmake prints status message, don't do it here
       find_package (${PKG} ${VER} ${FIND_ARGN})
     else ()
@@ -254,7 +254,6 @@ macro (basis_use_package PACKAGE)
       message ("** basis_use_package()")
       message ("**    Package: ${PKG}")
     endif ()
-    
     if (PROJECT_IS_MODULE)
       # allow modules to specify top-level project as dependency
       if (PKG MATCHES "^${BASIS_PROJECT_NAME}$")
@@ -290,33 +289,52 @@ macro (basis_use_package PACKAGE)
         endif ()
         break ()
       endif ()
-      if (BASIS_DEBUG)
-        message ("**     Include package use file of external package.")
-      endif ()
       if (${PKG}_USE_FILE)
+        if (BASIS_DEBUG)
+          message ("**     Include package use file of external package.")
+        endif ()
         include ("${${PKG}_USE_FILE}")
       elseif (${P}_USE_FILE)
+        if (BASIS_DEBUG)
+          message ("**     Include package use file of external package.")
+        endif ()
         include ("${${P}_USE_FILE}")
       else ()
-        # include directories
-        if (${PKG}_INCLUDE_DIRS OR ${P}_INCLUDE_DIRS)
-          if (${PKG}_INCLUDE_DIRS)
-            basis_include_directories (${${PKG}_INCLUDE_DIRS})
-          else ()
-            basis_include_directories (${${P}_INCLUDE_DIRS})
+        if (BASIS_DEBUG)
+          message ("**     Use variables which were set by basis_find_package().")
+        endif ()
+        # OpenCV
+        if ("${PKG}" STREQUAL "OpenCV")
+          # the cv.h may be found as part of PerlLibs, the include path of
+          # which is added at first by BASISConfig.cmake
+          basis_include_directories (BEFORE ${OpenCV_INCLUDE_DIRS})
+        # generic
+        else ()
+          if (${PKG}_INCLUDE_DIRS OR ${P}_INCLUDE_DIRS)
+            if (${PKG}_INCLUDE_DIRS)
+              basis_include_directories (${${PKG}_INCLUDE_DIRS})
+            else ()
+              basis_include_directories (${${P}_INCLUDE_DIRS})
+            endif ()
+          elseif (${PKG}_INCLUDES OR ${P}_INCLUDES)
+            if (${PKG}_INCLUDES)
+              basis_include_directories (${${PKG}_INCLUDES})
+            else ()
+              basis_include_directories (${${P}_INCLUDES})
+            endif ()
+          elseif (${PKG}_INCLUDE_PATH OR ${P}_INCLUDE_PATH)
+            if (${PKG}_INCLUDE_PATH)
+              basis_include_directories (${${PKG}_INCLUDE_PATH})
+            else ()
+              basis_include_directories (${${P}_INCLUDE_PATH})
+            endif ()
+          elseif (${PKG}_INCLUDE_DIR OR ${P}_INCLUDE_DIR)
+            if (${PKG}_INCLUDE_DIR)
+              basis_include_directories (${${PKG}_INCLUDE_DIR})
+            else ()
+              basis_include_directories (${${P}_INCLUDE_DIR})
+            endif ()  
           endif ()
-        elseif (${PKG}_INCLUDES OR ${P}_INCLUDES)
-          if (${PKG}_INCLUDES)
-            basis_include_directories (${${PKG}_INCLUDES})
-          else ()
-            basis_include_directories (${${P}_INCLUDES})
-          endif ()
-        elseif (${PKG}_INCLUDE_DIR OR ${P}_INCLUDE_DIR)
-          if (${PKG}_INCLUDE_DIR)
-            basis_include_directories (${${PKG}_INCLUDE_DIR})
-          else ()
-            basis_include_directories (${${P}_INCLUDE_DIR})
-          endif ()  
         endif ()
       endif ()
       set (BASIS_USE_${PKG}_INCLUDED TRUE)
@@ -901,6 +919,8 @@ endfunction ()
 # @param [in]  TARGET_NAME Target name used as argument to BASIS CMake functions.
 #
 # @returns Sets @p TARGET_UID to the UID of the build target @p TARGET_NAME.
+#
+# @sa basis_get_target_uid()
 macro (basis_make_target_uid TARGET_UID TARGET_NAME)
   set ("${TARGET_UID}" "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
   # strip off top-level namespace part (optional)
@@ -1105,6 +1125,8 @@ endfunction ()
 # @param [in]  TEST_NAME Test name used as argument to BASIS CMake functions.
 #
 # @returns Sets @p TEST_UID to the UID of the test @p TEST_NAME.
+#
+# @sa basis_get_test_uid()
 macro (basis_make_test_uid TEST_UID TEST_NAME)
   basis_make_target_uid ("${TEST_UID}" "${TEST_NAME}")
 endmacro ()
@@ -1564,6 +1586,43 @@ function (basis_get_target_location VAR TARGET_NAME PART)
 
   # return
   set ("${VAR}" "${LOCATION}" PARENT_SCOPE)
+endfunction ()
+
+# ============================================================================
+# generator expressions
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Process generator expressions in arguments.
+#
+# This command maps the target names used in generator expressions such as
+# $<TARGET_FILE:tgt> to target UIDs. Otherwise, CMake may not recognize the
+# target. Generator expressions are in particular supported by basis_add_test()
+#
+# @param [out] ARGS Name of output list variable.
+# @param [in]  ARGN List of arguments to process.
+#
+# @sa basis_add_test()
+function (basis_process_generator_expressions ARGS)
+  set (ARGS_OUT)
+  foreach (ARG IN LISTS ARGN)
+    string (REGEX MATCHALL "\\$<.*TARGET.*:.*>" EXPRS "${ARG}")
+    foreach (EXPR IN LISTS EXPRS)
+      if (EXPR MATCHES "\\$<(.*):(.*)>")
+        basis_get_target_uid (TARGET_UID "${CMAKE_MATCH_2}")
+        string (REPLACE "${EXPR}" "$<${CMAKE_MATCH_1}:${TARGET_UID}>" ARG "${ARG}")
+        if (BASIS_DEBUG AND BASIS_VERBOSE)
+          message ("** basis_process_generator_expressions():")
+          message ("**   Expression:  ${EXPR}")
+          message ("**   Keyword:     ${CMAKE_MATCH_1}")
+          message ("**   Argument:    ${CMAKE_MATCH_2}")
+          message ("**   Replaced by: $<${CMAKE_MATCH_1}:${TARGET_UID}>")
+        endif ()
+      endif ()
+    endforeach ()
+    list (APPEND ARGS_OUT "${ARG}")
+  endforeach ()
+  set (${ARGS} "${ARGS_OUT}" PARENT_SCOPE)
 endfunction ()
 
 

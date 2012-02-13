@@ -28,8 +28,8 @@
 # project. This is important in order to merge the module's output files with
 # the files of the project it is part of.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
@@ -238,7 +238,8 @@ endif ()
 # @code
 # # The project's namespace is SBIA_@PROJECT_NAME_UPPER@ and the name of the
 # # module in this example is mymodule.sh. This gives the fully-qualified module
-# # namespace SBIA_MICO_MYMODULE. Note that private identifiers are further
+# # namespace SBIA_@PROJECT_NAME_UPPER@_MYMODULE. Note that private identifiers
+# # are further
 # # prefixed with an underscore '_'.
 #
 # # return if already loaded

@@ -2,8 +2,8 @@
 # @file  UtilitiesTools.cmake
 # @brief CMake functions used to configure auxiliary source files.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
@@ -126,7 +126,7 @@ set (BASIS_BASH_FUNCTION_realpath "
 ## @brief Get real path of given file or directory.
 #
 # @note This function was substituted by BASIS either for the string
-#       \\\@BASIS_BASH_UTILITIES\\\@ or \\\@BASIS_BASH_realpath\\\@.
+#       \\\@BASIS_BASH_UTILITIES\\\@ or \\\@BASIS_BASH_FUNCTION_realpath\\\@.
 #
 # Example:
 # @code

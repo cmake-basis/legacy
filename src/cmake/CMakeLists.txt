@@ -2,8 +2,8 @@
 # @file  CMakeLists.txt
 # @brief Build configuration of CMake modules and utilities.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
@@ -28,7 +28,7 @@ set (
     "InstallationTools.cmake"       # software installation
     "MatlabTools.cmake"             # MATLAB support
     "ProjectTools.cmake"            # main project/module helpers
-    "SubversionTools.cmake"         # Subversion support
+    "RevisionTools.cmake"           # revision control system support
     "TargetTools.cmake"             # addition of build targets
     "TopologicalSort.cmake"         # topological sorting of build dependencies
     "UtilitiesTools.cmake"          # generation/configuration of utilities
@@ -63,7 +63,6 @@ set (
     "runmcc.m"                    # helper used by MatlabTools.cmake module
     "ScriptConfig.cmake.in"       # default script configuration file
     "ProjectSettings.cmake.in"    # default project-dependent settings
-    "SubversionUsers.txt"         # maps SVN users at SBIA to their real names
     "updatefile.py"               # helper used by BasisUpdate.cmake module
     "doxygen_sbia.css"            # stylesheet for Doxygen documentation
     "doxygen_header.html"         # header of Doxygen documentation
@@ -76,15 +75,17 @@ set (
 # Find<Pkg>.cmake modules
 set (
   CMAKE_FIND_MODULES
-    "FindGMock.cmake"             # for Google Mock
-    "FindGTest.cmake"             # for Google Test
-    "FindITK.cmake"               # for ITK
-    "FindLIBLINEAR.cmake"         # for LIBLINEAR
-    "FindMATLAB.cmake"            # for MATLAB
-    "FindMatlabNiftiTools.cmake"  # for MATLAB Central NIfTI tools
-    "FindMOSEK.cmake"             # for MOSEK
-    "FindNiftiCLib.cmake"         # for nifticlib
-    "FindPerlLibs.cmake"          # for Perl libraries
+    "FindBLAS.cmake"
+    "FindBoostNumericBindings.cmake"
+    "FindGMock.cmake"
+    "FindGTest.cmake"
+    "FindITK.cmake"
+    "FindLIBLINEAR.cmake"
+    "FindMATLAB.cmake"
+    "FindMatlabNiftiTools.cmake"
+    "FindMOSEK.cmake"
+    "FindNiftiCLib.cmake"
+    "FindPerlLibs.cmake"
 )
 
 # ----------------------------------------------------------------------------
@@ -104,7 +105,7 @@ basis_install (
 )
 
 # ----------------------------------------------------------------------------
-# make sure that we did not forgot to install a file... very easy to forgot!
+# make sure that we did not forget to install a file... very easy to forget!
 file (GLOB MODULES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *)
 
 foreach (F IN LISTS MODULES)

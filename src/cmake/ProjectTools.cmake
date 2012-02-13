@@ -2,8 +2,8 @@
 # @file  ProjectTools.cmake
 # @brief Definition of main project tools.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
@@ -841,8 +841,12 @@ macro (basis_project_initialize)
     set (PROJECT_NAME_INFIX "${PROJECT_NAME_LOWER}")
   endif ()
 
-  # get current revision of project
-  basis_svn_get_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
+  # get revision of project
+  #
+  # Note: Use revision when branch, i.e., either trunk, a branch, or a tag
+  #       has been modified last. For tags, this should in particular
+  #       correspond to the revision when the tag was created.
+  basis_svn_get_last_changed_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
 
   # extract version numbers from version string
   basis_version_numbers (
@@ -1016,7 +1020,6 @@ macro (basis_find_packages)
   # Attention: This function is used before the Directories.cmake.in and
   #            Settings.cmake.in files were configured and included.
   include ("${PROJECT_CONFIG_DIR}/Depends.cmake" OPTIONAL)
-
 
   # --------------------------------------------------------------------------
   # Slicer must be found before all others...
@@ -1358,6 +1361,12 @@ macro (basis_project_impl)
 
   if (BASIS_DEBUG)
     basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterSubdirectories.cmake")
+  endif ()
+
+  # ----------------------------------------------------------------------------
+  # change log
+  if (NOT PROJECT_IS_MODULE)
+    basis_add_changelog ()
   endif ()
 
   # --------------------------------------------------------------------------

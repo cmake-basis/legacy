@@ -2,8 +2,8 @@
 # @file  CMakeLists.txt
 # @brief Build configuration of Python utilities.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
@@ -21,4 +21,6 @@ basis_install (
 
 # ----------------------------------------------------------------------------
 # Python modules
+basis_add_library (argparse.py MODULE)
+basis_add_library (diff3.py MODULE)
 basis_add_library (${PROJECT_CODE_DIR}/tools/which.py MODULE)

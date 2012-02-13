@@ -5,7 +5,7 @@
 # @note The stdaux.sh module is automatically created by BASIS from the
 #       template file stdaux.sh.in which is part of the BASIS installation.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -81,7 +81,7 @@ function print_contact
 # execute_process ls /not/existing
 # # to prevent this, provide the --allow_fail option
 # execute_process --allow_fail ls /not/existing
-# # to make it more explicit where the command-line to execute starts, use --
+# # to make it explicit where the command-line to execute starts, use --
 # execute_process --allow_fail -- ls /not/existing
 # @endcode
 #

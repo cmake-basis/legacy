@@ -1,0 +1,1061 @@
+#! /usr/bin/env python
+
+##############################################################################
+# @file  basisproject.py
+# @brief Project tool used to create and/or modify a BASIS project.
+#
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+#
+# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
+#
+# @ingroup Tools
+##############################################################################
+
+# ============================================================================
+# modules
+# ============================================================================
+
+@BASIS_PYTHON_UTILITIES@
+
+import os                       # file manipulation
+import sys                      # system functions
+import re                       # regular expressions
+import datetime                 # now(), to get current year for copyright
+import shutil                   # copyfile()
+from sbia.basis import argparse # command-line parsing
+from sbia.basis import diff3    # three-way diff algorithm
+
+# ============================================================================
+# constants
+# ============================================================================
+
+# executable information
+_EXEC_DIR  = basis.get_executable_directory()
+_EXEC_NAME = basis.get_executable_name()
+
+# constants used as values for the template options
+DEL = -1 # remove feature/file if present
+ADD =  1 # add feature/file if missing
+
+# root directory of project template
+_template = os.path.abspath(os.path.join(_EXEC_DIR, '@TEMPLATE_DIR@'))
+
+# ============================================================================
+# auxiliary functions
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+def get_template_options(op=None):
+    return {'config-settings'     : op, # add/remove general project settings file
+            'config-components'   : op, # add/remove components configuration file
+            'config-package'      : op, # add/remove package configuration file
+            'config-find'         : op, # add/remove find package configuration file
+            'config-find_version' : op, # add/remove find package configuration version file
+            'config-script'       : op, # add/remove script configuration file
+            'config-test'         : op, # add/remove testing configuration file
+            'config-use'          : op, # add/remove package configuration use file
+            'data'                : op, # add/remove auxiliary data files
+            'doc'                 : op, # add/remove documentation
+            'example'             : op, # add/remove example
+            'include'             : op, # add/remove public includes tree
+            'src'                 : op, # add/remove directory for source files
+            'modules'             : op, # add/remove support for modularization
+            'test'                : op} # add/remove testing configuration file
+ 
+# ----------------------------------------------------------------------------
+def get_standard_template_options(opts, overwrite=False):
+    """Select standard project template."""
+    if overwrite or opts.get('config-settings')     == None: opts['config-settings'] = DEL
+    if overwrite or opts.get('config-components')   == None: opts['config-components'] = DEL
+    if overwrite or opts.get('config-package')      == None: opts['config-package'] = DEL
+    if overwrite or opts.get('config-find')         == None: opts['config-find'] = DEL
+    if overwrite or opts.get('config-find_version') == None: opts['config-find_version'] = DEL
+    if overwrite or opts.get('config-script')       == None: opts['config-script'] = DEL
+    if overwrite or opts.get('config-test')         == None: opts['config-test'] = DEL
+    if overwrite or opts.get('config-use')          == None: opts['config-use'] = DEL
+    if overwrite or opts.get('data')                == None: opts['data'] = DEL
+    if overwrite or opts.get('doc')                 == None: opts['doc'] = ADD
+    if overwrite or opts.get('example')             == None: opts['example'] = ADD
+    if overwrite or opts.get('include')             == None: opts['include'] = DEL
+    if overwrite or opts.get('test')                == None: opts['test'] = ADD
+    if (overwrite
+            or (opts.get('src') == None and opts.get('modules') == None)
+            or (opts.get('src') == None and opts.get('modules') == DEL)
+            or (opts.get('src') == DEL  and opts.get('modules') == None)):
+        if overwrite or opts.get('src') != DEL:
+            opts['src'] = ADD
+            opts['modules'] = DEL
+        else:
+            opts['src'] = DEL
+            opts['modules'] = ADD
+    return opts
+
+# ----------------------------------------------------------------------------
+def _update_dflt_opt(root, opts, opt, paths):
+    if not type(paths) is list:
+        paths = [paths]
+    for path in paths:
+        if opt not in opts:
+            opts[opt] = None
+        if opts[opt] == None and os.path.exists(os.path.join(root, path)):
+            opts[opt] = ADD
+    return opts
+
+# ----------------------------------------------------------------------------
+def get_default_template_options(root, opts, create):
+    """Select default options."""
+    if create:
+        opts = get_standard_template_options(opts, overwrite=False)
+    else:
+        if os.path.isdir(os.path.join(root, 'config')):
+            opts = _update_dflt_opt(root, opts, 'config-components',   'config/Components.cmake')
+            opts = _update_dflt_opt(root, opts, 'config-find',         'config/Config.cmake.in')
+            opts = _update_dflt_opt(root, opts, 'config-find_version', 'config/ConfigVersion.cmake.in')
+            opts = _update_dflt_opt(root, opts, 'config-test',         'config/CTestCustom.cmake.in')
+            opts = _update_dflt_opt(root, opts, 'config-package',      'config/Package.cmake')
+            opts = _update_dflt_opt(root, opts, 'config-script',       'config/ScriptConfig.cmake.in')
+            opts = _update_dflt_opt(root, opts, 'config-settings',     'config/Settings.cmake')
+            opts = _update_dflt_opt(root, opts, 'config-use',          'config/ConfigUse.cmake.in')
+        opts = _update_dflt_opt(root, opts, 'data',    'data')
+        opts = _update_dflt_opt(root, opts, 'doc',     'doc')
+        opts = _update_dflt_opt(root, opts, 'example', 'example')
+        opts = _update_dflt_opt(root, opts, 'include', 'include')
+        opts = _update_dflt_opt(root, opts, 'src',     'src')
+        opts = _update_dflt_opt(root, opts, 'modules', 'modules')
+        opts = _update_dflt_opt(root, opts, 'test',    'test')
+    return opts
+
+# ----------------------------------------------------------------------------
+def get_project_name(cmake_file):
+    """Extract project name from BasisProject.cmake file of existing project."""
+    fp = open(cmake_file, 'rt')
+    txt = fp.read()
+    fp.close()
+    m = re.search(r'\s*basis_project\s*\(\s*NAME\s+\"?(?P<name>\w+)\"?', txt)
+    if m: return m.group('name')
+    return None
+
+# ----------------------------------------------------------------------------
+def get_template_version(cmake_file):
+    """Extract template version from root CMakeLists.cmake file of existing project."""
+    fp = open(cmake_file, 'rt')
+    txt = fp.read()
+    fp.close()
+    m = re.search(r'\s*set\s*\(\s*TEMPLATE_VERSION\s+\"?(?P<version>[0-9.]+)\"?', txt)
+    if m: return m.group('version')
+    return None
+
+# ============================================================================
+# add / remove project file
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+def add_dependencies(txt, deps, required=True, test=False):
+    """Add dependencies to basis_project() command in BasisProject.cmake file."""
+    if test:
+        if required:
+            placeholder = '#<test-dependency>'
+        else:
+            placeholder = '#<optional-test-dependency>'
+    else:
+        if required:
+            placeholder = '#<dependency>'
+        else:
+            placeholder = '#<optional-dependency>'
+    for dep in deps:
+        txt = txt.replace(placeholder, dep + '\n    ' + placeholder, 1)
+    return txt
+
+# ----------------------------------------------------------------------------
+def alter(filename, args, backup=True):
+    """Alter project file, i.e., substitute placeholders.
+
+    @param [in] filename Path of text file to alter.
+    @param [in] args     Command-line arguments.
+    @param [in] backup   Whether to backup file before overwriting it.
+
+    @retval -1 on error
+    @retval  0 if file was not modified
+    @retval  1 if file has been modified
+
+    """
+    # read file content
+    fp = open(filename, 'rt')
+    txt = fp.read()
+    fp.close()
+    # alter file content
+    out = txt
+    out = out.replace('<template-version>', '@TEMPLATE_VERSION@')
+    # <project>
+    if hasattr(args, 'name') and args.name:
+        out = out.replace('<project>', args.name)
+    # <description>
+    if hasattr(args, 'description') and args.description:
+        out = out.replace('<description>', args.description)
+    # <author>
+    if hasattr(args, 'author') and args.author:
+        start = out.find('<author>')
+        if start != -1:
+            linestart = out.rfind('\n', 0, start)
+            if linestart == -1: linestart  = 0
+            else:               linestart += 1
+            authors = [a.strip() for a in args.author.split(',')]
+            authors = ('\n' + out[linestart:start]).join(authors)
+            out = out.replace('<author>', authors)
+    # <year>
+    if hasattr(args, 'year') and args.year:
+        year = args.year
+    else:
+        year = datetime.datetime.now().year
+    out = out.replace('<year>', str(year))
+    # dependencies
+    if filename.endswith('BasisProject.cmake'):
+        if hasattr(args, 'use') and args.use:
+            out = add_dependencies(out, args.use, required=True, test=False)
+        if hasattr(args, 'useopt') and args.useopt:
+            out = add_dependencies(out, args.useopt, required=False, test=False)
+        if hasattr(args, 'usetest') and args.usetest:
+            out = add_dependencies(out, args.usetest, required=True, test=True)
+        if hasattr(args, 'useopttest') and args.useopttest:
+            out = add_dependencies(out, args.useopttest, required=False, test=True)
+    # return if file content is unchanged
+    if out == txt: return 0
+    # otherwise, backup file first
+    if backup:
+        try:
+            shutil.copy(filename, filename + '~')
+        except Exception, e:
+            sys.stderr.write("E %s - failed to backup file before altering it" % filename)
+            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+            sys.stderr.write('\n')
+            return -1
+    # then overwrite it
+    fp = open(filename, 'wt')
+    fp.write(out)
+    fp.close()
+    return 1
+
+# ----------------------------------------------------------------------------
+def add(path, args, isdir=False):
+    """Add or modify project directory or file.
+
+    @param [in] path  The path of the directory or file relative to the
+                      template or project root, respectively.
+    @param [in] args  Namespace with command-line arguments.
+    @param [in] isdir Whether @p path is a directory that may not have
+                      a corresponding template.
+
+    @retval -1 on error
+    @retval  0 if existing file is up to date
+    @retval  1 if project file has been added/updated
+    @retval  2 if project file has been updated, but with conflicts
+
+    """
+    retval = 0
+
+    template_path          = os.path.join(args.template, path)
+    original_template_path = os.path.join(args.original_template, path)
+    project_path           = os.path.join(args.root, path)
+
+    # check existence of template
+    if not isdir and not os.path.exists(template_path):
+        sys.stderr.write("E %s - template missing\n" % project_path)
+        return -1
+
+    # handle case that path in project exists already
+    if os.path.exists(project_path):
+        if isdir or os.path.isdir(template_path):
+            if not os.path.isdir(project_path):
+                # template is directory, but there is a file in the project
+                sys.stderr.write("E %s - not a directory\n" % project_path)
+                return -1
+            else:
+                # directory already exists, nothing to do
+                return 0
+        elif os.path.isfile(template_path):
+            if not os.path.isfile(project_path):
+                # template is file, but there is a directory in the project
+                sys.stderr.write("E %s - not a file\n" % project_path)
+                return -1
+            # if update of existing files is disabled, only alter file
+            # to add further dependencies or specify an author...
+            if not args.update:
+                rv = alter(project_path, args, backup=args.backup)
+                if rv == 1: print "M %s" % project_path
+                return rv
+
+    # create (intermediate) directory
+    if isdir or os.path.isdir(template_path):
+        path_dir = path
+    else:
+        path_dir = os.path.dirname(path)
+    project_dir = os.path.join(args.root, path_dir)
+    if not os.path.isdir(project_dir):
+        try:
+            os.makedirs(project_dir)
+            print "A %s" % project_dir
+        except Exception, e:
+            sys.stderr.write("E %s - failed to make directory" % project_dir)
+            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+            sys.stderr.write('\n')
+            return -1
+
+    # add/update file
+    if os.path.isfile(template_path):
+        # project file does not exist yet
+        if not os.path.isfile(project_path):
+            # copy template
+            try:
+                shutil.copyfile(template_path, project_path)
+            except Exception, e:
+                sys.stderr.write("E %s - failed to add file" % project_path)
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                return -1
+            # alter project file, e.g., substitute for project name
+            try:
+                if alter(project_path, args, backup=False) == -1:
+                    retval = -1
+            except Exception, e:
+                retval = -1
+            if retval != -1:
+                print "A %s" % project_path
+                retval = 1
+            else:
+                sys.stderr.write("E %s - failed to alter file, may require manual edits" % project_path)
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+        # project file exists already
+        else:
+            # update project file if copy of previous template exists
+            if os.path.isfile(original_template_path):
+                # alter new template
+                try:
+                    shutil.copyfile(template_path, project_path + '.template')
+                    if alter(project_path + '.template', args, backup=False) == -1:
+                        raise Exception('failed to alter template file')
+                except Exception, e:
+                    sys.stderr.write("E %s - failed to create temporary template" % project_path)
+                    if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                    sys.stderr.write('\n')
+                    return -1
+                # merge new template with project file using three-way diff
+                fp = open(project_path, 'rt')
+                current = fp.readlines()
+                fp.close()
+                fp = open(project_path + '.template', 'rt')
+                template = fp.readlines()
+                fp.close()
+                fp = open(original_template_path, 'rt')
+                initial = fp.readlines()
+                fp.close()
+                merge = diff3.merge(current, initial, template)
+                # check if anything has changed at all
+                if merge['body'] != current:
+                    # in case of conflicts, backup file using .mine suffix
+                    if merge['conflict']:
+                        try:
+                            shutil.copy(project_path, project_path + '.mine')
+                        except Exception, e:
+                            sys.stderr.write("E %s - failed to backup file" % project_path)
+                            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                            sys.stderr.write('\n')
+                            return -1
+                    # otherwise, backup current project file using ~ suffix
+                    elif args.backup:
+                        try:
+                            shutil.copyfile(project_path, project_path + '~')
+                        except Exception, e:
+                            sys.stderr.write("E %s - failed to backup file" % project_path)
+                            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                            sys.stderr.write('\n')
+                            return -1
+                    # replace project file by merged file
+                    try:
+                        fp = open(project_path, 'wt')
+                        fp.writelines(merge['body'])
+                        fp.close()
+                    except Exception, e:
+                        sys.stderr.write("E %s - failed to update file" % project_path)
+                        if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                        sys.stderr.write('\n')
+                        return -1
+                    if retval != -1:
+                        if merge['conflict']: retval = 2
+                        else:                 retval = 1
+                # remove altered template again if update was successful
+                if not merge['conflict']:
+                    try:
+                        os.remove(project_path + '.template')
+                    except Exception, e:
+                        sys.stderr.write("E %s - failed to remove temporary file" % project_path)
+                        if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                        sys.stderr.write('\n')
+                        retval = -1
+            # cannot update files without copy of original template
+            else:
+                try:
+                    # copy current template for reference next to the corresponding
+                    # project file
+                    shutil.copyfile(template_path, project_path + '.template')
+                except:
+                    pass
+                sys.stderr.write("S %s - cannot update file: missing original template\n" % project_path)
+                retval = -1
+            # print status message if file was updated
+            if retval > 0:
+                if merge['conflict']: print "C %s" % project_path
+                else:                 print "G %s" % project_path
+    # done
+    return retval
+
+# ----------------------------------------------------------------------------
+def remove_directory(path):
+    isempty = True
+    for filename in os.listdir(path):
+        if filename != '.svn' and filename != '.git' and filename != '.hg':
+            isempty = False
+            break
+    if isempty:
+        shutil.rmtree(path)
+        return True
+    return False
+
+# ----------------------------------------------------------------------------
+def delete(path, args, isdir=False):
+    """Delete file or empty directory.
+
+    @param [in] path  Path relative to template or project root, respectively.
+    @param [in] args  Namespace with command-line arguments.
+    @param [in] isdir Whether @p path is a directory path that may not have
+                      a corresponding template.
+
+    @retval -1 on error
+    @retval  0 if file/directory did not exist
+    @retval  1 if file/directory was removed
+
+    """
+    retval = 0
+
+    original_template_path = os.path.join(args.original_template, path)
+    project_path = os.path.join(args.root, path)
+
+    # delete existing directory
+    if os.path.isdir(project_path):
+        if args.force:
+            try:
+                shutil.rmtree(project_path)
+            except Exception, e:
+                sys.stderr.write("E %s - failed to remove directory" % project_path)
+                if verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                retval = -1
+        else:
+            try:
+                os.rmdir(project_path)
+            except Exception, e:
+                sys.stderr.write("E %s - failed to remove directory;"
+                                 " use --force to force deletion of non-empty directory" % project_path)
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                retval = -1
+        if retval != -1:
+            print "D %s" % project_path
+            retval = 1
+    # delete existing file and copy of template
+    elif os.path.isfile(project_path):
+        # check if project file differs from template
+        if not args.force:
+            if not os.path.isfile(original_template_path):
+                sys.stderr.write("E %s - original template missing, use --force to force deletion\n" % project_path)
+                return -1
+            # alter new template
+            try:
+                shutil.copyfile(original_template_path, project_path + '.template')
+                if alter(project_path + '.template', args, backup=False) == -1:
+                    raise Exception('failed to alter template file')
+            except Exception, e:
+                sys.stderr.write("E %s - failed to create temporary template,"
+                                 " use --force to force deletion")
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                return -1
+            # compare files
+            fp = open(project_path, 'rt')
+            current = fp.read()
+            fp.close()
+            fp = open(project_path + '.template', 'rt')
+            template = fp.read()
+            fp.close()
+            # remove altered template file
+            try:
+                os.remove(project_path + '.template')
+            except Exception, e:
+                sys.stderr.write("E %s - failed to remove temporary file" % project_path)
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                retval = -1
+            # check for differences
+            if current != template:
+                if retval != -1:
+                    sys.stderr.write("S %s - file was modified, use --force to force deletion\n" % project_path)
+                return -1
+        # delete project file
+        try:
+            os.remove(project_path)
+        except Exception, e:
+            sys.stderr.write("E %s - failed to remove file" % project_path)
+            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+            sys.stderr.write('\n')
+            return -1
+        # print status message
+        if retval != -1:
+            print "D %s" % project_path
+            retval = 1
+        # remove now empty directories
+        subdir = os.path.dirname(project_path)
+        while subdir != args.root:
+            try:
+                if remove_directory(subdir):
+                    print "D %s" % subdir
+            except Exception, e:
+                sys.stderr.write("W %s - failed to remove directory" % subdir)
+                if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                sys.stderr.write('\n')
+                retval = -1
+                break
+            subdir = os.path.dirname(subdir)
+    # done
+    return retval
+
+# ----------------------------------------------------------------------------
+def addordel(op, path, args, isdir=False):
+    """Add/update or delete file or directory depending on operation specified.
+
+    @param [in] op    Operations. Either one of ADD, None, or DEL.
+    @param [in] path  File path relative to tempate or project root, respectively.
+    @param [in] args  Namespace with command-line arguments.
+    @param [in] isdir Whether @p path is a directory path that may not have
+                      a corresponding template.
+
+    @retval -1 on error
+    @retval  0 if nothing was done
+    @retval  1 if operation was successful
+
+    """
+    # add file/directory to project
+    if op == ADD:
+        return add(path, args, isdir=isdir)
+    # delete file/directory from project
+    elif op == DEL:
+        return delete(path, args, isdir=isdir)
+    # nothing to do otherwise
+    return 0
+
+# ----------------------------------------------------------------------------
+class AccumulatorForNumbersOfChangesAndErrors(object):
+    """Helper class used to accumulate number of changes, conflicts, and
+       errors when calling either one of the add(), delete(), or addordel()
+       functions."""
+    # ------------------------------------------------------------------------
+    changes   = 0
+    conflicts = 0
+    errors    = 0
+    # ------------------------------------------------------------------------
+    def call(self, func, *args, **kwargs):
+        """Call the specified function with the given arguments."""
+        rt = func(*args, **kwargs)
+        if rt == -1: self.errors += 1
+        else:
+            if rt  > 0: self.changes   += 1
+            if rt == 2: self.conflicts += 1
+
+# ============================================================================
+# main
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+if __name__ == '__main__':
+    ok = True
+
+    # ------------------------------------------------------------------------
+    # program help
+    parser = argparse.ArgumentParser(prog='basisproject', description="""
+  This command-line tool, also referred to as project tool, can be used to
+  create a new project from the BASIS project template version @TEMPLATE_VERSION@ or to modify a
+  previously created BASIS project.
+
+  Depending on the grade of customization or optional inclusion of template
+  components, different subsets of the fully featured project template can be
+  selected. Additional template files and directories can be added to an existing
+  project at any time. Further, if the --no* options are given explicitly,
+  project files which were previously copied from the template are deleted.
+  Files are, however, only deleted if they were not modified by the project
+  developer since their creation and hence do not contain project related changes.
+  Similarly are directories deleted by this tool only if empty. The deletion of
+  modified files can be forced by supplying the --force option.
+
+  Besides the name of the new project and a brief description, names of external
+  packages required or optionally used by this project can be specified. For each
+  such package, an entry in the list of dependencies given as argument to either
+  one of the DEPENDS* options of the basis_project() command is added.
+
+  An additional feature of this tool is, that it can upgrade an existing project
+  to a newer project template version, given that the existing directory structure
+  and file names were preserved. User changes to previously added template files
+  are preserved and merged with the changes of the template using a so-called
+  three-way diff similar to the Subversion tool svn. If the automatic file merge
+  is not successful, a copy of the original project file (*.mine) as well as the
+  new template file (*.template) are written to the project directory next to the
+  project file which has been overwritten with the merged content which includes
+  markers to indicate where the conflicts occurred. The project file has to be
+  edited manually in this case to resolve any conflicts. Once the conflicts have
+  been resolved, the *.mine and *.template files must be removed before this
+  tool can be used for another update of the project files. This can be done
+  either manually or by running this program with the --cleanup option.""",
+        formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(prog, max_help_position=51))
+        #formatter_class=argparse.RawTextHelpFormatter)
+
+    # ----------------------------------------------------------------------------
+    # define command-line arguments
+
+    parser.set_defaults(opts=get_template_options())
+
+    # --version
+    parser.add_argument('--version', action='version',
+            help="Show version information and exit.",
+            version="""%(prog)s (@PROJECT_NAME@) @PROJECT_VERSION_AND_REVISION@
+Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.
+See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.""")
+
+    # --verbose
+    parser.add_argument('-v', '--verbose', action='count', default=0,
+            help="Increase verbosity of output messages.")
+
+    # --name/--description/--author
+    parser.add_argument('--name', metavar='<name>',
+            help="Name of new project.")
+
+    parser.add_argument('--description', metavar='<text>',
+            help="Brief project description.")
+
+    parser.add_argument('--author', metavar='<author>',
+            help="Name of original author of the software.")
+
+    # --root/--template
+    parser.add_argument('--root', metavar='<dir>', type=os.path.abspath,
+            help="""Project root directory. Defaults to a subdirectory named after the
+project created in the current working directory. In order to update
+an existing project, specify the root directory of this project
+using this option.""")
+
+    parser.add_argument('--template', metavar='<dir>',
+            type=os.path.abspath, default=_template + '-@TEMPLATE_VERSION@',
+            help="""Root directory of project template. Defaults to the template
+corresponding to this BASIS installation.""")
+
+    parser.add_argument('--original', metavar='<dir>',
+            type=os.path.abspath, dest='original_template',
+            help="""Root directory of project template which the already existing project
+was created from or last updated to. By default, the version of the original template
+is extracted from the root CMakeLists.txt file of the project. Given this version,
+BASIS determines the path of the corresponding project template which is part of
+the BASIS installation. If the correct is not available, an automatic update of
+project files to a newer template version is not feasible.""")
+
+    # --use et al.
+    parser.add_argument('--use', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package used by this project.
+Note that the package name is case sensitive.""")
+
+    parser.add_argument('--useopt', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package optionally used by this project.
+Note that the package name is case sensitive.""")
+
+
+    parser.add_argument('--usetest', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package required by tests of this project.
+Note that the package name is case sensitive.""")
+
+    parser.add_argument('--useopttest', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package optionally used by tests of this project.
+Note that the package name is case sensitive.""")
+
+    # --minimal
+    class MinimalTemplateAction(argparse.Action):
+        def __call__(self, parser, namespace, value, option_string):
+            setattr(namespace, 'opts', get_template_options(DEL))
+
+    parser.add_argument('--minimal', nargs=0, action=MinimalTemplateAction,
+            help="""Choose minimal project template. Corresponds to not
+selecting any of the additional template files.""")
+
+    # --standard
+    class StandardTemplateAction(argparse.Action):
+        def __call__(self, parser, namespace, value, option_string):
+            setattr(namespace, 'opts', get_standard_template_options({}))
+
+    parser.add_argument('--standard', nargs=0, action=StandardTemplateAction,
+            help="""Choose standard project template. This is the default
+project template if no template was selected explicitly.
+Corresponds to:
+    --doc
+    --example
+    --noconfig
+    --nodata
+    --test""")
+
+    # --full
+    class FullTemplateAction(argparse.Action):
+        def __call__(self, parser, namespace, value, option_string):
+            setattr(namespace, 'opts', get_template_options(ADD))
+
+    parser.add_argument('--full', nargs=0, action=FullTemplateAction,
+            help="""Choose full-featured project template.""")
+
+    # --toplevel
+    class TopLevelTemplateAction(argparse.Action):
+        def __call__(self, parser, namespace, value, option_string):
+            opts = get_standard_template_options({})
+            opts['modules'] = ADD
+            opts['src']     = DEL
+            opts['test']    = DEL
+            setattr(namespace, 'opts', opts)
+
+    parser.add_argument('--toplevel', nargs=0, action=TopLevelTemplateAction,
+            help="""Choose top-level project template.""")
+
+    # --module
+    class ModuleTemplateAction(argparse.Action):
+        def __call__(self, parser, namespace, value, option_string):
+            opts = get_template_options(DEL)
+            opts['include'] = ADD
+            opts['src']     = ADD
+            opts['test']    = ADD
+            setattr(namespace, 'opts', opts)
+
+    parser.add_argument('--module', nargs=0, action=ModuleTemplateAction,
+            help="""Choose project module template.""")
+
+    # --[no]config
+    class ConfigAction(argparse.Action):
+        def __call__(self, parser, namespace, values, option_string):
+            if option_string == '--config': opts = self._get_options(ADD)
+            else:                           opts = self._get_options(DEL)
+            setattr(namespace, 'opts', opts)
+
+        def _get_options(self, op):
+            return {'config-settings':     op,
+                    'config-components':   op,
+                    'config-package':      op,
+                    'config-find':         op,
+                    'config-find_version': op,
+                    'config-script':       op,
+                    'config-test':         op,
+                    'config-use':          op}
+
+    parser.add_argument('--config', '--noconfig',
+            nargs=0, action=ConfigAction,
+            help="""Include/exclude all custom configuration files.""")
+
+    # granular template options
+    class OptAction(argparse.Action):
+        def __call__(self, parser, namespace, values, option_string):
+            if not hasattr(namespace, 'opts'):
+                setattr(namespace, 'opts', {})
+            if option_string.startswith('--no'):
+                op  = DEL
+                opt = option_string[4:]
+            else:
+                op  = ADD
+                opt = option_string[2:]
+            namespace.opts[opt] = op
+
+    parser.add_argument('--config-components', '--noconfig-components',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom Components.cmake file.")
+
+    parser.add_argument('--config-find', '--noconfig-find',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom Config.cmake.in file.")
+
+    parser.add_argument('--config-find-version', '--noconfig-find-version',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom ConfigVersion.cmake.in file.")
+
+    parser.add_argument('--config-package', '--noconfig-package',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom Package.cmake file.")
+
+    parser.add_argument('--config-script', '--noconfig-script',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom ScriptConfig.cmake.in file.")
+
+    parser.add_argument('--config-settings', '--noconfig-settings',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom Settings.cmake file.")
+
+    parser.add_argument('--config-test', '--noconfig-test',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom CTestCustom.cmake.in file.")
+
+    parser.add_argument('--config-use', '--noconfig-use',
+            nargs=0, action=OptAction,
+            help="Include/exclude custom ConfigUse.cmake.in file.")
+
+    parser.add_argument('--data', '--nodata',
+            nargs=0, action=OptAction,
+            help="Add/remove directory for auxiliary data files.")
+
+    parser.add_argument('--doc', '--nodoc',
+            nargs=0, action=OptAction,
+            help="Add/remove directory for documentation files.")
+
+    parser.add_argument('--example', '--noexample',
+            nargs=0, action=OptAction,
+            help="Add/remove directory for example files.")
+
+    parser.add_argument('--include', '--noinclude',
+            nargs=0, action=OptAction,
+            help="Add/remove directory for public header files.")
+
+    parser.add_argument('--modules', '--nomodules',
+            nargs=0, action=OptAction,
+            help="Add/remove support for modularization.")
+
+    parser.add_argument('--src', '--nosrc',
+            nargs=0, action=OptAction,
+            help="Add/remove directory for project source files.")
+
+    parser.add_argument('--test', '--notest',
+            nargs=0, action=OptAction,
+            help="Add/remove support for testing.")
+
+    # --update
+    parser.add_argument('-u', '--update', action='store_true', default=False,
+            help="""Enable update of existing project files. If this option is given,
+changes of the project file are merged with those of the
+corresponding template file if the template has been modified,
+for example, as part of a new release of BASIS.""")
+
+    # --cleanup
+    parser.add_argument('-c', '--cleanup', action='store_true', default=False,
+            help="""Remove files resulting from merge conflicts of a previous update
+of existing project files and backups. The conflicts should have
+been manually resolved before using this option.""")
+
+    # --force
+    parser.add_argument('-f', '--force', action='store_true', default=False,
+            help="""Enable removal of non-empty directories and modified project files.
+By default, only empty directories and project files which have not
+been edited since their creation are removed.""")
+
+    # --nobackup
+    parser.add_argument('--nobackup', action='store_false', default=True, dest='backup',
+            help="""Disable backup of existing project files. By default, whenever an
+existing project file is modified, a backup of this file is made and saved under the
+same filename, but with the ~ character as suffix. If this option is given, such backup
+files are not made. In case of a merge conflict, however, existing project files are
+always backed-up, using .mine as suffix for the file name of the backup in this case.""")
+
+    # ----------------------------------------------------------------------------
+    # parse command-line arguments
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+    else:
+        args = parser.parse_args()
+
+    # ------------------------------------------------------------------------
+    # create new project or update existing one?
+    # request to create new project
+    if args.name:
+        create = True
+        # create subdirectory in current working directory by default
+        if not args.root:
+            args.root = os.path.join(os.getcwd(), args.name)
+        # ensure that root directory is empty
+        if os.path.exists(args.root) and len(os.listdir(args.root)) != 0:
+            sys.stderr.write("Directory " + args.root + " exists already and is not empty.\n")
+            sys.stderr.write("Please choose another project name or a different root directory using the --root option.\n")
+            sys.stderr.write('\n')
+            sys.stderr.write("If you want to modify an existing project, please specify the root directory\n")
+            sys.stderr.write("of the existing project using the --root option and remove the --name option.\n")
+            sys.exit(1)
+        # require a project description
+        if not args.description:
+            sys.stderr.write("No project description given!\n")
+            sys.exit(1)
+        # set path of original template to current template
+        args.original_template = args.template
+        # verify that project name is valid
+        if not re.match(r'^[a-zA-Z0-9]+$', args.name):
+            sys.stderr.write("Invalid project name: " + args.name + "\n")
+            sys.stderr.write("Project name may only consist of alphanumeric characters!\n")
+            sys.stderr.write("If you are attempting to modify an existent project, check whether the\n")
+            sys.stderr.write("project name is correctly extracted from the root CMakeLists.txt file.\n")
+            sys.exit(1)
+    # request to modify existing project
+    else:
+        create = False
+        # use current working directory if root not specified
+        if not args.root:
+            args.root = os.getcwd()
+        # remove trailing slashes from root
+        if args.root[-1] == '/' or args.root[-1] == '\\':
+            args.root = args.root[0:-1]
+        # check existence of root directory
+        if not os.path.isdir(args.root):
+            sys.stderr.write("Project directory " + args.root + " does not exist!\n")
+            sys.stderr.write("If you want to create a new project, please specify a project name.\n")
+            sys.exit(1)
+        # is project a BASIS project?
+        if not os.path.isfile(os.path.join(args.root, 'BasisProject.cmake')):
+            sys.stderr.write("Could not find a BasisProject.cmake file in " + args.root +
+                    "! Are you sure this is a BASIS project?\n")
+            sys.exit(1)
+        # notify user that --description option is invalid
+        if args.description:
+            sys.stderr.write("Cannot modify description of existing project. Please edit file BasisProject.cmake.\n")
+            sys.stderr.write("Do not use option --description when attempting to modify an existing project.\n")
+            sys.exit(1)
+        # get project name
+        if not args.name:
+            args.name = get_project_name(os.path.join(args.root, 'BasisProject.cmake'))
+            if not args.name:
+                sys.stderr.write("Failed to determine project name!\n")
+                sys.exit(1)
+        # get original template directory
+        if not args.original_template:
+            original_template_version = get_template_version(os.path.join(args.root, 'CMakeLists.txt'))
+            if not original_template_version:
+                sys.stderr.write("Failed to determine original template version!\n")
+                sys.exit(1)
+            args.original_template = _template + '-' + original_template_version
+
+    # print template and root path
+    if args.verbose > 1:
+        print "Project:  " + args.root
+        print "Template: " + args.template
+        print "Original: " + args.original_template
+        print
+
+    # ------------------------------------------------------------------------
+    # adjust template options
+    if not hasattr(args, 'opts'):
+        setattr(args, 'opts', {})
+    opts = get_default_template_options(args.root, args.opts, create)
+
+    # ------------------------------------------------------------------------
+    # do not update exiting project if previous conflicts are not resolved
+    if not create:
+        for root, dirs, files in os.walk(args.root):
+            for filename in files:
+                if (filename.endswith('.mine')
+                        or filename.endswith('.template')
+                        or filename.endswith('~')):
+                    if args.cleanup:
+                        file_path = os.path.join(root, filename)
+                        try:
+                            os.remove(file_path)
+                            print "D %s" % file_path
+                        except Exception, e:
+                            sys.stderr.write("E %s - failed to remove file" % file_path)
+                            if args.verbose > 0: sys.stderr.write(': ' + str(e))
+                            sys.stderr.write('\n')
+                            ok = False
+                    elif args.update and not filename.endswith('~'):
+                        sys.stderr.write(
+"""Their occurred conflicts when updating the project files before.
+
+Please resolve these conflicts first by editing the conflicted files, then remove
+the *.mine and *.template files or run this program with the --cleanup option.
+Once these conflicts have been resolved, try updating again.
+
+Note that if you want to revert the previous udpate entirely, you should use
+the revert functionality of the revision control system that you are hopefully
+using to manage your project files. This should also revert the copies of the
+template files in the .basis/ subdirectory.
+""")
+                        sys.exit(1)
+        if args.cleanup and not ok:
+            sys.stderr.write("\nFailed to cleanup backup files and temporary files\n")
+            sys.exit(1)
+
+    # ------------------------------------------------------------------------
+    # create/modify project
+    acc = AccumulatorForNumbersOfChangesAndErrors()
+
+    try:
+        # ---------------------------------------------------------------------
+        # add/remove project files/directories
+
+        # required project files
+        acc.call(add, 'AUTHORS.txt',        args)
+        acc.call(add, 'README.txt',         args)
+        acc.call(add, 'INSTALL.txt',        args)
+        acc.call(add, 'COPYING.txt',        args)
+        acc.call(add, 'BasisProject.cmake', args)
+        acc.call(add, 'CMakeLists.txt',     args)
+        # additional configuration files
+        acc.call(addordel, opts.get('config-settings',     None), 'config/Settings.cmake',         args)
+        acc.call(addordel, opts.get('config-components',   None), 'config/Components.cmake',       args)
+        acc.call(addordel, opts.get('config-package',      None), 'config/Package.cmake',          args)
+        acc.call(addordel, opts.get('config-find',         None), 'config/Config.cmake.in',        args)
+        acc.call(addordel, opts.get('config-find',         None), 'config/ConfigSettings.cmake',   args)
+        acc.call(addordel, opts.get('config-find_version', None), 'config/ConfigVersion.cmake.in', args)
+        acc.call(addordel, opts.get('config-script',       None), 'config/ScriptConfig.cmake.in',  args)
+        acc.call(addordel, opts.get('config-test',         None), 'config/CTestCustom.cmake.in',   args)
+        acc.call(addordel, opts.get('config-use',          None), 'config/ConfigUse.cmake.in',     args)
+        # software configuration data
+        acc.call(addordel, opts.get('data', None), 'data/CMakeLists.txt', args)
+        # documentation
+        acc.call(addordel, opts.get('doc', None), 'doc/CMakeLists.txt', args)
+        # modularization
+        acc.call(addordel, opts.get('modules', None), 'modules', args, isdir=True)
+        # source files
+        acc.call(addordel, opts.get('include', None), 'include', args, isdir=True)
+        acc.call(addordel, opts.get('src',     None), 'src/CMakeLists.txt', args)
+        # testing tree
+        acc.call(addordel, opts.get('test', None), 'CTestConfig.cmake', args)
+        acc.call(addordel, opts.get('test', None), 'test/CMakeLists.txt', args)
+        # example
+        acc.call(addordel, opts.get('example', None), 'example/CMakeLists.txt', args)
+
+    except Exception, e:
+        sys.stderr.write("Failed to ")
+        if create: sys.stderr.write("create")
+        else:      sys.stderr.write("modify")
+        sys.stderr.write(" project: " + str(e) + '\n')
+        ok = False
+
+    # ------------------------------------------------------------------------
+    # done
+    if ok:
+        if create:
+            sys.stdout.write("\nCreated project\n")
+        else:
+            if acc.changes > 0:
+                sys.stdout.write('\n' + str(acc.changes) + " file")
+                if acc.changes > 1: sys.stdout.write('s')
+                sys.stdout.write(" added (A), removed (D), or modified (G, C)\n")
+            elif acc.errors == 0:
+                if args.update:
+                    sys.stdout.write("Project is up to date\n")
+                else:
+                    sys.stdout.write("No project files added, removed, or modified\n")
+        if acc.errors > 0:
+            if acc.changes == 0: sys.stderr.write('\n')
+            sys.stderr.write(str(acc.errors) + " error")
+            if acc.errors > 1: sys.stderr.write('s')
+            sys.stderr.write(" encountered\n")
+        if acc.conflicts > 0:
+            sys.stderr.write(str(acc.conflicts) + " conflicting change")
+            if acc.conflicts > 1: sys.stderr.write('s')
+            sys.stderr.write(" (C) encountered\n")
+            sys.stderr.write(
+"""
+Resolve conflicts by editing the updated files manually, using the corresonding *.mine
+and *.template files as reference. Once a conflict is resolved, remove these files.
+""")

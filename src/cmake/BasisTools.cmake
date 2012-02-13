@@ -9,8 +9,8 @@
 # supposed to be included directly by a project that makes use of BASIS.
 # Only the modules with the prefix "Basis" should be included directly.
 #
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
@@ -46,7 +46,7 @@ include ("${CMAKE_CURRENT_LIST_DIR}/DocTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/InstallationTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/MatlabTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/ProjectTools.cmake")
-include ("${CMAKE_CURRENT_LIST_DIR}/SubversionTools.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/RevisionTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/TargetTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/ExportTools.cmake")
 include ("${CMAKE_CURRENT_LIST_DIR}/ImportTools.cmake")

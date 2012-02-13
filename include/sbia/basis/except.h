@@ -2,7 +2,7 @@
  * @file  except.h
  * @brief Basic exceptions and related helper macros.
  *
- * Copyright (c) 2011 University of Pennsylvania. All rights reserved.<br />
+ * Copyright (c) 2011, University of Pennsylvania. All rights reserved.<br />
  * See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
  *
  * Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -57,6 +57,13 @@ namespace basis
 // ===========================================================================
 // exceptions
 // ===========================================================================
+
+/// @brief Exception thrown by command-line parsing library.
+typedef TCLAP::ArgException ArgException;
+
+/// @brief Exception thrown by command-line parsing library to indicate that
+///        program should exit with the given exit code.
+typedef TCLAP::ExitException ExitException;
 
 /// @brief Exception thrown on command-line argument parsing error.
 typedef TCLAP::ArgParseException ArgParseException;
