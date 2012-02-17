@@ -448,9 +448,7 @@ bool Subprocess::popen(const CommandLine& args,
         }
         execvp(argv[0], argv);
 
-        cerr << "Subprocess::popen(): Failed to execute command!" << endl;
-
-        // we should have never got here...
+        // command not found
         delete [] argv;
 
         exit(EXIT_FAILURE);
@@ -676,7 +674,7 @@ bool Subprocess::communicate(std::istream& in, std::ostream& out, std::ostream& 
         _stdout = -1;
 #endif
     }
-    // read stdout data and close pipe afterwards
+    // read stderr data and close pipe afterwards
 #if WINDOWS
     if (_stderr != INVALID_HANDLE_VALUE) {
 #else

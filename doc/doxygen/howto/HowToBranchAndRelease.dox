@@ -14,7 +14,7 @@
 @section HowToBranchAndReleaseIntro Introduction
 
   This guide defines the process of creating a new development branch other
-  than the trunk and the creation of a release version of a software project.
+  than the trunk and the creation of a release version of a software.
   Before reading this document, you should be familiar with the basic structure
   of any revision controlled software project as described in the
   @ref FilesystemHierarchyStandard.
@@ -42,8 +42,8 @@
   -# Then the trunk is copied to a branch which is used to apply release specific
      adjustments such as setting the version number or to apply bug fixes to
      this particular release version. Therefore, name this branch
-     <project>-<major>.<minor> (note that the patch number is excluded!) to
-     indicate that this branch represents the <major>.<minor> series of
+     "<project>-<major>.<minor>" (note that the patch number is excluded!) to
+     indicate that this branch represents the "<major>.<minor>" series of
      software releases.
      @n@n
      See @ref HowToBranch for details on how to create a new branch.
@@ -110,7 +110,7 @@
      @n@n
   -# Optionally, binary and source distribution packages are generated from the
      tagged release branch and uploaded to the public domain. See the
-     @ref SoftwarePackaging guide for details on how to create such distribution
+     @ref HowToPackage guide for details on how to create such distribution
      packages.
      @n@n
   -# Inform the users that a new release is available and update the SBIA Wiki

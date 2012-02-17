@@ -41,46 +41,50 @@
         }
         // perform regression tests of output image(s)
         if (result == 0) {
-            if (!compare.getValue().empty() && verbose.getValue() > 0) {
+            if (!regression_tests.empty() && verbose.getValue() > 0) {
                 cout << "Performing regression tests" << endl;
             }
-            for (size_t i = 0; i < compare.getValue().size(); i += 2) {
-                const char* test_filename     = compare.getValue()[i].c_str();
-                const char* baseline_filename = compare.getValue()[i + 1].c_str();
-                vector<string> baselines = get_baseline_filenames(baseline_filename);
-                string bestmatch;
-                int    beststatus = numeric_limits<int>::max();
-                for (size_t i = 0; i < baselines.size(); i++) {
-                    int status = image_regression_test(
-                            test_filename,
-                            baselines[i].c_str(),
-                            intensity_tolerance.getValue(),
-                            max_number_of_differences.getValue(),
-                            tolerance_radius.getValue());
-                    if (status < beststatus) {
-                        bestmatch  = baselines[i];
-                        beststatus = status;
+            for (size_t i = 0; i < regression_tests.size(); i += 2) {
+                const char*    test_image_file      = regression_tests[i].test_image_file.c_str();
+                const char*    baseline_image_file  = regression_tests[i].baseline_image_file.c_str();
+                vector<string> baseline_image_files = get_baseline_filenames(baseline_image_file);
+                string         bestmatch  = baseline_image_file;
+                int            beststatus = numeric_limits<int>::max();
+                if (baseline_image_files.empty()) {
+                    bestmatch += " not found";
+                    cerr << "No baseline images found given file path " << baseline_image_file << "!" << endl;
+                } else {
+                    for (size_t j = 0; j < baseline_image_files.size(); j++) {
+                        int status = image_regression_test(
+                                test_image_file,
+                                baseline_image_files[j].c_str(),
+                                regression_tests[i].intensity_tolerance,
+                                regression_tests[i].max_number_of_differences,
+                                regression_tests[i].tolerance_radius);
+                        if (status < beststatus) {
+                            bestmatch  = baseline_image_files[j];
+                            beststatus = status;
+                        }
+                        if (beststatus == 0) {
+                            // perfect test result
+                            break;
+                        }
                     }
-                    if (beststatus == 0) {
-                        // perfect test result
-                        break;
+                    // if the best we can do still has errors...
+                    if (beststatus != 0) {
+                        image_regression_test(
+                                test_image_file,
+                                baseline_image_files[0].c_str(),
+                                regression_tests[i].intensity_tolerance,
+                                regression_tests[i].max_number_of_differences,
+                                regression_tests[i].tolerance_radius,
+                                1); // ...generate error images
                     }
-                }
-                // if the best we can do still has errors...
-                if (beststatus != 0) {
-                    image_regression_test(
-                            test_filename,
-                            baselines[0].c_str(),
-                            intensity_tolerance.getValue(),
-                            max_number_of_differences.getValue(),
-                            tolerance_radius.getValue(),
-                            1); // ...generate error images
                 }
                 // output the matching baseline for submission to the dashboard
                 cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">";
                 cout << get_file_name(bestmatch);
                 cout << "</DartMeasurement>" << std::endl;
-
                 result += beststatus;
             }
         }

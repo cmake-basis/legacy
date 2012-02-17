@@ -277,7 +277,7 @@ endfunction ()
 #
 # @param [in] ARGN List of XML test report files without directory path.
 #                  If omitted, this function globs for all XML files in
-#                  the Testing/<tag>/ directory.
+#                  the <tt>Testing/&lt;tag&gt;/</tt> directory.
 function (update_metadata)
   # get compiler information from CMake cache
   if (EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
@@ -681,7 +681,7 @@ endif ()
 
 string (CONFIGURE "${CTEST_SVN_URL}" CTEST_SVN_URL @ONLY)
 
-if (NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+if (NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.svn")
   file (MAKE_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
   set (CTEST_CHECKOUT_COMMAND "${CTEST_SVN_COMMAND} co \"${CTEST_SVN_URL}/${CTEST_SVN_BRANCH}\" ${CTEST_SOURCE_DIRECTORY}")
 endif ()
@@ -821,10 +821,14 @@ if (FORCE_BUILD OR UPDATED_FILES)
   # build and install API documentation
   if (BUILD_RESULT EQUAL 0 AND INSTALL_DOXYGEN_DIR)
     if (EXISTS "${CTEST_BINARY_DIRECTORY}/doc/api/html")
+      if (EXISTS "${INSTALL_DOXYGEN_DIR}/html")
+        file (REMOVE_RECURSE "${INSTALL_DOXYGEN_DIR}/html")
+      endif ()
       execute_process (
-        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+        COMMAND "${CMAKE_COMMAND}" "-E" "copy_directory"
                     "${CTEST_BINARY_DIRECTORY}/doc/api/html"
                     "${INSTALL_DOXYGEN_DIR}/html"
+        WORKING_DIRECTORY "${CTEST_BINARY_DIRECTORY}"
         RETURN_VALUE RT
       )
       if (RT EQUAL 0)

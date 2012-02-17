@@ -1,5 +1,5 @@
 /**
- * @file  ImplementationStandard.dox
+ * @file  02-ImplementationStandard.dox
  * @brief The software imlementation standard.
  *
  * Copyright (c) 2011, University of Pennsylvania. All rights reserved.<br />
@@ -11,6 +11,8 @@
 /**
 @page ImplementationStandard Implementation Standard
 
+The software implementation standard, i.e., the SI in BASIS, is documented
+in the following articles:
 - @subpage CmdLineParsing
 - @subpage CallingConventions
 */
