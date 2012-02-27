@@ -38,8 +38,9 @@ set (
 # auxiliary files
 set (
   CMAKE_MODULES_AUXILIARY_FILES
-    # API documentation
+    # documentation
     "Doxyfile.in"                 # default Doxygen configuration template
+    "Markdown.pl"                 # Markdown text-to-html processor
     "Modules.dox.in"              # documentation of BASIS modules groups
     "Utilities.dox"               # documentation of BASIS Utilities group
     "CxxUtilities.dox"            # documentation of C++ Utilities group

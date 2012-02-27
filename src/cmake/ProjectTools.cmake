@@ -662,9 +662,21 @@ endfunction ()
 # module's documentation file is appended to the corresponding file of the
 # top-level project.
 macro (basis_configure_root_documentation_files)
-  foreach (F AUTHORS COPYING README INSTALL WELCOME)
-    if (EXISTS "${PROJECT_SOURCE_DIR}/${F}.txt")
-      set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.txt")
+  unset (F)
+  unset (E)
+  unset (N)
+  unset (RT)
+  unset (T)
+  foreach (F IN ITEMS AUTHORS COPYING README INSTALL WELCOME)
+    set (PROJECT_${F}_FILE)
+    foreach (E IN ITEMS .txt .md .markdown .html)
+      if (EXISTS "${PROJECT_SOURCE_DIR}/${F}${E}")
+        set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}${E}")
+      endif ()
+    endforeach ()
+    if (PROJECT_${F}_FILE)
+      # append content of module's documentation file to the corresponding project
+      # documentation file
       if (PROJECT_IS_MODULE)
         file (READ "${PROJECT_${F}_FILE}" T)
         file (
@@ -676,13 +688,35 @@ macro (basis_configure_root_documentation_files)
           "${T}"
         )
       else ()
-        set (BASIS_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}.txt")
-        # do not use configure_file() to copy the file, otherwise CMake will
-        # update the build system only because we modified this file in the if-clause
-        execute_process (COMMAND "${CMAKE_COMMAND}" -E copy "${PROJECT_${F}_FILE}" "${BASIS_PROJECT_${F}_FILE}")
-        # use extension on Windows, but leave it out on Unix
-        get_filename_component (N "${F}" NAME_WE)
-        get_filename_component (E "${F}" EXT)
+        # convert Markdown to HTML
+        set (RT 1)
+        if (PROJECT_${F}_FILE MATCHES "\\.(md|markdown)$")
+          find_package (Perl QUIET)
+          if (PERL_FOUND)
+            set (BASIS_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}.html")
+            execute_process (
+              COMMAND "${PERL_EXECUTABLE}" "${BASIS_MODULE_PATH}/Markdown.pl" "${PROJECT_${F}_FILE}"
+              RESULT_VARIABLE RT
+              OUTPUT_VARIABLE T
+            )
+            file (WRITE "${BASIS_PROJECT_${F}_FILE}" "${T}")
+          endif ()
+        endif ()
+        # otherwise, just copy file
+        if (NOT RT EQUAL 0)
+          # do not use configure_file() to copy the file, otherwise CMake will update
+          # the build system only because we modified this file in the if-clause above
+          get_filename_component (N "${PROJECT_${F}_FILE}" NAME)
+          set (BASIS_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${N}")
+          execute_process (
+            COMMAND "${CMAKE_COMMAND}" -E copy
+                "${PROJECT_${F}_FILE}"
+                "${BASIS_PROJECT_${F}_FILE}"
+          )
+        endif ()
+        # use .txt extension on Windows, but leave it out on Unix
+        get_filename_component (N "${BASIS_PROJECT_${F}_FILE}" NAME_WE)
+        get_filename_component (E "${BASIS_PROJECT_${F}_FILE}" EXT)
         if (WIN32)
           if (NOT E)
             set (E ".txt")
@@ -695,16 +729,20 @@ macro (basis_configure_root_documentation_files)
         set (N "${N}${E}")
         # install file
         install (
-          FILES       "${PROJECT_BINARY_DIR}/${F}.txt"
+          FILES       "${BASIS_PROJECT_${F}_FILE}"
           DESTINATION "${INSTALL_DOC_DIR}"
           RENAME      "${N}"
-          OPTIONAL
         )
       endif ()
     elseif (NOT F MATCHES "WELCOME" AND NOT PROJECT_IS_MODULE)
-      message (FATAL_ERROR "Project requires a ${F}.txt file in ${PROJECT_SOURCE_DIR}!")
+      message (FATAL_ERROR "Project requires a ${F} file in ${PROJECT_SOURCE_DIR}!")
     endif ()
   endforeach ()
+  unset (F)
+  unset (E)
+  unset (N)
+  unset (RT)
+  unset (T)
 endmacro ()
 
 # ----------------------------------------------------------------------------
