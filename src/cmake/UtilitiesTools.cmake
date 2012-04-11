@@ -2,7 +2,7 @@
 # @file  UtilitiesTools.cmake
 # @brief CMake functions used to configure auxiliary source files.
 #
-# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -67,10 +67,11 @@ from \@PROJECT_NAMESPACE_PYTHON\@ import basis
 #
 # @ingroup BasisPerlUtilities
 set (BASIS_PERL_UTILITIES "
+use Cwd qw(realpath);
 use File::Basename;
-use lib dirname (__FILE__) . '/\@BASIS_PERL_LIBRARY_DIR\@';
-use lib dirname (__FILE__) . '/\@PERL_LIBRARY_DIR\@';
-use lib dirname (__FILE__);
+use lib realpath(dirname(realpath(__FILE__)) . '/\@BASIS_PERL_LIBRARY_DIR\@');
+use lib realpath(dirname(realpath(__FILE__)) . '/\@PERL_LIBRARY_DIR\@');
+use lib dirname(realpath(__FILE__));
 
 package Basis;
 use \@PROJECT_NAMESPACE_PERL\@::Basis qw(:everything);

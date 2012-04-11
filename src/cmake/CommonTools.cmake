@@ -2,7 +2,7 @@
 # @file  CommonTools.cmake
 # @brief Definition of common CMake functions.
 #
-# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -20,16 +20,6 @@ endif ()
 ## @addtogroup CMakeUtilities
 #  @{
 
-
-# ============================================================================
-# common commands
-# ============================================================================
-
-## @brief The Python interpreter.
-#
-# @todo Replace by PYTHON_EXECUTABLE as set by FindPythonInterp.cmake module.
-find_program (BASIS_CMD_PYTHON NAMES python DOC "The Python interpreter (python).")
-mark_as_advanced (BASIS_CMD_PYTHON)
 
 # ============================================================================
 # find other packages
@@ -1211,15 +1201,12 @@ function (basis_check_target_name TARGET_NAME)
   endif ()
 
   # invalid target name ?
-  if (NOT TARGET_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9._+]|-)*$")
-    message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid.\nChoose a target name "
-                         " which only contains alphanumeric characters, "
-                         "'_', '-', '+', or '.', and starts with a letter.\n")
-  endif ()
-
-  if (TARGET_NAME MATCHES "\\.")
-    message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid. Target names cannot"
-                         " contain dots (.). Consider using underscores (_) instead.")
+  if (NOT TARGET_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$|^__init__(_py)?$")
+    message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid.\nChoose a target name"
+                         " which only contains alphanumeric characters,"
+                         " '_', '-', or '+', and starts with a letter."
+                         " The only exception from this rule is __init__[_py] for"
+                         " a __init__.py script.\n")
   endif ()
 
   # unique ?
@@ -1346,15 +1333,10 @@ function (basis_check_test_name TEST_NAME)
     message (FATAL_ERROR "Test name \"${TEST_NAME}\" is reserved and cannot be used.")
   endif ()
 
-  if (NOT TEST_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+.]|-)*$")
+  if (NOT TEST_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$")
     message (FATAL_ERROR "Test name ${TEST_NAME} is invalid.\nChoose a test name "
-                         " which only contains alphanumeric characters, "
-                         "'_', '-', '+', or '.', and starts with a letter.\n")
-  endif ()
-
-  if (TEST_NAME MATCHES "\\.")
-    message (FATAL_ERROR "Test name ${TEST_NAME} is invalid. Test names cannot"
-                         " contain dots (.). Consider using underscores (_) instead.")
+                         " which only contains alphanumeric characters,"
+                         " '_', '-', or '+', and starts with a letter.\n")
   endif ()
 endfunction ()
 
@@ -1469,6 +1451,10 @@ function (basis_configure_sources LIST_NAME)
   # configure source files
   set (CONFIGURED_SOURCES)
   foreach (SOURCE ${ARGN_UNPARSED_ARGUMENTS})
+    # make path absolute, otherwise EXISTS check will not work
+    if (NOT IS_ABSOLUTE "${SOURCE}")
+      set (SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE}")
+    endif ()
     # the .in suffix is optional, add it here if a .in file exists for this
     # source file, but only if the source file itself does not name an acutally
     # existing source file

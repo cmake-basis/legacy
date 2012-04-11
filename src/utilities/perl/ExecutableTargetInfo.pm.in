@@ -6,7 +6,7 @@
 #       BASIS from the template file ExecutableTargetInfo.pm.in which is
 #       part of the BASIS installation.
 #
-# Copyright (c) 2011, University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -189,12 +189,9 @@ sub get_executable_path
                 }
                 $path =~ s/\$\(IntDir\)//g;
             }
+            $path = File::Spec->rel2abs ($path, dirname (__FILE__));
             # the realpath() function only works for existing paths
-            if (-e $path) {
-                $path = realpath ($path);
-            } else {
-                $path = File::Spec->rel2abs ($path, dirname (__FILE__));
-            }
+            $path = realpath ($path) if -e $path;
         } else {
             $path = which ($_[0])
         }

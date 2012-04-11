@@ -2,7 +2,7 @@
 # @file  ProjectTools.cmake
 # @brief Definition of main project tools.
 #
-# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -1145,26 +1145,17 @@ macro (basis_project_finalize)
 
     # install public headers
     if (NOT BASIS_AUTO_PREFIX_INCLUDES)
-      install (
-        DIRECTORY   "${PROJECT_INCLUDE_DIR}/"
-        DESTINATION "${INSTALL_INCLUDE_DIR}"
-        OPTIONAL
-        PATTERN     "*.in" EXCLUDE
-        PATTERN     ".svn" EXCLUDE
-        PATTERN     ".git" EXCLUDE
-      )
+      basis_install_directory ("${PROJECT_INCLUDE_DIR}" "${INSTALL_INCLUDE_DIR}" OPTIONAL)
     endif ()
     set (PUBLIC_HEADERS_EXCLUDE_PATTERNS)
     foreach (P IN LISTS BASIS_UTILITIES_PUBLIC_HEADERS)
       list (APPEND PUBLIC_HEADERS_EXCLUDE_PATTERNS "PATTERN" "${P}" EXCLUDE)
     endforeach ()
-    install (
-      DIRECTORY   "${BINARY_INCLUDE_DIR}/"
-      DESTINATION "${INSTALL_INCLUDE_DIR}"
+    basis_install_directory (
+      "${BINARY_INCLUDE_DIR}"
+      "${INSTALL_INCLUDE_DIR}"
       OPTIONAL
       ${PUBLIC_HEADERS_EXCLUDE_PATTERNS}
-      PATTERN     ".svn" EXCLUDE
-      PATTERN     ".git" EXCLUDE
     )
     unset (PUBLIC_HEADERS_EXCLUDE_PATTERNS)
     # "parse" public header files to check if C++ BASIS utilities are included
@@ -1221,6 +1212,7 @@ macro (basis_project_finalize)
     basis_configure_ExecutableTargetInfo ()
     # finalize addition of custom targets
     basis_add_custom_finalize ()
+    basis_add_init_py_target ()
     # generate configuration files
     include ("${BASIS_MODULE_PATH}/GenerateConfig.cmake")
     # package software

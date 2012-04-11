@@ -2,7 +2,7 @@
 # @file  InstallationTools.cmake
 # @brief CMake functions used for installation.
 #
-# Copyright (c) 2011-2012, University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -80,10 +80,6 @@ function (basis_install_directory)
     list (REMOVE_AT OPTIONS 0 1)
   else ()
     message (FATAL_ERROR "Too few arguments given!")
-  endif ()
-  get_filename_component (SOURCE "${SOURCE}" ABSOLUTE)
-  if (NOT IS_DIRECTORY "${SOURCE}")
-    message (FATAL_ERROR "Source path ${SOURCE} is not a directory path!")
   endif ()
   basis_sanitize_for_regex (REGEX "${PROJECT_SOURCE_DIR}")
   if (IS_ABSOLUTE "${DESTINATION}")
