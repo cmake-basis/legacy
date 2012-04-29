@@ -89,7 +89,7 @@ unlink 'test_stdaux.stderr';
 eval { @retval = Basis::execute_process('basis.dummy_command', verbose => 1, quiet => 1, stdout => 1, allow_fail => 1); };
 is $retval[0], 0, 'exit code is 0 when running dummy command';
 is $retval[1], '', 'verbose message of execute_process() printed to STDOUT of parent, not child';
-eval { @retval = Basis::execute_process('basis.dummy_command', verbose => 2, quiet => 1, stdout => 1 allow_fail => 1); };
+eval { @retval = Basis::execute_process('basis.dummy_command', verbose => 2, quiet => 1, stdout => 1, allow_fail => 1); };
 is $retval[0], 0, 'exit code is 0 when running dummy command';
 is $retval[1], '', 'verbose message of execute_process() printed to STDOUT of parent, not child';
 
