@@ -11,6 +11,7 @@
 
 #include <set>
 
+
 #include <sbia/tclap/Arg.h>
 #include <sbia/tclap/ArgException.h>
 #include <sbia/tclap/StdOutput.h>
@@ -20,6 +21,7 @@
 
 #include <sbia/basis/path.h>   // get_executable_name()
 #include <sbia/basis/except.h> // BASIS_THROW, runtime_error
+#include <sbia/basis/stdio.h>  // get_terminal_columns(), print_wrapped()
 
 #include <sbia/basis/CmdLine.h>
 
@@ -42,7 +44,7 @@ namespace basis
 /**
  * @brief Prints help, version information, and command-line errors.
  */
-class StdOutput : public TCLAP::StdOutput
+class StdOutput : public TCLAP::CmdLineOutput
 {
     // -----------------------------------------------------------------------
     // construction / destruction
@@ -93,6 +95,11 @@ public:
     // -----------------------------------------------------------------------
     // helpers
 protected:
+
+    /**
+     * @brief Update information about terminal size.
+     */
+    void updateTerminalInfo();
 
     /**
      * @brief Determine whether an argument has a label or not.
@@ -175,6 +182,7 @@ protected:
 
     CmdLine*    _cmd;     ///< The command-line with additional attributes.
     set<string> _stdargs; ///< Names of standard arguments.
+    int         _columns; ///< Maximum number of columns to use for output.
 
 }; // class StdOutput
 
@@ -185,7 +193,8 @@ protected:
 // ---------------------------------------------------------------------------
 StdOutput::StdOutput(CmdLine* cmd)
 :
-    _cmd(cmd)
+    _cmd(cmd),
+    _columns(75)
 {
     _stdargs.insert("ignore_rest");
     _stdargs.insert("verbose");
@@ -203,6 +212,7 @@ StdOutput::StdOutput(CmdLine* cmd)
 // ---------------------------------------------------------------------------
 void StdOutput::usage(TCLAP::CmdLineInterface&)
 {
+    updateTerminalInfo();
     cout << endl;
     printUsage(cout, false);
     //printArguments(cout, false);
@@ -212,6 +222,7 @@ void StdOutput::usage(TCLAP::CmdLineInterface&)
 // ---------------------------------------------------------------------------
 void StdOutput::help(TCLAP::CmdLineInterface&)
 {
+    updateTerminalInfo();
     cout << endl;
     printUsage(cout);
     printDescription(cout);
@@ -252,6 +263,15 @@ void StdOutput::failure(TCLAP::CmdLineInterface&, TCLAP::ArgException& e)
 // ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+inline void StdOutput::updateTerminalInfo()
+{
+    // get maximum number of columns
+    int columns = get_terminal_columns();
+    // update member variable, but maintain minimum number of columns
+    if (columns > 40) _columns = columns;
+}
 
 // ---------------------------------------------------------------------------
 inline bool StdOutput::isUnlabeledArg(TCLAP::Arg* arg) const
@@ -295,17 +315,16 @@ inline string StdOutput::getArgumentID(TCLAP::Arg* arg, bool all) const
 
 // ---------------------------------------------------------------------------
 inline
-void StdOutput
-::printArgumentHelp(ostream& os, TCLAP::Arg* arg, bool indentFirstLine) const
+void StdOutput::printArgumentHelp(ostream& os, TCLAP::Arg* arg, bool indentFirstLine) const
 {
     string id   = getArgumentID(arg, true);
     string desc = arg->getDescription();
     if (desc.compare (0, 12, "(required)  ")    == 0) desc.erase(0, 12);
     if (desc.compare (0, 15, "(OR required)  ") == 0) desc.erase(0, 15);
-    if (indentFirstLine) spacePrint(os, id, 75, 8, 0);
-    else                 spacePrint(os, id, 75, 0, 8);
+    if (indentFirstLine) print_wrapped(os, id, _columns, 8, 0);
+    else                 print_wrapped(os, id, _columns, 0, 8);
     if (!desc.empty()) {
-        spacePrint(os, desc, 75, 15, 0);
+        print_wrapped(os, desc, _columns, 15, 0);
     }
 }
 
@@ -323,7 +342,7 @@ void StdOutput::printUsage(ostream& os, bool heading) const
     for (int i = 0; static_cast<unsigned int>(i) < xors.size(); i++) {
         if (xors[i].size() > 0) {
             if (xors[i][0]->isRequired()) reqxors.push_back(xors[i]);
-            else                           optxors.push_back(xors[i]);
+            else                          optxors.push_back(xors[i]);
         }
     }
     list<TCLAP::Arg*> reqargs;
@@ -332,9 +351,9 @@ void StdOutput::printUsage(ostream& os, bool heading) const
         if (_stdargs.find((*it)->getName()) == _stdargs.end()
                 && !xorhandler.contains((*it))) {
             if ((*it)->isRequired()) {
-                reqargs.push_front(*it);
+                (*it)->addToList(reqargs);
             } else {
-                optargs.push_front(*it);
+                (*it)->addToList(optargs);
             }
         }
     }
@@ -394,9 +413,9 @@ void StdOutput::printUsage(ostream& os, bool heading) const
         os << "SYNOPSIS" << endl;
     }
     int offset = static_cast<int>(exec_name.length()) + 1;
-    if (offset > 75 / 2) offset = 8;
-    spacePrint(os, s, 75, 4, offset);
-    spacePrint(os, exec_name + " [-h|--help|--helpshort|--helpxml|--helpman|--version]", 75, 4, 0);
+    if (offset > _columns / 2) offset = 8;
+    print_wrapped(os, s, _columns, 4, offset);
+    print_wrapped(os, exec_name + " [-h|--help|--helpshort|--helpxml|--helpman|--version]", _columns, 4, offset);
 }
 
 // ---------------------------------------------------------------------------
@@ -405,7 +424,7 @@ void StdOutput::printDescription(ostream& os) const
     if (_cmd->getMessage() != "") {
         os << endl;
         os << "DESCRIPTION" << endl;
-        spacePrint(os, _cmd->getMessage(), 75, 4, 0);
+        print_wrapped(os, _cmd->getMessage(), _columns, 4, 0);
     }
 }
 
@@ -430,12 +449,12 @@ void StdOutput::printArguments(ostream& os, bool all) const
     list<TCLAP::Arg*> stdargs;
     for (TCLAP::ArgListIterator it = args.begin(); it != args.end(); it++) {
         if (_stdargs.find((*it)->getName()) != _stdargs.end()) {
-            stdargs.push_front(*it);
+            (*it)->addToList(stdargs);
         } else if (!xorhandler.contains((*it))) {
             if ((*it)->isRequired()) {
-                reqargs.push_front(*it);
+                (*it)->addToList(reqargs);
             } else {
-                optargs.push_front(*it);
+                (*it)->addToList(optargs);
             }
         }
     }
@@ -523,7 +542,7 @@ void StdOutput::printExample(ostream& os) const
             while ((pos = example.find("EXECNAME", pos)) != string::npos) {
                 example.replace(pos, 8, exec_name);
             }
-            spacePrint(os, example, 75, 4, 4);
+            print_wrapped(os, example, _columns, 4, 4);
         }
     }
 }
@@ -534,7 +553,7 @@ void StdOutput::printContact(ostream& os) const
     if (_cmd->getContact() != "") {
         os << endl;
         os << "CONTACT" << endl;
-        spacePrint(os, _cmd->getContact(), 75, 4, 0);
+        print_wrapped(os, _cmd->getContact(), _columns, 4, 0);
     }
 }
 
@@ -709,6 +728,7 @@ CmdLine::CmdLine(const std::string& name,
                  bool               stdargs)
 :
     TCLAP::CmdLine(description, ' ', version, false),
+    _xorHandler(XorHandler()),
     _name(name),
     _project(project),
     _copyright(copyright),
@@ -731,6 +751,7 @@ CmdLine::CmdLine(const std::string&              name,
                  bool                            stdargs)
 :
     TCLAP::CmdLine(description, ' ', version, false),
+    _xorHandler(XorHandler()),
     _name(name),
     _project(project),
     _examples(examples),
@@ -751,7 +772,7 @@ void CmdLine::setup(bool stdargs)
 
     // remove arguments added by TCLAP::CmdLine (ignore)
     ClearContainer(_argDeleteOnExitList);
-	ClearContainer(_visitorDeleteOnExitList);
+    ClearContainer(_visitorDeleteOnExitList);
     TCLAP::CmdLine::_argList.clear();
 
     // add standard arguments
@@ -804,9 +825,6 @@ void CmdLine::setup(bool stdargs)
     }
 }
 
-// Note: The following methods are mainly overwritten to include the
-//       documentation in the API documentation of the BASIS class.
-
 // -----------------------------------------------------------------------
 void CmdLine::add(Arg& a)
 {
@@ -829,10 +847,29 @@ void CmdLine::xorAdd(Arg& a, Arg& b)
 }
 
 // -----------------------------------------------------------------------
-void CmdLine::xorAdd(std::vector<Arg*>& xors)
+void CmdLine::print_usage() const
 {
-    TCLAP::CmdLine::_xorHandler.add(xors);
+    _output->usage(*const_cast<CmdLine*>(this));
+}
 
+// -----------------------------------------------------------------------
+void CmdLine::print_help() const
+{
+    StdOutput* output = dynamic_cast<StdOutput*>(_output);
+    if (output) output ->help (*const_cast<CmdLine*>(this));
+    else        _output->usage(*const_cast<CmdLine*>(this));
+}
+
+// -----------------------------------------------------------------------
+void CmdLine::print_version() const
+{
+    _output->version(*const_cast<CmdLine*>(this));
+}
+
+// -----------------------------------------------------------------------
+void CmdLine::xorAdd(vector<Arg*>& xors)
+{
+    _xorHandler.add(xors);
     bool required = false;
     for (TCLAP::ArgVectorIterator it = xors.begin(); it != xors.end(); ++it) {
         if ((*it)->isRequired()) required = true;
@@ -840,20 +877,75 @@ void CmdLine::xorAdd(std::vector<Arg*>& xors)
     for (TCLAP::ArgVectorIterator it = xors.begin(); it != xors.end(); ++it) {
         if (required) (*it)->forceRequired();
         (*it)->setRequireLabel("OR required");
-        add( *it );
+        add(*it);
     }
 }
 
 // -----------------------------------------------------------------------
-void CmdLine::parse(int argc, const char* const* argv)
+void CmdLine::parse(int argc, const char * const * argv)
 {
-    TCLAP::CmdLine::parse(argc, argv);
+    vector<string> args(argc);
+    for (int i = 0; i < argc; i++) args[i] = argv[i];
+    parse(args);
 }
 
 // -----------------------------------------------------------------------
-void CmdLine::parse(std::vector<std::string>& args)
+void CmdLine::parse(vector<string>& args)
 {
-    TCLAP::CmdLine::parse(args);
+    bool shouldExit = false;
+    int estat = 0;
+
+    try {
+        _progName = basis::get_executable_name();
+        args.erase(args.begin());
+
+        int requiredCount = 0;
+        for (int i = 0; static_cast<unsigned int>(i) < args.size(); i++) {
+            bool matched = false;
+            for (TCLAP::ArgListIterator it = _argList.begin(); it != _argList.end(); it++) {
+                if ((*it)->processArg(&i, args)) {
+                    requiredCount += _xorHandler.check(*it);
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched && _emptyCombined(args[i])) matched = true;
+            if (!matched && !TCLAP::Arg::ignoreRest()) {
+                throw TCLAP::CmdLineParseException("Couldn't find match for argument", args[i]);
+            }
+        }
+
+        if (requiredCount < _numRequired) {
+            string args;
+            for (TCLAP::ArgListIterator it = _argList.begin(); it != _argList.end(); it++) {
+                if ((*it)->isRequired() && !(*it)->isSet()) {
+                    args += (*it)->getName();
+                    args += ", ";
+                }
+            }
+            args = args.substr(0, args.length() - 2);
+            string msg = string("Not all required arguments specified, missing: ") + args;
+            throw CmdLineParseException(msg);
+        }
+        if (requiredCount > _numRequired) {
+            throw TCLAP::CmdLineParseException("Too many arguments given!");
+        }
+
+    } catch (TCLAP::ArgException& e) {
+        if (!_handleExceptions) throw;
+        try {
+            _output->failure(*this, e);
+        } catch (TCLAP::ExitException& ee) {
+            estat = ee.getExitStatus();
+            shouldExit = true;
+        }
+    } catch (TCLAP::ExitException& ee) {
+        if (!_handleExceptions) throw;
+        estat = ee.getExitStatus();
+        shouldExit = true;
+    }
+
+    if (shouldExit) exit(estat);
 }
 
 
