@@ -19,17 +19,17 @@
 #   <tr>
 #     @tp @b MOSEK_MATLAB @endtp
 #     <td>Whether the MATLAB components of the MOSEK packages should be found.
-#         Defaults to 1, if @c MATLAB_FOUND evaluates to true and 0 otherwise.</td>
+#         Defaults to @c TRUE if @c MATLAB_FOUND evaluates to true and @c FALSE otherwise.</td>
 #   </tr>
 #   <tr>
 #     @tp @b MOSEK_JAVA @endtp
 #     <td>Whether the Java components of the MOSEK package should be found.
-#         Defaults to 0.</td>
+#         Defaults to @c FALSE.</td>
 #   </tr>
 #   <tr>
 #     @tp @b MOSEK_PYTHON @endtp
 #     <td>Whether the Python components of the MOSEK package should be found.
-#         Defaults to 0.</td>
+#         Defaults to @c FALSE.</td>
 #   </tr>
 #   <tr>
 #     @tp @b MOSEK_TOOLS_SUFFIX @endtp
@@ -52,12 +52,8 @@
 #         extension automatically. Otherwise, the MEX extension defaults to "mexa64".</td>
 #   </tr>
 #   <tr>
-#     @tp @b PYTHON_VERSION @endtp
-#     <td>Version of Python installation. Set to first two or three return values of
-#         "sys.version_info" separated by a period (.). If this variable is not set
-#         and the basis_get_python_version() command is available, it is invoked to
-#         determine the version automatically. Otherwise, the Python version
-#         defaults to 2.6.</td>
+#     @tp @b PYTHON_VERSION_MAJOR @endtp
+#     <td>Major version of Python installation as determined by FindPythonInterp.cmake module.</td>
 #   </tr>
 # </table>
 #
@@ -112,6 +108,47 @@
 #
 # @ingroup CMakeFindModules
 ##############################################################################
+
+# ----------------------------------------------------------------------------
+# remember CMAKE_FIND_LIBRARY_SUFFIXES to be able to restore it
+set (_MOSEK_CMAKE_FIND_LIBRARY_SUFFIXES "${CMAKE_FIND_LIBRARY_SUFFIXES}")
+
+# ----------------------------------------------------------------------------
+# versions - library suffixes
+
+# known MOSEK versions, all entries have to be specified in descending order!
+set (_MOSEK_VERSIONS_MAJOR 6)
+set (_MOSEK6_VERSIONS      6.0)
+
+# get a full list of particular versions (<major>.<minor>) to look for
+set (_MOSEK_FIND_VERSIONS)
+if (MOSEK_FIND_VERSION)
+  if (MOSEK_FIND_VERSION MATCHES "^([0-9]+\\.[0-9]+)(\\.[0-9]+.*)?$")
+    set (_MOSEK_FIND_VERSION_MAJOR_MINOR "${CMAKE_MATCH_1}")
+    list (APPEND _MOSEK_FIND_VERSIONS ${_MOSEK_FIND_VERSION_MAJOR_MINOR})
+    if (NOT MOSEK_FIND_VERSION_EXACT)
+      string (REGEX REPLACE "^([0-9]+).*" "\\1" _MOSEK_FIND_VERSION_MAJOR "${CMAKE_MATCH_1}")
+      foreach (_MOSEK_VERSION IN LISTS _MOSEK${_MOSEK_FIND_VERSION_MAJOR}_VERSIONS)
+        if (NOT _MOSEK_VERSION VERSION_LESS _MOSEK_FIND_VERSION_MAJOR_MINOR)
+          list (APPEND _MOSEK_FIND_VERSIONS ${_MOSEK_VERSION})
+        endif()
+      endforeach()
+      unset (_MOSEK_FIND_VERSION_MAJOR)
+    endif ()
+    unset (_MOSEK_FIND_VERSION_MAJOR_MINOR)
+  else ()
+    if (APPLE)
+      list (APPEND _MOSEK_LIBRARY_SUFFIXES .dylib.${_MOSEK_FIND_VERSION_MAJOR_MINOR})
+    elseif (UNIX)
+      list (APPEND _MOSEK_LIBRARY_SUFFIXES .so.${_MOSEK_FIND_VERSION_MAJOR_MINOR})
+    endif ()
+    set (_MOSEK_FIND_OTHER_VERSIONS ${_MOSEK${MOSEK_FIND_VERSION}_VERSIONS})
+  endif ()
+else ()
+  foreach (_MOSEK_VERSION_MAJOR IN LISTS _MOSEK_VERSIONS_MAJOR)
+    list (APPEND _MOSEK_FIND_VERSIONS ${_MOSEK${_MOSEK_VERSION_MAJOR}_VERSIONS})
+  endforeach ()
+endif ()
 
 # ----------------------------------------------------------------------------
 # initialize search
@@ -184,30 +221,23 @@ endif ()
 
 # Java components
 if (NOT DEFINED MOSEK_JAVA)
-  set (MOSEK_JAVA 0)
+  set (MOSEK_JAVA FALSE)
 endif ()
 
 # Python components
 if (NOT DEFINED MOSEK_PYTHON)
-  set (MOSEK_PYTHON 0)
+  set (MOSEK_PYTHON FALSE)
 endif ()
 
 if (MOSEK_PYTHON)
-  # Python version
-  if (NOT PYTHON_VERSION)
-    if (COMMAND basis_get_python_version)
-      basis_get_python_version ()
-      if (NOT PYTHON_VERSION)
-        message (FATAL_ERROR "Failed to determine version of Python installation. "
-                             "This information is required to be able to find the right MOSEK Python modules. "
-                             "Set PYTHON_VERSION manually and try again.")
-      endif ()
-    else ()
-      set (PYTHON_VERSION "2.6")
-    endif ()
+  if (NOT PYTHON_VERSION_MAJOR)
+    message (FATAL_ERROR "Python interpreter not found or not added as dependency before MOSEK. "
+                         "The information about the Python version is required to be able to find "
+                         "the right MOSEK Python modules. Therefore, add the PythonInterp package "
+                         "as dependency to BasisProjects.cmake before the entry of MOSEK. "
+                         "The FindPythonInterp.cmake module will determine the version of the "
+                         "Python installation. Otherwise, set PYTHON_VERSION_MAJOR manually.")
   endif ()
-  # major version of Python
-  string (REGEX REPLACE "^([0-9]+)" "\\1" PYTHON_VERSION_MAJOR "${PYTHON_VERSION}")
 endif ()
 
 # library name
@@ -220,11 +250,36 @@ if (UNIX)
     set (MOSEK_LIBRARY_NAME "${MOSEK_LIBRARY_NAME}64")
   endif ()
 endif ()
-set (MOSEK_LIBRARY_NAMES "${MOSEK_LIBRARY_NAME}")
+
+# append/set library version suffixes
 if (WIN32)
-  foreach (VERSION_SUFFIX "6_0")
-    list (APPEND MOSEK_LIBRARY_NAMES "${MOSEK_LIBRARY_NAME}${VERSION_SUFFIX}")
-  endforeach ()
+  if (_MOSEK_FIND_VERSIONS)
+    foreach (_MOSEK_VERSION IN LISTS _MOSEK_FIND_VERSIONS)
+      string (REPLACE "." "_" _MOSEK_VERSION "${_MOSEK_VERSION}")
+      list (APPEND MOSEK_LIBRARY_NAMES "${MOSEK_LIBRARY_NAME}${_MOSEK_VERSION}")
+    endforeach ()
+  else ()
+    set (MOSEK_LIBRARY_NAMES "${MOSEK_LIBRARY_NAME}")
+  endif ()
+else ()
+  set (MOSEK_LIBRARY_NAMES "${MOSEK_LIBRARY_NAME}")
+  if (_MOSEK_FIND_VERSIONS)
+    set (CMAKE_FIND_LIBRARY_SUFFIXES)
+    foreach (_MOSEK_VERSION IN LISTS _MOSEK_FIND_VERSIONS)
+      if (APPLE)
+        list (APPEND CMAKE_FIND_LIBRARY_SUFFIXES .${_MOSEK_VERSION}.dylib)
+      else ()
+        list (APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.${_MOSEK_VERSION})
+      endif ()
+    endforeach ()
+    if (NOT MOSEK_FIND_VERSION)
+      if (APPLE)
+        list (APPEND CMAKE_FIND_LIBRARY_SUFFIXES .dylib)
+      else ()
+        list (APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so)
+      endif ()
+    endif ()
+  endif ()
 endif ()
 
 # search path for MOSEK tools
@@ -245,45 +300,76 @@ if (NOT MOSEK_TOOLS_SUFFIX)
   set (MOSEK_TOOLS_SUFFIX "${MOSEK_TOOLS_SUFFIX}x86")
 endif ()
 
+unset (_MOSEK_FIND_VERSIONS)
+
 #-------------------------------------------------------------
-# find paths/files
-if (MOSEK_DIR)
+# find include files and library
+foreach (_MOSEK_I IN ITEMS 1 2) # try twice in case MOSEK_DIR
+                                # was not set, but known in
+                                # second iteration
 
-  find_path (
-    MOSEK_INCLUDE_DIR
-      NAMES         mosek.h
-      HINTS         "${MOSEK_DIR}"
-      PATH_SUFFIXES "${MOSEK_TOOLS_SUFFIX}/h"
-      DOC           "Include directory for MOSEK libraries."
-      NO_DEFAULT_PATH
-  )
+  # find files
+  if (MOSEK_DIR)
 
-  find_library (
-    MOSEK_LIBRARY
-      NAMES         ${MOSEK_LIBRARY_NAMES}
-      HINTS         "${MOSEK_DIR}"
-      PATH_SUFFIXES "${MOSEK_TOOLS_SUFFIX}/bin"
-      DOC           "MOSEK link library."
-      NO_DEFAULT_PATH
-  )
+    find_path (
+      MOSEK_INCLUDE_DIR
+        NAMES         mosek.h
+        HINTS         "${MOSEK_DIR}"
+        PATH_SUFFIXES "${MOSEK_TOOLS_SUFFIX}/h"
+        DOC           "Include directory for MOSEK libraries."
+        NO_DEFAULT_PATH
+    )
 
-else ()
+    find_library (
+      MOSEK_LIBRARY
+        NAMES         ${MOSEK_LIBRARY_NAMES}
+        HINTS         "${MOSEK_DIR}"
+        PATH_SUFFIXES "${MOSEK_TOOLS_SUFFIX}/bin"
+        DOC           "MOSEK link library."
+        NO_DEFAULT_PATH
+    )
 
-  find_path (
-    MOSEK_INCLUDE_DIR
-      NAMES mosek.h
-      HINTS ENV C_INCLUDE_PATH ENV CXX_INCLUDE_PATH
-      DOC   "Include directory for MOSEK libraries."
-  )
+  else ()
 
-  find_library (
-    MOSEK_LIBRARY
-      NAMES ${MOSEK_LIBRARY_NAMES}
-      HINTS ENV LD_LIBRARY_PATH
-      DOC   "MOSEK link library."
-  )
+    find_path (
+      MOSEK_INCLUDE_DIR
+        NAMES mosek.h
+        HINTS ENV C_INCLUDE_PATH ENV CXX_INCLUDE_PATH
+        DOC   "Include directory for MOSEK libraries."
+    )
 
-endif ()
+    find_library (
+      MOSEK_LIBRARY
+        NAMES ${MOSEK_LIBRARY_NAMES}
+        HINTS ENV LD_LIBRARY_PATH
+        DOC   "MOSEK link library."
+    )
+
+  endif ()
+
+  # derive MOSEK_DIR
+  if (NOT MOSEK_DIR)
+    if (COMMAND basis_sanitize_for_regex)
+      basis_sanitize_for_regex (_MOSEK_TOOLS_SUFFIX_REGEX "${MOSEK_TOOLS_SUFFIX}")
+    else ()
+      set (_MOSEK_TOOLS_SUFFIX_REGEX "${MOSEK_TOOLS_SUFFIX}")
+    endif ()
+    if (MOSEK_INCLUDE_DIR)
+      string (REGEX REPLACE "${_MOSEK_TOOLS_SUFFIX_REGEX}/.*$" "" _MOSEK_DIR "${MOSEK_INCLUDE_DIR}")
+      set (MOSEK_DIR "${_MOSEK_DIR}" CACHE PATH "Installation prefix for MOSEK." FORCE)
+    elseif (MOSEK_LIBRARY)
+      string (REGEX REPLACE "${_MOSEK_TOOLS_SUFFIX_REGEX}/.*$" "" _MOSEK_DIR "${MOSEK_LIBRARY}")
+      set (MOSEK_DIR "${_MOSEK_DIR}" CACHE PATH "Installation prefix for MOSEK." FORCE)
+    endif ()
+    unset (_MOSEK_TOOLS_SUFFIX_REGEX)
+    unset (_MOSEK_DIR)
+  endif ()
+
+  # skip second iteration if both found already
+  if (MOSEL_INCLUDE_DIR AND MOSEK_LIBRARY)
+    break ()
+  endif ()
+endforeach ()
 
 mark_as_advanced (MOSEK_INCLUDE_DIR)
 mark_as_advanced (MOSEK_LIBRARY)
@@ -397,6 +483,7 @@ endif ()
 include (FindPackageHandleStandardArgs)
 
 set (MOSEK_REQUIRED_VARS
+  MOSEK_DIR
   MOSEK_INCLUDE_DIR
   MOSEK_LIBRARY
 )
@@ -419,10 +506,5 @@ find_package_handle_standard_args (
     ${MOSEK_REQUIRED_VARS}
 )
 
-# ----------------------------------------------------------------------------
-# set MOSEK_DIR
-if (NOT MOSEK_DIR AND MOSEK_FOUND)
-  string (REGEX REPLACE "${MOSEK_TOOLS_SUFFIX}/h/?" "" MOSEK_PREFIX "${MOSEK_INCLUDE_DIR}")
-  set (MOSEK_DIR "${MOSEK_PREFIX}" CACHE PATH "Installation prefix for MOSEK." FORCE)
-  unset (MOSEK_PREFIX)
-endif ()
+set (CMAKE_FIND_LIBRARY_SUFFIXES "${_MOSEK_CMAKE_FIND_LIBRARY_SUFFIXES}")
+unset (_MOSEK_CMAKE_FIND_LIBRARY_SUFFIXES)

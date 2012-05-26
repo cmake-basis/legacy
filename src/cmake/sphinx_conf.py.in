@@ -1,0 +1,86 @@
+# -*- coding: utf-8 -*-
+#
+# Default documentation build configuration file for Sphinx.
+#
+# This file is execfile()d with the current directory set to its containing dir.
+#
+# The contents of this file are pickled, so don't put values in the namespace
+# that aren't pickleable (module imports are okay, they're removed automatically).
+#
+# All configuration values have a default value; values that are commented out
+# serve to show the default value.
+
+import sys
+import os
+
+
+# General configuration
+# ---------------------
+
+authors = [@SPHINX_AUTHORS@]
+output_name = '@SPHINX_OUTPUT_NAME@'.replace(' ', '_') # otherwise generated Makefile's do not work
+
+today     = ''
+today_fmt = '%B %d, %Y'
+
+#unused_docs = []
+exclude_dirs = ['.svn', '.git', 'CMakeFiles']
+
+templates_path = ['@SPHINX_TEMPLATES_PATH@']
+if templates_path[0] == '': templates_path = []
+
+source_suffix = '.rst'
+master_doc = 'index'
+
+project = '@PROJECT_NAME@'
+version = '@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@'
+release = '@PROJECT_RELEASE@'
+
+copyright = '@COPYRIGHT@'
+if not copyright:
+    import datetime
+    now = datetime.datetime.now()
+    copyright = "%d University of Pennsylvania" % now.year
+
+
+# Options for HTML output
+# -----------------------
+
+html_static_path = ['@SPHINX_HTML_STATIC_PATH@']
+if html_static_path[0] == '': html_static_path = []
+
+html_theme = '@SPHINX_HTML_THEME@'
+html_theme_path = ['@SPHINX_HTML_THEME_PATH@', '@BASIS_SPHINX_HTML_THEME_PATH@']
+if html_theme_path[0] == '': html_theme_path.pop(0)
+
+html_theme_options = {@SPHINX_HTML_THEME_OPTIONS@}
+
+html_logo = '@SPHINX_HTML_LOGO@'
+if html_logo == '': html_logo = None
+
+html_title = '@SPHINX_HTML_TITLE@'
+if html_title == '': html_title = '@PROJECT_NAME@'
+
+html_short_title = '@SPHINX_HTML_SHORTTITLE@'
+if html_short_title == '': html_short_title = html_title
+
+htmlhelp_basename = '@PROJECT_NAME_LOWER@_doc'
+
+
+# Options for LaTeX output
+# ------------------------
+
+latex_documents = [(master_doc, output_name + '.tex', '', ' \\and '.join(authors), '@SPHINX_LATEX_DOCUMENTCLASS@', False)]
+latex_logo      = html_logo
+
+
+# Options for MAN output
+# ----------------------
+
+man_pages = [(master_doc, output_name, '@PROJECT_DESCRIPTION@', authors, @SPHINX_MAN_SECTION@)]
+
+
+# Options for Texinfo output
+# --------------------------
+
+texinfo_documents = [(master_doc, output_name, '', '@*'.join(authors), '@PROJECT_NAME@', '@PROJECT_DESCRIPTION@', 'SBIA', False)]

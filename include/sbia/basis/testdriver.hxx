@@ -2,7 +2,7 @@
  * @file  testdriver.hxx
  * @brief Default test driver implementation.
  *
- * Copyright (c) 2011 University of Pennsylvania. All rights reserved.<br />
+ * Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
  * See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
  *
  * Contact: SBIA Group <sbia-software at uphs.upenn.edu>
@@ -67,9 +67,7 @@ void testdriversetup(int* argc, char** argv[])
                 " Compares the image produced by the test to the reference"
                 " image named baseline.nii with default intensity tolerance.",
                 // version information
-                cVersionAndRevision,
-                "Copyright (c) 2011 University of Pennsylvania."
-                " All rights reserved.");
+                cRelease, "Copyright 2011, 2012, University of Pennsylvania.");
 
         cmd.add(add_before_libpath);
         cmd.add(add_before_env);

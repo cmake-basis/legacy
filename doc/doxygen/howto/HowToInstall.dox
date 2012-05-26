@@ -295,17 +295,9 @@ The common CMake variables which configure the build and installation are:
     <th>Descripion</th>
   </tr>
   <tr>
-    @tp @b BUILD_CHANGELOG @endtp
+    @tp @b BASIS_DIR @endtp
     <td>
-      Request build of ChangeLog as part of the ALL target. Note that the ChangeLog
-      is generated either from the Subversion history if the source tree is a SVN
-      working copy, or from the Git history if it is a Git repository. Otherwise,
-      the ChangeLog cannot be generated and this option is disabled again by BASIS.
-      In case of Subversion, be aware that the generation of the ChangeLog takes
-      several minutes and may require the input of user credentials for access to the
-      Subversion repository. It is recommended to leave this option disabled and to
-      build the "changelog" target separate from the rest of the software package
-      instead (see step 4 below).
+      Directory where the BASISConfig.cmake file is located.
     </td>
   </tr>
   <tr>
@@ -336,12 +328,6 @@ The common CMake variables which configure the build and installation are:
       Specify the build configuration to build. If not set, the "Release"
       configuration will be build. Valid values are "Release", "Debug",
       "RelWithDebInfo", and "MinSizeRel".
-    </td>
-  </tr>
-  <tr>
-    @tp @b INSTALL_LINKS @endtp
-    <td>
-      Whether (symbolic) links should be created (see step 5).
     </td>
   </tr>
   <tr>
@@ -379,6 +365,13 @@ The advanced CMake settings are:
   <tr>
     <th>Option/Variable</th>
     <th>Descripion</th>
+  </tr>
+  <tr>
+    @tp @b BASIS_ALL_DOC @endtp
+    <td>
+      Request the build of all documentation targets as part of the @c ALL target
+      if @c BUILD_DOCUMENTATION is @c ON.
+    </td>
   </tr>
   <tr>
     @tp @b BASIS_COMPILE_SCRIPTS @endtp
@@ -456,9 +449,29 @@ The advanced CMake settings are:
     </td>
   </tr>
   <tr>
+    @tp @b BUILD_CHANGELOG @endtp
+    <td>
+      Request build of ChangeLog as part of the ALL target. Note that the ChangeLog
+      is generated either from the Subversion history if the source tree is a SVN
+      working copy, or from the Git history if it is a Git repository. Otherwise,
+      the ChangeLog cannot be generated and this option is disabled again by BASIS.
+      In case of Subversion, be aware that the generation of the ChangeLog takes
+      several minutes and may require the input of user credentials for access to the
+      Subversion repository. It is recommended to leave this option disabled and to
+      build the "changelog" target separate from the rest of the software package
+      instead (see step 4 below).
+    </td>
+  </tr>
+  <tr>
     @tp @b INSTALL_APIDOC_DIR @endtp
     <td>
       Installation directory of the API documentation relative to the INSTALL_PREFIX.
+    </td>
+  </tr>
+  <tr>
+    @tp @b INSTALL_LINKS @endtp
+    <td>
+      Whether (symbolic) links should be created (see step 5).
     </td>
   </tr>
 </table>
@@ -487,20 +500,39 @@ using the command:
 cmake -D BUILD_DOCUMENTATION=ON ~/$pkg-build
 @endcode
 
-The documentation is build by building the "doc" target, i.e.,
+Each software package provides different documentation. In general, however,
+each software has a manual, which by default is being build by the "manual"
+target, i.e.,
 @code
-make doc
+make manual
 @endcode
+Often, the software manual is, however, included as PDF document in which case
+it does not need to be build. The PDF file will simply be copied (and renamed)
+during the installation.
 
-If the BUILD_DOCUMENTATION option has been set to ON before, the doc target
-has already been build as part of the software build itself, i.e., when
-running make as in step 3.
-
+If the software provides a software library for use in your software, the
+API documentation can be build using the "apidoc" target, i.e.,
+@code
+make apidoc
+@endcode
 The advanced INSTALL_APIDOC_DIR CMake variable can be set to an absolute
 path or a path relative to the INSTALL_PREFIX directory in order to modify
 the installation directory for the API documentation which is generated
 from the in-source comments. This can be useful, for example, to install
 the documentation in the document directory of a web server.
+
+Some software packages further generate a project web site from text files
+marked up using a lightweight markup language such as reStructuredText.
+This web site can be build using the "site" target, i.e.,
+@code
+make site
+@endcode
+
+For maintainers of the software, a developer's guide may be provided which
+might be build by the "guide" target if not included as PDF document, i.e.,
+@code
+make guide
+@endcode
 
 If the source tree is a Subversion working copy and you have access to the
 Subversion repository of the project or if the project source tree is a Git
@@ -516,6 +548,9 @@ to the Subversion repository. Moreover, if the command
 <a href="http://arthurdejong.org/svn2cl/">svn2cl</a> is installed on your system,
 it will be used to format the ChangeLog. Otherwise, the plain output of the
 <tt>svn log</tt> command is used.
+
+@note Not all of the above build targets are provided by each software package.
+      You can see a list of available build targets by running "make help".
 
 @subsubsection InstallBuiltFiles 5. Install the package (optional)
 

@@ -30,8 +30,55 @@ macro (find_package)
   if (BASIS_DEBUG)
     message ("find_package(${ARGV})")
   endif ()
+  set (_BASIS_FIND_LIBRARY_SUFFIXES "${CMAKE_FIND_LIBRARY_SUFFIXES}")
   _find_package(${ARGV})
+  set (CMAKE_FIND_LIBRARY_SUFFIXES "${_BASIS_FIND_LIBRARY_SUFFIXES}")
+  unset (_BASIS_FIND_LIBRARY_SUFFIXES)
 endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Tokenize dependency specification.
+#
+# This function parses a dependency specification such as
+# "ITK-4.1{TestKernel,IO}" into the package name, i.e., ITK, the requested
+# (minimum) package version, i.e., 4.1, and a list of package components, i.e.,
+# TestKernel and IO. A valid dependency specification must specify the package
+# name of the dependency (case-sensitive). The version and components
+# specification are optional. Note that the components specification may
+# be separated by an arbitrary number of whitespace characters including
+# newlines. The same applies to the specification of the components themselves.
+# This allows one to format the dependency specification as follows, for example:
+# @code
+# ITK {
+#   TestKernel,
+#   IO
+# }
+# @endcode
+#
+# @param [in]  DEP Dependency specification, i.e., "<Pkg>[-<version>][{<Component1>[,...]}]".
+# @param [out] PKG Package name.
+# @param [out] VER Package version.
+# @param [out] CMP List of package components.
+function (basis_tokenize_dependency DEP PKG VER CMP)
+  set (CMPS)
+  if (DEP MATCHES "^([^ ]+)[ \\n\\t]*{([^}]*)}$")
+    set (DEP "${CMAKE_MATCH_1}")
+    string (REPLACE "," ";" COMPONENTS "${CMAKE_MATCH_2}")
+    foreach (C IN LISTS COMPONENTS)
+      string (STRIP "${C}" C)
+      list (APPEND CMPS ${C})
+    endforeach ()
+  endif ()
+  if (DEP MATCHES "^(.*)-([0-9]+)(\\.[0-9]+)?(\\.[0-9]+)?(\\.[0-9]+)?$")
+    set (${PKG} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    set (${VER} "${CMAKE_MATCH_2}${CMAKE_MATCH_3}${CMAKE_MATCH_4}${CMAKE_MATCH_5}" PARENT_SCOPE)
+    set (${CMP} "${CMPS}" PARENT_SCOPE)
+  else ()
+    set (${PKG} "${DEP}" PARENT_SCOPE)
+    set (${VER} ""       PARENT_SCOPE)
+    set (${CMP} ""       PARENT_SCOPE)
+  endif ()
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Find external software package or other project module.
@@ -71,8 +118,6 @@ endmacro ()
 # @ingroup CMakeAPI
 macro (basis_find_package PACKAGE)
   # parse arguments
-  set (PKG "${PACKAGE}")
-  set (VER)
   CMAKE_PARSE_ARGUMENTS (
     ARGN
     "EXACT;QUIET;REQUIRED"
@@ -81,28 +126,15 @@ macro (basis_find_package PACKAGE)
     ${ARGN}
   )
   # --------------------------------------------------------------------------
-  # extract components from PACKAGE
-  if (PKG MATCHES "^([^ ]+)[ \\n\\t]*{(.*)}$")
-    set (PKG "${CMAKE_MATCH_1}")
-    string (REPLACE "," ";" CMPS "${CMAKE_MATCH_2}")
-    foreach (CMP IN LISTS CMPS)
-      string (STRIP "${CMP}" CMP)
-      list (APPEND ARGN_COMPONENTS ${CMP})
-    endforeach ()
-    unset (CMP)
-    unset (CMPS)
-  endif ()
-  # split PACKAGE into package name and version number
-  if (ARGN_UNPARSED_ARGUMENTS MATCHES "^[0-9]+(\\.[0-9]+)*$")
+  # tokenize dependency specification
+  basis_tokenize_dependency ("${PACKAGE}" PKG VER CMPS)
+  list (APPEND ARGN_COMPONENTS ${CMPS})
+  unset (CMPS)
+  if (ARGN_UNPARSED_ARGUMENTS MATCHES "^[0-9]+(\\.[0-9]+)*$" AND VER)
+    message (FATAL_ERROR "Cannot use both version specification as part of "
+                         "package name and explicit version argument.")
+  else ()
     set (VER "${CMAKE_MATCH_0}")
-  endif ()
-  if (PKG MATCHES "^(.*)-([0-9]+)(\\.[0-9]+)?(\\.[0-9]+)?(\\.[0-9]+)?$")
-    if (VER)
-      message (FATAL_ERROR "Cannot use both version specification as part of "
-                           "package name and explicit version argument.")
-    endif ()
-    set (PKG "${CMAKE_MATCH_1}")
-    set (VER "${CMAKE_MATCH_2}${CMAKE_MATCH_3}${CMAKE_MATCH_4}${CMAKE_MATCH_5}")
   endif ()
   # --------------------------------------------------------------------------
   # preserve <PKG>_DIR variable which might get reset if different versions
@@ -210,6 +242,7 @@ macro (basis_find_package PACKAGE)
     # provide option which allows users to disable use of not required packages
     if (${PKG}_FOUND AND NOT ARGN_REQUIRED)
       option (USE_${PKG} "Enable/disable use of package ${PKG}." ON)
+      mark_as_advanced (USE_${PKG})
       if (NOT USE_${PKG})
         set (${PKG}_FOUND       FALSE)
         set (${PKG_UPPER}_FOUND FALSE)
@@ -263,15 +296,8 @@ endmacro ()
 #
 # @ingroup CMakeAPI
 macro (basis_use_package PACKAGE)
-  set (PKG "${PACKAGE}")
-  # extract components from PACKAGE
-  if (PKG MATCHES "^([^ ]+){.*}$")
-    set (PKG "${CMAKE_MATCH_1}")
-  endif ()
-  # split PACKAGE into package name and version number
-  if (PKG MATCHES "^(.*)-([0-9]+)(\\.[0-9]+)?(\\.[0-9]+)?(\\.[0-9]+)?$")
-    set (PKG "${CMAKE_MATCH_1}")
-  endif ()
+  # tokenize package specification
+  basis_tokenize_dependency ("${PACKAGE}" PKG VER CMPS)
   # use package
   foreach (A IN ITEMS "WORKAROUND FOR NOT BEING ABLE TO USE RETURN")
     if (BASIS_DEBUG)
@@ -404,7 +430,7 @@ endmacro ()
 # @sa basis_get_filename_component()
 function (get_filename_component)
   if (ARGC GREATER 4)
-    message (FATAL_ERROR "(basis_)get_filename_component(): Too many arguments!")
+    message (FATAL_ERROR "[basis_]get_filename_component(): Too many arguments!")
   endif ()
 
   list (GET ARGN 0 VAR)
@@ -426,7 +452,7 @@ function (get_filename_component)
   endif ()
   if (ARGC EQUAL 4)
     if (NOT ARGV3 MATCHES "^CACHE$")
-      message (FATAL_ERROR "(basis_)get_filename_component(): Invalid fourth argument: ${ARGV3}!")
+      message (FATAL_ERROR "[basis_]get_filename_component(): Invalid fourth argument: ${ARGV3}!")
     else ()
       set (${VAR} "${${VAR}}" CACHE STRING "")
     endif ()
@@ -927,16 +953,26 @@ endfunction ()
 # @param [in]  DELIM Delimiter used to separate list elements.
 #                    Each element which contains the delimiter as substring
 #                    is surrounded by double quotes (") in the output string.
-# @param [in]  ARGN  Input list.
+# @param [in]  ARGN  Input list. If this list starts with the argument
+#                    @c NOAUTOQUOTE, the automatic quoting of list elements
+#                    which contain the delimiter is disabled.
 #
 # @returns Sets @p STR to the resulting string.
 function (basis_list_to_delimited_string STR DELIM)
   set (OUT)
+  set (AUTOQUOTE TRUE)
+  if (ARGN)
+    list (GET ARGN 0 FIRST)
+    if (FIRST MATCHES "^NOAUTOQUOTE$")
+      list (REMOVE_AT ARGN 0)
+      set (AUTOQUOTE FALSE)
+    endif ()
+  endif ()
   foreach (ELEM ${ARGN})
     if (OUT)
       set (OUT "${OUT}${DELIM}")
     endif ()
-    if (ELEM MATCHES "${DELIM}")
+    if (AUTOQUOTE AND ELEM MATCHES "${DELIM}")
       set (OUT "${OUT}\"${ELEM}\"")
     else ()
       set (OUT "${OUT}${ELEM}")
@@ -1193,11 +1229,11 @@ endfunction ()
 # @returns Nothing.
 function (basis_check_target_name TARGET_NAME)
   # reserved target name ?
-  list (FIND BASIS_RESERVED_TARGET_NAMES "${TARGET_NAME}" IDX)
-  if (NOT IDX EQUAL -1)
-    message (FATAL_ERROR "Target name \"${TARGET_NAME}\" is reserved and cannot be used.")
-  endif ()
-
+  foreach (PATTERN IN LISTS BASIS_RESERVED_TARGET_NAMES)
+    if (TARGET_NAME MATCHES "^${PATTERN}$")
+      message (FATAL_ERROR "Target name \"${TARGET_NAME}\" is reserved and cannot be used.")
+    endif ()
+  endforeach ()
   # invalid target name ?
   if (NOT TARGET_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$|^__init__(_py)?$")
     message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid.\nChoose a target name"
@@ -1326,11 +1362,13 @@ endmacro ()
 #
 # @returns Nothing.
 function (basis_check_test_name TEST_NAME)
-  list (FIND BASIS_RESERVED_TEST_NAMES "${TEST_NAME}" IDX)
-  if (NOT IDX EQUAL -1)
-    message (FATAL_ERROR "Test name \"${TEST_NAME}\" is reserved and cannot be used.")
-  endif ()
-
+  # reserved test name ?
+  foreach (PATTERN IN LISTS BASIS_RESERVED_TARGET_NAMES)
+    if (TARGET_NAME MATCHES "^${PATTERN}$")
+      message (FATAL_ERROR "Test name \"${TARGET_NAME}\" is reserved and cannot be used.")
+    endif ()
+  endforeach ()
+  # invalid test name ?
   if (NOT TEST_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$")
     message (FATAL_ERROR "Test name ${TEST_NAME} is invalid.\nChoose a test name "
                          " which only contains alphanumeric characters,"

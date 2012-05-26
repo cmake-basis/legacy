@@ -67,7 +67,7 @@ set (
 )
 
 ## @brief Timeout for building MATLAB Compiler targets.
-set (BASIS_MCC_TIMEOUT "600" CACHE STRING "Timeout for MATLAB Compiler execution")
+set (BASIS_MCC_TIMEOUT "1800" CACHE STRING "Timeout for MATLAB Compiler execution")
 ## @brief Maximum number of retries on MATLAB Compiler license checkout.
 set (BASIS_MCC_RETRY_ATTEMPTS "4" CACHE STRING "Maximum number of retries on MATLAB Compiler license checkout error.")
 ## @brief Delay between retries to build MATLAB Compiler compiled targets on license checkout errors.
@@ -385,7 +385,7 @@ function (basis_add_mex_target TARGET_NAME)
   set (SOURCES)
   get_filename_component (S "${TARGET_NAME}" ABSOLUTE)
   if (NOT ARGN_UNPARSED_ARGUMENTS OR EXISTS "${S}")
-    list (APPEND ARGN_UNPARSED_ARGUMENTS "${TARGET_NAME}")
+    list (INSERT ARGN_UNPARSED_ARGUMENTS 0 "${TARGET_NAME}")
     basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME_WE)
   endif ()
   foreach (SOURCE ${ARGN_UNPARSED_ARGUMENTS})
@@ -935,7 +935,7 @@ function (basis_add_mcc_target TARGET_NAME)
   set (SOURCES)
   get_filename_component (S "${TARGET_NAME}" ABSOLUTE)
   if (NOT ARGN_UNPARSED_ARGUMENTS OR EXISTS "${S}")
-    list (APPEND ARGN_UNPARSED_ARGUMENTS "${TARGET_NAME}")
+    list (INSERT ARGN_UNPARSED_ARGUMENTS 0 "${TARGET_NAME}")
     basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME_WE)
   endif ()
   foreach (ARG ${ARGN_UNPARSED_ARGUMENTS})

@@ -21,7 +21,7 @@ _SBIA_BASIS_EXECUTABLETARGETINFO_INCLUDED=1
 # constants
 # ============================================================================
 
-## @brief Absolute directory path of ExecutableTargetInfo.sh module.
+## @brief Absolute directory path of executabletargetinfo.sh module.
 readonly _EXECUTABLETARGETINFO_DIR=@BASIS_BASH___DIR__@
 
 # ============================================================================
@@ -234,7 +234,7 @@ function _executabletargetinfo_sanitize
         upvar $1 ''
         return 0
     }
-    local sane="`echo -n "$2" | tr [:space:] '_' | tr -c [:alpha:] '_'`"
+    local sane="`echo -n "$2" | tr [:space:] '_' | tr -c [:alnum:] '_'`"
     [ -n "${sane}" ] || {
         echo "_executabletargetinfo_sanitize(): Failed to sanitize string '$2'" 1>&2
         exit 1
@@ -269,6 +269,11 @@ function _executabletargetinfo_add
         exit 1
     }
     eval "readonly __EXECUTABLETARGETINFO_${name}_${key}='$3'"
+    if [ $? -ne 0 ]; then
+        echo "Failed to add ${name} of key ${key} to executable target info map!" 1>&2
+        echo "This may be caused by two CMake build target names being converted to the same key." 1>&2
+        exit 1
+    fi
 }
 
 # ----------------------------------------------------------------------------
