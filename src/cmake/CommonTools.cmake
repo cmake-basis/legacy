@@ -30,10 +30,13 @@ macro (find_package)
   if (BASIS_DEBUG)
     message ("find_package(${ARGV})")
   endif ()
-  set (_BASIS_FIND_LIBRARY_SUFFIXES "${CMAKE_FIND_LIBRARY_SUFFIXES}")
+  # attention: find_package() can be recursive. Hence, use "stack" to keep
+  #            track of library suffixes. Further note that we need to
+  #            maintain a list of lists, which is not supported by CMake.
+  list (APPEND _BASIS_FIND_LIBRARY_SUFFIXES "{${CMAKE_FIND_LIBRARY_SUFFIXES}}")
   _find_package(${ARGV})
-  set (CMAKE_FIND_LIBRARY_SUFFIXES "${_BASIS_FIND_LIBRARY_SUFFIXES}")
-  unset (_BASIS_FIND_LIBRARY_SUFFIXES)
+  string (REGEX REPLACE ";?{([^}]*)}$" "" _BASIS_FIND_LIBRARY_SUFFIXES "${_BASIS_FIND_LIBRARY_SUFFIXES}")
+  set (CMAKE_FIND_LIBRARY_SUFFIXES "${CMAKE_MATCH_1}")
 endmacro ()
 
 # ----------------------------------------------------------------------------
@@ -72,12 +75,11 @@ function (basis_tokenize_dependency DEP PKG VER CMP)
   if (DEP MATCHES "^(.*)-([0-9]+)(\\.[0-9]+)?(\\.[0-9]+)?(\\.[0-9]+)?$")
     set (${PKG} "${CMAKE_MATCH_1}" PARENT_SCOPE)
     set (${VER} "${CMAKE_MATCH_2}${CMAKE_MATCH_3}${CMAKE_MATCH_4}${CMAKE_MATCH_5}" PARENT_SCOPE)
-    set (${CMP} "${CMPS}" PARENT_SCOPE)
   else ()
     set (${PKG} "${DEP}" PARENT_SCOPE)
     set (${VER} ""       PARENT_SCOPE)
-    set (${CMP} ""       PARENT_SCOPE)
   endif ()
+  set (${CMP} "${CMPS}" PARENT_SCOPE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
