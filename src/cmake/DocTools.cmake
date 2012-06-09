@@ -808,6 +808,11 @@ endfunction ()
 #         named @c TARGET_NAME in lowercase only exists, to this subdirectory.</td>
 #   </tr>
 #   <tr>
+#     @tp @b OUTPUT_NAME @endtp
+#     <td>Output name for generated documentation such as PDF document or MAN page.
+#         Defaults to @c PROJECT_NAME.</td>
+#   </tr>
+#   <tr>
 #     @tp @b OUTPUT_DIRECTORY @endtp
 #     <td>Root output directory for generated files. Defaults to the binary
 #         directory corresponding to the set @c SOURCE_DIRECTORY.</td>
@@ -1080,10 +1085,10 @@ function (basis_add_sphinx_doc TARGET_NAME)
     set (SPHINX_MASTER_DOC "index")
   endif ()
   if (NOT SPHINX_TEMPLATES_PATH AND EXISTS "${SPHINX_SOURCE_DIRECTORY}/templates")
-    set (SPHINX_TEMPLATES_PATH "${SPHINX_SOURCE_DIRECTORY}/templates")
+    set (SPHINX_TEMPLATES_PATH "'${SPHINX_SOURCE_DIRECTORY}/templates'")
   endif ()
   if (NOT SPHINX_HTML_STATIC_PATH AND EXISTS "${SPHINX_SOURCE_DIRECTORY}/static")
-    set (SPHINX_HTML_STATIC_PATH "${SPHINX_SOURCE_DIRECTORY}/static")
+    set (SPHINX_HTML_STATIC_PATH "'${SPHINX_SOURCE_DIRECTORY}/static'")
   endif ()
   if (NOT SPHINX_HTML_THEME)
     set (SPHINX_HTML_THEME "${BASIS_SPHINX_HTML_THEME}")
