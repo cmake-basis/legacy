@@ -26,6 +26,17 @@
 #include <string>   // C++ string class
 
 
+namespace sbia
+{
+
+namespace basis
+{
+
+
+/// @addtogroup BasisCxxUtilities
+/// @{
+
+
 /**
  * @brief Get size of terminal window.
  *
@@ -35,11 +46,15 @@
 void get_terminal_size(int& lines, int& columns);
 
 /**
+ * @brief Get maximum number of lines of terminal window.
+ *
  * @returns Maximum number of lines of terminal window.
  */
 int get_terminal_lines();
 
 /**
+ * @brief Get maximum number of columns of terminal window.
+ *
  * @returns Maximum number of columns of terminal window.
  */
 int get_terminal_columns();
@@ -62,6 +77,14 @@ std::ostream& print_wrapped(std::ostream&      os,
                             int                width,
                             int                indent,
                             int                offset);
+
+/// @}
+// Doxygen group
+
+
+} // namespace basis
+
+} // namespace sbia
 
 
 #endif // _SBIA_BASIS_STDIO_H
