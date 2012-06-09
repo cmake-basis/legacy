@@ -103,9 +103,9 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/site/index.rst")
     BUILDER       html dirhtml pdf man
     MAN_SECTION   7
     SHOW_RELEASE  false
-    INDEXLINK     Software
+    INDEXLINK     "SBIA Software"
     RELLINKS      download installation documentation tutorials
-    HTML_SIDEBARS localtoc relations sourcelink pdflink
+    HTML_SIDEBARS localtoc relations sourcepdflink
     LATEX_TITLE   ${PROJECT_NAME}
     DOXYLINK      apidoc
     DOXYLINK_URL  http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest
