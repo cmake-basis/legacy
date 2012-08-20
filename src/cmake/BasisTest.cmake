@@ -28,9 +28,6 @@ include (CTest)
 # mark timeout option as advanced
 mark_as_advanced (DART_TESTING_TIMEOUT)
 
-# remove ".local" or ".uphs.upenn.edu" suffix from site name
-string (REGEX REPLACE "\\.local$|\\.uphs\\.upenn\\.edu$" "" SITE "${SITE}")
-
 set (RUN_FROM_CTEST_OR_DART 1)
 include (CTestTargets)
 set (RUN_FROM_CTEST_OR_DART)
@@ -115,7 +112,7 @@ set (BASIS_PROPERTIES_ON_TESTS
 )
 
 # convert list into regular expression
-basis_list_to_regex (BASIS_PROPERTIES_ON_TESTS_REGEX ${BASIS_PROPERTIES_ON_TESTS})
+basis_list_to_regex (BASIS_PROPERTIES_ON_TESTS_RE ${BASIS_PROPERTIES_ON_TESTS})
 
 # ============================================================================
 # utilities
@@ -216,7 +213,7 @@ function (basis_set_tests_properties)
     # directly after the PROPERTIES keyword.
     while (N GREATER 0)
       list (GET ARGN 0 ARG)
-      if (ARG MATCHES "${BASIS_PROPERTIES_ON_TESTS_REGEX}")
+      if (ARG MATCHES "${BASIS_PROPERTIES_ON_TESTS_RE}")
         break ()
       endif ()
       list (APPEND VALUE "${ARG}")
@@ -294,7 +291,7 @@ function (basis_add_test_driver TESTDRIVER_NAME)
                          "a custom test driver.")
   endif ()
   # choose test driver implementation depending on which packages are available
-  set (TESTDRIVER_INCLUDE "sbia/basis/testdriver.h")
+  set (TESTDRIVER_INCLUDE "basis/testdriver.h")
   set (TESTDRIVER_DEPENDS)
   if (ITK_FOUND)
     basis_include_directories (BEFORE ${ITK_INCLUDE_DIRS})
@@ -308,8 +305,8 @@ function (basis_add_test_driver TESTDRIVER_NAME)
   if (NOT TESTDRIVER_SOURCE MATCHES "\\.cxx")
     set (TESTDRIVER_SOURCE "${TESTDRIVER_SOURCE}.cxx")
   endif ()
-  set (CMAKE_TESTDRIVER_BEFORE_TESTMAIN "    #include <sbia/basis/testdriver-before-test.inc>")
-  set (CMAKE_TESTDRIVER_AFTER_TESTMAIN  "    #include <sbia/basis/testdriver-after-test.inc>")
+  set (CMAKE_TESTDRIVER_BEFORE_TESTMAIN "    #include <basis/testdriver-before-test.inc>")
+  set (CMAKE_TESTDRIVER_AFTER_TESTMAIN  "    #include <basis/testdriver-after-test.inc>")
   create_test_sourcelist (
     TESTDRIVER_SOURCES
       ${TESTDRIVER_SOURCE} ${ARGN_UNPARSED_ARGUMENTS}
@@ -533,17 +530,9 @@ function (basis_add_test TEST_NAME)
       endif ()
       if (LANGUAGE MATCHES "CXX")
         if (NOT ARGN_NO_DEFAULT_MAIN)
-          if (BASIS_NAMESPACE)
-            list (APPEND ARGN_LINK_DEPENDS "${BASIS_NAMESPACE_LOWER}.basis.testmain")
-          else ()
-            list (APPEND ARGN_LINK_DEPENDS "basis.testmain")
-          endif ()
+          list (APPEND ARGN_LINK_DEPENDS "${BASIS_TEST_MAIN_LIBRARY}")
         endif ()
-        if (BASIS_NAMESPACE)
-          list (APPEND ARGN_LINK_DEPENDS "${BASIS_NAMESPACE_LOWER}.basis.testlib")
-        else ()
-          list (APPEND ARGN_LINK_DEPENDS "basis.testlib")
-        endif ()
+        list (APPEND ARGN_LINK_DEPENDS "${BASIS_TEST_LIBRARY}")
         list (APPEND ARGN_LINK_DEPENDS "${CMAKE_THREAD_LIBS_INIT}")
       endif ()
     endif ()

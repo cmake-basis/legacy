@@ -112,19 +112,31 @@ endif ()
 # meta-data lists
 # ============================================================================
 
+## @brief Names of project meta-data switches.
+set (
+  BASIS_METADATA_LIST_SWITCH
+)
+
 ## @brief Names of project meta-data with only one argument.
 set (
   BASIS_METADATA_LIST_SINGLE
+    AUTHOR
     NAME
-    NAMESPACE
+    SUBPROJECT
+    PACKAGE
+    PACKAGE_VENDOR
+    PROVIDER       # alias for PACKAGE_VENDOR
+    COPYRIGHT
+    LICENSE
+    CONTACT
     VERSION
 )
 
 ## @brief Names of project meta-data with multiple arguments.
 set (
   BASIS_METADATA_LIST_MULTI
+    AUTHORS
     DESCRIPTION
-    PACKAGE_VENDOR
     DEPENDS
     OPTIONAL_DEPENDS
     TEST_DEPENDS
@@ -174,7 +186,6 @@ set (
 set (
   BASIS_RESERVED_TARGET_NAMES
     "all"
-
     "bundle"
     "bundle_source"
     "changelog"
@@ -188,17 +199,6 @@ set (
     "scripts"
     "test"
     "uninstall"
-    # basis_add_sphinx_doc()
-    ".*_all"
-    ".*_html"
-    ".*_dirhtml"
-    ".*_singlehtml"
-    ".*_latex"
-    ".*_pdf"
-    ".*_texinfo"
-    ".*_man"
-    ".*_text"
-    ".*_linkcheck"
 )
 
 ## @brief Names of recognized properties on targets.
@@ -330,6 +330,7 @@ set (BASIS_PROPERTIES_ON_TARGETS
   BASIS_TYPE                   # BASIS type of target
   BASIS_UTILITIES              # whether BASIS utilities are used by this target
   BUNDLED                      # whether target belongs to same bundle/superbuild
+  COMPILE_DEFINITIONS_FILE     # script configuration file
   LANGUAGE                     # language of source files
   COMPILE                      # enable/disable compilation of script
   EXPORT                       # whether to export target
@@ -376,7 +377,7 @@ set (BASIS_PROPERTIES_ON_TARGETS
 )
 
 # convert list of property names into regular expression
-basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_REGEX ${BASIS_PROPERTIES_ON_TARGETS})
+basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_RE ${BASIS_PROPERTIES_ON_TARGETS})
 
 ## @brief Whether BASIS shall use fully-qualified target UIDs.
 #
@@ -384,24 +385,10 @@ basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_REGEX ${BASIS_PROPERTIES_ON_TAR
 # not prepended to the actual CMake build target names.
 #
 # For example, instead of the fully-qualified target UID
-# "sbia.@PROJECT_NAME_LOWER@.target", the CMake target name will simply
+# "sbia.@PROJECT_NAME_L@.target", the CMake target name will simply
 # be "target". Only when the target is referenced from another project,
 # the fully-qualified target UID is usually required.
 basis_set_if_empty (BASIS_USE_FULLY_QUALIFIED_UIDS OFF)
-
-## @brief Whether BASIS should use a separate namespace for each module.
-#
-# If this option is ON, BASIS will use a separate namespace for each module.
-# Otherwise, all modules of a project reside dirctly in the namespace of the
-# top-level project itself.
-basis_set_if_empty (BASIS_USE_MODULE_NAMESPACES OFF)
-
-## @brief Global namespace of BASIS projects.
-if (NOT DEFINED BASIS_NAMESPACE)
-  set (BASIS_NAMESPACE "SBIA")
-endif ()
-string (TOLOWER "${BASIS_NAMESPACE}" BASIS_NAMESPACE_LOWER)
-string (TOUPPER "${BASIS_NAMESPACE}" BASIS_NAMESPACE_UPPER)
 
 ## @brief Default component used for library targets when no component is specified.
 #
@@ -417,11 +404,7 @@ set (BASIS_RUNTIME_COMPONENT "Runtime")
 
 ## @brief Specifies that the BASIS C++ utilities shall by default not be added
 #         as dependency of an executable.
-if (DEFINED BASIS_NO_UTILITIES AND BASIS_NO_UTILITIES)
-  set (BASIS_UTILITIES FALSE)
-else ()
-  set (BASIS_UTILITIES TRUE)
-endif ()
+set (BASIS_UTILITIES TRUE)
 
 ## @brief Whether to export build targets by default.
 set (BASIS_EXPORT TRUE)
@@ -442,6 +425,34 @@ mark_as_advanced (BASIS_REVISION_INFO)
 # @sa basis_add_script_target()
 option (BASIS_COMPILE_SCRIPTS "Enable compilation of scripts if supported by the language." OFF)
 mark_as_advanced (BASIS_COMPILE_SCRIPTS)
+
+## @brief Enable the installation of scripted modules in site specific default directories.
+#
+# If this option is @c ON, scripted modules such as Python and Perl modules, in particular,
+# are installed in the default installation directories for site packages of the respective
+# interpreter. This means that these modules may be installed outside the installation
+# root directory as specified by the @c CMAKE_INSTALL_PREFIX. When this option is set to
+# @c OFF, all modules are installed in subdirectories of the @c CMAKE_INSTALL_PREFIX.
+# These directories may have to be added to the search path for modules manually as they
+# might not be in the default search path of the respective interpreter.
+#
+# The installation directories for public modules which are intended for external use
+# can further be set using the -D option of CMake or be modified by editing the respective
+# advanced CMake cache variables named <tt>INSTALL_&lt;LANG%gt;_SITE_DIR</tt>.
+#
+# @note Even though it is more convenient for the user of a package to have the modules
+#       being installed in the default directories, this option is set to @c OFF by default.
+#       The reasons are that it is in first place expected that the installation will copy
+#       files only to directories within the @c CMAKE_INSTALL_PREFIX. Moreover, it is not
+#       guaranteed if the user has write permissions for the default site packages directories.
+#       Last but not least, when installing public modules located in the @c PROJECT_LIBRARY_DIR
+#       source directory, BASIS does not set a default module @c PREFIX which reduces the risk
+#       of overwriting existing modules of other packages. If the developer of a BASIS package
+#       was not thorough and did not follow the guidelines, setting this option to @c ON
+#       has the potential risk of overwriting other packages' modules. Therefore,
+#       modules are only installed in system default locations if explicitly requested.
+option (BASIS_SITE_DIRS "Enable the installation of scripted modules in site specific default directories." OFF)
+mark_as_advanced (BASIS_SITE_DIRS)
 
 ## @brief Script used to execute a process in CMake script mode.
 #
@@ -472,50 +483,97 @@ set (BASIS_SVN_USERS_FILE "${BASIS_MODULE_PATH}/SubversionUsers.txt")
 # @sa basis_install_public_headers()
 basis_set_if_empty (BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES FALSE)
 
-## @brief Enable/Disable copying of all public header files to the build tree.
-#
-# @deprecated This option is deprecated and will be removed in future releases.
-#
-# If enabled, BASIS copies the public header files which were found in the
-# @c PROJECT_INCLUDE_DIR to the corresponding include directory in the build
-# tree using the same relative paths as will be used for the installation.
-# Moreover, header files with the .in suffix are configured using CMake's
-# configure_file() command with the <tt>\@ONLY</tt> option.
-#
-# As the copying of header files adds some additional complexity and results
-# in the file path reported by the compiler in error messages and warnings which
-# will name the corresponding copy of the header file in the build tree, causing
-# potential confusion and editing of the copy by mistake, this feature was made
-# optional. Further, the inclusion of uncovered files works only if the file
-# is in the source tree, not the build tree. This is a restriction of CTest.
-# A bug report has been submitted (#12910). A project can enable the copying
-# of public header files in the Settings.cmake file by setting this
-# CMake variable to TRUE. The advantage is that the files in the source
-# tree need not to be organized in subdirectories.
-#
-# If disabled, the relative path of header files is not adjusted to match
-# the actual installation. Therefore, in this case, the project developer
-# themself must maintain the <tt>sbia/&lt:project&gt;</tt> subdirectory
-# structure in the @c PROJECT_INCLUDE_DIR directory tree, where
-# &lt;project&gt; is the project name in lower case only.
-set (BASIS_AUTO_PREFIX_INCLUDES FALSE)
-
-## @brief Specify public header files which are excluded from check
-#         whether their path is prefixed by the @c INCLUDE_PREFIX.
-#
-# If @c BASIS_AUTO_PREFIX_INCLUDES is @c FALSE and a public header
-# file is encountered whose path is not prefixed by @c INCLUDE_PREFIX,
-# a warning is output by BASIS. This warning can be suppressed for certain
-# public header files using this variable. If the path of the public header
-# file relative to @c PROJECT_INCLUDE_DIR matches either one of the listed
-# regular expressions, the warning is not displayed. Note that special
-# characters in the regular expressions will have to be escaped twice, e.g.,
-# "\\\\." corresponds to the regular expression "\.", i.e., matches a dot (.).
-set (BASIS_INCLUDES_CHECK_EXCLUDE "")
-
 ## @brief Enable/disable registration of installed package in CMake registry.
 option (BASIS_REGISTER "Request registration of installed package in CMake package registry." ON)
 mark_as_advanced (BASIS_REGISTER)
+
+# ============================================================================
+# programming language specific settings
+# ============================================================================
+
+## @brief List of programming languages explicitly supported by BASIS.
+#
+# @todo Add full support for Java.
+set (BASIS_LANGUAGES CXX Python Jython Perl Matlab Bash)
+
+string (TOLOWER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_L)
+string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
+
+# ----------------------------------------------------------------------------
+# namespace delimiters
+# ----------------------------------------------------------------------------
+
+## @brief Namespace delimiter used in C++.
+set (BASIS_NAMESPACE_DELIMITER_CXX .)
+## @brief Namespace delimiter used in Python.
+set (BASIS_NAMESPACE_DELIMITER_PYTHON .)
+## @brief Namespace delimiter used in Jython.
+set (BASIS_NAMESPACE_DELIMITER_JYTHON .)
+## @brief Namespace delimiter used in Perl.
+set (BASIS_NAMESPACE_DELIMITER_PERL ::)
+## @brief Namespace delimiter used in MATLAB.
+set (BASIS_NAMESPACE_DELIMITER_MATLAB .)
+## @brief Namespace delimiter used in Bash.
+#
+# @note Bash itself has no concept of namespaces. This namespace delimiter is
+#       used by the import() function of the BASIS Utilities for Bash.
+#
+# @sa BasisBashUtilities
+set (BASIS_NAMESPACE_DELIMITER_BASH .)
+
+# ----------------------------------------------------------------------------
+# public libraries of script modules
+# ----------------------------------------------------------------------------
+
+## @brief Name of library target which builds Python modules in @c PROJECT_LIBRARY_DIR.
+#
+# This variable is used by basis_configure_script_libraries() which is called
+# by basis_project_impl() to add a library target of the given name for the
+# build of the Python modules found in the @c PROJECT_LIBRARY_DIR.
+#
+# @note The given target name is argument to the basis_add_library() command.
+#       Overwrite default value in Settings.cmake file of project if desired.
+set (PYTHON_LIBRARY_TARGET "pythonlib")
+
+## @brief Name of library target which builds Jython modules in @c PROJECT_LIBRARY_DIR.
+#
+# This variable is used by basis_configure_script_libraries() which is called
+# by basis_project_impl() to add a library target of the given name for the
+# build of the Jython modules found in the @c PROJECT_LIBRARY_DIR.
+#
+# @note The given target name is argument to the basis_add_library() command.
+#       Overwrite default value in Settings.cmake file of project if desired.
+set (JYTHON_LIBRARY_TARGET "jythonlib")
+
+## @brief Name of library target which builds Perl modules in @c PROJECT_LIBRARY_DIR.
+#
+# This variable is used by basis_configure_script_libraries() which is called
+# by basis_project_impl() to add a library target of the given name for the
+# build of the Perl modules found in the @c PROJECT_LIBRARY_DIR.
+#
+# @note The given target name is argument to the basis_add_library() command.
+#       Overwrite default value in Settings.cmake file of project if desired.
+set (PERL_LIBRARY_TARGET "perllib")
+
+## @brief Name of library target which builds MATLAB modules in @c PROJECT_LIBRARY_DIR.
+#
+# This variable is used by basis_configure_script_libraries() which is called
+# by basis_project_impl() to add a library target of the given name for the
+# build of the MATLAB modules found in the @c PROJECT_LIBRARY_DIR.
+#
+# @note The given target name is argument to the basis_add_library() command.
+#       Overwrite default value in Settings.cmake file of project if desired.
+set (MATLAB_LIBRARY_TARGET "matlablib")
+
+## @brief Name of library target which builds Bash modules in @c PROJECT_LIBRARY_DIR.
+#
+# This variable is used by basis_configure_script_libraries() which is called
+# by basis_project_impl() to add a library target of the given name for the
+# build of the Bash modules found in the @c PROJECT_LIBRARY_DIR.
+#
+# @note The given target name is argument to the basis_add_library() command.
+#       Overwrite default value in Settings.cmake file of project if desired.
+set (BASH_LIBRARY_TARGET "bashlib")
 
 # ============================================================================
 # documentation
@@ -554,16 +612,6 @@ mark_as_advanced (BASIS_VERBOSE)
 ## @brief Request debugging messages from BASIS functions.
 option (BASIS_DEBUG "Request BASIS functions to help debugging." OFF)
 mark_as_advanced (BASIS_DEBUG)
-
-## @brief Request installation of symbolic links.
-#
-# @note This option is not available on Windows.
-if (UNIX)
-  option (INSTALL_LINKS "Request installation of (symbolic) links." ON)
-else ()
-  set (INSTALL_LINKS OFF)
-endif ()
-mark_as_advanced (INSTALL_LINKS)
 
 # ============================================================================
 # build configuration

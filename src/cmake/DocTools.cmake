@@ -119,6 +119,9 @@ endfunction ()
 function (basis_install_doc SOURCE)
   CMAKE_PARSE_ARGUMENTS (ARGN "" "COMPONENT;DESTINATION;OUTPUT_NAME" "" ${ARGN})
 
+  if (NOT IS_ABSOLUTE "${SOURCE}")
+    get_filename_component (SOURCE "${SOURCE}" ABSOLUTE)
+  endif ()
   if (NOT ARGN_DESTINATION)
     set (ARGN_DESTINATION "${INSTALL_DOC_DIR}")
   endif ()
@@ -142,15 +145,14 @@ function (basis_install_doc SOURCE)
     message (STATUS "Adding documentation ${RELPATH}...")
   endif ()
 
-  if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE}")
+  if (IS_DIRECTORY "${SOURCE}")
     basis_install_directory (
-      "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE}"
-      "${ARGN_DESTINATION}/${ARGN_OUTPUT_NAME}"
+      "${SOURCE}" "${ARGN_DESTINATION}/${ARGN_OUTPUT_NAME}"
       COMPONENT "${ARGN_COMPONENT}"
     )
   else ()
     install (
-      FILES       "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE}"
+      FILES       "${SOURCE}"
       DESTINATION "${ARGN_DESTINATION}"
       COMPONENT   "${ARGN_COMPONENT}"
       RENAME      "${ARGN_OUTPUT_NAME}"
@@ -173,6 +175,12 @@ endfunction ()
 # @param [in] ARGN        List of arguments. The valid arguments are:
 # @par
 # <table border="0">
+#   <tr>
+#     @tp @b EXCLUDE_FROM_DOC @endtp
+#     <td>By default, the specified target is build as part of the global
+#         @c doc target. If this option is given, however, the added
+#         documentation will not be build as part of this target.</td>
+#   </tr>
 #   <tr>
 #     @tp @b COMPONENT component @endtp
 #     <td>Name of the component this documentation belongs to.
@@ -253,6 +261,13 @@ endfunction ()
 #     @tp @b COLS_IN_ALPHA_INDEX n @endtp
 #     <td>Number of columns in alphabetical index. Default: 3.</td>
 #   </tr>
+#   <tr>
+#     @tp @b IGNORE_PREFIX prefix1 [prefix2...] @endtp
+#     <td>In case all classes in a project start with a common prefix, all 
+#         classes will be put under the same header in the alphabetical index. 
+#         The IGNORE_PREFIX tag can be used to specify one or more prefixes that 
+#         should be ignored while generating the index headers.</td>
+#   </tr>
 # </table>
 # @n
 # See <a href="http://www.stack.nl/~dimitri/doxygen/config.html">here</a> for a
@@ -274,8 +289,8 @@ function (basis_add_doxygen_doc TARGET_NAME)
   # check target name
   basis_check_target_name ("${TARGET_NAME}")
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
-  string (TOLOWER "${TARGET_NAME}" TARGET_NAME_LOWER)
-  string (TOUPPER "${TARGET_NAME}" TARGET_NAME_UPPER)
+  string (TOLOWER "${TARGET_NAME}" TARGET_NAME_L)
+  string (TOUPPER "${TARGET_NAME}" TARGET_NAME_U)
   # verbose output
   if (BASIS_VERBOSE)
     message (STATUS "Adding documentation ${TARGET_UID}...")
@@ -295,10 +310,10 @@ function (basis_add_doxygen_doc TARGET_NAME)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
     DOXYGEN
-      ""
+      "EXCLUDE_FROM_DOC"
       "COMPONENT;DESTINATION;DOXYFILE;TAGFILE;PROJECT_NAME;PROJECT_NUMBER;OUTPUT_DIRECTORY;COLS_IN_ALPHA_INDEX;MAN_SECTION"
-      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH"
-      ${ARGN_UNPARSED_ARGUMENTS}
+      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH;IGNORE_PREFIX"
+      ${ARGN}
   )
   # default component
   if (NOT DOXYGEN_COMPONENT)
@@ -326,8 +341,8 @@ function (basis_add_doxygen_doc TARGET_NAME)
   if (EXISTS "${PROJECT_CONFIG_DIR}/Depends.cmake")
     list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/Depends.cmake")
   endif ()
-  if (EXISTS "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Directories.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Directories.cmake")
+  if (EXISTS "${BINARY_CONFIG_DIR}/Directories.cmake")
+    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/Directories.cmake")
   endif ()
   if (EXISTS "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
     list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
@@ -356,9 +371,9 @@ function (basis_add_doxygen_doc TARGET_NAME)
     list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/CTestCustom.cmake")
   endif ()
   # package configuration files - only exist *after* this function executed
-  list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/${PROJECT_NAME}Config.cmake")
-  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
-  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Use.cmake")
+  list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Config.cmake")
+  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}ConfigVersion.cmake")
+  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Use.cmake")
   # input directories
   if (NOT BASIS_AUTO_PREFIX_INCLUDES AND EXISTS "${PROJECT_INCLUDE_DIR}")
     list (APPEND DOXYGEN_INPUT "${PROJECT_INCLUDE_DIR}")
@@ -434,9 +449,9 @@ function (basis_add_doxygen_doc TARGET_NAME)
   set (DOXYGEN_INPUT "\"${DOXYGEN_INPUT}\"")
   # input filters
   if (NOT DOXYGEN_INPUT_FILTER)
-    basis_get_target_uid (DOXYFILTER "${BASIS_NAMESPACE_LOWER}.basis.doxyfilter")
+    basis_get_target_uid (DOXYFILTER "basis.doxyfilter")
     if (TARGET "${DOXYFILTER}")
-      basis_get_target_location (DOXYGEN_INPUT_FILTER "${DOXYFILTER}" ABSOLUTE)
+      basis_get_target_location (DOXYGEN_INPUT_FILTER ${DOXYFILTER} ABSOLUTE)
     endif ()
   else ()
     set (DOXYFILTER)
@@ -476,12 +491,12 @@ function (basis_add_doxygen_doc TARGET_NAME)
   endif ()
   # outputs
   if (NOT DOXYGEN_OUTPUT_DIRECTORY)
-    set (DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME_LOWER}")
+    set (DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME_L}")
   endif ()
   if (DOXYGEN_TAGFILE MATCHES "^(None|NONE|none)$")
     set (DOXYGEN_TAGFILE)
   else ()
-    set (DOXYGEN_TAGFILE "${DOXYGEN_OUTPUT_DIRECTORY}/Doxytags.${TARGET_NAME_LOWER}")
+    set (DOXYGEN_TAGFILE "${DOXYGEN_OUTPUT_DIRECTORY}/Doxytags.${TARGET_NAME_L}")
   endif ()
   if (NOT DOXYGEN_OUTPUT)
     set (DOXYGEN_OUTPUT html)
@@ -501,6 +516,7 @@ function (basis_add_doxygen_doc TARGET_NAME)
   if (NOT DOXYGEN_COLS_IN_ALPHA_INDEX OR DOXYGEN_COLS_IN_ALPHA_INDEX MATCHES "[^0-9]")
     set (DOXYGEN_COLS_IN_ALPHA_INDEX 1)
   endif ()
+  basis_list_to_delimited_string (DOXYGEN_IGNORE_PREFIX " " ${DOXYGEN_IGNORE_PREFIX})
   # HTML style
   set (DOXYGEN_HTML_STYLESHEET "${BASIS_MODULE_PATH}/doxygen_sbia.css")
   set (DOXYGEN_HTML_HEADER     "${BASIS_MODULE_PATH}/doxygen_header.html")
@@ -512,18 +528,19 @@ function (basis_add_doxygen_doc TARGET_NAME)
     set (DOXYGEN_WARN_FORMAT "\"$file:$line: $text \"")
   endif ()
   # installation directories
-  set (INSTALL_${TARGET_NAME_UPPER}_DIR "" CACHE PATH "Installation directory for ${TARGET_NAME_UPPER}.")
-  mark_as_advanced (INSTALL_${TARGET_NAME_UPPER}_DIR)
+  set (INSTALL_${TARGET_NAME_U}_DIR "" CACHE PATH "Installation directory for Doxygen ${TARGET_NAME} target.")
+  mark_as_advanced (INSTALL_${TARGET_NAME_U}_DIR)
   foreach (f IN LISTS DOXYGEN_OUTPUT)
     string (TOUPPER "${f}" F)
+    if (INSTALL_${TARGET_NAME_U}_DIR)
+      set (DOXYGEN_${F}_DESTINATION "${INSTALL_${TARGET_NAME_U}_DIR}") # user setting
+    endif ()
     if (NOT DOXYGEN_${F}_DESTINATION)
       if (DOXYGEN_DESTINATION)
         set (DOXYGEN_${F}_DESTINATION "${DOXYGEN_DESTINATION}") # common destination
-      elseif (INSTALL_${TARGET_NAME_UPPER}_DIR)
-        set (DOXYGEN_${F}_DESTINATION "${INSTALL_${TARGET_NAME_UPPER}_DIR}") # global setting
       elseif (f MATCHES "man")
         if (INSTALL_MAN_DIR)
-          set (DOXYGEN_${F}_DESTINATION "${INSTALL_MAN_DIR}/man${DOXYGEN_MAN_SECTION}") # default for manual pages
+          set (DOXYGEN_MAN_DESTINATION "${INSTALL_MAN_DIR}/man${DOXYGEN_MAN_SECTION}") # default for manual pages
         endif ()
       elseif (NOT f MATCHES "html") # do not install excludes by default
         set (DOXYGEN_${F}_DESTINATION "${INSTALL_DOC_DIR}") # default destination
@@ -531,7 +548,7 @@ function (basis_add_doxygen_doc TARGET_NAME)
     endif ()
   endforeach ()
   # configure Doxyfile
-  set (DOXYFILE "${DOXYGEN_OUTPUT_DIRECTORY}/Doxyfile.${TARGET_NAME_LOWER}")
+  set (DOXYFILE "${DOXYGEN_OUTPUT_DIRECTORY}/Doxyfile.${TARGET_NAME_L}")
   configure_file ("${DOXYGEN_DOXYFILE}" "${DOXYFILE}" @ONLY)
   # add target
   set (LOGOS)
@@ -618,10 +635,12 @@ function (basis_add_doxygen_doc TARGET_NAME)
     endif ()
   endforeach ()
   # add general "doc" target
-  if (NOT TARGET doc)
-    add_custom_target (doc)
+  if (NOT DOXYGEN_EXCLUDE_FROM_DOC)
+    if (NOT TARGET doc)
+      add_custom_target (doc)
+    endif ()
+    add_dependencies (doc ${TARGET_UID})
   endif ()
-  add_dependencies (doc ${TARGET_UID})
   # install documentation
   install (
     CODE
@@ -630,12 +649,12 @@ function (basis_add_doxygen_doc TARGET_NAME)
       set (MAN_DESTINATION  \"${DOXYGEN_MAN_DESTINATION}\")
 
       function (install_doxydoc FMT)
-        string (TOUPPER \"\${FMT}\" FMT_UPPER)
-        set (INSTALL_PREFIX \"\${\${FMT_UPPER}_DESTINATION}\")
-        if (NOT INSTALL_PREFIX)
+        string (TOUPPER \"\${FMT}\" FMT_U)
+        set (CMAKE_INSTALL_PREFIX \"\${\${FMT_U}_DESTINATION}\")
+        if (NOT CMAKE_INSTALL_PREFIX)
           return ()
-        elseif (NOT IS_ABSOLUTE \"\${INSTALL_PREFIX}\")
-          set (INSTALL_PREFIX \"${INSTALL_PREFIX}/\${INSTALL_PREFIX}\")
+        elseif (NOT IS_ABSOLUTE \"\${CMAKE_INSTALL_PREFIX}\")
+          set (CMAKE_INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}/\${CMAKE_INSTALL_PREFIX}\")
         endif ()
         set (EXT)
         set (DIR \"\${FMT}\")
@@ -657,27 +676,27 @@ function (basis_add_doxygen_doc TARGET_NAME)
           execute_process (
             COMMAND \"${CMAKE_COMMAND}\" -E compare_files
                 \"${DOXYGEN_OUTPUT_DIRECTORY}/\${DIR}/\${F}\"
-                \"\${INSTALL_PREFIX}/\${F}\"
+                \"\${CMAKE_INSTALL_PREFIX}/\${F}\"
             RESULT_VARIABLE RC
             OUTPUT_QUIET
             ERROR_QUIET
           )
           if (RC EQUAL 0)
-            message (STATUS \"Up-to-date: \${INSTALL_PREFIX}/\${F}\")
+            message (STATUS \"Up-to-date: \${CMAKE_INSTALL_PREFIX}/\${F}\")
           else ()
-            message (STATUS \"Installing: \${INSTALL_PREFIX}/\${F}\")
+            message (STATUS \"Installing: \${CMAKE_INSTALL_PREFIX}/\${F}\")
             execute_process (
               COMMAND \"${CMAKE_COMMAND}\" -E copy_if_different
                   \"${DOXYGEN_OUTPUT_DIRECTORY}/\${DIR}/\${F}\"
-                  \"\${INSTALL_PREFIX}/\${F}\"
+                  \"\${CMAKE_INSTALL_PREFIX}/\${F}\"
               RESULT_VARIABLE RC
               OUTPUT_QUIET
               ERROR_QUIET
             )
             if (RC EQUAL 0)
-              list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${INSTALL_PREFIX}/\${F}\")
+              list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${CMAKE_INSTALL_PREFIX}/\${F}\")
             else ()
-              message (STATUS \"Failed to install \${INSTALL_PREFIX}/\${F}\")
+              message (STATUS \"Failed to install \${CMAKE_INSTALL_PREFIX}/\${F}\")
             endif ()
           endif ()
         endforeach ()
@@ -686,9 +705,9 @@ function (basis_add_doxygen_doc TARGET_NAME)
           execute_process (
             COMMAND \"${CMAKE_COMMAND}\" -E copy_if_different
               \"${DOXYGEN_TAGFILE}\"
-              \"\${INSTALL_PREFIX}/\${DOXYGEN_TAGFILE_NAME}\"
+              \"\${CMAKE_INSTALL_PREFIX}/\${DOXYGEN_TAGFILE_NAME}\"
           )
-          list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${INSTALL_PREFIX}/\${DOXYGEN_TAGFILE_NAME}\")
+          list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${CMAKE_INSTALL_PREFIX}/\${DOXYGEN_TAGFILE_NAME}\")
         endif ()
       endfunction ()
 
@@ -715,6 +734,12 @@ endfunction ()
 # @par
 # <table border="0">
 #   <tr>
+#     @tp @b EXCLUDE_FROM_DOC @endtp
+#     <td>By default, the specified target is build as part of the global
+#         @c doc target. If this option is given, however, the added
+#         documentation will not be build as part of this target.</td>
+#   </tr>
+#   <tr>
 #     @tp @b BUILDER(S) builder... @endtp
 #     <td>Sphinx builders to use. For each named builder, a build target
 #         named &lt;TARGET_NAME&gt;_&lt;builder&gt; is added.</td>
@@ -726,11 +751,12 @@ endfunction ()
 #   </tr>
 #   <tr>
 #     @tp @b AUTHOR(S) name @endtp
-#     <td>Names of authors who wrote this documentation.</td>
+#     <td>Names of authors who wrote this documentation.
+#         (default: @c PROJECT_AUTHORS)</td>
 #   </tr>
 #   <tr>
 #     @tp @b COPYRIGHT text @endtp
-#     <td>Copyright statement for generated files.</td>
+#     <td>Copyright statement for generated files. (default: @c PROJECT_COPYRIGHT)</td>
 #   </tr>
 #   <tr>
 #     @tp @b COMPONENT component @endtp
@@ -876,8 +902,8 @@ function (basis_add_sphinx_doc TARGET_NAME)
   # check target name
   basis_check_target_name ("${TARGET_NAME}")
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
-  string (TOLOWER "${TARGET_NAME}" TARGET_NAME_LOWER)
-  string (TOUPPER "${TARGET_NAME}" TARGET_NAME_UPPER)
+  string (TOLOWER "${TARGET_NAME}" TARGET_NAME_L)
+  string (TOUPPER "${TARGET_NAME}" TARGET_NAME_U)
   # verbose output
   if (BASIS_VERBOSE)
     message (STATUS "Adding documentation ${TARGET_UID}...")
@@ -898,7 +924,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
   # note that additional multiple value arguments are parsed later on below
   # this is necessary b/c all unparsed arguments are considered to be options
   # of the used HTML theme
-  CMAKE_PARSE_ARGUMENTS (SPHINX "" "${ONE_ARG_OPTIONS}" "" ${ARGN})
+  CMAKE_PARSE_ARGUMENTS (SPHINX "EXCLUDE_FROM_DOC" "${ONE_ARG_OPTIONS}" "" ${ARGN})
   # component
   if (NOT SPHINX_COMPONENT)
     set (SPHINX_COMPONENT "${BASIS_RUNTIME_COMPONENT}")
@@ -1018,6 +1044,15 @@ function (basis_add_sphinx_doc TARGET_NAME)
     endif ()
     list (APPEND SPHINX_HTML_THEME_OPTIONS "'${OPTION_NAME}': ${OPTION_VALUE}")
   endif ()
+  # authors
+  if (NOT SPHINX_AUTHORS)
+    foreach (AUTHOR IN LISTS PROJECT_AUTHORS)
+      list (APPEND SPHINX_AUTHORS "'${AUTHOR}'")
+    endforeach ()
+  endif ()
+  if (NOT SPHINX_COPYRIGHT)
+    set (SPHINX_COPYRIGHT "${PROJECT_COPYRIGHT}")
+  endif ()
   # default builders
   if (NOT SPHINX_BUILDERS)
     set (SPHINX_BUILDERS html dirhtml singlehtml man pdf texinfo text linkcheck)
@@ -1093,26 +1128,28 @@ function (basis_add_sphinx_doc TARGET_NAME)
     set (SPHINX_MAN_SECTION 1)
   endif ()
   # installation directories
-  set (INSTALL_${TARGET_NAME_UPPER}_DIR "" CACHE PATH "Installation directory for ${TARGET_NAME_UPPER}.")
-  mark_as_advanced (INSTALL_${TARGET_NAME_UPPER}_DIR)
+  set (INSTALL_${TARGET_NAME_U}_DIR "" CACHE PATH "Installation directory for documentation ${TARGET_NAME} target.")
+  mark_as_advanced (INSTALL_${TARGET_NAME_U}_DIR)
   foreach (b IN LISTS SPHINX_BUILDERS)
     string (TOUPPER "${b}" B)
+    if (INSTALL_${TARGET_NAME_U}_DIR)
+      message ("basis_add_sphinx_doc(): CHECKPOINT 1")
+      set (SPHINX_${B}_DESTINATION "${INSTALL_${TARGET_NAME_U}_DIR}") # user setting
+    endif ()
     if (NOT SPHINX_${B}_DESTINATION)
       if (SPHINX_DESTINATION)                           
         set (SPHINX_${B}_DESTINATION "${DESTINATION}") # common destination
-      elseif (INSTALL_${TARGET_NAME_UPPER}_DIR)
-        set (SPHINX_${B}_DESTINATION "${INSTALL_${TARGET_NAME_UPPER}_DIR}") # global setting
-      elseif (BUILDER MATCHES "text")
-        set (SPHINX_${B}_DESTINATION "${INSTALL_DOC_DIR}/${TARGET_NAME_LOWER}")
-      elseif (BUILDER MATCHES "man")
+      elseif (b MATCHES "text")
+        set (SPHINX_${B}_DESTINATION "${INSTALL_DOC_DIR}/${TARGET_NAME_L}")
+      elseif (b MATCHES "man")
         if (INSTALL_MAN_DIR)
           set (SPHINX_${B}_DESTINATION "${INSTALL_MAN_DIR}/man${SPHINX_MAN_SECTION}") # default for manual pages
         endif ()
-      elseif (BUILDER MATCHES "texinfo")
+      elseif (b MATCHES "texinfo")
         if (INSTALL_TEXINFO_DIR)
           set (SPHINX_${B}_DESTINATION "${INSTALL_TEXINFO_DIR}") # default for Texinfo files
         endif ()
-      elseif (NOT BUILDER MATCHES "html") # do not install excludes by default
+      elseif (NOT b MATCHES "html") # do not install excludes by default
         set (SPHINX_${B}_DESTINATION "${INSTALL_DOC_DIR}") # default location
       endif ()
     endif ()
@@ -1249,7 +1286,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
     endif ()
     add_custom_target (
       ${TARGET_UID}_${BUILDER}
-          ${PYTHON_EXECUTABLE} -E "${Sphinx-build_EXECUTABLE}" ${OPTIONS}
+          "${Sphinx-build_EXECUTABLE}" ${OPTIONS}
               -b ${SPHINX_BUILDER}
               -c "${SPHINX_CONFIG_DIRECTORY}"
               -d "${SPHINX_CONFIG_DIRECTORY}/doctrees"
@@ -1280,10 +1317,12 @@ function (basis_add_sphinx_doc TARGET_NAME)
   endif ()
   add_dependencies (${TARGET_UID} ${TARGET_UID}_${SPHINX_DEFAULT_BUILDER})
   # add general "doc" target
-  if (NOT TARGET doc)
-    add_custom_target (doc)
+  if (NOT SPHINX_EXCLUDE_FROM_DOC)
+    if (NOT TARGET doc)
+      add_custom_target (doc)
+    endif ()
+    add_dependencies (doc ${TARGET_UID}_${SPHINX_DEFAULT_BUILDER})
   endif ()
-  add_dependencies (doc ${TARGET_UID})
   # memorize important target properties
   set_target_properties (
     ${TARGET_UID}
@@ -1322,12 +1361,12 @@ function (basis_add_sphinx_doc TARGET_NAME)
         else ()
           set (SPHINX_BUILDER \"\${BUILDER}\")
         endif ()
-        string (TOUPPER \"\${BUILDER}\" BUILDER_UPPER)
-        set (INSTALL_PREFIX \"\${\${BUILDER_UPPER}_DESTINATION}\")
-        if (NOT INSTALL_PREFIX)
+        string (TOUPPER \"\${BUILDER}\" BUILDER_U)
+        set (CMAKE_INSTALL_PREFIX \"\${\${BUILDER_U}_DESTINATION}\")
+        if (NOT CMAKE_INSTALL_PREFIX)
           return ()
-        elseif (NOT IS_ABSOLUTE \"\${INSTALL_PREFIX}\")
-          set (INSTALL_PREFIX \"${INSTALL_PREFIX}/\${INSTALL_PREFIX}\")
+        elseif (NOT IS_ABSOLUTE \"\${CMAKE_INSTALL_PREFIX}\")
+          set (CMAKE_INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}/\${CMAKE_INSTALL_PREFIX}\")
         endif ()
         set (EXT)
         if (BUILDER MATCHES \"pdf\")
@@ -1350,22 +1389,22 @@ function (basis_add_sphinx_doc TARGET_NAME)
               execute_process (
                 COMMAND \"${CMAKE_COMMAND}\" -E compare_files
                     \"${SPHINX_OUTPUT_DIRECTORY}/\${SPHINX_BUILDER}/\${F}\"
-                    \"\${INSTALL_PREFIX}/\${F}\"
+                    \"\${CMAKE_INSTALL_PREFIX}/\${F}\"
                 RESULT_VARIABLE RC
                 OUTPUT_QUIET
                 ERROR_QUIET
               )
             endif ()
             if (RC EQUAL 0)
-              message (STATUS \"Up-to-date: \${INSTALL_PREFIX}/\${F}\")
+              message (STATUS \"Up-to-date: \${CMAKE_INSTALL_PREFIX}/\${F}\")
             else ()
-              message (STATUS \"Installing: \${INSTALL_PREFIX}/\${F}\")
+              message (STATUS \"Installing: \${CMAKE_INSTALL_PREFIX}/\${F}\")
               if (BUILDER MATCHES \"texinfo\")
-                if (EXISTS \"\${INSTALL_PREFIX}/dir\")
+                if (EXISTS \"\${CMAKE_INSTALL_PREFIX}/dir\")
                   execute_process (
                     COMMAND install-info
                         \"${SPHINX_OUTPUT_DIRECTORY}/\${SPHINX_BUILDER}/\${F}\"
-                        \"\${INSTALL_PREFIX}/dir\"
+                        \"\${CMAKE_INSTALL_PREFIX}/dir\"
                     RESULT_VARIABLE RC
                     OUTPUT_QUIET
                     ERROR_QUIET
@@ -1374,7 +1413,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
                   execute_process (
                     COMMAND \"${CMAKE_COMMAND}\" -E copy_if_different
                         \"${SPHINX_OUTPUT_DIRECTORY}/\${SPHINX_BUILDER}/\${F}\"
-                        \"\${INSTALL_PREFIX}/dir\"
+                        \"\${CMAKE_INSTALL_PREFIX}/dir\"
                     RESULT_VARIABLE RC
                     OUTPUT_QUIET
                     ERROR_QUIET
@@ -1384,7 +1423,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
                 execute_process (
                   COMMAND \"${CMAKE_COMMAND}\" -E copy_if_different
                       \"${SPHINX_OUTPUT_DIRECTORY}/\${SPHINX_BUILDER}/\${F}\"
-                      \"\${INSTALL_PREFIX}/\${F}\"
+                      \"\${CMAKE_INSTALL_PREFIX}/\${F}\"
                   RESULT_VARIABLE RC
                   OUTPUT_QUIET
                   ERROR_QUIET
@@ -1392,9 +1431,9 @@ function (basis_add_sphinx_doc TARGET_NAME)
               endif ()
               if (RC EQUAL 0)
                 # also remember .info files for deinstallation via install-info --delete
-                list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${INSTALL_PREFIX}/\${F}\")
+                list (APPEND CMAKE_INSTALL_MANIFEST_FILES \"\${CMAKE_INSTALL_PREFIX}/\${F}\")
               else ()
-                message (STATUS \"Failed to install \${INSTALL_PREFIX}/\${F}\")
+                message (STATUS \"Failed to install \${CMAKE_INSTALL_PREFIX}/\${F}\")
               endif ()
             endif ()
           endif ()
@@ -1435,11 +1474,7 @@ endfunction ()
 # command-line tool svn2cl(.sh) is installed, it is used to output a nicer
 # formatted change log.
 function (basis_add_changelog)
-  if (PROJECT_IS_MODULE AND NOT BASIS_USE_MODULE_NAMESPACES)
-    basis_make_target_uid (TARGET_UID "changelog_${PROJECT_NAME_LOWER}")
-  else ()
-    basis_make_target_uid (TARGET_UID "changelog")
-  endif ()
+  basis_make_target_uid (TARGET_UID changelog)
 
   option (BUILD_CHANGELOG "Request build and/or installation of the ChangeLog." OFF)
   mark_as_advanced (BUILD_CHANGELOG)

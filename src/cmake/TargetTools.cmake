@@ -98,7 +98,7 @@ function (basis_set_target_properties)
     # directly after the PROPERTIES keyword.
     while (N GREATER 0)
       list (GET ARGN 0 ARG)
-      if (ARG MATCHES "${BASIS_PROPERTIES_ON_TARGETS_REGEX}")
+      if (ARG MATCHES "${BASIS_PROPERTIES_ON_TARGETS_RE}")
         break ()
       endif ()
       list (APPEND VALUE "${ARG}")
@@ -491,6 +491,15 @@ endfunction ()
 # ============================================================================
 
 # ----------------------------------------------------------------------------
+## @brief Add custom target.
+macro (basis_add_custom_target TARGET_NAME)
+  basis_check_target_name ("${TARGET_NAME}")
+  basis_make_target_uid (_UID "${TARGET_NAME}")
+  add_custom_target (${_UID} ${ARGN})
+  unset (_UID)
+endmacro ()
+
+# ----------------------------------------------------------------------------
 ## @brief Add executable target.
 #
 # This is the main function to add an executable target to the build system,
@@ -592,7 +601,7 @@ endfunction ()
 #   </tr>
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
-#     <td>Installation directory relative to @c INSTALL_PREFIX.
+#     <td>Installation directory relative to @c CMAKE_INSTALL_PREFIX.
 #         If "none" (case-insensitive) is given as argument, no default
 #         installation rules are added for this executable target.
 #         (default: @c INSTALL_RUNTIME_DIR or @c INSTALL_LIBEXEC_DIR
@@ -725,6 +734,9 @@ function (basis_add_executable TARGET_NAME)
   # --------------------------------------------------------------------------
   # re-glob source files before each build (if necessary)
   if (TARGET __${TARGET_UID})
+    if (TARGET _${TARGET_UID})
+      add_dependencies (_${TARGET_UID} __${TARGET_UID})
+    endif ()
     add_dependencies (${TARGET_UID} __${TARGET_UID})
   endif ()
 endfunction ()
@@ -854,7 +866,7 @@ endfunction ()
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
 #     <td>Installation directory for runtime and library component relative
-#         to @c INSTALL_PREFIX. Used only if @p RUNTIME_DESTINATION or
+#         to @c CMAKE_INSTALL_PREFIX. Used only if @p RUNTIME_DESTINATION or
 #         @p LIBRARY_DESTINATION not specified. If "none" (case-insensitive)
 #         is given as argument, no default installation rules are added.
 #         (default: see @p RUNTIME_DESTINATION and @p LIBRARY_DESTINATION)</td>
@@ -879,7 +891,7 @@ endfunction ()
 #   <tr>
 #     @tp @b LIBRARY_DESTINATION dir @endtp
 #     <td>Installation directory of the library component relative to
-#         @c INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
+#         @c CMAKE_INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
 #         no installation rule for the library component is added.
 #         (default: @c INSTALL_ARCHIVE_DIR)</td>
 #   </tr>
@@ -892,7 +904,7 @@ endfunction ()
 #   <tr>
 #     @tp @b RUNTIME_DESTINATION dir @endtp
 #     <td>Installation directory of the runtime component relative to
-#         @c INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
+#         @c CMAKE_INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
 #         no installation rule for the runtime library is added.
 #         (default: @c INSTALL_LIBRARY_DIR on Unix or @c INSTALL_RUNTIME_DIR Windows)</td>
 #   </tr>
@@ -1124,6 +1136,13 @@ endfunction ()
 #         Build System Standard</a> for details. (default: "")</td>
 #   </tr>
 #   <tr>
+#     @tp @b COMPILE_DEFINITIONS_FILE @endtp
+#     <td>CMake script file with compile definitions, also referred to as script
+#         configuration file. The named files are included after the default BASIS
+#         script configuration and before the @c COMPILE_DEFINITIONS code is being
+#         evaluated. (default: @c BINARY_CONFIG_DIR/ScriptConfig.cmake)</td>
+#   </tr>
+#   <tr>
 #     @tp @b COMPONENT @endtp
 #     <td>Name of component as part of which this script is installed if
 #         @c INSTALL_DIRECTORY is not set to "none".
@@ -1138,7 +1157,7 @@ endfunction ()
 #   <tr>
 #     @tp @b INSTALL_DIRECTORY @endtp
 #     <td>Installation directory of script file configured for use in installation tree
-#         relative to @c INSTALL_PREFIX. Set to "none" (case-insensitive) to skip the
+#         relative to @c CMAKE_INSTALL_PREFIX. Set to "none" (case-insensitive) to skip the
 #         addition of an installation rule. (default: see @p DESTINATION argument)</td>
 #   </tr>
 #   <tr>
@@ -1222,7 +1241,7 @@ endfunction ()
 #   </tr>
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
-#     <td>Installation directory for script file relative to @c INSTALL_PREFIX.
+#     <td>Installation directory for script file relative to @c CMAKE_INSTALL_PREFIX.
 #         If an absolute path is given as argument, it is made relative to the
 #         configured installation prefix.
 #         (default: @c INSTALL_LIBRARY_DIR for arbitrary scripts,
@@ -1403,12 +1422,18 @@ function (basis_add_script TARGET_NAME)
     if (ARGN_DESTINATION MATCHES "^[nN][oO][nN][eE]$")
       set (ARGN_DESTINATION)
     elseif (IS_ABSOLUTE "${ARGN_DESTINATION}")
-      file (RELATIVE_PATH ARGN_DESTINATION "${INSTALL_PREFIX}" "${ARGN_DESTINATION}")
+      file (RELATIVE_PATH ARGN_DESTINATION "${CMAKE_INSTALL_PREFIX}" "${ARGN_DESTINATION}")
     endif ()
   elseif (TEST)
     set (ARGN_DESTINATION) # do not install
   else ()
     set (ARGN_DESTINATION "${INSTALL_${TYPE_INFIX}_DIR}")
+  endif ()
+  # script configuration ("compile definitions")
+  if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+    set (CONFIG_FILE "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+  else ()
+    set (CONFIG_FILE)
   endif ()
   # auto-detect use of BASIS utilities
   set (LINK_DEPENDS)
@@ -1443,23 +1468,24 @@ function (basis_add_script TARGET_NAME)
   _set_target_properties (
     ${TARGET_UID}
     PROPERTIES
-      LANGUAGE            ${ARGN_LANGUAGE}
-      BASIS_TYPE          SCRIPT_${TYPE}
-      BASIS_UTILITIES     ${USES_BASIS_UTILITIES}
-      SOURCE_DIRECTORY    "${CMAKE_CURRENT_SOURCE_DIR}"
-      BINARY_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}"
-      OUTPUT_DIRECTORY    "${OUTPUT_DIRECTORY}"
-      INSTALL_DIRECTORY   "${ARGN_DESTINATION}"
-      COMPONENT           "${ARGN_COMPONENT}"
-      OUTPUT_NAME         "${OUTPUT_NAME}"
-      PREFIX              ""
-      SUFFIX              "${SUFFIX}"
-      COMPILE_DEFINITIONS ""
-      LINK_DEPENDS        "${LINK_DEPENDS}"
-      EXPORT              ${EXPORT}
-      COMPILE             ${BASIS_COMPILE_SCRIPTS}
-      TEST                ${TEST}
-      LIBEXEC             ${ARGN_LIBEXEC}
+      LANGUAGE                 ${ARGN_LANGUAGE}
+      BASIS_TYPE               SCRIPT_${TYPE}
+      BASIS_UTILITIES          ${USES_BASIS_UTILITIES}
+      SOURCE_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}"
+      BINARY_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}"
+      OUTPUT_DIRECTORY         "${OUTPUT_DIRECTORY}"
+      INSTALL_DIRECTORY        "${ARGN_DESTINATION}"
+      COMPONENT                "${ARGN_COMPONENT}"
+      OUTPUT_NAME              "${OUTPUT_NAME}"
+      PREFIX                   ""
+      SUFFIX                   "${SUFFIX}"
+      COMPILE_DEFINITIONS      ""
+      COMPILE_DEFINITIONS_FILE "${CONFIG_FILE}"
+      LINK_DEPENDS             "${LINK_DEPENDS}"
+      EXPORT                   ${EXPORT}
+      COMPILE                  ${BASIS_COMPILE_SCRIPTS}
+      TEST                     ${TEST}
+      LIBEXEC                  ${ARGN_LIBEXEC}
   )
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
@@ -1559,7 +1585,7 @@ endfunction ()
 #   </tr>
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
-#     <td>Installation directory relative to @c INSTALL_PREFIX.
+#     <td>Installation directory relative to @c CMAKE_INSTALL_PREFIX.
 #         If "none" (case-insensitive) is given as argument, no default
 #         installation rules are added for this executable target.
 #         (default: @c INSTALL_RUNTIME_DIR or @c INSTALL_LIBEXEC_DIR
@@ -1637,7 +1663,7 @@ function (basis_add_executable_target TARGET_NAME)
     if (ARGN_DESTINATION MATCHES "^[nN][oO][nN][eE]$")
       set (ARGN_DESTINATION)
     elseif (IS_ABSOLUTE "${ARGN_DESTINATION}")
-      file (RELATIVE_PATH ARGN_DESTINATION "${INSTALL_PREFIX}" "${ARGN_DESTINATION}")
+      file (RELATIVE_PATH ARGN_DESTINATION "${CMAKE_INSTALL_PREFIX}" "${ARGN_DESTINATION}")
     endif ()
   elseif (ARGN_LIBEXEC)
     set (ARGN_DESTINATION "${INSTALL_LIBEXEC_DIR}")
@@ -1651,6 +1677,9 @@ function (basis_add_executable_target TARGET_NAME)
   basis_make_target_uid (HEADERS_TARGET headers)
   if (TARGET "${HEADERS_TARGET}")
     add_dependencies (${TARGET_UID} ${HEADERS_TARGET})
+  endif ()
+  if (TARGET __${TARGET_UID}) # re-glob source files
+    add_dependencies (_${TARGET_UID} __${TARGET_UID})
   endif ()
   _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "EXECUTABLE" OUTPUT_NAME "${TARGET_NAME}")
   if (ARGN_LIBEXEC)
@@ -1769,7 +1798,7 @@ endfunction ()
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
 #     <td>Installation directory for runtime and library component relative
-#         to @c INSTALL_PREFIX. Used only if either @p RUNTIME_DESTINATION
+#         to @c CMAKE_INSTALL_PREFIX. Used only if either @p RUNTIME_DESTINATION
 #         or @p LIBRARY_DESTINATION not specified. If "none" (case-insensitive)
 #         is given as argument, no default installation rules are added.
 #         (default: see @p RUNTIME_DESTINATION and @p LIBRARY_DESTINATION)</td>
@@ -1783,7 +1812,7 @@ endfunction ()
 #   <tr>
 #     @tp @b LIBRARY_DESTINATION dir @endtp
 #     <td>Installation directory of the library component relative to
-#         @c INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
+#         @c CMAKE_INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
 #         no installation rule for the library component is added.
 #         (default: @c INSTALL_ARCHIVE_DIR)</td>
 #   </tr>
@@ -1796,7 +1825,7 @@ endfunction ()
 #   <tr>
 #     @tp @b RUNTIME_DESTINATION dir @endtp
 #     <td>Installation directory of the runtime component relative to
-#         @c INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
+#         @c CMAKE_INSTALL_PREFIX. If "none" (case-insensitive) is given as argument,
 #         no installation rule for the runtime library is added.
 #         (default: @c INSTALL_LIBRARY_DIR on Unix or @c INSTALL_RUNTIME_DIR Windows)</td>
 #   </tr>
@@ -1942,6 +1971,9 @@ function (basis_add_library_target TARGET_NAME)
   basis_make_target_uid (HEADERS_TARGET headers)
   if (TARGET ${HEADERS_TARGET})
     add_dependencies (${TARGET_UID} ${HEADERS_TARGET})
+  endif ()
+  if (TARGET __${TARGET_UID}) # re-glob source files
+    add_dependencies (_${TARGET_UID} __${TARGET_UID})
   endif ()
   _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "${TYPE}_LIBRARY" OUTPUT_NAME "${TARGET_NAME}")
   # output directory
@@ -2094,6 +2126,13 @@ endfunction ()
 #         Build System Standard</a> for details. (default: "")</td>
 #   </tr>
 #   <tr>
+#     @tp @b COMPILE_DEFINITIONS_FILE @endtp
+#     <td>CMake script file with compile definitions, also referred to as script
+#         configuration file. The named files are included after the default BASIS
+#         script configuration and before the @c COMPILE_DEFINITIONS code is being
+#         evaluated. (default: @c BINARY_CONFIG_DIR/ScriptConfig.cmake)</td>
+#   </tr>
+#   <tr>
 #     @tp @b EXPORT @endtp
 #     <td>Whether to export this build target in which case an import library
 #         target is added to the custom exports file with the path to the
@@ -2113,7 +2152,7 @@ endfunction ()
 #   <tr>
 #     @tp @b LIBRARY_INSTALL_DIRECTORY @endtp
 #     <td>Installation directory of library configured for use in installation tree
-#         relative to @c INSTALL_PREFIX. Set to "none" (case-insensitive) to skip the
+#         relative to @c CMAKE_INSTALL_PREFIX. Set to "none" (case-insensitive) to skip the
 #         addition of an installation rule.
 #         (default: <tt>INSTALL_&lt;LANGUAGE&gt;_LIBRARY_DIR</tt> if defined or
 #         @c INSTALL_LIBRARY_DIR otherwise)</td>
@@ -2138,7 +2177,7 @@ endfunction ()
 #   <tr>
 #     @tp @b PREFIX @endtp
 #     <td>Common module prefix. The given directory path is appended to both
-#         @c LIBRAR_OUTPUT_DIRECTORY and @c LIBRARY_INSTALL_DIRECTORY and can be,
+#         @c LIBRAR_OUTPUT_DIRECTORY and @c LIBRARY_INSTALL_DIRECTORY and can,
 #         for example, be used to install modules of a Python package as part of
 #         another Python package, where @c LIBRARY_OUTPUT_DIRECTORY or
 #         @c LIBRARY_INSTALL_DIRECTORY, respectively, is the directory of the
@@ -2185,7 +2224,7 @@ endfunction ()
 #   </tr>
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
-#     <td>Installation directory for library relative to @c INSTALL_PREFIX.
+#     <td>Installation directory for library relative to @c CMAKE_INSTALL_PREFIX.
 #         If an absolute path is given as argument, it is made relative to the
 #         configured installation prefix. (default: @c INSTALL_LIBRARY_DIR)</td>
 #   </tr>
@@ -2324,7 +2363,7 @@ function (basis_add_script_library TARGET_NAME)
   else ()
     if (ARGN_DESTINATION)
       if (IS_ABSOLUTE "${ARGN_DESTINATION}")
-        file (RELATIVE_PATH ARGN_DESTINATION "${INSTALL_PREFIX}" "${ARGN_DESTINATION}")
+        file (RELATIVE_PATH ARGN_DESTINATION "${CMAKE_INSTALL_PREFIX}" "${ARGN_DESTINATION}")
       endif ()
     else ()
       if (DEFINED INSTALL_${ARGN_LANGUAGE}_LIBRARY_DIR)
@@ -2335,12 +2374,16 @@ function (basis_add_script_library TARGET_NAME)
     endif ()
   endif ()
   # common module prefix
-  if (ARGN_LANGUAGE MATCHES "[JP]YTHON")
-    string (REPLACE "."  "/" PREFIX "${PROJECT_NAMESPACE_PYTHON}")
-  elseif (ARGN_LANGUAGE MATCHES "PERL")
-    string (REPLACE "::" "/" PREFIX "${PROJECT_NAMESPACE_PERL}")
+  if (ARGN_LANGUAGE MATCHES "^([JP]YTHON|PERL|MATLAB|BASH)$")
+    basis_library_prefix (PREFIX ${ARGN_LANGUAGE})
   else ()
     set (PREFIX)
+  endif ()
+  # script configuration ("compile definitions")
+  if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+    set (CONFIG_FILE "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+  else ()
+    set (CONFIG_FILE)
   endif ()
   # auto-detect use of BASIS utilities
   if (ARGN_LANGUAGE MATCHES "[JP]YTHON")
@@ -2390,6 +2433,7 @@ function (basis_add_script_library TARGET_NAME)
       LIBRARY_COMPONENT         "${BASIS_LIBRARY_COMPONENT}"
       PREFIX                    "${PREFIX}"
       COMPILE_DEFINITIONS       ""
+      COMPILE_DEFINITIONS_FILE  "${CONFIG_FILE}"
       LINK_DEPENDS              ""
       EXPORT                    "${EXPORT}"
       COMPILE                   "${COMPILE}"
@@ -2489,11 +2533,8 @@ function (basis_set_target_install_rpath TARGET_NAME)
   endforeach ()
   # directories of link libraries
   #
-  # if CMAKE_RPATH_USE_LINK_PATH is enabled, also any directories
-  # listed in the LINK_DEPENDS as well as the location of imported
-  # targets are considered, which may include system libraries.
-  # otherwise, only the libraries of this project and targets imported
-  # from other projects which are part of the same superbuild are considered
+  # only the libraries of this project and targets imported
+  # from other projects which are part of the same bundle
   basis_get_target_link_libraries (LINK_DEPENDS ${TARGET_UID})
   if (BASIS_DEBUG AND BASIS_VERBOSE)
     message ("**    LINK_DEPENDS: [${LINK_DEPENDS}]")
@@ -2564,21 +2605,22 @@ function (basis_build_script TARGET_UID)
                                                                # including BASIS utilities if used
   set (
     PROPERTIES
-      LANGUAGE             # programming language of script
-      BASIS_TYPE           # must match "^SCRIPT_(EXECUTABLE|LIBEXEC|MODULE)$"
-      SOURCE_DIRECTORY     # CMake source directory
-      BINARY_DIRECTORY     # CMake binary directory
-      OUTPUT_DIRECTORY     # output directory for built script
-      INSTALL_DIRECTORY    # installation directory for built script
-      COMPONENT            # installation component
-      OUTPUT_NAME          # name of built script including extension (if any)
-      PREFIX               # name prefix
-      SUFFIX               # name suffix (e.g., extension for executable script)
-      COMPILE_DEFINITIONS  # CMake code to set variables used to configure script
-      TEST                 # whether this script is used for testing only
-      EXPORT               # whether this target shall be exported
-      COMPILE              # whether to compile script if applicable
-      SOURCES              # path of script source file
+      LANGUAGE                 # programming language of script
+      BASIS_TYPE               # must match "^SCRIPT_(EXECUTABLE|LIBEXEC|MODULE)$"
+      SOURCE_DIRECTORY         # CMake source directory
+      BINARY_DIRECTORY         # CMake binary directory
+      OUTPUT_DIRECTORY         # output directory for built script
+      INSTALL_DIRECTORY        # installation directory for built script
+      COMPONENT                # installation component
+      OUTPUT_NAME              # name of built script including extension (if any)
+      PREFIX                   # name prefix
+      SUFFIX                   # name suffix (e.g., extension for executable script)
+      COMPILE_DEFINITIONS      # CMake code to set variables used to configure script
+      COMPILE_DEFINITIONS_FILE # script configuration file
+      TEST                     # whether this script is used for testing only
+      EXPORT                   # whether this target shall be exported
+      COMPILE                  # whether to compile script if applicable
+      SOURCES                  # path of script source file
   )
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
@@ -2597,7 +2639,7 @@ function (basis_build_script TARGET_UID)
   if (NOT BINARY_DIRECTORY)
     message (FATAL_ERROR "Target ${TARGET_UID}: Missing BINARY_DIRECTORY property!")
   endif ()
-  if (NOT BINARY_DIRECTORY MATCHES "^${PROJECT_BINARY_DIR}(/|$)")
+  if (NOT BINARY_DIRECTORY MATCHES "^${CMAKE_BINARY_DIR}(/|$)")
     message (FATAL_ERROR "Target ${TARGET_UID}: BINARY_DIRECTORY must be inside of build tree!")
   endif ()
   if (INSTALL_DIRECTORY AND NOT COMPONENT)
@@ -2637,7 +2679,7 @@ function (basis_build_script TARGET_UID)
     endif ()
     set (DESTINATION "${INSTALL_DIRECTORY}")
     if (NOT IS_ABSOLUTE "${DESTINATION}")
-      set (DESTINATION "${INSTALL_PREFIX}/${DESTINATION}")
+      set (DESTINATION "${CMAKE_INSTALL_PREFIX}/${DESTINATION}")
     endif ()
   else ()
     set (INSTALL_FILE)
@@ -2647,8 +2689,8 @@ function (basis_build_script TARGET_UID)
   if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
     list (APPEND CONFIG_FILE "${BASIS_SCRIPT_CONFIG_FILE}")
   endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
-    list (APPEND CONFIG_FILE "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+  if (COMPILE_DEFINITIONS_FILE)
+    list (APPEND CONFIG_FILE ${COMPILE_DEFINITIONS_FILE})
   endif ()
   if (COMPILE_DEFINITIONS)
     file (WRITE "${BUILD_DIR}/ScriptConfig.cmake" "# DO NOT edit. Automatically generated by BASIS.\n${COMPILE_DEFINITIONS}\n")
@@ -2673,11 +2715,14 @@ function (basis_build_script TARGET_UID)
       else ()
         message (WARNING "Could not determine build tree location of file corresponding to target ${UID}")
       endif ()
-      basis_get_target_location (LOCATION "${UID}" POST_INSTALL)
-      if (LOCATION)
-        list (APPEND INSTALL_LINK_DEPENDS "${LOCATION}")
-      else ()
-        message (WARNING "Could not determine installation location of file corresponding to target ${UID}")
+      basis_get_target_property (LINK_DEPEND_IS_TEST "${UID}" TEST)
+      if (NOT LINK_DEPEND_IS_TEST)
+        basis_get_target_location (LOCATION "${UID}" POST_INSTALL)
+        if (LOCATION)
+          list (APPEND INSTALL_LINK_DEPENDS "${LOCATION}")
+        else ()
+          message (WARNING "Could not determine installation location of file corresponding to target ${UID}")
+        endif ()
       endif ()
     else ()
       list (APPEND BUILD_LINK_DEPENDS   "${LINK_DEPEND}")
@@ -2687,17 +2732,24 @@ function (basis_build_script TARGET_UID)
   # prepend own module search paths - if dependencies among own modules
   #                                   not specified or to ensure that
   #                                   these are preferred
-  if (LANGUAGE MATCHES "PYTHON")
-    list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_PYTHON_LIBRARY_DIR}")
-    list (INSERT INSTALL_LINK_DEPENDS 0 "${INSTALL_PREFIX}/${INSTALL_PYTHON_LIBRARY_DIR}")
-  elseif (LANGUAGE MATCHES "JYTHON")
-    list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_PYTHON_LIBRARY_DIR}")
-    list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_JYTHON_LIBRARY_DIR}")
-    list (INSERT INSTALL_LINK_DEPENDS 0 "${INSTALL_PREFIX}/${INSTALL_PYTHON_LIBRARY_DIR}")
-    list (INSERT INSTALL_LINK_DEPENDS 0 "${INSTALL_PREFIX}/${INSTALL_JYTHON_LIBRARY_DIR}")
-  elseif (LANGUAGE MATCHES "PERL")
-    list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_PERL_LIBRARY_DIR}")
-    list (INSERT INSTALL_LINK_DEPENDS 0 "${INSTALL_PREFIX}/${INSTALL_PERL_LIBRARY_DIR}")
+  if (LANGUAGE MATCHES "JYTHON")
+    if (BINARY_PYTHON_LIBRARY_DIR)
+      list (INSERT BUILD_LINK_DEPENDS 0 "${BINARY_PYTHON_LIBRARY_DIR}")
+    endif ()
+    if (INSTALL_PYTHON_LIBRARY_DIR)
+      list (INSERT INSTALL_LINK_DEPENDS 0 "${CMAKE_INSTALL_PREFIX}/${INSTALL_PYTHON_LIBRARY_DIR}")
+    endif ()
+  endif ()
+  if (BINARY_${LANGUAGE}_LIBRARY_DIR)
+    list (INSERT BUILD_LINK_DEPENDS 0 "${BINARY_${LANGUAGE}_LIBRARY_DIR}")
+  endif ()
+  if (INSTALL_${LANGUAGE}_LIBRARY_DIR)
+    list (INSERT INSTALL_LINK_DEPENDS 0 "${CMAKE_INSTALL_PREFIX}/${INSTALL_${LANGUAGE}_LIBRARY_DIR}")
+  endif ()
+  list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_LIBRARY_DIR}")
+  list (INSERT INSTALL_LINK_DEPENDS 0 "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBRARY_DIR}")
+  if (TEST)
+    list (INSERT BUILD_LINK_DEPENDS 0 "${TESTING_LIBRARY_DIR}")
   endif ()
   if (BUILD_LINK_DEPENDS)
     list (REMOVE_DUPLICATES BUILD_LINK_DEPENDS)
@@ -2743,6 +2795,9 @@ function (basis_build_script TARGET_UID)
       add_dependencies (_${TARGET_UID} ${T})
     endif ()
   endforeach ()
+  if (TARGET __${TARGET_UID}) # re-glob source files
+    add_dependencies (_${TARGET_UID} __${TARGET_UID})
+  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean" - including .pyc files regardless of COMPILE flag
   set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${OUTPUT_FILES})
@@ -2823,6 +2878,7 @@ function (basis_build_script_library TARGET_UID)
       LIBRARY_COMPONENT          # installation component
       PREFIX                     # common path prefix for modules
       COMPILE_DEFINITIONS        # CMake code to set variables used to configure modules
+      COMPILE_DEFINITIONS_FILE   # script configuration file
       LINK_DEPENDS               # paths of script modules/packages used by the modules of this library
       EXPORT                     # whether to export this target
       COMPILE                    # whether to compile the modules/library if applicable
@@ -2842,9 +2898,9 @@ function (basis_build_script_library TARGET_UID)
     message (FATAL_ERROR "Missing LIBRARY_OUTPUT_DIRECTORY property!")
   endif ()
   if (NOT IS_ABSOLUTE "${LIBRARY_OUTPUT_DIRECTORY}")
-    set (LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${LIBRARY_OUTPUT_DIRECTORY}")
+    set (LIBRARY_OUTPUT_DIRECTORY "${BASIS_PROJECT_BINARY_DIR}/${LIBRARY_OUTPUT_DIRECTORY}")
   endif ()
-  if (NOT LIBRARY_OUTPUT_DIRECTORY MATCHES "^${PROJECT_BINARY_DIR}")
+  if (NOT LIBRARY_OUTPUT_DIRECTORY MATCHES "^${CMAKE_BINARY_DIR}")
     message (FATAL_ERROR "Output directory LIBRARY_OUTPUT_DIRECTORY is outside the build tree!")
   endif ()
   if (NOT LIBRARY_COMPONENT)
@@ -2863,8 +2919,8 @@ function (basis_build_script_library TARGET_UID)
   if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
     list (APPEND CONFIG_FILE "${BASIS_SCRIPT_CONFIG_FILE}")
   endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
-    list (APPEND CONFIG_FILE "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+  if (COMPILE_DEFINITIONS_FILE)
+    list (APPEND CONFIG_FILE ${COMPILE_DEFINITIONS_FILE})
   endif ()
   if (COMPILE_DEFINITIONS)
     file (WRITE "${BUILD_DIR}/ScriptConfig.cmake" "# DO NOT edit. Automatically generated by BASIS.\n${COMPILE_DEFINITIONS}\n")
@@ -2892,7 +2948,7 @@ function (basis_build_script_library TARGET_UID)
       set (INSTALL_FILE "${BINARY_INSTALL_DIRECTORY}/${S}")
       set (DESTINATION  "${LIBRARY_INSTALL_DIRECTORY}/${S}")
       if (NOT IS_ABSOLUTE "${DESTINATION}")
-        set (DESTINATION "${INSTALL_PREFIX}/${DESTINATION}")
+        set (DESTINATION "${CMAKE_INSTALL_PREFIX}/${DESTINATION}")
       endif ()
       get_filename_component (DESTINATION "${DESTINATION}" PATH)
     else ()
@@ -2937,6 +2993,9 @@ function (basis_build_script_library TARGET_UID)
       add_dependencies (_${TARGET_UID} ${T})
     endif ()
   endforeach ()
+  if (TARGET __${TARGET_UID}) # re-glob source files
+    add_dependencies (_${TARGET_UID} __${TARGET_UID})
+  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean" - including .pyc files regardless of COMPILE flag
   set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${OUTPUT_FILES})
@@ -2977,12 +3036,12 @@ endfunction ()
 function (basis_add_init_py_target)
   # constants
   set (BUILD_DIR "${PROJECT_BINARY_DIR}/CMakeFiles/_initpy.dir")
-  basis_sanitize_for_regex (BINARY_PYTHON_LIBRARY_DIR_REGEX  "${BINARY_PYTHON_LIBRARY_DIR}")
-  basis_sanitize_for_regex (TESTING_PYTHON_LIBRARY_DIR_REGEX "${TESTING_PYTHON_LIBRARY_DIR}")
-  basis_sanitize_for_regex (INSTALL_PYTHON_LIBRARY_DIR_REGEX "${INSTALL_PYTHON_LIBRARY_DIR}")
-  basis_sanitize_for_regex (BINARY_JYTHON_LIBRARY_DIR_REGEX  "${BINARY_JYTHON_LIBRARY_DIR}")
-  basis_sanitize_for_regex (TESTING_JYTHON_LIBRARY_DIR_REGEX "${TESTING_JYTHON_LIBRARY_DIR}")
-  basis_sanitize_for_regex (INSTALL_JYTHON_LIBRARY_DIR_REGEX "${INSTALL_JYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (BINARY_PYTHON_LIBRARY_DIR_RE  "${BINARY_PYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (TESTING_PYTHON_LIBRARY_DIR_RE "${TESTING_PYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (INSTALL_PYTHON_LIBRARY_DIR_RE "${INSTALL_PYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (BINARY_JYTHON_LIBRARY_DIR_RE  "${BINARY_JYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (TESTING_JYTHON_LIBRARY_DIR_RE "${TESTING_JYTHON_LIBRARY_DIR}")
+  basis_sanitize_for_regex (INSTALL_JYTHON_LIBRARY_DIR_RE "${INSTALL_JYTHON_LIBRARY_DIR}")
   # collect build tree directories requiring a __init__.py file
   set (DEPENDENTS)      # targets which generate Python modules and depend on _initpy
   set (DIRS)            # directories for which to generate a __init__.py file
@@ -3029,13 +3088,13 @@ function (basis_add_init_py_target)
           list (APPEND EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
-          if (DIR MATCHES "^${BINARY_${LANGUAGE}_LIBRARY_DIR_REGEX}/.+")
-            while (NOT "${DIR}" MATCHES "^${BINARY_${LANGUAGE}_LIBRARY_DIR_REGEX}$")
+          if (BINARY_${LANGUAGE}_LIBRARY_DIR_RE AND DIR MATCHES "^${BINARY_${LANGUAGE}_LIBRARY_DIR_RE}/.+")
+            while (NOT "${DIR}" MATCHES "^${BINARY_${LANGUAGE}_LIBRARY_DIR_RE}$")
               list (APPEND DIRS "${DIR}")
               get_filename_component (DIR "${DIR}" PATH)
             endwhile ()
-          elseif (DIR MATCHES "^${TESTING_${LANGUAGE}_LIBRARY_DIR_REGEX}/.+")
-            while (NOT "${DIR}" MATCHES "^${TESTING_${LANGUAGE}_LIBRARY_DIR_REGEX}$")
+          elseif (TESTING_${LANGUAGE}_LIBRARY_DIR_RE AND DIR MATCHES "^${TESTING_${LANGUAGE}_LIBRARY_DIR_RE}/.+")
+            while (NOT "${DIR}" MATCHES "^${TESTING_${LANGUAGE}_LIBRARY_DIR_RE}$")
               list (APPEND DIRS "${DIR}")
               get_filename_component (DIR "${DIR}" PATH)
             endwhile ()
@@ -3049,8 +3108,8 @@ function (basis_add_init_py_target)
           list (APPEND INSTALL_EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
-          if (DIR MATCHES "^${INSTALL_${LANGUAGE}_LIBRARY_DIR_REGEX}/.+")
-            while (NOT "${DIR}" MATCHES "^${INSTALL_${LANGUAGE}_LIBRARY_DIR_REGEX}$")
+          if (INSTALL_${LANGUAGE}_LIBRARY_DIR_RE AND DIR MATCHES "^${INSTALL_${LANGUAGE}_LIBRARY_DIR_RE}/.+")
+            while (NOT "${DIR}" MATCHES "^${INSTALL_${LANGUAGE}_LIBRARY_DIR_RE}$")
               list (APPEND INSTALL_DIRS_${COMPONENT} "${DIR}")
               get_filename_component (DIR "${DIR}" PATH)
             endwhile ()

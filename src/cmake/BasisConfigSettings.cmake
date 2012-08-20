@@ -42,7 +42,7 @@ if (PKGS)
 endif ()
 
 foreach (PKG IN LISTS PKGS)
-  set (DEPENDS_CONFIG "${DEPENDS_CONFIG}# ${PKG}\nset (${PKG}_DIR \"${${PKG}_DIR}\")")
+  set (DEPENDS_CONFIG "${DEPENDS_CONFIG}# ${PKG}\nset (${PKG}_DIR \"${${PKG}_DIR}\")\n")
 endforeach ()
 
 # ============================================================================
@@ -59,7 +59,10 @@ if (BUILD_CONFIG_SETTINGS)
   set (INCLUDE_DIR_CONFIG "${BINARY_INCLUDE_DIR};${PROJECT_INCLUDE_DIR}")
   set (LIBRARY_DIR_CONFIG "${BINARY_LIBRARY_DIR}")
   set (PYTHONPATH_CONFIG  "${BINARY_PYTHON_LIBRARY_DIR}")
+  set (JYTHONPATH_CONFIG  "${BINARY_JYTHON_LIBRARY_DIR}")
   set (PERL5LIB_CONFIG    "${BINARY_PERL_LIBRARY_DIR}")
+  set (MATLABPATH_CONFIG  "${BINARY_MATLAB_LIBRARY_DIR}")
+  set (BASHPATH_CONFIG    "${BINARY_BASH_LIBRARY_DIR}")
   set (MODULES_DIR_CONFIG "${PROJECT_BINARY_DIR}/modules")
   return ()
 endif ()
@@ -68,11 +71,7 @@ endif ()
 # installation configuration settings
 # ============================================================================
 
-basis_get_relative_path (
-  INSTALL_PREFIX_CONFIG
-    "${INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}"
-    "${INSTALL_PREFIX}"
-)
+basis_get_relative_path (INSTALL_PREFIX_CONFIG "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}" "${CMAKE_INSTALL_PREFIX}")
 
 ## @brief Installation prefix.
 set (INSTALL_PREFIX_CONFIG "\${CMAKE_CURRENT_LIST_DIR}/${INSTALL_PREFIX_CONFIG}")
@@ -88,7 +87,13 @@ set (INCLUDE_DIR_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_INCLUDE_DIR}")
 set (LIBRARY_DIR_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_LIBRARY_DIR}")
 ## @brief Directory of Python modules.
 set (PYTHONPATH_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_PYTHON_LIBRARY_DIR}")
+## @brief Directory of Jython modules.
+set (JYTHONPATH_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_JYTHON_LIBRARY_DIR}")
 ## @brief Directory of Perl modules.
 set (PERL5LIB_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_PERL_LIBRARY_DIR}")
+## @brief Directory of MATLAB modules.
+set (MATLABPATH_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_MATLAB_LIBRARY_DIR}")
+## @brief Directory of Bash modules.
+set (BASHPATH_CONFIG "\${\${NS}INSTALL_PREFIX}/${INSTALL_BASH_LIBRARY_DIR}")
 ## @brief Directory of CMake package configuration files of project modules.
 set (MODULES_DIR_CONFIG "${INSTALL_CONFIG_DIR}")
