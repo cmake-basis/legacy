@@ -1326,9 +1326,7 @@ function (basis_add_script TARGET_NAME)
   # check target name
   basis_check_target_name ("${TARGET_NAME}")
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding ${type} script ${TARGET_UID}...")
-  endif ()
+  message (STATUS "Adding ${type} script ${TARGET_UID}...")
   if (ARGN_MODULE AND TYPE MATCHES "EXECUTABLE")
     message (FATAL_ERROR "Target ${TARGET_UID}: MODULE and EXECUTABLE or LIBEXEC options are mutually exclusive!")
   endif ()
@@ -1489,9 +1487,7 @@ function (basis_add_script TARGET_NAME)
   )
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding ${type} script ${TARGET_UID}... - done")
-  endif ()
+  message (STATUS "Adding ${type} script ${TARGET_UID}... - done")
 endfunction ()
 
 # ============================================================================
@@ -1621,9 +1617,7 @@ function (basis_add_executable_target TARGET_NAME)
   # check target name
   basis_check_target_name (${TARGET_NAME})
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding executable ${TARGET_UID}...")
-  endif ()
+  message (STATUS "Adding executable ${TARGET_UID}...")
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
     ARGN
@@ -1745,9 +1739,7 @@ function (basis_add_executable_target TARGET_NAME)
     _set_target_properties (${TARGET_UID} PROPERTIES RUNTIME_INSTALL_DIRECTORY "${ARGN_DESTINATION}")
   endif ()
   # done
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding executable ${TARGET_UID}... - done")
-  endif ()
+  message (STATUS "Adding executable ${TARGET_UID}... - done")
 endfunction ()
 
 # ----------------------------------------------------------------------------
@@ -1919,9 +1911,7 @@ function (basis_add_library_target TARGET_NAME)
   endif ()
   string (TOLOWER "${TYPE}" type)
   # status message
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding ${type} library ${TARGET_UID}...")
-  endif ()
+  message (STATUS "Adding ${type} library ${TARGET_UID}...")
   # installation component
   if (ARGN_COMPONENT)
     if (NOT ARGN_RUNTIME_COMPONENT)
@@ -2059,9 +2049,7 @@ function (basis_add_library_target TARGET_NAME)
     endif ()
   endif ()
   # done
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding ${type} library ${TARGET_UID}... - done")
-  endif ()
+  message (STATUS "Adding ${type} library ${TARGET_UID}... - done")
 endfunction ()
 
 # ----------------------------------------------------------------------------
@@ -2276,9 +2264,7 @@ function (basis_add_script_library TARGET_NAME)
   # check target name
   basis_check_target_name ("${TARGET_NAME}")
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding script library ${TARGET_UID}...")
-  endif ()
+  message (STATUS "Adding script library ${TARGET_UID}...")
   # dump CMake variables for configuration of script
   set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}.dir")
   basis_dump_variables ("${BUILD_DIR}/cache.cmake")
@@ -2441,9 +2427,7 @@ function (basis_add_script_library TARGET_NAME)
   )
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
-  if (BASIS_VERBOSE)
-    message (STATUS "Adding script library ${TARGET_UID}... - done")
-  endif ()
+  message (STATUS "Adding script library ${TARGET_UID}... - done")
 endfunction ()
 
 # ============================================================================
@@ -2597,7 +2581,7 @@ function (basis_build_script TARGET_UID)
   if (NOT TARGET "${TARGET_UID}")
     message (FATAL_ERROR "Unknown build target: ${TARGET_UID}")
   endif ()
-  if (BASIS_VERBOSE AND BASIS_DEBUG)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding build command for target ${TARGET_UID}...")
   endif ()
   # get target properties
@@ -2783,8 +2767,9 @@ function (basis_build_script TARGET_UID)
   add_custom_command (
     OUTPUT          ${OUTPUT_FILES}
     COMMAND         "${CMAKE_COMMAND}" -P "${BUILD_SCRIPT}"
-    MAIN_DEPENDENCY ${SOURCE_FILE}
-    DEPENDS         "${BUILD_SCRIPT}" "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
+    MAIN_DEPENDENCY "${SOURCE_FILE}"
+    DEPENDS         "${BUILD_SCRIPT}" "${BASIS_MODULE_PATH}/CommonTools.cmake" # basis_configure_script() definition
+                    "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
     COMMENT         "${COMMENT}"
     VERBATIM
   )
@@ -2839,7 +2824,7 @@ function (basis_build_script TARGET_UID)
     )
   endif ()
   # done
-  if (BASIS_VERBOSE AND BASIS_DEBUG)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding build command for target ${TARGET_UID}... - done")
   endif ()
 endfunction ()
@@ -2860,7 +2845,7 @@ function (basis_build_script_library TARGET_UID)
   if (NOT TARGET "${TARGET_UID}")
     message (FATAL_ERROR "Unknown target: ${TARGET_UID}")
   endif ()
-  if (BASIS_VERBOSE AND BASIS_DEBUG)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding build command for target ${TARGET_UID}...")
   endif ()
   # get target properties
@@ -2978,8 +2963,9 @@ function (basis_build_script_library TARGET_UID)
     add_custom_command (
       OUTPUT          ${_OUTPUT_FILES}
       COMMAND         "${CMAKE_COMMAND}" -P "${BUILD_SCRIPT}"
-      MAIN_DEPENDENCY ${SOURCE_FILE}
-      DEPENDS         "${BUILD_SCRIPT}" "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
+      MAIN_DEPENDENCY "${SOURCE_FILE}"
+      DEPENDS         "${BUILD_SCRIPT}" "${BASIS_MODULE_PATH}/CommonTools.cmake" # basis_configure_script() definition
+                      "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
       COMMENT         "${COMMENT}"
       VERBATIM
     )
@@ -3026,7 +3012,7 @@ function (basis_build_script_library TARGET_UID)
     )
   endforeach ()
   # done
-  if (BASIS_VERBOSE AND BASIS_DEBUG)
+  if (BASIS_VERBOSE)
     message (STATUS "Adding build command for target ${TARGET_UID}... - done")
   endif ()
 endfunction ()
