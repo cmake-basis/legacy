@@ -379,6 +379,14 @@ set (BASIS_PROPERTIES_ON_TARGETS
 # convert list of property names into regular expression
 basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_RE ${BASIS_PROPERTIES_ON_TARGETS})
 
+## @brief Whether to build the modules of a project before the project itself.
+#
+# If this option is ON, the modules in the @c PROJECT_MODULES_DIR are build before
+# the code in @c PROJECT_CODE_DIR. Otherwise, the build order is reversed.
+# If the modules require the build targets of the top-level project as link
+# dependencies, for example, this option must be set to OFF.
+set (BASIS_BUILD_MODULES_FIRST ON)
+
 ## @brief Whether BASIS shall use fully-qualified target UIDs.
 #
 # If this option is OFF, the namespace of the top-level BASIS project is

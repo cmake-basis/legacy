@@ -1,0 +1,967 @@
+##############################################################################
+# @file  basistest.ctest
+# @brief CTest script used to test BASIS projects.
+#
+# To display the help of this CTest script, run:
+# @code
+# ctest -S basistest.ctest,help
+# @endcode
+#
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+#
+# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
+#
+# @ingroup Tools
+##############################################################################
+
+if (POLICY CMP0007)
+  cmake_policy(SET CMP0007 NEW)
+endif ()
+if (POLICY CMP0009)
+  cmake_policy(SET CMP0009 NEW)
+endif ()
+
+# ============================================================================
+# constants - define at first
+# ============================================================================
+
+# names of options whose name will be added to CTEST_TEST_OPTIONS
+# instead of CTEST_CMAKE_OPTIONS
+set (KNOWN_CTEST_TEST_OPTIONS
+  START
+  END
+  STRIDE
+  INCLUDE
+  INCLUDE_LABEL
+  EXCLUDE
+  EXCLUDE_LABEL
+  PARALLEL_LEVEL
+)
+
+# start time of Nightly test model
+#
+# All Nightly tests which are executed within a time window of 24 hours
+# starting at the specified start time, will replace previous submissions
+# made within the same time frame such that for each time frame of 24 hours
+# only one result of test executions is present on the dashboard.
+# The execution of the Nightly tests is usually triggered automatically
+# via a scheduled cron job that is run once every 24 hours.
+#
+# Use the Continuous or Experimental test models if you want to execute
+# tests manually.
+set (CTEST_NIGHTLY_START_TIME "01:00:00 EST")
+
+# ============================================================================
+# help
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Print usage section of usage information and help screen.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_usage)
+  message ("Usage:
+  ctest [ctest options] -S basistest.ctest[,option[=value]]*
+
+  Note: No commas or equality signs are allowed inside of option values even
+        if the value is enclosed by quotation marks.")
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Print options section of usage information and help screen.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_options)
+  message (
+"  <variable>=<value>     Passes -D<variable>=<value> on to CMake for the
+                         configuration of the build tree if the variable
+                         name is not named in the following.
+
+                         The values of the following variables are passed on
+                         to the proper CTest scripting commands:")
+  foreach (V IN LISTS KNOWN_CTEST_TEST_OPTIONS)
+    message ("                           - ${V}")
+  endforeach ()
+  message ("
+  project=<project>      Name of the BASIS project to test. If not given, this
+                         script skips the update step. In this case, the srcdir
+                         and bindir options have to be given, or the current
+                         working directory must be the root of an already
+                         configured build tree.
+  basedir=<path>         Base path of both source and binary directory.
+                         Default: \"${HOME}/comp_space/testing\".
+  srcdir=<path>          Source directory. This option is required if this script
+                         is executed in a build directory which has not been
+                         configured yet and if the project option was not specified.
+                         If it is run in the root directory of an already configured
+                         build tree, however, the value of this option is read from
+                         the CMakeCache.txt file. Otherwise, if the project option
+                         was specified, it is set to
+                         \"<basedir>/<model>/<project>-source/<branch>/\".
+  bindir=<path>          Binary directory (i.e., root of build tree).
+                         This option defaults to the current working directory
+                         if the project option was not specified. Otherwise,
+                         it defaults to
+                         \"<basedir>/<model>/<site>/<project>-build/<branch>/\".
+  url=<url>              Base URL of the project's SVN repository.
+                         Only used if the project option was specified.
+                         Default: \"https://sbia-svn.uphs.upenn.edu/projects/<project>\".
+  branch=<name>          Name of the SVN branch to test, e.g., \"tags/1.0.0\".
+                         Default: \"trunk\".
+  model=<model>          Name of the dashboard model, i.e., one of
+                         \"Nightly\", \"Continuous\", and \"Experimental\".
+                         Default: \"Experimental\".
+  memcheck               Perform memory check. Requires valgrind.
+                         No memory checks are performed by default.
+  coverage               Perform coverage analysis. Requires gcov.
+                         No coverage analysis is performed by default.
+  install                Perform installation after successful test execution.
+                         Set CMAKE_INSTALL_PREFIX to change the default installation
+                         prefix used by the project (or CMake). Moreover, the
+                         DESTDIR environment variable can be set to change the
+                         root directory used for installations.
+                         Note: Currently this script just executes \"make install\",
+                               i.e., it only works with the CMake Makefile generator.
+  apidoc[=<path>]        If specified, the API documentation is build
+                         and the built HTML documentation copied to the
+                         specified directory if the install option is given as well.
+                         If this option is given without argument, the default
+                         installation directory is used.
+  nosubmit               Do not submit test results to the dashboard.
+  shared-source          Specify that each test site should use the same copy of
+                         the sources. By default, each test site uses its own copy.
+  shared-build           Specify that each test site should use the same binary
+                         directories. By default, each test site uses its own copy.
+  common-site=<prefix>   Do not distinguish between different sites with a common
+                         prefix in the name. Useful when the test jobs are executed
+                         on a commonly configured cluster.
+  drop-site=<hostname>   CTest drop site, i.e., hostname of CDash server.
+  site=<site>            Use given site name no matter on which actual machine
+                         the test is executed.
+  force-build            Force build even if no files were updated.
+  force-test             Force test even if no files were updated.
+  force                  Alias for options force-build, and force-test.
+  tmpbin                 Delete binary directory on completion (also if not successful).
+  help                   Prints help and exits without performing any test.
+  helpshort              Prints short help and exits without performing any test.
+  helpoptions            Prints help on options and exists without performing any test.
+  version                Prints version information and exits.")
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Print contact section of usage information and help screen.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_contact)
+  message ("
+Contact:
+  @PROJECT_CONTACT@")
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Print help screen.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_help)
+  print_usage ()
+  message ("
+Description:
+  This CTest script is used at SBIA for nightly testing of software projects.
+  Nightly tests are scheduled by a cron job, for example, every night once.
+  Contrary to continous testing, does the nightly testing job not loop for
+  a certain time of iterations and look for changes actively. The nightly
+  testing job will only perform one test run and then exit.
+
+  Note: Due to a bug in CTest 2.8.2, the first test will fail because of
+        a missing CTestConfig.cmake file if the source tree is not checked
+        out already. Therefore, the use of CTest 2.8.4 is recommened.
+
+Dashboard models:
+  By default, the dashboard models \"Nightly\", \"Continuous\", and \"Experimental\"
+  are configured as follows. These default configurations can be modified by
+  supplying the available options listed below.
+  
+    Nightly        Performs all test stages even if the project has not been
+                   updated since the last test run.
+    Continuous     Performs an update of the project's working copy and
+                   exits without submission of any test results if no files
+                   were updated. Otherwise, it performs all test stages.
+    Experimental   Performs all test stages even if the project has not been
+                   updated since the last test run.
+ 
+  Attention: For each model, only one test process may be running for each
+             project on each site at one time.
+             
+Build configurations:
+  By default, the Release configuration is used. If the coverage option is
+  given, the Coverage configuration is used. If the memcheck option is given
+  instead, the MemCheck configuration is used. If both coverage and memcheck
+  options are given, the Coverage configuration is chosen because it generally
+  can also be used to perform memory checks, while the reported line numbers
+  may be incorrect in this case, however. Use the CMAKE_BUILD_TYPE variable
+  to explicitly specify a build configuration.")
+  message ("
+Options:")
+  print_options ()
+  message ("
+Example:
+  ctest -V -S basistest.ctest
+
+    Run this command in the root directory of an already configured build tree
+    to test this project.
+
+  ctest -V -S basistest.ctest,coverage
+
+    Run this command in the root directory of an already configured build tree
+    to test this project and include coverage analysis results in the test report.
+
+  ctest -V -S basistest.ctest,project=BASIS,model=Experimental,coverage,memcheck
+
+    Performs an experimental nightly test of the main development branch of
+    BASIS itself, including coverage analysis and memory checks.
+    The -V option of ctest enables more verbose output of CTest.
+    Even more verbose output can be requested using -VV.")
+  print_contact ()
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Print usage information.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_helpshort)
+  print_usage ()
+  message ("
+Options:")
+  print_options ()
+  print_contact ()
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Print version information.
+#
+# @param [in] ARGN Not used.
+#
+# @returns Nothing.
+function (print_version)
+  message ("CTest script basistest.ctest (@PROJECT_NAME@) @PROJECT_RELEASE@")
+  message ("Copyright (c) @PROJECT_COPYRIGHT@. All rights reserved.")
+  message ("@PROJECT_LICENSE@")
+endfunction ()
+
+# ============================================================================
+# helpers
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Read value from CMake cache.
+#
+# @param [in, out] VAR  Name of CMake variable.
+# @param [in]      ARGN Not used.
+#
+# @returns Sets @p VAR to the value of the cached variable @p VAR.
+function (read_cmake_cache_value VAR)
+  file (STRINGS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ENTRY REGEX "${VAR}:.*=(.*)")
+  string (REGEX REPLACE "${VAR}:.*=(.*)" "\\1" VALUE "${ENTRY}")
+  set (${VAR} "${VALUE}" PARENT_SCOPE)
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Adjust information attached to test results using CMakeCache.txt.
+#
+# @param [in] ARGN List of XML test report files without directory path.
+#                  If omitted, this function globs for all XML files in
+#                  the <tt>Testing/&lt;tag&gt;/</tt> directory.
+function (update_metadata)
+  # get compiler information from CMake cache
+  if (EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+    if (WIN32)
+      set (NAME_COMPONENT "NAME_WE")
+    else ()
+      set (NAME_COMPONENT "NAME")
+    endif ()
+    if (UNIX OR BORLAND)
+      read_cmake_cache_value (CMAKE_CXX_COMPILER)
+      set (COMPILER "${CMAKE_CXX_COMPILER}")
+      get_filename_component (COMPILER_NAME "${CMAKE_CXX_COMPILER}" ${NAME_COMPONENT})
+    else ()
+      read_cmake_cache_value (CMAKE_BUILD_TOOL)
+      set (COMPILER "${CMAKE_BUILD_TOOL}")
+      get_filename_component (COMPILER_NAME "${CMAKE_BUILD_TOOL}" ${NAME_COMPONENT})
+    endif ()
+    if (COMPILER_NAME MATCHES "msdev")
+      set (COMPILER_NAME "vs60")
+    elseif (COMPILER_NAME MATCHES "devenv")
+      read_cmake_cache_value (CMAKE_GENERATOR)
+      string (REGEX REPLACE "Visual Studio ([0-9][0-9]?)($|.*)" "\\1" NUMBER "${CMAKE_GENERATOR}") 
+      if ("${CMAKE_GENERATOR}" MATCHES "Visual Studio 7 .NET 2003")
+        set (COMPILER_NAME "vs71")
+      else ()
+        set (COMPILER_NAME "vs${NUMBER}")
+      endif ()
+    endif ()
+  else ()
+    set (COMPILER      "unknown")
+    set (COMPILER_NAME "unknown")
+  endif ()
+  # replace COMPILER_NAME in build name
+  string (CONFIGURE "${CTEST_BUILD_NAME}" BUILDNAME @ONLY)
+  message ("Change build name to ${BUILDNAME}")
+  # get tag, i.e., subdirectory name required by update_metadata()
+  if (EXISTS "${CTEST_BINARY_DIRECTORY}/Testing/TAG")
+    file (STRINGS "${CTEST_BINARY_DIRECTORY}/Testing/TAG" TAG LIMIT_COUNT 1)
+  else ()
+    set (TAG ".")
+  endif ()
+  # modify submission files
+  if (NOT ARGV)
+    file (
+      GLOB_RECURSE
+        ARGV
+      RELATIVE
+        "${CTEST_BINARY_DIRECTORY}/Testing/${TAG}"
+      "${CTEST_BINARY_DIRECTORY}/Testing/${TAG}/*.xml"
+    )
+  endif ()
+  foreach (SUBMISSION_FILE IN LISTS ARGV)
+    set (SUBMISSION_FILE "${CTEST_BINARY_DIRECTORY}/Testing/${TAG}/${SUBMISSION_FILE}")
+    # read submission file
+    file (READ "${SUBMISSION_FILE}" XML)
+    # set compiler name if necessary
+    string (REPLACE "CompilerName=\"\"" "CompilerName=\"${COMPILER}\"" XML "${XML}")
+    string (REPLACE "<CompilerName></CompilerName>" "<CompilerName>${COMPILER}</CompilerName>" XML "${XML}")
+    # replace intermediate build name
+    string (REPLACE "BuildName=\"\"" "BuildName=\"${BUILDNAME}\"" XML "${XML}")
+    string (REPLACE "<BuildName></BuildName>" "<BuildName>${BUILDNAME}</BuildName>" XML "${XML}")
+    string (REPLACE "BuildName=\"${CTEST_BUILD_NAME}\"" "BuildName=\"${BUILDNAME}\"" XML "${XML}")
+    string (REPLACE "<BuildName>${CTEST_BUILD_NAME}</BuildName>" "<BuildName>${BUILDNAME}</BuildName>" XML "${XML}")
+    # write modified submission file
+    file (WRITE "${SUBMISSION_FILE}" "${XML}")
+  endforeach ()
+endfunction ()
+
+# ============================================================================
+# settings
+# ============================================================================
+
+set (MANUAL_MODE FALSE) # whether this script is running in manual mode, i.e.,
+                        # executed in the build tree of an existing project
+                        # instead of run by a cron job
+
+# ----------------------------------------------------------------------------
+# general
+set (CTEST_BASE_DIRECTORY   "$ENV{HOME}/comp_space/testing")
+set (CTEST_SOURCE_DIRECTORY "")
+set (CTEST_BINARY_DIRECTORY "")
+set (CTEST_MODEL            "Experimental")
+set (SHARED_SOURCE          FALSE)
+set (SHARED_BUILD           FALSE)
+set (SUBMIT_RESULTS         TRUE)
+set (COMMON_SITE_PREFIXES)
+
+set (CTEST_EXTRA_SUBMIT_FILES) # additional files for submission to the dashboard
+
+# ----------------------------------------------------------------------------
+# project attributes
+set (CTEST_PROJECT_NAME "")
+set (CTEST_SVN_URL      "https://sbia-svn.uphs.upenn.edu/projects/\@CTEST_PROJECT_NAME\@")
+set (CTEST_SVN_BRANCH   "trunk")
+
+# ----------------------------------------------------------------------------
+# build configuration
+set (CTEST_CMAKE_GENERATOR "Unix Makefiles") # CMake generator
+set (CTEST_BUILD_TYPE      "")               # build type/configuration
+set (CTEST_COMPILER_FLAGS  "")               # additional compiler flags
+set (CTEST_LINKER_FLAGS    "")               # additional linker flags
+set (CTEST_CMAKE_OPTIONS)
+set (WITH_APIDOC           FALSE)            # enable/disable build of API documentation
+set (WITH_MEMCHECK         FALSE)            # enable/disable memory checks
+set (WITH_COVERAGE         FALSE)            # enable/disable coverage analysis
+set (CTEST_MEMORYCHECK_SUPPRESSIONS_FILE)    # memory checks suppressions
+
+# ----------------------------------------------------------------------------
+# test execution
+set (CTEST_TEST_OPTIONS)
+
+set (FORCE_BUILD    FALSE)
+set (FORCE_TEST     FALSE)
+
+# ----------------------------------------------------------------------------
+# installation directories
+
+# install project files after successful test execution
+set (WITH_INSTALL FALSE)
+# output directory for built Doxygen documentation
+set (INSTALL_APIDOC_DIR)
+
+# ============================================================================
+# options
+# ============================================================================
+
+macro (set_option VAR)
+  if (${ARGC} EQUAL 1)
+    if (VALUE)
+      set (${VAR} "${VALUE}")
+    else ()
+      set (FAILURE TRUE)
+    endif ()
+  else ()
+    if (VALUE)
+      set (FAILURE TRUE)
+    else ()
+      set (${VAR} "${ARGN}")
+    endif ()
+  endif ()
+endmacro ()
+
+macro (append_option VAR)
+  if (VALUE)
+    list (APPEND ${VAR} "${VALUE}")
+  else ()
+    set (FAILURE TRUE)
+  endif ()
+endmacro ()
+
+string (REPLACE "," ";" ARGV "${CTEST_SCRIPT_ARG}")
+foreach (ARG ${ARGV})
+  set (FAILURE FALSE)
+  set (OPTION "")
+  set (VALUE  "")
+
+  string (REPLACE "=" ";" PARTS "${ARG}")
+  list (LENGTH PARTS LEN)
+
+  if (LEN EQUAL 1)
+    set (OPTION "${PARTS}")
+  elseif (LEN EQUAL 2)
+    list (GET PARTS 0 OPTION)
+    list (GET PARTS 1 VALUE)
+  endif ()
+ 
+  if (OPTION)
+    if (${OPTION} STREQUAL "project")
+      set_option (CTEST_PROJECT_NAME)
+    elseif (${OPTION} STREQUAL "model")
+      set_option (CTEST_MODEL)
+    elseif (${OPTION} STREQUAL "basedir")
+      set_option (CTEST_BASE_DIRECTORY)
+    elseif (${OPTION} STREQUAL "srcdir")
+      set_option (CTEST_SOURCE_DIRECTORY)
+    elseif (${OPTION} STREQUAL "bindir")
+      set_option (CTEST_BINARY_DIRECTORY)
+    elseif (${OPTION} STREQUAL "url")
+      set_option (CTEST_SVN_URL)
+    elseif (${OPTION} STREQUAL "branch")
+      set_option (CTEST_SVN_BRANCH)
+    elseif (${OPTION} STREQUAL "memcheck")
+      set_option (WITH_MEMCHECK TRUE)
+    elseif (${OPTION} STREQUAL "coverage")
+      set_option (WITH_COVERAGE TRUE)
+    elseif (${OPTION} STREQUAL "tmpbin")
+      set_option (TMPBIN TRUE)
+    elseif (${OPTION} STREQUAL "install")
+      set_option (WITH_INSTALL TRUE)
+    elseif (${OPTION} STREQUAL "apidoc")
+      set (WITH_APIDOC TRUE)
+      if (VALUE)
+        set_option (INSTALL_APIDOC_DIR)
+      endif ()
+    elseif (${OPTION} STREQUAL "shared-source")
+      set_option (SHARED_SOURCE TRUE)
+    elseif (${OPTION} STREQUAL "shared-build")
+      set_option (SHARED_BUILD TRUE)
+    elseif (${OPTION} STREQUAL "submit")
+      set_option (SUBMIT_RESULTS TRUE)
+    elseif (${OPTION} STREQUAL "nosubmit")
+      set_option (SUBMIT_RESULTS FALSE)
+    elseif (${OPTION} STREQUAL "common-site")
+      append_option (COMMON_SITE_PREFIXES)
+    elseif (${OPTION} STREQUAL "site")
+        set_option (CTEST_SITE)
+    elseif (${OPTION} STREQUAL "force")
+      set_option (FORCE_BUILD TRUE)
+      set_option (FORCE_TEST  TRUE)
+    elseif (${OPTION} STREQUAL "force-build")
+      set_option (FORCE_BUILD TRUE)
+    elseif (${OPTION} STREQUAL "force-test")
+      set_option (FORCE_TEST TRUE)
+    elseif (${OPTION} STREQUAL "version")
+      print_version ()
+      return ()
+    elseif (${OPTION} STREQUAL "help")
+      print_help ()
+      return ()
+    elseif (${OPTION} STREQUAL "helpshort")
+      print_helpshort ()
+      return ()
+    elseif (${OPTION} STREQUAL "helpoptions")
+      print_options ()
+      return ()
+    else ()
+      if (NOT VALUE)
+        set (FAILURE TRUE)
+      else ()
+        string (TOUPPER "${OPTION}" OPTION_UPPER)
+        list (FIND KNOWN_CTEST_TEST_OPTIONS "${OPTION_UPPER}" IDX)
+        if (IDX EQUAL -1)
+          if (OPTION MATCHES "^CMAKE_BUILD_TYPE$")
+            set (CTEST_BUILD_TYPE "${VALUE}")
+          else ()
+            set (CTEST_CMAKE_OPTIONS "${CTEST_CMAKE_OPTIONS} \"-D${OPTION}=${VALUE}\"")
+          endif ()
+        else ()
+          list (APPEND CTEST_TEST_OPTIONS "${OPTION_UPPER}" "${VALUE}")
+        endif ()
+      endif ()
+    endif ()
+  else ()
+    set (FAILURE TRUE)
+  endif ()
+
+  if (FAILURE)
+    message (FATAL_ERROR "Invalid options: ${CTEST_SCRIPT_ARG}
+Failed to parse argument \"${ARG}\" (option: ${OPTION}, value: ${VALUE})")
+  endif ()
+endforeach ()
+
+if (NOT CTEST_PROJECT_NAME)
+  set (MANUAL_MODE TRUE)
+  # automatically set binary directory if not specified
+  if (NOT CTEST_BINARY_DIRECTORY)
+    if (UNIX)
+      find_program (PWD pwd)
+    else ()
+      find_program (PWD cd)
+    endif ()
+    execute_process (
+      COMMAND "${PWD}"
+      RESULT_VARIABLE RT
+      OUTPUT_VARIABLE CWD
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if (RT EQUAL 0)
+      set (CTEST_BINARY_DIRECTORY "${CWD}")
+    else ()
+      message (FATAL_ERROR "Failed to get current working directory! Try using the bindir option instead.")
+    endif ()
+  endif ()
+  # set project name from CMake cache
+  if (EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+    read_cmake_cache_value (CMAKE_PROJECT_NAME)
+    if (NOT CMAKE_PROJECT_NAME)
+      message (FATAL_ERROR "Failed to read project name from ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt!")
+    endif ()
+    set (CTEST_PROJECT_NAME "${CMAKE_PROJECT_NAME}")
+  endif ()
+  # automatically set source directory if not specified
+  if (NOT CTEST_SOURCE_DIRECTORY)
+    if (NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+      message (FATAL_ERROR "Missing CMakeCache.txt file! Either specify source directory using the srcdir option or initialize the build tree.")
+    endif ()
+    read_cmake_cache_value (${CTEST_PROJECT_NAME}_SOURCE_DIR)
+    if (NOT ${CTEST_PROJECT_NAME}_SOURCE_DIR)
+      message (FATAL_ERROR "Failed to read source directory from ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt!")
+    endif ()
+    set (CTEST_SOURCE_DIRECTORY "${${CTEST_PROJECT_NAME}_SOURCE_DIR}")
+  endif ()
+endif ()
+
+if (NOT CTEST_BINARY_DIRECTORY)
+  set (CTEST_BINARY_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
+endif ()
+
+string (TOLOWER "${CTEST_PROJECT_NAME}" CTEST_PROJECT_NAME_LOWER)
+string (TOUPPER "${CTEST_PROJECT_NAME}" CTEST_PROJECT_NAME_UPPER)
+
+if (CTEST_MODEL MATCHES "Nightly|Experimental")
+  set (FORCE_BUILD TRUE)
+  set (FORCE_TEST  TRUE)
+endif ()
+
+# ============================================================================
+# drop site
+# ============================================================================
+
+# dashboard submission to SBIA CDash server
+#
+# Note: By default, CTest does not support HTTPS as submission method.
+#       In order to enable it, CTest (and hence CMake) has to be build
+#       manually with the option CMAKE_USE_OPENSSL enabled.
+set (CTEST_DROP_METHOD     "http")
+set (CTEST_DROP_SITE       "sbia-portal.uphs.upenn.edu")
+set (CTEST_DROP_LOCATION   "/cdash/submit.php?project=${CTEST_PROJECT_NAME}")
+set (CTEST_DROP_SITE_CDASH TRUE)
+
+# launchers
+#
+# See documentation of CTest.cmake module.
+set (CTEST_USE_LAUNCHERS 0)
+
+# ============================================================================
+# initialization
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# build type
+if (NOT CTEST_BUILD_TYPE)
+  if (WITH_COVERAGE OR WITH_MEMCHECK)
+    set (CTEST_BUILD_TYPE "Debug")
+  else ()
+    set (CTEST_BUILD_TYPE "Release")
+  endif ()
+endif ()
+
+# ----------------------------------------------------------------------------
+# site information
+if (NOT CTEST_SITE)
+  site_name (CTEST_SITE)
+  # common site name
+  if (COMMON_SITE_PREFIXES)
+    foreach (P ${COMMON_SITE_PREFIXES})
+      if (CTEST_SITE MATCHES "^${P}")
+        set (CTEST_SITE "${P}")
+        break ()
+      endif ()
+    endforeach ()
+  endif ()
+endif ()
+
+# ----------------------------------------------------------------------------
+# build information
+
+# Note: The @COMPILER@ pattern in the build name as written to the .xml files
+#       will be replaced by this script before the submission once the used
+#       compiler is known from the CMake cache.
+set (CTEST_BUILD_NAME   "${CMAKE_SYSTEM_NAME}-\@COMPILER_NAME\@")
+if (WITH_COVERAGE AND WITH_MEMCHECK)
+  set (CTEST_BUILD_NAME "${CTEST_BUILD_NAME} (Coverage & MemCheck)")
+elseif (WITH_COVERAGE)
+  set (CTEST_BUILD_NAME "${CTEST_BUILD_NAME} (Coverage)")
+elseif (WITH_MEMCHECK)
+  set (CTEST_BUILD_NAME "${CTEST_BUILD_NAME} (MemCheck)")
+endif ()
+
+# ----------------------------------------------------------------------------
+# directories
+if (NOT MANUAL_MODE)
+  set (CTEST_BUILD_SUBDIR)
+  if (WITH_COVERAGE AND WITH_MEMCHECK)
+    set (CTEST_PREFIX "CoverageAndMemCheck")
+  elseif (WITH_COVERAGE)
+    set (CTEST_PREFIX "Coverage")
+  elseif (WITH_MEMCHECK)
+    set (CTEST_PREFIX "MemCheck")
+  else ()
+    set (CTEST_PREFIX "${CTEST_MODEL}")
+    if (CTEST_BUILD_TYPE)
+      set (CTEST_BUILD_SUBDIR "${CTEST_BUILD_TYPE}")
+    else ()
+      set (CTEST_BUILD_SUBDIR "Default")
+    endif ()
+  endif ()
+  if (NOT CTEST_SOURCE_DIRECTORY)
+    if (SHARED_SOURCE)
+      set (CTEST_SOURCE_DIRECTORY "${CTEST_BASE_DIRECTORY}/${CTEST_PREFIX}/${CTEST_PROJECT_NAME}-source/${CTEST_SVN_BRANCH}")
+    else ()
+      set (CTEST_SOURCE_DIRECTORY "${CTEST_BASE_DIRECTORY}/${CTEST_PREFIX}/${CTEST_SITE}/${CTEST_PROJECT_NAME}-source/${CTEST_SVN_BRANCH}")
+    endif ()
+  endif ()
+  if (NOT CTEST_BINARY_DIRECTORY)
+    if (SHARED_BUILD)
+      set (CTEST_BINARY_DIRECTORY "${CTEST_BASE_DIRECTORY}/${CTEST_PREFIX}/${CTEST_PROJECT_NAME}-build/${CTEST_SVN_BRANCH}/${CTEST_BUILD_SUBDIR}")
+    else ()
+      set (CTEST_BINARY_DIRECTORY "${CTEST_BASE_DIRECTORY}/${CTEST_PREFIX}/${CTEST_SITE}/${CTEST_PROJECT_NAME}-build/${CTEST_SVN_BRANCH}/${CTEST_BUILD_SUBDIR}")
+    endif ()
+  endif ()
+endif ()
+string (REGEX REPLACE "/$" "" CTEST_BINARY_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
+string (REGEX REPLACE "/$" "" CTEST_SOURCE_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
+
+string (CONFIGURE "${INSTALL_APIDOC_DIR}" INSTALL_APIDOC_DIR)
+
+if (MANUAL_MODE)
+  set (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
+else ()
+  set (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+endif ()
+
+# ----------------------------------------------------------------------------
+# checkout / update
+find_program (
+  CTEST_SVN_COMMAND
+  NAMES basistest-svn
+  HINTS "${CMAKE_CURRENT_LIST_DIR}/@RUNTIME_DIR@"
+)
+find_program (CTEST_SVN_COMMAND NAMES svn)
+
+if (NOT CTEST_SVN_COMMAND)
+  message (FATAL_ERROR "Could not find \"basistest-svn\" or \"svn\" command!")
+endif ()
+
+string (CONFIGURE "${CTEST_SVN_URL}" CTEST_SVN_URL @ONLY)
+
+if (NOT MANUAL_MODE AND NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.svn")
+  file (MAKE_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
+  set (CTEST_CHECKOUT_COMMAND "${CTEST_SVN_COMMAND} co \"${CTEST_SVN_URL}/${CTEST_SVN_BRANCH}\" ${CTEST_SOURCE_DIRECTORY}")
+endif ()
+set (CTEST_UPDATE_COMMAND "${CTEST_SVN_COMMAND}")
+
+# ----------------------------------------------------------------------------
+# coverage analysis
+if (WITH_COVERAGE)
+  find_program (CTEST_COVERAGE_COMMAND NAMES gcov)
+  if (NOT CTEST_COVERAGE_COMMAND)
+    message (FATAL_ERROR "Could not find gcov! Only gcc and gcov supported to perform coverage analysis.")
+  endif ()
+  set (CTEST_COMPILER_FLAGS "${CTEST_COMPILER_FLAGS} -O0 -fprofile-arcs -ftest-coverage")
+  set (CTEST_LINKER_FLAGS "${CTEST_LINKER_FLAGS} -fprofile-arcs")
+endif ()
+
+# ----------------------------------------------------------------------------
+# memory check
+if (WITH_MEMCHECK)
+  # TODO Consider switching to AddressSanitizer instead, which requires the
+  #      use of the clang compiler, however, with the compiler flag
+  #      -faddress-sanitizer.
+  find_program (CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
+  if (NOT CTEST_MEMORYCHECK_COMMAND)
+    message (FATAL_ERROR "Could not find valgrind! Only valgrind supported as memory error detector.")
+  endif ()
+  if (NOT WITH_COVERAGE)
+    set (CTEST_COMPILER_FLAGS "${CTEST_COMPILER_FLAGS} -O1")
+  endif ()
+  set (CTEST_COMPILER_FLAGS "${CTEST_COMPILER_FLAGS} -fno-omit-frame-pointer")
+  if (CTEST_MEMORYCHECK_SUPPRESSIONS_FILE)
+    if (NOT IS_ABSOLUTE "${CTEST_MEMORYCHECK_SUPPRESSIONS_FILE}")
+      set (
+        CTEST_MEMORYCHECK_SUPPRESSIONS_FILE
+          "${CTEST_SOURCE_DIRECTORY}/${CTEST_MEMORYCHECK_SUPPRESSIONS_FILE}"
+      )
+    endif ()
+    if (NOT EXISTS "${CTEST_MEMORYCHECK_SUPPRESSIONS_FILE}")
+      message ("Memory check suppressions file ${CTEST_MEMORYCHECK_SUPPRESSIONS_FILE} not found!")
+    endif ()
+  endif ()
+endif ()
+
+# ----------------------------------------------------------------------------
+# configuration / build
+set (CTEST_CONFIGURE_COMMAND "\"${CMAKE_COMMAND}\"")
+if (CTEST_BUILD_TYPE)
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_TYPE}")
+endif ()
+if (CTEST_COMPILER_FLAGS)
+  string (STRIP "${CTEST_COMPILER_FLAGS}" CTEST_COMPILER_FLAGS)
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-DCMAKE_C_FLAGS:STRING=${CTEST_COMPILER_FLAGS}\"")
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-DCMAKE_CXX_FLAGS:STRING=${CTEST_COMPILER_FLAGS}\"")
+endif ()
+if (CTEST_LINKER_FLAGS)
+  string (STRIP "${CTEST_LINKER_FLAGS}" CTEST_LINKER_FLAGS)
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-DCMAKE_EXE_LINKER_FLAGS:STRING=${CTEST_LINKER_FLAGS}\"")
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-DCMAKE_MODULE_LINKER_FLAGS:STRING=${CTEST_LINKER_FLAGS}\"")
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-DCMAKE_SHARED_LINKER_FLAGS:STRING=${CTEST_LINKER_FLAGS}\"")
+endif ()
+set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} -DBUILD_TESTING:BOOL=ON")
+if (WITH_APIDOC)
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} -DBUILD_DOCUMENTATION:BOOL=ON -DBASIS_ALL_DOC:BOOL=ON")
+  if (INSTALL_APIDOC_DIR)
+    set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} -DINSTALL_APIDOC_DIR:PATH=${INSTALL_APIDOC_DIR}")
+  endif ()
+else ()
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} -DBUILD_DOCUMENTATION:BOOL=OFF")
+endif ()
+if (CTEST_CMAKE_OPTIONS)
+  set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} ${CTEST_CMAKE_OPTIONS}")
+endif ()
+set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"-G${CTEST_CMAKE_GENERATOR}\"")
+set (CTEST_CONFIGURE_COMMAND "${CTEST_CONFIGURE_COMMAND} \"${CTEST_SOURCE_DIRECTORY}\"")
+
+# ============================================================================
+# testing
+# ============================================================================
+
+set (CONFIGURE_RESULT 1)   # whether configuration was successful (0 if it was)
+set (BUILD_RESULT     1)   # whether build was successful (0 if it was)
+
+# ----------------------------------------------------------------------------
+# in manual mode, preserve CMake cache to be able to restore it later
+if (MANUAL_MODE AND EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+  execute_process (
+    COMMAND "${CMAKE_COMMAND}" -E copy
+        "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
+        "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt.bak"
+  )
+endif ()
+
+# ----------------------------------------------------------------------------
+# empty the binary directory
+if (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY)
+  ctest_empty_binary_directory ("${CTEST_BINARY_DIRECTORY}")
+endif ()
+
+# ----------------------------------------------------------------------------
+# start a new test run
+ctest_start ("${CTEST_MODEL}")
+
+# ----------------------------------------------------------------------------
+# update working copy
+set (UPDATED_FILES TRUE)
+
+if (NOT MANUAL_MODE)
+  ctest_update (RETURN_VALUE NUM_FILES)
+
+  if (NOT CTEST_CHECKOUT_COMMAND AND NUM_FILES EQUAL 0)
+    set (UPDATED_FILES FALSE)
+    if (NOT FORCE_BUILD)
+      set (SUBMIT_RESULTS FALSE)
+    endif ()
+  endif ()
+endif ()
+
+# perform other test stages and submit results only if required
+if (FORCE_BUILD OR UPDATED_FILES)
+
+  # --------------------------------------------------------------------------
+  # configure build
+
+  # Note: Also in manual mode to enforce the selected build configuration!
+  ctest_configure (RETURN_VALUE CONFIGURE_RESULT)
+
+  if (CONFIGURE_RESULT EQUAL 0)
+    ctest_read_custom_files ("${CTEST_BINARY_DIRECTORY}")
+  endif ()
+
+  # --------------------------------------------------------------------------
+  # build project
+  if (CONFIGURE_RESULT EQUAL 0)
+    ctest_build (NUMBER_ERRORS NUMBER_OF_ERRORS RETURN_VALUE BUILD_RESULT)
+    if (NUMBER_OF_ERRORS GREATER 0)
+      set (BUILD_RESULT "${NUMBER_OF_ERRORS}")
+    endif ()
+  endif ()
+
+  # --------------------------------------------------------------------------
+  # perform tests only if required
+  if (BUILD_RESULT EQUAL 0 AND (FORCE_TEST OR UPDATED_FILES))
+
+    # ------------------------------------------------------------------------
+    # run tests
+    if (WITH_COVERAGE OR NOT WITH_MEMCHECK)
+      ctest_test (${CTEST_TEST_OPTIONS} RETURN_VALUE TEST_RESULT)
+    endif ()
+
+    # ---------------------------------------------------------------------------
+    # perform installation
+    if (WITH_INSTALL AND TEST_RESULT EQUAL 0)
+      message ("Install project files")
+      # First deinstall previously installed files to ensure that obsolete
+      # files are removed. These obsolete files could otherwise be used by
+      # other projects and the test would not reveal that the projects are
+      # actually no longer compatible.
+      read_cmake_cache_value (CMAKE_INSTALL_PREFIX)
+      set (UNINSTALLER "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/uninstall_${CTEST_PROJECT_NAME_LOWER}")
+      if (EXISTS "${UNINSTALLER}")
+        execute_process (
+          COMMAND           "${UNINSTALLER}"
+          WORKING_DIRECTORY "${CTEST_BINARY_DIRECTORY}"
+          TIMEOUT           1800 # 30 minutes
+          RESULT_VARIABLE   UNINSTALL_RESULT
+          OUTPUT_FILE       "${CTEST_BINARY_DIRECTORY}/install.log"
+          ERROR_FILE        "${CTEST_BINARY_DIRECTORY}/install.log"
+        )
+      else ()
+        execute_process (
+          COMMAND           make uninstall
+          WORKING_DIRECTORY "${CTEST_BINARY_DIRECTORY}"
+          TIMEOUT           1800 # 30 minutes
+          RESULT_VARIABLE   UNINSTALL_RESULT
+          OUTPUT_FILE       "${CTEST_BINARY_DIRECTORY}/install.log"
+          ERROR_FILE        "${CTEST_BINARY_DIRECTORY}/install.log"
+        )
+      endif ()
+      # install new files
+      execute_process (
+        COMMAND           make install
+        WORKING_DIRECTORY "${CTEST_BINARY_DIRECTORY}"
+        TIMEOUT           1800 # 30 minutes
+        RESULT_VARIABLE   INSTALL_RESULT
+        OUTPUT_FILE       "${CTEST_BINARY_DIRECTORY}/install.log"
+        ERROR_FILE        "${CTEST_BINARY_DIRECTORY}/install.log"
+      )
+      # submit log file in case of errors to dashboard
+      if (NOT UNINSTALL_RESULT EQUAL 0 OR NOT INSTALL_RESULT EQUAL 0)
+        list (APPEND CTEST_NOTES_FILES "${CTEST_BINARY_DIRECTORY}/install.log")
+      endif ()
+    endif ()
+
+    # --------------------------------------------------------------------------
+    # perform coverage analysis
+    if (WITH_COVERAGE AND CTEST_COVERAGE_COMMAND)
+      ctest_coverage ()
+    endif ()
+
+    # --------------------------------------------------------------------------
+    # perform memory checks
+    if (WITH_MEMCHECK AND CTEST_MEMORYCHECK_COMMAND)
+      ctest_memcheck (${CTEST_TEST_OPTIONS})
+    endif ()
+
+  endif ()
+
+endif ()
+
+# -----------------------------------------------------------------------------
+# adjust test result meta-data - even if these will not be submitted yet
+update_metadata ()
+
+# -----------------------------------------------------------------------------
+# submit results
+if (SUBMIT_RESULTS)
+  ctest_submit ()
+endif ()
+
+# -----------------------------------------------------------------------------
+# clean up
+if (TMPBIN)
+  file (REMOVE_RECURSE "${CTEST_BINARY_DIRECTORY}")
+else ()
+  if (MANUAL_MODE AND EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt.bak")
+    execute_process (
+      COMMAND "${CMAKE_COMMAND}" -E compare_files 
+          "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
+          "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt.bak"
+      RESULT_VARIABLE RT
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+    if (RT EQUAL 0)
+      file (REMOVE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt.bak")
+    else ()
+      message ("Restoring build system configuration...")
+      file (
+        RENAME "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt.bak"
+               "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
+      )
+      execute_process (
+        COMMAND "${CMAKE_COMMAND}" "${CTEST_BINARY_DIRECTORY}"
+        OUTPUT_QUIET
+        RESULT_VARIABLE RT
+      )
+      if (RT EQUAL 0)
+        message ("Restoring build system configuration... - done")
+      else ()
+        message ("Restoring build system configuration... - failed")
+      endif ()
+    endif ()
+  endif ()
+endif ()

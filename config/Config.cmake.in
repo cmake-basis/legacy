@@ -62,9 +62,6 @@ basis_set_config (TEMPLATE_DIR "@TEMPLATE_DIR_CONFIG@")
 # ----------------------------------------------------------------------------
 # utilities
 
-## @brief List of enabled BASIS utilities.
-basis_set_config (UTILITIES_ENABLED "@UTILITIES_ENABLED@")
-
 ## @brief Python interpreter used to build/configure BASIS Python modules.
 basis_set_config (PYTHON_EXECUTABLE "@PYTHON_EXECUTABLE@")
 ## @brief Jython interpreter used to build/configure BASIS Jython modules.

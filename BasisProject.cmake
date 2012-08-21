@@ -72,16 +72,9 @@ basis_project (
   DEPENDS
     #<dependency>
   OPTIONAL_DEPENDS
-    PythonInterp
-    JythonInterp
-    Perl
-    MATLAB{matlab}
-    BASH
-    Doxygen
-    Sphinx
-    ITK # TODO required by basistest-driver, get rid of this dependency
     #<optional-dependency>
   TEST_DEPENDS
+    PythonInterp
     #<test-dependency>
   OPTIONAL_TEST_DEPENDS
     MATLAB{matlab,mex,mexext}

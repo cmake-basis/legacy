@@ -34,9 +34,6 @@ set (COPYRIGHT_CONFIG "${PROJECT_COPYRIGHT}")
 ## @brief Default contact used if none specified by BASIS-based project.
 set (CONTACT_CONFIG "${PROJECT_CONTACT}")
 
-## @brief List of enabled BASIS utilities.
-set (UTILITIES_ENABLED ${BASIS_UTILITIES_ENABLED})
-
 basis_get_fully_qualified_target_uid (CXX_UTILITIES_LIBRARY_CONFIG    "${BASIS_CXX_UTILITIES_LIBRARY}")
 basis_get_fully_qualified_target_uid (PYTHON_UTILITIES_LIBRARY_CONFIG "${BASIS_PYTHON_UTILITIES_LIBRARY}")
 basis_get_fully_qualified_target_uid (JYTHON_UTILITIES_LIBRARY_CONFIG "${BASIS_JYTHON_UTILITIES_LIBRARY}")

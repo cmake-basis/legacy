@@ -1,62 +1,51 @@
 ##############################################################################
 # @file  CMakeLists.txt
-# @brief Build configuration of software testing.
+# @brief Build configuration of tests of CMake modules.
 #
-# Unit tests test only single functions, classes, and modules of the software.
-# System tests, on the other side, execute the programs of this package with
-# given test input data and compare the output of the programs to the expected
-# results.
-#
-# The built test executables can be found in @c TESTING_RUNTIME_DIR.
-# The test output shall be written to @c TESTING_OUTPUT_DIR. In most cases,
-# a subdirectory for each test should be created under this output directory.
-#
-# Copyright (c) 2011 University of Pennsylvania. All rights reserved.<br />
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
 # See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
 #
 # Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
 
 # ============================================================================
-# settings
+# common helpers for tests of BASIS utilities
 # ============================================================================
 
-## @brief Directory of BASIS used by tests to build test projects.
-set (TESTING_BASIS_DIR "${PROJECT_BINARY_DIR}")
-
-## @brief Build type used to build test projects.
-set (TESTING_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
-## @brief Compiler flags to use for build of test projects.
-set (TESTING_C_FLAGS "${CMAKE_C_FLAGS}")
-## @brief Compiler flags to use for build of test projects.
-set (TESTING_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-## @brief Linker flags to use for build of test projects.
-set (TESTING_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
-## @brief Linker flags to use for build of test projects.
-set (TESTING_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-## @brief Linker flags to use for build of test projects.
-set (TESTING_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS}")
-
-## @brief Whether Python utilities are build.
-set (TEST_PYTHON_UTILITIES "${PythonInterp_FOUND}")
-## @brief Whether Perl utilities are build.
-set (TEST_PERL_UTILITIES "${Perl_FOUND}")
-## @brief Whether BASH utilities are build.
-set (TEST_BASH_UTILITIES "${BASH_FOUND}")
+basis_add_executable (dummy_command.cxx NO_BASIS_UTILITIES)
+basis_add_script (testaux testaux.py)
 
 # ============================================================================
-# utilities
+# tests of CMake functions
 # ============================================================================
 
-if (BASIS_UTILITIES_ENABLED MATCHES "PYTHON")
-  basis_add_script (testaux.py)
+# ----------------------------------------------------------------------------
+# helper
+function (cmake_test TEST)
+  set (ARGS)
+  list (APPEND ARGS "-D" "OUTPUT_DIR=${TESTING_OUTPUT_DIR}")
+  list (APPEND ARGS "-D" "MODULE_PATH=${BASIS_MODULE_PATH}")
+  while (ARGN)
+    list (GET ARGN 0 VAR)
+    list (GET ARGN 1 VALUE)
+    list (APPEND ARGS "-D" "${VAR}=${VALUE}")
+    list (REMOVE_AT ARGN 0 1)
+  endwhile ()
+  basis_add_test (
+    ${TEST}
+    COMMAND
+      "${CMAKE_COMMAND}" ${ARGS}
+      -P "${CMAKE_CURRENT_SOURCE_DIR}/${TEST}.cmake"
+  )
+endfunction ()
+
+# ----------------------------------------------------------------------------
+# tests of CommonTools.cmake functions
+cmake_test (test_string_manipulation)
+
+# ----------------------------------------------------------------------------
+# test use MATLAB Compiler and MEX-script
+if (MATLAB_FOUND AND PythonInterp_FOUND)
+  basis_add_test (test_matlabtools.py)
+  basis_set_tests_properties (test_matlabtools PROPERTIES TIMEOUT 1500)
 endif ()
-
-# ============================================================================
-# subdirectories
-# ============================================================================
-
-add_subdirectory (ressources)
-add_subdirectory (cmake)
-add_subdirectory (tools)
-add_subdirectory (utilities)

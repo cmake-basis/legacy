@@ -80,7 +80,7 @@ function (basis_add_utilities_library UID)
     # define dependency on non-project specific utilities as the order in
     # which static libraries are listed on the command-line for the linker
     # matters; this will help CMake to get the order right
-    target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
+    target_link_libraries (${TARGET_UID} ${BASIS_CxxUtilities_LIBRARY})
     # set target properties
     _set_target_properties (
       ${TARGET_UID}
@@ -329,7 +329,7 @@ function (basis_configure_utilities)
   # Python
   if (PYTHON)
     # utilities available?
-    if (NOT BASIS_UTILITIES_ENABLED MATCHES "PYTHON")
+    if (NOT BASIS_MODULES_ENABLED MATCHES "PythonUtilities")
       message (FATAL_ERROR "BASIS Python utilities required by this package"
                            " but BASIS was built without Python utilities."
                            " Rebuild BASIS with Python utilities enabled.")
@@ -360,13 +360,13 @@ function (basis_configure_utilities)
         COMPILE_DEFINITIONS       "${COMPILE_DEFINITIONS}"
     )
     # dependencies
-    basis_target_link_libraries (basis_py ${BASIS_PYTHON_UTILITIES_LIBRARY})
+    basis_target_link_libraries (basis_py ${BASIS_PythonUtilities_LIBRARY})
   endif ()
   # --------------------------------------------------------------------------
   # Perl
   if (PERL)
     # utilities available?
-    if (NOT BASIS_UTILITIES_ENABLED MATCHES "PERL")
+    if (NOT BASIS_MODULES_ENABLED MATCHES "PerlUtilities")
       message (FATAL_ERROR "BASIS Perl utilities required by this package"
                            " but BASIS was built without Perl utilities."
                            " Rebuild BASIS with Perl utilities enabled.")
@@ -390,7 +390,7 @@ function (basis_configure_utilities)
            endif ()"
     )
     # dependencies
-    basis_target_link_libraries (Basis_pm ${BASIS_PERL_UTILITIES_LIBRARY})
+    basis_target_link_libraries (Basis_pm ${BASIS_PerlUtilities_LIBRARY})
   endif ()
   # --------------------------------------------------------------------------
   # Bash
@@ -401,7 +401,7 @@ function (basis_configure_utilities)
                        " on a non-Unix system.")
     endif ()
     # utilities available?
-    if (NOT BASIS_UTILITIES_ENABLED MATCHES "BASH")
+    if (NOT BASIS_MODULES_ENABLED MATCHES "BashUtilities")
       message (FATAL_ERROR "BASIS Bash utilities required by this package"
                            " but BASIS was built without Bash utilities."
                            " Rebuild BASIS with Bash utilities enabled.")
@@ -433,7 +433,7 @@ function (basis_configure_utilities)
         COMPILE_DEFINITIONS       "${COMPILE_DEFINITIONS}"
     )
     # dependencies
-    basis_target_link_libraries (basis_sh ${BASIS_BASH_UTILITIES_LIBRARY})
+    basis_target_link_libraries (basis_sh ${BASIS_BashUtilities_LIBRARY})
   endif ()
 
   message (STATUS "Configuring BASIS utilities... - done")

@@ -64,6 +64,7 @@ set (
     "logo_sbia.png"                       # the logo of SBIA
     "logo_penn.gif"                       # the logo of UPenn
     # other
+    "__init__.py.in"                      # template file for __init__.py modules
     "buildtimestamp.cmd"                  # get build timestamp on Windows
     "CheckPublicHeaders.cmake"            # check if header files were added/removed
     "cmake_uninstall.cmake.in"            # uninstall script

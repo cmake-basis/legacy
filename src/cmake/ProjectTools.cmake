@@ -809,9 +809,21 @@ function (basis_configure_script_libraries)
   else ()
     set (MATLAB_LIB_DIRS)
   endif ()
+  # Bash
+  if (BASH_FOUND)
+    set (BASH_EXT .sh .sh.in)
+    set (BASH_LIB_DIRS)
+    if (BASH_VERSION_MAJOR)
+      list (APPEND BASH_LIB_DIRS "${PROJECT_LIBRARY_DIR}/bash${BASH_VERSION_MAJOR}")
+    endif ()
+    list (APPEND BASH_LIB_DIRS "${PROJECT_LIBRARY_DIR}/bash")
+    list (APPEND BASH_LIB_DIRS "${PROJECT_LIBRARY_DIR}")
+  else ()
+    set (BASH_LIB_DIRS)
+  endif ()
   # add library targets
   set (TARGETS)
-  foreach (LANGUAGE IN ITEMS PYTHON JYTHON PERL MATLAB)
+  foreach (LANGUAGE IN ITEMS PYTHON JYTHON PERL MATLAB BASH)
     foreach (LIB_DIR IN LISTS ${LANGUAGE}_LIB_DIRS)
       set (EXPRESSIONS)
       foreach (MODULE_EXT IN LISTS ${LANGUAGE}_EXT)
@@ -1496,8 +1508,8 @@ macro (basis_project_impl)
     basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterInitialization.cmake")
   endif ()
 
-  # build modules
-  if (NOT PROJECT_IS_MODULE)
+  # build modules - before own sources
+  if (BASIS_BUILD_MODULES_FIRST AND NOT PROJECT_IS_MODULE)
     foreach (MODULE IN LISTS PROJECT_MODULES_ENABLED)
       message (STATUS "Configuring module ${MODULE}...")
       set (PROJECT_IS_MODULE TRUE)
@@ -1507,14 +1519,18 @@ macro (basis_project_impl)
     endforeach ()
   endif ()
 
+  # configure/install auxiliary data files
+  #
+  # Do this before building the sources such that cached configuration settings
+  # within the data/CMakeLists.txt file are available when the sources are being
+  # configured.
+  if (EXISTS "${PROJECT_DATA_DIR}")
+    add_subdirectory ("${PROJECT_DATA_DIR}")
+  endif ()
+
   # build source code
   if (EXISTS "${PROJECT_CODE_DIR}")
     add_subdirectory ("${PROJECT_CODE_DIR}")
-  endif ()
-
-  # install auxiliary data files
-  if (EXISTS "${PROJECT_DATA_DIR}")
-    add_subdirectory ("${PROJECT_DATA_DIR}")
   endif ()
 
   # build software tests
@@ -1522,12 +1538,28 @@ macro (basis_project_impl)
    add_subdirectory ("${PROJECT_TESTING_DIR}")
   endif ()
 
+  # build modules - after own sources
+  if (NOT BASIS_BUILD_MODULES_FIRST AND NOT PROJECT_IS_MODULE)
+    foreach (MODULE IN LISTS PROJECT_MODULES_ENABLED)
+      message (STATUS "Configuring module ${MODULE}...")
+      set (PROJECT_IS_MODULE TRUE)
+      add_subdirectory ("${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}")
+      set (PROJECT_IS_MODULE FALSE)
+      message (STATUS "Configuring module ${MODULE}... - done")
+    endforeach ()
+  endif ()
+
   # build/install example application
+  #
+  # Do this after the software has been configured such that the examples could make
+  # use of the build targets added before.
   if (EXISTS "${PROJECT_EXAMPLE_DIR}" AND BUILD_EXAMPLE)
     add_subdirectory ("${PROJECT_EXAMPLE_DIR}")
   endif ()
 
   # build/install package documentation
+  #
+  # This must be last as it documents all the other parts which should be configured by then.
   if (EXISTS "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
     add_subdirectory ("${PROJECT_DOC_DIR}")
   endif ()

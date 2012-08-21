@@ -137,7 +137,7 @@ if (NOT @PROJECT_IS_MODULE@)
     endif ()
     # include configuration files of modules
     set (${${NS}MODULE}_CONFIG_PREFIX "${NS}${MODULE}_")
-    include ("@MODULES_DIR_CONFIG@/${${NS}MODULE}/${${NS}MODULE}Config.cmake")
+    include ("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_PACKAGE@${${NS}MODULE}Config.cmake")
     unset (${${NS}MODULE}_CONFIG_PREFIX)
     # append include directories
     if (${NS}${${NS}MODULE}_INCLUDE_DIRS)

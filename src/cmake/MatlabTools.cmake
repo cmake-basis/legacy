@@ -632,7 +632,7 @@ function (basis_add_mex_file TARGET_NAME)
   basis_configure_sources (SOURCES ${SOURCES})
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
+    if (NOT TARGET ${BASIS_CxxUtilities_LIBRARY})
       message (FATAL_ERROR "Target ${TARGET_UID} makes use of the BASIS C++ utilities"
                            " but BASIS was build without C++ utilities enabled."
                            " Either specify the option NO_BASIS_UTILITIES, set the global"
@@ -643,7 +643,7 @@ function (basis_add_mex_file TARGET_NAME)
     # add project-specific library target if not present yet
     basis_add_utilities_library (BASIS_UTILITIES_TARGET)
     # non-project specific and project-specific utilities
-    list (APPEND LINK_DEPENDS ${BASIS_CXX_UTILITIES_LIBRARY} ${BASIS_UTILITIES_TARGET})
+    list (APPEND LINK_DEPENDS ${BASIS_CxxUtilities_LIBRARY} ${BASIS_UTILITIES_TARGET})
   endif ()
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})

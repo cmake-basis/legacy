@@ -1698,7 +1698,7 @@ function (basis_add_executable_target TARGET_NAME)
   _set_target_properties (${TARGET_UID} PROPERTIES RUNTIME_INSTALL_DIRECTORY "${ARGN_DESTINATION}")
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
+    if (NOT TARGET ${BASIS_CxxUtilities_LIBRARY})
       message (FATAL_ERROR "Target ${TARGET_UID} seems to make use of the BASIS C++"
                            " utilities but BASIS was built without C++ utilities enabled."
                            " Either specify the option NO_BASIS_UTILITIES, set the global"
@@ -1709,7 +1709,7 @@ function (basis_add_executable_target TARGET_NAME)
     # add project-specific library target if not present yet
     basis_add_utilities_library (BASIS_UTILITIES_TARGET)
     # non-project specific utilities build as part of BASIS
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
+    basis_target_link_libraries (${TARGET_UID} ${BASIS_CxxUtilities_LIBRARY})
     # project-specific utilities build as part of this project
     basis_target_link_libraries (${TARGET_UID} ${BASIS_UTILITIES_TARGET})
   endif ()
@@ -1995,7 +1995,7 @@ function (basis_add_library_target TARGET_NAME)
   )
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
+    if (NOT TARGET ${BASIS_CxxUtilities_LIBRARY})
       message (FATAL_ERROR "Target ${TARGET_UID} makes use of the BASIS C++ utilities"
                            " but BASIS was build without C++ utilities enabled."
                            " Either specify the option NO_BASIS_UTILITIES, set the global"
@@ -2006,7 +2006,7 @@ function (basis_add_library_target TARGET_NAME)
     # add project-specific library target if not present yet
     basis_add_utilities_library (BASIS_UTILITIES_TARGET)
     # non-project specific utilities build as part of BASIS
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
+    basis_target_link_libraries (${TARGET_UID} ${BASIS_CxxUtilities_LIBRARY})
     # project-specific utilities build as part of this project
     basis_target_link_libraries (${TARGET_UID} ${BASIS_UTILITIES_TARGET})
   endif ()
@@ -3124,11 +3124,11 @@ function (basis_add_init_py_target)
   foreach (DIR IN LISTS DIRS)
     list (FIND EXCLUDE "${DIR}" IDX)
     if (IDX EQUAL -1)
-      set (C "${C}configure_file (\"${BASIS_PYTHON_TEMPLATES_DIR}/__init__.py.in\" \"${DIR}/__init__.py\" @ONLY)\n")
+      set (C "${C}configure_file (\"${BASIS_MODULE_PATH}/__init__.py.in\" \"${DIR}/__init__.py\" @ONLY)\n")
       list (APPEND OUTPUT_FILES "${DIR}/__init__.py")
     endif ()
   endforeach ()
-  set (C "${C}configure_file (\"${BASIS_PYTHON_TEMPLATES_DIR}/__init__.py.in\" \"${BUILD_DIR}/__init__.py\" @ONLY)\n")
+  set (C "${C}configure_file (\"${BASIS_MODULE_PATH}/__init__.py.in\" \"${BUILD_DIR}/__init__.py\" @ONLY)\n")
   list (APPEND OUTPUT_FILES "${BUILD_DIR}/__init__.py")
   # write/update build script
   set (BUILD_SCRIPT "${BUILD_DIR}/build.cmake")
@@ -3146,7 +3146,7 @@ function (basis_add_init_py_target)
   add_custom_command (
     OUTPUT          ${OUTPUT_FILES}
     COMMAND         "${CMAKE_COMMAND}" -P "${BUILD_SCRIPT}"
-    MAIN_DEPENDENCY "${BASIS_PYTHON_TEMPLATES_DIR}/__init__.py.in"
+    MAIN_DEPENDENCY "${BASIS_MODULE_PATH}/__init__.py.in"
     COMMENT         "Building PYTHON modules */__init__.py..."
   )
   # add custom target which triggers execution of build script

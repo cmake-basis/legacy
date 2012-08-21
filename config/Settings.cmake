@@ -22,6 +22,15 @@
 # @ingroup BasisSettings
 ##############################################################################
 
+# The modules depend especially on auxiliary testing targets of the core, i.e.,
+# the top-level project of BASIS itself. Therefore, configure/build this
+# project before the modules.
+set (BASIS_BUILD_MODULES_FIRST FALSE)
+
+# the following variable would be set by the BASISConfig.cmake file if this
+# project would not be BASIS itself
+set (BASIS_MODULES_ENABLED "${PROJECT_MODULES_ENABLED}")
+
 # ============================================================================
 # directories
 # ============================================================================
@@ -41,28 +50,6 @@ set (INSTALL_BASH_TEMPLATES_DIR   "${INSTALL_SHARE_DIR}/utilities")
 set (SPHINX_EXTENSIONS_PREFIX "basis/sphinx/ext")
 # installation directory of Sphinx themes
 set (INSTALL_SPHINX_THEMES_DIR "${INSTALL_SHARE_DIR}/sphinx-themes")
-
-# ============================================================================
-# project template
-# ============================================================================
-
-option (BUILD_PROJECT_TOOL "Request build of the basisproject command-line tool." ON)
-
-set (_DOC "Request installation of deprecated project templates."
-          " Required by basisproject to upgrade a project which was"
-          " instantiated from an older template.")
-basis_list_to_string (_DOC ${_DOC})
-
-if (BUILD_PROJECT_TOOL)
-  option (INSTALL_DEPRECATED_TEMPLATES "${_DOC}" OFF)
-else ()
-  set (INSTALL_DEPRECATED_TEMPLATES OFF CACHE BOOL "${_DOC}" FORCE)
-endif ()
-mark_as_advanced (INSTALL_DEPRECATED_TEMPLATES)
-unset (_DOC)
-
-# installation directory of project template files
-set (INSTALL_TEMPLATE_DIR "${INSTALL_SHARE_DIR}/template")
 
 # ============================================================================
 # utilities
@@ -112,3 +99,18 @@ set (BASIS_PERL_UTILITIES_LIBRARY   "${NS}utilities_perl")
 set (BASIS_BASH_UTILITIES_LIBRARY   "${NS}utilities_bash")
 set (BASIS_TEST_LIBRARY             "${NS}testlib")
 set (BASIS_TEST_MAIN_LIBRARY        "${NS}testmain")
+
+# ============================================================================
+# testing
+# ============================================================================
+
+# BASIS used by tests to build test projects
+set (TESTING_BASIS_DIR "${PROJECT_BINARY_DIR}")
+
+# compile flags for test projects, e.g., utilities tests
+set (TESTING_BUILD_TYPE          "${CMAKE_BUILD_TYPE}")
+set (TESTING_C_FLAGS             "${CMAKE_C_FLAGS}")
+set (TESTING_CXX_FLAGS           "${CMAKE_CXX_FLAGS}")
+set (TESTING_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}")
+set (TESTING_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
+set (TESTING_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS}")
