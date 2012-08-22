@@ -868,6 +868,10 @@ endfunction ()
 #     <td>Title for LaTeX/PDF output. Defaults to title of <tt>index.rst</tt>.</td>
 #   </tr>
 #   <tr>
+#     @tp @b LATEX_LOGO file @endtp
+#     <td>Logo to display above title in generated LaTeX/PDF output.</td>
+#   </tr>
+#   <tr>
 #     @tp @b LATEX_DOCUMENT_CLASS howto|manual @endtp
 #     <td>Document class to use by @c latex builder.</td>
 #   </tr>
@@ -905,7 +909,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
     SOURCE_DIRECTORY OUTPUT_DIRECTORY OUTPUT_NAME TAG
     COPYRIGHT MASTER_DOC
     HTML_TITLE HTML_THEME HTML_LOGO HTML_THEME_PATH
-    LATEX_TITLE LATEX_DOCUMENT_CLASS LATEX_SHOW_URLS LATEX_SHOW_PAGEREFS
+    LATEX_TITLE LATEX_LOGO LATEX_DOCUMENT_CLASS LATEX_SHOW_URLS LATEX_SHOW_PAGEREFS
     MAN_SECTION
     DOXYLINK_URL DOXYLINK_PREFIX DOXYLINK_SUFFIX
   )
@@ -913,6 +917,16 @@ function (basis_add_sphinx_doc TARGET_NAME)
   # this is necessary b/c all unparsed arguments are considered to be options
   # of the used HTML theme
   CMAKE_PARSE_ARGUMENTS (SPHINX "EXCLUDE_FROM_DOC" "${ONE_ARG_OPTIONS}" "" ${ARGN})
+  # source directory
+  if (NOT SPHINX_SOURCE_DIRECTORY)
+    if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}")
+      set (SPHINX_SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}")
+    else ()
+      set (SPHINX_SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    endif ()
+  elseif (NOT IS_ABSOLUTE "${SPHINX_SOURCE_DIRECTORY}")
+    get_filename_component (SPHINX_SOURCE_DIRECTORY "${SPHINX_SOURCE_DIRECTORY}" ABSOLUTE)
+  endif ()
   # component
   if (NOT SPHINX_COMPONENT)
     set (SPHINX_COMPONENT "${BASIS_RUNTIME_COMPONENT}")
@@ -1000,9 +1014,15 @@ function (basis_add_sphinx_doc TARGET_NAME)
       list (APPEND SPHINX_HTML_SIDEBARS "'${ARG}'")
     # TEMPLATES_PATH
     elseif (OPTION_NAME MATCHES "^templates_path$")
+      if (NOT IS_ABSOLUTE "${ARG}")
+        set (ARG "${SPHINX_SOURCE_DIRECTORY}/${ARG}")
+      endif ()
       list (APPEND SPHINX_TEMPLATES_PATH "'${ARG}'")
     # HTML_STATIC_PATH
     elseif (OPTION_NAME MATCHES "^html_static_path$")
+      if (NOT IS_ABSOLUTE "${ARG}")
+        set (ARG "${SPHINX_SOURCE_DIRECTORY}/${ARG}")
+      endif ()
       list (APPEND SPHINX_HTML_STATIC_PATH "'${ARG}'")
     # EXCLUDE_PATTERNS
     elseif (OPTION_NAME MATCHES "^exclude_patterns$")
@@ -1050,16 +1070,6 @@ function (basis_add_sphinx_doc TARGET_NAME)
     endif ()
   else ()
     list (GET SPHINX_BUILDERS 0 SPHINX_DEFAULT_BUILDER)
-  endif ()
-  # source directory
-  if (NOT SPHINX_SOURCE_DIRECTORY)
-    if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}")
-      set (SPHINX_SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}")
-    else ()
-      set (SPHINX_SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-    endif ()
-  elseif (NOT IS_ABSOLUTE "${SPHINX_SOURCE_DIRECTORY}")
-    get_filename_component (SPHINX_SOURCE_DIRECTORY "${SPHINX_SOURCE_DIRECTORY}" ABSOLUTE)
   endif ()
   # output directories
   if (NOT SPHINX_OUTPUT_NAME)
@@ -1230,6 +1240,22 @@ function (basis_add_sphinx_doc TARGET_NAME)
   else ()
     set (SPHINX_LATEX_SHOW_PAGEREFS "False")
   endif ()
+  # turn html_logo and latex_logo into absolute file path
+  foreach (L IN ITEMS HTML LATEX)
+    if (SPHINX_${L}_LOGO AND NOT IS_ABSOLUTE "${SPHINX_${L}_LOGO}")
+      if (EXISTS "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}_LOGO}")
+        set (SPHINX_${L}_LOGO "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}_LOGO}")
+      else ()
+        foreach (D IN LISTS SPHINX_${L}_STATIC_PATH)
+          string (REGEX REPLACE "^'|'$" "" D "${D}")
+          if (EXISTS "${D}/${SPHINX_${L}_LOGO}")
+            set (SPHINX_${L}_LOGO "${D}/${SPHINX_${L}_LOGO}")
+            break ()
+          endif ()
+        endforeach ()
+      endif ()
+    endif ()
+  endforeach ()
   # turn CMake lists into Python lists
   basis_list_to_delimited_string (SPHINX_EXTENSIONS         ", " NOAUTOQUOTE ${SPHINX_EXTENSIONS})
   basis_list_to_delimited_string (SPHINX_HTML_THEME_OPTIONS ", " NOAUTOQUOTE ${SPHINX_HTML_THEME_OPTIONS})
