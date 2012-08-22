@@ -527,8 +527,9 @@ endfunction ()
 #         (default: none)</td>
 #   </tr>
 #   <tr>
-#     @tp @b PREFIX path @endtp
-#     <td>Output prefix of build MEX-file such as package name (including leading +).</td>
+#     @tp @b PREFIX prefix @endtp
+#     <td>Output prefix of build MEX-file such as package name
+#         (the prefix must include the leading + and trailing /).</td>
 #   </tr>
 # </table>
 #
@@ -1367,6 +1368,7 @@ function (basis_build_mcc_target TARGET_UID)
                          " Have you accidentally modified this read-only property or"
                          " is your (newer) CMake version not compatible with BASIS?")
   endif ()
+  list (GET SOURCES 0 MAIN_SOURCE) # entry point
   if (NOT RUNTIME_COMPONENT)
     set (RUNTIME_COMPONENT "Unspecified")
   endif ()
@@ -1401,10 +1403,9 @@ function (basis_build_mcc_target TARGET_UID)
   if (EXECUTABLE AND NOT COMPILE)
     # used to recognize source files which are located in the build tree
     basis_sanitize_for_regex (BINARY_CODE_DIR_RE "${BINARY_CODE_DIR}")
-    # main source file and MATLAB function
-    list (GET SOURCES 0 MAIN_SOURCE_FILE)
-    get_filename_component (MATLAB_COMMAND "${MAIN_SOURCE_FILE}" NAME_WE)
-    get_filename_component (SOURCE_DIR     "${MAIN_SOURCE_FILE}" PATH)
+    # main MATLAB function and search path
+    get_filename_component (MATLAB_COMMAND "${MAIN_SOURCE}" NAME_WE)
+    get_filename_component (SOURCE_DIR     "${MAIN_SOURCE}" PATH)
     get_filename_component (SOURCE_PACKAGE "${SOURCE_DIR}"       NAME)
     if (SOURCE_PACKAGE MATCHES "^\\+")
       get_filename_component (SOURCE_DIR "${SOURCE_DIR}" PATH)
@@ -1527,7 +1528,7 @@ function (basis_build_mcc_target TARGET_UID)
     add_custom_command (
       OUTPUT          ${BUILD_OUTPUT}
       # rebuild when input sources were modified
-      MAIN_DEPENDENCY "${MAIN_SOURCE_FILE}"
+      MAIN_DEPENDENCY "${MAIN_SOURCE}"
       DEPENDS         "${BUILD_SCRIPT}" "${CMAKE_CURRENT_LIST_FILE}" ${DEPENDS}
       # invoke MATLAB Compiler in either MATLAB or standalone mode
       # wrapping command in CMake execute_process () command allows for inspection
@@ -1574,30 +1575,37 @@ function (basis_build_mcc_target TARGET_UID)
       endif ()
       list (APPEND LINK_LIBS "${LIB_FILE}")
     endforeach ()
+    # MATLAB search path
+    foreach (P ${SOURCES})
+      get_filename_component (P "${P}" PATH)
+      list (APPEND MATLABPATH "${P}")
+    endforeach ()
+    list (APPEND MATLABPATH ${BASIS_INCLUDE_DIRECTORIES})
     # MATLAB Compiler arguments
     string (REGEX REPLACE " +" ";" MCC_ARGS "${COMPILE_FLAGS}") # user specified flags
-    foreach (INCLUDE_PATH ${BASIS_INCLUDE_DIRECTORIES})         # add directories added via
-      list (FIND MCC_ARGS "${INCLUDE_PATH}" IDX)                # basis_include_directories ()
-      if (EXISTS "${INCLUDE_PATH}" AND IDX EQUAL -1)            # function to search path
-        list (APPEND MCC_ARGS "-I" "${INCLUDE_PATH}")
+    foreach (P IN LISTS MATLABPATH)                             # search path, -I options
+      string (REGEX REPLACE "/(\\+|@).*$" "" P "${P}")          # remove package/class subdirectories
+      list (FIND MCC_ARGS "${P}" IDX)                           # skip if already added
+      if (IDX GREATER 0)
+        math (EXPR IDX "${IDX} - 1")
+        list (GET MCC_ARGS ${IDX} OPT)
+        if (NOT OPT MATCHES "^-I$")
+          set (IDX -1)
+        endif ()
+      endif ()
+      if (EXISTS "${P}" AND IDX EQUAL -1)
+        list (APPEND MCC_ARGS -I "${P}")
       endif ()
     endforeach ()
-    list (FIND BASIS_INCLUDE_DIRECTORIES "${SOURCE_DIRECTORY}" IDX)
-    if (IDX EQUAL -1)
-      # add current source directory to search path,
-      # needed for build in MATLAB mode as working directory
-      # differs from the current source directory then
-      list (APPEND MCC_ARGS "-I" "${SOURCE_DIRECTORY}")
-    endif ()
     if (LIBRARY)
-      list (APPEND MCC_ARGS "-l")                       # build library
-    else ()
-      list (APPEND MCC_ARGS "-m")                       # build standalone application
+      list (APPEND MCC_ARGS -l)                                 # build library
+    else ()                                                     #      or
+      list (APPEND MCC_ARGS -m)                                 # build standalone application
     endif ()
-    list (APPEND MCC_ARGS "-d" "${BUILD_DIR}")          # output directory
-    list (APPEND MCC_ARGS "-o" "${OUTPUT_NAME}")        # output name
-    list (APPEND MCC_ARGS ${SOURCES})                   # source (M-)files
-    foreach (LIB ${LINK_LIBS})                          # link libraries, e.g. MEX-files
+    list (APPEND MCC_ARGS -d "${BUILD_DIR}")                    # (temp) output directory
+    list (APPEND MCC_ARGS -o "${OUTPUT_NAME}")                  # output name
+    list (APPEND MCC_ARGS ${MAIN_SOURCE})                       # main source M-file
+    foreach (LIB ${LINK_LIBS})                                  # link libraries, e.g. MEX-files
       list (FIND MCC_ARGS "${LIB}" IDX)
       if (LIB AND IDX EQUAL -1)
         list (APPEND MCC_ARGS "-a" "${LIB}")
@@ -1647,7 +1655,8 @@ function (basis_build_mcc_target TARGET_UID)
     add_custom_command (
       OUTPUT ${BUILD_OUTPUT}
       # rebuild when input sources were modified
-      DEPENDS ${DEPENDS}
+      MAIN_DEPENDENCY "${MAIN_SOURCE}"
+      DEPENDS         ${DEPENDS}
       # invoke MATLAB Compiler in either MATLAB or standalone mode
       # wrapping command in CMake execute_process() command allows for inspection
       # of command output for error messages and specification of timeout

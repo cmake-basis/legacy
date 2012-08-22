@@ -2861,7 +2861,7 @@ function (basis_build_script_library TARGET_UID)
       LIBRARY_OUTPUT_DIRECTORY   # output directory for built modules
       LIBRARY_INSTALL_DIRECTORY  # installation directory for built modules
       LIBRARY_COMPONENT          # installation component
-      PREFIX                     # common path prefix for modules
+      PREFIX                     # common prefix for modules
       COMPILE_DEFINITIONS        # CMake code to set variables used to configure modules
       COMPILE_DEFINITIONS_FILE   # script configuration file
       LINK_DEPENDS               # paths of script modules/packages used by the modules of this library
@@ -2872,7 +2872,6 @@ function (basis_build_script_library TARGET_UID)
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
   endforeach ()
-  string (REGEX REPLACE "/$" "" PREFIX "${PREFIX}")
   if (NOT BASIS_TYPE MATCHES "^SCRIPT_LIBRARY$")
     message (FATAL_ERROR "Target ${TARGET_UID}: Unexpected BASIS_TYPE: ${BASIS_TYPE}")
   endif ()
@@ -2926,7 +2925,7 @@ function (basis_build_script_library TARGET_UID)
     basis_get_source_target_name (BUILD_SCRIPT_NAME "build_${S}")
     # arguments of build script
     if (PREFIX)
-      set (S "${PREFIX}/${S}")
+      set (S "${PREFIX}${S}")
     endif ()
     set (OUTPUT_FILE    "${LIBRARY_OUTPUT_DIRECTORY}/${S}")
     if (LIBRARY_INSTALL_DIRECTORY)
@@ -3028,24 +3027,25 @@ function (basis_add_init_py_target)
   basis_sanitize_for_regex (BINARY_JYTHON_LIBRARY_DIR_RE  "${BINARY_JYTHON_LIBRARY_DIR}")
   basis_sanitize_for_regex (TESTING_JYTHON_LIBRARY_DIR_RE "${TESTING_JYTHON_LIBRARY_DIR}")
   basis_sanitize_for_regex (INSTALL_JYTHON_LIBRARY_DIR_RE "${INSTALL_JYTHON_LIBRARY_DIR}")
-  # collect build tree directories requiring a __init__.py file
+  # collect directories requiring a __init__.py file
   set (DEPENDENTS)      # targets which generate Python modules and depend on _initpy
   set (DIRS)            # directories for which to generate a __init__.py file
   set (EXCLUDE)         # exclude these directories
-  set (INSTALL_EXCLUDE) # exclude these directories on installation
+  set (INSTALL_EXCLUDE) # exclude these directories upon installation
   set (COMPONENTS)      # installation components
   basis_get_project_property (TARGETS PROPERTY TARGETS)
   foreach (TARGET_UID IN LISTS TARGETS)
     get_target_property (BASIS_TYPE ${TARGET_UID} BASIS_TYPE)
     get_target_property (LANGUAGE   ${TARGET_UID} LANGUAGE)
     if (BASIS_TYPE MATCHES "MODULE|LIBRARY" AND LANGUAGE MATCHES "^[JP]YTHON$")
-      # get absolute path of build Python modules
+      # get path of built Python modules
       basis_get_target_location (LOCATION         ${TARGET_UID} ABSOLUTE)
       basis_get_target_location (INSTALL_LOCATION ${TARGET_UID} POST_INSTALL_RELATIVE)
       if (BASIS_TYPE MATCHES "^SCRIPT_LIBRARY$")
         get_target_property (PREFIX           ${TARGET_UID} PREFIX)
         get_target_property (SOURCES          ${TARGET_UID} SOURCES)
         get_target_property (SOURCE_DIRECTORY ${TARGET_UID} SOURCE_DIRECTORY)
+        string (REGEX REPLACE "/+$" "" PREFIX "${PREFIX}")
         if (PREFIX)
           set (LOCATION         "${LOCATION}/${PREFIX}")
           set (INSTALL_LOCATION "${INSTALL_LOCATION}/${PREFIX}")
