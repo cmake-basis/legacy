@@ -1366,6 +1366,15 @@ endmacro ()
 # @ingroup CMakeAPI
 macro (basis_project_impl)
   # --------------------------------------------------------------------------
+  # set CMAKE_INSTALL_PREFIX to cached invalid value to have
+  # basis_initialize_settings() set it to BASIS's default rather than CMake's
+  # default even if this is not the first configure run because a previous
+  # one was interrupted by an error such as a requird package that was not found
+  if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set (CMAKE_INSTALL_PREFIX "" CACHE INTERNAL "Installation prefix." FORCE)
+  endif ()
+
+  # --------------------------------------------------------------------------
   # initialize project
   basis_project_initialize ()
 
