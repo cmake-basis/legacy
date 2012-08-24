@@ -1998,7 +1998,12 @@ endfunction ()
 #     @tp @b LINK_DEPENDS dep1 [dep2...] @endtp
 #     <td>List of "link" dependencies, i.e., modules and script/module libraries
 #         required by this script. For executable scripts, the paths to these
-#         modules/packages is added to the module search path.</td>
+#         modules/packages is added to the module search path. If the prefix
+#         "relative " is given before a file path, it is made relative to the
+#         output/installation directory of the script file. All given input paths
+#         must be absolute, however, as the relative location depends on
+#         whether the script will be installed, i.e., the @c DESTINATION
+#         is specified, or not.</td>
 #   </tr>
 # </table>
 function (basis_configure_script INPUT OUTPUT)
@@ -2085,8 +2090,14 @@ function (basis_configure_script INPUT OUTPUT)
           if (DIR MATCHES "\\.(py|class)$")
             get_filename_component (DIR "${DIR}" PATH)
           endif ()
-          basis_get_relative_path (DIR "${__DIR__}" "${DIR}")
-          set (PYTHON_CODE "${PYTHON_CODE}; sys.path.insert(0, os.path.realpath(os.path.join(__dir__, '${DIR}')))")
+          if (DIR MATCHES "^relative +(.*)$")
+            basis_get_relative_path (DIR "${__DIR__}" "${CMAKE_MATCH_1}")
+          endif ()
+          if (IS_ABSOLUTE "${DIR}")
+            set (PYTHON_CODE "${PYTHON_CODE}; sys.path.insert(0, os.path.realpath('${DIR}'))")
+          else ()
+            set (PYTHON_CODE "${PYTHON_CODE}; sys.path.insert(0, os.path.realpath(os.path.join(__dir__, '${DIR}')))")
+          endif ()
         endforeach ()
         set (SCRIPT "${PYTHON_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
@@ -2098,8 +2109,14 @@ function (basis_configure_script INPUT OUTPUT)
           if (DIR MATCHES "\\.pm$")
             get_filename_component (DIR "${DIR}" PATH)
           endif ()
-          basis_get_relative_path (DIR "${__DIR__}" "${DIR}")
-          set (PERL_CODE "${PERL_CODE} use lib dirname(realpath(__FILE__)) . '/${DIR}';")
+          if (DIR MATCHES "^relative +(.*)$")
+            basis_get_relative_path (DIR "${__DIR__}" "${CMAKE_MATCH_1}")
+          endif ()
+          if (IS_ABSOLUTE "${DIR}")
+            set (PERL_CODE "${PERL_CODE} use lib '${DIR}';")
+          else ()
+            set (PERL_CODE "${PERL_CODE} use lib dirname(realpath(__FILE__)) . '/${DIR}';")
+          endif ()
         endforeach ()
         set (SCRIPT "${PERL_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
@@ -2133,8 +2150,14 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
         if (DIR MATCHES "\\.sh$")
           get_filename_component (DIR "${DIR}" PATH)
         endif ()
-        basis_get_relative_path (DIR "${__DIR__}" "${DIR}")
-        list (APPEND BASHPATH "$__DIR__/${DIR}")
+        if (DIR MATCHES "^relative +(.*)$")
+          basis_get_relative_path (DIR "${__DIR__}" "${DIR}")
+        endif ()
+        if (IS_ABSOLUTE "${DIR}")
+          list (APPEND BASHPATH "${DIR}")
+        else ()
+          list (APPEND BASHPATH "$__DIR__/${DIR}")
+        endif ()
       endforeach ()
       if (BASHPATH)
         list (REMOVE_DUPLICATES BASHPATH)
