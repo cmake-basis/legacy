@@ -43,14 +43,6 @@
   <div class="related">
     <h3>{{ _('Navigation') }}</h3>
     <ul>
-      {%- if theme_indexlink %}
-        {%- if pathto('index') == '#' %}
-          {%- set parent_path = '..' %}
-        {%- else %}
-          {%- set parent_path = pathto('index').replace('index.html', '..') %}
-        {%- endif %}
-        <li class="right"><a href="{{ parent_path }}" title="{{ theme_indexlink|striptags|e }}">{{ theme_indexlink }}</a></li>
-      {%- endif %}
       {%- block rootrellink %}
         {%- set iscurrent = pathto(master_doc) == "#" or (parents and pathto(master_doc) == parents[0].link|e) %}
         <li><a {% if iscurrent %}class="current"{% endif %} href="{{ pathto(master_doc) }}" {{ accesskey("H") }}>home</a>{{ reldelim2 }}</li>

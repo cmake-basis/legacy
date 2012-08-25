@@ -177,28 +177,15 @@ tt.xref {
     border: 0;
 }
 
-tt.download {
-    font-weight: normal;
-    font-size: 1.1em;
-}
-
 a tt {
     background-color: transparent;
-    font-weight: normal;
+    font-weight: bold;
     border: 0;
-    color: #28428F;
-}
-
-a tt.download {
-    background-color: transparent;
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-    font-weight: normal;
-    border: 0;
-    color: #28428F;
+    color: #CA7900;
 }
 
 a tt:hover {
-    color: #CA7900;
+    color: #2491CF;
 }
 
 dl {
@@ -667,8 +654,4 @@ ul.keywordmatches li.goodmatch a {
 
 .figure {
     margin: 2em;
-}
-
-.apilink {
-    font-size: 75%;
 }

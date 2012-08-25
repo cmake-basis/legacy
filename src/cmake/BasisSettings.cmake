@@ -413,21 +413,13 @@ set (BASIS_RUNTIME_COMPONENT "Runtime")
 #         as dependency of an executable.
 set (BASIS_NO_BASIS_UTILITIES FALSE)
 
-## @brief Disable use of the revision information obtained from the revision
-#         control software such as Subversion.
-#
-# If this option is @c TRUE, the revision information is not included in the
-# @c PROJECT_RELEASE information.
-option (BASIS_NO_REVISION_INFO "Disable use of the revision information of the revision control software." FALSE)
-mark_as_advanced (BASIS_NO_REVISION_INFO)
-
 ## @brief Enable compilation of scripts if supported by the language.
 #
 # In particular, Python modules are compiled if this option is enabled and
 # only the compiled modules are installed.
 #
 # @sa basis_add_script()
-option (BASIS_COMPILE_SCRIPTS "Enable compilation of scripts if supported by the language." FALSE)
+option (BASIS_COMPILE_SCRIPTS FALSE)
 mark_as_advanced (BASIS_COMPILE_SCRIPTS)
 
 ## @brief Script used to execute a process in CMake script mode.

@@ -1,0 +1,33 @@
+/**
+@defgroup BasisModules BASIS CMake
+@brief    BASIS CMake modules.
+*/
+
+/**
+@defgroup BasisSettings BASIS Settings
+@brief    CMake modules defining settings for BASIS.
+
+@ingroup BasisModules
+*/
+
+/**
+@defgroup BasisConfig Package Configuration
+@brief    CMake package configuration.
+
+@ingroup BasisModules
+*/
+
+/**
+@defgroup BasisDirectories Project Directories
+@brief    CMake variables of project directories.
+          See @FilesystemHierarchyStandardPageRef@ of BASIS.
+
+@ingroup BasisModules
+*/
+
+/**
+@defgroup BasisScriptConfig Script Configuration
+@brief    Script configuration as used for the @BuildOfScriptTargetsPageRef@.
+
+@ingroup BasisModules
+*/

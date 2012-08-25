@@ -39,10 +39,6 @@ namespace basis
 {
 
 
-/// @addtogroup BasisCxxUtilities
-/// @{
-
-
 // ===========================================================================
 // constants
 // ===========================================================================
@@ -602,10 +598,6 @@ std::string get_executable_directory();
  *         or empty string on error.
  */
 std::string get_executable_name();
-
-
-/// @}
-// Doxygen group
 
 
 } // namespace basis

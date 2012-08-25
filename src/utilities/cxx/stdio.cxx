@@ -27,13 +27,6 @@
 using namespace std;
 
 
-namespace sbia
-{
-
-namespace basis
-{
-
-
 // ---------------------------------------------------------------------------
 void get_terminal_size(int& lines, int& columns)
 {
@@ -130,8 +123,3 @@ ostream& print_wrapped(ostream&      os,
 
     return os;
 }
-
-
-} // namespace basis
-
-} // namespace sbia
