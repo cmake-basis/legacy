@@ -1663,6 +1663,48 @@ function (basis_get_compiled_file CFILE SOURCE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
+## @brief Get file path of Jython file compiled from the given Python module.
+#
+# Python modules are also compiled using Jython. This macro returns the file
+# path of the compiled Jython file in the build tree which corresponds to the
+# specified Python module.
+#
+# @param [out] CFILE  Path of corresponding compiled Jython file.
+# @param [in]  MODULE Path of input Python module in build tree.
+macro (basis_get_compiled_jython_file_of_python_module CFILE MODULE)
+  if (BINARY_PYTHON_LIBRARY_DIR AND BINARY_JYTHON_LIBRARY_DIR)
+    file (RELATIVE_PATH _GCJFOPM_REL "${BINARY_PYTHON_LIBRARY_DIR}" "${MODULE}")
+  else ()
+    set (_GCJFOPM_REL)
+  endif ()
+  if (NOT _GCJFOPM_REL MATCHES "^$|^\\.\\./")
+    basis_get_compiled_file (${CFILE} "${BINARY_JYTHON_LIBRARY_DIR}/${_GCJFOPM_REL}" JYTHON)
+  else ()
+    basis_get_compiled_file (${CFILE} "${MODULE}" JYTHON)
+  endif ()
+  unset (_GCJFOPM_REL)
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Whether to compile Python modules for Jython interpreter.
+#
+# This macro returns a boolean value stating whether Python modules shall also
+# be compiled for use by Jython interpreter if BASIS_COMPILE_SCRIPTS is ON.
+#
+# @param [out] FLAG Set to either TRUE or FALSE depending on whether Python
+#                   modules shall be compiled using Jython or not.
+macro (basis_compile_python_modules_for_jython FLAG)
+  if (BASIS_COMPILE_SCRIPTS AND JYTHON_EXECUTABLE)
+    set (${FLAG} TRUE)
+  else ()
+    set (${FLAG} FALSE)
+  endif ()
+  if (DEFINED USE_JythonInterp AND NOT USE_JythonInterp)
+    set (${FLAG} FALSE)
+  endif ()
+endmacro ()
+
+# ----------------------------------------------------------------------------
 ## @brief Glob source files.
 #
 # This function gets a list of source files and globbing expressions, evaluates
@@ -2275,17 +2317,9 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
       if (ARGN_LANGUAGE MATCHES "PYTHON" AND PYTHON_EXECUTABLE)
         basis_get_compiled_file (CFILE "${_OUTPUT_FILE}" PYTHON)
         execute_process (COMMAND "${PYTHON_EXECUTABLE}" -E -c "import py_compile; py_compile.compile('${_OUTPUT_FILE}', '${CFILE}')")
-        if (JYTHON_EXECUTABLE)
-          if (BINARY_PYTHON_LIBRARY_DIR AND BINARY_JYTHON_LIBRARY_DIR)
-            file (RELATIVE_PATH REL "${BINARY_PYTHON_LIBRARY_DIR}" "${_OUTPUT_FILE}")
-          else ()
-            set (REL)
-          endif ()
-          if (NOT REL MATCHES "^$|^\\.\\./")
-            basis_get_compiled_file (CFILE "${BINARY_JYTHON_LIBRARY_DIR}/${REL}" JYTHON)
-          else ()
-            basis_get_compiled_file (CFILE "${_OUTPUT_FILE}" JYTHON)
-          endif ()
+        basis_compile_python_modules_for_jython (RV)
+        if (RV)
+          basis_get_compiled_jython_file_of_python_module (CFILE "${_OUTPUT_FILE}")
           get_filename_component (CDIR "${CFILE}" PATH)
           file (MAKE_DIRECTORY "${CDIR}")
           execute_process (COMMAND "${JYTHON_EXECUTABLE}" -c "import py_compile; py_compile.compile('${_OUTPUT_FILE}', '${CFILE}')")
