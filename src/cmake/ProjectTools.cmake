@@ -330,16 +330,17 @@ endmacro ()
 # @param [in] ARGN Not used.
 #
 # @returns Nothing.
-macro (basis_buildtree_asserts)
+function (basis_buildtree_asserts)
   string (TOLOWER "${CMAKE_SOURCE_DIR}" SOURCE_ROOT)
   string (TOLOWER "${CMAKE_BINARY_DIR}" BUILD_ROOT)
-  if ("${BUILD_ROOT}" STREQUAL "${SOURCE_ROOT}")
+  basis_sanitize_for_regex (SOURCE_ROOT_RE "${SOURCE_ROOT}")
+  if (BUILD_ROOT MATCHES "^${SOURCE_ROOT_RE}$")
     message(FATAL_ERROR "This project should not be configured & build in the "
                         "source directory:\n"
                         "  ${CMAKE_SOURCE_DIR}\n"
                         "You must run CMake in a separate build directory.")
   endif()
-endmacro ()
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Ensure certain requirements on install tree.
@@ -351,21 +352,22 @@ endmacro ()
 # @param [in] ARGN Not used.
 #
 # @returns Nothing.
-macro (basis_installtree_asserts)
+function (basis_installtree_asserts)
   if (NOT IS_ABSOLUTE "${CMAKE_INSTALL_PREFIX}")
     message (FATAL_ERROR "CMAKE_INSTALL_PREFIX must be an absolute path!")
   endif ()
-  string (TOLOWER "${CMAKE_SOURCE_DIR}" SOURCE_ROOT)
-  string (TOLOWER "${CMAKE_BINARY_DIR}" BUILD_ROOT)
-  string (TOLOWER "${CMAKE_INSTALL_PREFIX}"   INSTALL_ROOT)
-  if ("${INSTALL_ROOT}" STREQUAL "${BUILD_ROOT}" OR "${INSTALL_ROOT}" STREQUAL "${SOURCE_ROOT}")
+  string (TOLOWER "${CMAKE_SOURCE_DIR}"     SOURCE_ROOT)
+  string (TOLOWER "${CMAKE_BINARY_DIR}"     BUILD_ROOT)
+  string (TOLOWER "${CMAKE_INSTALL_PREFIX}" INSTALL_ROOT)
+  basis_sanitize_for_regex (INSTALL_ROOT_RE "${INSTALL_ROOT}")
+  if (BUILD_ROOT MATCHES "^${INSTALL_ROOT_RE}$" OR SOURCE_ROOT MATCHES "^${INSTALL_ROOT_RE}$")
     message (FATAL_ERROR "The current CMAKE_INSTALL_PREFIX points at the source or build tree:\n"
                          "  ${CMAKE_INSTALL_PREFIX}\n"
                          "This is not permitted by this project. "
                          "Please choose another installation prefix."
     )
   endif()
-endmacro ()
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Initialize project modules.
@@ -395,7 +397,7 @@ macro (basis_project_modules)
       MODULE_INFO_FILES
     RELATIVE
       "${CMAKE_CURRENT_SOURCE_DIR}"
-      "${CMAKE_CURRENT_SOURCE_DIR}/modules/*/BasisProject.cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/modules/*/BasisProject.cmake"
   )
 
   # use function scope to avoid overwriting of this project's variables
@@ -408,11 +410,18 @@ macro (basis_project_modules)
       message (FATAL_ERROR "basis_module_info(): Missing basis_project() command in ${F}!")
     endif ()
     # remember dependencies
-    set (${PROJECT_NAME}_DEPENDS "${PROJECT_DEPENDS}" PARENT_SCOPE)
-    set (${PROJECT_NAME}_OPTIONAL_DEPENDS "${PROJECT_OPTINOAL_DEPENDS}" PARENT_SCOPE)
-    set (${PROJECT_NAME}_TEST_DEPENDS "${PROJECT_TEST_DEPENDS}" PARENT_SCOPE)
-    set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS "${PROJECT_OPTIONAL_TEST_DEPENDS}" PARENT_SCOPE)
-    set (${PROJECT_NAME}_DECLARED TRUE PARENT_SCOPE)
+    foreach (V IN ITEMS DEPENDS OPTIONAL_DEPENDS TEST_DEPENDS OPTIONAL_TEST_DEPENDS)
+      set (${V})
+      foreach (D ${PROJECT_${V}})
+        basis_tokenize_dependency ("${D}" PKG VER CMP)
+        list (APPEND ${V} "${PKG}")
+      endforeach ()
+    endforeach ()
+    set (${PROJECT_NAME}_DEPENDS               "${DEPENDS}"               PARENT_SCOPE)
+    set (${PROJECT_NAME}_OPTIONAL_DEPENDS      "${OPTIONAL_DEPENDS}"      PARENT_SCOPE)
+    set (${PROJECT_NAME}_TEST_DEPENDS          "${TEST_DEPENDS}"          PARENT_SCOPE)
+    set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS "${OPTIONAL_TEST_DEPENDS}" PARENT_SCOPE)
+    set (${PROJECT_NAME}_DECLARED              TRUE                       PARENT_SCOPE)
     # remember if module depends on Slicer - used by basis_find_packages()
     if (PROJECT_IS_SLICER_MODULE)
       foreach (_D IN LISTS BASIS_SLICER_METADATA_LIST)
@@ -1120,6 +1129,7 @@ macro (basis_project_initialize)
   basis_set_project_property (PROPERTY TARGETS "")
   # see basis_add_*() functions
   basis_set_project_property (PROPERTY EXPORT_TARGETS                "")
+  basis_set_project_property (PROPERTY INSTALL_EXPORT_TARGETS        "")
   basis_set_project_property (PROPERTY CUSTOM_EXPORT_TARGETS         "")
   basis_set_project_property (PROPERTY TEST_EXPORT_TARGETS           "")
   basis_set_project_property (PROPERTY PROJECT_USES_CXX_UTILITIES    FALSE)
