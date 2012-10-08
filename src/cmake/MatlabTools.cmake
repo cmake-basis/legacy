@@ -116,9 +116,27 @@ function (basis_get_full_matlab_version VERSION)
     set (VERSION "" PARENT_SCOPE)
     return ()
   endif ()
-  set (OUTPUT_FILE "${CMAKE_BINARY_DIR}/MatlabVersion.txt")
+  set (OUTPUT_FILE "${CMAKE_BINARY_DIR}/CMakeFiles/MatlabVersion.txt")
+  # read MATLAB version from existing output file
+  set (_MATLAB_VERSION)
+  if (EXISTS "${OUTPUT_FILE}")
+    file (READ "${OUTPUT_FILE}" LINES)
+    string (REGEX REPLACE "\n"    ";" LINES "${LINES}")
+    string (REGEX REPLACE "^;|;$" ""  LINES "${LINES}")
+    list (LENGTH LINES NLINES)
+    if (NLINES EQUAL 2)
+      list (GET LINES 0 _MATLAB_EXECUTABLE)
+      list (GET LINES 1 _MATLAB_VERSION)
+      basis_sanitize_for_regex (RE "${MATLAB_EXECUTABLE}")
+      if (NOT _MATLAB_EXECUTABLE MATCHES "^${RE}$")
+        set (_MATLAB_VERSION)
+      endif ()
+      unset (RE)
+    endif ()
+  endif ()
   # run matlab command to write return value of "version" command to text file
-  if (NOT EXISTS "${OUTPUT_FILE}")
+  if (NOT _MATLAB_VERSION)
+    message (STATUS "Determining MATLAB version...")
     set (CMD "${MATLAB_EXECUTABLE}" "-nodesktop" "-nosplash")
     if (WIN32)
       list (APPEND CMD "-automation")
@@ -127,11 +145,10 @@ function (basis_get_full_matlab_version VERSION)
     set (MATLAB_CMD
       "fid = fopen ('${OUTPUT_FILE}', 'w')"
       "if fid == -1, fprintf(2, '??? Error: Failed to open file ${OUTPUT_FILE} for writing!'), quit force, end"
-      "fprintf (fid, '%s', version)"
+      "fprintf (fid, '${MATLAB_EXECUTABLE}\\n%s\\n', version)"
       "fclose (fid)"
       "quit force"
     )
-    message (STATUS "Determining MATLAB version...")
     execute_process (
       COMMAND         ${CMD} "${MATLAB_CMD}"
       RESULT_VARIABLE RETVAL
@@ -144,12 +161,26 @@ function (basis_get_full_matlab_version VERSION)
       message (STATUS "Determining MATLAB version... - failed")
       return ()
     endif ()
-    message (STATUS "Determining MATLAB version... - done")
+    # read MATLAB version from text file
+    file (READ "${OUTPUT_FILE}" LINES)
+    string (REGEX REPLACE "\n" ";" LINES "${LINES}")
+    string (REGEX REPLACE "^;|;$" ""  LINES "${LINES}")
+    list (LENGTH LINES NLINES)
+    if (NLINES EQUAL 2)
+      list (GET LINES 1 _MATLAB_VERSION)
+    else ()
+      set (VERSION "" PARENT_SCOPE)
+      message (STATUS "Determining MATLAB version... - failed")
+      return ()
+    endif ()
+    if (BASIS_VERBOSE)
+      message (STATUS "Determining MATLAB version... - done: ${_MATLAB_VERSION}")
+    else ()
+      message (STATUS "Determining MATLAB version... - done")
+    endif ()
   endif ()
-  # read MATLAB version from text file
-  file (READ "${OUTPUT_FILE}" VERSION)
   # return
-  set (VERSION "${VERSION}" PARENT_SCOPE)
+  set (VERSION "${_MATLAB_VERSION}" PARENT_SCOPE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
