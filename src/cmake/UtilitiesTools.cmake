@@ -593,14 +593,9 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
       if (INSTALL_LOCATION AND (NOT IMPORTED OR BUNDLED))
         file (
           RELATIVE_PATH INSTALL_LOCATION_REL2${L}
-            "${CMAKE_INSTALL_PREFIX}/${INSTALL_${L}_DIR}"
+            "${CMAKE_INSTALL_PREFIX}/${INSTALL_${L}_DIR}/<package>"
             "${INSTALL_LOCATION}"
         )
-        if (NOT INSTALL_LOCATION_REL2${L})
-          set (INSTALL_LOCATION_REL2${L} "../..")
-        else ()
-          set (INSTALL_LOCATION_REL2${L} "../../${INSTALL_LOCATION_REL2${L}}")
-        endif ()
       else ()
         set (INSTALL_LOCATION_REL2${L} "${INSTALL_LOCATION}")
       endif ()
@@ -666,7 +661,7 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
       # hash entry
       set (SH_B "${SH_B}\n    _basis_executabletargetinfo_add '${ALIAS}'${S}LOCATION '${BUILD_LOCATION}'")
       if (INSTALL_LOCATION)
-        set (SH_I "${SH_I}\n    _basis_executabletargetinfo_add '${ALIAS}'${S}LOCATION '${INSTALL_LOCATION_REL2LIBRARY}'")
+        set (SH_I "${SH_I}\n    _basis_executabletargetinfo_add '${ALIAS}'${S}LOCATION '${INSTALL_LOCATION_REL2BASH_LIBRARY}'")
       else ()
         set (SH_I "${SH_I}\n    _basis_executabletargetinfo_add '${ALIAS}'${S}LOCATION ''")
       endif ()
