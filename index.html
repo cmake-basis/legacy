@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>BASIS by schuhschuh</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>BASIS</h1>
+        <p>CMake Build system And Software Implementation Standard</p>
+
+        <p class="view"><a href="https://github.com/schuhschuh/cmake-basis">View the Project on GitHub <small>schuhschuh/cmake-basis</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/schuhschuh/cmake-basis/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/schuhschuh/cmake-basis/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/schuhschuh/cmake-basis">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><strong>Section of Biomedical Image Analysis</strong><br>
+Department of Radiology<br>
+University of Pennsylvania<br>
+3600 Market Street, Suite 380<br>
+Philadelphia, PA 19104  </p>
+
+<p><strong>Web:</strong>   <a href="http://www.rad.upenn.edu/sbia/">http://www.rad.upenn.edu/sbia/</a><br><strong>Email:</strong> sbia-software at uphs.upenn.edu</p>
+
+<p>Copyright (c) 2011, 2012, University of Pennsylvania. All rights reserved.<br>
+See <a href="http://www.rad.upenn.edu/sbia/software/license.html">http://www.rad.upenn.edu/sbia/software/license.html</a> or <strong>COPYING</strong> file.</p>
+
+<h1>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>INTRODUCTION</h1>
+
+<p>The <strong>Build system And Software Implementation Standard (BASIS)</strong> software
+package documents and implements the lab's standard for project organization,
+software build, and software implementation and documentation. The BASIS
+project was started in February 2011. The initial idea was only to provide a
+project template based on CMake which would standardize the project directory
+structure as well as the software build. Besides, this project template
+would allow the developers to concentrate on the actual software rather than
+on deciding upon the directory structure, the directory names, and the basic
+CMake configuration. To provide an even more comprehensive basis for the
+software development at SBIA, the BASIS project goes, however, two steps
+further.</p>
+
+<p>In first place, BASIS has to be considered as a standard regarding the software
+development at SBIA which is documented as part of the <a href="http://www.rad.upenn.edu/sbia/software/basis/help.html">Software Manual</a>.
+Based on this standard, a <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/template.html">project template</a> is provided which implements
+the <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/fhs.html">Filesystem Hierarchy Standard</a>. This template is further accompanied by
+<a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisModules.html">CMake modules</a> which not only follow the Filesystem Hierarchy Standard,
+but also implement the build system standard as well as the standard on testing
+and packaging software developed at SBIA.</p>
+
+<p>The BASIS package moreover provides basic <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisUtilities.html">utility functions</a> for each
+supported programming language which implement certain aspects of the <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/implementation.html">software
+implementation standard</a> such as, for example, the calling conventions on
+how to execute subprocesses and the parsing of command-line arguments. Where
+possible, these utility implementations were adopted from other open source
+software projects and integrated with BASIS. For a more detailed overview of
+the BASIS package, see sections <strong>COMPONENTS</strong> and <strong>PACKAGE OVERVIEW</strong>.</p>
+
+<p>Every SBIA software project which was started after the first release of BASIS
+in November 2011 is required to built on top of BASIS, i.e., to instantiate the
+project template, utilize the provided CMake implementations and follow the
+software implementation standard. An extensive documentation is provided with
+BASIS to ease this task as much as possible. See section <strong>DOCUMENTATION</strong> for
+a summary of the available documentation.</p>
+
+<p>The BASIS package, when built and installed once on a target system on which
+other SBIA software is to be built, is used for the build of these dependent
+SBIA projects. Alternatively, if the package is not found, each SBIA project
+which is built on top of BASIS and implements the super-build feature,
+retrieves and builds a local copy using CMake's <a href="http://www.kitware.com/products/html/BuildingExternalProjectsWithCMake2.8.html">ExternalProject.cmake</a>
+module This super-build methodology, which gains more and more attraction in
+the CMake community, is further utilized by BASIS to not only ease the
+development and maintenance of separately managed software projects, but also
+enable the fusion of these more or less independently developed software
+packages into so-called superprojects. In this context, the separately managed
+software packages are considered components of the superproject.
+<em>TODO: The super-build methodology is not yet implemented as part of BASIS!</em></p>
+
+<p>Besides the super-build of BASIS projects, BASIS provides an implementation
+of a tighter coupling of software components. Here, the top-level project
+(i.e., the superproject) contains other BASIS projects as modules, and these
+modules define the dependencies to other modules of the project. When the
+superproject is configured, a subset of these modules can be selected and only
+these will be build and installed. This type of modularization closely follows
+the <a href="http://www.vtk.org/Wiki/ITK/Release_4/Modularization">modularization approach of the ITK 4 project</a>.</p>
+
+<h1>
+<a name="components" class="anchor" href="#components"><span class="octicon octicon-link"></span></a>COMPONENTS</h1>
+
+<h2>
+<a name="project-template" class="anchor" href="#project-template"><span class="octicon octicon-link"></span></a>Project Template</h2>
+
+<p>Every project that wants to follow BASIS has to be derived from the <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/template.html">Software
+Project Template</a>. For convenience, the command-line tool <strong>basisproject</strong>
+for the creation of a new project and the modification of such created BASIS
+project is provided. This tool automates and thus simplifies the instantiation
+of the project template for new projects. See <a href="http://www.rad.upenn.edu/sbia/software/basis/howto/create-and-modify-project.html">this how-to guide</a> for details
+on how to use the <strong>basisproject</strong> command-line tool to create or modify a project.</p>
+
+<h2>
+<a name="cmake-modules" class="anchor" href="#cmake-modules"><span class="octicon octicon-link"></span></a>CMake Modules</h2>
+
+<p>The CMake modules and corresponding auxiliary files are not only used by the
+BASIS package itself, but also any SBIA project which follows BASIS for the
+configuration of the CMake-based build system. These CMake modules in
+particular define many functions which are used as replacement of CMake's
+built-in functions. For example, the function <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a>
+is used by BASIS projects as replacement for CMake's <a href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_executable">add_executable()</a>
+command. The BASIS CMake functions are convenient to use, extend the
+functionality of CMake's built-in functions, and enable BASIS to impose its
+standard on the configured build system.</p>
+
+<p>The main CMake modules are:</p>
+
+<ul>
+<li>
+<strong><a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/BasisTools_8cmake.html">BasisTools.cmake</a>:</strong>   Defines CMake functions, macros, and variables.</li>
+<li>
+<strong><a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/BasisTest_8cmake.html">BasisTest.cmake</a>:</strong>    Replacement for the CTest.cmake module of CMake.</li>
+<li>
+<strong><a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a>:</strong>    Replacement for the CPack.cmake module of CMake.</li>
+</ul><p>A comprehensive <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisModules.html">documentation of these modules</a> and the functions and macros
+defined by them is available as part of the reference documentation.</p>
+
+<h2>
+<a name="tools" class="anchor" href="#tools"><span class="octicon octicon-link"></span></a>Tools</h2>
+
+<p>In order to ease certain tasks, the BASIS package also includes the following
+<a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__Tools.html">command-line tools</a>:</p>
+
+<ul>
+<li>
+<strong>basisproject:</strong>   Creates a new project or modifies an already previously
+                  created project in order to add or remove certain components
+                  of the project template or to upgrade to a newer BASIS template.
+                  See <a href="http://www.rad.upenn.edu/sbia/software/basis/howto/create-and-modify-project.html">this how-to guide</a> for more information.</li>
+<li>
+<strong>basistest:</strong>      Implements automated software tests.
+                  See <a href="http://www.rad.upenn.edu/sbia/software/basis/howto/run-automated-tests.html">this how-to guide</a> on how to setup automated software
+                  test using these command-line tools.</li>
+<li>
+<strong>doxyfilter:</strong>     Doxygen filters for the supported programming languages.</li>
+</ul><h2>
+<a name="utilities" class="anchor" href="#utilities"><span class="octicon octicon-link"></span></a>Utilities</h2>
+
+<p>For each supported programming language, BASIS provides a library of <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisUtilities.html">utility
+functions</a>. Some of these utility functions are project independent and thus
+built and installed as part of BASIS itself. Other utility implementations
+are project dependent. Therefore, the BASIS package provides only template
+files which are customized and built during the configuration and build,
+respectively, of the particular BASIS project. This customization is done
+by the functions implemented by the <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/UtilitiesTools_8cmake.html">UtilitiesTools.cmake</a> module which is
+included and utilized by the main BasisTools.cmake module.</p>
+
+<p>The BASIS utilities address the following aspects of the <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/implementation.html">software
+implementation standard</a>:</p>
+
+<ul>
+<li>
+<strong>Command-line Parsing:</strong>   Standard on <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/cmdline.html">how to parse command-line arguments</a>.</li>
+<li>
+<strong>Calling Conventions:</strong>    Standard on <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/execution.html">how to execute subprocesses</a>.</li>
+<li>
+<strong>Software Testing:</strong>       Standard on how to implement software tests.</li>
+</ul><h1>
+<a name="package-overview" class="anchor" href="#package-overview"><span class="octicon octicon-link"></span></a>PACKAGE OVERVIEW</h1>
+
+<h2>
+<a name="source-package" class="anchor" href="#source-package"><span class="octicon octicon-link"></span></a>Source Package</h2>
+
+<ul>
+<li>
+<strong>BasisProject.cmake:</strong>              Meta-data used by BASIS to configure the project.</li>
+<li>
+<strong>CMakeLists.txt:</strong>                  Root CMake configuration file.</li>
+<li>
+<strong>config/:</strong>                         Package configuration files.</li>
+<li>
+<strong>data/template-&lt;version&gt;/</strong>   Project template(s).</li>
+<li>
+<strong>doc/:</strong>                            Documentation source files of BASIS.</li>
+<li>
+<strong>include/:</strong>                        Public header files.</li>
+<li>
+<strong>src/:</strong>                            Source code files.</li>
+<li>
+<strong>src/cmake/:</strong>                      CMake implementations and corresponding auxiliary files.</li>
+<li>
+<strong>src/geshi/:</strong>                      A language file written in PHP for the use with GeSHi,
+                                   a source code highlighting extension for MediaWiki.</li>
+<li>
+<strong>src/sphinx/:</strong>                     Themes and extensions for the <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/BasisTest_8cmake.html">Sphinx</a> documentation tool.</li>
+<li>
+<strong>src/tools/:</strong>                      Source code of command-line tools.</li>
+<li>
+<strong>src/utilities/:</strong>                  Source code of utility functions.</li>
+<li>
+<strong>test/:</strong>                           Tests of the implementations in src/.</li>
+<li>
+<strong>AUTHORS:</strong>                         A list of the people who contributed to this sofware.</li>
+<li>
+<strong>COPYING:</strong>                         The copyright and license notices.</li>
+<li>
+<strong>INSTALL:</strong>                         Build and installation instructions.</li>
+<li>
+<strong>README:</strong>                          This readme file.</li>
+</ul><h2>
+<a name="binary-package" class="anchor" href="#binary-package"><span class="octicon octicon-link"></span></a>Binary Package</h2>
+
+<p>Please refer to the <strong>INSTALL</strong> file for details on where the built executables
+and libraries, the auxiliary data, and the documentation files are installed.</p>
+
+<h1>
+<a name="licensing" class="anchor" href="#licensing"><span class="octicon octicon-link"></span></a>LICENSING</h1>
+
+<p>See <a href="http://www.rad.upenn.edu/sbia/software/license.html">http://www.rad.upenn.edu/sbia/software/license.html</a> or <strong>COPYING</strong> file.</p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h1>
+
+<p>See build and installation instructions given in the <strong>INSTALL</strong> file.</p>
+
+<h1>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>DOCUMENTATION</h1>
+
+<p>The PowerPoint 2007 presentation named <strong>BASIS Tutorial - 01 Introduction.pptx</strong>
+gives a more detailed and in parts visual introduction of the BASIS project.
+It can be found in the doc/tutorials/ directory of the BASIS package.
+Further tutorials can be found here as well.</p>
+
+<p>See the <a href="http://www.rad.upenn.edu/sbia/software/basis/">BASIS Web Site</a> for details on the build system and implementation
+standard. How-to guides found on this page further help to comply with BASIS.</p>
+
+<p>The API documentation <a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisModules.html">here</a>, on the other side, is a great reference of the
+CMake implementations, whereas a reference of the utility functions
+available for the different supported programming languages can be found on
+<a href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisUtilities.html">this page</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/schuhschuh">schuhschuh</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
