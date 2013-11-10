@@ -3,11 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <title>$title</title>
-<!-- <link href="$relpath$tabs.css" rel="stylesheet" type="text/css"/> -->
-<link href="$relpath$doxygen_sbia.css" rel="stylesheet" type="text/css" />
+<link href="$relpath$tabs.css"          rel="stylesheet" type="text/css"/>
 $treeview
 $search
 $mathjax
+<link href="$relpath$doxygen.css"       rel="stylesheet" type="text/css"/>
+<link href="$relpath$doxygen_extra.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="main"><!-- used to set background within site boundaries to white, closed in doxygen_footer.html -->
@@ -45,11 +46,11 @@ $mathjax
     </tr>
     </tbody>
   </table>
-  <div id="pennlogo">
-   <a href="http://www.upenn.edu/"><img alt="UPenn Logo" src="logo_penn.gif"></a>
+  <div id="providerlogo">
+   <a href="@DOXYGEN_PROJECT_PROVIDER_WEBSITE@"><img alt="@DOXYGEN_PROJECT_PROVIDER@" src="@DOXYGEN_PROJECT_PROVIDER_LOGO@"></a>
   </div>
-  <div id="sbialogo">
-    <a href="http://www.rad.upenn.edu/sbia/"><img alt="SBIA Logo" src="logo_sbia.png"></a>
+  <div id="divisionlogo">
+    <a href="@DOXYGEN_PROJECT_PROVIDER_DIVISION_WEBSITE@"><img alt="@DOXYGEN_PROJECT_PROVIDER_DIVISION_NAME@" src="@DOXYGEN_PROJECT_PROVIDER_DIVISION_LOGO@"></a>
   </div>
   <div id="titleendoffloat"></div>
 </div>
