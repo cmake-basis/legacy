@@ -1,4 +1,16 @@
-/* The standard CSS for doxygen */
+/*
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+
+  Web:   http://www.rad.upenn.edu/sbia/
+  Email: sbia-software at uphs.upenn.edu
+
+  Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.
+  See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+*/
 
 body, table, div, p, dl {
     font-family: Lucida Grande, Verdana, Geneva, Arial, sans-serif;
@@ -782,13 +794,13 @@ dl.bug
         border-color: #C08050;
 }
 
-#sbialogo
+#divisionlogo
 {
     vertical-align: bottom;
     border-collapse: separate;
 }
 
-#sbialogo img
+#divisionlogo img
 {
     float: right;
     border: 0px none;
@@ -805,7 +817,7 @@ dl.bug
     margin: 0px 12px;
 }
 
-#pennlogo
+#providerlogo
 {
     float: right;
     vertical-align: bottom;
@@ -817,7 +829,7 @@ dl.bug
     background-color: #660000;
 }
 
-#pennlogo img
+#providerlogo img
 {
     border: 0px none;
     background-color: #660000;
@@ -837,7 +849,8 @@ dl.bug
 }
  
 #projectlogo img
-{ 
+{
+	height: 60px;
     border: 0px none;
     background-color: #660000;
 }
@@ -851,7 +864,16 @@ dl.bug
     background-color: #660000;
     text-shadow: #C1C7DD 1px 1px 2px;
 }
-    
+ 
+#projectname a
+{
+    color:   #fff;
+    margin:  0px;
+    padding: 0px;
+    display: @DOXYGEN_PROJECT_NAME_DISPLAY@;
+    text-decoration: none;
+}
+
 #projectbrief
 {
     font: 120% Tahoma, Arial,sans-serif;
@@ -970,3 +992,7 @@ dl.bug
     text-shadow: none;
 }
 
+#MSearchBox {
+    position: absolute;
+    right:    80px;
+}
