@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="General build and installation instructions for projects developed using BASIS." name="description" />
+
+    <title>Install any Software &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'b2013.12.23 (18:05 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="../index.html" />
+    <link rel="up" title="How-to Guides" href="../howto.html" />
+    <link rel="next" title="CMake Options" href="buildoptions.html" />
+    <link rel="prev" title="Packaging Software" href="package.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="buildoptions.html" title="CMake Options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="package.html" title="Packaging Software"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">BASIS</a> &raquo;</li>
+          <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="install-any-software">
+<h1>Install any Software<a class="headerlink" href="#install-any-software" title="Permalink to this headline">¶</a></h1>
+<p>The following contains general build and installation instructions which apply to
+any project which is developed using CMake BASIS.</p>
+<div class="section" id="build-steps-overview">
+<span id="briefinstallationsteps"></span><h2>Build Steps Overview<a class="headerlink" href="#build-steps-overview" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="#generalbuilddependencies"><em>Prerequisites</em></a> below for information on dependencies.</p>
+<div class="section" id="build-steps">
+<h3>Build Steps<a class="headerlink" href="#build-steps" title="Permalink to this headline">¶</a></h3>
+<p>The common steps to build, test, and install software from source code
+based on CMake are as follows:</p>
+<ol class="arabic simple">
+<li>Extract source files.</li>
+<li>Create build directory and change to it.</li>
+<li>Run CMake to configure the build tree.</li>
+<li>Build the software using selected build tool.</li>
+<li>Test the built software.</li>
+<li>Install the built files.</li>
+</ol>
+<p>On Unix-like systems with GNU Make as build tool, these build steps can be
+summarized by the following sequence of commands executed in a shell,
+where $package and $version are shell variables which represent the name
+of this package and the obtained version of the software.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>tar xzf <span class="nv">$package</span>-<span class="nv">$version</span>-source.tar.gz
+<span class="nv">$ </span>mkdir <span class="nv">$package</span>-<span class="nv">$version</span>-build
+<span class="nv">$ </span><span class="nb">cd</span> <span class="nv">$package</span>-<span class="nv">$version</span>-build
+<span class="nv">$ </span>ccmake ../<span class="nv">$package</span>-<span class="nv">$version</span>-source
+</pre></div>
+</div>
+<ul class="simple">
+<li>Press &#8216;c&#8217; to configure the build system and &#8216;e&#8217; to ignore warnings.</li>
+<li>Set CMAKE_INSTALL_PREFIX and other CMake variables and options.</li>
+<li>Continue pressing &#8216;c&#8217; until the option &#8216;g&#8217; is available.</li>
+<li>Then press &#8216;g&#8217; to generate the configuration files for GNU Make.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>make
+<span class="nv">$ </span>make <span class="nb">test</span>    <span class="o">(</span>optional<span class="o">)</span>
+<span class="nv">$ </span>make install <span class="o">(</span>optional<span class="o">)</span>
+</pre></div>
+</div>
+<p>An exhaustive list of minimum build dependencies, including the build tools
+along detailed step-by-step build, test, and installation instructions can
+be found in the corresponding &#8220;Building from Sources&#8221; section of the BASIS
+how-to guide on software installation [2].</p>
+<p>Please refer to the rest of this guide first if you are uncertain about above
+steps or have problems to build, test, or install the software on your system.
+If this guide does not help you resolve the issue, please contact the provider
+of the respective software package. In case of failing tests, please attach
+the output of the following command to your email:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ctest -V &gt;&amp; test.log
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="prerequisites">
+<span id="generalbuilddependencies"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>The following software packages are prerequisites for any software that is based on BASIS.
+Note that the stated package versions are usually the minimum versions for which it is known
+that the software is working with. Newer versions will usually be fine as well if not otherwise
+stated by the particular software documentation, but less certainly older versions.</p>
+<p>See the installation instructions of the specific software package for details on what is required
+and which optional software is being used if available. For instructions on how to build or
+install any of the following software packages, please refer to the documentation of the
+respective package.</p>
+<div class="section" id="required-packages">
+<h3>Required Packages<a class="headerlink" href="#required-packages" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="11%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Package</th>
+<th class="head">Version</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="http://www.cmake.org/">CMake</a></td>
+<td>2.8.4</td>
+<td><p class="first">A cross-platform, open-source build tool used to generate
+platform specific build configurations. It configures the
+system for the various build tools which perform the actual
+build of the software.</p>
+<p class="last">If your operating system such as certain Linux distribution
+does not include a pre-build binary package of the required
+version yet, download a more recent CMake version from the
+<a class="reference external" href="http://www.cmake.org/cmake/resources/software.html">CMake download page</a> and build and install it from sources.
+Often this is easiest accomplished by using the CMake version
+provided by the Linux distribution in order to configure the
+build system for the more recent CMake version. To avoid
+conflict with native CMake installation, it is recommended
+to install your own build of CMake in a different directory.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../index.html"><em>BASIS</em></a></td>
+<td>&nbsp;</td>
+<td>The CMake Build system And Software Implementation Standard
+(BASIS) among other features defines the project directory
+structure and provides CMake implementations to ease and
+standardize the packaging, build, testing, and installation.
+Refer to the <tt class="docutils literal"><span class="pre">INSTALL</span></tt> document of the software package you
+want to build for information on which particular BASIS
+version is required by this package.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="http://www.gnu.org/software/make/">GNU Make</a>, <a class="reference external" href="http://martine.github.io/ninja/">ninja</a>, etc.</td>
+<td>&nbsp;</td>
+<td>All build tools supported by the CMake generator</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://gcc.gnu.org/">GNU Compiler Collection</a>,
+<a class="reference external" href="http://clang.llvm.org/">Clang</a>, etc.</td>
+<td>&nbsp;</td>
+<td>A C++ compiler is required to compile the BASIS source code.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="optional-packages">
+<h3>Optional Packages<a class="headerlink" href="#optional-packages" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="11%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Package</th>
+<th class="head">Version</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a></td>
+<td>1.8.0</td>
+<td>This tools is required for the generation of the API
+documentation from in-source comments in C++, CMake, Bash,
+Python, and Perl. Note that only since version 1.8.0, Python
+and the use of Markdown (Extra) are support by Doxygen.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://www.python.org/">Python</a></td>
+<td>2.7</td>
+<td>Python is used by the basisproject tool that generates
+template projects. Python is also generally supported
+for the implementation of tools and libraries following
+the BASIS standard.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="http://sphinx.pooco.org/">Sphinx</a></td>
+<td>1.1.3</td>
+<td>This tool can be used for the generation of the documentation
+from in-source Python comments and in particular from
+<a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://www.latex-project.org/">LaTeX</a></td>
+<td>&nbsp;</td>
+<td>The LaTeX tools may be required for the generation of the
+software manuals. Usually these are, however, already
+included in PDF in which case a LaTeX installation is only
+needed if you want to regenerate these from the LaTeX sources
+(if available after all).</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a></td>
+<td>R2009b</td>
+<td>The <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a> tools such as, in particular, the <a class="reference external" href="http://www.mathworks.com/help/techdoc/ref/mex.html">MEX</a> script are
+used to build <a class="reference external" href="http://www.mathworks.com/help/techdoc/matlab_external/f7667.html">MEX-Files</a> from C++ source code. A MEX-File
+is a loadable module for MATLAB which implements a single
+function. If the software package you are building does not
+define any MEX build target, MATLAB might not be required.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a></td>
+<td>R2009b</td>
+<td>The MATLAB Compiler (MCC) is required for the build of
+stand-alone executables and shared libraries from <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a>
+source files. If the software package you are building does
+not include any MATLAB sources (<tt class="docutils literal"><span class="pre">.m</span></tt> files), you do not
+need the MATLAB Compiler to build it.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="build-and-installation">
+<span id="generalinstallationsteps"></span><h2>Build and Installation<a class="headerlink" href="#build-and-installation" title="Permalink to this headline">¶</a></h2>
+<p>These are the build, test, and installation steps common to any BASIS based software,
+including BASIS itself. See <a class="reference internal" href="../install.html#basisinstallationsteps"><em>Build and Installation</em></a> for installation instructions
+specific to the CMake BASIS package itself.</p>
+<p>If you obtained a binary distribution package for a supported platform,
+please follow the installation instructions corresponding to your operating
+system. The build step can be omitted in this case.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The commands given in this guide have to be entered in a terminal, in particular,
+the Bourne Again Shell (<a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a>). If you are not using the Bash, see the
+documentation of your particular shell for information on how to perform these
+actions using this shell instead.</p>
+</div>
+<div class="section" id="package-names">
+<span id="packagenames"></span><h3>Package Names<a class="headerlink" href="#package-names" title="Permalink to this headline">¶</a></h3>
+<p>The file names of the distribution packages follow the convention
+<tt class="docutils literal"><span class="pre">&lt;package&gt;-&lt;version&gt;-&lt;arch&gt;&lt;ext&gt;</span></tt>, where <tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt> is the name of the
+package in lowercase letters, and <tt class="docutils literal"><span class="pre">&lt;version&gt;</span></tt> is the package version in the
+format <tt class="docutils literal"><span class="pre">&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</span></tt>. The <tt class="docutils literal"><span class="pre">&lt;arch&gt;</span></tt> file name part specifies the
+operating system and hardware architecture, i.e.,</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&lt;arch&gt;</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">linux-x86</span></tt></td>
+<td>Linux, 32-bit</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">linux-x86_64</span></tt></td>
+<td>Linux, 64-bit</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">darwin-i386</span></tt></td>
+<td>Darwin x86 Intel</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">darwin-ppc</span></tt></td>
+<td>Darwin Power PC</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">win32</span></tt></td>
+<td>Windows, 32-bit</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">win64</span></tt></td>
+<td>Windows, 64-bit</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">source</span></tt></td>
+<td>Source files</td>
+</tr>
+</tbody>
+</table>
+<p>The file name extension <tt class="docutils literal"><span class="pre">&lt;ext&gt;</span></tt> is <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> for a compressed tarball,
+<tt class="docutils literal"><span class="pre">.deb</span></tt> for a Debian package, and <tt class="docutils literal"><span class="pre">.rpm</span></tt> for a RPM package.</p>
+</div>
+<div class="section" id="binary-distribution-package">
+<span id="installingbinarypackage"></span><h3>Binary Distribution Package<a class="headerlink" href="#binary-distribution-package" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="debian-package">
+<span id="installingdebianpackage"></span><h4>Debian Package<a class="headerlink" href="#debian-package" title="Permalink to this headline">¶</a></h4>
+<p>This package can be installed on <a class="reference external" href="http://www.debian.org/">Debian</a> and its derivatives such as <a class="reference external" href="http://www.ubuntu.com/">Ubuntu</a>
+using the Advanced Package Tool (<a class="reference external" href="http://en.wikipedia.org/wiki/Advanced_Packaging_Tool">APT</a>):</p>
+<div class="highlight-python"><pre>sudo apt-get install &lt;package&gt;-&lt;version&gt;-&lt;arch&gt;.deb</pre>
+</div>
+</div>
+<div class="section" id="rpm-package">
+<span id="installingrpmpackage"></span><h4>RPM Package<a class="headerlink" href="#rpm-package" title="Permalink to this headline">¶</a></h4>
+<p>This package can be installed on <a class="reference external" href="http://www.redhat.com/products/enterprise-linux/">Red Hat Enterprise Linux</a> and its derivatives
+such as <a class="reference external" href="http://www.centos.org/">CentOS</a> and <a class="reference external" href="http://www.opensuse.org/en/">openSUSE</a> using the Yellowdog Updater, Modified (<a class="reference external" href="http://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified">YUM</a>):</p>
+<div class="highlight-python"><pre>sudo yum install &lt;package&gt;-&lt;version&gt;-&lt;arch&gt;.rpm</pre>
+</div>
+</div>
+<div class="section" id="mac-os">
+<span id="installingmacosbundle"></span><h4>Mac OS<a class="headerlink" href="#mac-os" title="Permalink to this headline">¶</a></h4>
+<p>Bundles for <a class="reference external" href="http://www.apple.com/macosx/">Mac OS</a> might be available for some software packages, but this is not
+supported by default. Please refer to the <tt class="docutils literal"><span class="pre">INSTALL</span></tt> file which is located in the
+top directory of the respective software package.</p>
+</div>
+<div class="section" id="windows">
+<span id="installingwindows"></span><h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<p>Currently, <a class="reference external" href="http://windows.microsoft.com/en-US/windows/home">Microsoft Windows</a> has limited support as an operating system. The
+most tested platform is the Linux platform <a class="reference external" href="http://www.centos.org/">CentOS</a>, in particular, and most software
+packages are therefore dependent on a Unix-based operating system. Thus, building
+and executing SBIA software under Windows will most likely require an installation
+of <a class="reference external" href="http://www.cygwin.com/">Cygwin</a> and the build of the software from sources as described below.
+Some packages, on the other side, can be build on Windows as well, using, for example,
+<a class="reference external" href="http://www.microsoft.com/visualstudio/en-us">Microsoft Visual Studio</a> as build tool. The Visual Studio project files have
+to be generated using CMake (see <a class="reference internal" href="#howtobuildthesoftware"><em>Building From Sources</em></a>).</p>
+<p>As an alternative, consider the use of a Live Linux Distribution,
+a dual boot installation of Linux or an installation of a Linux operating
+system in a virtual machine using virtualization tools such as <a class="reference external" href="http://www.virtualbox.org">VirtualBox</a> or
+proprietary virtualization solutions available for your host operating system.</p>
+</div>
+</div>
+<div class="section" id="building-from-sources">
+<span id="howtobuildthesoftware"></span><h3>Building From Sources<a class="headerlink" href="#building-from-sources" title="Permalink to this headline">¶</a></h3>
+<p>In the following, we assume you obtained a copy of the source package as
+compressed tarball (<tt class="docutils literal"><span class="pre">.tar.gz</span></tt>). The name and version part of the package file
+is referred to as <a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a> variable:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">package</span><span class="o">=</span>&lt;package&gt;-&lt;version&gt;
+</pre></div>
+</div>
+<div class="section" id="extract-sources">
+<span id="extractsources"></span><h4>Extract sources<a class="headerlink" href="#extract-sources" title="Permalink to this headline">¶</a></h4>
+<p>At first, extract the downloaded source package, e.g.:</p>
+<div class="highlight-bash"><div class="highlight"><pre>tar -xzf <span class="nv">$package</span>-source.tar.gz ~
+</pre></div>
+</div>
+<p>This will extract the sources to a new diretory in your home directory
+named &#8220;&lt;package&gt;-&lt;version&gt;-source&#8221;.</p>
+</div>
+<div class="section" id="configure">
+<span id="configurebuildtree"></span><h4>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h4>
+<p>Create a directory for the build tree of the package and change to it, e.g.:</p>
+<div class="highlight-bash"><div class="highlight"><pre>mkdir ~/<span class="nv">$package</span>-build
+<span class="nb">cd</span> ~/<span class="nv">$package</span>-build
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An in-source build, i.e., building the software within the source tree
+is not supported to force a clear separation of source and build tree.</p>
+</div>
+<p>To configure the build tree, run CMake&#8217;s graphical tool <a class="reference external" href="http://www.cmake.org/cmake/help/runningcmake.html">ccmake</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre>ccmake ~/<span class="nv">$package</span>-source
+</pre></div>
+</div>
+<p>Press <tt class="docutils literal"><span class="pre">c</span></tt> to trigger the configuration step of CMake. Warnings can be ignored by
+pressing <tt class="docutils literal"><span class="pre">e</span></tt>. Once all CMake variables are configured properly, which might require
+the repeated execution of CMake&#8217;s configure step, press <tt class="docutils literal"><span class="pre">g</span></tt>. This will generate the
+configuration files for the selected build tool (i.e., GNU Make Makefiles in our case)
+and exit CMake.</p>
+<p>Variables which specify the location of other required or optionally used packages
+if available are named <tt class="docutils literal"><span class="pre">&lt;Package&gt;_DIR</span></tt>. These variables usually have to be set to the
+directory which contains a file named <tt class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></tt> or <tt class="docutils literal"><span class="pre">&lt;package&gt;-config.cmake</span></tt>.
+Alternatively, or if the package does not provide such CMake package configuration
+file, the installation prefix, i.e., root directory should be specified. See the
+build instructions of the particular software package you are building for more
+details on the particular <tt class="docutils literal"><span class="pre">&lt;Package&gt;_DIR</span></tt> variables that may have to be set if the
+packages were not found automatically by CMake.</p>
+<p>See the documentation of the available <a class="reference internal" href="buildoptions.html"><em>CMake Options</em></a> for
+more options that can be used to configure the build of any project developed with BASIS.
+Please refer also to the package specific build instructions given in the <tt class="docutils literal"><span class="pre">INSTALL</span></tt> file
+or software manual of the corresponding package for information on available
+additional project specific configuration options.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference external" href="http://www.cmake.org/cmake/help/runningcmake.html">ccmake</a> tool also provides a brief description to each variable in the status bar.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="build-the-software">
+<span id="build"></span><h4>Build the Software<a class="headerlink" href="#build-the-software" title="Permalink to this headline">¶</a></h4>
+<p>To build the executables and libraries, run GNU Make in the root directory of
+the configured build tree:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">make</span>
+</pre></div>
+</div>
+<p>In order to build the documentation, the <a class="reference internal" href="buildoptions.html#cmdoption-DBUILD_DOCUMENTATION"><em class="xref std std-option">-DBUILD_DOCUMENTATION</em></a> option
+has to be set to <tt class="docutils literal"><span class="pre">ON</span></tt>. If not set before, this option can be enabled using
+the command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>cmake -D BUILD_DOCUMENTATION:BOOL<span class="o">=</span>ON ~/<span class="nv">$package</span>-build
+</pre></div>
+</div>
+<p>Note that the build of the documentation may require the build of the software
+beforehand. If the software was not build before, the build of the documentation
+will also trigger the build of the software.</p>
+<p>Each software package provides different documentation. In general, however,
+each software has a manual, which by default is being build by the <tt class="docutils literal"><span class="pre">manual</span></tt>
+target if the software manual is not already included as PDF document. In the
+latter case, the manual does not have to be build. Instead, the PDF file will
+simply be copied (and renamed) during the installation. Otherwise, in order
+to build the manual from source files such as <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> or <a class="reference external" href="http://www.latex-project.org/">LaTeX</a>, run
+the command:</p>
+<div class="highlight-python"><pre>make manual</pre>
+</div>
+<p>If the software provides a software library for use in your own code, the API
+documentation may be useful which can be build using the <tt class="docutils literal"><span class="pre">apidoc</span></tt> target:</p>
+<div class="highlight-python"><pre>make apidoc</pre>
+</div>
+<p>The advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_APIDOC_DIR"><em class="xref std std-option">-DBASIS_INSTALL_APIDOC_DIR</em></a> configuration option can be set to an
+absolute path or a path relative to the <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> directory
+in order to modify the installation directory for the API documentation which is
+generated from the in-source comments using tools such as <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a class="reference external" href="http://sphinx.pooco.org/">Sphinx</a>.
+This can be useful, for example, to install the documentation in the document
+directory of a web server.</p>
+<p>Some software packages further generate a project web site from text files
+marked up using a lightweight markup language such as <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>.
+This web site can be build using the <tt class="docutils literal"><span class="pre">site</span></tt> target:</p>
+<div class="highlight-python"><pre>make site</pre>
+</div>
+<p>This will generate the HTML pages and corresponding static files of the
+web site in <tt class="docutils literal"><span class="pre">doc/site/html/</span></tt>. If you prefer a single directory per document
+which results in prettier URLs without the <tt class="docutils literal"><span class="pre">.html</span></tt> extension, run
+the following command instead:</p>
+<div class="highlight-python"><pre>make site_dirhtml</pre>
+</div>
+<p>The resulting web site can then be found in <tt class="docutils literal"><span class="pre">doc/site/dirhtml/</span></tt>.
+Optionally, the advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_DIR"><em class="xref std std-option">-DBASIS_INSTALL_SITE_DIR</em></a> configuration option can be
+set to an absolute path or a path relative to the <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>
+directory in order to modify the installation directory for the generated
+web site. This can be useful, for example, to install the web site in the
+document directory of a web server.</p>
+<p>For maintainers of the software, a developer&#8217;s guide may be provided which
+would then be build by the <tt class="docutils literal"><span class="pre">guide</span></tt> target if not included as PDF document:</p>
+<div class="highlight-python"><pre>make guide</pre>
+</div>
+<p>If the source tree is a <a class="reference external" href="http://subversion.apache.org/">Subversion</a> working copy and you have access to the
+Subversion repository of the project or if the project source tree is a <a class="reference external" href="http://git-scm.com/">Git</a>
+repository, a ChangeLog file can be generated from the commit history by
+building the <tt class="docutils literal"><span class="pre">changelog</span></tt> target:</p>
+<div class="highlight-python"><pre>make changelog</pre>
+</div>
+<p>In case of Subversion, be aware that the generation of the ChangeLog takes
+several minutes and may require the input of your user credentials for access
+to the Subversion repository. Moreover, if the command <a class="reference external" href="http://arthurdejong.org/svn2cl">svn2cl</a> is installed
+on your system, it will be used to format the ChangeLog prettier. Otherwise,
+the plain output of the <tt class="docutils literal"><span class="pre">svn</span> <span class="pre">log</span></tt> command is written to the <tt class="docutils literal"><span class="pre">ChangeLog</span></tt> file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not all of the above build targets are provided by each software package.
+You can see a list of available build targets by running <tt class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></tt>.
+All available documentation targets, except the ChangeLog, can be build
+by executing the command <tt class="docutils literal"><span class="pre">make</span> <span class="pre">doc</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="test-the-software">
+<span id="testbuiltfiles"></span><h4>Test the Software<a class="headerlink" href="#test-the-software" title="Permalink to this headline">¶</a></h4>
+<p>In order to run the software tests, execute the command:</p>
+<div class="highlight-python"><pre>make test</pre>
+</div>
+<p>For more verbose test output, which in particularly is of importance when
+submitting an issue report, run <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/ctest.html">CTest</a> directly with the <tt class="docutils literal"><span class="pre">-V</span></tt> option instead:</p>
+<div class="highlight-bash"><div class="highlight"><pre>ctest -V &gt;&amp; <span class="nv">$package</span>-test.log
+</pre></div>
+</div>
+<p>and attach the file <tt class="docutils literal"><span class="pre">$package-test.log</span></tt> to the issue report.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the software package does not include tests, follow the steps in the
+software manual to test the software manually with the provided example
+dataset.</p>
+</div>
+</div>
+<div class="section" id="install-the-software">
+<span id="installbuiltfiles"></span><h4>Install the Software<a class="headerlink" href="#install-the-software" title="Permalink to this headline">¶</a></h4>
+<p>First, make sure that the CMake configuration options <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>,
+<a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a>, and <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> are set properly,
+where for normal use cases only <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> may be modified.
+These variables can be set as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre>cmake -D <span class="s2">&quot;CMAKE_INSTALL_PREFIX:PATH=&lt;prefix&gt;&quot;</span> ~/<span class="nv">$package</span>-build
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-bash"><div class="highlight"><pre>cmake -D <span class="s2">&quot;CMAKE_INSTALL_PREFIX:PATH=&lt;prefix&gt;&quot;</span> <span class="se">\</span>
+      -D <span class="s2">&quot;BASIS_INSTALL_SCHEME:STRING=default|usr|opt|win&quot;</span> <span class="se">\</span>
+      -D <span class="s2">&quot;BASIS_INSTALL_SITE:BOOL=ON|OFF&quot;</span> <span class="se">\</span>
+      ~/<span class="nv">$package</span>-build
+</pre></div>
+</div>
+<p>This can be omitted if these variables were set already during the configuration
+of the build tree or if the default values should be used.
+On Linux, <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> is by default set to <tt class="docutils literal"><span class="pre">/opt/&lt;provider&gt;/&lt;package&gt;[-&lt;version&gt;]</span></tt>
+and on Windows to <tt class="docutils literal"><span class="pre">C:/Program</span> <span class="pre">Files/&lt;Provider&gt;/&lt;Package&gt;[-&lt;version&gt;]</span></tt>.</p>
+<p>The advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a> option specifies how to install the files relative
+to this installation prefix. If it is set to <tt class="docutils literal"><span class="pre">default</span></tt> (the default), BASIS will
+decide the appropriate directory structure based on the set installation prefix. On Unix,
+if the installation prefix contains the package name, the <tt class="docutils literal"><span class="pre">opt</span></tt> installation scheme
+is selected which skips the addition of subdirectories named after the package within
+the different installation subdirectories. This corresponds to the suggested
+<a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html#OPTADDONAPPLICATIONSOFTWAREPACKAGES">Linux Filesystem Hierarchy for Add-on Packages</a>
+, where the installation prefix is set to <tt class="docutils literal"><span class="pre">/opt/&lt;package&gt;</span></tt> or
+<tt class="docutils literal"><span class="pre">/opt/&lt;provider&gt;/&lt;package&gt;</span></tt>. Otherwise, the <tt class="docutils literal"><span class="pre">usr</span></tt> installation scheme
+is chosen which will append the package name to each installation directory to avoid
+conflicts between software packages installed in the same location. This installation
+scheme follows the <a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html#THEUSRHIERARCHY">Linux Filesystem Hierarchy Standard for /usr</a>.
+Given the installation prefix <tt class="docutils literal"><span class="pre">/usr/local</span></tt>, for example, the package library files
+will be installed into <tt class="docutils literal"><span class="pre">/usr/local/lib/&lt;package&gt;</span></tt>. On Windows, the <tt class="docutils literal"><span class="pre">win</span></tt> scheme
+is used which does not add any package specific subdirectories to the installation path
+similar to the <tt class="docutils literal"><span class="pre">opt</span></tt> scheme. Furthermore, the directory names are more Windows-like
+and start with a capital letter. For example, the default installation directory for
+package library files on Windows given the installation prefix
+<tt class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\&lt;Provider&gt;\&lt;Package&gt;</span></tt> is <tt class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\&lt;Provider&gt;\&lt;Package&gt;\Lib</span></tt>.</p>
+<p>If the <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> option is <tt class="docutils literal"><span class="pre">ON</span></tt>, module libraries written
+in a scripting language such as Python or Perl are installed to the system-wide default
+directories for site packages of these languages. As this requires write permission to
+these directories, this option is disabled by default.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The binary executables which are intended to be called by the user are
+copied to the <tt class="docutils literal"><span class="pre">bin/</span></tt> directory, where no package subdirectory is created
+regardless of the installation scheme. It is in the responsibility of the
+package provider to choose names of the executables that are unique enough
+to avoid conflicts with other available software packages. Auxiliary executables,
+on the other side, i.e., executables which are called by the executables in
+the <tt class="docutils literal"><span class="pre">bin/</span></tt> directory, are installed in the directory for library files.</p>
+</div>
+<p>The executables and auxiliary files can be installed using either the command:</p>
+<div class="highlight-python"><pre>make install</pre>
+</div>
+<p>or:</p>
+<div class="highlight-python"><pre>make install/strip</pre>
+</div>
+<p>in the top directory of the build tree. The available install targets
+copy the files intended for installation to the directories specified during
+the configuration step. The <tt class="docutils literal"><span class="pre">install/strip</span></tt> target additionally strips
+installed binary executable and shared object files, which can save disk space.</p>
+<p>If more than one version of a software package shall be installed,
+include the package version in the installation prefix by setting
+<a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> to <tt class="docutils literal"><span class="pre">/opt/[&lt;provider&gt;/]/&lt;package&gt;[-&lt;version&gt;]</span></tt>,
+for example (the default). Otherwise, you may choose to install the package
+in <tt class="docutils literal"><span class="pre">/usr/local</span></tt>, which will by default make the executables in the
+<tt class="docutils literal"><span class="pre">bin/</span></tt> directory and the header files available to other packages without
+the need to change any environment settings.</p>
+<p>Besides the installation of the built files of the software package to the
+named locations, the directory where the CMake configuration file of the package
+was installed is added to CMake&#8217;s <a class="reference external" href="http://www.cmake.org/Wiki/index.php?title=CMake/Tutorials/Package_Registry">package registry</a> if the advanced option
+<a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_REGISTER"><em class="xref std std-option">-DBASIS_REGISTER</em></a> is set to <tt class="docutils literal"><span class="pre">ON</span></tt> (the default). This helps CMake to find the
+installed package when used by another software package based on CMake.</p>
+<p>After the successful installation, the build tree can be deleted. It should
+be verified before, however, that the installation indeed was successful.</p>
+</div>
+<div class="section" id="set-up-the-environment">
+<span id="installenvironment"></span><h4>Set up the Environment<a class="headerlink" href="#set-up-the-environment" title="Permalink to this headline">¶</a></h4>
+<dl class="envvar">
+<dt id="envvar-PATH">
+<tt class="descname">PATH</tt><a class="headerlink" href="#envvar-PATH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>In order to ease the execution of the main executable files, we suggest to
+add the path <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/bin/</span></tt> to the search path for executable files, i.e.,
+the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable. This is, however, generally not required.
+It only eases the execution of the command-line tools provided by the software
+package.</p>
+<p>For example, if you use <a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a> add the following line to the <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> file:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;&lt;prefix&gt;/bin:${PATH}&quot;</span>
+</pre></div>
+</div>
+<dl class="envvar">
+<dt id="envvar-PYTHONPATH">
+<tt class="descname">PYTHONPATH</tt><a class="headerlink" href="#envvar-PYTHONPATH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>To be able to use any provided Python modules of the software package
+in your own Python scripts, you need to add the path
+<tt class="docutils literal"><span class="pre">&lt;prefix&gt;/lib/[&lt;package&gt;/]python&lt;version&gt;/</span></tt> to the search path for Python
+modules if such path exists after installation:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="k">${</span><span class="nv">PYTHONPATH</span><span class="k">}</span>:/opt/&lt;provider&gt;/&lt;package&gt;-&lt;version&gt;/lib/python2.7
+</pre></div>
+</div>
+<p>or, alternatively, insert the following code at the top of your Python scripts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;/opt/&lt;provider&gt;/&lt;package&gt;-&lt;version&gt;/lib/python2.7&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">package</span> <span class="kn">import</span> <span class="n">module</span>
+</pre></div>
+</div>
+<dl class="envvar">
+<dt id="envvar-PERL5LIB">
+<tt class="descname">PERL5LIB</tt><a class="headerlink" href="#envvar-PERL5LIB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>To be able to use the provided Perl modules of the software package in your own
+Perl scripts, you need to add the path <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/perl5/</span></tt> to the search path for
+Perl modules if such path exists after installation:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PERL5LIB</span><span class="o">=</span><span class="k">${</span><span class="nv">PERL5LIB</span><span class="k">}</span>:/opt/&lt;provider&gt;/&lt;package&gt;-&lt;version&gt;/lib/perl5
+</pre></div>
+</div>
+<p>or, alternatively, insert the following code at the top of your Perl scripts:</p>
+<div class="highlight-perl"><div class="highlight"><pre><span class="k">use</span> <span class="n">lib</span> <span class="s">&#39;/opt/&lt;provider&gt;/&lt;package&gt;-&lt;version&gt;/lib/perl5&#39;</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Package::</span><span class="n">Module</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="deinstallation">
+<span id="uninstall"></span><h2>Deinstallation<a class="headerlink" href="#deinstallation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="makefile-based-uninstall">
+<span id="makeuninstall"></span><h3>Makefile-based Uninstall<a class="headerlink" href="#makefile-based-uninstall" title="Permalink to this headline">¶</a></h3>
+<p>In order to undo the installation of the package files built from the sources,
+run the following command in the root directory of the build tree which was
+used to install the package:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/<span class="nv">$package</span>-build
+make uninstall
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This command will only delete all files which were installed during the
+<strong>last</strong> build of the install target (<tt class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></tt>).</p>
+</div>
+</div>
+<div class="section" id="uninstaller-script">
+<span id="id1"></span><h3>Uninstaller Script<a class="headerlink" href="#uninstaller-script" title="Permalink to this headline">¶</a></h3>
+<p>During the installation, a manifest of all installed files and a CMake
+script which reads in this list in order to remove these files again
+is generated and installed in <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/lib/cmake/&lt;package&gt;/</span></tt>.</p>
+<p>The uninstaller is located in <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/bin/</span></tt> and named <tt class="docutils literal"><span class="pre">uninstall-&lt;package&gt;</span></tt>.
+In order to remove all files installed by this package as well as the empty
+directories left behind inside the installation root directory given by <tt class="docutils literal"><span class="pre">&lt;prefix&gt;</span></tt>,
+run the command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>uninstall-<span class="nv">$package</span>
+</pre></div>
+</div>
+<p>assuming that you added <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/bin/</span></tt> to your <span class="target" id="index-0"></span><a class="reference internal" href="#envvar-PATH"><tt class="xref std std-envvar docutils literal"><span class="pre">PATH</span></tt></a> environment variable.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The advantage of the uninstaller is, that the build tree is no longer
+required in order to uninstall the software package. Thus, you do not
+need to keep a copy of the build tree once you installed the software
+only to be able to uninstall the package again.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Contents</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-custom-template.html">Create a Custom Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package.html">Packaging Software</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Install any Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-steps-overview">Build Steps Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-installation">Build and Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deinstallation">Deinstallation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="buildoptions.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildoptions.html#advanced-cmake-options">Advanced CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-automated-tests.html">Automated Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+  </div>
+  
+  </body>
+</html>
