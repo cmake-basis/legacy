@@ -1,0 +1,9 @@
+<map id="BASIS Modules" name="BASIS Modules">
+<area shape="rect" id="node1" href="$group__BasisDirectories.html" title="CMake variables of project directories. " alt="" coords="191,5,313,32"/>
+<area shape="rect" id="node2" href="$group__BasisScriptConfig.html" title="Script configuration as used for the build of script targets. " alt="" coords="187,56,317,83"/>
+<area shape="rect" id="node3" href="$group__CMakeAPI.html" title="Public interface of CMake modules. " alt="" coords="175,107,329,133"/>
+<area shape="rect" id="node4" href="$group__CMakeTools.html" title="Auxiliary CMake modules included and used by the main modules. " alt="" coords="169,157,335,184"/>
+<area shape="rect" id="node5" href="$group__BasisConfig.html" title="CMake package configuration. " alt="" coords="177,208,327,235"/>
+<area shape="rect" id="node6" href="$group__CMakeFindModules.html" title="CMake Find modules used by basis_find_package() command. " alt="" coords="176,259,328,285"/>
+<area shape="rect" id="node7" href="$group__BasisSettings.html" title="CMake modules defining settings for BASIS. " alt="" coords="219,309,285,336"/>
+</map>

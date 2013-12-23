@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="This BASIS style guide specifies guidelines for the formatting of plain text files of a software project." name="description" />
+
+    <title>Style Guide for Plain Text Files &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../../_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'b2013.12.23 (15:17 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="../../index.html" />
+    <link rel="up" title="Standards" href="../../standard.html" />
+    <link rel="next" title="API Reference" href="../../apidoc.html" />
+    <link rel="prev" title="Calling Conventions" href="../execution.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../apidoc.html" title="API Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../execution.html" title="Calling Conventions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">BASIS</a> &raquo;</li>
+          <li><a href="../../standard.html" accesskey="U">Standards</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="style-guide-for-plain-text-files">
+<h1>Style Guide for Plain Text Files<a class="headerlink" href="#style-guide-for-plain-text-files" title="Permalink to this headline">¶</a></h1>
+<p>The following guide, which itself is styled according to the plain text
+format it describes, details how plain text documentation files
+of a software project shall be formatted.</p>
+<div class="highlight-python"><pre>Section of Biomedical Image Analysis
+Department of Radiology
+University of Pennsylvania
+3600 Market Street, Suite 380
+Philadelphia, PA 19104
+
+Web:   http://www.rad.upenn.edu/sbia/
+Email: sbia-software at uphs.upenn.edu
+
+Copyright (c) 2011 University of Pennsylvania. All rights reserved.
+See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+
+
+
+INTRODUCTION
+============
+
+  This document defines guidelines on how to style plain text documentation
+  files such as the readme file and the build and installation instructions.
+  A common style makes it easier for users of software developed at SBIA to
+  navigate through the documents and recognize what is of importance to them.
+  Moreover, it serves as a branding of the software. Each individual software
+  project shall finally be integrated with all the other software projects
+  to form one unique software package. Here a common documentation style is
+  desired such that the separate subprojects nicely integrate with each other.
+
+
+
+HEADER
+======
+
+  Each plain text document has to start with the following header with one
+  blank line before and each line indented by two space characters.
+
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+
+  Web:   http://www.rad.upenn.edu/sbia/
+  Email: sbia-software at uphs.upenn.edu
+
+  Copyright (c) &lt;year&gt; University of Pennsylvania. All rights reserved.
+  See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+
+
+
+HEADINGS
+========
+
+  Headings of level 1 are capitalized as in this document. All other headings
+  are spelled case-sensitive where the first letter of words with four or more
+  characters are started with an uppercase letter. Headings of level 1 are
+  not intended, while all other headings are intended by two space characters.
+
+  For headings of level 1, a line of = characters as long as the heading is
+  used to underline it. For headings of level 2, - characters are used instead.
+  All other headings are not underlined.
+
+  Before each heading of level 1, three blank lines are inserted.
+  Before each heading of level 2, two blank lines are inserted.
+  Before any other heading, one blank line is inserted.
+
+  A heading and its text block are indented by (level - 1) * 2 space characters.
+  Hence, headings of level 1 are not indented, while headings of level 2 are
+  indented by two space characters.
+
+
+
+TEXT BLOCKS
+===========
+
+  The number of columns in a text block is limited to about 80 characters.
+  Each text block is indented equally to the indentation of its heading,
+  where at least two space characters are used to intend a text block.
+  Hence, even though headings of level 1 are not indented, so are the
+  corresponding text blocks.
+
+  There are no space characters on blank lines.
+
+
+
+ENUMERATIONS
+============
+
+  Use -, +, and * characters as bullet points.</pre>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../../index.html">Table Of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">BASIS Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Contents</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How-to Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../standard.html">Standards</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../standard.html#build-system-standard">Build System Standard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../standard.html#implementation-standard">Implementation Standard</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../standard.html#style-guides">Style Guides</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">Style Guide for Plain Text Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc.html">API Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+  </div>
+  
+  </body>
+</html>

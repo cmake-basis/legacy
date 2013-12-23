@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="Summary of changes, new features, and bug fixes for each BASIS release." name="description" />
+
+    <title>ChangeLog &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     'b2013.12.23 (15:17 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="index.html" />
+    <link rel="prev" title="Help" href="help.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="help.html" title="Help"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">BASIS</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changes">
+<h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-3-0-0-dec-24-2013">
+<span id="v3-0-0"></span><h2>Release 3.0.0 (Dec 24, 2013)<a class="headerlink" href="#release-3-0-0-dec-24-2013" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Generalized templates allow any organization to use BASIS.</p>
+</li>
+<li><p class="first">All sbia specific functionality has been separated out and is now optional.</p>
+</li>
+<li><dl class="first docutils">
+<dt>basisproject improvements.</dt>
+<dd><ul class="first last simple">
+<li>Customizable templates and substitution parameters.</li>
+<li>Set default template at install time with CMake DEFUALT_TEMPLATE parameter.</li>
+<li>support for binary template files.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Multiple new sphinx themes availabile for html documentation.</p>
+</li>
+<li><p class="first">Updated BASIS provided CMake variables to be more consistent with CMake.</p>
+</li>
+<li><p class="first">Updated and improved powerpoint introductory presentations.</p>
+</li>
+<li><p class="first">Improved and easier to read documentation.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-4-apr-20-2013">
+<span id="v2-1-4"></span><h2>Release 2.1.4 (Apr 20, 2013)<a class="headerlink" href="#release-2-1-4-apr-20-2013" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed issue with non-existent <tt class="docutils literal"><span class="pre">PROJECT_SUBDIRS</span></tt>, in particular, the default <tt class="docutils literal"><span class="pre">data</span></tt> subdirectory.</li>
+<li>Fixed paths to executable targets imported from BASIS when it is part of the same &#8220;bundle&#8221; build.</li>
+<li>Increase timeout for determining MATLAB version as MATLAB starts up <em>very</em> slow the first time.</li>
+<li>Modify <tt class="docutils literal"><span class="pre">basis_get_matlab_version()</span></tt> to also set <tt class="docutils literal"><span class="pre">MATLAB_RELEASE</span></tt> if called with no argument.</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-3-mar-1-2013">
+<span id="v2-1-3"></span><h2>Release 2.1.3 (Mar 1, 2013)<a class="headerlink" href="#release-2-1-3-mar-1-2013" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Make import of <tt class="docutils literal"><span class="pre">basis.utilities</span></tt> Bash/Python modules more robust against filesystem changes.</li>
+<li>Support direct submission of Bash executables to Oracle Grid Engine (SGE).</li>
+<li>Added CMake Find module for AFNI programs.</li>
+<li>Added <tt class="docutils literal"><span class="pre">PROJECT_SUBDIRS</span></tt> CMake variable whichs allows developers to specify additional root subdirectories.</li>
+<li>Set <tt class="docutils literal"><span class="pre">CPACK_PACKAGE_CONTACT</span></tt> by default to <tt class="docutils literal"><span class="pre">PROJECT_CONTACT</span></tt>.</li>
+<li>Fixed paths to bundled modules to be absolute.</li>
+<li>Fixed possible infinite recursion in <tt class="docutils literal"><span class="pre">basis_get_target_link_libraries</span></tt>.</li>
+<li>Fixed minor bug in <tt class="docutils literal"><span class="pre">basistest-master</span></tt> which wrote file &#8220;2&#8221; when an error occurred.</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-2-oct-31-2012">
+<span id="v2-1-2"></span><h2>Release 2.1.2 (Oct 31, 2012)<a class="headerlink" href="#release-2-1-2-oct-31-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Modified <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to only update template version in root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> if called with <tt class="docutils literal"><span class="pre">-u</span></tt>.</li>
+<li>Modified error message of <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to not mislead user.</li>
+<li>Fixed endless loop in Bash <tt class="docutils literal"><span class="pre">import()</span></tt> function when module not found.</li>
+<li>Fixed readonly warning of <tt class="docutils literal"><span class="pre">COPYRIGHT</span></tt>, <tt class="docutils literal"><span class="pre">LICENSE</span></tt>, or <tt class="docutils literal"><span class="pre">CONTACT</span></tt> Bash variables.</li>
+<li>Fixed relative path of executable target info maps of Bash, Perl, and Python utilities.</li>
+<li>Fixed base directory used to make such relative paths absolute.</li>
+<li>Fixed target name of Python which command used by C++ utilities.</li>
+<li>Fixed Doxygen comments to avoid warnings during build of API documentation.</li>
+<li>Fixed installation of API documentation as part of nightly test.</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-1-oct-25-2012">
+<span id="v2-1-1"></span><h2>Release 2.1.1 (Oct 25, 2012)<a class="headerlink" href="#release-2-1-1-oct-25-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Modified <tt class="docutils literal"><span class="pre">FindOpenCV.cmake</span></tt> module to still find OpenCV 2 even if CMake configuration file missing.</li>
+<li>Reset cached, non-internal <tt class="docutils literal"><span class="pre">&lt;PKG&gt;_*</span></tt> variables if <tt class="docutils literal"><span class="pre">&lt;PKG&gt;_DIR</span></tt> changed.</li>
+<li>Determine MATLAB version again after <tt class="docutils literal"><span class="pre">MATLAB_EXECUTABLE</span></tt> changed.</li>
+<li>Changed output directory of MatlabVersion.txt file in build tree.</li>
+<li>Fixed issue with build of MEX-files which link to libraries with filenames such as <tt class="docutils literal"><span class="pre">.so.1</span></tt>.</li>
+<li>Modified basisproject tool and project templates to only store &#8220;differences&#8221; of templates.</li>
+<li>Changed SBIA Sphinx style of search box in sidebar of web pages.</li>
+<li>Changed PDF names in template <tt class="docutils literal"><span class="pre">doc/CMakeLists.txt</span></tt> and revised CMake code further.</li>
+<li>Renamed documentation files.</li>
+<li>Added template file for ChangeLog.</li>
+<li>Documented changes of BASIS itself.</li>
+<li>Updated BASIS project files to latest project template.</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-0-sep-20-2012">
+<span id="v2-1-0"></span><h2>Release 2.1.0 (Sep 20, 2012)<a class="headerlink" href="#release-2-1-0-sep-20-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Changed SBIA Sphinx theme for software web pages.</li>
+<li>Extended project template by template files for web site.</li>
+<li>Added <tt class="docutils literal"><span class="pre">--[no]doc-rst</span></tt> option to <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool.</li>
+<li>Added separate <tt class="docutils literal"><span class="pre">ModuleConfig.cmake.in</span></tt> and <tt class="docutils literal"><span class="pre">ModuleUse.cmake.in</span></tt> template files.</li>
+<li>Added <tt class="docutils literal"><span class="pre">FindSVMTorch.cmake</span></tt> module.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">FindSphinx.cmake</span></tt> module to set <tt class="docutils literal"><span class="pre">Sphinx_DIR</span></tt> which is saved to <tt class="docutils literal"><span class="pre">BASISConfig.cmake</span></tt>.</li>
+<li>Modified generated executable target info to use relative paths only to executables of same package/bundle.</li>
+<li>Fixed problem of missing Python <tt class="docutils literal"><span class="pre">basis.py</span></tt> module if used as <tt class="docutils literal"><span class="pre">&lt;package&gt;.basis</span></tt> in script.</li>
+<li>Fixed visibility of <tt class="docutils literal"><span class="pre">ITK_DIR</span></tt> inherited from BASIS if ITK used by other project.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">basis_find_packages()</span></tt> to find configuration files of other modules or bundled packages again.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">basis_use_package()</span></tt> to use the <tt class="docutils literal"><span class="pre">&lt;Package&gt;_USE_FILE</span></tt> variable.</li>
+<li>Fixed CMake package configuration variable prefix (<tt class="docutils literal"><span class="pre">NS</span></tt>) for modules.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">install(EXPORT)</span></tt> error when project/module does not install any target.</li>
+</ul>
+</div>
+<div class="section" id="release-2-0-1-sep-17-2012">
+<span id="v2-0-1"></span><h2>Release 2.0.1 (Sep 17, 2012)<a class="headerlink" href="#release-2-0-1-sep-17-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added <tt class="docutils literal"><span class="pre">bundle</span></tt> installation scheme.</li>
+<li>Extended C++ function <tt class="docutils literal"><span class="pre">splitext()</span></tt> to optionally do a case insensitive comparison to the given extensions.</li>
+<li>Modified C++ function <tt class="docutils literal"><span class="pre">splitext()</span></tt> to only consider the specified extensions if any.</li>
+<li>Modified default Sphinx configuration to use arabic page numbers in PDF.</li>
+<li>Install Sphinx themes and extensions only if Sphinx found or <tt class="docutils literal"><span class="pre">USE_Sphinx</span></tt> set to <tt class="docutils literal"><span class="pre">ON</span></tt>, respectively.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">basis_get_last_changed_revision()</span></tt> for the case where repository is just initialized (r0).</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">basis_install_directory()</span></tt> to account for <tt class="docutils literal"><span class="pre">DESTDIR</span></tt> environment variable.</li>
+<li>Fixed problem with file/directory named &#8220;a&#8221; in current working directory and Bash function <tt class="docutils literal"><span class="pre">_basis_executabletargetinfo_sanitize()</span></tt>.</li>
+<li>Fixed compilation of Python modules for Jython.</li>
+<li>Fixed setting of <tt class="docutils literal"><span class="pre">&lt;Package&gt;_FOUND</span></tt> to <tt class="docutils literal"><span class="pre">FALSE</span></tt> if <tt class="docutils literal"><span class="pre">USE_&lt;Package&gt;</span></tt> is <tt class="docutils literal"><span class="pre">OFF</span></tt>.</li>
+</ul>
+</div>
+<div class="section" id="release-2-0-0-aug-28-2012">
+<span id="v2-0-0"></span><h2>Release 2.0.0 (Aug 28, 2012)<a class="headerlink" href="#release-2-0-0-aug-28-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support for Jyhton.</li>
+<li>Enabled use of BASIS utilities for scripting outside the scope of a project.</li>
+<li>Add code of <tt class="docutils literal"><span class="pre">BASIS_*_UTILITIES</span></tt> macros automatically without macro.</li>
+<li>During configuration, generate single BASIS utilities module for scripting</li>
+<li>Support <tt class="docutils literal"><span class="pre">lib/</span></tt> directory for scripted modules.</li>
+<li>Extended <tt class="docutils literal"><span class="pre">basis_add_library()</span></tt> to add single build target for entire scripted package.</li>
+<li>Enabled build of MATLAB wrapper executable if MCC not available.</li>
+<li>Add paths of module libraries via <tt class="docutils literal"><span class="pre">basis_target_link_libraries()</span></tt> to default search path of executable scripts.</li>
+<li>Added generic <tt class="docutils literal"><span class="pre">FindPythonModules.cmake</span></tt> module.</li>
+<li>Allow namespace identifier of project that differs from project name.</li>
+<li>Set <tt class="docutils literal"><span class="pre">RPATH</span></tt> of executables and shared libraries.</li>
+<li>Added <tt class="docutils literal"><span class="pre">import()</span></tt> function for Bash.</li>
+<li>Use wrapper for <tt class="docutils literal"><span class="pre">sphinx-build</span></tt> which unsets <tt class="docutils literal"><span class="pre">PYTHONHOME</span></tt> if set.</li>
+<li>Converted Doxygen pages to reStructuredText.</li>
+<li>Added remaining C++ utility functions to proper Doxygen group.</li>
+<li>Added hint regarding M-file shadowing MEX-file error message of MCC.</li>
+<li>Documented <tt class="docutils literal"><span class="pre">BASIS_SITE_DIRS</span></tt> option and installation of public modules.</li>
+<li>Updated installation guide.</li>
+<li>Do not add <tt class="docutils literal"><span class="pre">&lt;Pkg&gt;_DIR</span></tt> variables set in config file to cache if package is not used.</li>
+<li>Leading dot (.) for hidden files no longer falsly interpreted by C++ utility functions as file extension.</li>
+<li>Remove &#8220;sbia&#8221; or &#8220;SBIA&#8221; from namespace of BASIS Utilities.</li>
+<li>Change namespace of project-specific C++ utilities to project-namespace without &#8220;basis&#8221; subnamespace.</li>
+<li>Print help of optional positional arguments last in usage generated by C++ CmdLine object.</li>
+<li>Mark <tt class="docutils literal"><span class="pre">&lt;Module&gt;_DIR</span></tt> variables as advanced.</li>
+<li>Fixed issue of suppressed MCC errors in mccBuild.log.</li>
+<li>Look for required dependencies first, then for optional packages.</li>
+<li>Fixed bug regarding <tt class="docutils literal"><span class="pre">OUTPUT_NAME</span></tt> argument to <tt class="docutils literal"><span class="pre">basis_add_doc()</span></tt>.</li>
+<li>Fixed compilation of Jython modules.</li>
+<li>Look also for additional components of already found package/dependency.</li>
+<li>Compile Python modules also for use with Jython if <tt class="docutils literal"><span class="pre">BASIS_COMPILE_SCRIPTS</span></tt> is enabled.</li>
+</ul>
+</div>
+<div class="section" id="release-1-3-0-jun-5-2012">
+<span id="v1-3-0"></span><h2>Release 1.3.0 (Jun 5, 2012)<a class="headerlink" href="#release-1-3-0-jun-5-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated project template files. Version of new template files is 1.4.</li>
+<li>Extended and improved build and installation instructions.</li>
+<li>Improved finding of other packages using <tt class="docutils literal"><span class="pre">CMAKE_PATH_PREFIX</span></tt> and CMake&#8217;s package registry.</li>
+<li>Updated compatibility with Slicer version 4.1 and current trunk.</li>
+<li>Revised CMake modules <tt class="docutils literal"><span class="pre">FindBLAS.cmake</span></tt>, <tt class="docutils literal"><span class="pre">FindMATLAB.cmake</span></tt>, <tt class="docutils literal"><span class="pre">FindMOSEK.cmake</span></tt>, and <tt class="docutils literal"><span class="pre">FindOpenCV.cmake</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">FindPythonInterp.cmake</span></tt> module copied from CMake 2.8.6.</li>
+<li>Added BASH module script <tt class="docutils literal"><span class="pre">path.sh</span></tt>. Implemented <tt class="docutils literal"><span class="pre">get_real_path()</span></tt> and <tt class="docutils literal"><span class="pre">clean_path()</span></tt> functions.</li>
+<li>Added dependencies among BASIS Utilities and other build targets.</li>
+<li>Added <tt class="docutils literal"><span class="pre">stdio.h</span></tt> C++ module which can be used to output text in terminal automatically wrapped at width of terminal.</li>
+<li>Modified C++ implementation of <tt class="docutils literal"><span class="pre">get_executable_path()</span></tt> to look for executable on <tt class="docutils literal"><span class="pre">PATH</span></tt> if not known.</li>
+<li>Modified main Doxygen filter to process MATLAB scripts as well.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">BASIS_&lt;LANG&gt;_UTILITIES</span></tt> variables to expand to a single line only.</li>
+<li>Modified overwritten <tt class="docutils literal"><span class="pre">find_package()</span></tt> function to reset <tt class="docutils literal"><span class="pre">CMAKE_FIND_LIBRARY_SUFFIXES</span></tt> each time.</li>
+<li>Added support for documentation generation from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> sources using <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</li>
+<li>Added Sphinx extensions <a class="reference external" href="https://github.com/michaeljones/breathe">breathe</a> and <a class="reference external" href="http://packages.python.org/sphinxcontrib-doxylink/">doxylink</a> which can be used to link to Doxygen documentation.</li>
+<li>Added Sphinx theme for use at SBIA.</li>
+<li>Added <tt class="docutils literal"><span class="pre">cRelease</span></tt> to <tt class="docutils literal"><span class="pre">config.h</span></tt> which shall replace the now deprecated <tt class="docutils literal"><span class="pre">cVersionAndRevision</span></tt> constant.</li>
+<li>Renamed <tt class="docutils literal"><span class="pre">PROJECT_VERSION_AND_REVISION</span></tt> to <tt class="docutils literal"><span class="pre">PROJECT_RELEASE</span></tt>.</li>
+<li>Changed return value of <tt class="docutils literal"><span class="pre">execute_process()</span></tt> implementations in Python and Perl.</li>
+<li>Changed name of uninstaller from <tt class="docutils literal"><span class="pre">uninstall_&lt;package&gt;</span></tt> to <tt class="docutils literal"><span class="pre">uninstall-&lt;package&gt;</span></tt>.</li>
+<li>Changed <tt class="docutils literal"><span class="pre">BASIS_DOXYGEN_ALL</span></tt> to <tt class="docutils literal"><span class="pre">BASIS_ALL_DOC</span></tt>.</li>
+<li>Changed default name of Doxygen build targets from <tt class="docutils literal"><span class="pre">api</span></tt> to <tt class="docutils literal"><span class="pre">apidoc</span></tt>.</li>
+<li>Fixed use of <tt class="docutils literal"><span class="pre">WINDOWS</span></tt> instead of <tt class="docutils literal"><span class="pre">WIN32</span></tt> in CMake code.</li>
+<li>Fixed exclude patterns used for source package generation.</li>
+<li>Fixed bug in <tt class="docutils literal"><span class="pre">basis_get_target_location()</span></tt>.</li>
+<li>Fixed exclusion of <tt class="docutils literal"><span class="pre">config.h</span></tt> from installation if unused.</li>
+<li>Fixed Windows Command file generation to allow for space characters in script file path.</li>
+<li>Fixed order of positional arguments in help output generated by C++ command-line parsing library.</li>
+<li>Fixed bug in C++ implementation of <tt class="docutils literal"><span class="pre">split_path()</span></tt>.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">basisproject</span></tt> command to avoid conflicts due to update of template version in root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> file.</li>
+<li>Fixed bug in <tt class="docutils literal"><span class="pre">basis_add_(executable|library|mcc|mex)_target()</span></tt> functions in case of source file specified as first argument.</li>
+<li>Fixed deinstallation of <tt class="docutils literal"><span class="pre">__init__.py</span></tt> files that are yet in use by other packages.</li>
+<li>Fixed BASH function <tt class="docutils literal"><span class="pre">basis_array_to_quoted_string()</span></tt>.</li>
+</ul>
+</div>
+<div class="section" id="release-1-2-3-apr-12-2012">
+<span id="v1-2-3"></span><h2>Release 1.2.3 (Apr 12, 2012)<a class="headerlink" href="#release-1-2-3-apr-12-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Uninstall previously installed project as part of Nightly tests before new installation.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to avoid conflicts upon update of an existing project.</li>
+<li>Added separate target to generate <tt class="docutils literal"><span class="pre">__init__.py</span></tt> modules.</li>
+<li>Added <tt class="docutils literal"><span class="pre">PYTHON_EXECUTABLE</span></tt>, <tt class="docutils literal"><span class="pre">PERL_EXECUTABLE</span></tt>, and <tt class="docutils literal"><span class="pre">BASH_EXECUTABLE</span></tt> to BASIS configuration file.</li>
+<li>Rewrote <tt class="docutils literal"><span class="pre">INSTALL-basis.txt</span></tt> as how-to guide which is part of generated BASIS documentation.</li>
+<li>Documented advanced CMake options/variables in installation how-to guide.</li>
+<li>Replaced obsolete <tt class="docutils literal"><span class="pre">BASIS_CMD_*</span></tt> constants.</li>
+<li>Fixed Perl implementation of <tt class="docutils literal"><span class="pre">get_executable_path()</span></tt> to simplify paths.</li>
+<li>Fixed &#8220;use lib&#8221; statements of <tt class="docutils literal"><span class="pre">BASIS_PERL_UTILITIES</span></tt> macro.</li>
+</ul>
+</div>
+<div class="section" id="release-1-2-2-apr-4-2012">
+<span id="v1-2-2"></span><h2>Release 1.2.2 (Apr 4, 2012)<a class="headerlink" href="#release-1-2-2-apr-4-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed search path of Python modules in Python utilities. This bug affected the <tt class="docutils literal"><span class="pre">basis.execute_process()</span></tt> function if the build tree versions of the executables should be used.</li>
+<li>Fixed CMake function <tt class="docutils literal"><span class="pre">basis_install_directory()</span></tt> to actually make relative source path absolute and changed it to check arguments to identify user mistakes.</li>
+<li>Documented dependency on ITK in INSTALL file.</li>
+<li>Detailed error message of <tt class="docutils literal"><span class="pre">basistest-driver</span></tt> when built without ITK.</li>
+</ul>
+</div>
+<div class="section" id="release-1-2-1-mar-21-2012">
+<span id="v1-2-1"></span><h2>Release 1.2.1 (Mar 21, 2012)<a class="headerlink" href="#release-1-2-1-mar-21-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Exclude directories of header files and libraries imported from dependent packages from CMake package configuration (file <tt class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></tt>).</li>
+<li>Fixed implementation of C++ function <tt class="docutils literal"><span class="pre">get_real_path()</span></tt> to resolve all symbolic links encountered in file path.</li>
+<li>Fixed bug in C++ function <tt class="docutils literal"><span class="pre">executing_in_build_tree()</span></tt> in case the path of the build directory contains a symbolic link.</li>
+</ul>
+</div>
+<div class="section" id="release-1-2-0-feb-29-2012">
+<span id="v1-2-0"></span><h2>Release 1.2.0 (Feb 29, 2012)<a class="headerlink" href="#release-1-2-0-feb-29-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Includes new project template version 1.2.</li>
+<li>Add <tt class="docutils literal"><span class="pre">FindOpenCV.cmake</span></tt> module and fix issues with <tt class="docutils literal"><span class="pre">cv.h</span></tt> file which is part of PerlLibs.</li>
+<li>Modify <tt class="docutils literal"><span class="pre">FindBoostNumericBindings.cmake</span></tt> module to look for header files in <tt class="docutils literal"><span class="pre">boost-numeric-bindings</span></tt> subdirectory.</li>
+<li>Change link to public BASIS project page. Do not use SourceForge project page any more.</li>
+<li>Fixed use of CMake&#8217;s <tt class="docutils literal"><span class="pre">execute_process()</span></tt> command to install documentation in <tt class="docutils literal"><span class="pre">basistest.ctest</span></tt> script.</li>
+<li>Fixed Doxygen warning regarding references in <tt class="docutils literal"><span class="pre">.dox</span></tt> files which refer to the BASIS documentation.</li>
+<li>Fixed issue with use of <tt class="docutils literal"><span class="pre">STREQUAL</span></tt> instead of <tt class="docutils literal"><span class="pre">MATCHES</span></tt> for string comparison in CMake function <tt class="docutils literal"><span class="pre">basis_set_target_properties()</span></tt>.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-0-feb-18-2012">
+<span id="v1-0-0"></span><h2>Release 1.0.0 (Feb 18, 2012)<a class="headerlink" href="#release-1-0-0-feb-18-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Allow developers to disable configuration of public header files.</li>
+<li>Modified basistest script to allow for manual execution in existing build tree.</li>
+<li>Added functions <tt class="docutils literal"><span class="pre">make_directory()</span></tt>/<tt class="docutils literal"><span class="pre">remove_directory()</span></tt> to C++ utilities.</li>
+<li>Changed build configuration <tt class="docutils literal"><span class="pre">Coverage</span></tt>, and added <tt class="docutils literal"><span class="pre">MemCheck</span></tt> build configuration.</li>
+<li>Extended basistest CTest script.
+- Optionally perform installation step after successful test.
+- Do not run tests if configuration or build failed.</li>
+<li>Fixed removal of obsolete public header files from build tree.</li>
+<li>Fixed bugs in <tt class="docutils literal"><span class="pre">subprocess.cxx</span></tt> module of C++ utilities.</li>
+<li>Fixed value of <tt class="docutils literal"><span class="pre">CMAKE_PROJECT_NAME</span></tt> variable in CMake cache.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-0rc1-dec-16-2011">
+<span id="v1-0-0rc1"></span><h2>Release 1.0.0rc1 (Dec 16, 2011)<a class="headerlink" href="#release-1-0-0rc1-dec-16-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added uninstaller script which is independent of build tree.</li>
+<li>Support version numbers as used for release candidates (e.g. <tt class="docutils literal"><span class="pre">1.0rc1</span></tt>).</li>
+<li>Allow modules to declare top-level project as dependency.</li>
+<li>Allow package dependency specifications which include minimum version (e.g. <tt class="docutils literal"><span class="pre">Boost-1.45</span></tt>).</li>
+<li>Added test driver based on either ITK 3 or ITK 4 intended for image regression tests.</li>
+<li>Changed namespace of all C++ utilities from <tt class="docutils literal"><span class="pre">sbia::&lt;project&gt;</span></tt> to <tt class="docutils literal"><span class="pre">sbia::basis</span></tt>.</li>
+<li>Modified help output of C++ command-line parsing library to standard output.</li>
+<li>Added <tt class="docutils literal"><span class="pre">is_file()</span></tt>, <tt class="docutils literal"><span class="pre">is_dir()</span></tt>, and <tt class="docutils literal"><span class="pre">exists()</span></tt> functions to <tt class="docutils literal"><span class="pre">path</span></tt> module of C++ utilities.</li>
+<li>Modified style of API documentation generated by Doxygen.</li>
+<li>Minor changes of generated API documentation.</li>
+<li>Converted plain text documentation files to Doxygen pages.</li>
+<li>Revised handling of root documentation files <tt class="docutils literal"><span class="pre">AUTHORS.txt</span></tt>, <tt class="docutils literal"><span class="pre">COPYING.txt</span></tt>, <tt class="docutils literal"><span class="pre">README.txt</span></tt>, <tt class="docutils literal"><span class="pre">INSTALL.txt</span></tt>, and <tt class="docutils literal"><span class="pre">WELCOME.txt</span></tt>.</li>
+<li>Modified Python utilities to ensure compatibility with Python 2.4.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">basis_add_test()</span></tt> CMake function to support signature of CMake&#8217;s <tt class="docutils literal"><span class="pre">add_test()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">basis_dump_variables()</span></tt> CMake function which dumps all currently defined CMake variables to a CMake script.</li>
+<li>Added import target to <tt class="docutils literal"><span class="pre">FindNiftiCLib.cmake</span></tt> module.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">ExecutableTargetInfo</span></tt> module of C++ utilities when build inside an IDE such as Visual Studio.</li>
+<li>Fixed installation of symbolic links for modules.</li>
+<li>Fixed test coverage extra glob and exclude expressions.</li>
+<li>Fixed bug in <tt class="docutils literal"><span class="pre">schedule_date()</span></tt> function of <tt class="docutils literal"><span class="pre">basistest-master</span></tt> script.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">FindMOSEK.cmake</span></tt> module.</li>
+</ul>
+<br /></div>
+<div class="section" id="pre-release-0-3-0-nov-22-2011">
+<span id="v0-3-0"></span><h2>Pre-Release 0.3.0 (Nov 22, 2011)<a class="headerlink" href="#pre-release-0-3-0-nov-22-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Implemented support for project modularization following the example of the ITK 4 project.</li>
+<li>Added support for implementation of Slicer Extension.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-2-2-nov-4-2011">
+<span id="v0-2-2"></span><h2>Pre-Release 0.2.2 (Nov 4, 2011)<a class="headerlink" href="#pre-release-0-2-2-nov-4-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed installation of API documentation.</li>
+<li>Fixed Python and Perl module paths in CMake package configuration of BASIS installation.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-2-1-nov-3-2011">
+<span id="v0-2-1"></span><h2>Pre-Release 0.2.1 (Nov 3, 2011)<a class="headerlink" href="#pre-release-0-2-1-nov-3-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed <tt class="docutils literal"><span class="pre">basis_configure_sources()</span></tt> function to account for already pre-configured sources in the build tree.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-2-0-nov-2-2011">
+<span id="v0-2-0"></span><h2>Pre-Release 0.2.0 (Nov 2, 2011)<a class="headerlink" href="#pre-release-0-2-0-nov-2-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed problems regarding creation of symbolic links when executable name is identical to project name.</li>
+<li>Changed default installation path sinfix to <tt class="docutils literal"><span class="pre">sbia/&lt;project&gt;</span></tt> and added advanced <tt class="docutils literal"><span class="pre">BASIS_INSTALL_SINFIX</span></tt> CMake variable.</li>
+<li>Changed default installation path of auxiliary data files to <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/share/&lt;sinfix&gt;/data/</span></tt>.</li>
+<li>Fixed and extended package Find modules.</li>
+<li>Added <tt class="docutils literal"><span class="pre">BUILD_EXAMPLE</span></tt> option to build configuration of BASIS projects.</li>
+<li>Added <tt class="docutils literal"><span class="pre">basis_get_relative_path()</span></tt> function.</li>
+<li>Enabled configuration of <tt class="docutils literal"><span class="pre">.in</span></tt> source files passed to <tt class="docutils literal"><span class="pre">basis_add_executable()</span></tt> and <tt class="docutils literal"><span class="pre">basis_add_library()</span></tt>.</li>
+<li>Enabled optional use of target UIDs and added the advanced option <tt class="docutils literal"><span class="pre">BASIS_USE_TARGET_UIDS</span></tt> which is <tt class="docutils literal"><span class="pre">OFF</span></tt> by default.</li>
+<li>Removed <tt class="docutils literal"><span class="pre">BASIS_CONFIG_PREFIX</span></tt> constant.</li>
+<li>Removed obsolete <tt class="docutils literal"><span class="pre">find_basis_package()</span></tt> macro.</li>
+<li>Fixed installation path of package configuration files to <tt class="docutils literal"><span class="pre">&lt;prefix&gt;/lib/cmake/&lt;project&gt;/</span></tt>.</li>
+<li>Changed namespace of project-specific BASIS C++ utilities to <tt class="docutils literal"><span class="pre">sbia::&lt;project&gt;::basis</span></tt>.</li>
+<li>Fixed bug in implementation of <tt class="docutils literal"><span class="pre">executabletargetinfo.sh</span></tt> module for BASH.</li>
+<li>Improved <tt class="docutils literal"><span class="pre">uninstall</span></tt> target used for Makefile-based deinstallation.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-8-oct-31-2011">
+<span id="v0-1-8"></span><h2>Pre-Release 0.1.8 (Oct 31, 2011)<a class="headerlink" href="#pre-release-0-1-8-oct-31-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed bug in <tt class="docutils literal"><span class="pre">basis_target_uid()</span></tt> which caused a failure when configuring a project that uses ITK 4.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-7-oct-31-2011">
+<span id="v0-1-7"></span><h2>Pre-Release 0.1.7 (Oct 31, 2011)<a class="headerlink" href="#pre-release-0-1-7-oct-31-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed build of executables using the MATLAB Compiler in MATLAB mode. Bug introduced in <a class="reference internal" href="#v0-1-5"><em>Pre-Release 0.1.5 (Oct 18, 2011)</em></a>.</li>
+<li>Moved definition of <tt class="docutils literal"><span class="pre">BUILD_*_UTILITIES</span></tt> options to root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> to fix build of tests.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-6-oct-31-2011">
+<span id="v0-1-6"></span><h2>Pre-Release 0.1.6 (Oct 31, 2011)<a class="headerlink" href="#pre-release-0-1-6-oct-31-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Enabled build on Windows.</li>
+<li>Added <tt class="docutils literal"><span class="pre">BUILD_*_UTILITIES</span></tt> options.</li>
+<li>Fixed bugs in <tt class="docutils literal"><span class="pre">basisproject</span></tt>: Remove trailing slashes from specified root directory.</li>
+<li>Modified project tool to enable <tt class="docutils literal"><span class="pre">--force</span></tt> of removal of non-empty directories.</li>
+<li>Modified project tool to no longer make use of the <tt class="docutils literal"><span class="pre">.basis/cache</span></tt> file.</li>
+<li>Added <tt class="docutils literal"><span class="pre">--useopt</span></tt> option to <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool. Kept deprecated <tt class="docutils literal"><span class="pre">--optuse</span></tt> option to maintain backwards compatibility.</li>
+<li>Added <tt class="docutils literal"><span class="pre">--[no]config*</span></tt> options to project tool. Kept deprecated <tt class="docutils literal"><span class="pre">--[no]conf-*</span></tt> options to maintain backwards compatibility.</li>
+<li>Removed configuration files from standard project template.</li>
+<li>Added Getting Started tutorial and corresponding example source files.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-5-oct-18-2011">
+<span id="v0-1-5"></span><h2>Pre-Release 0.1.5 (Oct 18, 2011)<a class="headerlink" href="#pre-release-0-1-5-oct-18-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Modified <tt class="docutils literal"><span class="pre">INSTALL_SINFIX</span></tt> from string to boolean switch. The <tt class="docutils literal"><span class="pre">&lt;sinfix&gt;</span></tt> is now either not used or corresponds to the project name in lowercase.</li>
+<li>Added missing <tt class="docutils literal"><span class="pre">--[no]include</span></tt> option to <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool.</li>
+<li>By default, <tt class="docutils literal"><span class="pre">basisproject</span></tt> uses project template corresponding to <tt class="docutils literal"><span class="pre">--standard</span></tt> option.</li>
+<li>Modified <tt class="docutils literal"><span class="pre">basis_include_directories()</span></tt> and <tt class="docutils literal"><span class="pre">basis_link_directories()</span></tt> to make relative paths absolute using the current source directory.</li>
+<li>Fixed <tt class="docutils literal"><span class="pre">basis_find_package()</span></tt>.</li>
+<li>Fixed bugs related to build of targets using MATLAB Compiler or MEX script.</li>
+<li>Extended <tt class="docutils literal"><span class="pre">FindMATLAB.cmake</span></tt> module to also look for <tt class="docutils literal"><span class="pre">matlab</span></tt>, <tt class="docutils literal"><span class="pre">mcc</span></tt>, <tt class="docutils literal"><span class="pre">mex</span></tt>, and <tt class="docutils literal"><span class="pre">mexext</span></tt> executables.</li>
+<li><tt class="docutils literal"><span class="pre">basis_add_mcc_target()</span></tt> does not accept link dependencies as arguments any more. These should be given using <tt class="docutils literal"><span class="pre">basis_target_link_libraries()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">MFILE</span></tt> property to MEX-file targets which allows the specification of a MATLAB source file containing a function prototype with documentation.</li>
+<li>Added overwrite&#8217;s of CMake&#8217;s <tt class="docutils literal"><span class="pre">include_directories()</span></tt> and <tt class="docutils literal"><span class="pre">link_directories()</span></tt> commands. Otherwise, BASIS would not know about directories added by so-called external use files (e.g., <tt class="docutils literal"><span class="pre">UseITK.cmake</span></tt>).</li>
+<li>Updated documentation.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-4-oct-14-2011">
+<span id="v0-1-4"></span><h2>Pre-Release 0.1.4 (Oct 14, 2011)<a class="headerlink" href="#pre-release-0-1-4-oct-14-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added yet another missing include statement.</li>
+<li>Fixed issue with CMake&#8217;s <tt class="docutils literal"><span class="pre">FindPerlLibs.cmake</span></tt> module on Ubuntu 11.10 and Mac OS X Lion.</li>
+<li>Fixed linker error of C++ unit tests regarding undefined pthread references on Ubuntu 11.10.</li>
+<li>Do not cause compiler error if <tt class="docutils literal"><span class="pre">HAVE_SSTREAM</span></tt> is already set to a different value. Fixed build of test project on Ubuntu 11.10.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-3-oct-13-2011">
+<span id="v0-1-3"></span><h2>Pre-Release 0.1.3 (Oct 13, 2011)<a class="headerlink" href="#pre-release-0-1-3-oct-13-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Modified <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to store template files only in top level <tt class="docutils literal"><span class="pre">.basis/</span></tt> directory.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-2-oct-13-2011">
+<span id="v0-1-2"></span><h2>Pre-Release 0.1.2 (Oct 13, 2011)<a class="headerlink" href="#pre-release-0-1-2-oct-13-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed bug regarding <tt class="docutils literal"><span class="pre">BASIS_LIBRARY_DIR</span></tt> which affected the build of BASIS itself.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-1-oct-12-2011">
+<span id="v0-1-1"></span><h2>Pre-Release 0.1.1 (Oct 12, 2011)<a class="headerlink" href="#pre-release-0-1-1-oct-12-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added missing include statements.</li>
+<li>Fixed implementation of <tt class="docutils literal"><span class="pre">Subprocess::split()</span></tt> and <tt class="docutils literal"><span class="pre">Subprocess::to_string()</span></tt>.</li>
+<li>Completed README, COPYING, and INSTALL documents.</li>
+<li>Removed obsolete Doxygen filters.</li>
+<li>Reorganized documentation files.</li>
+</ul>
+</div>
+<div class="section" id="pre-release-0-1-0-oct-5-2011">
+<span id="v0-1-0"></span><h2>Pre-Release 0.1.0 (Oct 5, 2011)<a class="headerlink" href="#pre-release-0-1-0-oct-5-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>First pre-release for internal use at SBIA.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BASIS Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Contents</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API Reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Changes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#release-3-0-0-dec-24-2013">Release 3.0.0 (Dec 24, 2013)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-1-4-apr-20-2013">Release 2.1.4 (Apr 20, 2013)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-1-3-mar-1-2013">Release 2.1.3 (Mar 1, 2013)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-1-2-oct-31-2012">Release 2.1.2 (Oct 31, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-1-1-oct-25-2012">Release 2.1.1 (Oct 25, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-1-0-sep-20-2012">Release 2.1.0 (Sep 20, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-0-1-sep-17-2012">Release 2.0.1 (Sep 17, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-0-0-aug-28-2012">Release 2.0.0 (Aug 28, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-3-0-jun-5-2012">Release 1.3.0 (Jun 5, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-3-apr-12-2012">Release 1.2.3 (Apr 12, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-2-apr-4-2012">Release 1.2.2 (Apr 4, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-1-mar-21-2012">Release 1.2.1 (Mar 21, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-0-feb-29-2012">Release 1.2.0 (Feb 29, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-0-0-feb-18-2012">Release 1.0.0 (Feb 18, 2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-0-0rc1-dec-16-2011">Release 1.0.0rc1 (Dec 16, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-3-0-nov-22-2011">Pre-Release 0.3.0 (Nov 22, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-2-2-nov-4-2011">Pre-Release 0.2.2 (Nov 4, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-2-1-nov-3-2011">Pre-Release 0.2.1 (Nov 3, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-2-0-nov-2-2011">Pre-Release 0.2.0 (Nov 2, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-8-oct-31-2011">Pre-Release 0.1.8 (Oct 31, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-7-oct-31-2011">Pre-Release 0.1.7 (Oct 31, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-6-oct-31-2011">Pre-Release 0.1.6 (Oct 31, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-5-oct-18-2011">Pre-Release 0.1.5 (Oct 18, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-4-oct-14-2011">Pre-Release 0.1.4 (Oct 14, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-3-oct-13-2011">Pre-Release 0.1.3 (Oct 13, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-2-oct-13-2011">Pre-Release 0.1.2 (Oct 13, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-1-oct-12-2011">Pre-Release 0.1.1 (Oct 12, 2011)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-0-oct-5-2011">Pre-Release 0.1.0 (Oct 5, 2011)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+  </div>
+  
+  </body>
+</html>

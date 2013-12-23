@@ -1,0 +1,8 @@
+<map id="Exporter.pm" name="Exporter.pm">
+<area shape="rect" id="node2" href="$DoxyFilter_8pm.html" title="Base class for Doxygen filter implementations. " alt="" coords="5,81,104,107"/>
+<area shape="rect" id="node3" href="$Which_8pm.html" title="Which.pm" alt="" coords="129,81,207,107"/>
+<area shape="rect" id="node4" href="$Utilities_8pm.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="203,155,283,182"/>
+<area shape="rect" id="node5" href="$Basis_8pm.html" title="BASIS utilities of BASIS package. " alt="" coords="243,230,319,257"/>
+<area shape="rect" id="node7" href="$Readonly_8pm.html" title="Readonly.pm" alt="" coords="357,81,456,107"/>
+<area shape="rect" id="node6" href="$doxyfilter_8pl.html" title="Doxygen filter for CMake, Python, Perl, Bash, and MATLAB. " alt="" coords="240,305,323,331"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="BASIS Utilities" name="BASIS Utilities">
+<area shape="rect" id="node1" href="$group__BasisBashUtilities.html" title="Auxiliary implementations for use in Bash scripts. " alt="" coords="167,5,262,32"/>
+<area shape="rect" id="node2" href="$group__BasisPythonUtilities.html" title="Auxiliary implementations for use in Python scripts. " alt="" coords="163,56,266,83"/>
+<area shape="rect" id="node3" href="$group__BasisPerlUtilities.html" title="Auxiliary implementations for use in Perl scripts. " alt="" coords="173,107,257,133"/>
+<area shape="rect" id="node5" href="$group__BasisMatlabUtilities.html" title="Auxiliary implementations for use in MATLAB scripts. " alt="" coords="157,157,272,184"/>
+<area shape="rect" id="node6" href="$group__BasisCxxUtilities.html" title="Auxiliary implementations for use in C++ source code. " alt="" coords="170,208,259,235"/>
+</map>

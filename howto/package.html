@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="This BASIS how-to describes the packaging of BASIS-based software for distribution." name="description" />
+
+    <title>Packaging Software &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'b2013.12.23 (15:17 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="../index.html" />
+    <link rel="up" title="How-to Guides" href="../howto.html" />
+    <link rel="next" title="CMake Options" href="buildoptions.html" />
+    <link rel="prev" title="Branch and Release" href="branch-and-release.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="buildoptions.html" title="CMake Options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="branch-and-release.html" title="Branch and Release"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">BASIS</a> &raquo;</li>
+          <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="packaging-software">
+<h1>Packaging Software<a class="headerlink" href="#packaging-software" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the packaging of BASIS projects.</p>
+<div class="section" id="distribution-of-sources">
+<span id="generatesourcepackage"></span><h2>Distribution of Sources<a class="headerlink" href="#distribution-of-sources" title="Permalink to this headline">¶</a></h2>
+<p>A source package for distribution which only includes basic tests and
+selected modules can be generated using <a class="reference external" href="http://www.cmake.org/cmake/help/cpack-2-8-docs.html">CPack</a>. In particular, the build target
+<tt class="docutils literal"><span class="pre">package_source</span></tt> is used to generate a <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> file with the source
+files of the distribution package. This package will include all source
+files except those which match one of the patterns in the
+<tt class="docutils literal"><span class="pre">CPACK_SOURCE_IGNORE_FILES</span></tt> CMake list which is set to common default
+patterns in the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a> module. Additional exclude patterns for
+a particular package shall be added to the <tt class="docutils literal"><span class="pre">Settings.cmake</span></tt> file of the
+project. Moreover, if the project contains different
+<a class="reference internal" href="../standard/modules.html"><em>modules</em></a>, only the enabled modules are included.
+For general steps on how to configure a build tree, see the
+<a class="reference internal" href="../install.html#howtobuildthesoftware"><em>common build instructions</em></a>. Given a configured build
+tree with a generated <tt class="docutils literal"><span class="pre">Makefile</span></tt>, run the following command to generate the source
+distribution package:</p>
+<div class="highlight-python"><pre>make package_source</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">BASIS Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Contents</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-custom-template.html">Create a Custom Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Packaging Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distribution-of-sources">Distribution of Sources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="buildoptions.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildoptions.html#advanced-cmake-options">Advanced CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-automated-tests.html">Automated Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+  </div>
+  
+  </body>
+</html>
