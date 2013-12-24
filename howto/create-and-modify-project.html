@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2013.12.23 (18:05 UTC)',
+        VERSION:     'b2013.12.23 (23:46 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -49,6 +49,7 @@
           <a href="../howto.html" title="How-to Guides"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">BASIS</a> &raquo;</li>
+          <li><a href="../contents.html" >Table of Contents</a> &raquo;</li>
           <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
       </ul>
     </div>  
@@ -119,7 +120,7 @@ project name is used to identify the project within the lab and possibly even ex
 Therefore, it should be fixed as early as possible. In order to change the project
 description, simply edit the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file which you can find
 in the top directory of the source tree. Specifically, the argument for the
-<tt class="docutils literal"><span class="pre">DESCRIPTION</span></tt> option of the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> function.</p>
+<tt class="docutils literal"><span class="pre">DESCRIPTION</span></tt> option of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> function.</p>
 <p>Hence, in order to modify an existing project, the <tt class="docutils literal"><span class="pre">--name</span></tt> and
 <tt class="docutils literal"><span class="pre">--description</span></tt> options cannot be used. Instead, use the <tt class="docutils literal"><span class="pre">--root</span></tt>
 option to specify the root directory of the source tree of the project you want
@@ -178,18 +179,18 @@ option, and only if it failed consider to add the <tt class="docutils literal"><
 <p>A dependency is either a program required by your software at runtime or an external
 software package such as the <a class="reference external" href="http://niftilib.sourceforge.net/">nifticlib</a> or <a class="reference external" href="http://www.itk.org/">ITK</a>. <tt class="docutils literal"><span class="pre">basisproject</span></tt> can be used to add
 the names of packages your project depends on to the lists of dependencies which are
-given as arguments to the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command. For each named package in this
-list, the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a> command is called to look for a corresponding
+given as arguments to the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command. For each named package in this
+list, the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a> command is called to look for a corresponding
 package installation. In order to understand how CMake searches for external software
 packages, please read the documentation of CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#command:find_package">find_package()</a> command.</p>
-<p>The BASIS package provides so-called <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeFindModules.html">Find modules</a> (e.g., <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/FindMATLAB_8cmake.html">FindMATLAB.cmake</a> or
-<a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/FindNiftiCLib_8cmake.html">FindNiftiCLib.cmake</a>) for external software packages which are commonly used
+<p>The BASIS package provides so-called <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeFindModules.html">Find modules</a> (e.g., <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/FindMATLAB_8cmake.html">FindMATLAB.cmake</a> or
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/FindNiftiCLib_8cmake.html">FindNiftiCLib.cmake</a>) for external software packages which are commonly used
 at SBIA and not (yet) part of CMake or improve upon the standard modules. If you have
 problems resolving the dependency on an external software package required by your
 software due to a missing corresponding Find module, please contact the maintainer of
 the BASIS project and state your interest in a support by BASIS for this particular
 software package. Alternatively, you can write such Find module yourself and save it
-in the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__BasisDirectories.html#ga6eca623aced1386555dcea2557fb8747">PROJECT_CONFIG_DIR</a> of your project.</p>
+in the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisDirectories.html#ga6eca623aced1386555dcea2557fb8747">PROJECT_CONFIG_DIR</a> of your project.</p>
 <p>As an example on how to add another dependency to an existing BASIS project,
 consider the following scenario. We created a project without any dependency and now
 notice that we would like to make use of ITK in our implementation.
@@ -204,7 +205,7 @@ the <tt class="docutils literal"><span class="pre">--useopt</span></tt> option t
 but will not cause CMake to fail if the package was not found. In this case, you will
 need to consider the <tt class="docutils literal"><span class="pre">&lt;Pkg&gt;_FOUND</span></tt> variable in order to decide whether to make use of
 the software package or not. Note that the package name is case sensitive and that the
-case must match the one of the first argument of <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a>.</p>
+case must match the one of the first argument of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a>.</p>
 <p>For example, let&#8217;s assume your software can optionally make use of CUDA.
 Therefore, as CMake includes already a <tt class="docutils literal"><span class="pre">FindCUDA.cmake</span></tt> module, we can run the
 following command in order to have CMake look for an installation of the CUDA libraries:</p>
@@ -216,7 +217,7 @@ and <tt class="docutils literal"><span class="pre">FALSE</span></tt> otherwise.<
 MATLAB source files using the <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> (MCC). In this case, you need to
 add a dependency on the MATLAB package. Please note that it is important to capitalize
 the package name and not to use <tt class="docutils literal"><span class="pre">Matlab</span></tt> as this would refer to the <tt class="docutils literal"><span class="pre">FindMatlab.cmake</span></tt>
-module included with CMake. The <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/latest/FindMATLAB_8cmake.html">FindMATLAB.cmake</a> module which we are using is included
+module included with CMake. The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/FindMATLAB_8cmake.html">FindMATLAB.cmake</a> module which we are using is included
 with BASIS. It improves the way CMake looks for a MATLAB installation and furthermore
 looks for executables required by BASIS, such as in particular <tt class="docutils literal"><span class="pre">matlab</span></tt>, <tt class="docutils literal"><span class="pre">mcc</span></tt>, and
 <tt class="docutils literal"><span class="pre">mex</span></tt>. Use the following command to add a dependency on MATLAB:</p>
@@ -386,7 +387,8 @@ in the root directory of your project&#8217;s source tree.</p>
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
@@ -413,10 +415,11 @@ in the root directory of your project&#8217;s source tree.</p>
 <li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Table of Contents</a></li>
 </ul>
 
         </div>
