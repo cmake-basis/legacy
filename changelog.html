@@ -5,9 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta content="Summary of changes, new features, and bug fixes for each BASIS release." name="description" />
+    <meta content="Latest news such as summary of changes, new features, and bug fixes for each BASIS release." name="description" />
 
-    <title>ChangeLog &mdash; BASIS</title>
+    <title>News &mdash; BASIS</title>
     
     <link rel="stylesheet" href="_static/readable.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     'b2013.12.23 (23:46 UTC)',
+        VERSION:     'b2014.01.05 (16:07 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="BASIS" href="index.html" />
     <link rel="up" title="Table of Contents" href="contents.html" />
-    <link rel="prev" title="Help" href="help.html" />
+    <link rel="next" title="Download" href="download.html" />
+    <link rel="prev" title="Getting Help" href="help.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
@@ -42,7 +43,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="help.html" title="Help"
+          <a href="download.html" title="Download"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="help.html" title="Getting Help"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">BASIS</a> &raquo;</li>
           <li><a href="contents.html" accesskey="U">Table of Contents</a> &raquo;</li> 
@@ -54,32 +58,34 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="changes">
-<h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="news">
+<h1>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="release-3-0-0-dec-24-2013">
 <span id="v3-0-0"></span><h2>Release 3.0.0 (Dec 24, 2013)<a class="headerlink" href="#release-3-0-0-dec-24-2013" title="Permalink to this headline">¶</a></h2>
 <ul>
+<li><p class="first">Slight project name change to &#8220;CMake BASIS&#8221; (yet usually just referred to as BASIS).</p>
+</li>
 <li><p class="first">Generalized templates allow any organization to use BASIS.</p>
 </li>
-<li><p class="first">All sbia specific functionality has been separated out and is now optional.</p>
+<li><p class="first">All SBIA specific functionality has been separated out and is now optional.</p>
 </li>
 <li><dl class="first docutils">
-<dt>basisproject improvements.</dt>
+<dt>Improvements of basisproject tool:</dt>
 <dd><ul class="first last simple">
 <li>Customizable templates and substitution parameters.</li>
-<li>Set default template at install time with CMake DEFUALT_TEMPLATE parameter.</li>
-<li>support for binary template files.</li>
+<li>Default template configurable during installation using the CMake <tt class="docutils literal"><span class="pre">DEFAULT_TEMPLATE</span></tt> option.</li>
+<li>Support for binary template files.</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">Multiple new sphinx themes availabile for html documentation.</p>
+<li><p class="first">Multiple new Sphinx themes available for HTML documentation.</p>
 </li>
-<li><p class="first">Updated BASIS provided CMake variables to be more consistent with CMake.</p>
-</li>
-<li><p class="first">Updated and improved powerpoint introductory presentations.</p>
+<li><p class="first">Updated and improved introductory presentation slides.</p>
 </li>
 <li><p class="first">Improved and easier to read documentation.</p>
+</li>
+<li><p class="first">Hosting new web site of Open Source CMake BASIS project on GitHub.</p>
 </li>
 </ul>
 </div>
@@ -472,18 +478,16 @@
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-</ul>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard/buildsystem.html">Build System Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard/implementation.html">Implementation Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard/style.html">Programming Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Changes</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">News</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#release-3-0-0-dec-24-2013">Release 3.0.0 (Dec 24, 2013)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-2-1-4-apr-20-2013">Release 2.1.4 (Apr 20, 2013)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-2-1-3-mar-1-2013">Release 2.1.3 (Mar 1, 2013)</a></li>
@@ -514,9 +518,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#pre-release-0-1-0-oct-5-2011">Pre-Release 0.1.0 (Oct 5, 2011)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Page Contents</a></li>
 </ul>
 
         </div>

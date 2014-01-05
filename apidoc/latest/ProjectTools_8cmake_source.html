@@ -101,10 +101,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    set (PROJECT_AUTHORS &quot;${PROJECT_AUTHOR}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">  if (NOT PROJECT_AUTHORS AND PROJECT_IS_MODULE)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    set (PROJECT_AUTHORS &quot;</span>${BASIS_PROJECT_AUTHORS}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    set (PROJECT_AUTHORS &quot;</span>${TOPLEVEL_PROJECT_AUTHORS}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">  if (NOT PROJECT_IS_MODULE)</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    set (BASIS_PROJECT_AUTHORS &quot;</span>${PROJECT_AUTHORS}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    set (TOPLEVEL_PROJECT_AUTHORS &quot;</span>${PROJECT_AUTHORS}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">  # PROJECT_NAME or PROJECT_SUBPROJECT</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">  if (PROJECT_SUBPROJECT AND PROJECT_NAME)</span></div>
@@ -133,9 +133,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  string (TOLOWER &quot;${PROJECT_NAME}<span class="stringliteral">&quot; PROJECT_NAME_L)</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">  string (TOUPPER &quot;</span>${PROJECT_NAME}<span class="stringliteral">&quot; PROJECT_NAME_U)</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">  if (NOT PROJECT_IS_MODULE)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">    set (BASIS_PROJECT_NAME   &quot;</span>${PROJECT_NAME}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">    set (BASIS_PROJECT_NAME_L &quot;</span>${PROJECT_NAME_L}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">    set (BASIS_PROJECT_NAME_U &quot;</span>${PROJECT_NAME_U}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">    set (TOPLEVEL_PROJECT_NAME   &quot;</span>${PROJECT_NAME}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">    set (TOPLEVEL_PROJECT_NAME_L &quot;</span>${PROJECT_NAME_L}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">    set (TOPLEVEL_PROJECT_NAME_U &quot;</span>${PROJECT_NAME_U}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="stringliteral">  # PROJECT_PACKAGE_NAME</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="stringliteral">  if (PROJECT_PACKAGE AND PROJECT_PACKAGE_NAME)</span></div>
@@ -146,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="stringliteral">  if (NOT PROJECT_PACKAGE_NAME)</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="stringliteral">    if (PROJECT_IS_MODULE)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="stringliteral">      set (PROJECT_PACKAGE_NAME &quot;</span>${BASIS_PROJECT_PACKAGE_NAME}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="stringliteral">      set (PROJECT_PACKAGE_NAME &quot;</span>${TOPLEVEL_PROJECT_PACKAGE_NAME}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="stringliteral">    else ()</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="stringliteral">      if (PROJECT_IS_SUBPROJECT)</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">        message (FATAL_ERROR &quot;</span>Missing PACKAGE_NAME option <span class="keywordflow">for</span> SUBPROJECT ${PROJECT_NAME}!<span class="stringliteral">&quot;</span></div>
@@ -173,9 +173,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  string (TOLOWER &quot;${PROJECT_PACKAGE_NAME}&quot; PROJECT_PACKAGE_NAME_L)</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  string (TOUPPER &quot;${PROJECT_PACKAGE_NAME}&quot; PROJECT_PACKAGE_NAME_U)</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  if (NOT PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    set (BASIS_PROJECT_PACKAGE_NAME   &quot;${PROJECT_PACKAGE_NAME}&quot;)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    set (BASIS_PROJECT_PACKAGE_NAME_L &quot;${PROJECT_PACKAGE_NAME_L}&quot;)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    set (BASIS_PROJECT_PACKAGE_NAME_U &quot;${PROJECT_PACKAGE_NAME_U}&quot;)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_NAME   &quot;${PROJECT_PACKAGE_NAME}&quot;)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_NAME_L &quot;${PROJECT_PACKAGE_NAME_L}&quot;)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_NAME_U &quot;${PROJECT_PACKAGE_NAME_U}&quot;)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  endif ()</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  # PROJECT_PACKAGE_VENDOR</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  if (PROJECT_PROVIDER AND PROJECT_VENDOR AND PROJECT_PACKAGE_VENDOR)</div>
@@ -190,14 +190,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    set (PROJECT_PACKAGE_VENDOR &quot;${PROJECT_VENDOR}&quot;)</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  endif ()</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  if (NOT PROJECT_PACKAGE_VENDOR AND PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    set (PROJECT_PACKAGE_VENDOR &quot;${BASIS_PROJECT_PACKAGE_VENDOR}&quot;)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    set (PROJECT_PACKAGE_VENDOR &quot;${TOPLEVEL_PROJECT_PACKAGE_VENDOR}&quot;)</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  endif ()</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  string (TOLOWER &quot;${PROJECT_PACKAGE_VENDOR}&quot; PROJECT_PACKAGE_VENDOR_L)</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  string (TOUPPER &quot;${PROJECT_PACKAGE_VENDOR}&quot; PROJECT_PACKAGE_VENDOR_U)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  if (NOT PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    set (BASIS_PROJECT_PACKAGE_VENDOR   &quot;${PROJECT_PACKAGE_VENDOR}&quot;)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    set (BASIS_PROJECT_PACKAGE_VENDOR_L &quot;${PROJECT_PACKAGE_VENDOR_L}&quot;)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    set (BASIS_PROJECT_PACKAGE_VENDOR_U &quot;${PROJECT_PACKAGE_VENDOR_U}&quot;)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR   &quot;${PROJECT_PACKAGE_VENDOR}&quot;)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR_L &quot;${PROJECT_PACKAGE_VENDOR_L}&quot;)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR_U &quot;${PROJECT_PACKAGE_VENDOR_U}&quot;)</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  endif ()</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  # PROJECT_PACKAGE_WEBSITE</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  if (PROJECT_WEBSITE AND PROJECT_PACKAGE_WEBSITE)</div>
@@ -208,72 +208,72 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  endif ()</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    if (NOT PROJECT_PACKAGE_WEBSITE)</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      set (PROJECT_PACKAGE_WEBSITE &quot;${BASIS_PROJECT_PACKAGE_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      set (PROJECT_PACKAGE_WEBSITE &quot;${TOPLEVEL_PROJECT_PACKAGE_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    endif ()</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  else ()</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    set (BASIS_PROJECT_PACKAGE_WEBSITE &quot;${PROJECT_PACKAGE_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_WEBSITE &quot;${PROJECT_PACKAGE_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  endif ()</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  # PROJECT_PACKAGE_LOGO - see also basis_initialize_settings</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    if (NOT PROJECT_PACKAGE_LOGO)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      set (PROJECT_PACKAGE_LOGO &quot;${BASIS_PROJECT_PACKAGE_LOGO}&quot;)</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      set (PROJECT_PACKAGE_LOGO &quot;${TOPLEVEL_PROJECT_PACKAGE_LOGO}&quot;)</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    endif ()</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  else ()</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    set (BASIS_PROJECT_PACKAGE_LOGO &quot;${PROJECT_PACKAGE_LOGO}&quot;)</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    set (TOPLEVEL_PROJECT_PACKAGE_LOGO &quot;${PROJECT_PACKAGE_LOGO}&quot;)</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  endif ()</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  # PROJECT_PROVIDER_NAME</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  if (NOT PROJECT_PROVIDER_NAME AND PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    set (PROJECT_PROVIDER_NAME &quot;${BASIS_PROJECT_PROVIDER_NAME}&quot;)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    set (PROJECT_PROVIDER_NAME &quot;${TOPLEVEL_PROJECT_PROVIDER_NAME}&quot;)</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  endif ()</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  string (TOLOWER &quot;${PROJECT_PROVIDER_NAME}&quot; PROJECT_PROVIDER_NAME_L)</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  string (TOUPPER &quot;${PROJECT_PROVIDER_NAME}&quot; PROJECT_PROVIDER_NAME_U)</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  if (NOT PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    set (BASIS_PROJECT_PROVIDER_NAME   &quot;${PROJECT_PROVIDER_NAME}&quot;)</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    set (BASIS_PROJECT_PROVIDER_NAME_L &quot;${PROJECT_PROVIDER_NAME_L}&quot;)</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    set (BASIS_PROJECT_PROVIDER_NAME_U &quot;${PROJECT_PROVIDER_NAME_U}&quot;)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    set (TOPLEVEL_PROJECT_PROVIDER_NAME   &quot;${PROJECT_PROVIDER_NAME}&quot;)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    set (TOPLEVEL_PROJECT_PROVIDER_NAME_L &quot;${PROJECT_PROVIDER_NAME_L}&quot;)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    set (TOPLEVEL_PROJECT_PROVIDER_NAME_U &quot;${PROJECT_PROVIDER_NAME_U}&quot;)</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  endif ()</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  # PROJECT_PROVIDER_WEBSITE</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    if (NOT PROJECT_PROVIDER_WEBSITE)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      set (PROJECT_PROVIDER_WEBSITE &quot;${BASIS_PROJECT_PROVIDER_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      set (PROJECT_PROVIDER_WEBSITE &quot;${TOPLEVEL_PROJECT_PROVIDER_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    endif ()</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  else ()</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    set (BASIS_PROJECT_PROVIDER_WEBSITE &quot;${PROJECT_PROVIDER_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    set (TOPLEVEL_PROJECT_PROVIDER_WEBSITE &quot;${PROJECT_PROVIDER_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  endif ()</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  # PROJECT_PROVIDER_LOGO - see also basis_initialize_settings</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    if (NOT PROJECT_PROVIDER_LOGO)</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      set (PROJECT_PROVIDER_LOGO &quot;${BASIS_PROJECT_PROVIDER_LOGO}&quot;)</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      set (PROJECT_PROVIDER_LOGO &quot;${TOPLEVEL_PROJECT_PROVIDER_LOGO}&quot;)</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    endif ()</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  else ()</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    set (BASIS_PROJECT_PROVIDER_LOGO &quot;${PROJECT_PROVIDER_LOGO}&quot;)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    set (TOPLEVEL_PROJECT_PROVIDER_LOGO &quot;${PROJECT_PROVIDER_LOGO}&quot;)</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  endif ()</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  # PROJECT_DIVISION_NAME</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  if (NOT PROJECT_DIVISION_NAME AND PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    set (PROJECT_DIVISION_NAME &quot;${BASIS_PROJECT_DIVISION_NAME}&quot;)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    set (PROJECT_DIVISION_NAME &quot;${TOPLEVEL_PROJECT_DIVISION_NAME}&quot;)</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  endif ()</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  string (TOLOWER &quot;${PROJECT_DIVISION_NAME}&quot; PROJECT_DIVISION_NAME_L)</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  string (TOUPPER &quot;${PROJECT_DIVISION_NAME}&quot; PROJECT_DIVISION_NAME_U)</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  if (NOT PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    set (BASIS_PROJECT_DIVISION_NAME   &quot;${PROJECT_DIVISION_NAME}&quot;)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    set (BASIS_PROJECT_DIVISION_NAME_L &quot;${PROJECT_DIVISION_NAME_L}&quot;)</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    set (BASIS_PROJECT_DIVISION_NAME_U &quot;${PROJECT_DIVISION_NAME_U}&quot;)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    set (TOPLEVEL_PROJECT_DIVISION_NAME   &quot;${PROJECT_DIVISION_NAME}&quot;)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    set (TOPLEVEL_PROJECT_DIVISION_NAME_L &quot;${PROJECT_DIVISION_NAME_L}&quot;)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    set (TOPLEVEL_PROJECT_DIVISION_NAME_U &quot;${PROJECT_DIVISION_NAME_U}&quot;)</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  endif ()</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  # PROJECT_DIVISION_WEBSITE</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    if (NOT PROJECT_DIVISION_WEBSITE)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      set (PROJECT_DIVISION_WEBSITE &quot;${BASIS_PROJECT_DIVISION_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      set (PROJECT_DIVISION_WEBSITE &quot;${TOPLEVEL_PROJECT_DIVISION_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    endif ()</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  else ()</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    set (BASIS_PROJECT_DIVISION_WEBSITE &quot;${PROJECT_DIVISION_WEBSITE}&quot;)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    set (TOPLEVEL_PROJECT_DIVISION_WEBSITE &quot;${PROJECT_DIVISION_WEBSITE}&quot;)</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  endif ()</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  # PROJECT_DIVISION_LOGO - see also basis_initialize_settings</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    if (NOT PROJECT_DIVISION_LOGO)</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      set (PROJECT_DIVISION_LOGO &quot;${BASIS_PROJECT_DIVISION_LOGO}&quot;)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      set (PROJECT_DIVISION_LOGO &quot;${TOPLEVEL_PROJECT_DIVISION_LOGO}&quot;)</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    endif ()</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  else ()</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    set (BASIS_PROJECT_DIVISION_LOGO &quot;${PROJECT_DIVISION_LOGO}&quot;)</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    set (TOPLEVEL_PROJECT_DIVISION_LOGO &quot;${PROJECT_DIVISION_LOGO}&quot;)</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  endif ()</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  # PROJECT_VERSION</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  if (PROJECT_VERSION)</div>
@@ -282,14 +282,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    endif ()</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      if (PROJECT_VERSION MATCHES &quot;^0+(\\.0+)?(\\.0+)?$&quot;)</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        set (PROJECT_VERSION &quot;${BASIS_PROJECT_VERSION}&quot;)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        set (PROJECT_VERSION &quot;${TOPLEVEL_PROJECT_VERSION}&quot;)</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;      endif ()</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    else ()</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;      set (BASIS_PROJECT_VERSION &quot;${PROJECT_VERSION}&quot;)</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;      set (TOPLEVEL_PROJECT_VERSION &quot;${PROJECT_VERSION}&quot;)</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    endif ()</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  else ()</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    if (PROJECT_IS_MODULE)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      set (PROJECT_VERSION &quot;${BASIS_PROJECT_VERSION}&quot;)</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      set (PROJECT_VERSION &quot;${TOPLEVEL_PROJECT_VERSION}&quot;)</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    else ()</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      message (FATAL_ERROR &quot;Project version not specified!&quot;)</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    endif ()</div>
@@ -303,26 +303,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  # PROJECT_COPYRIGHT</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    if (NOT PROJECT_COPYRIGHT)</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      set (PROJECT_COPYRIGHT &quot;${BASIS_PROJECT_COPYRIGHT}&quot;)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      set (PROJECT_COPYRIGHT &quot;${TOPLEVEL_PROJECT_COPYRIGHT}&quot;)</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    endif ()</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  else ()</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    set (BASIS_PROJECT_COPYRIGHT &quot;${PROJECT_COPYRIGHT}&quot;)</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    set (TOPLEVEL_PROJECT_COPYRIGHT &quot;${PROJECT_COPYRIGHT}&quot;)</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  endif ()</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  # PROJECT_LICENSE</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    if (NOT PROJECT_LICENSE)</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      set (PROJECT_LICENSE &quot;${BASIS_PROJECT_LICENSE}&quot;)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      set (PROJECT_LICENSE &quot;${TOPLEVEL_PROJECT_LICENSE}&quot;)</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    endif ()</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  else ()</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    set (BASIS_PROJECT_LICENSE &quot;${PROJECT_LICENSE}&quot;)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    set (TOPLEVEL_PROJECT_LICENSE &quot;${PROJECT_LICENSE}&quot;)</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  endif ()</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  # PROJECT_CONTACT</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  if (PROJECT_IS_MODULE)</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    if (NOT PROJECT_CONTACT)</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      set (PROJECT_CONTACT &quot;${BASIS_PROJECT_CONTACT}&quot;)</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      set (PROJECT_CONTACT &quot;${TOPLEVEL_PROJECT_CONTACT}&quot;)</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    endif ()</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  else ()</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    set (BASIS_PROJECT_CONTACT &quot;${PROJECT_CONTACT}&quot;)</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    set (TOPLEVEL_PROJECT_CONTACT &quot;${PROJECT_CONTACT}&quot;)</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  endif ()</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  # let basis_project_impl() know that basis_project() was called</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  set (BASIS_basis_project_CALLED TRUE)</div>
@@ -1098,7 +1098,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;<span class="comment">      if (PROJECT_IS_MODULE)</span></div>
 <div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;<span class="comment">        file (READ &quot;${PROJECT_${F}_FILE}&quot; T)</span></div>
 <div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;<span class="comment">        file (</span></div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;<span class="comment">          APPEND &quot;${BASIS_PROJECT_${F}_FILE}&quot;</span></div>
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;<span class="comment">          APPEND &quot;${TOPLEVEL_PROJECT_${F}_FILE}&quot;</span></div>
 <div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;<span class="comment">          &quot;\n\n\n&quot;</span></div>
 <div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;<span class="comment">          &quot;------------------------------------------------------------------------------\n&quot;</span></div>
 <div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;<span class="comment">          &quot;${PROJECT_NAME} Module\n&quot;</span></div>
@@ -1106,10 +1106,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;<span class="comment">          &quot;${T}&quot;</span></div>
 <div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;<span class="comment">        )</span></div>
 <div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;<span class="comment">      else ()</span></div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;<span class="comment">        set (BASIS_PROJECT_${F}_FILE &quot;${PROJECT_BINARY_DIR}/${F}.txt&quot;)</span></div>
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;<span class="comment">        set (TOPLEVEL_PROJECT_${F}_FILE &quot;${PROJECT_BINARY_DIR}/${F}.txt&quot;)</span></div>
 <div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;<span class="comment">        # do not use configure_file() to copy the file, otherwise CMake will</span></div>
 <div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;<span class="comment">        # update the build system only because we modified this file in the if-clause</span></div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;<span class="comment">        execute_process (COMMAND &quot;${CMAKE_COMMAND}&quot; -E copy &quot;${PROJECT_${F}_FILE}&quot; &quot;${BASIS_PROJECT_${F}_FILE}&quot;)</span></div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;<span class="comment">        execute_process (COMMAND &quot;${CMAKE_COMMAND}&quot; -E copy &quot;${PROJECT_${F}_FILE}&quot; &quot;${TOPLEVEL_PROJECT_${F}_FILE}&quot;)</span></div>
 <div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;<span class="comment">        # use extension on Windows, but leave it out on Unix</span></div>
 <div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;<span class="comment">        get_filename_component (N &quot;${F}&quot; NAME_WE)</span></div>
 <div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;<span class="comment">        get_filename_component (E &quot;${F}&quot; EXT)</span></div>
@@ -1467,16 +1467,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01392"></a><span class="lineno"> 1392</span>&#160;<span class="comment">    endforeach ()</span></div>
 <div class="line"><a name="l01393"></a><span class="lineno"> 1393</span>&#160;<span class="comment">  endif ()</span></div>
 <div class="line"><a name="l01394"></a><span class="lineno"> 1394</span>&#160;<span class="comment">  # package configuration</span></div>
-<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;<span class="comment">  set (_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${BASIS_PROJECT_PACKAGE_NAME}&quot;)</span></div>
+<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;<span class="comment">  set (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${TOPLEVEL_PROJECT_PACKAGE_NAME}&quot;)</span></div>
 <div class="line"><a name="l01396"></a><span class="lineno"> 1396</span>&#160;<span class="comment">  if (PROJECT_IS_SUBPROJECT OR PROJECT_IS_MODULE)</span></div>
-<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;<span class="comment">    set (_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}&quot;)</span></div>
+<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;<span class="comment">    set (_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}&quot;)</span></div>
 <div class="line"><a name="l01398"></a><span class="lineno"> 1398</span>&#160;<span class="comment">  else ()</span></div>
-<div class="line"><a name="l01399"></a><span class="lineno"> 1399</span>&#160;<span class="comment">    set (_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX}&quot;)</span></div>
+<div class="line"><a name="l01399"></a><span class="lineno"> 1399</span>&#160;<span class="comment">    set (_PROJECT_PACKAGE_CONFIG_PREFIX &quot;${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}&quot;)</span></div>
 <div class="line"><a name="l01400"></a><span class="lineno"> 1400</span>&#160;<span class="comment">  endif ()</span></div>
 <div class="line"><a name="l01401"></a><span class="lineno"> 1401</span>&#160;<span class="comment">  if (PROJECT_PACKAGE_VENDOR)</span></div>
-<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;<span class="comment">    set (_BASIS_PROJECT_PACKAGE_UID &quot;${PROJECT_PACKAGE_VENDOR}-${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}&quot;)</span></div>
+<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;<span class="comment">    set (_TOPLEVEL_PROJECT_PACKAGE_UID &quot;${PROJECT_PACKAGE_VENDOR}-${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}&quot;)</span></div>
 <div class="line"><a name="l01403"></a><span class="lineno"> 1403</span>&#160;<span class="comment">  else ()</span></div>
-<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;<span class="comment">    set (_BASIS_PROJECT_PACKAGE_UID &quot;${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}&quot;)</span></div>
+<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;<span class="comment">    set (_TOPLEVEL_PROJECT_PACKAGE_UID &quot;${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}&quot;)</span></div>
 <div class="line"><a name="l01405"></a><span class="lineno"> 1405</span>&#160;<span class="comment">  endif ()</span></div>
 <div class="line"><a name="l01406"></a><span class="lineno"> 1406</span>&#160;<span class="comment">  # configure settings file which contains the documentation of these variables</span></div>
 <div class="line"><a name="l01407"></a><span class="lineno"> 1407</span>&#160;<span class="comment">  configure_file (</span></div>
@@ -1489,8 +1489,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01414"></a><span class="lineno"> 1414</span>&#160;<span class="comment">    unset (_BASIS_NAMESPACE_${_L})</span></div>
 <div class="line"><a name="l01415"></a><span class="lineno"> 1415</span>&#160;<span class="comment">    unset (_NAMESPACE_${_L})</span></div>
 <div class="line"><a name="l01416"></a><span class="lineno"> 1416</span>&#160;<span class="comment">  endforeach ()</span></div>
-<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;<span class="comment">  unset (_BASIS_PROJECT_PACKAGE_UID)</span></div>
-<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;<span class="comment">  unset (_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX)</span></div>
+<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;<span class="comment">  unset (_TOPLEVEL_PROJECT_PACKAGE_UID)</span></div>
+<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;<span class="comment">  unset (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX)</span></div>
 <div class="line"><a name="l01419"></a><span class="lineno"> 1419</span>&#160;<span class="comment">  unset (_PROJECT_PACKAGE_CONFIG_PREFIX)</span></div>
 <div class="line"><a name="l01420"></a><span class="lineno"> 1420</span>&#160;<span class="comment">  unset (_L)</span></div>
 <div class="line"><a name="l01421"></a><span class="lineno"> 1421</span>&#160;<span class="comment">  # include configured project specific BASIS settings</span></div>
@@ -1939,7 +1939,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Mon Dec 23 2013 23:51:35. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Sun Jan 5 2014 17:08:33. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

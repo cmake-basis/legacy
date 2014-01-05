@@ -1,7 +1,7 @@
 var searchData=
 [
   ['non_2dcmake_20utilities',['Non-CMake Utilities',['../group__CMakeHelpers.html',1,'']]],
-  ['name',['name',['../namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed',1,'doxyfilter-perl.name()'],['../group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a',1,'NAME():&#160;BasisScriptConfig.cmake']]],
+  ['name',['NAME',['../group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a',1,'NAME():&#160;BasisScriptConfig.cmake'],['../namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed',1,'doxyfilter-perl.name()']]],
   ['name_5fl',['NAME_L',['../group__BasisScriptConfig.html#ga6336377488cd0884f514bacea1f2e93d',1,'BasisScriptConfig.cmake']]],
   ['name_5fu',['NAME_U',['../group__BasisScriptConfig.html#ga6f5572f4e3fd8d2ff91623029b563594',1,'BasisScriptConfig.cmake']]],
   ['namespace',['Namespace',['../classbasis_1_1argparse_1_1Namespace.html',1,'basis::argparse']]],

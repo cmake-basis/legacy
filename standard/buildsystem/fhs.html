@@ -1,0 +1,517 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="This article defines the filesystem hierarchy standard (FHS) of BASIS, a build system and software implementation standard. The FHS defines the directory structure of the project sources, the build tree, and the installed software files." name="description" />
+
+    <title>Filesystem Hierarchy Standard &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../../_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'b2014.01.05 (16:07 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="../../index.html" />
+    <link rel="up" title="Build System Standard" href="../buildsystem.html" />
+    <link rel="next" title="Project Template" href="template.html" />
+    <link rel="prev" title="Build System Standard" href="../buildsystem.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="template.html" title="Project Template"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../buildsystem.html" title="Build System Standard"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">BASIS</a> &raquo;</li>
+          <li><a href="../../contents.html" >Table of Contents</a> &raquo;</li>
+          <li><a href="../buildsystem.html" accesskey="U">Build System Standard</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="filesystem-hierarchy-standard">
+<h1>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the filesystem hierarchy of BASIS projects, which
+is based on the <a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html">Filesystem Hierarchy Standard of Linux</a>.
+It has a goal of supporting:</p>
+<ul class="simple">
+<li>Unix and Windows</li>
+<li>Installation of multiple versions of each package on a single system</li>
+<li>Seamless integration of BASIS software packages</li>
+<li>A superproject, or super-build, concept based on a bundle build</li>
+</ul>
+<p>Please note that the variable names used below are defined
+by BASIS using CMake, and will often refer to particular directories
+of a software project. These variables should be used where possible,
+so that directories can be renamed without breaking the build system.</p>
+<p>The <a class="reference internal" href="template.html"><em>Project Template</em></a> provides a reference implementation and automated
+BASIS Filesystem Hierarchy Standard setup. See
+<a class="reference internal" href="../../howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a> for details.</p>
+<div class="section" id="legend">
+<h2>Legend<a class="headerlink" href="#legend" title="Permalink to this headline">¶</a></h2>
+<p>The BASIS Filesystem Heirarchy Standard uses the following definitions:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;project&gt;</span></tt> (<tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt>) is a placeholder for the lowercase project (or package) name</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;Project&gt;</span></tt> is the case-sensitive project name.</p>
+</li>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">&lt;version&gt;</span></tt> is a placeholder for the project version string <tt class="docutils literal"><span class="pre">&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</span></tt></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">&lt;major&gt;</span></tt> is the major release number</li>
+<li><tt class="docutils literal"><span class="pre">&lt;minor&gt;</span></tt> is the minor update number</li>
+<li><tt class="docutils literal"><span class="pre">&lt;patch&gt;</span></tt> is the patch number</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;source&gt;</span></tt> is the root directory of a particular project source tree</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;build&gt;</span></tt>  is the root directory of the project&#8217;s build or binary tree</p>
+</li>
+</ul>
+</div>
+<div class="section" id="git-mercurial-and-svn-version-control-repository-organization">
+<span id="gitrepositoryorganization"></span><h2>Git, Mercurial and SVN Version Control Repository Organization<a class="headerlink" href="#git-mercurial-and-svn-version-control-repository-organization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="git">
+<h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p>BASIS recommends that <a class="reference external" href="http://git-scm.com/">git</a> distributed version control users follow the <a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">nvie git-flow branching model</a>.
+The <a class="reference external" href="https://www.atlassian.com/git/workflows#!workflow-gitflow">Atlassian Gitflow Workflow Tutorial</a> is another excellent source for this information.</p>
+</div>
+<div class="section" id="mercurial">
+<span id="hgrepositoryorganization"></span><h3>Mercurial<a class="headerlink" href="#mercurial" title="Permalink to this headline">¶</a></h3>
+<p>BASIS recommends that <a class="reference external" href="http://www.mercurial.selenic.com">Mercurial</a> (hg) distributed version control users follow the hg-flow branching model.
+This is identical to the git-flow branching model explained in <a class="reference internal" href="#gitrepositoryorganization"><em>Git, Mercurial and SVN Version Control Repository Organization</em></a>, but uses mercurial as the version control system. The <a class="reference external" href="https://bitbucket.org/yujiewu/hgflow/wiki/Home">hg-flow extension</a> is useful for assisting with development, but not required.</p>
+</div>
+<div class="section" id="svn">
+<span id="svnrepositoryorganization"></span><h3>SVN<a class="headerlink" href="#svn" title="Permalink to this headline">¶</a></h3>
+<p>Each <a class="reference external" href="http://subversion.apache.org/">Subversion</a> (SVN) repository contains the top-level directories <tt class="docutils literal"><span class="pre">trunk/</span></tt>,
+<tt class="docutils literal"><span class="pre">branches/</span></tt>, and <tt class="docutils literal"><span class="pre">tags/</span></tt>. No other directories may be located next to these
+three top-level directories.</p>
+<p>The root directory of a development branch, typically the trunk
+(see <a class="reference internal" href="#svnrepositoryorganization"><em>SVN</em></a>), is denoted by <tt class="docutils literal"><span class="pre">&lt;tag&gt;</span></tt>
+and considered relative to the base URL of the project repository.
+The base URL is referred to as <tt class="docutils literal"><span class="pre">&lt;url&gt;</span></tt>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Repository Path</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">trunk/</span></tt></td>
+<td>The current development version of the project.
+Most development is done in this master branch.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">branches/&lt;name&gt;/</span></tt></td>
+<td>Separate branches named <tt class="docutils literal"><span class="pre">&lt;name&gt;</span></tt> are developed in
+subdirectories under the branches directory. One
+reason for branching is, for example, to develop
+new features separate from the main development
+branch, i.e., the trunk, and merging the desired
+changes back to the trunk once the new feature is
+implemented and tested.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">branches/&lt;project&gt;-&lt;major&gt;.&lt;minor&gt;/</span></tt></td>
+<td>This particular branch is used prior to releasing
+a new version of the project. This branch is
+commonly referred to as release candidate of version
+<tt class="docutils literal"><span class="pre">&lt;major&gt;.&lt;minor&gt;</span></tt> of the project. It is used to adjust
+the project files prior to tagging a particular release.
+For example, to set the correct version number in the
+project files. This branch is further be used to apply
+bug fixes to a previous release of this version, in
+which case the patch number has to be increased before
+tagging a new release of this software version.
+See the <a class="reference internal" href="../../howto/branch-and-release.html"><em>Branch and Release</em></a> guide for
+further details.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">tags/&lt;project&gt;-&lt;version&gt;/</span></tt></td>
+<td>Tagged release version of the project. The reason for
+including the project name in the name of the tagged
+branch is, that SVN uses the last URL part as name for
+the directory to which the URL&#8217;s content is checked out
+or exported to if no name for this directory is specified.</td>
+</tr>
+</tbody>
+</table>
+<p>See the <a class="reference internal" href="../../howto/branch-and-release.html"><em>Branch and Release</em></a> guide for details on how to create
+new branches and the process of releasing a new version of a software project.</p>
+<p>Below the trunk and the release branches a version of the entire source
+tree should be present. Other branches below the <tt class="docutils literal"><span class="pre">branches/</span></tt> directory
+may contain a subset of the trunk such as the source code
+of the software without the examples and tests.</p>
+</div>
+</div>
+<div class="section" id="source-code-tree">
+<span id="sourcecodetree"></span><h2>Source Code Tree<a class="headerlink" href="#source-code-tree" title="Permalink to this headline">¶</a></h2>
+<p>The Soruce Code Tree refers to the filesystem directory structure of all
+source code that is managed by version control. The build and intallation
+trees are separate entities created and populated from the source tree, so
+the source tree is essentially the &#8220;beating heart&#8221; of a software project.</p>
+<p><strong>Source Categories</strong>
+Source files can fall under the categories of software, build, configuration,
+documentation, or testing. Any files essential to the execution of the
+software are also considered to be part of the software source. Examples of
+essential files include a pre-computed lookup table and
+a medical image atlas.</p>
+<p><strong>Documentation</strong>
+Examples within a software project are considered
+to be part of both documentation and testing.</p>
+<p><strong>Testing</strong>
+The testing category can be divided into system testing and unit testing.
+It is important to note the difference of system
+tests and unit tests. As testing can often require a huge amount of image data,
+these datasets may be stored and managed outside the source tree.
+Please refer to the <a class="reference internal" href="../../howto/manage-data.html"><em>Managing Test Data</em></a> guide for details on this topic.</p>
+<ul class="simple">
+<li><strong>System Tests</strong>
+System tests are usually implemented in
+a scripting language such as Python, Perl, or BASH. System tests simply run
+the built executables with different test input data and compare the output to
+the expected results. Therefore, system tests can also be performed on a
+target system using the installed software where both the software and system
+tests are distributed as separate binary distribution packages. Large data sets,
+such as medical image data sets in their entirety, should only be required for
+system tests and downsampled to a very low resolution for practical
+reasons whenever possible.</li>
+<li><strong>Unit Tests</strong>
+Unit tests, provide a specialized test of a single software module such as a C++ class or
+Python module. Generally, the size and amount of additional data required for unit
+tests is kept reasonably small.  The unit tests are compiled into separate executable files called test
+drivers. These executable files are not essential for the functioning of the
+software and are solely build for the purpose of testing.</li>
+</ul>
+<p><strong>Source Code Filesystem Heirarchy</strong>
+The filesystem hierarchy of a software project&#8217;s source tree is defined below.
+The names of the CMake variables defined by BASIS are on the left,
+while the actual names of the directories are listed on the right:</p>
+<div class="highlight-python"><pre>- PROJECT_SOURCE_DIR              - &lt;source&gt;/
+    + PROJECT_CODE_DIR                + src/
+    + PROJECT_CONFIG_DIR              + config/
+    + PROJECT_DATA_DIR                + data/
+    + PROJECT_DOC_DIR                 + doc/
+    + PROJECT_EXAMPLE_DIR             + example/
+    + PROJECT_MODULES_DIR             + modules/
+    + PROJECT_TESTING_DIR             + test/</pre>
+</div>
+<p>Here are CMake variables defined in place of the default name for each of the following directories:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">PROJECT_SOURCE_DIR</span></tt></td>
+<td>Root directory of source tree.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_CODE_DIR</span></tt></td>
+<td>All source code files.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">PROJECT_CONFIG_DIR</span></tt></td>
+<td>BASIS configuration files.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_DATA_DIR</span></tt></td>
+<td>Software configuration files including auxiliary data
+such as medical atlases.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">PROJECT_DOC_DIR</span></tt></td>
+<td>Software documentation.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_EXAMPLE_DIR</span></tt></td>
+<td>Example application of software.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">PROJECT_MODULES_DIR</span></tt></td>
+<td><a class="reference internal" href="modules.html"><em>Project Modules</em></a>, each residing in
+its own subdirectory.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_TESTING_DIR</span></tt></td>
+<td>Implementation of tests and test data.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="build-tree">
+<span id="buildtree"></span><h2>Build Tree<a class="headerlink" href="#build-tree" title="Permalink to this headline">¶</a></h2>
+<p>CMake supports but recommends against in-source builds. Therefore, BASIS
+requires that the build tree be outside the source tree. Only the files in
+the source tree are considered to be important.</p>
+<p>Directories in the build tree are separate from the source tree,
+and they are created and populated when CMake configuration and
+the build step are run.</p>
+<div class="highlight-python"><pre>- PROJECT_BINARY_DIR              - &lt;build&gt;/
+    + RUNTIME_OUTPUT_DIRECTORY        + bin/
+    + LIBRARY_OUTPUT_DIRECTORY        + lib/
+    + ARCHIVE_OUTPUT_DIRECTORY        + lib/
+    + TESTING_RUNTIME_DIR             + Testing/bin/
+    + TESTING_LIBRARY_DIR             + Testing/lib/
+    + TESTING_OUTPUT_DIR              + Testing/Temporary/</pre>
+</div>
+<p>Here are CMake variables defined in place of the default name for each of the following directories:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">RUNTIME_OUTPUT_DIRECTORY</span></tt></td>
+<td>All executables and shared libraries (Windows).</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">LIBRARY_OUTPUT_DIRECTORY</span></tt></td>
+<td>Shared libraries (Unix).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">ARCHIVE_OUTPUT_DIRECTORY</span></tt></td>
+<td>Static libraries and import libraries (Windows).</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">TESTING_RUNTIME_DIR</span></tt></td>
+<td>Directory of test executables.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">TESTING_LIBRARY_DIR</span></tt></td>
+<td>Directory of libraries only used for testing.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">TESTING_OUTPUT_DIR</span></tt></td>
+<td>Directory used for test results.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="installation-tree">
+<span id="insallationtree"></span><h2>Installation Tree<a class="headerlink" href="#installation-tree" title="Permalink to this headline">¶</a></h2>
+<p>The following directory structure is used when installing the software package,
+either by building the install target with &#8220;make install&#8221;,
+extracting a binary distribution package, or running an installer.</p>
+<p>Different installation hierarchies are defined in order to account
+for different installation schemes depending on the location
+and target system on which the software is being installed.</p>
+<p>The first installation scheme is referred to as the <tt class="docutils literal"><span class="pre">usr</span></tt> scheme which is in
+compliance with the <a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html#THEUSRHIERARCHY">Linux Filesystem Hierarchy Standard for /usr</a>:</p>
+<div class="highlight-python"><pre>- CMAKE_INSTALL_PREFIX           - &lt;prefix&gt;/
+    + INSTALL_CONFIG_DIR             + lib/cmake/&lt;package&gt;/
+    + INSTALL_RUNTIME_DIR            + bin/
+    + INSTALL_LIBEXEC_DIR            + lib/&lt;package&gt;/
+    + INSTALL_LIBRARY_DIR            + lib/&lt;package&gt;/
+    + INSTALL_ARCHIVE_DIR            + lib/&lt;package&gt;/
+    + INSTALL_INCLUDE_DIR            + include/&lt;package&gt;/
+    + INSTALL_SHARE_DIR              + share/
+        + INSTALL_DATA_DIR               + &lt;package&gt;/data/
+        + INSTALL_DOC_DIR                + doc/&lt;package&gt;/
+        + INSTALL_EXAMPLE_DIR            + &lt;package&gt;/example/
+        + INSTALL_MAN_DIR                + man/
+        + INSTALL_INFO_DIR               + info/</pre>
+</div>
+<p>Another common installation scheme, here referred to as the <tt class="docutils literal"><span class="pre">opt</span></tt> scheme and the
+default used by BASIS packages, follows the
+<a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html#OPTADDONAPPLICATIONSOFTWAREPACKAGES">Linux Filesystem Hierarchy Standard for Add-on Packages</a>:</p>
+<div class="highlight-python"><pre>- CMAKE_INSTALL_PREFIX           - &lt;prefix&gt;/
+    + INSTALL_CONFIG_DIR             + lib/cmake/&lt;package&gt;/
+    + INSTALL_RUNTIME_DIR            + bin/
+    + INSTALL_LIBEXEC_DIR            + lib/
+    + INSTALL_LIBRARY_DIR            + lib/
+    + INSTALL_ARCHIVE_DIR            + lib/
+    + INSTALL_INCLUDE_DIR            + include/&lt;package&gt;/
+    + INSTALL_SHARE_DIR              + share/
+        + INSTALL_DATA_DIR               + data/
+        + INSTALL_DOC_DIR                + doc/
+        + INSTALL_EXAMPLE_DIR            + example/
+        + INSTALL_MAN_DIR                + man/
+        + INSTALL_INFO_DIR               + info/</pre>
+</div>
+<p>The installation scheme for Windows is:</p>
+<div class="highlight-python"><pre>- CMAKE_INSTALL_PREFIX           - &lt;prefix&gt;/
+    + INSTALL_CONFIG_DIR             + CMake/
+    + INSTALL_RUNTIME_DIR            + Bin/
+    + INSTALL_LIBEXEC_DIR            + Lib/
+    + INSTALL_LIBRARY_DIR            + Lib/
+    + INSTALL_ARCHIVE_DIR            + Lib/
+    + INSTALL_INCLUDE_DIR            + Include/&lt;package&gt;/
+    + INSTALL_SHARE_DIR              + Share/
+    + INSTALL_DATA_DIR               + Data/
+    + INSTALL_DOC_DIR                + Doc/
+    + INSTALL_EXAMPLE_DIR            + Example/</pre>
+</div>
+<p>In order to install different versions of a software, choose an installation
+prefix that includes the package name and software version, for example,
+<tt class="docutils literal"><span class="pre">/opt/&lt;package&gt;-&lt;version&gt;</span></tt> (Unix) or <tt class="docutils literal"><span class="pre">C:/Program</span> <span class="pre">Files/&lt;Package&gt;-&lt;version&gt;</span></tt> (Windows).</p>
+<p>Note that the directory for CMake package configuration files is chosen such that
+CMake finds these files automatically given that the <tt class="docutils literal"><span class="pre">&lt;prefix&gt;</span></tt> is a system default
+location or the <tt class="docutils literal"><span class="pre">INSTALL_RUNTIME_DIR</span></tt> is in the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment.</p>
+<p>It is important to note that the include directory always contains the package name.
+This way, project header files must use an include path that avoids conflicts with
+other packages that use identical header names. Here is a usage example:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;package/header.h&gt;</span>
+</pre></div>
+</div>
+<p>Thus, the include directory that is added to the search path must be set
+to the <tt class="docutils literal"><span class="pre">include/</span></tt> directory, but not the <tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt> subdirectory.</p>
+<p>Here are CMake variables defined in place of the default name for each of the following directories:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt></td>
+<td>Common prefix (<tt class="docutils literal"><span class="pre">&lt;prefix&gt;</span></tt>) of installation directories.
+Defaults to <tt class="docutils literal"><span class="pre">/opt/&lt;provider&gt;/&lt;package&gt;-&lt;version&gt;</span></tt> on Unix
+and <tt class="docutils literal"><span class="pre">C:/Program</span> <span class="pre">Files/&lt;Provider&gt;/&lt;Package&gt;-&lt;version&gt;</span></tt> on Windows.
+All other directories are specified relative to this prefix.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_CONFIG_DIR</span></tt></td>
+<td>CMake package configuration files.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_RUNTIME_DIR</span></tt></td>
+<td>Main executables and shared libraries on Windows.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_LIBEXEC_DIR</span></tt></td>
+<td>Utility executables which are called by other executables only.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_LIBRARY_DIR</span></tt></td>
+<td>Shared libraries on Unix and module libraries.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_ARCHIVE_DIR</span></tt></td>
+<td>Static and import libraries on Windows.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_INCLUDE_DIR</span></tt></td>
+<td>Public header files of libraries.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_DATA_DIR</span></tt></td>
+<td>Auxiliary data files required for the execution of the software.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_DOC_DIR</span></tt></td>
+<td>Documentation files including the software manual in particular.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_EXAMPLE_DIR</span></tt></td>
+<td>All data required to follow example as described in manuals.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_MAN_DIR</span></tt></td>
+<td>Man pages.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_MAN_DIR/man1/</span></tt></td>
+<td>Man pages of the executables in <tt class="docutils literal"><span class="pre">INSTALL_RUNTIME_DIR</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">INSTALL_MAN_DIR/man3/</span></tt></td>
+<td>Man pages of libraries.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">INSTALL_SHARE_DIR</span></tt></td>
+<td>Shared package files including required auxiliary data files.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How-to Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../buildsystem.html">Build System Standard</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Filesystem Hierarchy Standard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#legend">Legend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-mercurial-and-svn-version-control-repository-organization">Git, Mercurial and SVN Version Control Repository Organization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code-tree">Source Code Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-tree">Build Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-tree">Installation Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">Project Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">Project Modularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../implementation.html">Implementation Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../style.html">Programming Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../help.html">Getting Help</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Page Contents</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+  </div>
+  
+  </body>
+</html>

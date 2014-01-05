@@ -9,9 +9,10 @@
 
     features
     history
-    install
     quickstart
     howto
-    standard
+    standard/buildsystem
+    standard/implementation
+    standard/style
     help
     people

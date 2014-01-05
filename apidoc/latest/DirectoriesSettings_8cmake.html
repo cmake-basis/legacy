@@ -99,10 +99,6 @@ Variables</h2></td></tr>
 <tr class="separator:a841161d34cb16303b3e6887c931d84ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd538ede4466ec2694859d4651c43ffb"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#abd538ede4466ec2694859d4651c43ffb">BASIS_INSTALL_SCHEME</a></td></tr>
 <tr class="separator:abd538ede4466ec2694859d4651c43ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3d628caeadcecfe9eb9aed7029ccf43"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#ad3d628caeadcecfe9eb9aed7029ccf43">BASIS_PROJECT_BINARY_DIR</a></td></tr>
-<tr class="separator:ad3d628caeadcecfe9eb9aed7029ccf43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f932355b064debbb442ec26e97fa7e7"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#a0f932355b064debbb442ec26e97fa7e7">BASIS_PROJECT_SOURCE_DIR</a></td></tr>
-<tr class="separator:a0f932355b064debbb442ec26e97fa7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec44ebf761467a42eb4ca59ec2464a95"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#aec44ebf761467a42eb4ca59ec2464a95">BINARY_ARCHIVE_DIR</a></td></tr>
 <tr class="separator:aec44ebf761467a42eb4ca59ec2464a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa02a4ce81dd01804d685914ec1d8edd0"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#aa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a></td></tr>
@@ -179,6 +175,10 @@ Variables</h2></td></tr>
 <tr class="separator:a4d3b308f2625d0d2bc2976cefba8bd0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a344720ac7f9c851addf34031fc21824f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#a344720ac7f9c851addf34031fc21824f">TESTING_OUTPUT_DIR</a></td></tr>
 <tr class="separator:a344720ac7f9c851addf34031fc21824f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a618e0d66b55f9d30f697e3ecbc554d97"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#a618e0d66b55f9d30f697e3ecbc554d97">TOPLEVEL_PROJECT_BINARY_DIR</a></td></tr>
+<tr class="separator:a618e0d66b55f9d30f697e3ecbc554d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2995d3c4365fb3d4c073936e5be2ae85"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DirectoriesSettings_8cmake.html#a2995d3c4365fb3d4c073936e5be2ae85">TOPLEVEL_PROJECT_SOURCE_DIR</a></td></tr>
+<tr class="separator:a2995d3c4365fb3d4c073936e5be2ae85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CMake variables of project directories. </p>
@@ -302,34 +302,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="DirectoriesSettings_8cmake_source.html#l00200">200</a> of file <a class="el" href="DirectoriesSettings_8cmake_source.html">DirectoriesSettings.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad3d628caeadcecfe9eb9aed7029ccf43"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake BASIS_PROJECT_BINARY_DIR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="DirectoriesSettings_8cmake_source.html#l00036">36</a> of file <a class="el" href="DirectoriesSettings_8cmake_source.html">DirectoriesSettings.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0f932355b064debbb442ec26e97fa7e7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake BASIS_PROJECT_SOURCE_DIR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="DirectoriesSettings_8cmake_source.html#l00030">30</a> of file <a class="el" href="DirectoriesSettings_8cmake_source.html">DirectoriesSettings.cmake</a>.</p>
 
 </div>
 </div>
@@ -860,7 +832,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;${BASIS_PROJECT_BINARY_DIR}/Testing/Temporary${_MODULE}&quot;</span></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/Temporary${_MODULE}&quot;</span></div>
 <div class="line">cmake <a class="code" href="group__BasisDirectories.html#ga31ad2efddbbabfc434dc242bddf5396d">TESTING_RUNTIME_DIR</a></div>
 <div class="ttc" id="group__BasisDirectories_html_ga31ad2efddbbabfc434dc242bddf5396d"><div class="ttname"><a href="group__BasisDirectories.html#ga31ad2efddbbabfc434dc242bddf5396d">TESTING_RUNTIME_DIR</a></div><div class="ttdeci">cmake TESTING_RUNTIME_DIR</div><div class="ttdoc">Absolute path of output directory for built test executables. </div><div class="ttdef"><b>Definition:</b> <a href="Directories_8cmake_source.html#l00065">Directories.cmake:65</a></div></div>
 </div><!-- fragment -->
@@ -868,10 +840,38 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a618e0d66b55f9d30f697e3ecbc554d97"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmake TOPLEVEL_PROJECT_BINARY_DIR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DirectoriesSettings_8cmake_source.html#l00036">36</a> of file <a class="el" href="DirectoriesSettings_8cmake_source.html">DirectoriesSettings.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2995d3c4365fb3d4c073936e5be2ae85"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmake TOPLEVEL_PROJECT_SOURCE_DIR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DirectoriesSettings_8cmake_source.html#l00030">30</a> of file <a class="el" href="DirectoriesSettings_8cmake_source.html">DirectoriesSettings.cmake</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Mon Dec 23 2013 23:51:35. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Sun Jan 5 2014 17:08:33. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

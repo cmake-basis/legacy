@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2013.12.23 (23:46 UTC)',
+        VERSION:     'b2014.01.05 (16:07 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <h1>Create a Custom Template<a class="headerlink" href="#create-a-custom-template" title="Permalink to this headline">¶</a></h1>
 <p>In addition to creating new projects from an existing project template,
 the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command-line tool can also be used to generate a new
-<a class="reference internal" href="../standard/template.html"><em>BASIS Project Template</em></a> customized for your needs.</p>
+<a class="reference internal" href="../standard/buildsystem/template.html"><em>Project Template</em></a> customized for your needs.</p>
 <p>For a detailed description and overview of the available command options,
 please refer to the output of the following command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">help</span>
@@ -137,8 +137,10 @@ new directory with an updated template version! Otherwise, the three-way diff me
 <h2>Custom Substitutions<a class="headerlink" href="#custom-substitutions" title="Permalink to this headline">¶</a></h2>
 <p>The template configuration file named <tt class="docutils literal"><span class="pre">_config.py</span></tt> and located in the top directory of each project
 template defines not only which files constitute a project, but also the available substitution parameters
-and defaults used by <tt class="docutils literal"><span class="pre">basisproject</span></tt>. It requires a basic understanding of the Python syntax, but is
-fairly easy to understand even without much experience in using Python given the following example.</p>
+and defaults used by <tt class="docutils literal"><span class="pre">basisproject</span></tt>. The template configuration file requires a basic understanding
+of Python syntax, but is fairly easy to understand even without much experience. To get an idea of the
+syntax, take a look at the example below. A complete example can be found in the BASIS source
+package in <tt class="docutils literal"><span class="pre">data/templates/basis/1.0/_config.py</span></tt>.</p>
 <div class="highlight-python"><pre># project template configuration script for basisproject tool
 
 # ------------------------------------------------------------------------------
@@ -212,7 +214,7 @@ substitutions = {
     'default' : str(date.today().year) + " University of Pennsylvania"
   },
   'license' : {
-    'help'    : "Copyrigth statement including years, but excluding \"All rights reserved.\".",
+    'help'    : "Software license statement, e.g., \"Simplified BSD\" or reference to license text.",
     'default' : "See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file."
   },
   'contact' : {
@@ -246,12 +248,8 @@ substitutions = {
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
 <h3><a href="../index.html">Table Of Contents</a></h3>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-</ul>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
@@ -272,15 +270,19 @@ substitutions = {
 <li class="toctree-l2"><a class="reference internal" href="run-automated-tests.html">Automated Testing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard/buildsystem.html">Build System Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard/implementation.html">Implementation Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard/style.html">Programming Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Page Contents</a></li>
 </ul>
 
         </div>
