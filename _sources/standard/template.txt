@@ -2,9 +2,9 @@
     :description: This article describes the software project template of BASIS,
                   a build system and software implementation standard.
 
-=========================
-BASIS Project Template
-=========================
+================
+Project Template
+================
 
 The BASIS Project Template defines a standardized project directory 
 and file structure for consistency and interoperability that is required
@@ -16,7 +16,7 @@ The Software Project Template also defines how CMake_, ``CMakeLists.txt``
 files are set up and the basic build flags that are required.
 The easiest way to get started is by using the ``basisproject`` utility 
 to generate a completed template for your project that follows this standard,
-see the :doc:`../quickstart` section for more details on getting started.
+see the :doc:`/quickstart` section for more details on getting started.
 
 
 Required Project Files
@@ -40,10 +40,6 @@ README.txt
     files for details on the build and installation and software license,
     respectively. Furthermore, references to scientific articles related
     to the software package shall be included in this file.
-
-.. raw:: latex
-
-    \clearpage
 
 AUTHORS.txt
     Names the authors of the software package. People who
@@ -70,7 +66,7 @@ INSTALL.txt
     Contains build and installation instructions. As the build
     of all projects which follow BASIS is very similar, this
     file shall only describe additional steps/CMake variables
-    which are not described in the :doc:`../install` guide.
+    which are not described in the :doc:`/howto/install` guide.
 
 .. _BasisProject:
 

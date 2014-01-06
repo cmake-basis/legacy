@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (16:07 UTC)',
+        VERSION:     'b2014.01.05 (22:31 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -60,33 +60,26 @@
   <div class="section" id="quick-start">
 <span id="quickstartguides"></span><h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="first-steps">
-<span id="firststeps"></span><h2>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
-<p>The following tutorial-like quick start guides aim to introduce you to BASIS and
-help you to get started as quickly as possible. When you are ready for more details,
-you can try out the <a class="reference internal" href="#tutorials"><em>Advanced Tutorials</em></a> below.</p>
-<div class="section" id="getting-started">
-<span id="gettingstarted"></span><span id="firststepsintro"></span><h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h3>
-<p>The following brief sections will demonstrate</p>
+<span id="firststepsintro"></span><span id="firststeps"></span><h2>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
+<p>The following steps will show you how to</p>
 <ul class="simple">
-<li>how to download and install BASIS on your system.</li>
-<li>how to use the so-called “basisproject” command line tool to create a new empty project.</li>
-<li>how to add some example source files and edit the build configuration files to build the executable and library files.</li>
-<li>how to build and test the example project.</li>
-<li>where to find more detailed and advanced documentation.</li>
+<li>download and install BASIS on your system.</li>
+<li>use the so-called “basisproject” command line tool to create a new empty project.</li>
+<li>add some example source files and edit the build configuration files to build the executable and library files.</li>
+<li>build and test the example project.</li>
 </ul>
-<p>To follow these steps, you need to have a Unix-like operating system such as Linux or Mac OS X.
-At the moment, there is no separate tutorial available for Windows users, but you can install
-CygWin as an alternative.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">BASIS can also be installed and used on Windows.
-The tools for <a class="reference internal" href="howto/run-automated-tests.html"><em>automated software tests</em></a> are, however, only available for Unix.</p>
-</div>
-</div>
+<p>You need to have a Unix-like operating system such as Linux or Mac OS X installed on your
+machine in order to follow these steps. At the moment, there is no separate tutorial
+available for Windows users, but you can install CygWin as an alternative.
+Note, however, that BASIS can also be installed and used on Windows.
+Only the tools for <a class="reference internal" href="howto/run-automated-tests.html"><em>automated software tests</em></a> will not
+be available then. These tools are for advanced users who want to set up an automated
+software build and test on dedicated test machines. The testing tools are not needed
+for what follows.</p>
 <div class="section" id="install-basis">
 <h3>Install BASIS<a class="headerlink" href="#install-basis" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="get-a-copy-of-the-sources">
-<h4>Get a copy of the sources<a class="headerlink" href="#get-a-copy-of-the-sources" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="get-a-copy-of-the-source-code">
+<h4>Get a copy of the source code<a class="headerlink" href="#get-a-copy-of-the-source-code" title="Permalink to this headline">¶</a></h4>
 <p>Download either a pre-packaged <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> of the latest BASIS release and unpack it using the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>mkdir -p ~/local/src
 <span class="nb">cd</span> ~/local/src
@@ -110,9 +103,11 @@ ccmake ..
 </pre></div>
 </div>
 <ul class="simple">
-<li>Hit <tt class="docutils literal"><span class="pre">c</span></tt> to configure the project.</li>
-<li>Change <tt class="docutils literal"><span class="pre">INSTALL_PREFIX</span></tt> to ~/local.</li>
-<li>Hit <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles.</li>
+<li>Press <tt class="docutils literal"><span class="pre">c</span></tt> to configure the project.</li>
+<li>Change <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> to <tt class="docutils literal"><span class="pre">~/local</span></tt>.</li>
+<li>Set option <tt class="docutils literal"><span class="pre">BUILD_EXAMPLE</span></tt> to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
+<li>Make sure that option <tt class="docutils literal"><span class="pre">BUILD_PROJECT_TOOL</span></tt> is enabled.</li>
+<li>Press <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles.</li>
 </ul>
 </div>
 <div class="section" id="build-and-install-basis">
@@ -126,10 +121,10 @@ ccmake ..
 </pre></div>
 </div>
 <p>As a result, CMake copies the built files into the installation tree as specified by the
-<tt class="docutils literal"><span class="pre">INSTALL_PREFIX</span></tt> variable.</p>
+<tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> variable.</p>
 </div>
 <div class="section" id="set-up-the-environment">
-<h4>Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Permalink to this headline">¶</a></h4>
+<span id="gettingstartedenvironment"></span><h4>Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Permalink to this headline">¶</a></h4>
 <p>For the following tutorial steps, set up your environment as follows. In general, however,
 only the change of the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable is recommended. The other environment
 variables are only needed for the tutorial sessions.</p>
@@ -147,10 +142,11 @@ setenv HELLOBASIS_RSC_DIR <span class="s2">&quot;${BASIS_EXAMPLE_DIR}/hellobasis
 </div>
 </div>
 </div>
-<div class="section" id="create-example-project">
-<h3>Create Example Project<a class="headerlink" href="#create-example-project" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="create-an-example-project">
+<h3>Create an Example Project<a class="headerlink" href="#create-an-example-project" title="Permalink to this headline">¶</a></h3>
 <p>Create a new and empty project as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name HelloBasis --description <span class="s2">&quot;This is a BASIS project.&quot;</span> --root ~/local/src/hellobasis
+<div class="highlight-bash"><div class="highlight"><pre>basisproject --name HelloBasis --description <span class="s2">&quot;This is a BASIS project.&quot;</span>
+             --root ~/local/src/hellobasis
 </pre></div>
 </div>
 <p>The next command demonstrates that you can modify a previously created project by using the
@@ -160,9 +156,9 @@ project tool again:</p>
 </div>
 <p>Here we removed the <tt class="docutils literal"><span class="pre">example/</span></tt> subdirectory and added some configuration file used by BASIS.
 These options could also have been given to the initial command above instead.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">More details on how to use <tt class="docutils literal"><span class="pre">basisproject</span></tt> are given by the <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a> How-to Guide.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">The guide on how to <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a>.</p>
 </div>
 </div>
 <div class="section" id="install-your-project">
@@ -171,13 +167,13 @@ These options could also have been given to the initial command above instead.</
 and installation of BASIS itself:</p>
 <div class="highlight-bash"><div class="highlight"><pre>mkdir ~/local/src/hellobasis/build
 <span class="nb">cd</span> ~/local/src/hellobasis/build
-cmake -D <span class="nv">INSTALL_PREFIX</span><span class="o">=</span>~/local ..
+cmake -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>~/local ..
 make
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">More details on build and installation are given by the <a class="reference internal" href="howto/install.html"><em>Install any Software</em></a> How-to Guide.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">The guide on how to <a class="reference internal" href="howto/install.html"><em>Install any Software</em></a>.</p>
 </div>
 </div>
 <div class="section" id="add-an-executable">
@@ -191,12 +187,9 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_executable</span><span class="p">(</span><span class="s">helloc++.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
 <p>Alternatively, you can use the implementation of this example executable in
 Python, Perl, BASH or MATLAB. In case of MATLAB, add also a dependency to MATLAB:</p>
-<blockquote class="last">
-<div>basisproject &#8211;root ~/local/src/hellobasis &#8211;use MATLAB</div></blockquote>
+<div class="highlight-cmake"><pre>basisproject --root ~/local/src/hellobasis --use MATLAB</pre>
 </div>
 <div class="section" id="change-target-properties">
 <h4>Change target properties<a class="headerlink" href="#change-target-properties" title="Permalink to this headline">¶</a></h4>
@@ -205,43 +198,39 @@ Python, Perl, BASH or MATLAB. In case of MATLAB, add also a dependency to MATLAB
 <li>To change this property, add the following line to the <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> file
 (<strong>after</strong> <tt class="docutils literal"><span class="pre">basis_add_executable</span></tt>):</li>
 </ul>
-<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_set_target_properties</span><span class="p">(</span><span class="s">helloc++</span> <span class="s">PROPERTIES</span> <span class="s">OUTPUT_NAME</span>  <span class="s2">&quot;hellobasis&quot;</span><span class="p">)</span>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_set_target_properties</span><span class="p">(</span><span class="s">helloc++</span> <span class="s">PROPERTIES</span> <span class="s">OUTPUT_NAME</span> <span class="s2">&quot;hellobasis&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If you used another example, you need to replace helloc++ by the name of the
-source file you used excluding the extension.</p>
-</div>
+<p>If you used another source file, you need to replace &#8220;helloc++&#8221; by its name (excl. the extension).</p>
 </div>
 <div class="section" id="test-the-executable">
 <h4>Test the Executable<a class="headerlink" href="#test-the-executable" title="Permalink to this headline">¶</a></h4>
-<p>Now build the executable and test it:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis-build
+<p>Now build the executable from the previously added source code. As the build system
+has been configured before using CMake, only GNU <tt class="docutils literal"><span class="pre">make</span></tt> has to be invoked.
+It will recognize the change of the <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> file and therefore reconfigure
+the build system before re-building the software.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis/build
 make
 bin/hellobasis
 How is it going?
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">As you configured the build system before using CMake, we only need to run GNU Make. CMake will recognize the change of src/CMakeLists.txt and reconfigure the build system automatically.</p>
-</div>
 <p>Install the executable and test it:</p>
 <div class="highlight-bash"><div class="highlight"><pre>make install
-helloworld
+hellobasis
 How is it going?
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The symbolic link named helloworld is in <tt class="docutils literal"><span class="pre">~/local/bin/</span></tt> which is already in our search path for executables (PATH).</p>
-</div>
+<p>Note that the <tt class="docutils literal"><span class="pre">hellobasis</span></tt> executable was installed into the <tt class="docutils literal"><span class="pre">~/local/bin/</span></tt> directory
+as we set the installation root directory to <tt class="docutils literal"><span class="pre">~/local</span></tt> using the <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt>
+CMake variable. This directory should be listed in your <em>PATH</em> environment variable
+when you followed the <a class="reference internal" href="#gettingstartedenvironment"><em>environment set up</em></a> steps at the
+begin of this tutorial.</p>
 </div>
 </div>
 <div class="section" id="add-libraries">
 <h3>Add Libraries<a class="headerlink" href="#add-libraries" title="Permalink to this headline">¶</a></h3>
-<p>Next, you will add a three kinds of libraries, i.e., collections of binary or script code, to your example project.
+<p>Next, you will add three kinds of libraries, i.e., collections of binary or script code, to your example project.
 We distinguish here between private, public, and script libraries. A private library is a library without
 public interface which is only used by other libraries and in particular executables of the project itself.
 A public library provides a public interface for users of your software. Therefore, the declarations of
@@ -265,11 +254,12 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <p>Create the subdirectory tree for the public header files declaring the public interface:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis
 basisproject --root . --include
+mkdir include/hellobasis
 </pre></div>
 </div>
 <p>Copy the files from the example. The public interface is given by <tt class="docutils literal"><span class="pre">bar.h</span></tt>.</p>
 <div class="highlight-bash"><div class="highlight"><pre>cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/bar.cxx src/
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/bar.h include/sbia/hellobasis/
+cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/bar.h include/hellobasis/
 </pre></div>
 </div>
 <p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
@@ -307,11 +297,18 @@ make <span class="o">&amp;&amp;</span> make install
 </div>
 </div>
 </div>
-<div class="section" id="conclusion">
-<h3>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h3>
-<p><strong>Congratulations, You just finished your first BASIS Quick Start Guide!</strong></p>
-<p>If above steps were to concise and thus not clear enough or you would simply like to know more,
-have also a look at the <a class="reference internal" href="#tutorials"><em>Advanced Tutorials</em></a> which give many more details about each of these steps.</p>
+<div class="section" id="next-steps">
+<h3>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h3>
+<p>Congratulations! You just finished your first BASIS tutorial.</p>
+<p>So far you have already learned how to install BASIS on your system and set up
+your own software project. You have also seen how you can add your own source
+files to your newly created project and build the respective executables
+and libraries. The essentials of any software package! Thanks to BASIS, only
+few lines of CMake code are needed to accomplish this.</p>
+<p>Now check out the <a class="reference internal" href="#tutorials"><em>Advanced Tutorials</em></a> for more details regarding each of the
+above steps and in-depth information about the used BASIS commands
+if you like, or move on to the various <a class="reference internal" href="howto.html"><em>How-to Guides</em></a> which
+will introduce you to even more BASIS concepts and best practices.</p>
 </div>
 </div>
 <div class="section" id="advanced-tutorials">
@@ -355,32 +352,30 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#first-steps">First Steps</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install-basis">Install BASIS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-example-project">Create Example Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-an-example-project">Create an Example Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install-your-project">Install Your Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-an-executable">Add an Executable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-libraries">Add Libraries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#next-steps">Next Steps</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-tutorials">Advanced Tutorials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/buildsystem.html">Build System Standard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/implementation.html">Implementation Standard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/style.html">Programming Guidelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents.html">Page Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Full Table of Contents</a></li>
 </ul>
 
         </div>

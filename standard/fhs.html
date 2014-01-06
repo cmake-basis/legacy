@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="This article defines the filesystem hierarchy standard (FHS) of BASIS, a build system and software implementation standard. The FHS defines the directory structure of the project sources, the build tree, and the installed software files." name="description" />
 
-    <title>Filesystem Hierarchy Standard &mdash; BASIS</title>
+    <title>Filesystem Layout &mdash; BASIS</title>
     
     <link rel="stylesheet" href="../_static/readable.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2014.01.05 (16:07 UTC)',
+        VERSION:     'b2014.01.05 (22:31 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="Standards" href="../standard.html" />
-    <link rel="next" title="BASIS Project Template" href="template.html" />
+    <link rel="next" title="Project Template" href="template.html" />
     <link rel="prev" title="Standards" href="../standard.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -43,7 +43,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="template.html" title="BASIS Project Template"
+          <a href="template.html" title="Project Template"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../standard.html" title="Standards"
@@ -59,8 +59,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="filesystem-hierarchy-standard">
-<h1>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="filesystem-layout">
+<h1>Filesystem Layout<a class="headerlink" href="#filesystem-layout" title="Permalink to this headline">¶</a></h1>
 <p>This document describes the filesystem hierarchy of BASIS projects, which
 is based on the <a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html">Filesystem Hierarchy Standard of Linux</a>.
 It has a goal of supporting:</p>
@@ -74,52 +74,40 @@ It has a goal of supporting:</p>
 by BASIS using CMake, and will often refer to particular directories
 of a software project. These variables should be used where possible,
 so that directories can be renamed without breaking the build system.</p>
-<p>The <a class="reference internal" href="template.html"><em>BASIS Project Template</em></a> provides a reference implementation and automated
-BASIS Filesystem Hierarchy Standard setup. See
-<a class="reference internal" href="../howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a> for details.</p>
-<div class="section" id="legend">
-<h2>Legend<a class="headerlink" href="#legend" title="Permalink to this headline">¶</a></h2>
-<p>The BASIS Filesystem Heirarchy Standard uses the following definitions:</p>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;project&gt;</span></tt> (<tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt>) is a placeholder for the lowercase project (or package) name</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;Project&gt;</span></tt> is the case-sensitive project name.</p>
-</li>
-<li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">&lt;version&gt;</span></tt> is a placeholder for the project version string <tt class="docutils literal"><span class="pre">&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</span></tt></dt>
-<dd><ul class="first last simple">
-<li><tt class="docutils literal"><span class="pre">&lt;major&gt;</span></tt> is the major release number</li>
-<li><tt class="docutils literal"><span class="pre">&lt;minor&gt;</span></tt> is the minor update number</li>
-<li><tt class="docutils literal"><span class="pre">&lt;patch&gt;</span></tt> is the patch number</li>
+<p>The <a class="reference internal" href="template.html"><em>Project Template</em></a> provides a reference implementation of this standard.
+See the <a class="reference internal" href="../howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a> How-to Guide for details
+on how to make use of this template to create a new project which is conform
+with the filesystem hierarchy standard detailed in this section.</p>
+<p><strong>Legend</strong></p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&lt;project&gt;</span></tt> (<tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt>) is a placeholder for the lowercase project (or package) name</li>
+<li><tt class="docutils literal"><span class="pre">&lt;Project&gt;</span></tt> is the case-sensitive project name.</li>
+<li><tt class="docutils literal"><span class="pre">&lt;major&gt;</span></tt>   is the major release number</li>
+<li><tt class="docutils literal"><span class="pre">&lt;minor&gt;</span></tt>   is the minor update number</li>
+<li><tt class="docutils literal"><span class="pre">&lt;patch&gt;</span></tt>   is the patch number</li>
+<li><tt class="docutils literal"><span class="pre">&lt;version&gt;</span></tt> is a placeholder for the project version string <tt class="docutils literal"><span class="pre">&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">&lt;source&gt;</span></tt>  is the root directory of a particular project source tree</li>
+<li><tt class="docutils literal"><span class="pre">&lt;build&gt;</span></tt>   is the root directory of the project&#8217;s build or binary tree</li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;source&gt;</span></tt> is the root directory of a particular project source tree</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">&lt;build&gt;</span></tt>  is the root directory of the project&#8217;s build or binary tree</p>
-</li>
-</ul>
-</div>
-<div class="section" id="git-mercurial-and-svn-version-control-repository-organization">
-<span id="gitrepositoryorganization"></span><h2>Git, Mercurial and SVN Version Control Repository Organization<a class="headerlink" href="#git-mercurial-and-svn-version-control-repository-organization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="source-code-repository">
+<span id="gitrepositoryorganization"></span><h2>Source Code Repository<a class="headerlink" href="#source-code-repository" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
-<p>BASIS recommends that <a class="reference external" href="http://git-scm.com/">git</a> distributed version control users follow the <a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">nvie git-flow branching model</a>.
+<p>BASIS recommends that <a class="reference external" href="http://git-scm.com/">Git</a> distributed version control users follow the <a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">nvie git-flow branching model</a>.
 The <a class="reference external" href="https://www.atlassian.com/git/workflows#!workflow-gitflow">Atlassian Gitflow Workflow Tutorial</a> is another excellent source for this information.</p>
 </div>
 <div class="section" id="mercurial">
 <span id="hgrepositoryorganization"></span><h3>Mercurial<a class="headerlink" href="#mercurial" title="Permalink to this headline">¶</a></h3>
 <p>BASIS recommends that <a class="reference external" href="http://www.mercurial.selenic.com">Mercurial</a> (hg) distributed version control users follow the hg-flow branching model.
-This is identical to the git-flow branching model explained in <a class="reference internal" href="#gitrepositoryorganization"><em>Git, Mercurial and SVN Version Control Repository Organization</em></a>, but uses mercurial as the version control system. The <a class="reference external" href="https://bitbucket.org/yujiewu/hgflow/wiki/Home">hg-flow extension</a> is useful for assisting with development, but not required.</p>
+This is identical to the git-flow branching model explained in <a class="reference internal" href="#gitrepositoryorganization"><em>Source Code Repository</em></a>, but uses mercurial as the version control system. The <a class="reference external" href="https://bitbucket.org/yujiewu/hgflow/wiki/Home">hg-flow extension</a> is useful for assisting with development, but not required.</p>
 </div>
-<div class="section" id="svn">
-<span id="svnrepositoryorganization"></span><h3>SVN<a class="headerlink" href="#svn" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="subversion">
+<span id="svnrepositoryorganization"></span><h3>Subversion<a class="headerlink" href="#subversion" title="Permalink to this headline">¶</a></h3>
 <p>Each <a class="reference external" href="http://subversion.apache.org/">Subversion</a> (SVN) repository contains the top-level directories <tt class="docutils literal"><span class="pre">trunk/</span></tt>,
 <tt class="docutils literal"><span class="pre">branches/</span></tt>, and <tt class="docutils literal"><span class="pre">tags/</span></tt>. No other directories may be located next to these
 three top-level directories.</p>
 <p>The root directory of a development branch, typically the trunk
-(see <a class="reference internal" href="#svnrepositoryorganization"><em>SVN</em></a>), is denoted by <tt class="docutils literal"><span class="pre">&lt;tag&gt;</span></tt>
+(see <a class="reference internal" href="#svnrepositoryorganization"><em>Subversion</em></a>), is denoted by <tt class="docutils literal"><span class="pre">&lt;tag&gt;</span></tt>
 and considered relative to the base URL of the project repository.
 The base URL is referred to as <tt class="docutils literal"><span class="pre">&lt;url&gt;</span></tt>.</p>
 <table border="1" class="docutils">
@@ -477,27 +465,31 @@ All other directories are specified relative to this prefix.</td>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howto.html">How-to Guides</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../standard.html">Standards</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../standard.html#build-system-standard">Build System Standard</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="">Filesystem Hierarchy Standard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="template.html">BASIS Project Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules.html">Project Modularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Filesystem Layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#source-code-repository">Source Code Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code-tree">Source Code Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-tree">Build Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-tree">Installation Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../standard.html#implementation-standard">Implementation Standard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../standard.html#style-guides">Style Guides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">Project Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">Project Modularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution.html">Calling Conventions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Page Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Full Table of Contents</a></li>
 </ul>
 
         </div>

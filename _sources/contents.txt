@@ -9,9 +9,8 @@ Table of Contents
 
     quickstart
     howto
-    standard/buildsystem
-    standard/implementation
-    standard/style
+    standard
+    guideline
     apidoc
     help
     changelog

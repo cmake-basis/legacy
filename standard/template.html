@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="This article describes the software project template of BASIS, a build system and software implementation standard." name="description" />
 
-    <title>BASIS Project Template &mdash; BASIS</title>
+    <title>Project Template &mdash; BASIS</title>
     
     <link rel="stylesheet" href="../_static/readable.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2014.01.05 (16:07 UTC)',
+        VERSION:     'b2014.01.05 (22:31 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="Standards" href="../standard.html" />
     <link rel="next" title="Project Modularization" href="modules.html" />
-    <link rel="prev" title="Filesystem Hierarchy Standard" href="fhs.html" />
+    <link rel="prev" title="Filesystem Layout" href="fhs.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
@@ -46,7 +46,7 @@
           <a href="modules.html" title="Project Modularization"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="fhs.html" title="Filesystem Hierarchy Standard"
+          <a href="fhs.html" title="Filesystem Layout"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">BASIS</a> &raquo;</li>
           <li><a href="../contents.html" >Table of Contents</a> &raquo;</li>
@@ -59,14 +59,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="basis-project-template">
-<h1>BASIS Project Template<a class="headerlink" href="#basis-project-template" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="project-template">
+<h1>Project Template<a class="headerlink" href="#project-template" title="Permalink to this headline">¶</a></h1>
 <p>The BASIS Project Template defines a standardized project directory
 and file structure for consistency and interoperability that is required
 to follow the BASIS standard. The idea is to make projects easier for
 developers to create, share, and use. It provides template files for the
 configuration of the build, testing, installation, and packaging, as well
-as a common directory structure which can be found at <a class="reference internal" href="fhs.html"><em>Filesystem Hierarchy Standard</em></a>.
+as a common directory structure which can be found at <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a>.
 The Software Project Template also defines how <a class="reference external" href="http://www.cmake.org/">CMake</a>, <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt>
 files are set up and the basic build flags that are required.
 The easiest way to get started is by using the <tt class="docutils literal"><span class="pre">basisproject</span></tt> utility
@@ -74,7 +74,7 @@ to generate a completed template for your project that follows this standard,
 see the <a class="reference internal" href="../quickstart.html"><em>Quick Start</em></a> section for more details on getting started.</p>
 <div class="section" id="required-project-files">
 <h2>Required Project Files<a class="headerlink" href="#required-project-files" title="Permalink to this headline">¶</a></h2>
-<p>The following files have to be part of any project which follows the <a class="reference internal" href="fhs.html"><em>Filesystem Hierarchy Standard</em></a>.
+<p>The following files have to be part of any project which follows the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a>.
 These are thus the minimal set of project files which need to be selected
 when instantiating a new software project. Besides these files, a project
 will have either a <tt class="docutils literal"><span class="pre">src/</span></tt> directory or a <tt class="docutils literal"><span class="pre">modules/</span></tt> directory,
@@ -90,8 +90,6 @@ summary of the package files. Moreover, it refers to the
 files for details on the build and installation and software license,
 respectively. Furthermore, references to scientific articles related
 to the software package shall be included in this file.</dd>
-</dl>
-<dl class="docutils">
 <dt>AUTHORS.txt</dt>
 <dd>Names the authors of the software package. People who
 notably contributed to the software directly should also be named
@@ -115,7 +113,7 @@ and license text corresponds to which project files.</dd>
 <dd>Contains build and installation instructions. As the build
 of all projects which follow BASIS is very similar, this
 file shall only describe additional steps/CMake variables
-which are not described in the <a class="reference internal" href="../install.html"><em>Installation</em></a> guide.</dd>
+which are not described in the <a class="reference internal" href="../howto/install.html"><em>Install any Software</em></a> guide.</dd>
 </dl>
 <dl class="docutils" id="basisproject">
 <dt><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a></dt>
@@ -202,7 +200,7 @@ structure is required.</dd>
 <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga4f8b3637e8577369144ad177d35446f8">basis_add_test()</a> command. The test input files are usually put
 in a subdirectory named <tt class="docutils literal"><span class="pre">test/input/</span></tt>, while the baseline
 data of the expected test output is stored inside a subdirectory
-named <tt class="docutils literal"><span class="pre">test/baseline/</span></tt>. Generally, however, the <a class="reference internal" href="fhs.html"><em>Filesystem Hierarchy Standard</em></a> of
+named <tt class="docutils literal"><span class="pre">test/baseline/</span></tt>. Generally, however, the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a> of
 BASIS does not dictate how the test sources, input, and baseline
 data have to be organized inside the <tt class="docutils literal"><span class="pre">test/</span></tt> directory.</dd>
 <dt>test/internal/CMakeLists.txt</dt>
@@ -328,27 +326,30 @@ supported by BASIS. This template file is yet subject to change.</dd>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howto.html">How-to Guides</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../standard.html">Standards</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../standard.html#build-system-standard">Build System Standard</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="fhs.html">Filesystem Hierarchy Standard</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="">BASIS Project Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules.html">Project Modularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fhs.html">Filesystem Layout</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Project Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required-project-files">Required Project Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-project-files">Common Project Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-project-files">Advanced Project Files</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../standard.html#implementation-standard">Implementation Standard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../standard.html#style-guides">Style Guides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">Project Modularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution.html">Calling Conventions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../help.html">Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Page Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Full Table of Contents</a></li>
 </ul>
 
         </div>

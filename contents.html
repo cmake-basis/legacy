@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (16:07 UTC)',
+        VERSION:     'b2014.01.05 (22:31 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -61,15 +61,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#first-steps">First Steps</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="quickstart.html#getting-started">Getting Started</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quickstart.html#install-basis">Install BASIS</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="quickstart.html#get-a-copy-of-the-sources">Get a copy of the sources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quickstart.html#get-a-copy-of-the-source-code">Get a copy of the source code</a></li>
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#configure-the-build">Configure the build</a></li>
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#build-and-install-basis">Build and install BASIS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#set-up-the-environment">Set up the environment</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="quickstart.html#create-example-project">Create Example Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#create-an-example-project">Create an Example Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quickstart.html#install-your-project">Install Your Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quickstart.html#add-an-executable">Add an Executable</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#change-target-properties">Change target properties</a></li>
@@ -84,7 +83,7 @@
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#install-the-libraries">Install the libraries</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="quickstart.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#advanced-tutorials">Advanced Tutorials</a></li>
@@ -162,8 +161,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="howto/buildoptions.html">CMake Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/buildoptions.html#advanced-cmake-options">Advanced CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/buildoptions.html">CMake Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/buildoptions.html#advanced-cmake-options">Advanced CMake Options</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="howto/run-automated-tests.html">Automated Testing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="howto/run-automated-tests.html#the-basistest-family-of-scripts">The basistest family of scripts</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="howto/run-automated-tests.html#basistest-cron">basistest-cron</a></li>
@@ -182,72 +183,68 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="standard/buildsystem.html">Build System Standard</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="standard/buildsystem/fhs.html">Filesystem Hierarchy Standard</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/fhs.html#legend">Legend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/fhs.html#git-mercurial-and-svn-version-control-repository-organization">Git, Mercurial and SVN Version Control Repository Organization</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/buildsystem/fhs.html#git">Git</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/buildsystem/fhs.html#mercurial">Mercurial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/buildsystem/fhs.html#svn">SVN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="standard/fhs.html">Filesystem Layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#source-code-repository">Source Code Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#git">Git</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#mercurial">Mercurial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#subversion">Subversion</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/fhs.html#source-code-tree">Source Code Tree</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/fhs.html#build-tree">Build Tree</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/fhs.html#installation-tree">Installation Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#source-code-tree">Source Code Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#build-tree">Build Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#installation-tree">Installation Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="standard/buildsystem/template.html">Project Template</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/template.html#required-project-files">Required Project Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/template.html#common-project-files">Common Project Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/template.html#advanced-project-files">Advanced Project Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/template.html">Project Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#required-project-files">Required Project Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#common-project-files">Common Project Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#advanced-project-files">Advanced Project Files</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="standard/buildsystem/modules.html">Project Modularization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/modules.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/modules.html">Project Modularization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#implementation">Implementation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="standard/buildsystem/scripttargets.html">Build of Script Targets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/scripttargets.html#prerequisites-and-build-steps">Prerequisites and Build Steps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/buildsystem/scripttargets.html#script-configuration">Script Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/scripttargets.html">Build of Script Targets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/scripttargets.html#prerequisites-and-build-steps">Prerequisites and Build Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/scripttargets.html#script-configuration">Script Configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="standard/cmdline.html">Command-line Parsing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/cmdline/cxx.html">C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/cmdline/bash.html">Bash</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="standard/implementation.html">Implementation Standard</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="standard/implementation/cmdline.html">Command-line Parsing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/cmdline/cxx.html">Parsing the Command-line Arguments in C++</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/cmdline/bash.html">Parsing the Command-line Arguments in Bash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/execution.html">Calling Conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#relative-vs-absolute-paths">Relative vs. Absolute Paths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#file-vs-target-name">File vs. Target Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#search-paths">Search Paths</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#unix">Unix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#windows">Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="standard/implementation/execution.html">Calling Conventions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/execution.html#relative-vs-absolute-paths">Relative vs. Absolute Paths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/execution.html#file-vs-target-name">File vs. Target Name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/execution.html#search-paths">Search Paths</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#unix">Unix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#implementation">Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#c">C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#java">Java</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#python">Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#perl">Perl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#bash">Bash</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/execution.html#implementation">Implementation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#c">C++</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#java">Java</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#python">Python</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#perl">Perl</a></li>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#bash">Bash</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="standard/implementation/execution.html#unsupported-languages">Unsupported Languages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/implementation/execution.html#matlab">MATLAB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#unsupported-languages">Unsupported Languages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/execution.html#matlab">MATLAB</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="standard/style.html">Programming Guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="standard/style/plain.html">Guideline for Plain Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guideline/plain-text-format.html">Plain Text Format</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Developer Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="apidoc/modules.html">Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apidoc/namespaces.html">Namespaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apidoc/classlist.html">Class List</a></li>
@@ -256,7 +253,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">News</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-3-0-0-dec-24-2013">Release 3.0.0 (Dec 24, 2013)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-2-1-4-apr-20-2013">Release 2.1.4 (Apr 20, 2013)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-2-1-3-mar-1-2013">Release 2.1.3 (Mar 1, 2013)</a></li>
@@ -343,19 +340,18 @@
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/buildsystem.html">Build System Standard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/implementation.html">Implementation Standard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standard/style.html">Programming Guidelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Page Contents</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Full Table of Contents</a></li>
 </ul>
 
         </div>

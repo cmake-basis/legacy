@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (16:07 UTC)',
+        VERSION:     'b2014.01.05 (22:31 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="BASIS" href="index.html" />
     <link rel="up" title="Table of Contents" href="contents.html" />
-    <link rel="next" title="Filesystem Hierarchy Standard" href="standard/fhs.html" />
+    <link rel="next" title="Filesystem Layout" href="standard/fhs.html" />
     <link rel="prev" title="Automated Testing" href="howto/run-automated-tests.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -42,7 +42,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="standard/fhs.html" title="Filesystem Hierarchy Standard"
+          <a href="standard/fhs.html" title="Filesystem Layout"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="howto/run-automated-tests.html" title="Automated Testing"
@@ -58,23 +58,19 @@
           <div class="body">
             
   <div class="section" id="standards">
-<span id="id1"></span><h1>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h1>
-<p>The following sections define the standards for software projects that
-follow BASIS, a build system and a software implementation standard.</p>
-<div class="section" id="build-system-standard">
-<h2>Build System Standard<a class="headerlink" href="#build-system-standard" title="Permalink to this headline">¶</a></h2>
-<p>The build system standard, i.e., the <strong>B</strong> in BASIS, is defined in the following.</p>
+<span id="standard"></span><h1>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h1>
+<p>The following sections detail the Build system (i.e., the <strong>B</strong> in BASIS)
+and Software Implementation (i.e., the <strong>SI</strong> in BASIS) Standard.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="standard/fhs.html">Filesystem Hierarchy Standard</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#legend">Legend</a></li>
-<li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#git-mercurial-and-svn-version-control-repository-organization">Git, Mercurial and SVN Version Control Repository Organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard/fhs.html">Filesystem Layout</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#source-code-repository">Source Code Repository</a></li>
 <li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#source-code-tree">Source Code Tree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#build-tree">Build Tree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="standard/fhs.html#installation-tree">Installation Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="standard/template.html">BASIS Project Template</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="standard/template.html">Project Template</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="standard/template.html#required-project-files">Required Project Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="standard/template.html#common-project-files">Common Project Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="standard/template.html#advanced-project-files">Advanced Project Files</a></li>
@@ -89,17 +85,9 @@ follow BASIS, a build system and a software implementation standard.</p>
 <li class="toctree-l2"><a class="reference internal" href="standard/scripttargets.html#script-configuration">Script Configuration</a></li>
 </ul>
 </li>
-</ul>
-</div>
-</div>
-<div class="section" id="implementation-standard">
-<h2>Implementation Standard<a class="headerlink" href="#implementation-standard" title="Permalink to this headline">¶</a></h2>
-<p>The software implementation standard, i.e., the <strong>SI</strong> in BASIS, is defined in the following.</p>
-<div class="toctree-wrapper compound">
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="standard/cmdline.html">Command-line Parsing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="standard/cmdline/cxx.html">Parsing the Command-line Arguments in C++</a></li>
-<li class="toctree-l2"><a class="reference internal" href="standard/cmdline/bash.html">Parsing the Command-line Arguments in Bash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/cmdline/cxx.html">C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/cmdline/bash.html">Bash</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="standard/execution.html">Calling Conventions</a><ul>
@@ -111,17 +99,6 @@ follow BASIS, a build system and a software implementation standard.</p>
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="style-guides">
-<h2>Style Guides<a class="headerlink" href="#style-guides" title="Permalink to this headline">¶</a></h2>
-<p>The style guides specify guidelines for the formatting of
-documents and programming style.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="standard/style/plain.html">Style Guide for Plain Text Files</a></li>
-</ul>
-</div>
 </div>
 </div>
 
@@ -153,34 +130,25 @@ documents and programming style.</p>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Standards</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#build-system-standard">Build System Standard</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html">Filesystem Hierarchy Standard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html">BASIS Project Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/modules.html">Project Modularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/fhs.html">Filesystem Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/template.html">Project Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/modules.html">Project Modularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/scripttargets.html">Build of Script Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="standard/execution.html">Calling Conventions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#implementation-standard">Implementation Standard</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/cmdline.html">Command-line Parsing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/execution.html">Calling Conventions</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#style-guides">Style Guides</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/style/plain.html">Style Guide for Plain Text Files</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents.html">Page Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Full Table of Contents</a></li>
 </ul>
 
         </div>

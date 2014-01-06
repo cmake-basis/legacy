@@ -1,0 +1,34 @@
+.. _Standard:
+
+=================================================
+Build system and Software Implementation Standard
+=================================================
+
+The following sections detail the build system (i.e., the **B** in BASIS)
+and the software implementation standard (i.e., the **SI** in BASIS)
+which builds the foundation of the BASIS project.
+
+.. toctree::
+    :maxdepth: 2
+
+    fhs
+    template
+    modules
+    scripttargets
+    cmdline
+    execution
+
+.. _CodingGuidelines:
+
+============================
+Programming Style Guidelines
+============================
+
+BASIS further specifies common guidelines for the formatting of documents
+such as in particular program code as well as other recommended coding guidelines.
+Each organization employing BASIS, however, may define their own guidelines,
+possibly using the following guidelines as reference.
+
+.. toctree::
+
+    style/plain
