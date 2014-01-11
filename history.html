@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>History &mdash; BASIS</title>
+    <title>Get Started &mdash; BASIS</title>
     
     <link rel="stylesheet" href="_static/readable.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (22:31 UTC)',
+        URL_ROOT:    './',
+        VERSION:     'b2014.01.09 (04:15 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -38,7 +38,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">BASIS</a> &raquo;</li> 
+        <li><a href="sidebar.html">BASIS</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,14 +47,43 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="history">
+  <div class="section" id="get-started">
+<h1>Get Started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Get your first taste with the <a class="reference internal" href="quickstart.html"><em>Quick Start</em></a> guide.</li>
+<li>Check out the <a class="reference internal" href="howto.html"><em>How-to Guides</em></a> for easy introductions to common tasks.</li>
+<li>Investigate the <a class="reference internal" href="apidoc.html"><em>Reference</em></a> for more in depth information.</li>
+</ol>
+</div>
+<div class="section" id="history">
 <span id="id1"></span><h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
-<p>The BASIS project was started early in 2011 to improve and standardize the software
-packages developed at the <a class="reference external" href="http://www.rad.upenn.edu/sbia/">Section of Biomedical Analysis (SBIA)</a>
+<p>The CMake BASIS project was started early in 2011 to improve and standardize software
+packages developed at the <a class="reference external" href="http://www.rad.upenn.edu/sbia/">Section of Biomedical Image Analysis (SBIA)</a>
 of the <a class="reference external" href="http://www.upenn.edu/">University of Pennsylvania</a>. It started with the decision
 to use <a class="reference external" href="http://www.cmake.org">CMake</a> as a build system which has been greatly extended using custom CMake
-macros and functions and the implementation of a standardized project template. Over time,
-these components were transformed to important parts of the CMake BASIS package.</p>
+macros and functions and the implementation of a standardized project template.
+The initial idea was to provide a project template based on CMake which would
+standardize the project directory structure as well as the software build. This
+project template would allow the developers to concentrate on actual software
+development rather than on deciding upon the directory structure, the directory names,
+and the basic CMake configuration. Over time, these components were transformed into
+important parts of the CMake BASIS package.</p>
+</div>
+<div class="section" id="purpose">
+<h1>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h1>
+<p>The CMake BASIS software package documents and implements a standard for
+project organization, software build, implementation and documentation.
+We aim to provide a comprehensive way to streamline software development.</p>
+<p>CMake BASIS includes a software development standard, a <a class="reference internal" href="standard/template.html"><em>Project Template</em></a>
+implementing the <a class="reference internal" href="standard/fhs.html"><em>Filesystem Layout</em></a>, <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisModules.html">CMake Modules</a> which not only follow the Filesystem
+Hierarchy Standard, but also implement the build system standard as well as the
+standard for testing and packaging software developed using BASIS.</p>
+<p>CMake BASIS provides basic <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisUtilities.html">utility functions</a> for each
+supported programming language which implement certain aspects of the
+<a class="reference internal" href="standard.html"><em>software implementation standard</em></a> such as the calling
+conventions on how to execute subprocesses and the parsing of command-line
+arguments. Where possible, these utility implementations were adopted from
+other open source software projects and integrated with BASIS.</p>
 </div>
 
 
@@ -63,7 +92,7 @@ these components were transformed to important parts of the CMake BASIS package.
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
+            <p class="logo"><a href="sidebar.html">
               <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none">
@@ -79,7 +108,7 @@ these components were transformed to important parts of the CMake BASIS package.
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="index.html">Table Of Contents</a></h3>
+<h3><a href="sidebar.html">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
@@ -90,12 +119,11 @@ these components were transformed to important parts of the CMake BASIS package.
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents.html">Full Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Full Table Of Contents</a></li>
 </ul>
 
         </div>
@@ -104,7 +132,7 @@ these components were transformed to important parts of the CMake BASIS package.
     </div>
   <div class="footer">
     &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
   </div>
   
   </body>

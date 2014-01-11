@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2014.01.05 (22:31 UTC)',
+        VERSION:     'b2014.01.09 (23:34 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="How-to Guides" href="../howto.html" />
-    <link rel="next" title="Create a Custom Template" href="create-custom-template.html" />
+    <link rel="next" title="Using and Customizing Templates" href="use-and-customize-templates.html" />
     <link rel="prev" title="How-to Guides" href="../howto.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -40,15 +40,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="create-custom-template.html" title="Create a Custom Template"
-             accesskey="N">next</a> |</li>
+          <a href="use-and-customize-templates.html" title="Using and Customizing Templates"
+             accesskey="N">next</a></li>
         <li class="right" >
           <a href="../howto.html" title="How-to Guides"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">BASIS</a> &raquo;</li>
+        <li><a href="../sidebar.html">BASIS</a> &raquo;</li>
           <li><a href="../contents.html" >Table of Contents</a> &raquo;</li>
           <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
       </ul>
@@ -91,13 +88,13 @@ when creating the project using the <tt class="docutils literal"><span class="pr
         --use ITK --useopt VTK
 </pre></div>
 </div>
-<p>The basisproject tool will in turn modify the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file to add the
+<p>The basisproject tool will in turn modify the <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> file to add the
 named packages to the corresponding lists of dependencies.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">In order for <tt class="docutils literal"><span class="pre">basisproject</span></tt> to be able to find the correct place where to insert
 the new dependencies, the <tt class="docutils literal"><span class="pre">#&lt;dependency&gt;</span></tt> et al. placeholders have to be present.
-See the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> template file.</p>
+See the  <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> template file.</p>
 </div>
 </div>
 <div class="section" id="modify-an-existing-project">
@@ -118,7 +115,7 @@ editing the project files. Be aware that changing the project name may require t
 modification of several project files including source files. Furthermore, the
 project name is used to identify the project within the lab and possibly even externally.
 Therefore, it should be fixed as early as possible. In order to change the project
-description, simply edit the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file which you can find
+description, simply edit the  <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> file which you can find
 in the top directory of the source tree. Specifically, the argument for the
 <tt class="docutils literal"><span class="pre">DESCRIPTION</span></tt> option of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> function.</p>
 <p>Hence, in order to modify an existing project, the <tt class="docutils literal"><span class="pre">--name</span></tt> and
@@ -227,7 +224,7 @@ looks for executables required by BASIS, such as in particular <tt class="docuti
 <div class="section" id="removing-dependencies">
 <h3>Removing Dependencies<a class="headerlink" href="#removing-dependencies" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">basisproject</span></tt> does at the moment not support the removal of previously added
-dependencies. Therefore, please edit the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file manually
+dependencies. Therefore, please edit the  <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> file manually
 and simply remove all CMake code referring to the particular package you do no
 longer require or use.</p>
 </div>
@@ -368,7 +365,7 @@ in the root directory of your project&#8217;s source tree.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
+            <p class="logo"><a href="../sidebar.html">
               <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none">
@@ -384,7 +381,7 @@ in the root directory of your project&#8217;s source tree.</p>
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../sidebar.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
@@ -396,7 +393,7 @@ in the root directory of your project&#8217;s source tree.</p>
 <li class="toctree-l3"><a class="reference internal" href="#update-a-project">Update a Project</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="create-custom-template.html">Create a Custom Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
@@ -411,12 +408,11 @@ in the root directory of your project&#8217;s source tree.</p>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Full Table of Contents</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Full Table Of Contents</a></li>
 </ul>
 
         </div>
@@ -424,8 +420,8 @@ in the root directory of your project&#8217;s source tree.</p>
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
   </div>
   
   </body>

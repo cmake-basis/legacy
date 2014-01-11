@@ -164,7 +164,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga2f8c905297c523cf752011d5d61f1615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add directories to search path for libraries.  <a href="#ga2f8c905297c523cf752011d5d61f1615">More...</a><br/></td></tr>
 <tr class="separator:ga2f8c905297c523cf752011d5d61f1615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad82d479d14499d09c5aeda3af646b9f6"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (in ARGN)</td></tr>
-<tr class="memdesc:gad82d479d14499d09c5aeda3af646b9f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define project meta-data, i.e., attributes.  <a href="#gad82d479d14499d09c5aeda3af646b9f6">More...</a><br/></td></tr>
+<tr class="memdesc:gad82d479d14499d09c5aeda3af646b9f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets basic project information including the name, version, and dependencies.  <a href="#gad82d479d14499d09c5aeda3af646b9f6">More...</a><br/></td></tr>
 <tr class="separator:gad82d479d14499d09c5aeda3af646b9f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga127b37093051faec042f572ac7fde9ed"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeAPI.html#ga127b37093051faec042f572ac7fde9ed">basis_project_impl</a> ()</td></tr>
 <tr class="memdesc:ga127b37093051faec042f572ac7fde9ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of root <code>CMakeLists.txt</code> file of BASIS project.  <a href="#ga127b37093051faec042f572ac7fde9ed">More...</a><br/></td></tr>
@@ -1228,8 +1228,8 @@ cpack_configure_downloads() </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Define project meta-data, i.e., attributes. </p>
-<p>Any BASIS project has to call this macro in the file <a class="el" href="BasisProject_8cmake.html" title="Meta-data of this BASIS project. ">BasisProject.cmake</a> located in the top level directory of the source tree in order to define the project attributes required by BASIS to setup the build system. Moreover, if the BASIS project is a module of another BASIS project, this file and the variables set by this macro are used by the top-level project to identify its modules and the dependencies among them.</p>
+<p>Sets basic project information including the name, version, and dependencies. </p>
+<p>Any BASIS project has to call this macro in the file <a class="el" href="BasisProject_8cmake.html" title="Sets basic information about a BASIS Project and calls basis_project(). ">BasisProject.cmake</a> located in the top level directory of the source tree in order to define the project attributes required by BASIS to setup the build system. Moreover, if the BASIS project is a module of another BASIS project, this file and the variables set by this macro are used by the top-level project to identify its modules and the dependencies among them.</p>
 <dl class="section user"><dt>Project version:</dt><dd>The version number consists of three components: the major version number, the minor version number, and the patch number. The format of the version string is "&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;", where the minor version number and patch number default to "0" if not given. Only digits are allowed except of the two separating dots. <br/>
 <ul>
 <li>A change of the major version number indicates changes of the softwares <a href="http://en.wikipedia.org/wiki/Application_programming_interface">API</a> (and <a href="http://en.wikipedia.org/wiki/Application_binary_interface">ABI</a>) and/or its behavior and/or the change or addition of major features.</li>
@@ -1252,7 +1252,7 @@ cpack_configure_downloads() </dd></dl>
 <tr>
 <td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PACKAGE_NAME</b> pkg  </td><td>Name of the package this project (module) belongs to. Defaults to the name of the (top-level) project. This option can further be used in case of a top-level project to specify a different package name for the installation. In case of a subproject which is a module of another BASIS project, setting the package name explicitly using this option enables the build of the subproject as separate project while preserving the directory structure and other namespace settings. Therefore, this option is required if the <code>SUBPROJECT</code> option is given and the project shall be build independently as stand-alone package. (default: name of top-level package)  </td></tr>
 <tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PACKAGE_VENDOR</b> name  </td><td>Short ID of package vendor (i.e, provider and/or division acronym) used for package identification and default installation subdirectory.  </td></tr>
+<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PACKAGE_VENDOR</b> name  </td><td>Short ID of package vendor (i.e, provider and/or division acronym) this variable is used for package identification and is the name given to the folder that will be used as the default installation path location subdirectory.  </td></tr>
 <tr>
 <td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>VENDOR</b> name  </td><td>Short alias for <code>PACKAGE_VENDOR</code>.  </td></tr>
 <tr>
@@ -1277,6 +1277,20 @@ cpack_configure_downloads() </dd></dl>
 <td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>VERSION</b> major[.minor[.patch]]  </td><td>Project version string. (default: 1.0.0)  </td></tr>
 <tr>
 <td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>DESCRIPTION</b> description  </td><td>Package description, used for packing. If multiple arguments are given, they are concatenated using one space character as delimiter.  </td></tr>
+<tr>
+<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>TEMPLATE</b> path  </td><td>The TEMPLATE variable stores the directory of the chosen project template along with the template version so that the correct template is used by basisproject when a project is updated. Note that this variable is used in BASIS itself to specify the default template to use for the BASIS installation, i.e., the default used by basisproject if no &ndash;template argument is provided. If the template is part of the BASIS installation, only the template name and version part of the full path are needed. Otherwise, the full absolute path is used. For example, <div class="fragment"><div class="line">*                  <a class="code" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (</div>
+<div class="line">*                     # ...</div>
+<div class="line">*                     <a class="code" href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a> <span class="stringliteral">&quot;sbia/1.8&quot;</span></div>
+<div class="line">*                     # ...</div>
+<div class="line">*                  )</div>
+<div class="line">*                </div>
+</div><!-- fragment --> <div class="fragment"><div class="line">*                  <a class="code" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (</div>
+<div class="line">*                     # ...</div>
+<div class="line">*                     <a class="code" href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a> <span class="stringliteral">&quot;/opt/local/share/custom-basis-template/1.0&quot;</span></div>
+<div class="line">*                     # ...</div>
+<div class="line">*                  )</div>
+<div class="line">*               </div>
+</div><!-- fragment --> The installed templates can be found in the share/templates folder of installed BASIS software, as well as the data/templates foler of the BASIS source tree.  </td></tr>
 <tr>
 <td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>DEPENDS</b> name[, name]  </td><td>List of dependencies, i.e., either names of other BASIS (sub)projects or names of external packages.  </td></tr>
 <tr>
@@ -1329,10 +1343,10 @@ cpack_configure_downloads() </dd></dl>
 </div><div class="memdoc">
 
 <p>Implementation of root <code>CMakeLists.txt</code> file of BASIS project. </p>
-<p>This macro implements the entire logic of the top-level <code>CMakeLists.txt</code> file. At first, the project is initialized and the BASIS settings configured using the project information given in the <code><a class="el" href="BasisProject_8cmake.html" title="Meta-data of this BASIS project. ">BasisProject.cmake</a></code> file which must be located in the same directory. The, the code in the <code>CMakeLists.txt</code> files in the subdirectories is executed in order. At the end, the configuration of the build system is finalized, including in particular also the addition of custom build targets which perform the actual build of custom build targets such as the ones build using the MATLAB Compiler.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="BasisProject_8cmake.html" title="Meta-data of this BASIS project. ">BasisProject.cmake</a> </dd>
+<p>This macro implements the entire logic of the top-level <code>CMakeLists.txt</code> file. At first, the project is initialized and the BASIS settings configured using the project information given in the <code><a class="el" href="BasisProject_8cmake.html" title="Sets basic information about a BASIS Project and calls basis_project(). ">BasisProject.cmake</a></code> file which must be located in the same directory. The, the code in the <code>CMakeLists.txt</code> files in the subdirectories is executed in order. At the end, the configuration of the build system is finalized, including in particular also the addition of custom build targets which perform the actual build of custom build targets such as the ones build using the MATLAB Compiler.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="BasisProject_8cmake.html" title="Sets basic information about a BASIS Project and calls basis_project(). ">BasisProject.cmake</a> </dd>
 <dd>
-<a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Define project meta-data, i.e., attributes. ">basis_project()</a></dd></dl>
+<a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
 
 </div>
@@ -1517,7 +1531,7 @@ cpack_configure_downloads() </dd></dl>
 </div><div class="memdoc">
 
 <p>Define project meta-data of Slicer module. </p>
-<p>This macro should be used instead of <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Define project meta-data, i.e., attributes. ">basis_project()</a> for a Slicer module. It extends the considered meta-data by some additional variables that have to be set for a Slicer module and identifies this project as a Slicer module.</p>
+<p>This macro should be used instead of <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a> for a Slicer module. It extends the considered meta-data by some additional variables that have to be set for a Slicer module and identifies this project as a Slicer module.</p>
 <dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
 
 </div>
@@ -1600,7 +1614,7 @@ According to an email on the CMake mailing list, it is not a good idea to use <a
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Mon Jan 6 2014 01:08:15. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 03:08:53. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

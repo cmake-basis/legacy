@@ -13,8 +13,8 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (22:31 UTC)',
+        URL_ROOT:    './',
+        VERSION:     'b2014.01.09 (23:34 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -39,15 +39,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
           <a href="howto.html" title="How-to Guides"
-             accesskey="N">next</a> |</li>
+             accesskey="N">next</a></li>
         <li class="right" >
           <a href="contents.html" title="Table of Contents"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">BASIS</a> &raquo;</li>
+        <li><a href="sidebar.html">BASIS</a> &raquo;</li>
           <li><a href="contents.html" accesskey="U">Table of Contents</a> &raquo;</li> 
       </ul>
     </div>  
@@ -80,18 +77,18 @@ for what follows.</p>
 <h3>Install BASIS<a class="headerlink" href="#install-basis" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="get-a-copy-of-the-source-code">
 <h4>Get a copy of the source code<a class="headerlink" href="#get-a-copy-of-the-source-code" title="Permalink to this headline">¶</a></h4>
-<p>Download either a pre-packaged <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> of the latest BASIS release and unpack it using the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>mkdir -p ~/local/src
-<span class="nb">cd</span> ~/local/src
-tar xzf /path/to/downloaded/cmake-basis-<span class="nv">$version</span>.tar.gz
-<span class="nb">cd </span>cmake-basis-<span class="nv">$version</span>
-</pre></div>
-</div>
-<p>or clone the Git repository as follows:</p>
+<p>Clone the <a class="reference external" href="http://git-scm.com/">Git</a> repository from <a class="reference external" href="https://github.com/schuhschuh/cmake-basis/">GitHub</a> as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre>mkdir -p ~/local/src
 <span class="nb">cd</span> ~/local/src
 git clone https://github.com/schuhschuh/cmake-basis.git
 <span class="nb">cd </span>cmake-basis
+</pre></div>
+</div>
+<p>or <a class="reference internal" href="download.html"><em>Download</em></a> a pre-packaged <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> of the latest BASIS release and unpack it using the following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>mkdir -p ~/local/src
+<span class="nb">cd</span> ~/local/src
+tar xzf /path/to/downloaded/cmake-basis-<span class="nv">$version</span>.tar.gz
+<span class="nb">cd </span>cmake-basis-<span class="nv">$version</span>
 </pre></div>
 </div>
 </div>
@@ -156,9 +153,9 @@ project tool again:</p>
 </div>
 <p>Here we removed the <tt class="docutils literal"><span class="pre">example/</span></tt> subdirectory and added some configuration file used by BASIS.
 These options could also have been given to the initial command above instead.</p>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">The guide on how to <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a>.</p>
+<p class="last">The guide on how to <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a>, <a class="reference internal" href="standard/template.html#basisproject"><em>BasisProject.cmake</em></a>, and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>.</p>
 </div>
 </div>
 <div class="section" id="install-your-project">
@@ -171,7 +168,7 @@ cmake -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>~/l
 make
 </pre></div>
 </div>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last">The guide on how to <a class="reference internal" href="howto/install.html"><em>Install any Software</em></a>.</p>
 </div>
@@ -331,7 +328,7 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
+            <p class="logo"><a href="sidebar.html">
               <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none">
@@ -347,7 +344,7 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="index.html">Table Of Contents</a></h3>
+<h3><a href="sidebar.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Quick Start</a><ul>
@@ -370,12 +367,11 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="contents.html">Full Table of Contents</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="contents.html">Full Table Of Contents</a></li>
 </ul>
 
         </div>
@@ -383,8 +379,8 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
   </div>
   
   </body>

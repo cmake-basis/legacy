@@ -86,7 +86,7 @@ Files</h2></td></tr>
 <tr class="memdesc:BasisConfigSettings_8cmake"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets basic variables used in CMake package configuration. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BasisProject_8cmake"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BasisProject_8cmake.html">BasisProject.cmake</a></td></tr>
-<tr class="memdesc:BasisProject_8cmake"><td class="mdescLeft">&#160;</td><td class="mdescRight">Meta-data of this BASIS project. <br/></td></tr>
+<tr class="memdesc:BasisProject_8cmake"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets basic information about a BASIS Project and calls <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a>. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:BasisSettings_8cmake"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="BasisSettings_8cmake.html">BasisSettings.cmake</a></td></tr>
 <tr class="memdesc:BasisSettings_8cmake"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default project-independent settings. <br/></td></tr>
@@ -747,7 +747,7 @@ Variables</h2></td></tr>
 
 <p>Names of project meta-data switches. </p>
 <p>Names of project meta-data with only one argument. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Define project meta-data, i.e., attributes. ">basis_project()</a> in <a class="el" href="ProjectTools_8cmake.html" title="Definition of main project tools. ">ProjectTools.cmake</a> Names of project meta-data with multiple arguments. Names of project meta-data. Names of additional meta-data for Slicer modules with only one argument. Names of additional meta-data for Slicer modules with multiple arguments. Names of additional meta-data for Slicer modules. List of name patterns used for special purpose targets.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a> in <a class="el" href="ProjectTools_8cmake.html" title="Definition of main project tools. ">ProjectTools.cmake</a> Names of project meta-data with multiple arguments. Names of project meta-data. Names of additional meta-data for Slicer modules with only one argument. Names of additional meta-data for Slicer modules with multiple arguments. Names of additional meta-data for Slicer modules. List of name patterns used for special purpose targets.</dd></dl>
 <p>Contains a list of target name patterns that are used by the BASIS functions for special purposes and are hence not to be used for project targets. Names of recognized properties on targets.</p>
 <p>Unfortunately, the <code>ARGV</code> and <code>ARGN</code> arguments of a CMake function() or macro() does not preserve values which themselves are lists. Therefore, it is not possible to distinguish between property names and their values in the arguments passed to <a class="el" href="group__CMakeUtilities.html#ga0c0bf2c7f157ce0cae858f0574d07f72" title="Set target property. ">set_target_properties()</a> or <a class="el" href="group__CMakeAPI.html#ga0402a3fb3e7f04f4a61a92f41b816203" title="Set properties on a target. ">basis_set_target_properties()</a>. To overcome this problem, this list specifies all the possible property names. Everything else is considered to be a property value except the first argument follwing right after the <code>PROPERTIES</code> keyword. Alternatively, <a class="el" href="group__CMakeAPI.html#ga2a4a9b1c9c3aab8379d0f51b5853d9c4" title="Set a named property in a given scope. ">basis_set_property()</a> can be used as here no disambiguity exists.</p>
 <dl class="section note"><dt>Note</dt><dd>Placeholders such as &lt;CONFIG&gt; are allowed. These are treated as the regular expression "[^ ]+". See <a class="el" href="group__CMakeUtilities.html#ga64f726da489f143dc01d61c461297539" title="Convert list into regular expression. ">basis_list_to_regex()</a>.</dd></dl>
@@ -1136,7 +1136,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Mon Jan 6 2014 01:08:15. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 03:08:53. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

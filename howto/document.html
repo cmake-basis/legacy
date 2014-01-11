@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'b2014.01.05 (22:31 UTC)',
+        VERSION:     'b2014.01.09 (23:34 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -40,15 +40,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
           <a href="branch-and-release.html" title="Branch and Release"
-             accesskey="N">next</a> |</li>
+             accesskey="N">next</a></li>
         <li class="right" >
           <a href="manage-data.html" title="Managing Test Data"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">BASIS</a> &raquo;</li>
+        <li><a href="../sidebar.html">BASIS</a> &raquo;</li>
           <li><a href="../contents.html" >Table of Contents</a> &raquo;</li>
           <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
       </ul>
@@ -67,47 +64,229 @@
 </div>
 <p>BASIS supports two well-known and established documentation generation tools:
 <a class="reference external" href="http://www.doxygen.org/">Doxygen</a> and <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</p>
-<p>Since version 1.8.0, Doxygen can natively generate documentation from C/C++,
-Java, Python, Tcl, and Fortran. The markup language used to format documentation
+<div class="section" id="doxygen-documentation">
+<h2>Doxygen Documentation<a class="headerlink" href="#doxygen-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="language-support">
+<h3>Language Support<a class="headerlink" href="#language-support" title="Permalink to this headline">¶</a></h3>
+<p>Since version 1.8.0, <a class="reference external" href="http://www.doxygen.org/">Doxygen</a> can natively generate documentation from</p>
+<ul class="simple">
+<li>C/C++</li>
+<li>Java</li>
+<li>Python</li>
+<li>Tcl</li>
+<li>Fortran.</li>
+</ul>
+<p>The markup language used to format documentation
 comments was originally a set of commands inherited from Javadoc.
-More recently, Doxygen further adopted <a class="reference external" href="http://daringfireball.net/projects/markdown/">Markdown</a> and elements from <a class="reference external" href="http://michelf.ca/projects/php-markdown/extra/">Markdown Extra</a>.
-To extend the reportoire of programming languages processed by Doxygen, so-called
+Recently Doxygen also adopted <a class="reference external" href="http://daringfireball.net/projects/markdown/">Markdown</a> and elements from <a class="reference external" href="http://michelf.ca/projects/php-markdown/extra/">Markdown Extra</a>.</p>
+</div>
+<div class="section" id="doxygen-filters">
+<h3>Doxygen Filters<a class="headerlink" href="#doxygen-filters" title="Permalink to this headline">¶</a></h3>
+<p>To extend the reportoire of programming languages processed by Doxygen, so-called
 custom Doxygen filters can be provided which transform any source code into
 the syntax of one of the languages well understood by Doxygen. The target language
-used is commonly C/C++ as this is the language best understood by Doxygen.
-The goal of BASIS is to provide one such filter for each programming language
-supported by it but not by Doxygen, i.e., Bash, Perl, and MATLAB. Moreover, a
-Doxygen filter for Python allows the use of Doxygen tags within doc strings as
-well by converting doc strings to Doxygen-style comments.</p>
-<p>Besides Doxygen, BASIS makes use of Sphinx for the alternative documentation
+used is commonly C/C++ as this is the language best understood by Doxygen.</p>
+<p>BASIS includes Doxygen filters for:</p>
+<ul class="simple">
+<li>CMake</li>
+<li>Bash</li>
+<li>Perl</li>
+<li>MATLAB</li>
+<li>Python</li>
+</ul>
+</div>
+<div class="section" id="generating-doxygen">
+<h3>Generating Doxygen<a class="headerlink" href="#generating-doxygen" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="sphinx-documentation">
+<h2>Sphinx Documentation<a class="headerlink" href="#sphinx-documentation" title="Permalink to this headline">¶</a></h2>
+<p>BASIS makes use of Sphinx for the alternative documentation
 generation from Python source code and corresponding doc strings. The markup
-language used by Sphinx is <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> (reST). The wide spectrum of output formats,
-including in particular, HTML, LaTeX, and man pages, supported by the Docutils
-which include the tools to process reST and are further utilized by Sphinx,
-the preferred way of writing a software manual, developer&#8217;s guide, tutorial slides,
-and a project web site is by providing text files marked up using reST which are
+language used by Sphinx is <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> (reST).</p>
+<p>Sphinx Documentation has the advantages of being able to be produced in many
+different formats, and it can be used inline in Python code, and producing
+documentation in a much more usable layout. However, it cannot generate
+documentaiton from inline code for C++ in the way that doxygen can.</p>
+<div class="section" id="output-formats">
+<h3>Output Formats<a class="headerlink" href="#output-formats" title="Permalink to this headline">¶</a></h3>
+<p>Sphinx and restructured text allow documentation to be generated in a wide
+number of useful formats, including:</p>
+<ul class="simple">
+<li>HTML</li>
+<li>LaTeX</li>
+<li>man pages</li>
+<li>Docutils</li>
+</ul>
+<p>These can be used to produce:</p>
+<ul class="simple">
+<li>software manual</li>
+<li>developer&#8217;s guide</li>
+<li>tutorial slides,</li>
+<li>project web site</li>
+</ul>
+<p>This is accomplished by providing text files marked up using reST which are
 then processed by Sphinx to generate documentation in the desired output format.</p>
-<p>The two Sphinx extensions <a class="reference external" href="https://github.com/michaeljones/breathe">breathe</a> and <a class="reference external" href="http://packages.python.org/sphinxcontrib-doxylink/">doxylink</a> which are included with BASIS
+<p>BASIS includes two Sphinx extensions <a class="reference external" href="https://github.com/michaeljones/breathe">breathe</a> and <a class="reference external" href="http://packages.python.org/sphinxcontrib-doxylink/">doxylink</a> which are included with BASIS
 can be used to include, respectively, link to the the documentation generated
 by Doxygen from the documentation generated by Sphinx. The latter only for the
 HTML output, which, however, is the most commonly used and preferred output
 format. Given that the project web site and manuals are generated by Sphinx and
 only the more advanced reference documentation is generated by Doxygen, this
-one directional linking of documentation pages is sufficient for most use cases.</p>
-<p>Last but not least, Markdown and Markdown Extra can be used as an alternative to
-reStructuredText for additional documentation pages. This is in particular of
-interest for the root package documentation files such as the AUTHORS, README,
-INSTALL, and COPYING files. Many online hosting platforms for the distribution
-of open source software such as SourceForge and GitHub can display such files
+one directional linking of documentation pages is sufficient for most use cases.
+Currently BASIS uses doxylink because it is able to work with more complete
+and better organized output than breathe can handle as of the time of writing.</p>
+</div>
+<div class="section" id="themes">
+<h3>Themes<a class="headerlink" href="#themes" title="Permalink to this headline">¶</a></h3>
+<p>A number of Sphinx themes are provided with BASIS, and the recommended default theme
+is readable-wide that is used by the BASIS website.</p>
+<ul class="simple">
+<li>readable-wide</li>
+<li>readable</li>
+<li>agogo</li>
+<li>default</li>
+<li>haiku</li>
+<li>pyramid</li>
+<li>sphinxdoc</li>
+<li>basic</li>
+<li>epub</li>
+<li>nature</li>
+<li>readable</li>
+<li>scrolls</li>
+<li>traditional</li>
+</ul>
+<p>You can also use your own theme from the web or include it yourself by simply providing
+a path to the theme using the HTML_THEME parameter of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a> and
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a>.</p>
+</div>
+</div>
+<div class="section" id="markdown">
+<h2>Markdown<a class="headerlink" href="#markdown" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://daringfireball.net/projects/markdown/">Markdown</a>,
+<a class="reference external" href="https://help.github.com/articles/github-flavored-markdown">GitHub flavored Markdown</a> and
+Markdown Extra can be used for the root package documentation files such as the
+AUTHORS.md, README.md, INSTALL.md, and COPYING.md files. Many online hosting platforms
+for the distribution of open source software such as SourceForge and GitHub render markdown
 on the project page with the marked up formatting.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">At the moment, not all of these documentation tools are supported for
-all the programming languages considered.</p>
+<p class="last">Not all of these documentation tools are supported for all languages.</p>
 </div>
-<div class="section" id="changelog">
-<h2>ChangeLog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
-<p>Generated from revision history.</p>
+</div>
+<div class="section" id="creating-documentation">
+<h2>Creating Documentation<a class="headerlink" href="#creating-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The best example for creating documenation is the BASIS documentation itself,
+which can be found in the <tt class="docutils literal"><span class="pre">doc/apidoc</span></tt> folder. The most important function
+for generating documentation is <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a>, which can handle
+the parameters of the related <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a> and
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a6a37a66eb28f7969ef27b004f8faaa3a">basis_add_doxygen_doc()</a> commands.</p>
+<p>Here is the code that generates the integrated Sphinx and Doxygen Documentation:</p>
+<div class="highlight-python"><pre>##############################################################################
+# @file  CMakeLists.txt
+# @brief Build configuration of software documentation.
+#
+# This build configuration builds and/or installs the documentation of the
+# software package. The documentation can be divided into user documentation
+# (e.g., software manual) and developer documentation (e.g., developer's guide).
+# For developers, both those using a library provided by this package and the
+# package maintainers, the documentation of the API is of particular interest.
+# Developers who are responsible for maintaining this software may be provided
+# with even more detailed documentation of the implementation in the so-called
+# developer's guide.
+#
+# See the basis_add_doc() command for details on the documentation build tools
+# supported by BASIS for the generation of documentation from plain text files
+# and in-source code comments.
+#
+# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.&lt;br /&gt;
+# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+#
+# Contact: SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;
+##############################################################################
+
+# ============================================================================
+# API reference (in-source code comments)
+# ============================================================================
+
+# replace &lt; year|contact|copyright|license &gt; pattern in template file which
+# shall be included in documentation to avoid unrecognized xml/html tag warning
+file (READ "${PROJECT_DATA_DIR}/templates/basis/1.0/config/Depends.cmake" TEMPLATE)
+string (REGEX REPLACE "&lt;year&gt;"      "&amp;lt;year&amp;gt;"      TEMPLATE "${TEMPLATE}")
+string (REGEX REPLACE "&lt;contact&gt;"   "&amp;lt;contact&amp;gt;"   TEMPLATE "${TEMPLATE}")
+string (REGEX REPLACE "&lt;copyright&gt;" "&amp;lt;copyright&amp;gt;" TEMPLATE "${TEMPLATE}")
+string (REGEX REPLACE "&lt;license&gt;"   "&amp;lt;license&amp;gt;"   TEMPLATE "${TEMPLATE}")
+file (WRITE "${PROJECT_BINARY_DIR}/doc/Depends.cmake" "${TEMPLATE}")
+unset (TEMPLATE)
+
+basis_add_doc (
+  # documentation target name 
+  apidoc                ${APIDOC_OPTIONS}      # additional options specified elsewhere (todo: explain in more detail)
+  GENERATOR             Doxygen                # select doxygen as the generator, Sphinx is an alternative
+  INPUT                 "${PROJECT_BINARY_DIR}/doc/Depends.cmake" 
+  
+  EXCLUDE_PATTERNS      # External libraries packaged with BASIS to exclude from final documentation
+                        "*/gmock/*"            # Google Mock
+                        "*/gtest/*"            # Google Test
+                        "*/tclap/*"            # TCLAP library
+                        "*/breathe/*"          # Sphinx extension
+                        "*/doxylink/*"         # Sphinx extension
+                        "*/argh/*"             # Python Argh
+                        "*/test.cxx"           # Google Mock and Test
+                        "*/test_main.cxx"      # main() of unit tests based on GMock
+                       
+                        "*/testdriver.cxx"      # testdriver which includes *.inc files
+                        
+  HTML_DESTINATION      "${INSTALL_DOC_DIR}/html/apidoc/latest" # output location of html documentation
+  HTML_HEADER	          "apidoc/doxygen_header.html.in"       # custom top of page with CMake substitutions to fit with sphinx
+  HTML_FOOTER           "apidoc/doxygen_footer.html.in"         # custom bottom of page with CMake substitutions to fit with sphinx
+  HTML_EXTRA_STYLESHEET "apidoc/doxygen_extra.css.in"           # custom formatting to fit in with the sphinx docs
+  
+  OUTPUT                html xml                                # output in html for websites and xml for reprocessing, such as with the breathe sphinx extension
+)
+
+# ============================================================================
+# software manual
+# ============================================================================
+
+basis_add_doc (
+  softwaremanual                                        # documenation target name, the name of what you specify when you say "make softwaremanual" in this case
+  GENERATOR        Sphinx                               # slect sphinx as the generator, doxygen is an alternative
+  BUILDER          html pdf man                         # selected output documentation formats
+  MAN_SECTION      7                                    # (todo: what is the MAN_SECTION 7 flag?)
+  
+  HTML_THEME       readable-wide                        # select the readable-wide sphinx layout theme provided by BASIS
+                                                        # this could specify a path to a theme you provide
+  HTML_LOGO        logo_title.svg                       # logo to use at heading of documentation
+  HTML_SIDEBARS    searchbox globaltoc                  # sidebar options to use
+  HTML_DESTINATION "${INSTALL_DOC_DIR}/html"            # output directory for completed documentation
+  SIDEBARWIDTH     300                                  # sidebar width in pixels
+  
+  MASTER_DOC       "sidebar"                            # restructured text file to start with when generating HTML documentation
+  LATEX_MASTER_DOC "manual"                             # restructured text file to start with when generating LaTeX, and thus PDF documentation                
+  LATEX_TITLE      "${PROJECT_NAME} Software Manual"    # Title to use in the PDF doc itself
+  OUTPUT_NAME      "${PROJECT_NAME}_Software_Manual"
+  
+  DOXYLINK         apidoc                               # target to use for integrated Doxygen documentation
+  DOXYLINK_URL     "${PROJECT_WEBSITE}/apidoc/latest"   # location of integrated Doxygen documentation output files
+  
+  NO_HTML_MODINDEX NO_HTML_INDEX                        # disable index page (we don't currently use it)
+)
+
+ # create a custom target so "make site" and "make manual" works on the command line
+
+basis_add_custom_target (site)                    
+basis_add_custom_target (manual)
+
+# set a trigger so "make site" will build softwaremanual_html, 
+# "make manual" will build softwaremanual_pdf, 
+# and "make doc" will build all of the above
+
+basis_add_dependencies (site   softwaremanual_html)    
+basis_add_dependencies (manual softwaremanual_pdf)
+basis_add_dependencies (doc    site manual)
+</pre>
+</div>
 </div>
 <div class="section" id="software-manual">
 <h2>Software Manual<a class="headerlink" href="#software-manual" title="Permalink to this headline">¶</a></h2>
@@ -139,7 +318,7 @@ template <tt class="docutils literal"><span class="pre">doc/CMakeLists.txt</span
     <span class="s">GENERATOR</span>     <span class="s">Sphinx</span>
     <span class="s">BUILDER</span>       <span class="s">html</span> <span class="s">dirhtml</span> <span class="s">pdf</span> <span class="s">man</span>
     <span class="s">MAN_SECTION</span>   <span class="s">7</span>
-    <span class="s">HTML_THEME</span>    <span class="s">sbia</span>
+    <span class="s">HTML_THEME</span>    <span class="s">readable-wide</span>
     <span class="s">HTML_SIDEBARS</span> <span class="s">globaltoc</span>
     <span class="s">RELLINKS</span>      <span class="s">installation</span> <span class="s">documentation</span> <span class="s">publications</span> <span class="s">people</span>
     <span class="s">COPYRIGHT</span>     <span class="s2">&quot;&lt;year&gt; University of Pennsylvania&quot;</span>
@@ -174,7 +353,7 @@ files given the specification of a Sphinx documentation build target such as the
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
+            <p class="logo"><a href="../sidebar.html">
               <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none">
@@ -190,16 +369,19 @@ files given the specification of a Sphinx documentation build target such as the
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../sidebar.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-custom-template.html">Create a Custom Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Documenting Software</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#changelog">ChangeLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#doxygen-documentation">Doxygen Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sphinx-documentation">Sphinx Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markdown">Markdown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-documentation">Creating Documentation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#software-manual">Software Manual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developer-s-guide">Developer&#8217;s Guide</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api-documentation">API Documentation</a></li>
@@ -218,12 +400,11 @@ files given the specification of a Sphinx documentation build target such as the
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../contents.html">Full Table of Contents</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Full Table Of Contents</a></li>
 </ul>
 
         </div>
@@ -231,8 +412,8 @@ files given the specification of a Sphinx documentation build target such as the
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
   </div>
   
   </body>

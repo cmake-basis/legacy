@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="How to create a project template for BASIS, a build system and software implementation standard." name="description" />
+
+    <title>Using and Customizing Templates &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../_static/readable.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'b2014.01.09 (23:34 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="BASIS" href="../index.html" />
+    <link rel="up" title="How-to Guides" href="../howto.html" />
+    <link rel="next" title="Managing Test Data" href="manage-data.html" />
+    <link rel="prev" title="Create/Modify a Project" href="create-and-modify-project.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="manage-data.html" title="Managing Test Data"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="create-and-modify-project.html" title="Create/Modify a Project"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../sidebar.html">BASIS</a> &raquo;</li>
+          <li><a href="../contents.html" >Table of Contents</a> &raquo;</li>
+          <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-and-customizing-templates">
+<h1>Using and Customizing Templates<a class="headerlink" href="#using-and-customizing-templates" title="Permalink to this headline">¶</a></h1>
+<p>The BASIS Project Templates define how the <tt class="docutils literal"><span class="pre">basisproject</span></tt> utility performs quick project
+setup with mad-libs style text substitution. In other words, the template defines what
+substitution options are available when you run the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command, and what files
+are created in a new or updated project.</p>
+<div class="section" id="available-templates">
+<h2>Available Templates<a class="headerlink" href="#available-templates" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="10%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Template</th>
+<th class="head">Version</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>basis</td>
+<td>1.0</td>
+<td>This is the default template provided by BASIS and the one we recommend.
+It is easy to get started with and follows all of the BASIS <a class="reference internal" href="../standard.html"><em>Standards</em></a>.
+To use it simply follow the <a class="reference internal" href="../quickstart.html"><em>Quick Start</em></a>.</td>
+</tr>
+<tr class="row-odd"><td>custom</td>
+<td>n/a</td>
+<td>You can create your own custom template. For instructions see the
+<a class="reference internal" href="#howtocreateatemplate"><em>Create a Custom Template</em></a> section below.</td>
+</tr>
+<tr class="row-even"><td>sbia</td>
+<td>1.8</td>
+<td>The original template for the
+<a class="reference external" href="http://www.rad.upenn.edu/sbia/">Section of Biomedical Image Analysis (SBIA)</a>
+of the <a class="reference external" href="http://www.upenn.edu/">University of Pennsylvania</a>. This template
+will only be useful as an example for those that are not a member of this group.</td>
+</tr>
+</tbody>
+</table>
+<p>You can find the actual templates provided by BASIS in the <tt class="docutils literal"><span class="pre">data/templates</span></tt> directory.</p>
+</div>
+<div class="section" id="use-a-template">
+<span id="howtouseatemplate"></span><h2>Use a Template<a class="headerlink" href="#use-a-template" title="Permalink to this headline">¶</a></h2>
+<p>To use a template provided by BASIS or one that you have created,
+specify the path to the template including the version subdirectory
+as part of the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyProject --template path/to/MyTemplate/1.0
+</pre></div>
+</div>
+<p>Other than that you can use your custom template in the same manner as described in
+<a class="reference internal" href="create-and-modify-project.html"><em>The How-To on Creating and Modifying a Project</em></a>.</p>
+<div class="section" id="change-the-default-template">
+<h3>Change the Default Template<a class="headerlink" href="#change-the-default-template" title="Permalink to this headline">¶</a></h3>
+<p>During the installation of BASIS, it is possible to specify a custom template as the
+default used by <tt class="docutils literal"><span class="pre">basisproject</span></tt> when called without the <tt class="docutils literal"><span class="pre">--template</span></tt> argument.
+See the <a class="reference internal" href="../install.html#basisinstallationoptions"><em>CMake Options</em></a> for details.</p>
+</div>
+</div>
+<div class="section" id="create-a-custom-template">
+<span id="howtocreateatemplate"></span><h2>Create a Custom Template<a class="headerlink" href="#create-a-custom-template" title="Permalink to this headline">¶</a></h2>
+<p>The template includes the files that are generated and the parameters that
+are available to the <tt class="docutils literal"><span class="pre">basisproject</span></tt> utility. If you plan to create new
+projects frequently and have some special requirements or files that you
+need it may be worthwhile to create a custom template. That way everything
+can be instantly set up in exactly the way you need.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">The <a class="reference internal" href="../standard/template.html"><em>Project Template Standard</em></a> explains the layout of templates, versioning, and how custom substitutions work.</p>
+</div>
+<p>In addition to creating new projects from an existing project template,
+the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command-line tool can also be used to generate a new
+<a class="reference internal" href="../standard/template.html"><em>Project Template</em></a> customized for your needs.</p>
+<p>The fastest way to create a new template is to call <tt class="docutils literal"><span class="pre">basisproject</span></tt> with
+the name of the new template and the option <tt class="docutils literal"><span class="pre">--new-template</span></tt>. Use :</p>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyTemplate --new-template <span class="o">[</span>--optional-command-options<span class="o">]</span>
+</pre></div>
+</div>
+<p>This will create a subdirectory called <tt class="docutils literal"><span class="pre">MyTemplate/1.0</span></tt> under the current
+working directory and populate it with the current default project template
+structure and BASIS configuration.</p>
+<p>For a detailed description and overview of the available command options,
+please refer to the output of the <tt class="docutils literal"><span class="pre">basisproject</span> <span class="pre">--help</span></tt> command. The
+template options of the existing template can be used to specify which
+features to copy when creating the new template.</p>
+<p>With this you can modify the the default substitutions and file contents
+for your needs. You can also create new versions so that users can update
+their source tree automatically as you improve and update your customized
+template.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../sidebar.html">
+              <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../sidebar.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Using and Customizing Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#available-templates">Available Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-a-template">Use a Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-custom-template">Create a Custom Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package.html">Packaging Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install any Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-automated-tests.html">Automated Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Full Table Of Contents</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+  </div>
+  
+  </body>
+</html>

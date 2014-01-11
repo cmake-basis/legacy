@@ -13,8 +13,8 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     'b2014.01.05 (22:31 UTC)',
+        URL_ROOT:    './',
+        VERSION:     'b2014.01.09 (23:34 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -38,15 +38,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
           <a href="quickstart.html" title="Quick Start"
-             accesskey="N">next</a> |</li>
+             accesskey="N">next</a></li>
         <li class="right" >
           <a href="install.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">BASIS</a> &raquo;</li> 
+        <li><a href="sidebar.html">BASIS</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -107,22 +104,30 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="howto/create-custom-template.html">Create a Custom Template</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-custom-template.html#create-a-new-template">Create a New Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-custom-template.html#use-a-custom-template">Use a Custom Template</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="howto/create-custom-template.html#make-custom-template-the-default">Make Custom Template the Default</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/use-and-customize-templates.html">Using and Customizing Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/use-and-customize-templates.html#available-templates">Available Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/use-and-customize-templates.html#use-a-template">Use a Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/use-and-customize-templates.html#change-the-default-template">Change the Default Template</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-custom-template.html#template-layout">Template Layout</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="howto/create-custom-template.html#template-versions">Template Versions</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-custom-template.html#custom-substitutions">Custom Substitutions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/use-and-customize-templates.html#create-a-custom-template">Create a Custom Template</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="howto/manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html">Documenting Software</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="howto/document.html#changelog">ChangeLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/document.html#doxygen-documentation">Doxygen Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#language-support">Language Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#doxygen-filters">Doxygen Filters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#generating-doxygen">Generating Doxygen</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/document.html#sphinx-documentation">Sphinx Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#output-formats">Output Formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#themes">Themes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/document.html#markdown">Markdown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/document.html#creating-documentation">Creating Documentation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="howto/document.html#software-manual">Software Manual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="howto/document.html#developer-s-guide">Developer&#8217;s Guide</a></li>
 <li class="toctree-l3"><a class="reference internal" href="howto/document.html#api-documentation">API Documentation</a></li>
@@ -193,13 +198,25 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/template.html">Project Template</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html#required-project-files">Required Project Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html#common-project-files">Common Project Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html#advanced-project-files">Advanced Project Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#template-layout">Template Layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#template-versions">Template Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#standard-project-files">Standard Project Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#required-project-files">Required Project Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#common-project-files">Common Project Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#advanced-project-files">Advanced Project Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#custom-substitutions">Custom Substitutions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#binary-template-files">Binary Template Files</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/modules.html">Project Modularization</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="standard/modules.html#implementation">Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#future-work">Future Work</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/scripttargets.html">Build of Script Targets</a><ul>
@@ -241,11 +258,18 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc.html">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/modules.html">Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/namespaces.html">Namespaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/classlist.html">Class List</a></li>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/files.html">Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="apidoc.html#older-versions">Older Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc.html#cmake-modules">CMake Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc.html#basic-tools">Basic Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc.html#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc.html#project-layout">Project Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc.html#api-reference">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/modules.html">Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/namespaces.html">Namespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/classlist.html">Class List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/files.html">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc.html#older-versions">Older Versions</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
@@ -315,7 +339,7 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
+            <p class="logo"><a href="sidebar.html">
               <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none">
@@ -331,7 +355,7 @@
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="index.html">Table Of Contents</a></h3>
+<h3><a href="sidebar.html">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
@@ -342,12 +366,11 @@
 <li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Full Table of Contents</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Full Table Of Contents</a></li>
 </ul>
 
         </div>
@@ -355,8 +378,8 @@
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
   </div>
   
   </body>

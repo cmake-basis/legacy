@@ -128,5 +128,6 @@ var searchData=
   ['cxx_5futilities_5flibrary_5fconfig',['CXX_UTILITIES_LIBRARY_CONFIG',['../ConfigSettings_8cmake.html#a74494dfee3c7d6e2803b3f7faff00ba0',1,'ConfigSettings.cmake']]],
   ['command_2dline_20parsing_20library',['Command-line Parsing Library',['../group__CxxCmdLine.html',1,'']]],
   ['cxxflags',['CXXFLAGS',['../MatlabTools_8cmake.html#ab8243fbad1dbf25e5a036c8ef37398f1',1,'MatlabTools.cmake']]],
-  ['cxxutilities_2edox',['CxxUtilities.dox',['../CxxUtilities_8dox.html',1,'']]]
+  ['cxxutilities_2edox',['CxxUtilities.dox',['../CxxUtilities_8dox.html',1,'']]],
+  ['cmake_20basis',['CMake BASIS',['../index.html',1,'']]]
 ];

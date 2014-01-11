@@ -1420,11 +1420,11 @@ Variables</h2></td></tr>
 <p>Configure root documentation files. </p>
 <p>The root documentation files are located in the top-level directory of the project's source tree. These are, in particular, the</p>
 <ul>
-<li><code>AUTHORS.txt</code> file with information on the authors of the software,</li>
-<li><code>COPYING.txt</code> file with copyright and licensing information,</li>
-<li><code>README.txt</code> file,</li>
-<li><code>INSTALL.txt</code> file with build and installation instructions,</li>
-<li><code>WELCOME.txt</code> file with text used as welcome text of the installer. where the top-level project requires all of these files except of the <code>WELCOME.txt</code> file which defaults to the readme file. Modules of a project usually do not include any of these files. Otherwise, the content of the module's documentation file is appended to the corresponding file of the top-level project. <dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
+<li><code>AUTHORS.txt</code> or AUTHORS.md file with information on the authors of the software,</li>
+<li><code>COPYING.txt</code> or COPYING.md file with copyright and licensing information,</li>
+<li><code>README.txt</code> or README.md file,</li>
+<li><code>INSTALL.txt</code> or INSTALL.md file with build and installation instructions,</li>
+<li><code>WELCOME.txt</code> or WELCOME.md file with text used as welcome text of the installer. where the top-level project requires all of these files except of the <code>WELCOME.txt</code> or WELCOME.md file which defaults to the readme file. Modules of a project usually do not include any of these files. Otherwise, the content of the module's documentation file is appended to the corresponding file of the top-level project. <dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
 </li>
 </ul>
 
@@ -3332,7 +3332,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initialize project, calls CMake's project() command. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Define project meta-data, i.e., attributes. ">basis_project()</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a> </dd>
 <dd>
 <a class="el" href="group__CMakeAPI.html#ga127b37093051faec042f572ac7fde9ed" title="Implementation of root CMakeLists.txt file of BASIS project. ">basis_project_impl()</a></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Sets the following non-cached CMake variables: </dd></dl>
@@ -3682,7 +3682,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initialize slicer module meta-data. </p>
-<p>At the moment, only one module, most often the top-level project can be a Slicer module, i.e., call <a class="el" href="group__CMakeAPI.html#ga7c841307656ee47db4049b8cfd97ce2e" title="Define project meta-data of Slicer module. ">basis_slicer_module()</a> either in the <a class="el" href="BasisProject_8cmake.html" title="Meta-data of this BASIS project. ">BasisProject.cmake</a> file of the top-level project or in the corresponding file of at most one of the project modules. </p>
+<p>At the moment, only one module, most often the top-level project can be a Slicer module, i.e., call <a class="el" href="group__CMakeAPI.html#ga7c841307656ee47db4049b8cfd97ce2e" title="Define project meta-data of Slicer module. ">basis_slicer_module()</a> either in the <a class="el" href="BasisProject_8cmake.html" title="Sets basic information about a BASIS Project and calls basis_project(). ">BasisProject.cmake</a> file of the top-level project or in the corresponding file of at most one of the project modules. </p>
 <dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
 
 </div>
@@ -4413,7 +4413,7 @@ Due to a bug in CMake (<a href="http://www.cmake.org/Bug/view.php?id=12303">http
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00621">621</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
+<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00647">647</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
 
 </div>
 </div>
@@ -4491,7 +4491,7 @@ Due to a bug in CMake (<a href="http://www.cmake.org/Bug/view.php?id=12303">http
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00660">660</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
+<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00686">686</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
 
 </div>
 </div>
@@ -4505,7 +4505,7 @@ Due to a bug in CMake (<a href="http://www.cmake.org/Bug/view.php?id=12303">http
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00659">659</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
+<p>Definition at line <a class="el" href="ProjectTools_8cmake_source.html#l00685">685</a> of file <a class="el" href="ProjectTools_8cmake_source.html">ProjectTools.cmake</a>.</p>
 
 </div>
 </div>
@@ -4544,7 +4544,7 @@ Due to a bug in CMake (<a href="http://www.cmake.org/Bug/view.php?id=12303">http
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh, 2013 Carnegie Mellon University. Last updated on Mon Jan 6 2014 01:08:15. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 03:08:53. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>
