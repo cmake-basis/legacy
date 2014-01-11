@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'b2014.01.09 (23:34 UTC)',
+        VERSION:     'b2014.01.11 (03:33 UTC)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,6 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="BASIS" href="index.html" />
-    <link rel="up" title="Table of Contents" href="contents.html" />
     <link rel="next" title="Modules" href="apidoc/modules.html" />
     <link rel="prev" title="Plain Text Format" href="guideline/plain-text-format.html" />
    
@@ -44,8 +43,7 @@
         <li class="right" >
           <a href="guideline/plain-text-format.html" title="Plain Text Format"
              accesskey="P">previous</a> |</li>
-        <li><a href="sidebar.html">BASIS</a> &raquo;</li>
-          <li><a href="contents.html" accesskey="U">Table of Contents</a> &raquo;</li> 
+        <li><a href="sidebar.html">BASIS</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -56,6 +54,28 @@
             
   <div class="section" id="reference">
 <span id="apidocumentation"></span><h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-tools">
+<h2>Basic Tools<a class="headerlink" href="#basic-tools" title="Permalink to this headline">¶</a></h2>
+<p>In order to ease certain tasks, the BASIS package also includes the following command-line tools:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="howto/create-and-modify-project.html"><em>basisproject</em></a></td>
+<td>Creates a new project or modifies an existing one in order to add
+or remove certain components of the template or to upgrade to a newer template.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="howto/run-automated-tests.html"><em>basistest</em></a></td>
+<td>Implements automated software tests.</td>
+</tr>
+<tr class="row-odd"><td><em>doxyfilter</em></td>
+<td>Doxygen filter for all supported languages.</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="cmake-modules">
 <h2>CMake Modules<a class="headerlink" href="#cmake-modules" title="Permalink to this headline">¶</a></h2>
 <p>The CMake modules and corresponding auxiliary files are used by  any BASIS project
@@ -82,28 +102,6 @@ command.</p>
 </tr>
 <tr class="row-even"><td><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a></td>
 <td>Replacement for the CPack.cmake module of CMake.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="basic-tools">
-<h2>Basic Tools<a class="headerlink" href="#basic-tools" title="Permalink to this headline">¶</a></h2>
-<p>In order to ease certain tasks, the BASIS package also includes the following command-line tools:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="18%" />
-<col width="82%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="howto/create-and-modify-project.html"><em>basisproject</em></a></td>
-<td>Creates a new project or modifies an existing one in order to add
-or remove certain components of the template or to upgrade to a newer template.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="howto/run-automated-tests.html"><em>basistest</em></a></td>
-<td>Implements automated software tests.</td>
-</tr>
-<tr class="row-odd"><td><em>doxyfilter</em></td>
-<td>Doxygen filter for all supported languages.</td>
 </tr>
 </tbody>
 </table>
@@ -236,9 +234,9 @@ based on a project template.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="sidebar.html">
-              <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
-            </a></p>
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
+  </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -248,11 +246,11 @@ based on a project template.</p>
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    Enter search terms.
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-<h3><a href="sidebar.html">Table Of Contents</a></h3>
+<h3><a href="contents.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
@@ -260,8 +258,8 @@ based on a project template.</p>
 <li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#cmake-modules">CMake Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-tools">Basic Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmake-modules">CMake Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api-reference">API Reference</a><ul>
@@ -279,9 +277,6 @@ based on a project template.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="contents.html">Full Table Of Contents</a></li>
 </ul>
 
         </div>
