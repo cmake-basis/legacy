@@ -4,8 +4,8 @@
 Table of Contents
 =================
 
-BASIS Documentation
-===================
+Software Manual
+===============
 
 .. toctree::
     :includehidden:
@@ -15,7 +15,7 @@ BASIS Documentation
     howto
     standard
     guideline
-    apidoc
+    reference
     help
     About <about>
 

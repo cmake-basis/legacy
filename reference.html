@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reference &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="_static/cmake-basis.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'b2014.01.11 (03:33 UTC)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="BASIS" href="index.html" />
+    <link rel="next" title="Modules" href="apidoc/modules.html" />
+    <link rel="prev" title="Plain Text Format" href="guideline/plain-text-format.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="apidoc/modules.html" title="Modules"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="guideline/plain-text-format.html" title="Plain Text Format"
+             accesskey="P">previous</a> |</li>
+        <li><a href="sidebar.html">BASIS</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="reference">
+<span id="id1"></span><h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-tools">
+<h2>Basic Tools<a class="headerlink" href="#basic-tools" title="Permalink to this headline">¶</a></h2>
+<p>In order to ease certain tasks, the BASIS package also includes the following command-line tools:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="howto/create-and-modify-project.html"><em>basisproject</em></a></td>
+<td>Creates a new project or modifies an existing one in order to add
+or remove certain components of the template or to upgrade to a newer template.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="howto/run-automated-tests.html"><em>basistest</em></a></td>
+<td>Implements automated software tests.</td>
+</tr>
+<tr class="row-odd"><td><em>doxyfilter</em></td>
+<td>Doxygen filter for all supported languages.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cmake-modules">
+<h2>CMake Modules<a class="headerlink" href="#cmake-modules" title="Permalink to this headline">¶</a></h2>
+<p>The CMake modules and corresponding auxiliary files are used by  any BASIS project
+for the configuration of the CMake-based build system, so that many setup steps
+can be automated. These commands often replace the standard CMake commands.
+For example, the CMake function <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> replaces CMake&#8217;s
+<a class="reference external" href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_executable">add_executable()</a>
+command.</p>
+<p>The main CMake modules are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a></td>
+<td>File in every BASIS project defining basic project information.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisTools_8cmake.html">BasisTools.cmake</a></td>
+<td>Defines CMake functions, macros, and variables.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisTest_8cmake.html">BasisTest.cmake</a></td>
+<td>Replacement for the CTest.cmake module of CMake.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a></td>
+<td>Replacement for the CPack.cmake module of CMake.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<p>For each supported programming language, BASIS provides a library of
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisUtilities.html">utility functions</a>.
+Some of these utilities are project independent and thus built and installed as
+part of the CMake BASIS package itself. Other utility implementations are project dependent.
+Therefore, the BASIS installation contains only template files which are customized and built
+during the configuration and build, respectively, of the particular BASIS project. This customization
+is done by the functions implemented by the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/UtilitiesTools_8cmake.html">UtilitiesTools.cmake</a> module which is
+included and utilized by the main <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisTools_8cmake.html">BasisTools.cmake</a> module.</p>
+<p>The BASIS utilities address the following aspects of the software implementation standard:</p>
+<ul class="simple">
+<li><a class="reference internal" href="standard/cmdline.html"><em>Command-line Parsing</em></a></li>
+<li><a class="reference internal" href="standard/execution.html"><em>Calling Conventions</em></a></li>
+<li><em>Software Testing</em> (TODO)</li>
+</ul>
+</div>
+<div class="section" id="project-layout">
+<h2>Project Layout<a class="headerlink" href="#project-layout" title="Permalink to this headline">¶</a></h2>
+<p>A brief summary of the common project layout required by all projects that follow BASIS is given below.
+Project templates are supplied by the BASIS package to make it easy for projects to follow
+this <a class="reference internal" href="standard/fhs.html#sourcecodetree"><em>BASIS Project Directory Layout</em></a> and standard <a class="reference internal" href="standard/template.html"><em>Project Template</em></a>.
+How to create and use such template is explained in the <a class="reference internal" href="howto/use-and-customize-templates.html"><em>Using and Customizing Templates</em></a> guide.
+The <a class="reference internal" href="howto/create-and-modify-project.html"><em>basisproject</em></a> command-line tool further automates and simplifies the creation of new projects
+based on a project template.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>config/</strong></td>
+<td>Package configuration files.</td>
+</tr>
+<tr class="row-even"><td><strong>data/</strong></td>
+<td>Data files required by the software.</td>
+</tr>
+<tr class="row-odd"><td><strong>doc/</strong></td>
+<td>Documentation source files.</td>
+</tr>
+<tr class="row-even"><td><strong>example/</strong></td>
+<td>Example files for users to try out the software.</td>
+</tr>
+<tr class="row-odd"><td><strong>include/</strong></td>
+<td>Header files of the public API of libraries.</td>
+</tr>
+<tr class="row-even"><td><strong>lib/</strong></td>
+<td>Module files for scripting languages.</td>
+</tr>
+<tr class="row-odd"><td><strong>modules/</strong></td>
+<td>Project <a class="reference internal" href="standard/modules.html"><em>Modules</em></a> (i.e., subprojects).</td>
+</tr>
+<tr class="row-even"><td><strong>src/</strong></td>
+<td>Source code files.</td>
+</tr>
+<tr class="row-odd"><td><strong>test/</strong></td>
+<td>Implementations of unit and regression tests.</td>
+</tr>
+<tr class="row-even"><td>AUTHORS (.txt|.md)</td>
+<td>A list of the people who contributed to this sofware.</td>
+</tr>
+<tr class="row-odd"><td><span>BasisProject.cmake:</span></td>
+<td>Calls <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> to set basic project information.</td>
+</tr>
+<tr class="row-even"><td>CMakeLists.txt</td>
+<td>Root CMake configuration file.</td>
+</tr>
+<tr class="row-odd"><td>COPYING (.txt|.md)</td>
+<td>The copyright and license notices.</td>
+</tr>
+<tr class="row-even"><td>INSTALL (.txt|.md)</td>
+<td>Build and installation instructions.</td>
+</tr>
+<tr class="row-odd"><td>README (.txt|.md)</td>
+<td>Basic summary and references to the documentation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">The <a class="reference internal" href="standard/template.html"><em>Project Template</em></a> for a complete list of required and other standard project files.
+Moreover, the layout of the <a class="reference internal" href="download.html#basispackagecontent"><em>CMake BASIS Package</em></a> itself serves as
+an example a project following this standard layout.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not all of the named subdirectories must exist in every project.</p>
+</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">orphan:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="api-reference">
+<span id="apireference"></span><h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/namespaces.html">Namespaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/classlist.html">Class List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/files.html">Files</a></li>
+</ul>
+</div>
+<div class="section" id="older-versions">
+<h3>Older Versions<a class="headerlink" href="#older-versions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Tools                     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__Tools.html"><span class="apilink">v2.1</span></a>            <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__Tools.html"><span class="apilink">v2.0</span></a>            <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__Tools.html"><span class="apilink">v1.3</span></a>            <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__Tools.html"><span class="apilink">v1.2</span></a>            <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__Tools.html"><span class="apilink">v1.1</span></a>            <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__Tools.html"><span class="apilink">v1.0</span></a></li>
+<li>Modules                   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisModules.html"><span class="apilink">v2.1</span></a>          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisModules.html"><span class="apilink">v2.0</span></a>          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisModules.html"><span class="apilink">v1.3</span></a>          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisModules.html"><span class="apilink">v1.2</span></a>          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisModules.html"><span class="apilink">v1.1</span></a>          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisModules.html"><span class="apilink">v1.0</span></a><ul>
+<li>Public CMake Functions  <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__CMakeAPI.html"><span class="apilink">v2.1</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__CMakeAPI.html"><span class="apilink">v2.0</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__CMakeAPI.html"><span class="apilink">v1.3</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__CMakeAPI.html"><span class="apilink">v1.2</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__CMakeAPI.html"><span class="apilink">v1.1</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__CMakeAPI.html"><span class="apilink">v1.0</span></a></li>
+<li>Find Package Modules    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__CMakeFindModules.html"><span class="apilink">v2.1</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__CMakeFindModules.html"><span class="apilink">v2.0</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__CMakeFindModules.html"><span class="apilink">v1.3</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__CMakeFindModules.html"><span class="apilink">v1.2</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__CMakeFindModules.html"><span class="apilink">v1.1</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__CMakeFindModules.html"><span class="apilink">v1.0</span></a></li>
+<li>Settings                <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisSettings.html"><span class="apilink">v2.1</span></a>         <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisSettings.html"><span class="apilink">v2.0</span></a>         <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisSettings.html"><span class="apilink">v1.3</span></a>         <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisSettings.html"><span class="apilink">v1.2</span></a>         <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisSettings.html"><span class="apilink">v1.1</span></a>         <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisSettings.html"><span class="apilink">v1.0</span></a></li>
+<li>Package Configuration   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisConfig.html"><span class="apilink">v2.1</span></a>           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisConfig.html"><span class="apilink">v2.0</span></a>           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisConfig.html"><span class="apilink">v1.3</span></a>           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisConfig.html"><span class="apilink">v1.2</span></a>           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisConfig.html"><span class="apilink">v1.1</span></a>           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisConfig.html"><span class="apilink">v1.0</span></a></li>
+<li>Project Directories     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisDirectories.html"><span class="apilink">v2.1</span></a>      <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisDirectories.html"><span class="apilink">v2.0</span></a>      <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisDirectories.html"><span class="apilink">v1.3</span></a>      <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisDirectories.html"><span class="apilink">v1.2</span></a>      <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisDirectories.html"><span class="apilink">v1.1</span></a>      <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisDirectories.html"><span class="apilink">v1.0</span></a></li>
+<li>Script Configuration    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisScriptConfig.html"><span class="apilink">v2.1</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisScriptConfig.html"><span class="apilink">v2.0</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisScriptConfig.html"><span class="apilink">v1.3</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisScriptConfig.html"><span class="apilink">v1.2</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisScriptConfig.html"><span class="apilink">v1.1</span></a>     <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisScriptConfig.html"><span class="apilink">v1.0</span></a></li>
+</ul>
+</li>
+<li>Utilities                 <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisUtilities.html"><span class="apilink">v2.1</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisUtilities.html"><span class="apilink">v2.0</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisUtilities.html"><span class="apilink">v1.3</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisUtilities.html"><span class="apilink">v1.2</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisUtilities.html"><span class="apilink">v1.1</span></a>        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisUtilities.html"><span class="apilink">v1.0</span></a><ul>
+<li>C++ Utilities           <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisCxxUtilities.html"><span class="apilink">v2.1</span></a>    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisCxxUtilities.html"><span class="apilink">v2.0</span></a>    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisCxxUtilities.html"><span class="apilink">v1.3</span></a>    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisCxxUtilities.html"><span class="apilink">v1.2</span></a>    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisCxxUtilities.html"><span class="apilink">v1.1</span></a>    <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisCxxUtilities.html"><span class="apilink">v1.0</span></a></li>
+<li>Python Utilities        <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisPythonUtilities.html"><span class="apilink">v2.1</span></a> <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisPythonUtilities.html"><span class="apilink">v2.0</span></a> <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisPythonUtilities.html"><span class="apilink">v1.3</span></a> <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisPythonUtilities.html"><span class="apilink">v1.2</span></a> <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisPythonUtilities.html"><span class="apilink">v1.1</span></a> <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisPythonUtilities.html"><span class="apilink">v1.0</span></a></li>
+<li>Perl Utilities          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisPerlUtilities.html"><span class="apilink">v2.1</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisPerlUtilities.html"><span class="apilink">v2.0</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisPerlUtilities.html"><span class="apilink">v1.3</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisPerlUtilities.html"><span class="apilink">v1.2</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisPerlUtilities.html"><span class="apilink">v1.1</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisPerlUtilities.html"><span class="apilink">v1.0</span></a></li>
+<li>BASH Utilities          <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.1/group__BasisBASHUtilities.html"><span class="apilink">v2.1</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v2.0/group__BasisBASHUtilities.html"><span class="apilink">v2.0</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.3/group__BasisBASHUtilities.html"><span class="apilink">v1.3</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.2/group__BasisBASHUtilities.html"><span class="apilink">v1.2</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.1/group__BasisBASHUtilities.html"><span class="apilink">v1.1</span></a>   <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/basis/apidoc/v1.0/group__BasisBASHUtilities.html"><span class="apilink">v1.0</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/logo_title.svg" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="contents.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How-to Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guideline.html">Guidelines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-tools">Basic Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmake-modules">CMake Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-layout">Project Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-reference">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/modules.html">Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/namespaces.html">Namespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/classlist.html">Class List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/files.html">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#older-versions">Older Versions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+  </div>
+  
+  </body>
+</html>
