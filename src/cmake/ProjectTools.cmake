@@ -254,7 +254,7 @@ macro (basis_project_check_metadata)
 endmacro ()
 
 # ----------------------------------------------------------------------------
-## @brief Define project meta-data, i.e., attributes.
+## @brief Sets basic project information including the name, version, and dependencies.
 #
 # Any BASIS project has to call this macro in the file BasisProject.cmake
 # located in the top level directory of the source tree in order to define
@@ -324,8 +324,9 @@ endmacro ()
 #   </tr>
 #   <tr>
 #     @tp @b PACKAGE_VENDOR name @endtp
-#     <td>Short ID of package vendor (i.e, provider and/or division acronym) used
-#         for package identification and default installation subdirectory.</td>
+#     <td>Short ID of package vendor (i.e, provider and/or division acronym) this variable is used
+#         for package identification and is the name given to the folder that will be used as the default 
+#         installation path location subdirectory.</td>
 #   </tr>
 #   <tr>
 #     @tp @b VENDOR name @endtp
@@ -386,6 +387,31 @@ endmacro ()
 #     @tp @b DESCRIPTION description @endtp
 #     <td>Package description, used for packing. If multiple arguments are given,
 #         they are concatenated using one space character as delimiter.</td>
+#   </tr>
+#   <tr>
+#     @tp @b TEMPLATE path @endtp
+#    <td> The TEMPLATE variable stores the directory of the chosen project template along 
+#         with the template version so that the correct template is used by basisproject when a project is updated.
+#         Note that this variable is used in BASIS itself to specify the default template to use for the BASIS 
+#         installation, i.e., the default used by basisproject if no --template argument is provided.
+#         If the template is part of the BASIS installation, only the template name and version part of the 
+#         full path are needed. Otherwise, the full absolute path is used. For example,
+#               @code
+#                 basis_project (
+#                    # ...
+#                    TEMPLATE "sbia/1.8"
+#                    # ...
+#                 )
+#               @endcode
+#               @code
+#                 basis_project (
+#                    # ...
+#                    TEMPLATE "/opt/local/share/custom-basis-template/1.0"
+#                    # ...
+#                 )
+#              @endcode 
+#       The installed templates can be found in the share/templates folder of installed BASIS software,
+#       as well as the data/templates foler of the BASIS source tree.</td>
 #   </tr>
 #   <tr>
 #     @tp @b DEPENDS name[, name] @endtp
@@ -1006,20 +1032,29 @@ endfunction ()
 #
 # The root documentation files are located in the top-level directory of the
 # project's source tree. These are, in particular, the
-# * @c AUTHORS.txt file with information on the authors of the software,
-# * @c COPYING.txt file with copyright and licensing information,
-# * @c README.txt file,
-# * @c INSTALL.txt file with build and installation instructions,
-# * @c WELCOME.txt file with text used as welcome text of the installer.
+# * @c AUTHORS.txt or AUTHORS.md file with information on the authors of the software,
+# * @c COPYING.txt or COPYING.md file with copyright and licensing information,
+# * @c README.txt or README.md file,
+# * @c INSTALL.txt or INSTALL.md file with build and installation instructions,
+# * @c WELCOME.txt or WELCOME.md file with text used as welcome text of the installer.
 # where the top-level project requires all of these files except of the
-# @c WELCOME.txt file which defaults to the readme file. Modules of a project
+# @c WELCOME.txt or WELCOME.md file which defaults to the readme file. Modules of a project
 # usually do not include any of these files. Otherwise, the content of the
 # module's documentation file is appended to the corresponding file of the
 # top-level project.
 macro (basis_configure_root_documentation_files)
   foreach (F AUTHORS COPYING README INSTALL WELCOME)
+
     if (EXISTS "${PROJECT_SOURCE_DIR}/${F}.txt")
       set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.txt")
+      set (DOC_EXT ".txt")
+    elseif (EXISTS "${PROJECT_SOURCE_DIR}/${F}.md")
+      set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.md")
+      set (DOC_EXT ".md")
+    endif()
+    
+    if (EXISTS "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
+      set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
       if (PROJECT_IS_MODULE)
         file (READ "${PROJECT_${F}_FILE}" T)
         file (
@@ -1031,7 +1066,7 @@ macro (basis_configure_root_documentation_files)
           "${T}"
         )
       else ()
-        set (TOPLEVEL_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}.txt")
+        set (TOPLEVEL_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}${DOC_EXT}")
         # do not use configure_file() to copy the file, otherwise CMake will
         # update the build system only because we modified this file in the if-clause
         execute_process (COMMAND "${CMAKE_COMMAND}" -E copy "${PROJECT_${F}_FILE}" "${TOPLEVEL_PROJECT_${F}_FILE}")
@@ -1040,10 +1075,10 @@ macro (basis_configure_root_documentation_files)
         get_filename_component (E "${F}" EXT)
         if (WIN32)
           if (NOT E)
-            set (E ".txt")
+            set (E "${DOC_EXT}")
           endif ()
         else ()
-          if ("${E}" STREQUAL ".txt")
+          if ("${E}" STREQUAL "${DOC_EXT}")
             set (E "")
           endif ()
         endif ()
@@ -1051,7 +1086,7 @@ macro (basis_configure_root_documentation_files)
         # install file
         if (F MATCHES "COPYING")
           install (
-            FILES       "${PROJECT_BINARY_DIR}/${F}.txt"
+            FILES       "${PROJECT_BINARY_DIR}/${F}${DOC_EXT}"
             DESTINATION "${INSTALL_DOC_DIR}"
             RENAME      "${N}"
             OPTIONAL
@@ -1059,7 +1094,7 @@ macro (basis_configure_root_documentation_files)
         endif ()
       endif ()
     elseif (NOT F MATCHES "WELCOME" AND NOT PROJECT_IS_MODULE)
-      message (FATAL_ERROR "Project requires a ${F}.txt file in ${PROJECT_SOURCE_DIR}!")
+      message (FATAL_ERROR "Project requires a ${F}.txt or ${F}.md file in ${PROJECT_SOURCE_DIR}!")
     endif ()
   endforeach ()
   set (PROJECT_LICENSE_FILE "${PROJECT_COPYING_FILE}") # compatibility with Slicer
