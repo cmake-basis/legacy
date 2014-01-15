@@ -73,74 +73,73 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">glob.cmake</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="glob_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  glob.cmake</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Glob source files and optionally compare to previous glob result.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake&quot;</span>)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT EXPRESSIONS)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  message (FATAL_ERROR &quot;Missing EXPRESSIONS argument!&quot;)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;endif ()</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT SOURCES_FILE)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  message (FATAL_ERROR &quot;Missing SOURCES_FILE argument!&quot;)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;endif ()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;set (<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;foreach (EXPRESSION IN LISTS EXPRESSIONS)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (EXPRESSION MATCHES &quot;[*][*]&quot;)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">string</span> (REPLACE &quot;**&quot; &quot;*&quot; EXPRESSION &quot;${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    file (GLOB_RECURSE _SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">    list (APPEND SOURCES ${_SOURCES})</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">  elseif (EXPRESSION MATCHES &quot;</span>[*?]|\\[[0-9]+-[0-9]+\\]<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    file (GLOB _SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">    list (APPEND SOURCES ${_SOURCES})</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">  else ()</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">    list (APPEND SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">  endif ()</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">endforeach ()</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">if (SOURCES)</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">  list (REMOVE_DUPLICATES SOURCES)</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">set (_SOURCES)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">foreach (SOURCE IN LISTS SOURCES)</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">  get_filename_component (SOURCE_NAME &quot;</span>${SOURCE}<span class="stringliteral">&quot; NAME)</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">  if (NOT SOURCE MATCHES &quot;</span>(^|/).(svn|git)/<span class="stringliteral">&quot; AND NOT SOURCE_NAME MATCHES &quot;</span>^\\.<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">    list (APPEND _SOURCES &quot;</span>${SOURCE}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">  endif ()</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">endforeach ()</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">   49</a></span>&#160;<span class="stringliteral">set (SOURCES ${_SOURCES})</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">unset (_SOURCES)</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">if (INIT)</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">  basis_write_list (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot; INITIAL_SOURCES ${SOURCES})</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">else ()</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">  include (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">  if (NOT &quot;</span>${<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>}<span class="stringliteral">&quot; STREQUAL &quot;</span>${INITIAL_SOURCES}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">    # touching this file which is included by basis_add_glob_target()</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">    # re-triggers CMake upon the next build</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">    execute_process (COMMAND &quot;</span>${CMAKE_COMMAND}<span class="stringliteral">&quot; -E touch &quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">    message (FATAL_ERROR &quot;</span>${ERRORMSG}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">  endif ()</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="ttc" id="glob_8cmake_html_a8744f08ab87757e4c20c5aa81317fd41"><div class="ttname"><a href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a></div><div class="ttdeci">cmake SOURCES</div><div class="ttdef"><b>Definition:</b> <a href="glob_8cmake_source.html#l00049">glob.cmake:49</a></div></div>
-<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00040">testdriver-after-test.inc:40</a></div></div>
+<a href="glob_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See COPYING file for license information or visit</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># http://opensource.andreasschuh.com/cmake-basis/download.html#license</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  glob.cmake</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Glob source files and optionally compare to previous glob result.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake&quot;</span>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT EXPRESSIONS)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  message (FATAL_ERROR &quot;Missing EXPRESSIONS argument!&quot;)</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;endif ()</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT SOURCES_FILE)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  message (FATAL_ERROR &quot;Missing SOURCES_FILE argument!&quot;)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;endif ()</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;set (<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;foreach (EXPRESSION IN LISTS EXPRESSIONS)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (EXPRESSION MATCHES &quot;[*][*]&quot;)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">string</span> (REPLACE &quot;**&quot; &quot;*&quot; EXPRESSION &quot;${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    file (GLOB_RECURSE _SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    list (APPEND SOURCES ${_SOURCES})</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">  elseif (EXPRESSION MATCHES &quot;</span>[*?]|\\[[0-9]+-[0-9]+\\]<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">    file (GLOB _SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    list (APPEND SOURCES ${_SOURCES})</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">  else ()</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">    list (APPEND SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">  endif ()</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">endforeach ()</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">if (SOURCES)</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">  list (REMOVE_DUPLICATES SOURCES)</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">endif ()</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">set (_SOURCES)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">foreach (SOURCE IN LISTS SOURCES)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">  get_filename_component (SOURCE_NAME &quot;</span>${SOURCE}<span class="stringliteral">&quot; NAME)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">  if (NOT SOURCE MATCHES &quot;</span>(^|/).(svn|git)/<span class="stringliteral">&quot; AND NOT SOURCE_NAME MATCHES &quot;</span>^\\.<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">    list (APPEND _SOURCES &quot;</span>${SOURCE}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">  endif ()</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">endforeach ()</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">   48</a></span>&#160;<span class="stringliteral">set (SOURCES ${_SOURCES})</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">unset (_SOURCES)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">if (INIT)</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">  basis_write_list (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot; INITIAL_SOURCES ${SOURCES})</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">else ()</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">  include (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">  if (NOT &quot;</span>${<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>}<span class="stringliteral">&quot; STREQUAL &quot;</span>${INITIAL_SOURCES}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">    # touching this file which is included by basis_add_glob_target()</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">    # re-triggers CMake upon the next build</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">    execute_process (COMMAND &quot;</span>${CMAKE_COMMAND}<span class="stringliteral">&quot; -E touch &quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">    message (FATAL_ERROR &quot;</span>${ERRORMSG}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">  endif ()</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">endif ()</span></div>
+<div class="ttc" id="glob_8cmake_html_a8744f08ab87757e4c20c5aa81317fd41"><div class="ttname"><a href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a></div><div class="ttdeci">cmake SOURCES</div><div class="ttdef"><b>Definition:</b> <a href="glob_8cmake_source.html#l00048">glob.cmake:48</a></div></div>
+<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00039">testdriver-after-test.inc:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

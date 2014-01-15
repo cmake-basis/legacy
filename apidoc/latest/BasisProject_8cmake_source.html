@@ -69,136 +69,135 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">BasisProject.cmake</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="BasisProject_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#################################################################################</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  BasisProject.cmake</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Sets basic information about a BASIS Project and calls basis_project().</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># This file defines basic information about a project by calling </span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the basis_project() function. This basic information, also known as metadata, </span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># is used by BASIS to setup the project. Moreover, if the project is a module </span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># of another BASIS project, the dependencies to other modules have to be specified </span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># here such that the top-level project can analyze the inter-module dependencies.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @sa http://opensource.andreasschuh.com/cmake-basis/standard/modules.html</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># However, not only dependencies to other modules can be specified here,</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># but also dependencies on external packages. A more flexible alternative to</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># resolve external dependencies is to add the corresponding basis_find_package()</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># statements to the Depends.cmake file. This should, however, only be done</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># if specifying the dependencies as arguments to the basis_project() function</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># cannot be used to resolve the dependencies properly. If you only need to</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># make use of additional variables set by the package configuration file</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># of the external package or the corresponding Find&lt;Package&gt;.cmake module,</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># add the related CMake code to the Settings.cmake file instead.</span></div>
+<a href="BasisProject_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Carnegie Melon University</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See COPYING file for license information or visit</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># http://opensource.andreasschuh.com/cmake-basis/download.html#license</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  BasisProject.cmake</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Sets basic information about a BASIS Project and calls basis_project().</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># This file defines basic information about a project by calling </span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the basis_project() function. This basic information, also known as metadata, </span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># is used by BASIS to setup the project. Moreover, if the project is a module </span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># of another BASIS project, the dependencies to other modules have to be specified </span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># here such that the top-level project can analyze the inter-module dependencies.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @sa http://opensource.andreasschuh.com/cmake-basis/standard/modules.html</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Example:</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @code</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># basis_project (</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # ------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # meta-data</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   NAME              MyProject</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PACKAGE_VENDOR    shortvname  # Note: Part of default CMAKE_INSTALL_PREFIX</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   VERSION           1.1.5</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DESCRIPTION       &quot;This is the description of the project, which is useful for this&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#                     &quot; important thing and that important thing.&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#                     &quot; MyProject follows the BASIS implementation standard.&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   AUTHOR            &quot;Ima Nauthor&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_NAME     &quot;Great Product Co&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_WEBSITE  &quot;http://www.greatproductcompany.com&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_LOGO     &quot;${PROJECT_SOURCE_DIR}/doc/logo.png&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_NAME     &quot;Awesome App Division&quot;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_WEBSITE  &quot;http://www.awesomeapp.greatproductcompany.com&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_LOGO     &quot;&quot;${PROJECT_SOURCE_DIR}/doc/division_logo.png&quot;&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   COPYRIGHT         &quot;Copyright (c) 2014 Great Product Co&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   LICENSE           &quot;See COPYING file.&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   CONTACT           &quot;Contact &lt;info@greatproductcompany.com&gt;&quot;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # ------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # dependencies</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DEPENDS          </span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      NiftiCLib </span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      PythonInterp</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   OPTIONAL_DEPENDS </span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     PythonInterp</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     JythonInterp</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Perl</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{matlab}</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     BASH</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Doxygen</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Sphinx{build}</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   TEST_DEPENDS     </span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      Perl</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   OPTIONAL_TEST_DEPENDS</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{mex}</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{mcc}</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># )</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @endcode</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Carnegie Melon University.  &lt;br /&gt;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup BasisSettings</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"># Note: The #&lt;*dependency&gt; patterns are required by the basisproject tool</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       and should be kept on a separate line as last commented argument of</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       the corresponding options of the basis_project() command.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<a class="code" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  # --------------------------------------------------------------------------</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  # meta-data</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <a class="code" href="group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a">NAME</a>          <span class="stringliteral">&quot;BASIS&quot;</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#gaa6048edb75c6411c4f6e620a91a9e5f9">VERSION</a>       <span class="stringliteral">&quot;3.0.0&quot;</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  AUTHORS       <span class="stringliteral">&quot;Andreas Schuh&quot;</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  DESCRIPTION   <span class="stringliteral">&quot;This package implements and supports the development of &quot;</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="stringliteral">&quot;software which follows the CMake Build system And Software &quot;</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="stringliteral">&quot;Implementation Standard (BASIS).&quot;</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  WEBSITE       <span class="stringliteral">&quot;http://opensource.andreasschuh.com/cmake-basis&quot;</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#gab50bb6f02ef678d895da7222edecd4c6">COPYRIGHT</a>     <span class="stringliteral">&quot;2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University&quot;</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#ga1c472b0b2f43d0247c6fc82496a3f752">LICENSE</a>       <span class="stringliteral">&quot;See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license or COPYING file.&quot;</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#ga3c00786dd9f12fe7aafb54ebeee2a661">CONTACT</a>       <span class="stringliteral">&quot;andreas.schuh.84@gmail.com&quot;</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <a class="code" href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a>      <span class="stringliteral">&quot;basis/1.0&quot;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  PACKAGE_LOGO  <span class="stringliteral">&quot;doc/static/logo.svg&quot;</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  # --------------------------------------------------------------------------</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  # dependencies</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  DEPENDS</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    #&lt;dependency&gt;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  OPTIONAL_DEPENDS</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    PythonInterp</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    JythonInterp</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    Perl</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    MATLAB{matlab}</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    BASH</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    Doxygen</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    Sphinx{build}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    ITK # TODO required by basistest-driver, <span class="keyword">get</span> rid of <span class="keyword">this</span> dependency</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">    #&lt;optional-dependency&gt;</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor"></span>  TEST_DEPENDS</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">    #&lt;test-dependency&gt;</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor"></span>  OPTIONAL_TEST_DEPENDS</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    MATLAB{mex}</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    MATLAB{mcc}</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">    #&lt;optional-test-dependency&gt;</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor"></span>)</div>
-<div class="ttc" id="group__BasisPythonUtilities_html_gab50bb6f02ef678d895da7222edecd4c6"><div class="ttname"><a href="group__BasisPythonUtilities.html#gab50bb6f02ef678d895da7222edecd4c6">basis::COPYRIGHT</a></div><div class="ttdeci">const char * COPYRIGHT</div><div class="ttdoc">Default copyright of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00046">basis.cxx:46</a></div></div>
-<div class="ttc" id="group__BasisScriptConfig_html_gafc5e96d1c2d1d202f3ce2ab00236b19a"><div class="ttname"><a href="group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a">NAME</a></div><div class="ttdeci">cmake NAME</div><div class="ttdoc">Name of script file. </div><div class="ttdef"><b>Definition:</b> <a href="BasisScriptConfig_8cmake_source.html#l00060">BasisScriptConfig.cmake:60</a></div></div>
-<div class="ttc" id="GenerateConfig_8cmake_html_a0040f59832079009cf874f34f73c2a6b"><div class="ttname"><a href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a></div><div class="ttdeci">cmake TEMPLATE</div><div class="ttdef"><b>Definition:</b> <a href="GenerateConfig_8cmake_source.html#l00101">GenerateConfig.cmake:101</a></div></div>
-<div class="ttc" id="group__BasisPythonUtilities_html_gaa6048edb75c6411c4f6e620a91a9e5f9"><div class="ttname"><a href="group__BasisPythonUtilities.html#gaa6048edb75c6411c4f6e620a91a9e5f9">basis::VERSION</a></div><div class="ttdeci">const char * VERSION</div><div class="ttdoc">The version string given as &amp;quot;&amp;lt;major&amp;gt;.&amp;lt;minor&amp;gt;.&amp;lt;patch&amp;gt;&amp;quot;. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00039">basis.cxx:39</a></div></div>
-<div class="ttc" id="group__BasisPythonUtilities_html_ga3c00786dd9f12fe7aafb54ebeee2a661"><div class="ttname"><a href="group__BasisPythonUtilities.html#ga3c00786dd9f12fe7aafb54ebeee2a661">basis::CONTACT</a></div><div class="ttdeci">const char * CONTACT</div><div class="ttdoc">Default contact to use for help output of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00048">basis.cxx:48</a></div></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># However, not only dependencies to other modules can be specified here,</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># but also dependencies on external packages. A more flexible alternative to</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># resolve external dependencies is to add the corresponding basis_find_package()</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># statements to the Depends.cmake file. This should, however, only be done</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># if specifying the dependencies as arguments to the basis_project() function</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># cannot be used to resolve the dependencies properly. If you only need to</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># make use of additional variables set by the package configuration file</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># of the external package or the corresponding Find&lt;Package&gt;.cmake module,</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># add the related CMake code to the Settings.cmake file instead.</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Example:</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @code</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># basis_project (</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # ------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # meta-data</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   NAME              MyProject</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PACKAGE_VENDOR    shortvname  # Note: Part of default CMAKE_INSTALL_PREFIX</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   VERSION           1.1.5</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DESCRIPTION       &quot;This is the description of the project, which is useful for this&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#                     &quot; important thing and that important thing.&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#                     &quot; MyProject follows the BASIS implementation standard.&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   AUTHOR            &quot;Ima Nauthor&quot;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_NAME     &quot;Great Product Co&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_WEBSITE  &quot;http://www.greatproductcompany.com&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   PROVIDER_LOGO     &quot;${PROJECT_SOURCE_DIR}/doc/logo.png&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_NAME     &quot;Awesome App Division&quot;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_WEBSITE  &quot;http://www.awesomeapp.greatproductcompany.com&quot;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DIVISION_LOGO     &quot;&quot;${PROJECT_SOURCE_DIR}/doc/division_logo.png&quot;&quot;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   COPYRIGHT         &quot;Copyright (c) 2014 Great Product Co&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   LICENSE           &quot;See COPYING file.&quot;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   CONTACT           &quot;Contact &lt;info@greatproductcompany.com&gt;&quot;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # ------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   # dependencies</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   DEPENDS          </span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      NiftiCLib </span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      PythonInterp</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   OPTIONAL_DEPENDS </span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     PythonInterp</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     JythonInterp</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Perl</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{matlab}</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     BASH</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Doxygen</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     Sphinx{build}</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   TEST_DEPENDS     </span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#      Perl</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   OPTIONAL_TEST_DEPENDS</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{mex}</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MATLAB{mcc}</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># )</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @endcode</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup BasisSettings</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"># Note: The #&lt;*dependency&gt; patterns are required by the basisproject tool</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       and should be kept on a separate line as last commented argument of</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       the corresponding options of the basis_project() command.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<a class="code" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  # --------------------------------------------------------------------------</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  # meta-data</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <a class="code" href="group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a">NAME</a>          <span class="stringliteral">&quot;BASIS&quot;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#gaa6048edb75c6411c4f6e620a91a9e5f9">VERSION</a>       <span class="stringliteral">&quot;3.0.0&quot;</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  AUTHORS       <span class="stringliteral">&quot;Andreas Schuh&quot;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  DESCRIPTION   <span class="stringliteral">&quot;This package implements and supports the development of &quot;</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="stringliteral">&quot;software which follows the CMake Build system And Software &quot;</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="stringliteral">&quot;Implementation Standard (BASIS).&quot;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  WEBSITE       <span class="stringliteral">&quot;http://opensource.andreasschuh.com/cmake-basis&quot;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#gab50bb6f02ef678d895da7222edecd4c6">COPYRIGHT</a>     <span class="stringliteral">&quot;2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University&quot;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#ga1c472b0b2f43d0247c6fc82496a3f752">LICENSE</a>       <span class="stringliteral">&quot;See http://opensource.andreasschuh.com/cmake-basis/download.html#license or COPYING file.&quot;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <a class="code" href="group__BasisPythonUtilities.html#ga3c00786dd9f12fe7aafb54ebeee2a661">CONTACT</a>       <span class="stringliteral">&quot;andreas.schuh.84@gmail.com&quot;</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a>      <span class="stringliteral">&quot;basis/1.0&quot;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  PACKAGE_LOGO  <span class="stringliteral">&quot;doc/static/logo.svg&quot;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  # --------------------------------------------------------------------------</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  # dependencies</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  DEPENDS</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    #&lt;dependency&gt;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  OPTIONAL_DEPENDS</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    PythonInterp</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    JythonInterp</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    Perl</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    MATLAB{matlab}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    BASH</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    Doxygen</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    Sphinx{build}</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    ITK # TODO required by basistest-driver, <span class="keyword">get</span> rid of <span class="keyword">this</span> dependency</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">    #&lt;optional-dependency&gt;</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor"></span>  TEST_DEPENDS</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">    #&lt;test-dependency&gt;</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor"></span>  OPTIONAL_TEST_DEPENDS</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    MATLAB{mex}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    MATLAB{mcc}</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">    #&lt;optional-test-dependency&gt;</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor"></span>)</div>
+<div class="ttc" id="group__BasisPythonUtilities_html_gab50bb6f02ef678d895da7222edecd4c6"><div class="ttname"><a href="group__BasisPythonUtilities.html#gab50bb6f02ef678d895da7222edecd4c6">basis::COPYRIGHT</a></div><div class="ttdeci">const char * COPYRIGHT</div><div class="ttdoc">Default copyright of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00045">basis.cxx:45</a></div></div>
+<div class="ttc" id="group__BasisScriptConfig_html_gafc5e96d1c2d1d202f3ce2ab00236b19a"><div class="ttname"><a href="group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a">NAME</a></div><div class="ttdeci">cmake NAME</div><div class="ttdoc">Name of script file. </div><div class="ttdef"><b>Definition:</b> <a href="BasisScriptConfig_8cmake_source.html#l00059">BasisScriptConfig.cmake:59</a></div></div>
+<div class="ttc" id="GenerateConfig_8cmake_html_a0040f59832079009cf874f34f73c2a6b"><div class="ttname"><a href="GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b">TEMPLATE</a></div><div class="ttdeci">cmake TEMPLATE</div><div class="ttdef"><b>Definition:</b> <a href="GenerateConfig_8cmake_source.html#l00100">GenerateConfig.cmake:100</a></div></div>
+<div class="ttc" id="group__BasisPythonUtilities_html_gaa6048edb75c6411c4f6e620a91a9e5f9"><div class="ttname"><a href="group__BasisPythonUtilities.html#gaa6048edb75c6411c4f6e620a91a9e5f9">basis::VERSION</a></div><div class="ttdeci">const char * VERSION</div><div class="ttdoc">The version string given as &amp;quot;&amp;lt;major&amp;gt;.&amp;lt;minor&amp;gt;.&amp;lt;patch&amp;gt;&amp;quot;. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00038">basis.cxx:38</a></div></div>
+<div class="ttc" id="group__BasisPythonUtilities_html_ga3c00786dd9f12fe7aafb54ebeee2a661"><div class="ttname"><a href="group__BasisPythonUtilities.html#ga3c00786dd9f12fe7aafb54ebeee2a661">basis::CONTACT</a></div><div class="ttdeci">const char * CONTACT</div><div class="ttdoc">Default contact to use for help output of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00047">basis.cxx:47</a></div></div>
 <div class="ttc" id="group__CMakeAPI_html_gad82d479d14499d09c5aeda3af646b9f6"><div class="ttname"><a href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a></div><div class="ttdeci">macro basis_project(in ARGN)</div><div class="ttdoc">Sets basic project information including the name, version, and dependencies. </div></div>
-<div class="ttc" id="group__BasisPythonUtilities_html_ga1c472b0b2f43d0247c6fc82496a3f752"><div class="ttname"><a href="group__BasisPythonUtilities.html#ga1c472b0b2f43d0247c6fc82496a3f752">basis::LICENSE</a></div><div class="ttdeci">const char * LICENSE</div><div class="ttdoc">Default license of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00047">basis.cxx:47</a></div></div>
+<div class="ttc" id="group__BasisPythonUtilities_html_ga1c472b0b2f43d0247c6fc82496a3f752"><div class="ttname"><a href="group__BasisPythonUtilities.html#ga1c472b0b2f43d0247c6fc82496a3f752">basis::LICENSE</a></div><div class="ttdeci">const char * LICENSE</div><div class="ttdoc">Default license of executables. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00046">basis.cxx:46</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

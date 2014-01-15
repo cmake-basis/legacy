@@ -1,4 +1,4 @@
 <map id="basis.argparse._SubParsersAction._ChoicesPseudoAction" name="basis.argparse._SubParsersAction._ChoicesPseudoAction">
-<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1Action.html" title="{basis.argparse.Action\n|+ choices\l+ const\l+ default\l+ dest\l+ help\l+ metavar\l+ nargs\l+ option_strings\l+ required\l+ type\l|+ __call__()\l+ __init__()\l}" alt="" coords="27,272,172,496"/>
-<area shape="rect" id="node3" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="19,131,181,223"/>
+<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1Action.html" title="{basis.argparse.Action\n|+ choices\l+ const\l+ default\l+ dest\l+ help\l+ metavar\l+ nargs\l+ option_strings\l+ required\l+ type\l|+ __call__()\l+ __init__()\l}" alt="" coords="29,283,179,525"/>
+<area shape="rect" id="node3" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="19,137,188,234"/>
 </map>

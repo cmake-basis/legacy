@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="How-to Guides" href="../howto.html" />
@@ -182,7 +183,17 @@ for generating documentation is <a class="reference external" href="http://opens
 the parameters of the related <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a> and
 <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a6a37a66eb28f7969ef27b004f8faaa3a">basis_add_doxygen_doc()</a> commands.</p>
 <p>Here is the code that generates the integrated Sphinx and Doxygen Documentation:</p>
-<div class="highlight-python"><pre>##############################################################################
+<div class="highlight-python"><pre># ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
+##############################################################################
 # @file  CMakeLists.txt
 # @brief Build configuration of software documentation.
 #
@@ -198,17 +209,6 @@ the parameters of the related <a class="reference external" href="http://opensou
 # See the basis_add_doc() command for details on the documentation build tools
 # supported by BASIS for the generation of documentation from plain text files
 # and in-source code comments.
-#
-# Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;
-# Copyright (c) 2013-2014 Carnegie Melon University.  &lt;br /&gt;
-# Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;
-# All rights reserved.                                &lt;br /&gt;
-#
-# See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license
-# or COPYING file for license information.
-#
-# Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,
-#          report issues at https://github.com/schuhschuh/cmake-basis/issues
 ##############################################################################
 
 # ============================================================================
@@ -273,6 +273,7 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/manual.rst" AND
     MAN_SECTION      7                                    # http://en.wikipedia.org/wiki/Man_page#Manual_sections
     HTML_THEME       cmake-basis                          # select the Sphinx layout theme
     HTML_LOGO        logo_title.svg                       # logo to use at heading of documentation
+    HTML_FAVICON     favicon.ico                          # icon for bookmark and tab title
     HTML_SIDEBARS    searchbox globaltoc                  # sidebar options to use
     HTML_DESTINATION "${INSTALL_DOC_DIR}/html"            # output directory for completed documentation
     SIDEBARWIDTH     300                                  # sidebar width in pixels
@@ -415,6 +416,7 @@ files given the specification of a Sphinx documentation build target such as the
 <li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guideline.html">Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">News</a></li>

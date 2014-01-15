@@ -99,6 +99,8 @@ Variables</h2></td></tr>
 <tr class="separator:a47a260a31be36c0dcdcc1d99dd895c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaed43967a4735418fe293311faa4d732"><td class="memItemLeft" align="right" valign="top">option&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Settings_8cmake.html#aaed43967a4735418fe293311faa4d732">BUILD_PROJECT_TOOL</a> = ON</td></tr>
 <tr class="separator:aaed43967a4735418fe293311faa4d732"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1741ccfd8e3e43b5b0df091ee1c57e7c"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Settings_8cmake.html#a1741ccfd8e3e43b5b0df091ee1c57e7c">CMAKE_INSTALL_PREFIX</a></td></tr>
+<tr class="separator:a1741ccfd8e3e43b5b0df091ee1c57e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69b0d885bc48f90313cdaa5b871a5ea2"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Settings_8cmake.html#a69b0d885bc48f90313cdaa5b871a5ea2">DEFAULT_TEMPLATE</a></td></tr>
 <tr class="separator:a69b0d885bc48f90313cdaa5b871a5ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad03edae99f817d33d707fd203e933d7d"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Settings_8cmake.html#ad03edae99f817d33d707fd203e933d7d">DEFAULT_TEMPLATE_DIR</a></td></tr>
@@ -135,13 +137,7 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Non-default project settings. </p>
 <p>This file is included by <a class="el" href="group__CMakeAPI.html#ga127b37093051faec042f572ac7fde9ed" title="Implementation of root CMakeLists.txt file of BASIS project. ">basis_project_impl()</a> after it looked for the required and optional dependencies and the CMake variables related to the project directory structure were defined (see BASISDirectories.cmake file in <code>PROJECT_BINARY_DIR</code>, where BASIS is here the name of the project). It is further included before the <a class="el" href="BasisSettings_8cmake.html" title="Default project-independent settings. ">BasisSettings.cmake</a> file.</p>
-<p>In particular, build options should be added in this file using CMake's <a href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:option">option()</a> command. Further, any common settings related to using a found dependency can be set here if the <a class="el" href="group__CMakeAPI.html#ga176bd65473e5cb933055d56592cc7357" title="Use found package. ">basis_use_package()</a> command was enable to import the required configuration of a particular external package.</p>
-<p>Copyright (c) 2011-2012 University of Pennsylvania. <br/>
- Copyright (c) 2013-2014 Andreas Schuh. <br/>
- All rights reserved. <br/>
-</p>
-<p>See <a href="http://opensource.andreasschuh.com/cmake-basis/download.html#software-license">http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</a> or COPYING file for license information.</p>
-<p>Contact: Andreas Schuh <a href="#" onclick="location.href='mai'+'lto:'+'and'+'re'+'as.'+'sc'+'huh'+'.8'+'4@g'+'ma'+'il.'+'co'+'m'; return false;">andre<span style="display: none;">.nosp@m.</span>as.s<span style="display: none;">.nosp@m.</span>chuh.<span style="display: none;">.nosp@m.</span>84@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a>, report issues at <a href="https://github.com/schuhschuh/cmake-basis/issues">https://github.com/schuhschuh/cmake-basis/issues</a> </p>
+<p>In particular, build options should be added in this file using CMake's <a href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:option">option()</a> command. Further, any common settings related to using a found dependency can be set here if the <a class="el" href="group__CMakeAPI.html#ga176bd65473e5cb933055d56592cc7357" title="Use found package. ">basis_use_package()</a> command was enable to import the required configuration of a particular external package. </p>
 
 <p>Definition in file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 </div><h2 class="groupheader">Variable Documentation</h2>
@@ -155,7 +151,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00169">169</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00175">175</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -169,7 +165,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00166">166</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00172">172</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -183,7 +179,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00168">168</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00174">174</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -197,7 +193,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00167">167</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00173">173</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -211,7 +207,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00170">170</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00176">176</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -225,7 +221,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00171">171</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00177">177</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -239,7 +235,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00130">130</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00136">136</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -253,7 +249,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00055">55</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00061">61</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1741ccfd8e3e43b5b0df091ee1c57e7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmake CMAKE_INSTALL_PREFIX</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00029">29</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -267,7 +277,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00058">58</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00064">64</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -281,7 +291,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00105">105</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00111">111</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -295,7 +305,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00106">106</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00112">112</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -309,7 +319,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00107">107</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00113">113</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -323,7 +333,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00056">56</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00062">62</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -337,7 +347,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00043">43</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00049">49</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -351,7 +361,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00038">38</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00044">44</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -365,7 +375,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00039">39</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00045">45</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -379,7 +389,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00042">42</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00048">48</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -393,7 +403,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00030">30</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00041">41</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -407,7 +417,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00041">41</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00047">47</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -421,7 +431,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00040">40</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00046">46</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -435,7 +445,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00048">48</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00054">54</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -449,7 +459,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00059">59</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00065">65</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
@@ -463,14 +473,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00046">46</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
+<p>Definition at line <a class="el" href="Settings_8cmake_source.html#l00052">52</a> of file <a class="el" href="Settings_8cmake_source.html">Settings.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:03. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

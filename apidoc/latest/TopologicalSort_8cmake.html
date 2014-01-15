@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="TopologicalSort_8cmake__dep__incl.png" border="0" usemap="#TopologicalSort_8cmakedep" alt=""/></div>
 <map name="TopologicalSort_8cmakedep" id="TopologicalSort_8cmakedep">
-<area shape="rect" id="node2" href="BasisTools_8cmake.html" title="Definition of functions and macros used by BASIS project. " alt="" coords="16,155,141,181"/><area shape="rect" id="node4" href="ProjectTools_8cmake.html" title="Definition of main project tools. " alt="" coords="65,80,196,107"/><area shape="rect" id="node3" href="BASISConfig_8cmake.html" title="CMake package configuration file. " alt="" coords="10,229,147,256"/></map>
+<area shape="rect" id="node2" href="BasisTools_8cmake.html" title="Definition of functions and macros used by BASIS project. " alt="" coords="18,161,147,189"/><area shape="rect" id="node4" href="ProjectTools_8cmake.html" title="Definition of main project tools. " alt="" coords="67,83,204,111"/><area shape="rect" id="node3" href="BASISConfig_8cmake.html" title="CMake package configuration file. " alt="" coords="12,238,153,266"/></map>
 </div>
 </div>
 <p><a href="TopologicalSort_8cmake_source.html">Go to the source code of this file.</a></p>
@@ -97,68 +97,15 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CMake implementation of topological sorting algorithm. </p>
-<pre class="fragment">Perform a reverse topological sort on the given LIST.
+<p>Perform a reverse topological sort on the given LIST.</p>
+<p>topological_sort(my_list "MY_" "_EDGES")</p>
+<p>LIST is the name of a variable containing a list of elements to be sorted in reverse topological order. Each element in the list has a set of outgoing edges (for example, those other list elements that it depends on). In the resulting reverse topological ordering (written back into the variable named LIST), an element will come later in the list than any of the elements that can be reached by following its outgoing edges and the outgoing edges of any vertices they target, recursively. Thus, if the edges represent dependencies on build targets, for example, the reverse topological ordering is the order in which one would build those targets.</p>
+<p>For each element E in this list, the edges for E are contained in the variable named ${PREFIX}${E}${SUFFIX}. If no such variable exists, then it is assumed that there are no edges. For example, if my_list contains a, b, and c, one could provide a dependency graph using the following variables: </p>
+<pre class="fragment">MY_A_EDGES     b
+MY_B_EDGES
+MY_C_EDGES     a b
+</pre><p>With the involcation of topological_sort shown above and these variables, the resulting reverse topological ordering will be b, a, c. </p>
 
-  topological_sort(my_list "MY_" "_EDGES")
-
-LIST is the name of a variable containing a list of elements to be
-sorted in reverse topological order. Each element in the list has a
-set of outgoing edges (for example, those other list elements that
-it depends on). In the resulting reverse topological ordering
-(written back into the variable named LIST), an element will come
-later in the list than any of the elements that can be reached by
-following its outgoing edges and the outgoing edges of any vertices
-they target, recursively. Thus, if the edges represent dependencies
-on build targets, for example, the reverse topological ordering is
-the order in which one would build those targets.
-
-For each element E in this list, the edges for E are contained in
-the variable named ${PREFIX}${E}${SUFFIX}. If no such variable
-exists, then it is assumed that there are no edges. For example, if
-my_list contains a, b, and c, one could provide a dependency graph
-using the following variables:
-
-    MY_A_EDGES     b
-    MY_B_EDGES
-    MY_C_EDGES     a b
-
- With the involcation of topological_sort shown above and these
- variables, the resulting reverse topological ordering will be b, a, c.
-</pre><pre class="fragment">///
-/// Modified from Boost Utilities
-///
-/// Copyright 2010 Kitware, Inc.
-///
-/// Copyright 2007 Douglas Gregor &lt;doug.gregor@gmail.com&gt;
-/// Copyright 2007 Troy Straszheim
-///
-/// Distributed under the Boost Software License, Version 1.0.
-///
-/// Boost Software License - Version 1.0 - August 17th, 2003
-///
-/// Permission is hereby granted, free of charge, to any person or organization
-/// obtaining a copy of the software and accompanying documentation covered by
-/// this license (the "Software") to use, reproduce, display, distribute,
-/// execute, and transmit the Software, and to prepare derivative works of the
-/// Software, and to permit third-parties to whom the Software is furnished to
-/// do so, all subject to the following:
-///
-/// The copyright notices in the Software and this entire statement, including
-/// the above license grant, this restriction and the following disclaimer,
-/// must be included in all copies of the Software, in whole or in part, and
-/// all derivative works of the Software, unless such copies or derivative
-/// works are solely in the form of machine-executable object code generated by
-/// a source language processor.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-/// SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
-/// FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
-/// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-/// DEALINGS IN THE SOFTWARE.
-///
-/// </pre> 
 <p>Definition in file <a class="el" href="TopologicalSort_8cmake_source.html">TopologicalSort.cmake</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="afb8628bdbeed9935c8817e8ef84cf46d"></a>
@@ -197,7 +144,7 @@ using the following variables:
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:03. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -73,43 +73,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">FindSparseBayes.cmake</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="FindSparseBayes_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  FindSparseBayes.cmake</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Find SparseBayes package from Vector Anomaly Limited.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @sa http://www.vectoranomaly.com/downloads/downloads.htm</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
+<a href="FindSparseBayes_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See COPYING file for license information or visit</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># http://opensource.andreasschuh.com/cmake-basis/download.html#license</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  FindSparseBayes.cmake</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Find SparseBayes package from Vector Anomaly Limited.</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;include (FindPackageHandleStandardArgs)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;find_path (</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  SparseBayes_DIR SparseBayes.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  DOC &quot;The directory containing SparseBayes.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a> file of the SparseBayes package.&quot;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">   25</a></span>&#160;set (<a class="code" href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">SparseBayes_INCLUDE_DIR</a> &quot;${SparseBayes_DIR}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">find_package_handle_standard_args (</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">  SparseBayes</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">  REQUIRED_ARGS</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">    SparseBayes_INCLUDE_DIR</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">)</span></div>
-<div class="ttc" id="FindSparseBayes_8cmake_html_a1ebecb4c03bae32f9d1650e8646c3fb8"><div class="ttname"><a href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">SparseBayes_INCLUDE_DIR</a></div><div class="ttdeci">cmake SparseBayes_INCLUDE_DIR</div><div class="ttdef"><b>Definition:</b> <a href="FindSparseBayes_8cmake_source.html#l00025">FindSparseBayes.cmake:25</a></div></div>
-<div class="ttc" id="namespacedoxyfilter-perl_html_a3e99ca53f10c2be401f6efbb288e1239"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">doxyfilter-perl.m</a></div><div class="ttdeci">tuple m</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00055">doxyfilter-perl.py:55</a></div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @sa http://www.vectoranomaly.com/downloads/downloads.htm</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;include (FindPackageHandleStandardArgs)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;find_path (</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  SparseBayes_DIR SparseBayes.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  DOC &quot;The directory containing SparseBayes.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a> file of the SparseBayes package.&quot;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">   24</a></span>&#160;set (<a class="code" href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">SparseBayes_INCLUDE_DIR</a> &quot;${SparseBayes_DIR}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">find_package_handle_standard_args (</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">  SparseBayes</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">  REQUIRED_ARGS</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    SparseBayes_INCLUDE_DIR</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">)</span></div>
+<div class="ttc" id="FindSparseBayes_8cmake_html_a1ebecb4c03bae32f9d1650e8646c3fb8"><div class="ttname"><a href="FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8">SparseBayes_INCLUDE_DIR</a></div><div class="ttdeci">cmake SparseBayes_INCLUDE_DIR</div><div class="ttdef"><b>Definition:</b> <a href="FindSparseBayes_8cmake_source.html#l00024">FindSparseBayes.cmake:24</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a3e99ca53f10c2be401f6efbb288e1239"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">doxyfilter-perl.m</a></div><div class="ttdeci">tuple m</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00054">doxyfilter-perl.py:54</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <map id="os.cxx" name="os.cxx">
-<area shape="rect" id="node2" href="$config_8h.html" title="System related macro definitions. " alt="" coords="71,80,171,107"/>
-<area shape="rect" id="node3" href="$except_8h.html" title="Basic exceptions and related helper macros. " alt="" coords="196,80,303,107"/>
-<area shape="rect" id="node14" href="$os_8h.html" title="Operating system dependent functions. " alt="" coords="327,80,409,107"/>
-<area shape="rect" id="node15" href="$path_8h.html" title="File/directory path related functions. " alt="" coords="647,155,723,181"/>
+<area shape="rect" id="node2" href="$config_8h.html" title="System related macro definitions. " alt="" coords="74,83,176,111"/>
+<area shape="rect" id="node3" href="$except_8h.html" title="Basic exceptions and related helper macros. " alt="" coords="201,83,307,111"/>
+<area shape="rect" id="node14" href="$os_8h.html" title="Operating system dependent functions. " alt="" coords="331,83,412,111"/>
+<area shape="rect" id="node15" href="$path_8h.html" title="File/directory path related functions. " alt="" coords="657,161,732,189"/>
 </map>

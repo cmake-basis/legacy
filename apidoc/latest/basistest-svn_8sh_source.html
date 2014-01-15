@@ -75,109 +75,108 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a href="basistest-svn_8sh.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#! /bin/bash</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>__FILE__=<span class="stringliteral">&quot;$(cd -P -- &quot;</span>$(<a class="code" href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">dirname</a> -- <span class="stringliteral">&quot;$BASH_SOURCE&quot;</span>)<span class="stringliteral">&quot; &amp;&amp; pwd -P)/$(basename -- &quot;</span>$BASH_SOURCE<span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">if</span> [[ -n <span class="stringliteral">&quot;$SGE_ROOT&quot;</span> ]] &amp;&amp; [[ $__FILE__ =~ $SGE_ROOT/.* ]] &amp;&amp; [[ -n <span class="stringliteral">&quot;${BASIS_DIR}&quot;</span> ]] &amp;&amp; [[ -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&quot;${BASIS_DIR}/bin/basistest-svn.sh&quot;</span> ]]; then __FILE__=<span class="stringliteral">&quot;${BASIS_DIR}/bin/basistest-svn.sh&quot;</span>; fi; i=0; lnk=<span class="stringliteral">&quot;$__FILE__&quot;</span>; <span class="keywordflow">while</span> [[ -h <span class="stringliteral">&quot;$lnk&quot;</span> ]] &amp;&amp; [[ $i -lt 100 ]]; <span class="keywordflow">do</span> dir=`<a class="code" href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">dirname</a> -- <span class="stringliteral">&quot;$lnk&quot;</span>`; lnk=`<a class="code" href="namespacebasis_1_1os.html#a08b06426ff043ebb907d7f5f1824ca3f">readlink</a> -- <span class="stringliteral">&quot;$lnk&quot;</span>`; lnk=`cd <span class="stringliteral">&quot;$dir&quot;</span> &amp;&amp; cd $(<a class="code" href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">dirname</a> -- <span class="stringliteral">&quot;$lnk&quot;</span>) &amp;&amp; pwd`/`<a class="code" href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basename</a> -- <span class="stringliteral">&quot;$lnk&quot;</span>`; let i++; done; [[ $i -lt 100 ]] &amp;&amp; __FILE__=<span class="stringliteral">&quot;$lnk&quot;</span>; unset -v i dir lnk; __DIR__=<span class="stringliteral">&quot;$(dirname -- &quot;</span>$__FILE__<span class="stringliteral">&quot;)&quot;</span>; BASIS_BASH_UTILITIES=<span class="stringliteral">&quot;$__DIR__/bash/basis/basis.sh&quot;</span>; BASHPATH=<span class="stringliteral">&quot;$__DIR__/.:$__DIR__/bash:$BASHPATH&quot;</span> # &lt;-- added by BASIS</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  basistest-svn.sh</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Wrapper script for Subversion svn command.</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># This script is used as wrapper for the svn command to enable automated</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># software testing at our lab. In general, anonymous access to the Subversion</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># repositories is not permitted. Only the svnuser is allowed to do so.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Hence, a wrapper script was implemented which is only readable by the</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># svnuser where the password is hard code. Moreover, only the svnuser can</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># execute this script. The swtest user on the other side is allowed to run</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># this script as svnuser via sudoers list.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup Tools</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;. ${BASIS_BASH_UTILITIES} || exit 1</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>=()</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>=0</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordflow">while</span> [ $# -gt 0 ]; <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">case</span> <span class="stringliteral">&quot;$1&quot;</span> in</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        --<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>|-v)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            (( <a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>++ ))</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            ;;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        --<a class="code" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">help</a>|-h)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> exec_name</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [svn options/arguments]&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [options]&quot;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            echo</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            echo <span class="stringliteral">&quot;Description:&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            echo <span class="stringliteral">&quot;  This command is used as a wrapper for the svn command to enable&quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            echo <span class="stringliteral">&quot;  automated software testing at SBIA where anonymous Subversion&quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            echo <span class="stringliteral">&quot;  access is generally not permitted.&quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            echo</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            echo <span class="stringliteral">&quot;Options:&quot;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            echo <span class="stringliteral">&quot;  --help, -h    Print help and exit.&quot;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            echo <span class="stringliteral">&quot;  --helpshort   Print short help and exit.&quot;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            echo <span class="stringliteral">&quot;  --version     Print version information and exit.&quot;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            echo</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            exit 0</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            ;;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        --helpshort)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> exec_name</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [svn options/arguments]&quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [options]&quot;</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            echo</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            echo <span class="stringliteral">&quot;Options:&quot;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            echo <span class="stringliteral">&quot;  --help, -h    Print help and exit.&quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            echo <span class="stringliteral">&quot;  --helpshort   Print short help and exit.&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            echo <span class="stringliteral">&quot;  --version     Print version information and exit.&quot;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            echo</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            exit 0</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            ;;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        --<a class="code" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">version</a>)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">print_version</a> <span class="stringliteral">&#39;&#39;</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            exit 0</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            ;;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        *)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>=(<span class="stringliteral">&quot;${args[@]}&quot;</span> <span class="stringliteral">&quot;$1&quot;</span>)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            ;;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    esac</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    shift</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;done</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"># simply call the wrapper script with the password encoded as svnuser</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span>cmd=(sudo -u svnuser /bin/sh /sbia/home/svn/bin/svnwrap <span class="stringliteral">&quot;${args[@]}&quot;</span>)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordflow">if</span> [ $verbose -gt 0 ]; then</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    echo <span class="stringliteral">&quot;$ ${cmd[@]}&quot;</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;fi</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;exec <span class="stringliteral">&quot;${cmd[@]}&quot;</span></div>
-<div class="ttc" id="namespacebasis_1_1util_html_abe20d398bb617aede33cd0793ec705b8"><div class="ttname"><a href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">basis::util::print_contact</a></div><div class="ttdeci">void print_contact(const char *contact)</div><div class="ttdoc">Print contact information. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00032">utilities.cxx:32</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_a4a99f33e3a65262b7c7efc2345286bd0"><div class="ttname"><a href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></div><div class="ttdeci">string help</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00860">basisproject.py:860</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_html_ae96199246f865a4ac514e9f917c00375"><div class="ttname"><a href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">basis::os::exename</a></div><div class="ttdeci">std::string exename()</div><div class="ttdoc">Get name of executable. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00128">os.cxx:128</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_1_1path_html_ad389eabfc9a3210feec0d6dd99ef44a3"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basis::os::path::basename</a></div><div class="ttdeci">std::string basename(const std::string &amp;path)</div><div class="ttdoc">Get file name. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00274">path.cxx:274</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_ab462e2625a72881ea950888c1ea7235e"><div class="ttname"><a href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a></div><div class="ttdeci">tuple args</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00991">basisproject.py:991</a></div></div>
-<div class="ttc" id="namespacedoxyfilter-perl_html_a5f3722f40f37bf1a568612dd52aeed51"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">doxyfilter-perl.f</a></div><div class="ttdeci">tuple f</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00030">doxyfilter-perl.py:30</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_1_1path_html_acdd969a5eafb020217263913c4840d92"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">basis::os::path::dirname</a></div><div class="ttdeci">std::string dirname(const std::string &amp;path)</div><div class="ttdoc">Get file directory. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00266">path.cxx:266</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_html_a08b06426ff043ebb907d7f5f1824ca3f"><div class="ttname"><a href="namespacebasis_1_1os.html#a08b06426ff043ebb907d7f5f1824ca3f">basis::os::readlink</a></div><div class="ttdeci">std::string readlink(const std::string &amp;path)</div><div class="ttdoc">Read value of symbolic link. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00148">os.cxx:148</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_af68750697c3ecb681fe0dba697e8c6e3"><div class="ttname"><a href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></div><div class="ttdeci">string version</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00872">basisproject.py:872</a></div></div>
-<div class="ttc" id="namespacebasis_1_1util_html_aa6b503226203556e0e350e7835bdae8b"><div class="ttname"><a href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">basis::util::print_version</a></div><div class="ttdeci">void print_version(const char *name, const char *version, const char *project=NULL, const char *copyright=NULL, const char *license=NULL)</div><div class="ttdoc">Print version information including copyright and license notices. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00038">utilities.cxx:38</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See COPYING file for license information or visit</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># http://opensource.andreasschuh.com/cmake-basis/download.html#license</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  basistest-svn.sh</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Wrapper script for Subversion svn command.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># This script is used as wrapper for the svn command to enable automated</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># software testing at our lab. In general, anonymous access to the Subversion</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># repositories is not permitted. Only the svnuser is allowed to do so.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Hence, a wrapper script was implemented which is only readable by the</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># svnuser where the password is hard code. Moreover, only the svnuser can</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># execute this script. The swtest user on the other side is allowed to run</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># this script as svnuser via sudoers list.</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup Tools</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;. ${BASIS_BASH_UTILITIES} || exit 1</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>=()</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>=0</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">while</span> [ $# -gt 0 ]; <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">case</span> <span class="stringliteral">&quot;$1&quot;</span> in</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        --<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>|-v)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            (( <a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>++ ))</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            ;;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        --<a class="code" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">help</a>|-h)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> exec_name</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [svn options/arguments]&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [options]&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            echo</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            echo <span class="stringliteral">&quot;Description:&quot;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            echo <span class="stringliteral">&quot;  This command is used as a wrapper for the svn command to enable&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            echo <span class="stringliteral">&quot;  automated software testing at SBIA where anonymous Subversion&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            echo <span class="stringliteral">&quot;  access is generally not permitted.&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            echo</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            echo <span class="stringliteral">&quot;Options:&quot;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            echo <span class="stringliteral">&quot;  --help, -h    Print help and exit.&quot;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            echo <span class="stringliteral">&quot;  --helpshort   Print short help and exit.&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            echo <span class="stringliteral">&quot;  --version     Print version information and exit.&quot;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            echo</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            exit 0</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            ;;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        --helpshort)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> exec_name</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [svn options/arguments]&quot;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            echo <span class="stringliteral">&quot;  ${exec_name} [options]&quot;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            echo</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            echo <span class="stringliteral">&quot;Options:&quot;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            echo <span class="stringliteral">&quot;  --help, -h    Print help and exit.&quot;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            echo <span class="stringliteral">&quot;  --helpshort   Print short help and exit.&quot;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            echo <span class="stringliteral">&quot;  --version     Print version information and exit.&quot;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            echo</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            exit 0</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            ;;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        --<a class="code" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">version</a>)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">print_version</a> <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            exit 0</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            ;;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        *)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>=(<span class="stringliteral">&quot;${args[@]}&quot;</span> <span class="stringliteral">&quot;$1&quot;</span>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            ;;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    esac</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    shift</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;done</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor"># simply call the wrapper script with the password encoded as svnuser</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span>cmd=(sudo -u svnuser /bin/sh /sbia/home/svn/bin/svnwrap <span class="stringliteral">&quot;${args[@]}&quot;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordflow">if</span> [ $verbose -gt 0 ]; then</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    echo <span class="stringliteral">&quot;$ ${cmd[@]}&quot;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;fi</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;exec <span class="stringliteral">&quot;${cmd[@]}&quot;</span></div>
+<div class="ttc" id="namespacebasis_1_1util_html_abe20d398bb617aede33cd0793ec705b8"><div class="ttname"><a href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">basis::util::print_contact</a></div><div class="ttdeci">void print_contact(const char *contact)</div><div class="ttdoc">Print contact information. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00033">utilities.cxx:33</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_a4a99f33e3a65262b7c7efc2345286bd0"><div class="ttname"><a href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></div><div class="ttdeci">string help</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00859">basisproject.py:859</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_html_ae96199246f865a4ac514e9f917c00375"><div class="ttname"><a href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">basis::os::exename</a></div><div class="ttdeci">std::string exename()</div><div class="ttdoc">Get name of executable. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00127">os.cxx:127</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_1_1path_html_ad389eabfc9a3210feec0d6dd99ef44a3"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basis::os::path::basename</a></div><div class="ttdeci">std::string basename(const std::string &amp;path)</div><div class="ttdoc">Get file name. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00273">path.cxx:273</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_ab462e2625a72881ea950888c1ea7235e"><div class="ttname"><a href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a></div><div class="ttdeci">tuple args</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00990">basisproject.py:990</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a5f3722f40f37bf1a568612dd52aeed51"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">doxyfilter-perl.f</a></div><div class="ttdeci">tuple f</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00029">doxyfilter-perl.py:29</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_1_1path_html_acdd969a5eafb020217263913c4840d92"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">basis::os::path::dirname</a></div><div class="ttdeci">std::string dirname(const std::string &amp;path)</div><div class="ttdoc">Get file directory. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00265">path.cxx:265</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_html_a08b06426ff043ebb907d7f5f1824ca3f"><div class="ttname"><a href="namespacebasis_1_1os.html#a08b06426ff043ebb907d7f5f1824ca3f">basis::os::readlink</a></div><div class="ttdeci">std::string readlink(const std::string &amp;path)</div><div class="ttdoc">Read value of symbolic link. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00147">os.cxx:147</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_af68750697c3ecb681fe0dba697e8c6e3"><div class="ttname"><a href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></div><div class="ttdeci">string version</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00871">basisproject.py:871</a></div></div>
+<div class="ttc" id="namespacebasis_1_1util_html_aa6b503226203556e0e350e7835bdae8b"><div class="ttname"><a href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">basis::util::print_version</a></div><div class="ttdeci">void print_version(const char *name, const char *version, const char *project=NULL, const char *copyright=NULL, const char *license=NULL)</div><div class="ttdoc">Print version information including copyright and license notices. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00039">utilities.cxx:39</a></div></div>
 <div class="ttc" id="testdriver_8h_html_a82fe1f872bd00eecd93c84973facfa73"><div class="ttname"><a href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a></div><div class="ttdeci">MultiSwitchArg verbose(&quot;v&quot;,&quot;verbose&quot;,&quot;Increase verbosity of output messages.&quot;, false)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

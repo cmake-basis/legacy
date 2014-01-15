@@ -87,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="ConfigureIncludeFiles_8cmake__incl.png" border="0" usemap="#ConfigureIncludeFiles_8cmake" alt=""/></div>
 <map name="ConfigureIncludeFiles_8cmake" id="ConfigureIncludeFiles_8cmake">
-<area shape="rect" id="node2" href="CommonTools_8cmake.html" title="Definition of common CMake functions. " alt="" coords="31,80,177,107"/></map>
+<area shape="rect" id="node2" href="CommonTools_8cmake.html" title="Definition of common CMake functions. " alt="" coords="31,83,185,111"/></map>
 </div>
 </div>
 <p><a href="ConfigureIncludeFiles_8cmake_source.html">Go to the source code of this file.</a></p>
@@ -100,13 +100,7 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CMake script used to configure and copy the public header files. </p>
 <p>Besides configuring the files, this script optionally copies the header files to the build tree using the final relative path as used for the installation. This could be done directly during the configure step of CMake by code executed as part of the CMakeLists.txt files, but then whenever a header file is modified, CMake reconfigures the build system. Instead, this script is executed using execute_process() during the configure step of CMake and a custom build target is added which rebuilds whenever a header file was modified. Thus, only this script is re-executed, but not the entire build system re-configured.</p>
-<p>The relative path of each configured input header file in the source tree is appended to the output log file. This file can be used to determine whether a new header was added to the source tree and thus this script has to be re-executed.</p>
-<p>Copyright (c) 2011-2012 University of Pennsylvania. <br/>
- Copyright (c) 2013-2014 Andreas Schuh. <br/>
- All rights reserved. <br/>
-</p>
-<p>See <a href="http://opensource.andreasschuh.com/cmake-basis/download.html#software-license">http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</a> or COPYING file for license information.</p>
-<p>Contact: Andreas Schuh <a href="#" onclick="location.href='mai'+'lto:'+'and'+'re'+'as.'+'sc'+'huh'+'.8'+'4@g'+'ma'+'il.'+'co'+'m'; return false;">andre<span style="display: none;">.nosp@m.</span>as.s<span style="display: none;">.nosp@m.</span>chuh.<span style="display: none;">.nosp@m.</span>84@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a>, report issues at <a href="https://github.com/schuhschuh/cmake-basis/issues">https://github.com/schuhschuh/cmake-basis/issues</a> </p>
+<p>The relative path of each configured input header file in the source tree is appended to the output log file. This file can be used to determine whether a new header was added to the source tree and thus this script has to be re-executed. </p>
 
 <p>Definition in file <a class="el" href="ConfigureIncludeFiles_8cmake_source.html">ConfigureIncludeFiles.cmake</a>.</p>
 </div><h2 class="groupheader">Variable Documentation</h2>
@@ -120,14 +114,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ConfigureIncludeFiles_8cmake_source.html#l00033">33</a> of file <a class="el" href="ConfigureIncludeFiles_8cmake_source.html">ConfigureIncludeFiles.cmake</a>.</p>
+<p>Definition at line <a class="el" href="ConfigureIncludeFiles_8cmake_source.html#l00032">32</a> of file <a class="el" href="ConfigureIncludeFiles_8cmake_source.html">ConfigureIncludeFiles.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

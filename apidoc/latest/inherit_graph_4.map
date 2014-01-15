@@ -1,9 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classbasis_1_1ExistingDirectoryConstraint.html" title="Constrain argument values to paths of existing directories. " alt="" coords="172,5,324,46"/>
-<area shape="rect" id="node3" href="$classbasis_1_1ExistingFileConstraint.html" title="Constrain argument values to paths of existing files. " alt="" coords="159,71,337,97"/>
-<area shape="rect" id="node4" href="$classbasis_1_1NegativeValueConstraint.html" title="Constrain argument values to negative values. " alt="" coords="133,121,363,148"/>
-<area shape="rect" id="node5" href="$classbasis_1_1NonZeroValueConstraint.html" title="Constrain argument values to non&#45;zero values. " alt="" coords="135,172,361,199"/>
-<area shape="rect" id="node6" href="$classbasis_1_1PositiveValueConstraint.html" title="Constrain argument values to positive values. " alt="" coords="137,223,359,249"/>
-<area shape="rect" id="node7" href="$classbasis_1_1ZeroOrNegativeValueConstraint.html" title="Constrain argument values to zero or negative values. " alt="" coords="157,274,339,315"/>
-<area shape="rect" id="node8" href="$classbasis_1_1ZeroOrPositiveValueConstraint.html" title="Constrain argument values to zero or positive values. " alt="" coords="160,339,336,381"/>
+<area shape="rect" id="node2" href="$classbasis_1_1ExistingDirectoryConstraint.html" title="Constrain argument values to paths of existing directories. " alt="" coords="176,5,336,49"/>
+<area shape="rect" id="node3" href="$classbasis_1_1ExistingFileConstraint.html" title="Constrain argument values to paths of existing files. " alt="" coords="162,73,350,101"/>
+<area shape="rect" id="node4" href="$classbasis_1_1NegativeValueConstraint.html" title="Constrain argument values to negative values. " alt="" coords="137,125,375,153"/>
+<area shape="rect" id="node5" href="$classbasis_1_1NonZeroValueConstraint.html" title="Constrain argument values to non&#45;zero values. " alt="" coords="137,177,375,205"/>
+<area shape="rect" id="node6" href="$classbasis_1_1PositiveValueConstraint.html" title="Constrain argument values to positive values. " alt="" coords="140,229,372,257"/>
+<area shape="rect" id="node7" href="$classbasis_1_1ZeroOrNegativeValueConstraint.html" title="Constrain argument values to zero or negative values. " alt="" coords="162,281,350,325"/>
+<area shape="rect" id="node8" href="$classbasis_1_1ZeroOrPositiveValueConstraint.html" title="Constrain argument values to zero or positive values. " alt="" coords="165,349,347,393"/>
 </map>

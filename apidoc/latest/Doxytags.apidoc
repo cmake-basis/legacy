@@ -7137,6 +7137,13 @@
     </member>
     <member kind="variable">
       <type>cmake</type>
+      <name>CMAKE_INSTALL_PREFIX</name>
+      <anchorfile>Settings_8cmake.html</anchorfile>
+      <anchor>a1741ccfd8e3e43b5b0df091ee1c57e7c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>cmake</type>
       <name>DEFAULT_TEMPLATE</name>
       <anchorfile>Settings_8cmake.html</anchorfile>
       <anchor>a69b0d885bc48f90313cdaa5b871a5ea2</anchor>
@@ -10789,7 +10796,10 @@
     <title>Package Configuration</title>
     <filename>group__BasisConfig.html</filename>
     <file>BASISConfig.cmake</file>
+    <file>BASISConfig.cmake</file>
+    <file>BASISConfig.cmake</file>
     <file>BASISConfigVersion.cmake</file>
+    <file>BASISUse.cmake</file>
     <file>BASISUse.cmake</file>
     <member kind="function">
       <type>macro</type>
@@ -11479,6 +11489,7 @@
     <subgroup>CxxCmdLine</subgroup>
     <subgroup>CxxTesting</subgroup>
     <file>basis.h</file>
+    <file>utilities.cxx</file>
     <file>utilities.h</file>
     <namespace>basis</namespace>
     <member kind="define">

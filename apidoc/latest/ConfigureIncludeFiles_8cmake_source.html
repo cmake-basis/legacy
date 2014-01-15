@@ -73,107 +73,106 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">ConfigureIncludeFiles.cmake</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="ConfigureIncludeFiles_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  ConfigureIncludeFiles.cmake</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief CMake script used to configure and copy the public header files.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Besides configuring the files, this script optionally copies the header</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># files to the build tree using the final relative path as used for the</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># installation. This could be done directly during the configure step of</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># CMake by code executed as part of the CMakeLists.txt files, but then</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whenever a header file is modified, CMake reconfigures the build system.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Instead, this script is executed using execute_process() during the</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># configure step of CMake and a custom build target is added which rebuilds</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whenever a header file was modified. Thus, only this script is re-executed,</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># but not the entire build system re-configured.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># The relative path of each configured input header file in the source tree</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># is appended to the output log file. This file can be used to determine</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whether a new header was added to the source tree and thus this script has</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># to be re-executed.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
+<a href="ConfigureIncludeFiles_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See COPYING file for license information or visit</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># http://opensource.andreasschuh.com/cmake-basis/download.html#license</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  ConfigureIncludeFiles.cmake</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief CMake script used to configure and copy the public header files.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Besides configuring the files, this script optionally copies the header</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># files to the build tree using the final relative path as used for the</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># installation. This could be done directly during the configure step of</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># CMake by code executed as part of the CMakeLists.txt files, but then</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whenever a header file is modified, CMake reconfigures the build system.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Instead, this script is executed using execute_process() during the</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># configure step of CMake and a custom build target is added which rebuilds</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whenever a header file was modified. Thus, only this script is re-executed,</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># but not the entire build system re-configured.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeUtilities</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="ConfigureIncludeFiles_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">   33</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># requires bug fixed get_filename_component() of BASIS tools</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span>include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake&quot;</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># check arguments</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT PROJECT_INCLUDE_DIRS)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  message (FATAL_ERROR <span class="stringliteral">&quot;Missing argument PROJECT_INCLUDE_DIR!&quot;</span>)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;endif ()</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT <a class="code" href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  message (FATAL_ERROR &quot;Missing argument <a class="code" href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a>!&quot;)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;endif ()</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT EXTENSIONS)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  message (FATAL_ERROR &quot;Missing argument EXTENSIONS!&quot;)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;endif ()</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT <a class="code" href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a>)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  set (<a class="code" href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a> &quot;PUBLIC_HEADERS&quot;)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;endif ()</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># include file which defines CMake variables for use in .h.in files</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (CACHE_FILE)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  include (<span class="stringliteral">&quot;${CACHE_FILE}&quot;</span>)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;endif ()</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># configure header files</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span>set (CONFIGURED_HEADERS)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;foreach (INCLUDE_DIR IN LISTS PROJECT_INCLUDE_DIRS)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  set (PATTERN)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  foreach (E IN LISTS EXTENSIONS)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    list (APPEND PATTERN &quot;${INCLUDE_DIR}<span class="comment">/*${E}.in&quot;)</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">  endforeach ()</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">  foreach (E IN LISTS EXTENSIONS)</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">    list (APPEND PATTERN &quot;${INCLUDE_DIR}/*${E}&quot;)</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">  endforeach ()</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">  file (GLOB_RECURSE FILES RELATIVE &quot;${INCLUDE_DIR}&quot; ${PATTERN})</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">  foreach (HEADER IN LISTS FILES)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">    get_filename_component (SOURCE &quot;${INCLUDE_DIR}/${HEADER}&quot; ABSOLUTE)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">    if (NOT PREVIEW AND HEADER MATCHES &quot;\\.in$&quot;)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">      string (REGEX REPLACE &quot;\\.in$&quot; &quot;&quot; HEADER &quot;${HEADER}&quot;)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">      configure_file (&quot;${SOURCE}&quot; &quot;${BINARY_INCLUDE_DIR}/${HEADER}&quot; @ONLY)</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">    endif ()</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">    list (APPEND CONFIGURED_HEADERS &quot;${SOURCE}&quot;)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">  endforeach ()</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">endforeach ()</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"># write CMake script with list of public header files</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">if (CMAKE_FILE)</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">  if (_CONFIGURED_HEADERS)</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">    list (SORT _CONFIGURED_HEADERS) # deterministic order</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">  endif ()</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">  file (WRITE &quot;${CMAKE_FILE}&quot; &quot;# Automatically generated by BASIS. DO NOT edit this file!\nset (${VARIABLE_NAME}\n&quot;)</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">  foreach (HEADER IN LISTS CONFIGURED_HEADERS)</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">    file (APPEND &quot;${CMAKE_FILE}&quot; &quot;  \&quot;${HEADER}\&quot;\n&quot;)</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">  endforeach ()</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">  file (APPEND &quot;${CMAKE_FILE}&quot; &quot;)\n&quot;)</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">endif ()</span></div>
-<div class="ttc" id="group__BasisDirectories_html_gaa02a4ce81dd01804d685914ec1d8edd0"><div class="ttname"><a href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a></div><div class="ttdeci">cmake BINARY_INCLUDE_DIR</div><div class="ttdoc">Absolute path of output directory for configured public header files. </div><div class="ttdef"><b>Definition:</b> <a href="Directories_8cmake_source.html#l00096">Directories.cmake:96</a></div></div>
-<div class="ttc" id="CheckPublicHeaders_8cmake_html_aa972b9f2d19b0101d8065dad2b64aab6"><div class="ttname"><a href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a></div><div class="ttdeci">cmake VARIABLE_NAME</div><div class="ttdef"><b>Definition:</b> <a href="CheckPublicHeaders_8cmake_source.html#l00022">CheckPublicHeaders.cmake:22</a></div></div>
-<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00040">testdriver-after-test.inc:40</a></div></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># The relative path of each configured input header file in the source tree</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># is appended to the output log file. This file can be used to determine</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># whether a new header was added to the source tree and thus this script has</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># to be re-executed.</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeUtilities</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="ConfigureIncludeFiles_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">   32</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># requires bug fixed get_filename_component() of BASIS tools</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span>include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake&quot;</span>)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># check arguments</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT PROJECT_INCLUDE_DIRS)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  message (FATAL_ERROR <span class="stringliteral">&quot;Missing argument PROJECT_INCLUDE_DIR!&quot;</span>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;endif ()</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT <a class="code" href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a>)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  message (FATAL_ERROR &quot;Missing argument <a class="code" href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a>!&quot;)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;endif ()</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT EXTENSIONS)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  message (FATAL_ERROR &quot;Missing argument EXTENSIONS!&quot;)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;endif ()</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT <a class="code" href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  set (<a class="code" href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a> &quot;PUBLIC_HEADERS&quot;)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;endif ()</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># include file which defines CMake variables for use in .h.in files</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (CACHE_FILE)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  include (<span class="stringliteral">&quot;${CACHE_FILE}&quot;</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;endif ()</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># configure header files</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span>set (CONFIGURED_HEADERS)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;foreach (INCLUDE_DIR IN LISTS PROJECT_INCLUDE_DIRS)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  set (PATTERN)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  foreach (E IN LISTS EXTENSIONS)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    list (APPEND PATTERN &quot;${INCLUDE_DIR}<span class="comment">/*${E}.in&quot;)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">  endforeach ()</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">  foreach (E IN LISTS EXTENSIONS)</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">    list (APPEND PATTERN &quot;${INCLUDE_DIR}/*${E}&quot;)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">  endforeach ()</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">  file (GLOB_RECURSE FILES RELATIVE &quot;${INCLUDE_DIR}&quot; ${PATTERN})</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">  foreach (HEADER IN LISTS FILES)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">    get_filename_component (SOURCE &quot;${INCLUDE_DIR}/${HEADER}&quot; ABSOLUTE)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">    if (NOT PREVIEW AND HEADER MATCHES &quot;\\.in$&quot;)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">      string (REGEX REPLACE &quot;\\.in$&quot; &quot;&quot; HEADER &quot;${HEADER}&quot;)</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">      configure_file (&quot;${SOURCE}&quot; &quot;${BINARY_INCLUDE_DIR}/${HEADER}&quot; @ONLY)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">    endif ()</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">    list (APPEND CONFIGURED_HEADERS &quot;${SOURCE}&quot;)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">  endforeach ()</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">endforeach ()</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"># write CMake script with list of public header files</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">if (CMAKE_FILE)</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">  if (_CONFIGURED_HEADERS)</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">    list (SORT _CONFIGURED_HEADERS) # deterministic order</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">  endif ()</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">  file (WRITE &quot;${CMAKE_FILE}&quot; &quot;# Automatically generated by BASIS. DO NOT edit this file!\nset (${VARIABLE_NAME}\n&quot;)</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">  foreach (HEADER IN LISTS CONFIGURED_HEADERS)</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">    file (APPEND &quot;${CMAKE_FILE}&quot; &quot;  \&quot;${HEADER}\&quot;\n&quot;)</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">  endforeach ()</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">  file (APPEND &quot;${CMAKE_FILE}&quot; &quot;)\n&quot;)</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">endif ()</span></div>
+<div class="ttc" id="group__BasisDirectories_html_gaa02a4ce81dd01804d685914ec1d8edd0"><div class="ttname"><a href="group__BasisDirectories.html#gaa02a4ce81dd01804d685914ec1d8edd0">BINARY_INCLUDE_DIR</a></div><div class="ttdeci">cmake BINARY_INCLUDE_DIR</div><div class="ttdoc">Absolute path of output directory for configured public header files. </div><div class="ttdef"><b>Definition:</b> <a href="Directories_8cmake_source.html#l00095">Directories.cmake:95</a></div></div>
+<div class="ttc" id="CheckPublicHeaders_8cmake_html_aa972b9f2d19b0101d8065dad2b64aab6"><div class="ttname"><a href="CheckPublicHeaders_8cmake.html#aa972b9f2d19b0101d8065dad2b64aab6">VARIABLE_NAME</a></div><div class="ttdeci">cmake VARIABLE_NAME</div><div class="ttdef"><b>Definition:</b> <a href="CheckPublicHeaders_8cmake_source.html#l00021">CheckPublicHeaders.cmake:21</a></div></div>
+<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00039">testdriver-after-test.inc:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

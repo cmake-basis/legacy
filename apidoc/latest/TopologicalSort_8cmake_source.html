@@ -73,154 +73,152 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">TopologicalSort.cmake</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="TopologicalSort_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  TopologicalSort.cmake</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief CMake implementation of topological sorting algorithm.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Perform a reverse topological sort on the given LIST.</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   topological_sort(my_list &quot;MY_&quot; &quot;_EDGES&quot;)</span></div>
+<a href="TopologicalSort_8cmake.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Modified from Boost Utilities</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2010 Kitware, Inc.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2007 Douglas Gregor &lt;doug.gregor@gmail.com&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2007 Troy Straszheim</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># LIST is the name of a variable containing a list of elements to be</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># sorted in reverse topological order. Each element in the list has a</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># set of outgoing edges (for example, those other list elements that</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># it depends on). In the resulting reverse topological ordering</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># (written back into the variable named LIST), an element will come</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># later in the list than any of the elements that can be reached by</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># following its outgoing edges and the outgoing edges of any vertices</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># they target, recursively. Thus, if the edges represent dependencies</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># on build targets, for example, the reverse topological ordering is</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the order in which one would build those targets.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Boost Software License - Version 1.0 - August 17th, 2003</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Permission is hereby granted, free of charge, to any person or organization</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># obtaining a copy of the software and accompanying documentation covered by</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># this license (the &quot;Software&quot;) to use, reproduce, display, distribute,</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># execute, and transmit the Software, and to prepare derivative works of the</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Software, and to permit third-parties to whom the Software is furnished to</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># do so, all subject to the following:</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># For each element E in this list, the edges for E are contained in</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the variable named ${PREFIX}${E}${SUFFIX}. If no such variable</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># exists, then it is assumed that there are no edges. For example, if</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># my_list contains a, b, and c, one could provide a dependency graph</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># using the following variables:</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_A_EDGES     b</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_B_EDGES</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_C_EDGES     a b</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  With the involcation of topological_sort shown above and these</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  variables, the resulting reverse topological ordering will be b, a, c.</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @verbatim</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Modified from Boost Utilities</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2010 Kitware, Inc.</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2007 Douglas Gregor &lt;doug.gregor@gmail.com&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright 2007 Troy Straszheim</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># The copyright notices in the Software and this entire statement, including</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the above license grant, this restriction and the following disclaimer,</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># must be included in all copies of the Software, in whole or in part, and</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># all derivative works of the Software, unless such copies or derivative</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># works are solely in the form of machine-executable object code generated by</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># a source language processor.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># DEALINGS IN THE SOFTWARE.</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  TopologicalSort.cmake</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief CMake implementation of topological sorting algorithm.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Perform a reverse topological sort on the given LIST.</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Boost Software License - Version 1.0 - August 17th, 2003</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Permission is hereby granted, free of charge, to any person or organization</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># obtaining a copy of the software and accompanying documentation covered by</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># this license (the &quot;Software&quot;) to use, reproduce, display, distribute,</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># execute, and transmit the Software, and to prepare derivative works of the</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Software, and to permit third-parties to whom the Software is furnished to</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># do so, all subject to the following:</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># The copyright notices in the Software and this entire statement, including</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the above license grant, this restriction and the following disclaimer,</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># must be included in all copies of the Software, in whole or in part, and</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># all derivative works of the Software, unless such copies or derivative</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># works are solely in the form of machine-executable object code generated by</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># a source language processor.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># DEALINGS IN THE SOFTWARE.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @endverbatim</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeUtilities</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">function</span>(<a class="code" href="TopologicalSort_8cmake.html#afb8628bdbeed9935c8817e8ef84cf46d">topological_sort</a> LIST PREFIX <a class="code" href="FindOpenCV_8cmake.html#acdc2529c9ddea507e16ee548f570488a">SUFFIX</a>)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  # Clear the stack and <a class="code" href="DoxyFilter_8pm.html#a98e7419f690167c23555380c7b8b4ae8">output</a> variable</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  set(VERTICES <span class="stringliteral">&quot;${${LIST}}&quot;</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  set(STACK)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  set(${LIST})</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  # Loop over all of the vertices, starting the topological sort from</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  # each one.</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">foreach</span>(VERTEX ${VERTICES})</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    # If we haven<span class="stringliteral">&#39;t already processed this vertex, start a depth-first</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="stringliteral">    # search from where.</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="stringliteral">    if (NOT FOUND_${VERTEX})</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">      # Push this vertex onto the stack with all of its outgoing edges</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="stringliteral">      string(REPLACE &quot;;&quot; &quot; &quot; NEW_ELEMENT</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="stringliteral">        &quot;${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}&quot;)</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral">      list(APPEND STACK ${NEW_ELEMENT})</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">      # We&#39;</span>ve now seen <span class="keyword">this</span> vertex</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      set(FOUND_${VERTEX} TRUE)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      # While the depth-first search stack <a class="code" href="shtap_8sh.html#abf60f75adea54eff30a5050c6952dafd">is</a> not empty</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      list(LENGTH STACK STACK_LENGTH)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keywordflow">while</span>(STACK_LENGTH GREATER 0)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">        # Remove the vertex and its remaining out-edges from the top</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span><span class="preprocessor">        # of the stack</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor"></span>        list(GET STACK -1 OUT_EDGES)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        list(REMOVE_AT STACK -1)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="preprocessor"># Get the source vertex and the list of out-edges</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor"></span>        separate_arguments(OUT_EDGES)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        list(GET OUT_EDGES 0 SOURCE)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        list(REMOVE_AT OUT_EDGES 0)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="preprocessor"># While there are still out-edges remaining</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor"></span>        list(LENGTH OUT_EDGES OUT_DEGREE)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">while</span> (OUT_DEGREE GREATER 0)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">          # Pull off the first outgoing edge</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor"></span>          list(GET OUT_EDGES 0 TARGET)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;          list(REMOVE_AT OUT_EDGES 0)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;          <span class="keywordflow">if</span> (NOT FOUND_${TARGET})</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            # We have not seen the target before, so we will traverse</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            # its outgoing edges before coming back to our</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            # source. This <a class="code" href="shtap_8sh.html#abf60f75adea54eff30a5050c6952dafd">is</a> the key to the depth-first traversal.</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            # We<span class="stringliteral">&#39;ve now seen this vertex</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">            set(FOUND_${TARGET} TRUE)</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">            # Push the remaining edges for the current vertex onto the</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">            # stack</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral">            string(REPLACE &quot;;&quot; &quot; &quot; NEW_ELEMENT</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral">              &quot;${SOURCE};${OUT_EDGES}&quot;)</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="stringliteral">            list(APPEND STACK ${NEW_ELEMENT})</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">            # Setup the new source and outgoing edges</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="stringliteral">            set(SOURCE ${TARGET})</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral">            set(OUT_EDGES</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral">              ${${PREFIX}${SOURCE}${SUFFIX}})</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral">          endif(NOT FOUND_${TARGET})</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="stringliteral">          list(LENGTH OUT_EDGES OUT_DEGREE)</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral">        endwhile (OUT_DEGREE GREATER 0)</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="stringliteral">        # We have finished all of the outgoing edges for</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="stringliteral">        # SOURCE; add it to the resulting list.</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">        list(APPEND ${LIST} ${SOURCE})</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="stringliteral">        # Check the length of the stack</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="stringliteral">        list(LENGTH STACK STACK_LENGTH)</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="stringliteral">      endwhile(STACK_LENGTH GREATER 0)</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="stringliteral">    endif (NOT FOUND_${VERTEX})</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="stringliteral">  endforeach(VERTEX)</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="stringliteral">  set(${LIST} ${${LIST}} PARENT_SCOPE)</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="stringliteral">endfunction(topological_sort)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   topological_sort(my_list &quot;MY_&quot; &quot;_EDGES&quot;)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># LIST is the name of a variable containing a list of elements to be</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># sorted in reverse topological order. Each element in the list has a</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># set of outgoing edges (for example, those other list elements that</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># it depends on). In the resulting reverse topological ordering</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># (written back into the variable named LIST), an element will come</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># later in the list than any of the elements that can be reached by</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># following its outgoing edges and the outgoing edges of any vertices</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># they target, recursively. Thus, if the edges represent dependencies</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># on build targets, for example, the reverse topological ordering is</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the order in which one would build those targets.</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># For each element E in this list, the edges for E are contained in</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># the variable named ${PREFIX}${E}${SUFFIX}. If no such variable</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># exists, then it is assumed that there are no edges. For example, if</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># my_list contains a, b, and c, one could provide a dependency graph</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># using the following variables:</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_A_EDGES     b</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_B_EDGES</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#     MY_C_EDGES     a b</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  With the involcation of topological_sort shown above and these</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  variables, the resulting reverse topological ordering will be b, a, c.</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeUtilities</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">function</span>(<a class="code" href="TopologicalSort_8cmake.html#afb8628bdbeed9935c8817e8ef84cf46d">topological_sort</a> LIST PREFIX <a class="code" href="FindOpenCV_8cmake.html#acdc2529c9ddea507e16ee548f570488a">SUFFIX</a>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  # Clear the stack and <a class="code" href="DoxyFilter_8pm.html#a98e7419f690167c23555380c7b8b4ae8">output</a> variable</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  set(VERTICES <span class="stringliteral">&quot;${${LIST}}&quot;</span>)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  set(STACK)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  set(${LIST})</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  # Loop over all of the vertices, starting the topological sort from</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  # each one.</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">foreach</span>(VERTEX ${VERTICES})</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    # If we haven<span class="stringliteral">&#39;t already processed this vertex, start a depth-first</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="stringliteral">    # search from where.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="stringliteral">    if (NOT FOUND_${VERTEX})</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="stringliteral">      # Push this vertex onto the stack with all of its outgoing edges</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="stringliteral">      string(REPLACE &quot;;&quot; &quot; &quot; NEW_ELEMENT</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">        &quot;${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}&quot;)</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="stringliteral">      list(APPEND STACK ${NEW_ELEMENT})</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral">      # We&#39;</span>ve now seen <span class="keyword">this</span> vertex</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      set(FOUND_${VERTEX} TRUE)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      # While the depth-first search stack <a class="code" href="shtap_8sh.html#abf60f75adea54eff30a5050c6952dafd">is</a> not empty</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      list(LENGTH STACK STACK_LENGTH)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keywordflow">while</span>(STACK_LENGTH GREATER 0)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">        # Remove the vertex and its remaining out-edges from the top</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor"></span><span class="preprocessor">        # of the stack</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor"></span>        list(GET STACK -1 OUT_EDGES)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        list(REMOVE_AT STACK -1)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="preprocessor"># Get the source vertex and the list of out-edges</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor"></span>        separate_arguments(OUT_EDGES)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        list(GET OUT_EDGES 0 SOURCE)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        list(REMOVE_AT OUT_EDGES 0)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="preprocessor"># While there are still out-edges remaining</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"></span>        list(LENGTH OUT_EDGES OUT_DEGREE)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">while</span> (OUT_DEGREE GREATER 0)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">          # Pull off the first outgoing edge</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor"></span>          list(GET OUT_EDGES 0 TARGET)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;          list(REMOVE_AT OUT_EDGES 0)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;          <span class="keywordflow">if</span> (NOT FOUND_${TARGET})</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            # We have not seen the target before, so we will traverse</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            # its outgoing edges before coming back to our</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            # source. This <a class="code" href="shtap_8sh.html#abf60f75adea54eff30a5050c6952dafd">is</a> the key to the depth-first traversal.</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            # We<span class="stringliteral">&#39;ve now seen this vertex</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="stringliteral">            set(FOUND_${TARGET} TRUE)</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">            # Push the remaining edges for the current vertex onto the</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">            # stack</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">            string(REPLACE &quot;;&quot; &quot; &quot; NEW_ELEMENT</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">              &quot;${SOURCE};${OUT_EDGES}&quot;)</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral">            list(APPEND STACK ${NEW_ELEMENT})</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="stringliteral">            # Setup the new source and outgoing edges</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral">            set(SOURCE ${TARGET})</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">            set(OUT_EDGES</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="stringliteral">              ${${PREFIX}${SOURCE}${SUFFIX}})</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral">          endif(NOT FOUND_${TARGET})</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral">          list(LENGTH OUT_EDGES OUT_DEGREE)</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral">        endwhile (OUT_DEGREE GREATER 0)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral">        # We have finished all of the outgoing edges for</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral">        # SOURCE; add it to the resulting list.</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="stringliteral">        list(APPEND ${LIST} ${SOURCE})</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">        # Check the length of the stack</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral">        list(LENGTH STACK STACK_LENGTH)</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="stringliteral">      endwhile(STACK_LENGTH GREATER 0)</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="stringliteral">    endif (NOT FOUND_${VERTEX})</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="stringliteral">  endforeach(VERTEX)</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="stringliteral">  set(${LIST} ${${LIST}} PARENT_SCOPE)</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="stringliteral">endfunction(topological_sort)</span></div>
 <div class="ttc" id="DoxyFilter_8pm_html_a98e7419f690167c23555380c7b8b4ae8"><div class="ttname"><a href="DoxyFilter_8pm.html#a98e7419f690167c23555380c7b8b4ae8">output</a></div><div class="ttdeci">sub output()</div><div class="ttdoc">Get filter output. </div></div>
 <div class="ttc" id="shtap_8sh_html_abf60f75adea54eff30a5050c6952dafd"><div class="ttname"><a href="shtap_8sh.html#abf60f75adea54eff30a5050c6952dafd">is</a></div><div class="ttdeci">function is(in result, in expected, in name)</div><div class="ttdoc">Compare actual and expected result. </div></div>
 <div class="ttc" id="TopologicalSort_8cmake_html_afb8628bdbeed9935c8817e8ef84cf46d"><div class="ttname"><a href="TopologicalSort_8cmake.html#afb8628bdbeed9935c8817e8ef84cf46d">topological_sort</a></div><div class="ttdeci">function topological_sort(in LIST, in PREFIX, in SUFFIX)</div></div>
@@ -228,7 +226,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

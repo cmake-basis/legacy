@@ -1,8 +1,8 @@
 <map id="CmdLine.h" name="CmdLine.h">
-<area shape="rect" id="node2" href="$utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="112,80,179,107"/>
-<area shape="rect" id="node7" href="$CmdLine_8cxx.html" title="Manages command line definition and parsing of arguments. " alt="" coords="203,80,297,107"/>
-<area shape="rect" id="node3" href="$basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="65,155,129,181"/>
-<area shape="rect" id="node6" href="$utilities_8cxx.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="153,155,233,181"/>
-<area shape="rect" id="node4" href="$testdriver_8h.html" title="Default test driver include file. " alt="" coords="5,229,85,256"/>
-<area shape="rect" id="node5" href="$basis_8cxx.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="111,229,188,256"/>
+<area shape="rect" id="node2" href="$utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="113,83,185,111"/>
+<area shape="rect" id="node7" href="$CmdLine_8cxx.html" title="Manages command line definition and parsing of arguments. " alt="" coords="209,83,307,111"/>
+<area shape="rect" id="node3" href="$basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="68,161,131,189"/>
+<area shape="rect" id="node6" href="$utilities_8cxx.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="156,161,241,189"/>
+<area shape="rect" id="node4" href="$testdriver_8h.html" title="Default test driver include file. " alt="" coords="4,238,91,266"/>
+<area shape="rect" id="node5" href="$basis_8cxx.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="115,238,191,266"/>
 </map>
