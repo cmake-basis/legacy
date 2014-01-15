@@ -1,11 +1,15 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  InstallationTools.cmake
 # @brief CMake functions used for installation.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -220,6 +224,23 @@ function (basis_install_directory)
 endfunction ()
 
 # ----------------------------------------------------------------------------
+## @brief Add installation rule for project template.
+function (basis_install_template TEMPLATE DESTINATION)
+  if (NOT IS_ABSOLUTE "${TEMPLATE}")
+    set (TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/${TEMPLATE}")
+  endif ()
+  install (
+    DIRECTORY   "${TEMPLATE}/"
+    DESTINATION "${DESTINATION}"
+    PATTERN     *~             EXCLUDE
+    PATTERN     .svn           EXCLUDE
+    PATTERN     .git           EXCLUDE
+    PATTERN     .hg            EXCLUDE
+    PATTERN     .DS_Store      EXCLUDE
+  )
+endfunction ()
+
+# ----------------------------------------------------------------------------
 ## @brief Add installation rule to create a symbolic link.
 #
 # Note that the installation rule will only be effective on a Unix-like
@@ -232,7 +253,6 @@ endfunction ()
 #
 # @ingroup CMakeAPI
 function (basis_install_link OLD NEW)
-  # Attention: CMAKE_INSTALL_PREFIX must be used instead of CMAKE_INSTALL_PREFIX.
   set (CMD_IN
     "
     set (OLD \"@OLD@\")
@@ -358,7 +378,7 @@ endfunction ()
 # is responsible for removing the registry entry again.
 function (basis_register_package)
   set (PKGDIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}")
-  set (PKGUID "${BASIS_PROJECT_PACKAGE_UID}")
+  set (PKGUID "${TOPLEVEL_PROJECT_PACKAGE_UID}")
   if (WIN32)
     install (CODE
       "execute_process (

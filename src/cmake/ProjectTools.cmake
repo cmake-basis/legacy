@@ -1,11 +1,16 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  ProjectTools.cmake
 # @brief Definition of main project tools.
-#
-# Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
 
 # ============================================================================
@@ -26,10 +31,10 @@ macro (basis_project_check_metadata)
     set (PROJECT_AUTHORS "${PROJECT_AUTHOR}")
   endif ()
   if (NOT PROJECT_AUTHORS AND PROJECT_IS_MODULE)
-    set (PROJECT_AUTHORS "${BASIS_PROJECT_AUTHORS}")
+    set (PROJECT_AUTHORS "${TOPLEVEL_PROJECT_AUTHORS}")
   endif ()
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_AUTHORS "${PROJECT_AUTHORS}")
+    set (TOPLEVEL_PROJECT_AUTHORS "${PROJECT_AUTHORS}")
   endif ()
   # PROJECT_NAME or PROJECT_SUBPROJECT
   if (PROJECT_SUBPROJECT AND PROJECT_NAME)
@@ -42,13 +47,13 @@ macro (basis_project_check_metadata)
   endif ()
   unset (PROJECT_SUBPROJECT)
   if (NOT PROJECT_NAME)
-    message (FATAL_ERROR "Project name not specified!")
+    message (FATAL_ERROR "CMake BASIS variable PROJECT_NAME not specified!")
   endif ()
-  if (NOT PROJECT_NAME MATCHES "^([a-z][a-z0-9]*|[A-Z][a-zA-Z0-9]*)")
-    message (FATAL_ERROR "Invalid project name: ${PROJECT_NAME}!\n\n"
+  if (NOT PROJECT_NAME MATCHES "^([a-z][a-z0-9]*|[A-Z][a-zA-Z0-9]*)$")
+    message (FATAL_ERROR "Invalid project name: ${PROJECT_NAME}!\n"
                          "Please choose a project name with either only captial "
                          "letters in case of an acronym or a name with mixed case, "
-                         "but starting with a captial letter.\n\n"
+                         "but starting with a captial letter.\n"
                          "Note that numbers are allowed, but not as first character. "
                          "Further, do not use characters such as '_' or '-' to "
                          "separate parts of the project name. Instead, use the "
@@ -58,9 +63,9 @@ macro (basis_project_check_metadata)
   string (TOLOWER "${PROJECT_NAME}" PROJECT_NAME_L)
   string (TOUPPER "${PROJECT_NAME}" PROJECT_NAME_U)
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_NAME   "${PROJECT_NAME}")
-    set (BASIS_PROJECT_NAME_L "${PROJECT_NAME_L}")
-    set (BASIS_PROJECT_NAME_U "${PROJECT_NAME_U}")
+    set (TOPLEVEL_PROJECT_NAME   "${PROJECT_NAME}")
+    set (TOPLEVEL_PROJECT_NAME_L "${PROJECT_NAME_L}")
+    set (TOPLEVEL_PROJECT_NAME_U "${PROJECT_NAME_U}")
   endif ()
   # PROJECT_PACKAGE_NAME
   if (PROJECT_PACKAGE AND PROJECT_PACKAGE_NAME)
@@ -71,7 +76,7 @@ macro (basis_project_check_metadata)
   endif ()
   if (NOT PROJECT_PACKAGE_NAME)
     if (PROJECT_IS_MODULE)
-      set (PROJECT_PACKAGE_NAME "${BASIS_PROJECT_PACKAGE_NAME}")
+      set (PROJECT_PACKAGE_NAME "${TOPLEVEL_PROJECT_PACKAGE_NAME}")
     else ()
       if (PROJECT_IS_SUBPROJECT)
         message (FATAL_ERROR "Missing PACKAGE_NAME option for SUBPROJECT ${PROJECT_NAME}!"
@@ -84,11 +89,11 @@ macro (basis_project_check_metadata)
       set (PROJECT_PACKAGE_NAME "${PROJECT_NAME}")
     endif ()
   endif ()
-  if (NOT PROJECT_PACKAGE_NAME MATCHES "^([a-z][a-z0-9]*|[A-Z][a-zA-Z0-9]*)")
-    message (FATAL_ERROR "Project ${PROJECT_NAME} declares invalid package name: ${PROJECT_PACKAGE_NAME}!\n\n"
+  if (NOT PROJECT_PACKAGE_NAME MATCHES "^([a-z][a-z0-9]*|[A-Z][a-zA-Z0-9]*)$")
+    message (FATAL_ERROR "Project ${PROJECT_NAME} declares invalid package name: ${PROJECT_PACKAGE_NAME}!\n"
                          "Please choose a package name with either only captial "
                          "letters in case of an acronym or a name with mixed case, "
-                         "but starting with a captial letter.\n\n"
+                         "but starting with a captial letter.\n"
                          "Note that numbers are allowed, but not as first character. "
                          "Further, do not use characters such as '_' or '-' to "
                          "separate parts of the package name. Instead, use the "
@@ -98,9 +103,9 @@ macro (basis_project_check_metadata)
   string (TOLOWER "${PROJECT_PACKAGE_NAME}" PROJECT_PACKAGE_NAME_L)
   string (TOUPPER "${PROJECT_PACKAGE_NAME}" PROJECT_PACKAGE_NAME_U)
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PACKAGE_NAME   "${PROJECT_PACKAGE_NAME}")
-    set (BASIS_PROJECT_PACKAGE_NAME_L "${PROJECT_PACKAGE_NAME_L}")
-    set (BASIS_PROJECT_PACKAGE_NAME_U "${PROJECT_PACKAGE_NAME_U}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME   "${PROJECT_PACKAGE_NAME}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_L "${PROJECT_PACKAGE_NAME_L}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_U "${PROJECT_PACKAGE_NAME_U}")
   endif ()
   # PROJECT_PACKAGE_VENDOR
   if (PROJECT_PROVIDER AND PROJECT_VENDOR AND PROJECT_PACKAGE_VENDOR)
@@ -114,19 +119,15 @@ macro (basis_project_check_metadata)
   if (PROJECT_VENDOR)
     set (PROJECT_PACKAGE_VENDOR "${PROJECT_VENDOR}")
   endif ()
-  if (NOT PROJECT_PACKAGE_VENDOR)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PACKAGE_VENDOR "${BASIS_PROJECT_PACKAGE_VENDOR}")
-    else ()
-      set (PROJECT_PACKAGE_VENDOR "${BASIS_PACKAGE_VENDOR}")
-    endif ()
+  if (NOT PROJECT_PACKAGE_VENDOR AND PROJECT_IS_MODULE)
+    set (PROJECT_PACKAGE_VENDOR "${TOPLEVEL_PROJECT_PACKAGE_VENDOR}")
   endif ()
   string (TOLOWER "${PROJECT_PACKAGE_VENDOR}" PROJECT_PACKAGE_VENDOR_L)
   string (TOUPPER "${PROJECT_PACKAGE_VENDOR}" PROJECT_PACKAGE_VENDOR_U)
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PACKAGE_VENDOR   "${PROJECT_PACKAGE_VENDOR}")
-    set (BASIS_PROJECT_PACKAGE_VENDOR_L "${PROJECT_PACKAGE_VENDOR_L}")
-    set (BASIS_PROJECT_PACKAGE_VENDOR_U "${PROJECT_PACKAGE_VENDOR_U}")
+    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR   "${PROJECT_PACKAGE_VENDOR}")
+    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR_L "${PROJECT_PACKAGE_VENDOR_L}")
+    set (TOPLEVEL_PROJECT_PACKAGE_VENDOR_U "${PROJECT_PACKAGE_VENDOR_U}")
   endif ()
   # PROJECT_PACKAGE_WEBSITE
   if (PROJECT_WEBSITE AND PROJECT_PACKAGE_WEBSITE)
@@ -135,100 +136,74 @@ macro (basis_project_check_metadata)
   if (PROJECT_WEBSITE)
     set (PROJECT_PACKAGE_WEBSITE "${PROJECT_WEBSITE}")
   endif ()
-  if (NOT PROJECT_PACKAGE_WEBSITE)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PACKAGE_WEBSITE "${BASIS_PROJECT_PACKAGE_WEBSITE}")
-    else ()
-      set (PROJECT_PACKAGE_WEBSITE "${BASIS_PACKAGE_WEBSITE}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_PACKAGE_WEBSITE)
+      set (PROJECT_PACKAGE_WEBSITE "${TOPLEVEL_PROJECT_PACKAGE_WEBSITE}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PACKAGE_WEBSITE "${PROJECT_PACKAGE_WEBSITE}")
+  else ()
+    set (TOPLEVEL_PROJECT_PACKAGE_WEBSITE "${PROJECT_PACKAGE_WEBSITE}")
   endif ()
   # PROJECT_PACKAGE_LOGO - see also basis_initialize_settings
-  if (NOT PROJECT_PACKAGE_LOGO)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PACKAGE_LOGO "${BASIS_PROJECT_PACKAGE_LOGO}")
-    else ()
-      set (PROJECT_PACKAGE_LOGO "${BASIS_PACKAGE_LOGO}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_PACKAGE_LOGO)
+      set (PROJECT_PACKAGE_LOGO "${TOPLEVEL_PROJECT_PACKAGE_LOGO}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PACKAGE_LOGO "${PROJECT_PACKAGE_LOGO}")
+  else ()
+    set (TOPLEVEL_PROJECT_PACKAGE_LOGO "${PROJECT_PACKAGE_LOGO}")
   endif ()
   # PROJECT_PROVIDER_NAME
-  if (NOT PROJECT_PROVIDER_NAME)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PROVIDER_NAME "${BASIS_PROJECT_PROVIDER_NAME}")
-    else ()
-      set (PROJECT_PROVIDER_NAME "${BASIS_PROVIDER_NAME}")
-    endif ()
+  if (NOT PROJECT_PROVIDER_NAME AND PROJECT_IS_MODULE)
+    set (PROJECT_PROVIDER_NAME "${TOPLEVEL_PROJECT_PROVIDER_NAME}")
   endif ()
   string (TOLOWER "${PROJECT_PROVIDER_NAME}" PROJECT_PROVIDER_NAME_L)
   string (TOUPPER "${PROJECT_PROVIDER_NAME}" PROJECT_PROVIDER_NAME_U)
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PROVIDER_NAME   "${PROJECT_PROVIDER_NAME}")
-    set (BASIS_PROJECT_PROVIDER_NAME_L "${PROJECT_PROVIDER_NAME_L}")
-    set (BASIS_PROJECT_PROVIDER_NAME_U "${PROJECT_PROVIDER_NAME_U}")
+    set (TOPLEVEL_PROJECT_PROVIDER_NAME   "${PROJECT_PROVIDER_NAME}")
+    set (TOPLEVEL_PROJECT_PROVIDER_NAME_L "${PROJECT_PROVIDER_NAME_L}")
+    set (TOPLEVEL_PROJECT_PROVIDER_NAME_U "${PROJECT_PROVIDER_NAME_U}")
   endif ()
   # PROJECT_PROVIDER_WEBSITE
-  if (NOT PROJECT_PROVIDER_WEBSITE)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PROVIDER_WEBSITE "${BASIS_PROJECT_PROVIDER_WEBSITE}")
-    else ()
-      set (PROJECT_PROVIDER_WEBSITE "${BASIS_PROVIDER_WEBSITE}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_PROVIDER_WEBSITE)
+      set (PROJECT_PROVIDER_WEBSITE "${TOPLEVEL_PROJECT_PROVIDER_WEBSITE}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PROVIDER_WEBSITE "${PROJECT_PROVIDER_WEBSITE}")
+  else ()
+    set (TOPLEVEL_PROJECT_PROVIDER_WEBSITE "${PROJECT_PROVIDER_WEBSITE}")
   endif ()
   # PROJECT_PROVIDER_LOGO - see also basis_initialize_settings
-  if (NOT PROJECT_PROVIDER_LOGO)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_PROVIDER_LOGO "${BASIS_PROJECT_PROVIDER_LOGO}")
-    else ()
-      set (PROJECT_PROVIDER_LOGO "${BASIS_PROVIDER_LOGO}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_PROVIDER_LOGO)
+      set (PROJECT_PROVIDER_LOGO "${TOPLEVEL_PROJECT_PROVIDER_LOGO}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_PROVIDER_LOGO "${PROJECT_PROVIDER_LOGO}")
+  else ()
+    set (TOPLEVEL_PROJECT_PROVIDER_LOGO "${PROJECT_PROVIDER_LOGO}")
   endif ()
   # PROJECT_DIVISION_NAME
-  if (NOT PROJECT_DIVISION_NAME)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_DIVISION_NAME "${BASIS_PROJECT_DIVISION_NAME}")
-    else ()
-      set (PROJECT_DIVISION_NAME "${BASIS_DIVISION_NAME}")
-    endif ()
+  if (NOT PROJECT_DIVISION_NAME AND PROJECT_IS_MODULE)
+    set (PROJECT_DIVISION_NAME "${TOPLEVEL_PROJECT_DIVISION_NAME}")
   endif ()
   string (TOLOWER "${PROJECT_DIVISION_NAME}" PROJECT_DIVISION_NAME_L)
   string (TOUPPER "${PROJECT_DIVISION_NAME}" PROJECT_DIVISION_NAME_U)
   if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_DIVISION_NAME   "${PROJECT_DIVISION_NAME}")
-    set (BASIS_PROJECT_DIVISION_NAME_L "${PROJECT_DIVISION_NAME_L}")
-    set (BASIS_PROJECT_DIVISION_NAME_U "${PROJECT_DIVISION_NAME_U}")
+    set (TOPLEVEL_PROJECT_DIVISION_NAME   "${PROJECT_DIVISION_NAME}")
+    set (TOPLEVEL_PROJECT_DIVISION_NAME_L "${PROJECT_DIVISION_NAME_L}")
+    set (TOPLEVEL_PROJECT_DIVISION_NAME_U "${PROJECT_DIVISION_NAME_U}")
   endif ()
   # PROJECT_DIVISION_WEBSITE
-  if (NOT PROJECT_DIVISION_WEBSITE)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_DIVISION_WEBSITE "${BASIS_PROJECT_DIVISION_WEBSITE}")
-    else ()
-      set (PROJECT_DIVISION_WEBSITE "${BASIS_DIVISION_WEBSITE}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_DIVISION_WEBSITE)
+      set (PROJECT_DIVISION_WEBSITE "${TOPLEVEL_PROJECT_DIVISION_WEBSITE}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_DIVISION_WEBSITE "${PROJECT_DIVISION_WEBSITE}")
+  else ()
+    set (TOPLEVEL_PROJECT_DIVISION_WEBSITE "${PROJECT_DIVISION_WEBSITE}")
   endif ()
   # PROJECT_DIVISION_LOGO - see also basis_initialize_settings
-  if (NOT PROJECT_DIVISION_LOGO)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_DIVISION_LOGO "${BASIS_PROJECT_DIVISION_LOGO}")
-    else ()
-      set (PROJECT_DIVISION_LOGO "${BASIS_DIVISION_LOGO}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_DIVISION_LOGO)
+      set (PROJECT_DIVISION_LOGO "${TOPLEVEL_PROJECT_DIVISION_LOGO}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_DIVISION_LOGO "${PROJECT_DIVISION_LOGO}")
+  else ()
+    set (TOPLEVEL_PROJECT_DIVISION_LOGO "${PROJECT_DIVISION_LOGO}")
   endif ()
   # PROJECT_VERSION
   if (PROJECT_VERSION)
@@ -237,14 +212,14 @@ macro (basis_project_check_metadata)
     endif ()
     if (PROJECT_IS_MODULE)
       if (PROJECT_VERSION MATCHES "^0+(\\.0+)?(\\.0+)?$")
-        set (PROJECT_VERSION "${BASIS_PROJECT_VERSION}")
+        set (PROJECT_VERSION "${TOPLEVEL_PROJECT_VERSION}")
       endif ()
     else ()
-      set (BASIS_PROJECT_VERSION "${PROJECT_VERSION}")
+      set (TOPLEVEL_PROJECT_VERSION "${PROJECT_VERSION}")
     endif ()
   else ()
     if (PROJECT_IS_MODULE)
-      set (PROJECT_VERSION "${BASIS_PROJECT_VERSION}")
+      set (PROJECT_VERSION "${TOPLEVEL_PROJECT_VERSION}")
     else ()
       message (FATAL_ERROR "Project version not specified!")
     endif ()
@@ -256,44 +231,35 @@ macro (basis_project_check_metadata)
     set (PROJECT_DESCRIPTION "")
   endif ()
   # PROJECT_COPYRIGHT
-  if (NOT PROJECT_COPYRIGHT)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_COPYRIGHT "${BASIS_PROJECT_COPYRIGHT}")
-    else ()
-      set (PROJECT_COPYRIGHT "${BASIS_COPYRIGHT}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_COPYRIGHT)
+      set (PROJECT_COPYRIGHT "${TOPLEVEL_PROJECT_COPYRIGHT}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_COPYRIGHT "${PROJECT_COPYRIGHT}")
+  else ()
+    set (TOPLEVEL_PROJECT_COPYRIGHT "${PROJECT_COPYRIGHT}")
   endif ()
   # PROJECT_LICENSE
-  if (NOT PROJECT_LICENSE)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_LICENSE "${BASIS_PROJECT_LICENSE}")
-    else ()
-      set (PROJECT_LICENSE "${BASIS_LICENSE}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_LICENSE)
+      set (PROJECT_LICENSE "${TOPLEVEL_PROJECT_LICENSE}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_LICENSE "${PROJECT_LICENSE}")
+  else ()
+    set (TOPLEVEL_PROJECT_LICENSE "${PROJECT_LICENSE}")
   endif ()
   # PROJECT_CONTACT
-  if (NOT PROJECT_CONTACT)
-    if (PROJECT_IS_MODULE)
-      set (PROJECT_CONTACT "${BASIS_PROJECT_CONTACT}")
-    else ()
-      set (PROJECT_CONTACT "${BASIS_CONTACT}")
+  if (PROJECT_IS_MODULE)
+    if (NOT PROJECT_CONTACT)
+      set (PROJECT_CONTACT "${TOPLEVEL_PROJECT_CONTACT}")
     endif ()
-  endif ()
-  if (NOT PROJECT_IS_MODULE)
-    set (BASIS_PROJECT_CONTACT "${PROJECT_CONTACT}")
+  else ()
+    set (TOPLEVEL_PROJECT_CONTACT "${PROJECT_CONTACT}")
   endif ()
   # let basis_project_impl() know that basis_project() was called
   set (BASIS_basis_project_CALLED TRUE)
 endmacro ()
 
 # ----------------------------------------------------------------------------
-## @brief Define project meta-data, i.e., attributes.
+## @brief Sets basic project information including the name, version, and dependencies.
 #
 # Any BASIS project has to call this macro in the file BasisProject.cmake
 # located in the top level directory of the source tree in order to define
@@ -363,8 +329,9 @@ endmacro ()
 #   </tr>
 #   <tr>
 #     @tp @b PACKAGE_VENDOR name @endtp
-#     <td>Short ID of package vendor (i.e, provider and/or division acronym) used
-#         for package identification and default installation subdirectory.</td>
+#     <td>Short ID of package vendor (i.e, provider and/or division acronym) this variable is used
+#         for package identification and is the name given to the folder that will be used as the default 
+#         installation path location subdirectory.</td>
 #   </tr>
 #   <tr>
 #     @tp @b VENDOR name @endtp
@@ -376,12 +343,18 @@ endmacro ()
 #         (default: project website of top-level project or empty string)</td>
 #   </tr>
 #   <tr>
+#     @tp @b PACKAGE_LOGO path @endtp
+#     <td>Path to package logo file for this installable package. Used in documentation and packaging.
+#         Relative paths must be relative to @c PROJECT_SOURCE_DIR.
+#         (default: empty string)</td>
+#   </tr>
+#   <tr>
 #     @tp @b WEBSITE url @endtp
 #     <td>Short alias for @c PACKAGE_WEBSITE.</td>
 #   </tr>
 #   <tr>
 #     @tp @b PROVIDER_NAME name @endtp
-#     <td>The provider/vendor of this package, used for packaging and installation.
+#     <td>The provider/vendor/creator of this package, used for packaging and installation.
 #         (default: provider of top-level project or empty string)</td>
 #   </tr>
 #   <tr>
@@ -421,6 +394,31 @@ endmacro ()
 #         they are concatenated using one space character as delimiter.</td>
 #   </tr>
 #   <tr>
+#     @tp @b TEMPLATE path @endtp
+#    <td> The TEMPLATE variable stores the directory of the chosen project template along 
+#         with the template version so that the correct template is used by basisproject when a project is updated.
+#         Note that this variable is used in BASIS itself to specify the default template to use for the BASIS 
+#         installation, i.e., the default used by basisproject if no --template argument is provided.
+#         If the template is part of the BASIS installation, only the template name and version part of the 
+#         full path are needed. Otherwise, the full absolute path is used. For example,
+#               @code
+#                 basis_project (
+#                    # ...
+#                    TEMPLATE "sbia/1.8"
+#                    # ...
+#                 )
+#               @endcode
+#               @code
+#                 basis_project (
+#                    # ...
+#                    TEMPLATE "/opt/local/share/custom-basis-template/1.0"
+#                    # ...
+#                 )
+#              @endcode 
+#       The installed templates can be found in the share/templates folder of installed BASIS software,
+#       as well as the data/templates foler of the BASIS source tree.</td>
+#   </tr>
+#   <tr>
 #     @tp @b DEPENDS name[, name] @endtp
 #     <td>List of dependencies, i.e., either names of other BASIS (sub)projects
 #         or names of external packages.</td>
@@ -447,6 +445,7 @@ endmacro ()
 # @retval PROJECT_PACKAGE_NAME            @c PACKAGE_NAME argument.
 # @retval PROJECT_PACKAGE_VENDOR          @c PACKAGE_VENDOR argument.
 # @retval PROJECT_PACKAGE_WEBSITE         @c PACKAGE_WEBSITE argument.
+# @retval PROJECT_PACKAGE_LOGO            @c PACKAGE_LOGO argument as abolute path.
 # @retval PROJECT_PROVIDER_NAME           @c PROVIDER_NAME argument.
 # @retval PROJECT_PROVIDER_WEBSITE        @c PROVIDER_WEBSITE argument
 # @retval PROJECT_PROVIDER_LOGO           @c PROVIDER_LOGO argument as abolute path.
@@ -462,7 +461,11 @@ endmacro ()
 # @retval PROJECT_IS_SUBPROJECT           @c TRUE if @c IS_SUBPROJECT option given or @c FALSE otherwise.
 #
 # @ingroup CMakeAPI
+#
+# @see BasisSettings.cmake
 macro (basis_project)
+  # @see BasisSettings.cmake for parameter lists.
+  # @see basis_project_check_metadata() above for implementation details
   CMAKE_PARSE_ARGUMENTS (
     PROJECT
       "${BASIS_METADATA_LIST_SWITCH}"
@@ -1034,24 +1037,33 @@ endfunction ()
 #
 # The root documentation files are located in the top-level directory of the
 # project's source tree. These are, in particular, the
-# * @c AUTHORS.txt file with information on the authors of the software,
-# * @c COPYING.txt file with copyright and licensing information,
-# * @c README.txt file,
-# * @c INSTALL.txt file with build and installation instructions,
-# * @c WELCOME.txt file with text used as welcome text of the installer.
+# * @c AUTHORS.txt or AUTHORS.md file with information on the authors of the software,
+# * @c COPYING.txt or COPYING.md file with copyright and licensing information,
+# * @c README.txt or README.md file,
+# * @c INSTALL.txt or INSTALL.md file with build and installation instructions,
+# * @c WELCOME.txt or WELCOME.md file with text used as welcome text of the installer.
 # where the top-level project requires all of these files except of the
-# @c WELCOME.txt file which defaults to the readme file. Modules of a project
+# @c WELCOME.txt or WELCOME.md file which defaults to the readme file. Modules of a project
 # usually do not include any of these files. Otherwise, the content of the
 # module's documentation file is appended to the corresponding file of the
 # top-level project.
 macro (basis_configure_root_documentation_files)
   foreach (F AUTHORS COPYING README INSTALL WELCOME)
+
     if (EXISTS "${PROJECT_SOURCE_DIR}/${F}.txt")
       set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.txt")
+      set (DOC_EXT ".txt")
+    elseif (EXISTS "${PROJECT_SOURCE_DIR}/${F}.md")
+      set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.md")
+      set (DOC_EXT ".md")
+    endif()
+    
+    if (EXISTS "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
+      set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
       if (PROJECT_IS_MODULE)
         file (READ "${PROJECT_${F}_FILE}" T)
         file (
-          APPEND "${BASIS_PROJECT_${F}_FILE}"
+          APPEND "${TOPLEVEL_PROJECT_${F}_FILE}"
           "\n\n\n"
           "------------------------------------------------------------------------------\n"
           "${PROJECT_NAME} Module\n"
@@ -1059,19 +1071,19 @@ macro (basis_configure_root_documentation_files)
           "${T}"
         )
       else ()
-        set (BASIS_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}.txt")
+        set (TOPLEVEL_PROJECT_${F}_FILE "${PROJECT_BINARY_DIR}/${F}${DOC_EXT}")
         # do not use configure_file() to copy the file, otherwise CMake will
         # update the build system only because we modified this file in the if-clause
-        execute_process (COMMAND "${CMAKE_COMMAND}" -E copy "${PROJECT_${F}_FILE}" "${BASIS_PROJECT_${F}_FILE}")
+        execute_process (COMMAND "${CMAKE_COMMAND}" -E copy "${PROJECT_${F}_FILE}" "${TOPLEVEL_PROJECT_${F}_FILE}")
         # use extension on Windows, but leave it out on Unix
         get_filename_component (N "${F}" NAME_WE)
         get_filename_component (E "${F}" EXT)
         if (WIN32)
           if (NOT E)
-            set (E ".txt")
+            set (E "${DOC_EXT}")
           endif ()
         else ()
-          if ("${E}" STREQUAL ".txt")
+          if ("${E}" STREQUAL "${DOC_EXT}")
             set (E "")
           endif ()
         endif ()
@@ -1079,7 +1091,7 @@ macro (basis_configure_root_documentation_files)
         # install file
         if (F MATCHES "COPYING")
           install (
-            FILES       "${PROJECT_BINARY_DIR}/${F}.txt"
+            FILES       "${PROJECT_BINARY_DIR}/${F}${DOC_EXT}"
             DESTINATION "${INSTALL_DOC_DIR}"
             RENAME      "${N}"
             OPTIONAL
@@ -1087,7 +1099,7 @@ macro (basis_configure_root_documentation_files)
         endif ()
       endif ()
     elseif (NOT F MATCHES "WELCOME" AND NOT PROJECT_IS_MODULE)
-      message (FATAL_ERROR "Project requires a ${F}.txt file in ${PROJECT_SOURCE_DIR}!")
+      message (FATAL_ERROR "Project requires a ${F}.txt or ${F}.md file in ${PROJECT_SOURCE_DIR}!")
     endif ()
   endforeach ()
   set (PROJECT_LICENSE_FILE "${PROJECT_COPYING_FILE}") # compatibility with Slicer
@@ -1420,16 +1432,16 @@ macro (basis_initialize_settings)
     endforeach ()
   endif ()
   # package configuration
-  set (_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX "${BASIS_PROJECT_PACKAGE_NAME}")
+  set (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX "${TOPLEVEL_PROJECT_PACKAGE_NAME}")
   if (PROJECT_IS_SUBPROJECT OR PROJECT_IS_MODULE)
-    set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}")
+    set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}")
   else ()
-    set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX}")
+    set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}")
   endif ()
   if (PROJECT_PACKAGE_VENDOR)
-    set (_BASIS_PROJECT_PACKAGE_UID "${PROJECT_PACKAGE_VENDOR}-${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}")
+    set (_TOPLEVEL_PROJECT_PACKAGE_UID "${PROJECT_PACKAGE_VENDOR}-${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}")
   else ()
-    set (_BASIS_PROJECT_PACKAGE_UID "${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}")
+    set (_TOPLEVEL_PROJECT_PACKAGE_UID "${PROJECT_PACKAGE_NAME}-${PROJECT_VERSION}")
   endif ()
   # configure settings file which contains the documentation of these variables
   configure_file (
@@ -1442,8 +1454,8 @@ macro (basis_initialize_settings)
     unset (_BASIS_NAMESPACE_${_L})
     unset (_NAMESPACE_${_L})
   endforeach ()
-  unset (_BASIS_PROJECT_PACKAGE_UID)
-  unset (_BASIS_PROJECT_PACKAGE_CONFIG_PREFIX)
+  unset (_TOPLEVEL_PROJECT_PACKAGE_UID)
+  unset (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX)
   unset (_PROJECT_PACKAGE_CONFIG_PREFIX)
   unset (_L)
   # include configured project specific BASIS settings

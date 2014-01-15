@@ -1,3 +1,12 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  DirectoriesSettings.cmake
 # @brief CMake variables of project directories.
@@ -5,7 +14,7 @@
 # This file configures the project directory structure as defined by the
 # Filesystem Hierarchy Standard for BASIS packages.
 #
-# @sa http://www.rad.upenn.edu/sbia/software/basis/standard/fhs/
+# @sa http://opensource.andreasschuh.com/cmake-basis/standard/fhs/
 #
 # The project must follow the directory structure as defined by the
 # <tt>PROJECT_&lt;*&gt;_DIR</tt> variables.
@@ -19,11 +28,6 @@
 # @c TEMPLATE_VERSION if required.
 #
 # @note The documentation of the variables can be found in Directories.cmake.in.
-#
-# Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 ##############################################################################
 
 
@@ -32,8 +36,8 @@
 # ============================================================================
 
 if (NOT PROJECT_IS_MODULE)
-  set (BASIS_PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
-  set (BASIS_PROJECT_BINARY_DIR "${PROJECT_BINARY_DIR}")
+  set (TOPLEVEL_PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+  set (TOPLEVEL_PROJECT_BINARY_DIR "${PROJECT_BINARY_DIR}")
 endif ()
 
 # ============================================================================
@@ -123,15 +127,15 @@ set (PROJECT_SUBDIRS) # default subdirs are added to list in basis_project_impl
 # testing tree
 # ============================================================================
 
-set (TESTING_OUTPUT_DIR  "${BASIS_PROJECT_BINARY_DIR}/Testing/Temporary${_MODULE}")
-set (TESTING_RUNTIME_DIR "${BASIS_PROJECT_BINARY_DIR}/Testing/bin${_MODULE}")
-set (TESTING_LIBEXEC_DIR "${BASIS_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
-set (TESTING_LIBRARY_DIR "${BASIS_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
-set (TESTING_ARCHIVE_DIR "${BASIS_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
+set (TESTING_OUTPUT_DIR  "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/Temporary${_MODULE}")
+set (TESTING_RUNTIME_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/bin${_MODULE}")
+set (TESTING_LIBEXEC_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
+set (TESTING_LIBRARY_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
+set (TESTING_ARCHIVE_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/lib${_MODULE}")
 
 foreach (_L IN ITEMS python jython perl matlab bash)
   string (TOUPPER "${_L}" _U)
-  set (TESTING_${_U}_LIBRARY_DIR "${BASIS_PROJECT_BINARY_DIR}/Testing/lib/${_L}")
+  set (TESTING_${_U}_LIBRARY_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/Testing/lib/${_L}")
 endforeach ()
 
 # ============================================================================
@@ -145,16 +149,16 @@ foreach (_P CODE CONFIG DATA DOC EXAMPLE MODULES TESTING)
 endforeach ()
 
 basis_get_relative_path (_D "${PROJECT_SOURCE_DIR}" "${PROJECT_INCLUDE_DIR}")
-set (BINARY_INCLUDE_DIR "${BASIS_PROJECT_BINARY_DIR}/${_D}")
+set (BINARY_INCLUDE_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/${_D}")
 
-set (BINARY_RUNTIME_DIR "${BASIS_PROJECT_BINARY_DIR}/bin")
-set (BINARY_LIBEXEC_DIR "${BASIS_PROJECT_BINARY_DIR}/lib${_MODULE}")
-set (BINARY_LIBRARY_DIR "${BASIS_PROJECT_BINARY_DIR}/lib${_MODULE}")
-set (BINARY_ARCHIVE_DIR "${BASIS_PROJECT_BINARY_DIR}/lib${_MODULE}")
+set (BINARY_RUNTIME_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/bin")
+set (BINARY_LIBEXEC_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib${_MODULE}")
+set (BINARY_LIBRARY_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib${_MODULE}")
+set (BINARY_ARCHIVE_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib${_MODULE}")
 
 foreach (_L IN ITEMS python jython perl matlab bash)
   string (TOUPPER "${_L}" _U)
-  set (BINARY_${_U}_LIBRARY_DIR "${BASIS_PROJECT_BINARY_DIR}/lib/${_L}")
+  set (BINARY_${_U}_LIBRARY_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib/${_L}")
 endforeach ()
 
 # set default CMake variables which are, however, not used by BASIS
@@ -499,10 +503,10 @@ endforeach ()
 if (NOT PROJECT_IS_MODULE)
   # build tree
   foreach (_D CODE CONFIG DATA DOC EXAMPLE INCLUDE MODULES TESTING RUNTIME LIBEXEC LIBRARY ARCHIVE)
-    set (BASIS_BINARY_${_D}_DIR "${BINARY_${_D}_DIR}")
+    set (TOPLEVEL_BINARY_${_D}_DIR "${BINARY_${_D}_DIR}")
   endforeach ()
   foreach (_L IN ITEMS PYTHON JYTHON PERL MATLAB BASH)
-    set (BASIS_BINARY_${_L}_LIBRARY_DIR "${BINARY_${_L}_LIBRARY_DIR}")
+    set (TOPLEVEL_BINARY_${_L}_LIBRARY_DIR "${BINARY_${_L}_LIBRARY_DIR}")
   endforeach ()
   # installation
   foreach (_D IN ITEMS CONFIG INCLUDE RUNTIME LIBEXEC LIBRARY ARCHIVE DATA DOC EXAMPLE SHARE)

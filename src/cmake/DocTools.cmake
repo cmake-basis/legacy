@@ -1,13 +1,16 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  DocTools.cmake
 # @brief Tools related to gnerating or adding software documentation.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
-#
-# Copyright (c) 2013 Carnegie Mellon University.
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -335,6 +338,18 @@ endfunction ()
 #         fine-tune the look of the HTML output. If none specified, the
 #         @c "PROJECT_SOURCE_DIR/doc/doxygen_extra.css(.in)?" file is used if present.</td>
 #   </tr>
+#   <tr>
+#     @tp @b HTML_EXTRA_FILES file1 [file2...] @endtp
+#     <td>The HTML_EXTRA_FILES tag can be used to specify additional files needed
+#         for the HTML output of the API documentation.</td>
+#   </tr>
+#   <tr>
+#     @tp @b DISABLE_PROJECT_NAME_DISPLAY@endtp
+#     <td>The DISABLE_PROJECT_NAME_DISPLAY option causes Doxygen's 
+#         @c PROJECT_NAME text not to be displayed in the header.
+#         Use this if the project name is already part of the logo 
+#         so it won't be there twice in the logo image and title text.</td>
+#   </tr>
 # </table>
 # @n
 # See <a href="http://www.stack.nl/~dimitri/doxygen/manual/config.html">here</a> for a
@@ -399,9 +414,9 @@ function (basis_add_doxygen_doc TARGET_NAME)
   )
   CMAKE_PARSE_ARGUMENTS (
     DOXYGEN
-      "EXCLUDE_FROM_DOC"
+      "EXCLUDE_FROM_DOC;DISABLE_PROJECT_NAME_DISPLAY"
       "${VALUEARGS};${OPTIONAL_FILE_OPTIONS}"
-      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH;IGNORE_PREFIX;ENABLED_SECTIONS"
+      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH;IGNORE_PREFIX;ENABLED_SECTIONS;HTML_EXTRA_FILES"
       ${ARGN}
   )
   unset (VALUEARGS)
@@ -427,6 +442,16 @@ function (basis_add_doxygen_doc TARGET_NAME)
       endif ()
     endif ()
   endforeach ()
+  set (TMP_DOXYGEN_HTML_EXTRA_FILES)
+  foreach (path IN LISTS DOXYGEN_HTML_EXTRA_FILES)
+    get_filename_component (abspath "${path}" ABSOLUTE)
+    if (NOT EXISTS "${path}")
+      message (FATAL_ERROR "File ${path} does not exist. Check value of the HTML_EXTRA_FILES option and make sure the file is present.")
+    endif ()
+    list (APPEND TMP_DOXYGEN_HTML_EXTRA_FILES "${path}")
+  endforeach ()
+  set (DOXYGEN_HTML_EXTRA_FILES "${TMP_DOXYGEN_HTML_EXTRA_FILES}")
+  unset (TMP_DOXYGEN_HTML_EXTRA_FILES)
   # default component
   if (NOT DOXYGEN_COMPONENT)
     set (DOXYGEN_COMPONENT "${BASIS_LIBRARY_COMPONENT}")
@@ -475,22 +500,27 @@ function (basis_add_doxygen_doc TARGET_NAME)
     set (DOXYGEN_DIVISION_LOGO "${PROJECT_DIVISION_LOGO}")
   endif ()
   # set visibility property of project logos
-  if (DOXYGEN_PROVIDER_LOGO)
-    set (DOXYGEN_PROVIDER_LOGO_VISIBILITY "visible")
+  if (DOXYGEN_PROJECT_LOGO)
+    set (DOXYGEN_PROJECT_LOGO_DISPLAY "block")
   else ()
-    set (DOXYGEN_PROVIDER_LOGO_VISIBILITY "hidden")
+    set (DOXYGEN_PROJECT_LOGO_DISPLAY "none")
+  endif ()
+  if (DOXYGEN_PROVIDER_LOGO)
+    set (DOXYGEN_PROVIDER_LOGO_DISPLAY "inline")
+  else ()
+    set (DOXYGEN_PROVIDER_LOGO_DISPLAY "block")
   endif ()
   if (DOXYGEN_DIVISION_LOGO)
-    set (DOXYGEN_DIVISION_LOGO_VISIBILITY "visible")
+    set (DOXYGEN_DIVISION_LOGO_DISPLAY "inline")
   else ()
-    set (DOXYGEN_DIVISION_LOGO_VISIBILITY "hidden")
+    set (DOXYGEN_DIVISION_LOGO_DISPLAY "block")
   endif ()
-  # display either logo or project name, but not both using default header
-  if (DOXYGEN_PROJECT_LOGO)
+  # allow the user to disable the text header if desired
+  if(DOXYGEN_DISABLE_PROJECT_NAME_DISPLAY)
     set (DOXYGEN_PROJECT_NAME_DISPLAY "none")
-  else ()
-    set (DOXYGEN_PROJECT_NAME_DISPLAY "inherit")
-  endif ()
+  else()
+    set (DOXYGEN_PROJECT_NAME_DISPLAY "inline")
+  endif()
   # standard input files
   list (APPEND DOXYGEN_INPUT "${PROJECT_SOURCE_DIR}/BasisProject.cmake")
   if (EXISTS "${PROJECT_CONFIG_DIR}/Depends.cmake")
@@ -1089,6 +1119,13 @@ endfunction ()
 #     <td>Name of master document. Defaults to <tt>index</tt>.</td>
 #   </tr>
 #   <tr>
+#     @tp @b EXCLUDE_PATTERN pattern @endtp
+#     <td>A glob-style pattern that should be excluded when looking for source files.
+#         Specify this option more than once to specify multiple exclude patterns.
+#         They are matched against the source file names relative to the source directory,
+#         using slashes as directory separators on all platforms.</td>
+#   </tr>
+#   <tr>
 #     @tp @b HTML_TITLE title @endtp
 #     <td>Title of HTML web site.</td>
 #   </tr>
@@ -1103,6 +1140,11 @@ endfunction ()
 #   <tr>
 #     @tp @b HTML_LOGO file @endtp
 #     <td>Logo to display in sidebar of HTML pages.</td>
+#   </tr>
+#   <tr>
+#     @tp @b HTML_FAVICON file @endtp
+#     <td>Favorite square icon often displayed by browsers in the tab bar.
+#         Should be a @c .ico file.</td>
 #   </tr>
 #   <tr>
 #     @tp @b HTML_STATIC_PATH dir @endtp
@@ -1122,6 +1164,22 @@ endfunction ()
 #         @c sourcelink. See <a href="http://sphinx.pocoo.org/config.html#confval-html_sidebars">
 #         Shinx documentation of html_sidebars option</a>. Custom templates can be used as
 #         well by copying the template <tt>.html</tt> file to the @c TEMPLATES_PATH directory.</td>
+#   </tr>
+#   <tr>
+#     @tp @b NO_HTML_DOMAIN_INDICES @endtp
+#     <td>Set Sphinx configuration option @c html_domain_indices to @c False. (Default: @c True)</td>
+#   </tr>
+#   <tr>
+#     @tp @b NO_HTML_MODINDEX @endtp
+#     <td>Set Sphinx configuration option @c html_use_modindex to @c False. (Default: @c True)</td>
+#   </tr>
+#   <tr>
+#     @tp @b NO_HTML_INDEX @endtp
+#     <td>Set Sphinx configuration option @c html_use_index to @c False. (Default: @c True)</td>
+#   </tr>
+#   <tr>
+#     @tp @b LATEX_MASTER_DOC name @endtp
+#     <td>Name of master document for LaTeX builder. Defaults to <tt>MASTER_DOC</tt>.</td>
 #   </tr>
 #   <tr>
 #     @tp @b LATEX_TITLE title @endtp
@@ -1168,15 +1226,20 @@ function (basis_add_sphinx_doc TARGET_NAME)
     CONFIG_FILE
     SOURCE_DIRECTORY OUTPUT_DIRECTORY OUTPUT_NAME TAG
     COPYRIGHT MASTER_DOC
-    HTML_TITLE HTML_THEME HTML_LOGO HTML_THEME_PATH HTML_STYLE
-    LATEX_TITLE LATEX_LOGO LATEX_DOCUMENT_CLASS LATEX_SHOW_URLS LATEX_SHOW_PAGEREFS
+    HTML_TITLE HTML_THEME HTML_LOGO HTML_FAVICON HTML_THEME_PATH HTML_STYLE
+    LATEX_MASTER_DOC LATEX_TITLE LATEX_LOGO LATEX_DOCUMENT_CLASS LATEX_SHOW_URLS LATEX_SHOW_PAGEREFS
     MAN_SECTION
     DOXYLINK_URL DOXYLINK_PREFIX DOXYLINK_SUFFIX
   )
   # note that additional multiple value arguments are parsed later on below
   # this is necessary b/c all unparsed arguments are considered to be options
   # of the used HTML theme
-  CMAKE_PARSE_ARGUMENTS (SPHINX "EXCLUDE_FROM_DOC" "${ONE_ARG_OPTIONS}" "" ${ARGN})
+  CMAKE_PARSE_ARGUMENTS (SPHINX
+    "EXCLUDE_FROM_DOC;NO_HTML_DOMAIN_INDICES;NO_HTML_MODINDEX;NO_HTML_INDEX"
+    "${ONE_ARG_OPTIONS}"
+    ""
+    ${ARGN}
+  )
   # source directory
   if (NOT SPHINX_SOURCE_DIRECTORY)
     if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}")
@@ -1226,7 +1289,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
   set (SPHINX_DEPENDS)
   set (OPTION_NAME)
   set (OPTION_VALUE)
-  set (OPTION_PATTERN "(authors?|builders?|extensions|breathe|doxylink|doxydoc|html_sidebars|templates_path|html_static_path|exclude_patterns)")
+  set (OPTION_PATTERN "(authors?|builders?|extensions|breathe|doxylink|doxydoc|html_sidebars|templates_path|html_static_path|exclude_pattern)")
   foreach (ARG IN LISTS SPHINX_UNPARSED_ARGUMENTS)
     if (NOT OPTION_NAME OR ARG MATCHES "^[A-Z_]+$")
       # SPHINX_HTML_THEME_OPTIONS
@@ -1292,8 +1355,8 @@ function (basis_add_sphinx_doc TARGET_NAME)
         set (ARG "${SPHINX_SOURCE_DIRECTORY}/${ARG}")
       endif ()
       list (APPEND SPHINX_HTML_STATIC_PATH "'${ARG}'")
-    # EXCLUDE_PATTERNS
-    elseif (OPTION_NAME MATCHES "^exclude_patterns$")
+    # EXCLUDE_PATTERN
+    elseif (OPTION_NAME MATCHES "^exclude_pattern$")
       list (APPEND SPHINX_EXCLUDE_PATTERNS "'${ARG}'")
     # value of theme option
     else ()
@@ -1372,6 +1435,9 @@ function (basis_add_sphinx_doc TARGET_NAME)
   # build configuration
   if (NOT SPHINX_MASTER_DOC)
     set (SPHINX_MASTER_DOC "index")
+  endif ()
+  if (NOT SPHINX_LATEX_MASTER_DOC)
+    set (SPHINX_LATEX_MASTER_DOC "${SPHINX_MASTER_DOC}")
   endif ()
   if (NOT SPHINX_TEMPLATES_PATH AND EXISTS "${SPHINX_SOURCE_DIRECTORY}/templates")
     set (SPHINX_TEMPLATES_PATH "'${SPHINX_SOURCE_DIRECTORY}/templates'")
@@ -1498,6 +1564,22 @@ function (basis_add_sphinx_doc TARGET_NAME)
     endif ()
     list (APPEND SPHINX_DEPENDS ${UID})
   endforeach ()
+  # HTML output options
+  if (SPHINX_NO_HTML_DOMAIN_INDICES)
+    set (SPHINX_USE_DOMAIN_INDICES False)
+  else ()
+    set (SPHINX_USE_DOMAIN_INDICES True)
+  endif ()
+  if (SPHINX_NO_HTML_MODINDEX)
+    set (SPHINX_USE_MODINDEX False)
+  else ()
+    set (SPHINX_USE_MODINDEX True)
+  endif ()
+  if (SPHINX_NO_HTML_INDEX)
+    set (SPHINX_USE_INDEX False)
+  else ()
+    set (SPHINX_USE_INDEX True)
+  endif ()
   # LaTeX output options
   if (NOT SPHINX_LATEX_SHOW_URLS)
     set (SPHINX_LATEX_SHOW_URLS "no")
@@ -1507,16 +1589,16 @@ function (basis_add_sphinx_doc TARGET_NAME)
   else ()
     set (SPHINX_LATEX_SHOW_PAGEREFS "False")
   endif ()
-  # turn html_logo and latex_logo into absolute file path
-  foreach (L IN ITEMS HTML LATEX)
-    if (SPHINX_${L}_LOGO AND NOT IS_ABSOLUTE "${SPHINX_${L}_LOGO}")
-      if (EXISTS "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}_LOGO}")
-        set (SPHINX_${L}_LOGO "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}_LOGO}")
-      else ()
-        foreach (D IN LISTS SPHINX_${L}_STATIC_PATH)
+  # turn html_logo, html_favicon, and latex_logo into absolute file path
+  foreach (L IN ITEMS HTML_LOGO HTML_FAVICON LATEX_LOGO)
+    if (SPHINX_${L} AND NOT IS_ABSOLUTE "${SPHINX_${L}}")
+      if (EXISTS "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}}")
+        set (SPHINX_${L} "${SPHINX_SOURCE_DIRECTORY}/${SPHINX_${L}}")
+      elseif (L MATCHES "^HTML|^LATEX")
+        foreach (D IN LISTS SPHINX_${CMAKE_MATCH_0}_STATIC_PATH)
           string (REGEX REPLACE "^'|'$" "" D "${D}")
-          if (EXISTS "${D}/${SPHINX_${L}_LOGO}")
-            set (SPHINX_${L}_LOGO "${D}/${SPHINX_${L}_LOGO}")
+          if (EXISTS "${D}/${SPHINX_${L}}")
+            set (SPHINX_${L} "${D}/${SPHINX_${L}}")
             break ()
           endif ()
         endforeach ()

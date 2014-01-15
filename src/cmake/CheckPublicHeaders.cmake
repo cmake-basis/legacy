@@ -1,3 +1,12 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  CheckPublicHeaders.cmake
 # @brief CMake script used to check whether public headers were added/removed.
@@ -5,11 +14,6 @@
 # This script removes the deprecated public headers from the build tree and
 # then throws a fatal error if public header files were added or removed to
 # the project.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeUtilities
 ##############################################################################

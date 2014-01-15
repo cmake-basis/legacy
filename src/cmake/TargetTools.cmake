@@ -1,11 +1,15 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  TargetTools.cmake
 # @brief Functions and macros to add executable and library targets.
-#
-# Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -1081,7 +1085,7 @@ endfunction ()
 #
 # Certain CMake variables within the source file are replaced during the
 # built of the script. See the
-# <a href="http://www.rad.upenn.edu/sbia/software/basis/scripttargets/>
+# <a href="http://opensource.andreasschuh.com/cmake-basis/scripttargets/>
 # Build System Standard</a> for details.
 # Note, however, that source files are only configured if the file name
 # ends in the <tt>.in</tt> suffix.
@@ -1129,7 +1133,7 @@ endfunction ()
 #     <td>CMake code which is evaluated after the inclusion of the default script
 #         configuration files. This code can be used to set the replacement text of the
 #         CMake variables ("@VAR@" patterns) used in the source file.
-#         See <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/scripttargets.html#script-configuration">
+#         See <a href="http://opensource.andreasschuh.com/cmake-basis/standard/scripttargets.html#script-configuration">
 #         Build System Standard</a> for details. (default: "")</td>
 #   </tr>
 #   <tr>
@@ -2109,7 +2113,7 @@ endfunction ()
 #     <td>CMake code which is evaluated after the inclusion of the default script
 #         configuration files. This code can be used to set the replacement text of the
 #         CMake variables ("@VAR@" patterns) used in the source files.
-#         See <a href="http://www.rad.upenn.edu/sbia/software/basis/standard/scripttargets.html#script-configuration">
+#         See <a href="http://opensource.andreasschuh.com/cmake-basis/standard/scripttargets.html#script-configuration">
 #         Build System Standard</a> for details. (default: "")</td>
 #   </tr>
 #   <tr>
@@ -2931,7 +2935,7 @@ function (basis_build_script_library TARGET_UID)
     message (FATAL_ERROR "Missing LIBRARY_OUTPUT_DIRECTORY property!")
   endif ()
   if (NOT IS_ABSOLUTE "${LIBRARY_OUTPUT_DIRECTORY}")
-    set (LIBRARY_OUTPUT_DIRECTORY "${BASIS_PROJECT_BINARY_DIR}/${LIBRARY_OUTPUT_DIRECTORY}")
+    set (LIBRARY_OUTPUT_DIRECTORY "${TOPLEVEL_PROJECT_BINARY_DIR}/${LIBRARY_OUTPUT_DIRECTORY}")
   endif ()
   if (NOT LIBRARY_OUTPUT_DIRECTORY MATCHES "^${CMAKE_BINARY_DIR}")
     message (FATAL_ERROR "Output directory LIBRARY_OUTPUT_DIRECTORY is outside the build tree!")

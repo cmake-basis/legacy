@@ -1,3 +1,12 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  FindAFNI.cmake
 # @brief Find programs of the AFNI package.
@@ -18,11 +27,7 @@
 #         Specify using COMPONENTS argument of find_package() command.</td>
 #   </tr>
 #   <tr>
-<<<<<<< HEAD
-#     @tp @b AFNI_FIND_OPTIONAL_COMPONENTS @endp
-=======
 #     @tp @b AFNI_FIND_OPTIONAL_COMPONENTS @endtp
->>>>>>> refs/heads/feature/custom-doc-style
 #     <td>List of optional components, i.e., AFNI programs, to look for.
 #         Specify using OPTIONAL_COMPONENTS argument of find_package() command.</td>
 #   </tr>
@@ -37,15 +42,10 @@
 #         all named programs were found.</td>
 #   </tr>
 #   <tr>
-#     @tp @b AFNI_&lt;tool%gt;_EXECUTABLE @endtp
+#     @tp @b AFNI_&lt;tool&gt;_EXECUTABLE @endtp
 #     <td>Absolute path of the corresponding found AFNI program, e.g., @c AFNI_3dcalc_EXECUTABLE.</td>
 #   </tr>
 # </table>
-#
-# Copyright (c) 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeFindModules
 ##############################################################################

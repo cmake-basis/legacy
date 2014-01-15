@@ -1,3 +1,12 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  BasisSettings.cmake
 # @brief Default project-independent settings.
@@ -19,11 +28,6 @@
 # @attention Keep in mind that this file is included before any other
 #            BASIS module. Further, project-specific information such as
 #            the project name are not defined yet.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup BasisSettings
 ##############################################################################
@@ -118,12 +122,12 @@ set (
 )
 
 ## @brief Names of project meta-data with only one argument.
+#  @see basis_project() in ProjectTools.cmake
 set (
   BASIS_METADATA_LIST_SINGLE
     AUTHOR
     NAME
     SUBPROJECT
-    LOGO           # short alias for PACKAGE_LOGO
     PACKAGE        # short alias for PACKAGE_NAME
     WEBSITE        # short alias for PACKAGE_WEBSITE
     VENDOR         # short alias for PACKAGE_VENDOR
@@ -142,6 +146,7 @@ set (
     LICENSE
     CONTACT
     VERSION
+    TEMPLATE       # used by basisproject tool
 )
 
 ## @brief Names of project meta-data with multiple arguments.
@@ -603,15 +608,15 @@ set (BASIS_DOXYGEN_DOXYFILE "${CMAKE_CURRENT_LIST_DIR}/Doxyfile.in")
 set (BASIS_SPHINX_CONFIG "${CMAKE_CURRENT_LIST_DIR}/sphinx_conf.py.in")
 
 ## @brief Default Sphinx theme.
-set (BASIS_SPHINX_HTML_THEME "sbia")
+set (BASIS_SPHINX_HTML_THEME "default")
 
 ## @brief Default Sphinx theme options.
 set (BASIS_SPHINX_HTML_THEME_OPTIONS
   PROJECT_LOGO   None
-  SHOW_SBIA_LOGO true
-  SHOW_PENN_LOGO true
-  SHOW_RELBAR2   false
-  ROOT_RELLINKS  "[('home', 'index')]"
+  SHOW_SBIA_LOGO false
+  SHOW_PENN_LOGO false
+  #SHOW_RELBAR2   false
+  #ROOT_RELLINKS  "[('home', 'index')]"
 )
 
 # ============================================================================

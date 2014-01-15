@@ -2,11 +2,8 @@
 # @file  ExternalData.cmake
 # @brief Manage data files stored outside the source tree.
 #
-#
 # Copyright 2010-2011 Kitware, Inc. All rights reserved.
-# File modified by the SBIA Group.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
+# File modified by Andreas Schuh.
 #
 # @ingroup CMakeTools
 ##############################################################################

@@ -1,11 +1,15 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  ExportTools.cmake
 # @brief Functions and macros for the export of targets.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -221,8 +225,8 @@ function (basis_export_targets)
   if (EXPORT_TARGETS)
     if (BASIS_USE_FULLY_QUALIFIED_UIDS)
       set (NAMESPACE_OPT)
-    elseif (BASIS_PROJECT_NAMESPACE_CMAKE)
-      set (NAMESPACE_OPT NAMESPACE "${BASIS_PROJECT_NAMESPACE_CMAKE}.")
+    elseif (TOPLEVEL_PROJECT_NAMESPACE_CMAKE)
+      set (NAMESPACE_OPT NAMESPACE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.")
     endif ()
     export (
       TARGETS   ${EXPORT_TARGETS}

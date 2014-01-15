@@ -1,13 +1,16 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  CommonTools.cmake
 # @brief Definition of common CMake functions.
-#
-# Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Copyright (c) 2013 Carnegie Mellon University
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -195,7 +198,7 @@ macro (basis_find_package PACKAGE)
   set (PKG_IS_MODULE FALSE)
   if (PROJECT_IS_MODULE)
     # allow modules to specify top-level project as dependency
-    if (PKG MATCHES "^${BASIS_PROJECT_NAME}$")
+    if (PKG MATCHES "^${TOPLEVEL_PROJECT_NAME}$")
       if (BASIS_DEBUG)
         message ("**     This is the top-level project.")
       endif ()
@@ -207,7 +210,7 @@ macro (basis_find_package PACKAGE)
         if (BASIS_DEBUG)
           message ("**     Identified it as other module of this project.")
         endif ()
-        include ("${${PKG}_DIR}/${BASIS_PROJECT_PACKAGE_CONFIG_PREFIX}${PKG}Config.cmake")
+        include ("${${PKG}_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PKG}Config.cmake")
         set (${PKG}_FOUND TRUE)
       else ()
         set (${PKG}_FOUND FALSE)
@@ -472,8 +475,15 @@ macro (basis_use_package PACKAGE)
       message ("**     Package: ${PKG}")
     endif ()
     if (PROJECT_IS_MODULE)
+      # ignore BASIS as module dependency
+      # important if BASIS itself is a project module
+      if (PKG MATCHES "^BASIS$")
+        if (BASIS_DEBUG)
+          message ("**     Ignoring BASIS dependency as it clearly is used already by the top-level project.")
+        endif ()
+        break ()
       # allow modules to specify top-level project as dependency
-      if (PKG MATCHES "^${BASIS_PROJECT_NAME}$")
+      elseif (PKG MATCHES "^${TOPLEVEL_PROJECT_NAME}$")
         if (BASIS_DEBUG)
           message ("**     This is the top-level project.")
         endif ()
@@ -487,7 +497,7 @@ macro (basis_use_package PACKAGE)
           include ("${${PKG}_USE_FILE}")
           break () # instead of return()
         else ()
-          message (FATAL_ERROR "Module ${PKG} not found! This must be a mistake of BASIS."
+          message (FATAL_ERROR "Module ${PKG} not found! This must be an error in BASIS."
                                " Report this issue to the maintainer of this package.")
         endif ()
       endif ()
@@ -1530,7 +1540,7 @@ macro (basis_make_target_uid TARGET_UID TARGET_NAME)
   set (${TARGET_UID} "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
   # optionally strip off top-level namespace part
   if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    basis_sanitize_for_regex (_bmtu_RE "${BASIS_PROJECT_NAMESPACE_CMAKE}")
+    basis_sanitize_for_regex (_bmtu_RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
     string (REGEX REPLACE "^${_bmtu_RE}\\." "" ${TARGET_UID} "${${TARGET_UID}}")
     unset (_bmtu_RE)
   endif ()
@@ -1568,7 +1578,7 @@ endmacro ()
 #
 # @sa basis_get_target_name()
 function (basis_get_target_uid TARGET_UID TARGET_NAME)
-  basis_sanitize_for_regex (BASE_RE "${BASIS_PROJECT_NAMESPACE_CMAKE}")
+  basis_sanitize_for_regex (BASE_RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
   # in case of a leading namespace separator, do not modify target name
   if (TARGET_NAME MATCHES "^\\.")
     set (UID "${TARGET_NAME}")
@@ -1635,7 +1645,7 @@ function (basis_get_fully_qualified_target_uid TARGET_UID TARGET_NAME)
   if (TARGET "${UID}" AND NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
     get_target_property (IMPORTED "${UID}" IMPORTED)
     if (NOT IMPORTED)
-      set (UID "${BASIS_PROJECT_NAMESPACE_CMAKE}.${UID}")
+      set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${UID}")
     endif ()
   endif ()
   set (${TARGET_UID} "${UID}" PARENT_SCOPE)
@@ -1747,7 +1757,7 @@ function (basis_get_test_uid TEST_UID TEST_NAME)
   endif ()
   # strip off top-level namespace part (optional)
   if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    basis_sanitize_for_regex (RE "${BASIS_PROJECT_NAMESPACE_CMAKE}")
+    basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
     string (REGEX REPLACE "^${RE}\\." "" UID "${UID}")
   endif ()
   # return
@@ -1770,7 +1780,7 @@ function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
   if (TEST_NAME MATCHES "\\.")
     set (UID "${TEST_NAME}")
   else ()
-    set (UID "${BASIS_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
+    set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
   endif ()
   set (${TEST_UID} "${UID}" PARENT_SCOPE)
 endfunction ()

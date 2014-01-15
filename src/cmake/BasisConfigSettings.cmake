@@ -1,3 +1,12 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  BasisConfigSettings.cmake
 # @brief Sets basic variables used in CMake package configuration.
@@ -5,11 +14,6 @@
 # It is suggested to use @c _CONFIG as suffix for variable names that are to be
 # substituted in the Config.cmake.in template file in order to distinguish
 # these variables from the build configuration.
-#
-# Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.<br />
-# See https://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup BasisSettings
 ##############################################################################

@@ -1,11 +1,15 @@
+# ============================================================================
+# Copyright (c) 2011-2012 University of Pennsylvania
+# Copyright (c) 2013-2014 Andreas Schuh
+# All rights reserved.
+#
+# See COPYING file for license information or visit
+# http://opensource.andreasschuh.com/cmake-basis/download.html#license
+# ============================================================================
+
 ##############################################################################
 # @file  MatlabTools.cmake
 # @brief Enables use of MATLAB Compiler and build of MEX-files.
-#
-# Copyright (c) 2011, 2012, 2013 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
-#
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
 #
 # @ingroup CMakeTools
 ##############################################################################
@@ -303,21 +307,24 @@ function (basis_mexext)
   # otherwise, determine extension given CMake variables describing the system
   if (NOT MEXEXT)
     if (CMAKE_SYSTEM_NAME MATCHES "Linux")
-      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR
+          CMAKE_SIZEOF_VOID_P MATCHES 8)
         set (MEXEXT "mexa64")
       elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "x86" OR
               CMAKE_SYSTEM_PROCESSOR MATCHES "i686")
         set (MEXEXT "mexglx")
       endif ()
     elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
-      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR
+          CMAKE_SIZEOF_VOID_P    MATCHES 8)
         set (MEXEXT "mexw64")
       elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "x86" OR
               CMAKE_SYSTEM_PROCESSOR MATCHES "i686")
         set (MEXEXT "mexw32")
       endif ()
     elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+      if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR
+          CMAKE_SIZEOF_VOID_P    MATCHES 8)
         set (MEXEXT "mexmaci64")
       else ()
         set (MEXEXT "mexmaci")
@@ -1735,11 +1742,25 @@ function (basis_build_mcc_target TARGET_UID)
                            "${LIBRARY_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
       )
     else ()
-      set (
-        POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy
-                           "${BUILD_DIR}/${OUTPUT_NAME}"
-                           "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
-      )
+      if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        # TODO: This file should be regenerated if it is missing.
+        file (WRITE "${BUILD_DIR}/${OUTPUT_NAME}" "#!/bin/bash\nexec $(dirname $BASH_SOURCE)/${OUTPUT_NAME}.app/Contents/MacOS/${OUTPUT_NAME}")
+        execute_process (COMMAND chmod +x "${BUILD_DIR}/${OUTPUT_NAME}")
+        set (
+          POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                             "${BUILD_DIR}/${OUTPUT_NAME}.app"
+                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}.app"
+                     COMMAND "${CMAKE_COMMAND}" -E copy
+                             "${BUILD_DIR}/${OUTPUT_NAME}"
+                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+        )
+      else ()
+        set (
+          POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy
+                             "${BUILD_DIR}/${OUTPUT_NAME}"
+                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+        )
+      endif ()
     endif ()
     # add custom command to build executable using MATLAB Compiler
     add_custom_command (
@@ -1818,6 +1839,14 @@ function (basis_build_mcc_target TARGET_UID)
     # TODO
   else ()
     if (RUNTIME_INSTALL_DIRECTORY)
+      if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        install (
+          DIRECTORY   "${BUILD_DIR}/${OUTPUT_NAME}.app"
+          DESTINATION "${RUNTIME_INSTALL_DIRECTORY}"
+          COMPONENT   "${RUNTIME_COMPONENT}"
+          USE_SOURCE_PERMISSIONS
+        )
+      endif ()
       install (
         PROGRAMS    "${INSTALL_FILE}"
         DESTINATION "${RUNTIME_INSTALL_DIRECTORY}"

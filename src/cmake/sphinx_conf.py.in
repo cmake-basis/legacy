@@ -57,6 +57,8 @@ if html_style == '': html_style = None
 
 html_logo = '@SPHINX_HTML_LOGO@'
 if html_logo == '': html_logo = None
+html_favicon = '@SPHINX_HTML_FAVICON@'
+if html_favicon == '': html_favicon = None
 
 html_title = '@SPHINX_HTML_TITLE@'
 if html_title == '': html_title = '@PROJECT_NAME@'
@@ -66,11 +68,14 @@ if html_short_title == '': html_short_title = html_title
 
 htmlhelp_basename = '@PROJECT_NAME_L@_doc'
 
+html_use_domain_indices = '@SPHINX_HTML_DOMAIN_INDEX@'
+html_use_modindex       = '@SPHINX_HTML_USE_MODINDEX@'
+html_use_index          = '@SPHINX_HTML_USE_INDEX@'
 
 # Options for LaTeX output
 # ------------------------
 
-latex_documents     = [(master_doc, output_name + '.tex', '@SPHINX_LATEX_TITLE@', ' \\and '.join(authors), '@SPHINX_LATEX_DOCUMENT_CLASS@', False)]
+latex_documents     = [('@SPHINX_LATEX_MASTER_DOC@', output_name + '.tex', '@SPHINX_LATEX_TITLE@', ' \\and '.join(authors), '@SPHINX_LATEX_DOCUMENT_CLASS@', False)]
 latex_logo          = '@SPHINX_LATEX_LOGO@'
 if latex_logo == '': latex_logo = None
 latex_show_urls     = '@SPHINX_LATEX_SHOW_URLS@'
