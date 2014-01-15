@@ -2,7 +2,7 @@
 <tagfile>
   <compound kind="file">
     <name>__init__.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
     <filename>____init_____8py</filename>
     <namespace>basis</namespace>
     <member kind="variable">
@@ -20,7 +20,7 @@
   </compound>
   <compound kind="file">
     <name>argparse.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
     <filename>argparse_8py</filename>
     <class kind="class">basis::argparse::_ActionsContainer</class>
     <class kind="class">basis::argparse::_AppendAction</class>
@@ -141,7 +141,7 @@
   </compound>
   <compound kind="file">
     <name>Bash.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
     <filename>Bash_8pm</filename>
     <member kind="function">
       <type>sub</type>
@@ -158,7 +158,7 @@
   </compound>
   <compound kind="file">
     <name>basis.cxx</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/</path>
     <filename>basis_8cxx</filename>
     <includes id="basis_8h" name="basis.h" local="no" imported="no">basis//basis.h</includes>
     <namespace>basis</namespace>
@@ -256,7 +256,7 @@
   </compound>
   <compound kind="file">
     <name>basis.h</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/include/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/include/basis/</path>
     <filename>basis_8h</filename>
     <includes id="utilities_8h" name="utilities.h" local="no" imported="no">basis/utilities.h</includes>
     <namespace>basis</namespace>
@@ -345,7 +345,7 @@
   </compound>
   <compound kind="file">
     <name>Basis.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/Basis_pm.dir/build/BASIS/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/Basis_pm.dir/build/BASIS/</path>
     <filename>Basis_8pm</filename>
     <includes id="Exporter_8pm" name="Exporter.pm" local="yes" imported="no">BASIS/Sub/Exporter.pm</includes>
     <includes id="Utilities_8pm" name="Utilities.pm" local="yes" imported="no">BASIS/Utilities.pm</includes>
@@ -387,7 +387,7 @@
   </compound>
   <compound kind="file">
     <name>basis.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_py.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_py.dir/build/basis/</path>
     <filename>basis_8py</filename>
     <namespace>basis</namespace>
     <member kind="function">
@@ -512,7 +512,7 @@
   </compound>
   <compound kind="file">
     <name>basis.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_sh.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_sh.dir/build/basis/</path>
     <filename>basis_8sh</filename>
     <member kind="variable">
       <type>string</type>
@@ -559,7 +559,7 @@
   </compound>
   <compound kind="file">
     <name>BASISConfig.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
     <filename>BASISConfig_8cmake</filename>
     <includes id="BasisTools_8cmake" name="BasisTools.cmake" local="yes" imported="no">/BasisTools.cmake</includes>
     <includes id="BasisSettings_8cmake" name="BasisSettings.cmake" local="yes" imported="no">/BasisSettings.cmake</includes>
@@ -704,7 +704,7 @@
   </compound>
   <compound kind="file">
     <name>BASISConfigVersion.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/</path>
     <filename>BASISConfigVersion_8cmake</filename>
     <member kind="variable">
       <type>cmake</type>
@@ -950,7 +950,7 @@
   </compound>
   <compound kind="file">
     <name>basisproject.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basisproject.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basisproject.dir/build/</path>
     <filename>basisproject_8py</filename>
     <class kind="class">basisproject::AccumulatorForNumbersOfChangesAndErrors</class>
     <namespace>basisproject</namespace>
@@ -1181,12 +1181,12 @@
   </compound>
   <compound kind="file">
     <name>BASISPublicHeaders.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/include/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/include/</path>
     <filename>BASISPublicHeaders_8cmake</filename>
   </compound>
   <compound kind="file">
     <name>BasisScriptConfig.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
     <filename>BasisScriptConfig_8cmake</filename>
     <member kind="variable">
       <type>cmake</type>
@@ -1652,12 +1652,12 @@
   </compound>
   <compound kind="file">
     <name>basistest-cron.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-cron.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-cron.dir/build/</path>
     <filename>basistest-cron_8sh</filename>
   </compound>
   <compound kind="file">
     <name>basistest-master.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-master.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-master.dir/build/</path>
     <filename>basistest-master_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -1732,7 +1732,7 @@
   </compound>
   <compound kind="file">
     <name>basistest-slave.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-slave.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-slave.dir/build/</path>
     <filename>basistest-slave_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -1765,7 +1765,7 @@
   </compound>
   <compound kind="file">
     <name>basistest-svn.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-svn.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-svn.dir/build/</path>
     <filename>basistest-svn_8sh</filename>
   </compound>
   <compound kind="file">
@@ -1838,7 +1838,7 @@
   </compound>
   <compound kind="file">
     <name>basistest.ctest</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest_ctest.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest_ctest.dir/build/</path>
     <filename>basistest_8ctest</filename>
     <member kind="function">
       <type>macro</type>
@@ -2214,7 +2214,7 @@
   </compound>
   <compound kind="file">
     <name>basistest.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest.dir/build/</path>
     <filename>basistest_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -2280,7 +2280,7 @@
   </compound>
   <compound kind="file">
     <name>BASISUse.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/</path>
     <filename>BASISUse_8cmake</filename>
     <member kind="variable">
       <type>cmake</type>
@@ -2292,7 +2292,7 @@
   </compound>
   <compound kind="file">
     <name>Begin.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Begin_8pm</filename>
   </compound>
   <compound kind="file">
@@ -2323,7 +2323,7 @@
   </compound>
   <compound kind="file">
     <name>CMake.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
     <filename>CMake_8pm</filename>
     <member kind="function">
       <type>sub</type>
@@ -2552,7 +2552,7 @@
   </compound>
   <compound kind="file">
     <name>Code.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Code_8pm</filename>
   </compound>
   <compound kind="file">
@@ -2989,7 +2989,7 @@
   </compound>
   <compound kind="file">
     <name>config.h</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/include/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/include/basis/</path>
     <filename>config_8h</filename>
     <member kind="define">
       <type>#define</type>
@@ -3064,7 +3064,7 @@
   </compound>
   <compound kind="file">
     <name>config.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
     <filename>config_8sh</filename>
   </compound>
   <compound kind="file">
@@ -3178,7 +3178,7 @@
   </compound>
   <compound kind="file">
     <name>Constants.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
     <filename>Constants_8pm</filename>
     <member kind="variable">
       <type>const</type>
@@ -3246,14 +3246,14 @@
   </compound>
   <compound kind="file">
     <name>Content.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Content_8pm</filename>
     <includes id="Constants_8pm" name="Constants.pm" local="yes" imported="no">BASIS/Pod/POM/Constants.pm</includes>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>core.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
     <filename>core_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -3340,7 +3340,7 @@
   </compound>
   <compound kind="file">
     <name>CTestCustom.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/</path>
     <filename>CTestCustom_8cmake</filename>
     <member kind="variable">
       <type>cmake</type>
@@ -3371,12 +3371,12 @@
   </compound>
   <compound kind="file">
     <name>Depends.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/doc/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/doc/</path>
     <filename>Depends_8cmake</filename>
   </compound>
   <compound kind="file">
     <name>diff3.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
     <filename>diff3_8py</filename>
     <namespace>basis::diff3</namespace>
     <member kind="function">
@@ -3403,7 +3403,7 @@
   </compound>
   <compound kind="file">
     <name>Directories.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
     <filename>Directories_8cmake</filename>
     <member kind="variable">
       <type>cmake</type>
@@ -4216,7 +4216,7 @@
   </compound>
   <compound kind="file">
     <name>doxyfilter-perl.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter-perl.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter-perl.dir/build/</path>
     <filename>doxyfilter-perl_8py</filename>
     <namespace>doxyfilter-perl</namespace>
     <member kind="variable">
@@ -4369,7 +4369,7 @@
   </compound>
   <compound kind="file">
     <name>doxyfilter.pl</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter.dir/build/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter.dir/build/</path>
     <filename>doxyfilter_8pl</filename>
     <includes id="Basis_8pm" name="Basis.pm" local="yes" imported="no">BASIS/Basis.pm</includes>
     <includes id="Bash_8pm" name="Bash.pm" local="yes" imported="no">BASIS/DoxyFilter/Bash.pm</includes>
@@ -4377,7 +4377,7 @@
   </compound>
   <compound kind="file">
     <name>DoxyFilter.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/</path>
     <filename>DoxyFilter_8pm</filename>
     <includes id="Exporter_8pm" name="Exporter.pm" local="yes" imported="no">Exporter.pm</includes>
     <member kind="function">
@@ -4453,7 +4453,7 @@
   </compound>
   <compound kind="file">
     <name>Doxygen.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
     <filename>Doxygen_8pm</filename>
   </compound>
   <compound kind="file">
@@ -4609,7 +4609,7 @@
   </compound>
   <compound kind="file">
     <name>Exporter.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
     <filename>Exporter_8pm</filename>
     <includes id="OptList_8pm" name="OptList.pm" local="yes" imported="no">BASIS/Data/OptList.pm</includes>
     <includes id="Util_8pm" name="Util.pm" local="yes" imported="no">BASIS/Params/Util.pm</includes>
@@ -5795,7 +5795,7 @@
   </compound>
   <compound kind="file">
     <name>For.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>For_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
@@ -5904,31 +5904,31 @@
   </compound>
   <compound kind="file">
     <name>Head1.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Head1_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>Head2.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Head2_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>Head3.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Head3_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>Head4.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Head4_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>HTML.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
     <filename>HTML_8pm</filename>
     <includes id="View_8pm" name="View.pm" local="yes" imported="no">BASIS/Pod/POM/View.pm</includes>
   </compound>
@@ -5974,7 +5974,7 @@
   </compound>
   <compound kind="file">
     <name>Install.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
     <filename>Install_8pm</filename>
     <includes id="Install_8pm" name="Install.pm" local="yes" imported="no">BASIS/Sub/Install.pm</includes>
   </compound>
@@ -6074,7 +6074,7 @@
   </compound>
   <compound kind="file">
     <name>Item.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Item_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
@@ -6337,7 +6337,7 @@
   </compound>
   <compound kind="file">
     <name>Node.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
     <filename>Node_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">BASIS/Pod/POM/Nodes.pm</includes>
     <includes id="Constants_8pm" name="Constants.pm" local="yes" imported="no">BASIS/Pod/POM/Constants.pm</includes>
@@ -6351,7 +6351,7 @@
   </compound>
   <compound kind="file">
     <name>Nodes.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
     <filename>Nodes_8pm</filename>
     <includes id="Node_2Pod_8pm" name="Node/Pod.pm" local="yes" imported="no">BASIS/Pod/POM/Node/Pod.pm</includes>
     <includes id="Over_8pm" name="Over.pm" local="yes" imported="no">BASIS/Pod/POM/Node/Over.pm</includes>
@@ -6367,7 +6367,7 @@
   </compound>
   <compound kind="file">
     <name>OptList.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Data/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Data/</path>
     <filename>OptList_8pm</filename>
     <includes id="Util_8pm" name="Util.pm" local="yes" imported="no">BASIS/Params/Util.pm</includes>
     <includes id="Install_8pm" name="Install.pm" local="yes" imported="no">BASIS/Sub/Install.pm</includes>
@@ -6471,7 +6471,7 @@
   </compound>
   <compound kind="file">
     <name>Over.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Over_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
@@ -6658,7 +6658,7 @@
   </compound>
   <compound kind="file">
     <name>path.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/os/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/os/</path>
     <filename>path_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -6689,20 +6689,20 @@
   </compound>
   <compound kind="file">
     <name>Node/Pod.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Node_2Pod_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>View/Pod.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
     <filename>View_2Pod_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">BASIS/Pod/POM/Nodes.pm</includes>
     <includes id="View_8pm" name="View.pm" local="yes" imported="no">BASIS/Pod/POM/View.pm</includes>
   </compound>
   <compound kind="file">
     <name>POM.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/</path>
     <filename>POM_8pm</filename>
     <includes id="Constants_8pm" name="Constants.pm" local="yes" imported="no">BASIS/Pod/POM/Constants.pm</includes>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">BASIS/Pod/POM/Nodes.pm</includes>
@@ -6738,7 +6738,7 @@
   </compound>
   <compound kind="file">
     <name>ProjectSettings.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
     <filename>ProjectSettings_8cmake</filename>
     <member kind="variable">
       <type>option</type>
@@ -6980,7 +6980,7 @@
   </compound>
   <compound kind="file">
     <name>Python.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
     <filename>Python_8pm</filename>
     <member kind="function">
       <type>sub</type>
@@ -7004,7 +7004,7 @@
   </compound>
   <compound kind="file">
     <name>Readonly.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
     <filename>Readonly_8pm</filename>
     <includes id="Exporter_8pm" name="Exporter.pm" local="yes" imported="no">Exporter.pm</includes>
     <includes id="Readonly_8pm" name="Readonly.pm" local="yes" imported="no">Readonly.pm</includes>
@@ -7065,12 +7065,12 @@
   </compound>
   <compound kind="file">
     <name>ScriptConfig.cmake</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
     <filename>ScriptConfig_8cmake</filename>
   </compound>
   <compound kind="file">
     <name>Sequence.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Sequence_8pm</filename>
     <includes id="Constants_8pm" name="Constants.pm" local="yes" imported="no">BASIS/Pod/POM/Constants.pm</includes>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
@@ -7250,7 +7250,7 @@
   </compound>
   <compound kind="file">
     <name>shflags.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
     <filename>shflags_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -7402,7 +7402,7 @@
   </compound>
   <compound kind="file">
     <name>shtap.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
     <filename>shtap_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -7819,7 +7819,7 @@
   </compound>
   <compound kind="file">
     <name>Test.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
     <filename>Test_8pm</filename>
     <includes id="POM_8pm" name="POM.pm" local="yes" imported="no">BASIS/Pod/POM.pm</includes>
   </compound>
@@ -8227,14 +8227,14 @@
   </compound>
   <compound kind="file">
     <name>Node/Text.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Node_2Text_8pm</filename>
     <includes id="Constants_8pm" name="Constants.pm" local="yes" imported="no">BASIS/Pod/POM/Constants.pm</includes>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>View/Text.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
     <filename>View_2Text_8pm</filename>
     <includes id="View_8pm" name="View.pm" local="yes" imported="no">BASIS/Pod/POM/View.pm</includes>
   </compound>
@@ -8405,7 +8405,7 @@
   </compound>
   <compound kind="file">
     <name>Util.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Params/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Params/</path>
     <filename>Util_8pm</filename>
     <includes id="Util_8pm" name="Util.pm" local="yes" imported="no">BASIS/Params/Util.pm</includes>
   </compound>
@@ -8516,7 +8516,7 @@
   </compound>
   <compound kind="file">
     <name>Utilities.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
     <filename>Utilities_8pm</filename>
     <includes id="Which_8pm" name="Which.pm" local="yes" imported="no">BASIS/File/Which.pm</includes>
     <includes id="Exporter_8pm" name="Exporter.pm" local="yes" imported="no">BASIS/Sub/Exporter.pm</includes>
@@ -8614,7 +8614,7 @@
   </compound>
   <compound kind="file">
     <name>utilities.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
     <filename>utilities_8py</filename>
     <class kind="class">basis::utilities::SubprocessError</class>
     <namespace>basis::utilities</namespace>
@@ -8726,7 +8726,7 @@
   </compound>
   <compound kind="file">
     <name>utilities.sh</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
     <filename>utilities_8sh</filename>
     <member kind="function">
       <type>function</type>
@@ -8897,18 +8897,18 @@
   </compound>
   <compound kind="file">
     <name>Verbatim.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
     <filename>Verbatim_8pm</filename>
     <includes id="Nodes_8pm" name="Nodes.pm" local="yes" imported="no">Pod/POM/Nodes.pm</includes>
   </compound>
   <compound kind="file">
     <name>View.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
     <filename>View_8pm</filename>
   </compound>
   <compound kind="file">
     <name>Which.pm</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/File/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/File/</path>
     <filename>Which_8pm</filename>
     <includes id="Exporter_8pm" name="Exporter.pm" local="yes" imported="no">Exporter.pm</includes>
     <includes id="Which_8pm" name="Which.pm" local="yes" imported="no">BASIS/File/Which.pm</includes>
@@ -8936,7 +8936,7 @@
   </compound>
   <compound kind="file">
     <name>which.py</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
     <filename>which_8py</filename>
     <class kind="class">basis::which::WhichError</class>
     <namespace>basis::which</namespace>
@@ -9247,6 +9247,7 @@
     <name>CMakeFindModules</name>
     <title>Find Package Modules</title>
     <filename>group__CMakeFindModules.html</filename>
+    <file>FindAFNI.cmake</file>
     <file>FindBASH.cmake</file>
     <file>FindBLAS.cmake</file>
     <file>FindBoostNumericBindings.cmake</file>
@@ -15933,14 +15934,14 @@
   </compound>
   <compound kind="dir">
     <name>bash</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/</path>
-    <filename>dir_2da77f1bdb6d042927c886bab292c41a.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/</path>
+    <filename>dir_c9abef4f7f5e343083302bf958a0a5e0.html</filename>
     <dir>CMakeFiles</dir>
   </compound>
   <compound kind="dir">
     <name>basis</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
-    <filename>dir_e7c6177c0134404d5b59f1502b9a7fad.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/</path>
+    <filename>dir_9d661e8882c32be97e69d02a4080b7c3.html</filename>
     <dir>os</dir>
     <file>config.sh</file>
     <file>core.sh</file>
@@ -15950,8 +15951,8 @@
   </compound>
   <compound kind="dir">
     <name>BASIS</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
-    <filename>dir_113457dd4838257c955921b25eaf0a80.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/</path>
+    <filename>dir_3affb968295a5624d9dcd30c1733efa3.html</filename>
     <dir>Data</dir>
     <dir>File</dir>
     <dir>Params</dir>
@@ -15962,40 +15963,40 @@
   </compound>
   <compound kind="dir">
     <name>basis</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_sh.dir/build/basis/</path>
-    <filename>dir_36b71d52cb30fd8e68d3f3a0ebba8198.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_sh.dir/build/basis/</path>
+    <filename>dir_9ecceb7b55906bafb82ad1d2dbcb9cb5.html</filename>
     <file>basis.sh</file>
   </compound>
   <compound kind="dir">
     <name>basis</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_py.dir/build/basis/</path>
-    <filename>dir_c699fe2c18041aa4dae06f8a5eaab509.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_py.dir/build/basis/</path>
+    <filename>dir_4ee2f860084db1db081296ea3701df12.html</filename>
     <file>basis.py</file>
   </compound>
   <compound kind="dir">
     <name>BASIS</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/Basis_pm.dir/build/BASIS/</path>
-    <filename>dir_076766de955b56c50566a471f6f3a8fb.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/Basis_pm.dir/build/BASIS/</path>
+    <filename>dir_7efafdf81c59b3a5fef5f6cadeb9668b.html</filename>
     <file>Basis.pm</file>
   </compound>
   <compound kind="dir">
     <name>basis</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/include/basis/</path>
-    <filename>dir_303e095505cf765780b0a1ff5e7d0a51.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/include/basis/</path>
+    <filename>dir_a2be0f57647a87d58bc215ee0029d82f.html</filename>
     <file>basis.h</file>
     <file>config.h</file>
   </compound>
   <compound kind="dir">
     <name>BASIS</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/</path>
-    <filename>dir_0a97848c6428397e225b033a6bdfb5ca.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/</path>
+    <filename>dir_2110b14c1f30ad4c70eed8767684dd9c.html</filename>
     <dir>DoxyFilter</dir>
     <file>DoxyFilter.pm</file>
   </compound>
   <compound kind="dir">
     <name>basis</name>
     <path>/Users/as12312/Software/SBIA/BASIS/include/basis/</path>
-    <filename>dir_c37502d8ec7258b26859fb1d7f088136.html</filename>
+    <filename>dir_0641fdf6eb3993a8a4d316238eb928da.html</filename>
     <dir>os</dir>
     <file>assert.h</file>
     <file>CmdArgs.h</file>
@@ -16016,8 +16017,8 @@
   </compound>
   <compound kind="dir">
     <name>basis</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
-    <filename>dir_b3f7b86205e93f78ed4c17d256909410.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/basis/</path>
+    <filename>dir_ec294707829fab4f8a039c3009f0f7d6.html</filename>
     <file>__init__.py</file>
     <file>argparse.py</file>
     <file>diff3.py</file>
@@ -16026,164 +16027,164 @@
   </compound>
   <compound kind="dir">
     <name>Basis_pm.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/Basis_pm.dir/</path>
-    <filename>dir_a271810100e0d9434170edda4a639d2c.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/Basis_pm.dir/</path>
+    <filename>dir_2ac341763f5070798d23dbaac17bbc9d.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basis_py.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_py.dir/</path>
-    <filename>dir_470016d8e170f54bc60e2ef3f750345d.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_py.dir/</path>
+    <filename>dir_d37874879ef16dfc4cc442f209945951.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basis_sh.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_sh.dir/</path>
-    <filename>dir_b6393cb29639df15b3baa59b2c83ac42.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_sh.dir/</path>
+    <filename>dir_18d74ca54b756e98a759e92f6bbfa256.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basisproject.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basisproject.dir/</path>
-    <filename>dir_943bbd64ae88f9f845b0580967c7e975.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basisproject.dir/</path>
+    <filename>dir_852c0fe2ecc0d5a9d63ef457eca2299a.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest-cron.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-cron.dir/</path>
-    <filename>dir_7118aa0b3b425e0b03d29b127fc6992a.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-cron.dir/</path>
+    <filename>dir_153e95ad5be68d7abd3d13b592b548b2.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest-master.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-master.dir/</path>
-    <filename>dir_5631601214ba8ad708cb4184e62293e6.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-master.dir/</path>
+    <filename>dir_3ed7df5ae77ba375e4d1c95772633fe9.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest-slave.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-slave.dir/</path>
-    <filename>dir_a9863c301c642aa573d7c451c3b157a1.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-slave.dir/</path>
+    <filename>dir_408da367483e65e927c22a8dba438358.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest-svn.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-svn.dir/</path>
-    <filename>dir_923edf1ab7a1fff7b9d8cf267e75d7cd.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-svn.dir/</path>
+    <filename>dir_2cac886cacaacdbeb24f9caae63f3c63.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest.dir/</path>
-    <filename>dir_64517c67e8a11a350a1733ef23d1cee9.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest.dir/</path>
+    <filename>dir_cf600d84582db391ef5da1f742b88f16.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>basistest_ctest.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest_ctest.dir/</path>
-    <filename>dir_4af8d0b9d1557cffe13bbfb79e0cc2ef.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest_ctest.dir/</path>
+    <filename>dir_582606060551a76e2c57fb9529ed1211.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter.dir/build/</path>
-    <filename>dir_28a7840dbd15abf3194c8ddd09cfafbf.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter.dir/build/</path>
+    <filename>dir_08a4b64b00d907397d45583b82134697.html</filename>
     <file>doxyfilter.pl</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter-perl.dir/build/</path>
-    <filename>dir_66b53110879b554c4c2c5cbc6ba7cc90.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter-perl.dir/build/</path>
+    <filename>dir_7e58d50d45f269cf6b0084653ea80ea0.html</filename>
     <file>doxyfilter-perl.py</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/</path>
-    <filename>dir_455444ad8ad7dfd6d5f1f84e6b6ade25.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/</path>
+    <filename>dir_0b341bcd39781fe561edf2a095569104.html</filename>
     <dir>basis</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/</path>
-    <filename>dir_4135fa67dc7d289638987b7fcd750e6d.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/</path>
+    <filename>dir_47ed248d97d0951456a92fa01d1fc32b.html</filename>
     <dir>BASIS</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest.dir/build/</path>
-    <filename>dir_07088473962d9884145bfb7e5a8330e6.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest.dir/build/</path>
+    <filename>dir_da6b950b219531e6e767116847cd469d.html</filename>
     <file>basistest.sh</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest_ctest.dir/build/</path>
-    <filename>dir_988c8ead0617429c9990b0de439b9049.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest_ctest.dir/build/</path>
+    <filename>dir_e5bedded6c2a56a8dcf0ce9e2b79f16a.html</filename>
     <file>basistest.ctest</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-svn.dir/build/</path>
-    <filename>dir_709129cad98b0cf5b66e468e64b87803.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-svn.dir/build/</path>
+    <filename>dir_04f7e79ae4b512adf56cd66b7ba952bc.html</filename>
     <file>basistest-svn.sh</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-slave.dir/build/</path>
-    <filename>dir_92e69549de3bcdc5847faf17e6c50ea2.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-slave.dir/build/</path>
+    <filename>dir_d10a7c6924ecf48147d328434c763b9c.html</filename>
     <file>basistest-slave.sh</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-master.dir/build/</path>
-    <filename>dir_a087c374b750a0c176b35ad76f376e6c.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-master.dir/build/</path>
+    <filename>dir_36331400c3cb2dae8b64dc3081abae4b.html</filename>
     <file>basistest-master.sh</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basistest-cron.dir/build/</path>
-    <filename>dir_ec019fe85a57344d3ad502828a4179f5.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basistest-cron.dir/build/</path>
+    <filename>dir_2450f076eba40ec3aae62c38b9decf3b.html</filename>
     <file>basistest-cron.sh</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/basisproject.dir/build/</path>
-    <filename>dir_47a4477ec9cb271132053b20a07536b6.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/basisproject.dir/build/</path>
+    <filename>dir_ede269e4a937a7c592c663b8667bae1d.html</filename>
     <file>basisproject.py</file>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_sh.dir/build/</path>
-    <filename>dir_b9b26501a6e66c48b6b27cbffd3c9149.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_sh.dir/build/</path>
+    <filename>dir_77fbdd624ecc0d27bb6f09ca8a40309d.html</filename>
     <dir>basis</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/basis_py.dir/build/</path>
-    <filename>dir_27b0cdfbd5a0a7d42804549b7f4a7f44.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/basis_py.dir/build/</path>
+    <filename>dir_0181d5849983ef9d0e7e25a79570db7d.html</filename>
     <dir>basis</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/Basis_pm.dir/build/</path>
-    <filename>dir_63a06b76c25ad5c4d95cc8fd88036590.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/Basis_pm.dir/build/</path>
+    <filename>dir_b558a2c3538d4bd22882b3fdf76ba38f.html</filename>
     <dir>BASIS</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/</path>
-    <filename>dir_f91f1b8c16b11a79d6a8e5e5dd1cea9b.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/</path>
+    <filename>dir_a228bf451e03c3712e91157dcd264032.html</filename>
     <dir>BASIS</dir>
   </compound>
   <compound kind="dir">
     <name>build</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/build/</path>
-    <filename>dir_6ddb8e5c43d9881e87c00e32401f1135.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/build/</path>
+    <filename>dir_303392a728dc3177dfb501788a1e894a.html</filename>
     <dir>basis</dir>
   </compound>
   <compound kind="dir">
     <name>cmake</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/cmake/</path>
-    <filename>dir_667746fa40fde24b1cd40abcf09b77d1.html</filename>
+    <filename>dir_be02714555a28bbbf6e988d7985420fc.html</filename>
     <file>BasisConfigSettings.cmake</file>
     <file>BasisPack.cmake</file>
     <file>BasisSettings.cmake</file>
@@ -16237,28 +16238,28 @@
   </compound>
   <compound kind="dir">
     <name>CMakeFiles</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/</path>
-    <filename>dir_a578593184748ea7fbd06332fc28bedc.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/</path>
+    <filename>dir_7eff1e5813e6c829e8db66b531feeeff.html</filename>
     <dir>utilities_bash.dir</dir>
   </compound>
   <compound kind="dir">
     <name>CMakeFiles</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/</path>
-    <filename>dir_76fa5b3b2d5f283602ead227b91fd335.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/</path>
+    <filename>dir_1aa7f9e961c5bc646bf95334e2ecd772.html</filename>
     <dir>utilities_perl.dir</dir>
   </compound>
   <compound kind="dir">
     <name>CMakeFiles</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/CMakeFiles/</path>
-    <filename>dir_28d7501d82784fcb9103c9706a30c9de.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/CMakeFiles/</path>
+    <filename>dir_63772b626f2709090f0bdca0f40827b4.html</filename>
     <dir>Basis_pm.dir</dir>
     <dir>basis_py.dir</dir>
     <dir>basis_sh.dir</dir>
   </compound>
   <compound kind="dir">
     <name>CMakeFiles</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/</path>
-    <filename>dir_608689537865e2a1aa162a46d73b429b.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/</path>
+    <filename>dir_b9a5b6428a6606fd82cc1607ba6488fe.html</filename>
     <dir>basisproject.dir</dir>
     <dir>basistest-cron.dir</dir>
     <dir>basistest-master.dir</dir>
@@ -16272,21 +16273,21 @@
   </compound>
   <compound kind="dir">
     <name>CMakeFiles</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/</path>
-    <filename>dir_dc06fee8578e57a60cc747d927592a14.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/</path>
+    <filename>dir_bf4d12d84fa21d05260a318ce33fa38e.html</filename>
     <dir>utilities_python.dir</dir>
   </compound>
   <compound kind="dir">
     <name>config</name>
     <path>/Users/as12312/Software/SBIA/BASIS/config/</path>
-    <filename>dir_cc7f611aa36aec9bb1d5d5c5e7f80fb8.html</filename>
+    <filename>dir_9f351d46ce3cc29445a41dc3a31e6919.html</filename>
     <file>ConfigSettings.cmake</file>
     <file>Settings.cmake</file>
   </compound>
   <compound kind="dir">
     <name>config</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/config/</path>
-    <filename>dir_465297fa507c66b5cd31389483ac3c69.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/config/</path>
+    <filename>dir_8165d963cd765c284d618d89479b5e59.html</filename>
     <file>BASISConfig.cmake</file>
     <file>BasisScriptConfig.cmake</file>
     <file>Directories.cmake</file>
@@ -16296,7 +16297,7 @@
   <compound kind="dir">
     <name>cxx</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/utilities/cxx/</path>
-    <filename>dir_87b5b5fdeb77d2d01662a34aaeea542b.html</filename>
+    <filename>dir_ff89d0134bd5f83362b2a6e3bf21f522.html</filename>
     <file>CmdLine.cxx</file>
     <file>os.cxx</file>
     <file>path.cxx</file>
@@ -16306,77 +16307,77 @@
   </compound>
   <compound kind="dir">
     <name>Data</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Data/</path>
-    <filename>dir_30fa2c59c729aed51c058e5d2086517c.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Data/</path>
+    <filename>dir_cdfeb8b21df3e604d2838514c677ef10.html</filename>
     <file>OptList.pm</file>
   </compound>
   <compound kind="dir">
     <name>doc</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/doc/</path>
-    <filename>dir_891842d9563833a2403bb33449fb0836.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/doc/</path>
+    <filename>dir_6c89d1ed406002b4e6ebce07fb51a507.html</filename>
     <file>Depends.cmake</file>
   </compound>
   <compound kind="dir">
     <name>DoxyFilter</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
-    <filename>dir_856f1e9c9529f90ac0289037ff625775.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/build/BASIS/DoxyFilter/</path>
+    <filename>dir_d04100863a41c14e5813fcf1d813b858.html</filename>
     <file>Bash.pm</file>
     <file>CMake.pm</file>
     <file>Python.pm</file>
   </compound>
   <compound kind="dir">
     <name>doxyfilter-perl.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter-perl.dir/</path>
-    <filename>dir_d8a1b702b68cd4331d2f92eca382064d.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter-perl.dir/</path>
+    <filename>dir_2917e26350257dc8a7138c287c4275da.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>doxyfilter.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilter.dir/</path>
-    <filename>dir_09978eb17cd4c4969cce81f1940e9033.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilter.dir/</path>
+    <filename>dir_f9e18b71752203850a55fd9e3298d62e.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>doxyfilterlib.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/CMakeFiles/doxyfilterlib.dir/</path>
-    <filename>dir_0465a95e1db565e167365003df33c55a.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/CMakeFiles/doxyfilterlib.dir/</path>
+    <filename>dir_701b71f725a9cf019ccf8db3a40c9662.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>File</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/File/</path>
-    <filename>dir_1bc7d872661fb1485097ef0a3962b638.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/File/</path>
+    <filename>dir_bc3b41420c75ecd5ec30c87d88ada828.html</filename>
     <file>Which.pm</file>
   </compound>
   <compound kind="dir">
     <name>geshi</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/geshi/</path>
-    <filename>dir_350b6a5b411cdd63b55fe56fb56f0c31.html</filename>
+    <filename>dir_2bace6a366927c555635795697b9e37c.html</filename>
     <file>basis.php</file>
   </compound>
   <compound kind="dir">
     <name>include</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/include/</path>
-    <filename>dir_798797c6344a6d56861269c392708bfc.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/include/</path>
+    <filename>dir_8f2980731aba7ec7b9fcae5764f196e3.html</filename>
     <dir>basis</dir>
     <file>BASISPublicHeaders.cmake</file>
   </compound>
   <compound kind="dir">
     <name>include</name>
     <path>/Users/as12312/Software/SBIA/BASIS/include/</path>
-    <filename>dir_a04b95c273324d95fa0e2e49498ac642.html</filename>
+    <filename>dir_d44c64559bbebec7f509842c48db8b23.html</filename>
     <dir>basis</dir>
   </compound>
   <compound kind="dir">
     <name>java</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/utilities/java/</path>
-    <filename>dir_74d7677e56a09fe2104de0f91afd074f.html</filename>
+    <filename>dir_d344502c6f154abeab4213cb956d198e.html</filename>
     <file>JTap.java</file>
   </compound>
   <compound kind="dir">
     <name>Node</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
-    <filename>dir_247ac3ed6f1ccf73a227c16c3f6940ad.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/Node/</path>
+    <filename>dir_354fc639d36e6c145d8046afd24720ec.html</filename>
     <file>Begin.pm</file>
     <file>Code.pm</file>
     <file>Content.pm</file>
@@ -16394,39 +16395,39 @@
   </compound>
   <compound kind="dir">
     <name>os</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/os/</path>
-    <filename>dir_b780e516ce21d96bc62ee36c1e9c49c3.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/build/basis/os/</path>
+    <filename>dir_f93c8a2ac38d30707d0b630a5462b03a.html</filename>
     <file>path.sh</file>
   </compound>
   <compound kind="dir">
     <name>os</name>
     <path>/Users/as12312/Software/SBIA/BASIS/include/basis/os/</path>
-    <filename>dir_b65b86f20765e5bc21d4e82cd997b189.html</filename>
+    <filename>dir_3822e37c67bfc43ee837a66d8b4475b3.html</filename>
     <file>path.h</file>
   </compound>
   <compound kind="dir">
     <name>Params</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Params/</path>
-    <filename>dir_1ac43084a443b9d1972a09f0fbddaf1c.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Params/</path>
+    <filename>dir_d9a6f724504a5b4d998dc8f4bef7da3c.html</filename>
     <file>Util.pm</file>
   </compound>
   <compound kind="dir">
     <name>perl</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/</path>
-    <filename>dir_d9084ba244ab92be739b28e39ff202af.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/</path>
+    <filename>dir_40ab47e45a0fa4c235c2ef68a96e1239.html</filename>
     <dir>CMakeFiles</dir>
   </compound>
   <compound kind="dir">
     <name>Pod</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/</path>
-    <filename>dir_ea90f47e4e7ee571f965f289490ed073.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/</path>
+    <filename>dir_787fe63cb4db31f9e61445bfa949d5d5.html</filename>
     <dir>POM</dir>
     <file>POM.pm</file>
   </compound>
   <compound kind="dir">
     <name>POM</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
-    <filename>dir_f4924351e56ff0759433b9e3501f1859.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/</path>
+    <filename>dir_cdcbd5237dd798fca93d09d9541e7500.html</filename>
     <dir>Node</dir>
     <dir>View</dir>
     <file>Constants.pm</file>
@@ -16437,76 +16438,76 @@
   </compound>
   <compound kind="dir">
     <name>python</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/</path>
-    <filename>dir_5308750d91012dff58daebba37b40d49.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/</path>
+    <filename>dir_27e96765e41d70b29b0c7fe948a6fe9d.html</filename>
     <dir>CMakeFiles</dir>
   </compound>
   <compound kind="dir">
     <name>src</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/</path>
-    <filename>dir_19d237431eb15d92c0212db6c7c6c0a8.html</filename>
+    <filename>dir_68267d1309a1af8e8297ef4c3efbcdba.html</filename>
     <dir>cmake</dir>
     <dir>geshi</dir>
     <dir>utilities</dir>
   </compound>
   <compound kind="dir">
     <name>src</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/</path>
-    <filename>dir_b227d34579926e119eb274379d02d73c.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/</path>
+    <filename>dir_4e7c8c4fc0d923782da8a23d70a9725b.html</filename>
     <dir>tools</dir>
     <dir>utilities</dir>
     <file>basis.cxx</file>
   </compound>
   <compound kind="dir">
     <name>Sub</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
-    <filename>dir_c01ed42cb429edcdc41ac5f67820a7cc.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Sub/</path>
+    <filename>dir_1fa3b72ee0ab059c7278e1ba595b160f.html</filename>
     <file>Exporter.pm</file>
     <file>Install.pm</file>
   </compound>
   <compound kind="dir">
     <name>tools</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/tools/</path>
-    <filename>dir_245eddfe32f5dea77f86df11cfb536f4.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/tools/</path>
+    <filename>dir_22f1cc1dbdaa990662b9c03c3a829f75.html</filename>
     <dir>CMakeFiles</dir>
   </compound>
   <compound kind="dir">
     <name>utilities</name>
     <path>/Users/as12312/Software/SBIA/BASIS/src/utilities/</path>
-    <filename>dir_e7b15f176b41fbd44fd2a36ecf6eb84f.html</filename>
+    <filename>dir_7b5d38f1875f1b693f62ca6a108a1129.html</filename>
     <dir>cxx</dir>
     <dir>java</dir>
   </compound>
   <compound kind="dir">
     <name>utilities</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/</path>
-    <filename>dir_1362ac85e6fae50dd707a0133617e14e.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/</path>
+    <filename>dir_d53995976f0f1e3cb2c6ee09db99ef2e.html</filename>
     <dir>bash</dir>
     <dir>perl</dir>
     <dir>python</dir>
   </compound>
   <compound kind="dir">
     <name>utilities_bash.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/bash/CMakeFiles/utilities_bash.dir/</path>
-    <filename>dir_070bc4cdda150b98ee026d00d770c48e.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/bash/CMakeFiles/utilities_bash.dir/</path>
+    <filename>dir_46bb50e3478431ee76ee910fc91a3334.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>utilities_perl.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/</path>
-    <filename>dir_d8b1e3cbbe572773e8429e2f0f106970.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/</path>
+    <filename>dir_fa81cc0427d734de2e5f782fec15b3d8.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>utilities_python.dir</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/python/CMakeFiles/utilities_python.dir/</path>
-    <filename>dir_ae7cdcbfeac23626af075e944aab39f6.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/python/CMakeFiles/utilities_python.dir/</path>
+    <filename>dir_16d13515867a8f0d7d1ccb90b5dea19f.html</filename>
     <dir>build</dir>
   </compound>
   <compound kind="dir">
     <name>View</name>
-    <path>/Users/as12312/Software/SBIA/BASIS/build-doc-usability/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
-    <filename>dir_b48189f97c8ed1fbdfff8ef9389591dc.html</filename>
+    <path>/Users/as12312/Software/SBIA/BASIS/build/src/utilities/perl/CMakeFiles/utilities_perl.dir/build/BASIS/Pod/POM/View/</path>
+    <filename>dir_835c534e88418f22821945a8772bab47.html</filename>
     <file>Doxygen.pm</file>
     <file>HTML.pm</file>
     <file>View/Pod.pm</file>

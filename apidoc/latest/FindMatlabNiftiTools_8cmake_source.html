@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_19d237431eb15d92c0212db6c7c6c0a8.html">src</a></li><li class="navelem"><a class="el" href="dir_667746fa40fde24b1cd40abcf09b77d1.html">cmake</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_be02714555a28bbbf6e988d7985420fc.html">cmake</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -112,80 +112,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   &lt;/tr&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># &lt;/table&gt;</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011, 2012 University of Pennsylvania. All rights reserved.&lt;br /&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeFindModules</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">   48</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># initialize search</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT <a class="code" href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">MatlabNiftiTools_DIR</a>)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span> (NOT $ENV{MATLABNIFTITOOLS_DIR} STREQUAL <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    set (MatlabNiftiTools_DIR <span class="stringliteral">&quot;$ENV{MATLABNIFTITOOLS_DIR}&quot;</span>  CACHE PATH <span class="stringliteral">&quot;Installation prefix for MATLAB NIfTI tools.&quot;</span> FORCE)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">else</span> ()</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    set (MatlabNiftiTools_DIR <span class="stringliteral">&quot;$ENV{MatlabNiftiTools_DIR}&quot;</span> CACHE PATH <span class="stringliteral">&quot;Installation prefix for MATLAB NIfTI tools.&quot;</span> FORCE)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  endif ()</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;endif ()</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># find paths / files</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (MatlabNiftiTools_DIR)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  find_path (</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    MatlabNiftiTools_INCLUDE_DIR</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      NAMES load_nii.m</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      HINTS ${MatlabNiftiTools_DIR}</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      DOC   <span class="stringliteral">&quot;Path of directory containing load_nii.m&quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      NO_DEFAULT_PATH</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  )</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordflow">else</span> ()</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  find_path (</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    MatlabNiftiTools_INCLUDE_DIR</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    NAMES load_nii.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    HINTS ENV MATLABPATH</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    DOC   &quot;Path of directory containing load_nii.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a>&quot;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  )</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;endif ()</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># append paths / libraries of packages this package depends on</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (MatlabNiftiTools_INCLUDE_DIR)</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">   84</a></span>&#160;  set (<a class="code" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a> <span class="stringliteral">&quot;${MatlabNiftiTools_INCLUDE_DIR}&quot;</span>)</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">   85</a></span>&#160;  set (<a class="code" href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">MatlabNiftiTools_INCLUDES</a>     &quot;${<a class="code" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a>}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="stringliteral"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral"># handle the QUIETLY and REQUIRED arguments and set *_FOUND to TRUE</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="stringliteral"># if all listed variables are found or TRUE</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">include (FindPackageHandleStandardArgs)</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeFindModules</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">   53</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># initialize search</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT <a class="code" href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">MatlabNiftiTools_DIR</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span> (NOT $ENV{MATLABNIFTITOOLS_DIR} STREQUAL <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    set (MatlabNiftiTools_DIR <span class="stringliteral">&quot;$ENV{MATLABNIFTITOOLS_DIR}&quot;</span>  CACHE PATH <span class="stringliteral">&quot;Installation prefix for MATLAB NIfTI tools.&quot;</span> FORCE)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">else</span> ()</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    set (MatlabNiftiTools_DIR <span class="stringliteral">&quot;$ENV{MatlabNiftiTools_DIR}&quot;</span> CACHE PATH <span class="stringliteral">&quot;Installation prefix for MATLAB NIfTI tools.&quot;</span> FORCE)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  endif ()</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;endif ()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># find paths / files</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (MatlabNiftiTools_DIR)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  find_path (</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    MatlabNiftiTools_INCLUDE_DIR</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      NAMES load_nii.m</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      HINTS ${MatlabNiftiTools_DIR}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      DOC   <span class="stringliteral">&quot;Path of directory containing load_nii.m&quot;</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      NO_DEFAULT_PATH</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  )</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordflow">else</span> ()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  find_path (</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    MatlabNiftiTools_INCLUDE_DIR</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    NAMES load_nii.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    HINTS ENV MATLABPATH</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    DOC   &quot;Path of directory containing load_nii.<a class="code" href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">m</a>&quot;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  )</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;endif ()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># append paths / libraries of packages this package depends on</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (MatlabNiftiTools_INCLUDE_DIR)</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">   89</a></span>&#160;  set (<a class="code" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a> <span class="stringliteral">&quot;${MatlabNiftiTools_INCLUDE_DIR}&quot;</span>)</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">   90</a></span>&#160;  set (<a class="code" href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">MatlabNiftiTools_INCLUDES</a>     &quot;${<a class="code" href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a>}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">endif ()</span></div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="stringliteral">find_package_handle_standard_args (</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="stringliteral">  MatlabNiftiTools</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="stringliteral">  REQUIRED_ARGS</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="stringliteral">    MatlabNiftiTools_INCLUDE_DIR</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral">)</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#aa4d8d4fa0c8b0ea3e7bb9972ae1c220b">   99</a></span>&#160;<span class="stringliteral">set (MatlabNiftiTools_FOUND &quot;</span>${MATLABNIFTITOOLS_FOUND}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="stringliteral"># ----------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="stringliteral"># set MatlabNiftiTools_DIR</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="stringliteral">if (NOT MatlabNiftiTools_DIR AND MatlabNiftiTools_FOUND)</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="stringliteral">  set (MatlabNiftiTools_DIR &quot;</span>${MatlabNiftiTools_INCLUDE_DIR}<span class="stringliteral">&quot; CACHE PATH &quot;</span>Installation prefix <span class="keywordflow">for</span> MATLAB NIfTI tools.<span class="stringliteral">&quot; FORCE)</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_a9fa076f9f0106bfbc83532f51b522098"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">MatlabNiftiTools_INCLUDES</a></div><div class="ttdeci">cmake MatlabNiftiTools_INCLUDES</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00085">FindMatlabNiftiTools.cmake:85</a></div></div>
-<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_ae30da57b2acb5235d76b9def97214f54"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">MatlabNiftiTools_DIR</a></div><div class="ttdeci">cmake MatlabNiftiTools_DIR</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00048">FindMatlabNiftiTools.cmake:48</a></div></div>
-<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_a8a77dd49930ab70288d0953a6237d2d0"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a></div><div class="ttdeci">cmake MatlabNiftiTools_INCLUDE_DIRS</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00084">FindMatlabNiftiTools.cmake:84</a></div></div>
-<div class="ttc" id="namespacedoxyfilter-perl_html_a3e99ca53f10c2be401f6efbb288e1239"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">doxyfilter-perl.m</a></div><div class="ttdeci">tuple m</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00050">doxyfilter-perl.py:50</a></div></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="stringliteral"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="stringliteral"># handle the QUIETLY and REQUIRED arguments and set *_FOUND to TRUE</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="stringliteral"># if all listed variables are found or TRUE</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="stringliteral">include (FindPackageHandleStandardArgs)</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral">find_package_handle_standard_args (</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral">  MatlabNiftiTools</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="stringliteral">  REQUIRED_ARGS</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="stringliteral">    MatlabNiftiTools_INCLUDE_DIR</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="stringliteral">)</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="FindMatlabNiftiTools_8cmake.html#aa4d8d4fa0c8b0ea3e7bb9972ae1c220b">  104</a></span>&#160;<span class="stringliteral">set (MatlabNiftiTools_FOUND &quot;</span>${MATLABNIFTITOOLS_FOUND}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral"># set MatlabNiftiTools_DIR</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">if (NOT MatlabNiftiTools_DIR AND MatlabNiftiTools_FOUND)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral">  set (MatlabNiftiTools_DIR &quot;</span>${MatlabNiftiTools_INCLUDE_DIR}<span class="stringliteral">&quot; CACHE PATH &quot;</span>Installation prefix <span class="keywordflow">for</span> MATLAB NIfTI tools.<span class="stringliteral">&quot; FORCE)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="stringliteral">endif ()</span></div>
+<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_a9fa076f9f0106bfbc83532f51b522098"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#a9fa076f9f0106bfbc83532f51b522098">MatlabNiftiTools_INCLUDES</a></div><div class="ttdeci">cmake MatlabNiftiTools_INCLUDES</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00090">FindMatlabNiftiTools.cmake:90</a></div></div>
+<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_ae30da57b2acb5235d76b9def97214f54"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#ae30da57b2acb5235d76b9def97214f54">MatlabNiftiTools_DIR</a></div><div class="ttdeci">cmake MatlabNiftiTools_DIR</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00053">FindMatlabNiftiTools.cmake:53</a></div></div>
+<div class="ttc" id="FindMatlabNiftiTools_8cmake_html_a8a77dd49930ab70288d0953a6237d2d0"><div class="ttname"><a href="FindMatlabNiftiTools_8cmake.html#a8a77dd49930ab70288d0953a6237d2d0">MatlabNiftiTools_INCLUDE_DIRS</a></div><div class="ttdeci">cmake MatlabNiftiTools_INCLUDE_DIRS</div><div class="ttdef"><b>Definition:</b> <a href="FindMatlabNiftiTools_8cmake_source.html#l00089">FindMatlabNiftiTools.cmake:89</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a3e99ca53f10c2be401f6efbb288e1239"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a3e99ca53f10c2be401f6efbb288e1239">doxyfilter-perl.m</a></div><div class="ttdeci">tuple m</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00055">doxyfilter-perl.py:55</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 13:42:13. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

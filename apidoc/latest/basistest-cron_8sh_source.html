@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b227d34579926e119eb274379d02d73c.html">src</a></li><li class="navelem"><a class="el" href="dir_245eddfe32f5dea77f86df11cfb536f4.html">tools</a></li><li class="navelem"><a class="el" href="dir_608689537865e2a1aa162a46d73b429b.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_7118aa0b3b425e0b03d29b127fc6992a.html">basistest-cron.dir</a></li><li class="navelem"><a class="el" href="dir_ec019fe85a57344d3ad502828a4179f5.html">build</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_4e7c8c4fc0d923782da8a23d70a9725b.html">src</a></li><li class="navelem"><a class="el" href="dir_22f1cc1dbdaa990662b9c03c3a829f75.html">tools</a></li><li class="navelem"><a class="el" href="dir_b9a5b6428a6606fd82cc1607ba6488fe.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_153e95ad5be68d7abd3d13b592b548b2.html">basistest-cron.dir</a></li><li class="navelem"><a class="el" href="dir_2450f076eba40ec3aae62c38b9decf3b.html">build</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,192 +90,197 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># The configuration of automated tests is done in the configuration file</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># for the basistest-master.sh. See value of conf variable below.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011 University of Pennsylvania. All rights reserved.&lt;br /&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup Tools</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;. ${BASIS_BASH_UTILITIES} || exit 1</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># constants</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<a class="code" href="namespacebasis_1_1os.html#a7092af7bdb5ca9e9eebe1e65f069fb54">exedir</a>  <a class="code" href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">_EXEC_DIR</a>  &amp;&amp; readonly <a class="code" href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">_EXEC_DIR</a></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> <a class="code" href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">_EXEC_NAME</a> &amp;&amp; readonly <a class="code" href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">_EXEC_NAME</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># settings</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">## @brief Whether to use SGE or not.</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span>sge=1</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">## @brief SGE queue; set to &#39;&#39; to not specify any.</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>queue=<span class="stringliteral">&#39;centos5&#39;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">## @brief Mail address for SGE notifications; set to &#39;&#39; to disable notifications.</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span>mail=<span class="stringliteral">&#39;&#39;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">## @brief Output file for test log; used for -o and -e option of qsub.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>log=<span class="stringliteral">&#39;/sbia/home/swtest/var/log/basistest-$JOB_ID.log&#39;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">## @brief Maximum number of days for which log files should be kept.</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span>max_log_mtime=7</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">## @brief Configuration file; configure the automated tests here, see &lt;tt&gt;basistestd -h&lt;/td&gt;.</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span>conf=<span class="stringliteral">&#39;/sbia/home/swtest/etc/basistest.conf&#39;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">## @brief Schedule file; note that this file is created/updated by the testing daemon.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span>schedule=<span class="stringliteral">&#39;/sbia/home/swtest/var/run/basistest.schedule&#39;</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">## @brief CTest script.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Has to be given with full path because SGE copies the slave script which</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># looks for the CTest script relative to its own location.</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span>ctest=<span class="stringliteral">&quot;${_EXEC_DIR}/../share/cmake-modules/basistest.ctest&quot;</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">## @brief Testing master script.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span>master=<span class="stringliteral">&quot;${_EXEC_DIR}/basistest-master&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">## @brief Test execution command.</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Note: We use a fixed site name for the tests. This allows the test job to be</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       run on any compute node with the same system installation without</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       having CDash list submissions from these different notes as separate.</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       In particular, the numbers of how many tests are now succeeding compared</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       to previous runs, or how many are now failing would otherwise be confusing</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       when the tests are not regularly run at one and the same site, but</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       different sites which represent the same operating system and configuration.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span>slave=<span class="stringliteral">&quot;${_EXEC_DIR}/basistest-slave -v -S ${ctest} --args site=sbia-cluster-centos5,shared-source,shared-build&quot;</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># main</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>=0</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;dry=<span class="stringliteral">&#39;false&#39;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordflow">while</span> [ $# -gt 0 ]; <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">case</span> <span class="stringliteral">&quot;$1&quot;</span> in</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        -h|--<a class="code" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">help</a>)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            echo <span class="stringliteral">&quot;  ${_EXEC_NAME}&quot;</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            echo</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            echo <span class="stringliteral">&quot;Description:&quot;</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            echo <span class="stringliteral">&quot;  This command should be run regularly by a cron job. It contains&quot;</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            echo <span class="stringliteral">&quot;  all the fixed settings for the execution of the basistest master&quot;</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            echo <span class="stringliteral">&quot;  command, which is simply executed by this command.&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup Tools</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;. ${BASIS_BASH_UTILITIES} || exit 1</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># constants</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="namespacebasis_1_1os.html#a7092af7bdb5ca9e9eebe1e65f069fb54">exedir</a>  <a class="code" href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">_EXEC_DIR</a>  &amp;&amp; readonly <a class="code" href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">_EXEC_DIR</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<a class="code" href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">exename</a> <a class="code" href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">_EXEC_NAME</a> &amp;&amp; readonly <a class="code" href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">_EXEC_NAME</a></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># settings</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">## @brief Whether to use SGE or not.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span>sge=1</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">## @brief SGE queue; set to &#39;&#39; to not specify any.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span>queue=<span class="stringliteral">&#39;centos5&#39;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">## @brief Mail address for SGE notifications; set to &#39;&#39; to disable notifications.</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span>mail=<span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">## @brief Output file for test log; used for -o and -e option of qsub.</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span>log=<span class="stringliteral">&#39;/sbia/home/swtest/var/log/basistest-$JOB_ID.log&#39;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">## @brief Maximum number of days for which log files should be kept.</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span>max_log_mtime=7</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">## @brief Configuration file; configure the automated tests here, see &lt;tt&gt;basistestd -h&lt;/td&gt;.</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span>conf=<span class="stringliteral">&#39;/sbia/home/swtest/etc/basistest.conf&#39;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">## @brief Schedule file; note that this file is created/updated by the testing daemon.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span>schedule=<span class="stringliteral">&#39;/sbia/home/swtest/var/run/basistest.schedule&#39;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">## @brief CTest script.</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Has to be given with full path because SGE copies the slave script which</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># looks for the CTest script relative to its own location.</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span>ctest=<span class="stringliteral">&quot;${_EXEC_DIR}/../share/cmake-modules/basistest.ctest&quot;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">## @brief Testing master script.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span>master=<span class="stringliteral">&quot;${_EXEC_DIR}/basistest-master&quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">## @brief Test execution command.</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Note: We use a fixed site name for the tests. This allows the test job to be</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       run on any compute node with the same system installation without</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       having CDash list submissions from these different notes as separate.</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       In particular, the numbers of how many tests are now succeeding compared</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       to previous runs, or how many are now failing would otherwise be confusing</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       when the tests are not regularly run at one and the same site, but</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       different sites which represent the same operating system and configuration.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span>slave=<span class="stringliteral">&quot;${_EXEC_DIR}/basistest-slave -v -S ${ctest} --args site=sbia-cluster-centos5,shared-source,shared-build&quot;</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># main</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ============================================================================</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>=0</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;dry=<span class="stringliteral">&#39;false&#39;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordflow">while</span> [ $# -gt 0 ]; <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">case</span> <span class="stringliteral">&quot;$1&quot;</span> in</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        -h|--<a class="code" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">help</a>)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            echo <span class="stringliteral">&quot;  ${_EXEC_NAME}&quot;</span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            echo</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            echo <span class="stringliteral">&quot;Optional arguments:&quot;</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            echo <span class="stringliteral">&quot;  --dry   Dry run, i.e., do not actually invoke the test execution command.&quot;</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            echo</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            exit 0</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            ;;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        --helpshort)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            echo <span class="stringliteral">&quot;  ${_EXEC_NAME}&quot;</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            echo</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            exit 0</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            ;;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        --<a class="code" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">version</a>)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">print_version</a> <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            echo <span class="stringliteral">&quot;Description:&quot;</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            echo <span class="stringliteral">&quot;  This command should be run regularly by a cron job. It contains&quot;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            echo <span class="stringliteral">&quot;  all the fixed settings for the execution of the basistest master&quot;</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            echo <span class="stringliteral">&quot;  command, which is simply executed by this command.&quot;</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            echo</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            echo <span class="stringliteral">&quot;Optional arguments:&quot;</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            echo <span class="stringliteral">&quot;  --dry   Dry run, i.e., do not actually invoke the test execution command.&quot;</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            echo</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            exit 0</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            ;;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        --helpshort)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            echo <span class="stringliteral">&quot;Usage:&quot;</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            echo <span class="stringliteral">&quot;  ${_EXEC_NAME}&quot;</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            echo</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">print_contact</a></div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            exit 0</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            ;;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        --dry)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            dry=<span class="stringliteral">&#39;true&#39;</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            ;;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        -v|--<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            (( <a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>++ ))</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            ;;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        *)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            echo <span class="stringliteral">&quot;Invalid argument $1! See ${_EXEC_NAME} --help.&quot;</span> 1&gt;&amp;2</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            exit 1</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        --<a class="code" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">version</a>)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <a class="code" href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">print_version</a> <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            exit 0</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            ;;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        --dry)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            dry=<span class="stringliteral">&#39;true&#39;</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            ;;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        -v|--<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            (( <a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>++ ))</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            ;;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    esac</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    shift</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;done</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor"># prepend test command by qsub command</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> [ ${sge} -ne 0 ]; then</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    tmpslave=$(mktemp -t <span class="stringliteral">&#39;basistest-XXXXXX&#39;</span>)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    echo <span class="stringliteral">&quot;#! /usr/bin/env bash&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    echo <span class="stringliteral">&quot;# temporarily generated by basistest-cron for submission to SGE&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    echo <span class="stringliteral">&quot;${slave} \&quot;\$@\&quot;&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordflow">if</span> [ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ]; then</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        echo <span class="stringliteral">&quot;Wrote temporary SGE submission script ${tmpslave} with command:&quot;</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        echo <span class="stringliteral">&quot;    ${slave} \&quot;\$@\&quot;&quot;</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    fi</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    submit=<span class="stringliteral">&#39;qsub -cwd&#39;</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${queue}&quot;</span> ]; then submit=<span class="stringliteral">&quot;${submit} -l ${queue}&quot;</span>; fi</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${mail}&quot;</span> ];  then submit=<span class="stringliteral">&quot;${submit} -M ${mail} -m b -m e -m a&quot;</span>; fi</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${log}&quot;</span> ];   then submit=<span class="stringliteral">&quot;${submit} -o ${log} -j y&quot;</span>; fi</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    slave=<span class="stringliteral">&quot;${submit} ${tmpslave}&quot;</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;fi</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor"># remove log files that are older than max_log_mtime (days)</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${log}&quot;</span> ]; then</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;log_path=${log<span class="comment">//\$JOB_ID/\*}</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    log_dir=`<a class="code" href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">dirname</a> <span class="stringliteral">&quot;${log_path}&quot;</span>`</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    log_dir_ok=<span class="stringliteral">&#39;false&#39;</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">if</span> [[ $(uname) == <span class="stringliteral">&#39;Darwin&#39;</span> ]]; then</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">if</span> [[ <span class="stringliteral">&quot;${log_dir}&quot;</span> =~ ^/sbia/home/swtest/var/ ]]; then</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            log_dir_ok=<span class="stringliteral">&#39;true&#39;</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        fi</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">if</span> [[ <span class="stringliteral">&quot;${log_dir}&quot;</span> =~ <span class="stringliteral">&#39;^/sbia/home/swtest/var/&#39;</span> ]]; then</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            log_dir_ok=<span class="stringliteral">&#39;true&#39;</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        fi</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    fi</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">if</span> [ <span class="stringliteral">&quot;${log_dir_ok}&quot;</span> == <span class="stringliteral">&#39;true&#39;</span> ]; then</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        log_name=`<a class="code" href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basename</a> <span class="stringliteral">&quot;${log_path}&quot;</span>`</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">if</span> [ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ]; then</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            echo <span class="stringliteral">&quot;Removing old log files using command&quot;</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            echo <span class="stringliteral">&quot;    find \&quot;${log_dir}\&quot; -name \&quot;${log_name}\&quot; -mtime \&quot;+${max_log_mtime}\&quot; -exec rm -f &#39;{}&#39; &#39;;&#39;&quot;</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        fi</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        find <span class="stringliteral">&quot;${log_dir}&quot;</span> -<a class="code" href="namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed">name</a> <span class="stringliteral">&quot;${log_name}&quot;</span> -mtime <span class="stringliteral">&quot;+${max_log_mtime}&quot;</span> -exec rm -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&#39;{}&#39;</span> <span class="charliteral">&#39;;&#39;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        echo <span class="stringliteral">&quot;WARNING: Attempting to delete old log files from directory other than /sbia/home/swtest/var/.&quot;</span> 1&gt;&amp;2</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        echo <span class="stringliteral">&quot;WARNING: Skipping removal of any files. Update basistest-cron.sh to account for changed location of log files!&quot;</span> 1&gt;&amp;2</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    fi</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;fi</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor"># run actual testing master</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"></span>cmd=(${master} -c <span class="stringliteral">&quot;${conf}&quot;</span> -s <span class="stringliteral">&quot;${schedule}&quot;</span> -t <span class="stringliteral">&quot;${slave}&quot;</span>)</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;[ ${dry} == <span class="stringliteral">&#39;true&#39;</span> ] &amp;&amp; cmd=(<span class="stringliteral">&quot;${cmd[@]}&quot;</span> --dry)</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;[ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ] &amp;&amp; cmd=(<span class="stringliteral">&quot;${cmd[@]}&quot;</span> -v) &amp;&amp; echo <span class="stringliteral">&quot;$ ${cmd[@]}&quot;</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="stringliteral">&quot;${cmd[@]}&quot;</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;# <span class="keyword">remove</span> SGE submission script (SGE copied it already)</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;[ -n <span class="stringliteral">&quot;${tmpslave}&quot;</span> ] &amp;&amp; rm -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
-<div class="ttc" id="namespacedoxyfilter-perl_html_ab2995f7a2dae89eda2c4df5417ef18ed"><div class="ttname"><a href="namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed">doxyfilter-perl.name</a></div><div class="ttdeci">tuple name</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00079">doxyfilter-perl.py:79</a></div></div>
-<div class="ttc" id="namespacebasis_1_1util_html_abe20d398bb617aede33cd0793ec705b8"><div class="ttname"><a href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">basis::util::print_contact</a></div><div class="ttdeci">void print_contact(const char *contact)</div><div class="ttdoc">Print contact information. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00027">utilities.cxx:27</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_a4a99f33e3a65262b7c7efc2345286bd0"><div class="ttname"><a href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></div><div class="ttdeci">string help</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00855">basisproject.py:855</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_a5c414e44bd52831a3ec51e488ead9865"><div class="ttname"><a href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">basisproject._EXEC_DIR</a></div><div class="ttdeci">tuple _EXEC_DIR</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00039">basisproject.py:39</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_a7665dd351ccef9f83ec6ed8372cfa6d4"><div class="ttname"><a href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">basisproject._EXEC_NAME</a></div><div class="ttdeci">tuple _EXEC_NAME</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00040">basisproject.py:40</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_html_a7092af7bdb5ca9e9eebe1e65f069fb54"><div class="ttname"><a href="namespacebasis_1_1os.html#a7092af7bdb5ca9e9eebe1e65f069fb54">basis::os::exedir</a></div><div class="ttdeci">std::string exedir()</div><div class="ttdoc">Get canonical path of directory containing executable file. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00136">os.cxx:136</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_html_ae96199246f865a4ac514e9f917c00375"><div class="ttname"><a href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">basis::os::exename</a></div><div class="ttdeci">std::string exename()</div><div class="ttdoc">Get name of executable. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00123">os.cxx:123</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_1_1path_html_ad389eabfc9a3210feec0d6dd99ef44a3"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basis::os::path::basename</a></div><div class="ttdeci">std::string basename(const std::string &amp;path)</div><div class="ttdoc">Get file name. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00269">path.cxx:269</a></div></div>
-<div class="ttc" id="namespacedoxyfilter-perl_html_a5f3722f40f37bf1a568612dd52aeed51"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">doxyfilter-perl.f</a></div><div class="ttdeci">tuple f</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00025">doxyfilter-perl.py:25</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_1_1path_html_acdd969a5eafb020217263913c4840d92"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">basis::os::path::dirname</a></div><div class="ttdeci">std::string dirname(const std::string &amp;path)</div><div class="ttdoc">Get file directory. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00261">path.cxx:261</a></div></div>
-<div class="ttc" id="namespacebasis_1_1os_html_a08b06426ff043ebb907d7f5f1824ca3f"><div class="ttname"><a href="namespacebasis_1_1os.html#a08b06426ff043ebb907d7f5f1824ca3f">basis::os::readlink</a></div><div class="ttdeci">std::string readlink(const std::string &amp;path)</div><div class="ttdoc">Read value of symbolic link. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00143">os.cxx:143</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_af68750697c3ecb681fe0dba697e8c6e3"><div class="ttname"><a href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></div><div class="ttdeci">string version</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00867">basisproject.py:867</a></div></div>
-<div class="ttc" id="namespacebasis_1_1util_html_aa6b503226203556e0e350e7835bdae8b"><div class="ttname"><a href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">basis::util::print_version</a></div><div class="ttdeci">void print_version(const char *name, const char *version, const char *project=NULL, const char *copyright=NULL, const char *license=NULL)</div><div class="ttdoc">Print version information including copyright and license notices. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00033">utilities.cxx:33</a></div></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        *)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            echo <span class="stringliteral">&quot;Invalid argument $1! See ${_EXEC_NAME} --help.&quot;</span> 1&gt;&amp;2</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            exit 1</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            ;;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    esac</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    shift</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;done</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor"># prepend test command by qsub command</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> [ ${sge} -ne 0 ]; then</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    tmpslave=$(mktemp -t <span class="stringliteral">&#39;basistest-XXXXXX&#39;</span>)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    echo <span class="stringliteral">&quot;#! /usr/bin/env bash&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    echo <span class="stringliteral">&quot;# temporarily generated by basistest-cron for submission to SGE&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    echo <span class="stringliteral">&quot;${slave} \&quot;\$@\&quot;&quot;</span> &gt;&gt; <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">if</span> [ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ]; then</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        echo <span class="stringliteral">&quot;Wrote temporary SGE submission script ${tmpslave} with command:&quot;</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        echo <span class="stringliteral">&quot;    ${slave} \&quot;\$@\&quot;&quot;</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    fi</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    submit=<span class="stringliteral">&#39;qsub -cwd&#39;</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${queue}&quot;</span> ]; then submit=<span class="stringliteral">&quot;${submit} -l ${queue}&quot;</span>; fi</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${mail}&quot;</span> ];  then submit=<span class="stringliteral">&quot;${submit} -M ${mail} -m b -m e -m a&quot;</span>; fi</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${log}&quot;</span> ];   then submit=<span class="stringliteral">&quot;${submit} -o ${log} -j y&quot;</span>; fi</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    slave=<span class="stringliteral">&quot;${submit} ${tmpslave}&quot;</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;fi</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor"># remove log files that are older than max_log_mtime (days)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> [ ! -z <span class="stringliteral">&quot;${log}&quot;</span> ]; then</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;log_path=${log<span class="comment">//\$JOB_ID/\*}</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    log_dir=`<a class="code" href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">dirname</a> <span class="stringliteral">&quot;${log_path}&quot;</span>`</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    log_dir_ok=<span class="stringliteral">&#39;false&#39;</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> [[ $(uname) == <span class="stringliteral">&#39;Darwin&#39;</span> ]]; then</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">if</span> [[ <span class="stringliteral">&quot;${log_dir}&quot;</span> =~ ^/sbia/home/swtest/var/ ]]; then</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            log_dir_ok=<span class="stringliteral">&#39;true&#39;</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        fi</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">if</span> [[ <span class="stringliteral">&quot;${log_dir}&quot;</span> =~ <span class="stringliteral">&#39;^/sbia/home/swtest/var/&#39;</span> ]]; then</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            log_dir_ok=<span class="stringliteral">&#39;true&#39;</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        fi</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    fi</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> [ <span class="stringliteral">&quot;${log_dir_ok}&quot;</span> == <span class="stringliteral">&#39;true&#39;</span> ]; then</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        log_name=`<a class="code" href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basename</a> <span class="stringliteral">&quot;${log_path}&quot;</span>`</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">if</span> [ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ]; then</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            echo <span class="stringliteral">&quot;Removing old log files using command&quot;</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            echo <span class="stringliteral">&quot;    find \&quot;${log_dir}\&quot; -name \&quot;${log_name}\&quot; -mtime \&quot;+${max_log_mtime}\&quot; -exec rm -f &#39;{}&#39; &#39;;&#39;&quot;</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        fi</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        find <span class="stringliteral">&quot;${log_dir}&quot;</span> -<a class="code" href="namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed">name</a> <span class="stringliteral">&quot;${log_name}&quot;</span> -mtime <span class="stringliteral">&quot;+${max_log_mtime}&quot;</span> -exec rm -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&#39;{}&#39;</span> <span class="charliteral">&#39;;&#39;</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        echo <span class="stringliteral">&quot;WARNING: Attempting to delete old log files from directory other than /sbia/home/swtest/var/.&quot;</span> 1&gt;&amp;2</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        echo <span class="stringliteral">&quot;WARNING: Skipping removal of any files. Update basistest-cron.sh to account for changed location of log files!&quot;</span> 1&gt;&amp;2</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    fi</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;fi</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor"># run actual testing master</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor"></span>cmd=(${master} -c <span class="stringliteral">&quot;${conf}&quot;</span> -s <span class="stringliteral">&quot;${schedule}&quot;</span> -t <span class="stringliteral">&quot;${slave}&quot;</span>)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;[ ${dry} == <span class="stringliteral">&#39;true&#39;</span> ] &amp;&amp; cmd=(<span class="stringliteral">&quot;${cmd[@]}&quot;</span> --dry)</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;[ ${<a class="code" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>} -gt 0 ] &amp;&amp; cmd=(<span class="stringliteral">&quot;${cmd[@]}&quot;</span> -v) &amp;&amp; echo <span class="stringliteral">&quot;$ ${cmd[@]}&quot;</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="stringliteral">&quot;${cmd[@]}&quot;</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;# <span class="keyword">remove</span> SGE submission script (SGE copied it already)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;[ -n <span class="stringliteral">&quot;${tmpslave}&quot;</span> ] &amp;&amp; rm -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&quot;${tmpslave}&quot;</span></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_ab2995f7a2dae89eda2c4df5417ef18ed"><div class="ttname"><a href="namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed">doxyfilter-perl.name</a></div><div class="ttdeci">tuple name</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00084">doxyfilter-perl.py:84</a></div></div>
+<div class="ttc" id="namespacebasis_1_1util_html_abe20d398bb617aede33cd0793ec705b8"><div class="ttname"><a href="namespacebasis_1_1util.html#abe20d398bb617aede33cd0793ec705b8">basis::util::print_contact</a></div><div class="ttdeci">void print_contact(const char *contact)</div><div class="ttdoc">Print contact information. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00032">utilities.cxx:32</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_a4a99f33e3a65262b7c7efc2345286bd0"><div class="ttname"><a href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></div><div class="ttdeci">string help</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00860">basisproject.py:860</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_a5c414e44bd52831a3ec51e488ead9865"><div class="ttname"><a href="namespacebasisproject.html#a5c414e44bd52831a3ec51e488ead9865">basisproject._EXEC_DIR</a></div><div class="ttdeci">tuple _EXEC_DIR</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00044">basisproject.py:44</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_a7665dd351ccef9f83ec6ed8372cfa6d4"><div class="ttname"><a href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">basisproject._EXEC_NAME</a></div><div class="ttdeci">tuple _EXEC_NAME</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00045">basisproject.py:45</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_html_a7092af7bdb5ca9e9eebe1e65f069fb54"><div class="ttname"><a href="namespacebasis_1_1os.html#a7092af7bdb5ca9e9eebe1e65f069fb54">basis::os::exedir</a></div><div class="ttdeci">std::string exedir()</div><div class="ttdoc">Get canonical path of directory containing executable file. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00141">os.cxx:141</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_html_ae96199246f865a4ac514e9f917c00375"><div class="ttname"><a href="namespacebasis_1_1os.html#ae96199246f865a4ac514e9f917c00375">basis::os::exename</a></div><div class="ttdeci">std::string exename()</div><div class="ttdoc">Get name of executable. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00128">os.cxx:128</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_1_1path_html_ad389eabfc9a3210feec0d6dd99ef44a3"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#ad389eabfc9a3210feec0d6dd99ef44a3">basis::os::path::basename</a></div><div class="ttdeci">std::string basename(const std::string &amp;path)</div><div class="ttdoc">Get file name. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00274">path.cxx:274</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a5f3722f40f37bf1a568612dd52aeed51"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">doxyfilter-perl.f</a></div><div class="ttdeci">tuple f</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00030">doxyfilter-perl.py:30</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_1_1path_html_acdd969a5eafb020217263913c4840d92"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#acdd969a5eafb020217263913c4840d92">basis::os::path::dirname</a></div><div class="ttdeci">std::string dirname(const std::string &amp;path)</div><div class="ttdoc">Get file directory. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00266">path.cxx:266</a></div></div>
+<div class="ttc" id="namespacebasis_1_1os_html_a08b06426ff043ebb907d7f5f1824ca3f"><div class="ttname"><a href="namespacebasis_1_1os.html#a08b06426ff043ebb907d7f5f1824ca3f">basis::os::readlink</a></div><div class="ttdeci">std::string readlink(const std::string &amp;path)</div><div class="ttdoc">Read value of symbolic link. </div><div class="ttdef"><b>Definition:</b> <a href="os_8cxx_source.html#l00148">os.cxx:148</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_af68750697c3ecb681fe0dba697e8c6e3"><div class="ttname"><a href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></div><div class="ttdeci">string version</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00872">basisproject.py:872</a></div></div>
+<div class="ttc" id="namespacebasis_1_1util_html_aa6b503226203556e0e350e7835bdae8b"><div class="ttname"><a href="namespacebasis_1_1util.html#aa6b503226203556e0e350e7835bdae8b">basis::util::print_version</a></div><div class="ttdeci">void print_version(const char *name, const char *version, const char *project=NULL, const char *copyright=NULL, const char *license=NULL)</div><div class="ttdoc">Print version information including copyright and license notices. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00038">utilities.cxx:38</a></div></div>
 <div class="ttc" id="testdriver_8h_html_a82fe1f872bd00eecd93c84973facfa73"><div class="ttname"><a href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a></div><div class="ttdeci">MultiSwitchArg verbose(&quot;v&quot;,&quot;verbose&quot;,&quot;Increase verbosity of output messages.&quot;, false)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 13:42:13. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b227d34579926e119eb274379d02d73c.html">src</a></li><li class="navelem"><a class="el" href="dir_1362ac85e6fae50dd707a0133617e14e.html">utilities</a></li><li class="navelem"><a class="el" href="dir_2da77f1bdb6d042927c886bab292c41a.html">bash</a></li><li class="navelem"><a class="el" href="dir_a578593184748ea7fbd06332fc28bedc.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_070bc4cdda150b98ee026d00d770c48e.html">utilities_bash.dir</a></li><li class="navelem"><a class="el" href="dir_455444ad8ad7dfd6d5f1f84e6b6ade25.html">build</a></li><li class="navelem"><a class="el" href="dir_e7c6177c0134404d5b59f1502b9a7fad.html">basis</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_4e7c8c4fc0d923782da8a23d70a9725b.html">src</a></li><li class="navelem"><a class="el" href="dir_d53995976f0f1e3cb2c6ee09db99ef2e.html">utilities</a></li><li class="navelem"><a class="el" href="dir_c9abef4f7f5e343083302bf958a0a5e0.html">bash</a></li><li class="navelem"><a class="el" href="dir_7eff1e5813e6c829e8db66b531feeeff.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_46bb50e3478431ee76ee910fc91a3334.html">utilities_bash.dir</a></li><li class="navelem"><a class="el" href="dir_0b341bcd39781fe561edf2a095569104.html">build</a></li><li class="navelem"><a class="el" href="dir_9d661e8882c32be97e69d02a4080b7c3.html">basis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -77,41 +77,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @file  config.sh</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @brief Defines constants such as the BASH version.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2012 University of Pennsylvania. All rights reserved.&lt;br /&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;[ <span class="stringliteral">&quot;${_BASIS_CONFIG_INCLUDED}&quot;</span> == <span class="stringliteral">&#39;true&#39;</span> ] || {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;_BASIS_CONFIG_INCLUDED=<span class="stringliteral">&#39;true&#39;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">## @addtogroup BasisBashUtilities</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  @{</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># All rights reserved.                                &lt;br /&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># or COPYING file for license information.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;[ <span class="stringliteral">&quot;${_BASIS_CONFIG_INCLUDED}&quot;</span> == <span class="stringliteral">&#39;true&#39;</span> ] || {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;_BASIS_CONFIG_INCLUDED=<span class="stringliteral">&#39;true&#39;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">## @brief Major version number of Bash interpreter.</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><a class="code" href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a>=${BASH_VERSION%%.*}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">## @brief Minor version number of Bash interpreter.</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>=${BASH_VERSION#*.}</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>=${<a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>%%.*}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;readonly <a class="code" href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;readonly <a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">## @}</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># end of Doxygen group</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">## @addtogroup BasisBashUtilities</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  @{</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">## @brief Major version number of Bash interpreter.</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><a class="code" href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a>=${BASH_VERSION%%.*}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">## @brief Minor version number of Bash interpreter.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>=${BASH_VERSION#*.}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>=${<a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a>%%.*}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;readonly <a class="code" href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;readonly <a class="code" href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;} # _BASIS_CONFIG_INCLUDED</div>
-<div class="ttc" id="FindBASH_8cmake_html_ad26753ea58a5034cdac2079ed53426a5"><div class="ttname"><a href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a></div><div class="ttdeci">cmake BASH_VERSION_MAJOR</div><div class="ttdef"><b>Definition:</b> <a href="FindBASH_8cmake_source.html#l00017">FindBASH.cmake:17</a></div></div>
-<div class="ttc" id="FindBASH_8cmake_html_ab80d00c5c37aa1f70b29135b85571245"><div class="ttname"><a href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a></div><div class="ttdeci">cmake BASH_VERSION_MINOR</div><div class="ttdef"><b>Definition:</b> <a href="FindBASH_8cmake_source.html#l00028">FindBASH.cmake:28</a></div></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">## @}</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># end of Doxygen group</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;} # _BASIS_CONFIG_INCLUDED</div>
+<div class="ttc" id="FindBASH_8cmake_html_ad26753ea58a5034cdac2079ed53426a5"><div class="ttname"><a href="FindBASH_8cmake.html#ad26753ea58a5034cdac2079ed53426a5">BASH_VERSION_MAJOR</a></div><div class="ttdeci">cmake BASH_VERSION_MAJOR</div><div class="ttdef"><b>Definition:</b> <a href="FindBASH_8cmake_source.html#l00022">FindBASH.cmake:22</a></div></div>
+<div class="ttc" id="FindBASH_8cmake_html_ab80d00c5c37aa1f70b29135b85571245"><div class="ttname"><a href="FindBASH_8cmake.html#ab80d00c5c37aa1f70b29135b85571245">BASH_VERSION_MINOR</a></div><div class="ttdeci">cmake BASH_VERSION_MINOR</div><div class="ttdef"><b>Definition:</b> <a href="FindBASH_8cmake_source.html#l00033">FindBASH.cmake:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 13:42:13. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:02. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

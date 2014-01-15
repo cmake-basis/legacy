@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b227d34579926e119eb274379d02d73c.html">src</a></li><li class="navelem"><a class="el" href="dir_1362ac85e6fae50dd707a0133617e14e.html">utilities</a></li><li class="navelem"><a class="el" href="dir_5308750d91012dff58daebba37b40d49.html">python</a></li><li class="navelem"><a class="el" href="dir_dc06fee8578e57a60cc747d927592a14.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_ae7cdcbfeac23626af075e944aab39f6.html">utilities_python.dir</a></li><li class="navelem"><a class="el" href="dir_6ddb8e5c43d9881e87c00e32401f1135.html">build</a></li><li class="navelem"><a class="el" href="dir_b3f7b86205e93f78ed4c17d256909410.html">basis</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_4e7c8c4fc0d923782da8a23d70a9725b.html">src</a></li><li class="navelem"><a class="el" href="dir_d53995976f0f1e3cb2c6ee09db99ef2e.html">utilities</a></li><li class="navelem"><a class="el" href="dir_27e96765e41d70b29b0c7fe948a6fe9d.html">python</a></li><li class="navelem"><a class="el" href="dir_bf4d12d84fa21d05260a318ce33fa38e.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_16d13515867a8f0d7d1ccb90b5dea19f.html">utilities_python.dir</a></li><li class="navelem"><a class="el" href="dir_303392a728dc3177dfb501788a1e894a.html">build</a></li><li class="navelem"><a class="el" href="dir_ec294707829fab4f8a039c3009f0f7d6.html">basis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -77,23 +77,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># @file  basis/__init__.py</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @brief Initialization file of BASIS Utilities package.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Copyright (c) 2012 University of Pennsylvania. All rights reserved.&lt;br /&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># Contact: SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">##############################################################################</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespacebasis.html#ad802191cfc1ffec145e27d7abed6ad58">   11</a></span>&#160;__all__ = [] <span class="comment"># use of import * is discouraged</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># import utilities module</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> . <span class="keyword">import</span> utilities</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># further, import main functions into this module&#39;s namespace</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> .utilities <span class="keyword">import</span> print_contact, print_version, \</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                       exepath, exename, exedir, execute, SubprocessError</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Copyright (c) 2011-2012 University of Pennsylvania. &lt;br /&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Copyright (c) 2013-2014 Andreas Schuh.              &lt;br /&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># All rights reserved.                                &lt;br /&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"># or COPYING file for license information.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># Contact: Andreas Schuh &lt;andreas.schuh.84@gmail.com&gt;,</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">#          report issues at https://github.com/schuhschuh/cmake-basis/issues</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">##############################################################################</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="namespacebasis.html#ad802191cfc1ffec145e27d7abed6ad58">   16</a></span>&#160;__all__ = [] <span class="comment"># use of import * is discouraged</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># import utilities module</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> . <span class="keyword">import</span> utilities</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># further, import main functions into this module&#39;s namespace</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> .utilities <span class="keyword">import</span> print_contact, print_version, \</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                       exepath, exename, exedir, execute, SubprocessError</div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Sat Jan 11 2014 13:42:13. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 08:11:01. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>
