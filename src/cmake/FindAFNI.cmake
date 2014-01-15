@@ -18,11 +18,7 @@
 #         Specify using COMPONENTS argument of find_package() command.</td>
 #   </tr>
 #   <tr>
-<<<<<<< HEAD
-#     @tp @b AFNI_FIND_OPTIONAL_COMPONENTS @endp
-=======
 #     @tp @b AFNI_FIND_OPTIONAL_COMPONENTS @endtp
->>>>>>> refs/heads/feature/custom-doc-style
 #     <td>List of optional components, i.e., AFNI programs, to look for.
 #         Specify using OPTIONAL_COMPONENTS argument of find_package() command.</td>
 #   </tr>
@@ -42,10 +38,15 @@
 #   </tr>
 # </table>
 #
-# Copyright (c) 2012 University of Pennsylvania. All rights reserved.<br />
-# See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.
+# Copyright (c) 2011-2012 University of Pennsylvania. <br />
+# Copyright (c) 2013-2014 Andreas Schuh.              <br />
+# All rights reserved.                                <br />
 #
-# Contact: SBIA Group <sbia-software at uphs.upenn.edu>
+# See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license
+# or COPYING file for license information.
+#
+# Contact: Andreas Schuh <andreas.schuh.84@gmail.com>,
+#          report issues at https://github.com/schuhschuh/cmake-basis/issues
 #
 # @ingroup CMakeFindModules
 ##############################################################################
