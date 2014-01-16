@@ -1,0 +1,10 @@
+# (c) Copyright 2012 Carnegie Mellon University
+# @author Andrew Hundt <ATHundt@gmail.com>
+
+cmake_minimum_required(VERSION 2.8)
+project(cmakeMesh)
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmakeMeshConfigVersion.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmakeMeshConfig.cmake)
+
+export(PACKAGE cmakeMesh)
