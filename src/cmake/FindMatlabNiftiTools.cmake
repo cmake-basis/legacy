@@ -67,7 +67,7 @@ if (MatlabNiftiTools_DIR)
     MatlabNiftiTools_INCLUDE_DIR
       NAMES load_nii.m
       HINTS ${MatlabNiftiTools_DIR}
-      DOC   "Path of directory containing load_nii.m"
+      DOC   "path to directory containing load_nii.m"
       NO_DEFAULT_PATH
   )
 
@@ -77,7 +77,7 @@ else ()
     MatlabNiftiTools_INCLUDE_DIR
     NAMES load_nii.m
     HINTS ENV MATLABPATH
-    DOC   "Path of directory containing load_nii.m"
+    DOC   "path to directory containing load_nii.m"
   )
 
 endif ()
