@@ -1969,54 +1969,55 @@ macro (basis_project_impl)
     endforeach ()
   endif () 
 
-  if(NOT BASIS_BUILD_ONLY)
-    # --------------------------------------------------------------------------
-    # finalize custom targets
-    if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
-      # configure the BASIS utilities
-      basis_configure_utilities ()
-      # add missing build commands for custom targets
-      basis_finalize_targets ()
-      # add build target for missing __init__.py files of Python package
-      if(USE_Python)
-        basis_add_init_py_target ()
-      endif()
+  # ----------------------------------------------------------------------------
+  # finalize custom targets
+  if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
+    # configure the BASIS utilities
+    basis_configure_utilities ()
+    # add missing build commands for custom targets
+    basis_finalize_targets ()
+    # add build target for missing __init__.py files of Python package
+    if (USE_Python)
+      basis_add_init_py_target ()
     endif ()
-    
+  endif ()
+
+  # --------------------------------------------------------------------------
+  # build/install package documentation
+  #
+  # This is done after all files which may be interesting for inclusion
+  # in the documentation are generated. In particular, this has to be done
+  # after the configuration of the BASIS utilities.
+  if (EXISTS "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
+    add_subdirectory ("${PROJECT_DOC_DIR}")
+  endif ()
+
+  if (NOT BASIS_BUILD_ONLY)
+
+    # --------------------------------------------------------------------------
+    # change log
+    basis_add_changelog ()
+
     # --------------------------------------------------------------------------
     # add installation rules for public headers
     basis_install_public_headers ()
-    
+
     # --------------------------------------------------------------------------
     # generate configuration files
     include ("${BASIS_MODULE_PATH}/GenerateConfig.cmake")
-    
-    # ----------------------------------------------------------------------------
-    # change log
-    basis_add_changelog ()
-    
-    # --------------------------------------------------------------------------
-    # build/install package documentation
-    #
-    # This is done after all files which may be interesting for inclusion
-    # in the documentation are generated. In particular, this has to be done
-    # after the configuration of the BASIS utilities.
-    if (EXISTS "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
-      add_subdirectory ("${PROJECT_DOC_DIR}")
-    endif ()
-    
+
     # --------------------------------------------------------------------------
     # package software
-    if ((NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT))
+    if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
       include ("${BASIS_MODULE_PATH}/BasisPack.cmake")
-    endif()
-    
+    endif ()
+
     # --------------------------------------------------------------------------
     # add installation rule to register package with CMake
     if (BASIS_REGISTER AND NOT PROJECT_IS_MODULE AND PROJECT_VERSION VERSION_GREATER 0.0.0)
       basis_register_package ()
     endif ()
-    
+
     # --------------------------------------------------------------------------
     # uninstaller
     if (NOT PROJECT_IS_MODULE)
@@ -2029,7 +2030,7 @@ macro (basis_project_impl)
       add_subdirectory ("${BASIS_MODULE_PATH}/uninstall" "${PROJECT_BINARY_DIR}/uninstall")
     endif ()
   endif(NOT BASIS_BUILD_ONLY)
-    
+
   if (BASIS_DEBUG)
     basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterFinalization.cmake")
   endif ()
