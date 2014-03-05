@@ -308,7 +308,7 @@ macro (basis_project_check_metadata)
   # extract main source code directories from lists
   list (GET PROJECT_INCLUDE_DIRS 0 PROJECT_INCLUDE_DIR)
   list (GET PROJECT_CODE_DIRS    0 PROJECT_CODE_DIR)
-  # let basis_project_impl() know that basis_project() was called
+  # let basis_project_begin() know that basis_project() was called
   set (BASIS_basis_project_CALLED TRUE)
 endmacro ()
 
@@ -1382,8 +1382,7 @@ endfunction()
 # ----------------------------------------------------------------------------
 ## @brief Initialize project, calls CMake's project() command.
 #
-# @sa basis_project()
-# @sa basis_project_impl()
+# @sa basis_project(), basis_project_begin()
 #
 # @returns Sets the following non-cached CMake variables:
 # @retval PROJECT_REVISION         Revision number of Subversion controlled
@@ -1787,25 +1786,52 @@ endmacro ()
 # ============================================================================
 
 # ----------------------------------------------------------------------------
-## @brief Implementation of root <tt>CMakeLists.txt</tt> file of BASIS project.
+## @brief Add subdirectory or ignore it if it does not exist.
+macro (basis_add_subdirectory SUBDIR)
+  if (NOT IS_ABSOLUTE "${SUBDIR}")
+    set (SUBDIR "${CMAKE_CURRENT_SOURCE_DIR}/${SUBDIR}")
+  endif ()
+  if (IS_DIRECTORY "${SUBDIR}")
+    add_subdirectory ("${SUBDIR}")
+  elseif (BASIS_VERBOSE)
+    message (WARNING "Skipping non-existing subdirectory ${SUBDIR}.")
+  endif ()
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Add a project module.
+function (basis_add_module MODULE)
+  message (STATUS "Configuring module ${MODULE}...")
+  if (PROJECT_IS_MODULE)
+    message (FATAL_ERROR "A module cannot have submodules by itself!")
+  endif ()
+  set (PROJECT_IS_MODULE TRUE)
+  # Set up modules, checking the super build special case first.
+  # By default the else case with add_subdirectory() will be called.
+  #
+  # Note: - MODULE_${MODULE}_SOURCE_DIR is the location of the module source code.
+  #       - MODULE_${MODULE}_BINARY_DIR is the build directory for the module.
+  if (PROJECT_SUPER_BUILD OR BASIS_SUPER_BUILD)
+    basis_super_build (${MODULE}) # automatically uses: "${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}"
+  else ()
+    add_subdirectory ("${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}")
+  endif ()
+  message (STATUS "Configuring module ${MODULE}... - done")
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Marks the begin of a BASIS project.
 #
-# This macro implements the entire logic of the top-level
-# <tt>CMakeLists.txt</tt> file. At first, the project is initialized and the
-# BASIS settings configured using the project information given in the
-# <tt>BasisProject.cmake</tt> file which must be located in the same directory.
-# The, the code in the <tt>CMakeLists.txt</tt> files in the subdirectories is
-# executed in order. At the end, the configuration of the build system is
-# finalized, including in particular also the addition of custom build targets
-# which perform the actual build of custom build targets such as the ones build
-# using the MATLAB Compiler.
+# This macro initializes a BASIS project. It replaces CMake's project() command.
+# At first, the project is initialized and the BASIS settings configured using
+# the project information given in the <tt>BasisProject.cmake</tt> file which
+# must be located in the same directory.
 #
-# @sa BasisProject.cmake
-# @sa basis_project()
+# @sa BasisProject.cmake, basis_project(), basis_project_end(), basis_project_impl()
 #
-# @attention: add_uninstall must be done last and using a add_subdirectory() call
-#             such that the code is executed last by the root cmake_install.cmake!
 # @ingroup CMakeAPI
-macro (basis_project_impl)
+macro (basis_project_begin)
+
   # --------------------------------------------------------------------------
   # set CMAKE_INSTALL_PREFIX to cached invalid value to have
   # basis_initialize_settings() set it to BASIS's default rather than CMake's
@@ -1952,39 +1978,16 @@ macro (basis_project_impl)
   
   option(BASIS_CONFIGURE_PUBLIC_HEADERS "Perform CMake Variable configuration on .h, .hh, .hpp, .hxx, .inl, .txx, .inc headers that end with a .in suffix" OFF)
   mark_as_advanced(BASIS_CONFIGURE_PUBLIC_HEADERS)
-  
-  if(BASIS_CONFIGURE_PUBLIC_HEADERS)
+
+  if (BASIS_CONFIGURE_PUBLIC_HEADERS)
     basis_configure_public_headers ()
-  endif()
+  endif ()
   basis_configure_script_libraries ()
 
   # --------------------------------------------------------------------------
   # subdirectories
-  if (BASIS_DEBUG)
-    basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterInitialization.cmake")
-  endif ()
-
   if (PROJECT_SUPER_BUILD OR BASIS_SUPER_BUILD)
     include (${BASIS_MODULE_PATH}/BasisSuperBuild.cmake)
-  endif ()
-
-  # build modules
-  if (NOT PROJECT_IS_MODULE)
-    foreach (MODULE IN LISTS PROJECT_MODULES_ENABLED)
-      message (STATUS "Configuring module ${MODULE}...")
-      set (PROJECT_IS_MODULE TRUE)
-      # Set up modules, checking the super build special case first. 
-      # By default the else case with add_subdirectory() will be called.
-      # note: ${MODULE_${MODULE}_SOURCE_DIR} is the location of the module source code
-      #       "${MODULE_${MODULE}_BINARY_DIR}" is the build directory for the module
-      if (PROJECT_SUPER_BUILD OR BASIS_SUPER_BUILD)
-        basis_super_build (${MODULE}) # automatically uses: "${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}"
-      else ()
-        add_subdirectory ("${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}")
-      endif ()
-      set (PROJECT_IS_MODULE FALSE)
-      message (STATUS "Configuring module ${MODULE}... - done")
-    endforeach ()
   endif ()
 
   # add default project directories to list of subdirectories
@@ -1998,24 +2001,27 @@ macro (basis_project_impl)
   list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_DATA_DIR}")
   list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_CODE_DIRS}")
 
-  # process subdirectories
-  foreach (SUBDIR IN LISTS PROJECT_SUBDIRS)
-    if (NOT IS_ABSOLUTE "${SUBDIR}")
-      set (SUBDIR "${CMAKE_CURRENT_SOURCE_DIR}/${SUBDIR}")
-    endif ()
-    if (IS_DIRECTORY "${SUBDIR}")
-      add_subdirectory ("${SUBDIR}")
-    endif ()
-  endforeach ()
+  if (BASIS_DEBUG)
+    basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterInitialization.cmake")
+  endif ()
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Marks the end of a BASIS project.
+#
+# This macro performs all the steps needed to finalize the configuration of
+# a BASIS project, including in particular also the addition of custom build
+# targets which perform the actual build of custom build targets such as
+# the ones build using the MATLAB Compiler. This command must be the last
+# in the root CMakeLists.txt file of each project.
+#
+# @sa basis_project_begin(), basis_project_impl()
+#
+# @ingroup CMakeAPI
+macro (basis_project_end)
 
   if (BASIS_DEBUG)
-    basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterSubdirectories.cmake")
-  endif ()
-
-  # --------------------------------------------------------------------------
-  # write convenience file to setup MATLAB environment
-  if (MATLAB_FOUND)
-    basis_create_addpaths_mfile ()
+    basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesBeforeFinalization.cmake")
   endif ()
 
   # --------------------------------------------------------------------------
@@ -2048,21 +2054,37 @@ macro (basis_project_impl)
     endforeach ()
   endif () 
 
+  # ----------------------------------------------------------------------------
+  # finalize custom targets
+  if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
+    # configure the BASIS utilities
+    basis_configure_utilities ()
+    # add missing build commands for custom targets
+    basis_finalize_targets ()
+    # add build target for missing __init__.py files of Python package
+    if (USE_Python)
+      basis_add_init_py_target ()
+    endif ()
+  endif ()
+    
+  # ----------------------------------------------------------------------------
+  # build/install package documentation
+  #
+  # This is done after all files which may be interesting for inclusion
+  # in the documentation are generated. In particular, this has to be done
+  # after the configuration of the BASIS utilities.
+  if (IS_DIRECTORY "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
+    add_subdirectory ("${PROJECT_DOC_DIR}")
+  endif ()
+
   if (NOT BASIS_BUILD_ONLY)
 
     # --------------------------------------------------------------------------
-    # finalize custom targets
-    if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
-      # configure the BASIS utilities
-      basis_configure_utilities ()
-      # add missing build commands for custom targets
-      basis_finalize_targets ()
-      # add build target for missing __init__.py files of Python package
-      if (USE_Python)
-        basis_add_init_py_target ()
-      endif()
+    # write convenience file to setup MATLAB environment
+    if (MATLAB_FOUND)
+      basis_create_addpaths_mfile ()
     endif ()
-    
+
     # --------------------------------------------------------------------------
     # add installation rules for public headers
     basis_install_public_headers ()
@@ -2071,25 +2093,15 @@ macro (basis_project_impl)
     # generate configuration files
     include ("${BASIS_MODULE_PATH}/GenerateConfig.cmake")
     
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # change log
     basis_add_changelog ()
-    
-    # --------------------------------------------------------------------------
-    # build/install package documentation
-    #
-    # This is done after all files which may be interesting for inclusion
-    # in the documentation are generated. In particular, this has to be done
-    # after the configuration of the BASIS utilities.
-    if (IS_DIRECTORY "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
-      add_subdirectory ("${PROJECT_DOC_DIR}")
-    endif ()
 
     # --------------------------------------------------------------------------
     # package software
-    if ((NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT))
+    if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
       include ("${BASIS_MODULE_PATH}/BasisPack.cmake")
-    endif()
+    endif ()
  
     # --------------------------------------------------------------------------
     # add installation rule to register package with CMake
@@ -2102,10 +2114,8 @@ macro (basis_project_impl)
     if (NOT PROJECT_IS_MODULE)
       # add uninstall target
       basis_add_uninstall ()
-      ## add code to generate uninstaller at the end of the installation
-      #
-      # @attention: add_uninstall must be done last and using a add_subdirectory() call
-      #             such that the code is executed last by the root cmake_install.cmake!
+      # Attention: add_uninstall must be done last and using a add_subdirectory() call
+      #            such that the code is executed last by the root cmake_install.cmake!
       add_subdirectory ("${BASIS_MODULE_PATH}/uninstall" "${PROJECT_BINARY_DIR}/uninstall")
     endif ()
 
@@ -2115,4 +2125,37 @@ macro (basis_project_impl)
     basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterFinalization.cmake")
   endif ()
   
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Implementation of root <tt>CMakeLists.txt</tt> file of BASIS project.
+#
+# This macro implements the entire logic of the top-level
+# <tt>CMakeLists.txt</tt> file. At first, the project is initialized and the
+# BASIS settings configured using the project information given in the
+# <tt>BasisProject.cmake</tt> file which must be located in the same directory.
+# The, the code in the <tt>CMakeLists.txt</tt> files in the subdirectories is
+# executed in order. At the end, the configuration of the build system is
+# finalized, including in particular also the addition of custom build targets
+# which perform the actual build of custom build targets such as the ones build
+# using the MATLAB Compiler.
+#
+# @sa BasisProject.cmake, basis_project(), basis_project_begin(), basis_project_end()
+#
+# @ingroup CMakeAPI
+macro (basis_project_impl)
+  # initialize project
+  basis_project_begin ()
+  # process modules
+  if (NOT PROJECT_IS_MODULE)
+    foreach (MODULE IN LISTS PROJECT_MODULES_ENABLED)
+      basis_add_module (${MODULE})
+    endforeach ()
+  endif ()
+  # process subdirectories
+  foreach (SUBDIR IN LISTS PROJECT_SUBDIRS)
+    basis_add_subdirectory (${SUBDIR})
+  endforeach ()
+  # finalize project
+  basis_project_end ()
 endmacro ()
