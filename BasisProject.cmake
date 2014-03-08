@@ -96,6 +96,10 @@ basis_project (
   PACKAGE_LOGO  "doc/static/logo.svg"
 
   # --------------------------------------------------------------------------
+  # custom layout
+  DATA_DIR templates # data directory contains the default project templates
+
+  # --------------------------------------------------------------------------
   # dependencies
   DEPENDS
     #<dependency>

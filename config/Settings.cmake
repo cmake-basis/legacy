@@ -61,8 +61,9 @@ set (INSTALL_SPHINX_THEMES_DIR "${INSTALL_SHARE_DIR}/sphinx-themes")
 option (BUILD_PROJECT_TOOL    "Request build of the basisproject command-line tool."    ON)
 option (INSTALL_ALL_TEMPLATES "Install additional project templates provided by BASIS." ON)
 
-set (DEFAULT_TEMPLATE     ""                               CACHE PATH "Name/Directory of default project template.")
-set (INSTALL_TEMPLATE_DIR "${INSTALL_SHARE_DIR}/templates" CACHE PATH "Installation directory of project templates.")
+set (PROJECT_TEMPLATES_DIR "${PROJECT_DATA_DIR}")
+set (DEFAULT_TEMPLATE      ""                               CACHE PATH "Name/Directory of default project template.")
+set (INSTALL_TEMPLATE_DIR  "${INSTALL_SHARE_DIR}/templates" CACHE PATH "Installation directory of project templates.")
 
 # force default template to be set
 if (NOT DEFAULT_TEMPLATE)
@@ -89,8 +90,8 @@ mark_as_advanced (INSTALL_TEMPLATE_DIR)
 if (BUILD_PROJECT_TOOL)
   # make default template path absolute
   if (NOT IS_ABSOLUTE "${DEFAULT_TEMPLATE}")
-    if (IS_DIRECTORY "${PROJECT_DATA_DIR}/templates/${DEFAULT_TEMPLATE}")
-      set (DEFAULT_TEMPLATE "${PROJECT_DATA_DIR}/templates/${DEFAULT_TEMPLATE}")
+    if (IS_DIRECTORY "${PROJECT_TEMPLATES_DIR}/${DEFAULT_TEMPLATE}")
+      set (DEFAULT_TEMPLATE "${PROJECT_TEMPLATES_DIR}/${DEFAULT_TEMPLATE}")
     else ()
       set (DEFAULT_TEMPLATE "${CMAKE_BINARY_DIR}/${DEFAULT_TEMPLATE}")
       if (NOT IS_DIRECTORY "${DEFAULT_TEMPLATE}")
