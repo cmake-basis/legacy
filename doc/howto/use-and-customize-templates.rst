@@ -39,7 +39,7 @@ Available Templates
 |            |           | :ref:`HowToCreateATemplate` section below.                                        |
 +------------+-----------+-----------------------------------------------------------------------------------+
 
-You can find the actual templates provided by BASIS in the ``data/templates`` directory.
+.. note:: You can find the actual templates provided by BASIS in the ``templates`` directory.
 
 .. _basis: https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis
 .. _1.1:   https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis/1.1
