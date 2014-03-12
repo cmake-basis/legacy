@@ -486,7 +486,11 @@ mark_as_advanced(BUILD_BASIS_UTILITIES_FOR_CXX
                  BUILD_BASIS_UTILITIES_FOR_BASH)
 
 ## @brief Whether to export build targets by default.
-set (BASIS_EXPORT TRUE)
+# 
+# @see GenerateConfig.cmake, ExportTools.cmake, http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:export
+#
+option (BASIS_EXPORT_TARGETS "Create <projectname>Exports.cmake file so outside projects can import targets from this one." OFF)
+mark_as_advanced (BASIS_EXPORT_TARGETS)
 
 ## @brief Disable use of the revision information obtained from the revision
 #         control software such as Subversion.
