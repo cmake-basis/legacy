@@ -59,12 +59,11 @@ set (CUSTOM_EXPORTS_FILE "${CONFIG_PREFIX}CustomExports.cmake")
 # ============================================================================
 # export build targets
 # ============================================================================
-if(BASIS_EXPORT_TARGETS)
-  basis_export_targets (
-    FILE        "${EXPORTS_FILE}"
-    CUSTOM_FILE "${CUSTOM_EXPORTS_FILE}"
-  )
-endif()
+
+basis_export_targets (
+  FILE        "${EXPORTS_FILE}"
+  CUSTOM_FILE "${CUSTOM_EXPORTS_FILE}"
+)
 
 # ============================================================================
 # namespace
