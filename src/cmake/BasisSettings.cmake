@@ -66,66 +66,6 @@ if (POLICY CMP0017)
   cmake_policy (SET CMP0017 NEW)
 endif ()
 
-## @brief Only enable the CMake components necessary for the build steps.
-option (BASIS_BUILD_ONLY "Disables most BASIS components not necessary for the build step. ON may improve speed." OFF)
-mark_as_advanced(BASIS_BUILD_ONLY)
-
-## @brief Perform basic system checks, Pointer Size, Long Long, Compiler, C++11, etc.
-option (BASIS_SYSTEM_CHECKS "Perform basic system checks, Pointer Size, Long Long, Compiler, C++11, etc. OFF may improve speed" ON)
-mark_as_advanced(BASIS_SYSTEM_CHECKS)
-
-# ============================================================================
-# system checks
-# ============================================================================
-
-# used by tests to disable these checks
-if (BASIS_SYSTEM_CHECKS)
-  include (CheckTypeSize)
-  include (CheckIncludeFileCXX)
-
-  # check if type long long is supported
-  CHECK_TYPE_SIZE ("long long" LONG_LONG)
-
-  if (HAVE_LONG_LONG)
-    set (HAVE_LONG_LONG 1)
-  else ()
-    set (HAVE_LONG_LONG 0)
-  endif ()
-
-  # check for presence of sstream header
-  include (TestForSSTREAM)
-
-  if (CMAKE_NO_ANSI_STRING_STREAM)
-    set (HAVE_SSTREAM 0)
-  else ()
-    set (HAVE_SSTREAM 1)
-  endif ()
-
-  # check if tr/tuple header file is available
-  if (CMAKE_GENERATOR MATCHES "Visual Studio [1-9][0-9]+")
-    set (HAVE_TR1_TUPLE 1)
-  else ()
-    CHECK_INCLUDE_FILE_CXX ("tr1/tuple" HAVE_TR1_TUPLE)
-    if (HAVE_TR1_TUPLE)
-      set (HAVE_TR1_TUPLE 1)
-    else ()
-      set (HAVE_TR1_TUPLE 0)
-    endif ()
-  endif ()
-
-  # check for availibility of pthreads library
-  # defines CMAKE_USE_PTHREADS_INIT and CMAKE_THREAD_LIBS_INIT
-  find_package (Threads)
-
-  if (Threads_FOUND)
-    if (CMAKE_USE_PTHREADS_INIT)
-      set (HAVE_PTHREAD 1)
-    else  ()
-      set (HAVE_PTHREAD 0)
-    endif ()
-  endif ()
-endif ()
-
 # ============================================================================
 # meta-data lists
 # ============================================================================
@@ -722,6 +662,10 @@ mark_as_advanced (BASIS_VERBOSE)
 ## @brief Request debugging messages from BASIS functions.
 option (BASIS_DEBUG "Request BASIS functions to help debugging." OFF)
 mark_as_advanced (BASIS_DEBUG)
+
+## @brief Request configuration of software build only, skipping steps related to packaging and installation.
+option (BASIS_BUILD_ONLY "Request configuration of software build only, skipping steps related to packaging and installation." OFF)
+mark_as_advanced (BASIS_BUILD_ONLY)
 
 # ============================================================================
 # build configuration
