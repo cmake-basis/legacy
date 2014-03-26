@@ -368,23 +368,6 @@ set (BASIS_PROPERTIES_ON_TARGETS
 # convert list of property names into regular expression
 basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_RE ${BASIS_PROPERTIES_ON_TARGETS})
 
-## @brief Whether BASIS shall use target UIDs.
-#
-# If this option is OFF, target UIDs are idential to the target names
-# given as arguments to the "basis_add_*" functions.
-#
-# The target UIDs ensure that no name conflict between the targets
-# of this project and those of an external library which are imported
-# occurs. Another reason for using these target UIDs is to avoid
-# target name conflicts between modules or subprojects which may
-# be developed by different teams.
-#
-# The downside of using target UIDs is, however, a slower configuration
-# of the build system because every target name must be mapped to its
-# target UID and possibly vice versa. Moreover, the use of target UIDs
-# is less intuitive for those new to BASIS but experienced with CMake.
-basis_set_if_empty (BASIS_USE_TARGET_UIDS OFF)
-
 ## @brief Whether BASIS shall use fully-qualified target UIDs.
 #
 # If this option is OFF, the namespace of the top-level BASIS project is
@@ -408,8 +391,21 @@ set (BASIS_LIBRARY_COMPONENT "Development")
 # are associated with if no component was specified, explicitly.
 set (BASIS_RUNTIME_COMPONENT "Runtime")
 
-## @brief FALSE implies that the BASIS C++ utilities should not be added as dependency of an executable by default. FALSE is the default setting. TRUE indicates the utilities should be added as a dependency.
-basis_set_if_not_set(BASIS_UTILITIES FALSE)
+## @brief Enable the automatic detection of the use of the BASIS utilities.
+#
+# If @c TRUE, the basis_add_executable() and basis_add_library() commands will try to
+# automatically detect whether a given executable or library makes use of the
+# BASIS utilities. If so, it configures the utilities for this project and adds
+# a respective library build target as well as a link dependency on this target.
+# This was the default until BASIS v3.1. Since this version, it is recommended
+# to either use the @c USE_BASIS_UTILITIES option of basis_add_executable() and
+# basis_add_library() or to add a link dependency on "basis" (recommended):
+#
+# @code
+# basis_add_executable(foo.cxx)
+# basis_target_link_libraries(foo basis)
+# @endcode
+set (BASIS_UTILITIES FALSE)
 
 ## @brief Whether to always build the BASIS C++ utilities even if not required by any target
 option (BUILD_BASIS_UTILITIES_FOR_CXX    "Force the build of the BASIS C++ Utilities even if not used by this project" OFF)
@@ -420,16 +416,13 @@ option (BUILD_BASIS_UTILITIES_FOR_PERL   "Force the build of the BASIS Perl Util
 ## @brief Whether to always build the BASIS Bash utilities even if not required by any target
 option (BUILD_BASIS_UTILITIES_FOR_BASH   "Force the build of the BASIS Bash Utilities even if not used by this project" OFF)
 
-mark_as_advanced(BUILD_BASIS_UTILITIES_FOR_CXX
-                 BUILD_BASIS_UTILITIES_FOR_PYTHON
-                 BUILD_BASIS_UTILITIES_FOR_PERL
-                 BUILD_BASIS_UTILITIES_FOR_BASH)
+mark_as_advanced (BUILD_BASIS_UTILITIES_FOR_CXX
+                  BUILD_BASIS_UTILITIES_FOR_PYTHON
+                  BUILD_BASIS_UTILITIES_FOR_PERL
+                  BUILD_BASIS_UTILITIES_FOR_BASH)
 
-## @brief Whether to export build targets by default. Create <projectname>Exports.cmake file so outside projects can import targets from this one. OFF may speed up the configure step.
-# 
-# @see GenerateConfig.cmake, ExportTools.cmake, http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:export
-#
-option (BASIS_EXPORT "Create <projectname>Exports.cmake file so outside projects can import targets from this one. FALSE may improve performance" TRUE)
+## @brief Whether to export build targets by default.
+set (BASIS_EXPORT TRUE)
 
 ## @brief Disable use of the revision information obtained from the revision
 #         control software such as Subversion.
@@ -542,7 +535,7 @@ mark_as_advanced (BASIS_SUPERBUILD_MODULES)
 ## @brief List of programming languages explicitly supported by BASIS.
 #
 # @todo Add full support for Java.
-set (BASIS_LANGUAGES CMake CXX Python Jython Perl Matlab Bash)
+set (BASIS_LANGUAGES CXX Python Jython Perl Matlab Bash)
 
 string (TOLOWER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_L)
 string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
@@ -551,8 +544,6 @@ string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
 # namespace delimiters
 # ----------------------------------------------------------------------------
 
-## @brief Namespace delimiter used in CMake.
-set (BASIS_NAMESPACE_DELIMITER_CMAKE .)
 ## @brief Namespace delimiter used in C++.
 set (BASIS_NAMESPACE_DELIMITER_CXX .)
 ## @brief Namespace delimiter used in Python.
