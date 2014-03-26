@@ -391,9 +391,21 @@ set (BASIS_LIBRARY_COMPONENT "Development")
 # are associated with if no component was specified, explicitly.
 set (BASIS_RUNTIME_COMPONENT "Runtime")
 
-## @brief Specifies that the BASIS C++ utilities shall by default not be added
-#         as dependency of an executable.
-set (BASIS_UTILITIES TRUE)
+## @brief Enable the automatic detection of the use of the BASIS utilities.
+#
+# If @c TRUE, the basis_add_executable() and basis_add_library() commands will try to
+# automatically detect whether a given executable or library makes use of the
+# BASIS utilities. If so, it configures the utilities for this project and adds
+# a respective library build target as well as a link dependency on this target.
+# This was the default until BASIS v3.1. Since this version, it is recommended
+# to either use the @c USE_BASIS_UTILITIES option of basis_add_executable() and
+# basis_add_library() or to add a link dependency on "basis" (recommended):
+#
+# @code
+# basis_add_executable(foo.cxx)
+# basis_target_link_libraries(foo basis)
+# @endcode
+set (BASIS_UTILITIES FALSE)
 
 ## @brief Whether to always build the BASIS C++ utilities even if not required by any target
 option (BUILD_BASIS_UTILITIES_FOR_CXX    "Force the build of the BASIS C++ Utilities even if not used by this project" OFF)
@@ -404,10 +416,10 @@ option (BUILD_BASIS_UTILITIES_FOR_PERL   "Force the build of the BASIS Perl Util
 ## @brief Whether to always build the BASIS Bash utilities even if not required by any target
 option (BUILD_BASIS_UTILITIES_FOR_BASH   "Force the build of the BASIS Bash Utilities even if not used by this project" OFF)
 
-mark_as_advanced(BUILD_BASIS_UTILITIES_FOR_CXX
-                 BUILD_BASIS_UTILITIES_FOR_PYTHON
-                 BUILD_BASIS_UTILITIES_FOR_PERL
-                 BUILD_BASIS_UTILITIES_FOR_BASH)
+mark_as_advanced (BUILD_BASIS_UTILITIES_FOR_CXX
+                  BUILD_BASIS_UTILITIES_FOR_PYTHON
+                  BUILD_BASIS_UTILITIES_FOR_PERL
+                  BUILD_BASIS_UTILITIES_FOR_BASH)
 
 ## @brief Whether to export build targets by default.
 set (BASIS_EXPORT TRUE)
