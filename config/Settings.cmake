@@ -128,10 +128,64 @@ if (BUILD_PROJECT_TOOL)
 endif ()
 
 # ============================================================================
+# configure basis/config.h
+# ============================================================================
+
+# system checks
+include (CheckTypeSize)
+include (CheckIncludeFileCXX)
+
+# check if type long long is supported
+CHECK_TYPE_SIZE ("long long" LONG_LONG)
+
+if (HAVE_LONG_LONG)
+  set (HAVE_LONG_LONG 1)
+else ()
+  set (HAVE_LONG_LONG 0)
+endif ()
+
+# check for presence of sstream header
+include (TestForSSTREAM)
+
+if (CMAKE_NO_ANSI_STRING_STREAM)
+  set (HAVE_SSTREAM 0)
+else ()
+  set (HAVE_SSTREAM 1)
+endif ()
+
+# check if tr/tuple header file is available
+if (CMAKE_GENERATOR MATCHES "Visual Studio [1-9][0-9]+")
+  set (HAVE_TR1_TUPLE 1)
+else ()
+  CHECK_INCLUDE_FILE_CXX ("tr1/tuple" HAVE_TR1_TUPLE)
+  if (HAVE_TR1_TUPLE)
+    set (HAVE_TR1_TUPLE 1)
+  else ()
+    set (HAVE_TR1_TUPLE 0)
+  endif ()
+endif ()
+
+# check for availibility of pthreads library
+# defines CMAKE_USE_PTHREADS_INIT and CMAKE_THREAD_LIBS_INIT
+find_package (Threads)
+
+if (Threads_FOUND)
+  if (CMAKE_USE_PTHREADS_INIT)
+    set (HAVE_PTHREAD 1)
+  else  ()
+    set (HAVE_PTHREAD 0)
+  endif ()
+endif ()
+
+configure_file ("include/basis/config.h.in" "${BINARY_INCLUDE_DIR}/basis/config.h")
+
+# ============================================================================
 # utilities
 # ============================================================================
-# Basis needs its own utilities to be enabled, typically this defaults to FALSE.
+
+# BASIS needs its own utilities to be enabled
 set (BASIS_UTILITIES TRUE)
+
 # list of enabled utilities
 # in case of other projects defined by BASISConfig.cmake
 set (BASIS_UTILITIES_ENABLED CXX)
@@ -176,6 +230,3 @@ set (BASIS_PERL_UTILITIES_LIBRARY   "${NS}utilities_perl")
 set (BASIS_BASH_UTILITIES_LIBRARY   "${NS}utilities_bash")
 set (BASIS_TEST_LIBRARY             "${NS}testlib")
 set (BASIS_TEST_MAIN_LIBRARY        "${NS}testmain")
-
-configure_file(include/basis/config.h.in ${BINARY_INCLUDE_DIR}/basis/config.h)
-
