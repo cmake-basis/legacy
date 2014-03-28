@@ -70,392 +70,486 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">basistest-master.sh File Reference<div class="ingroups"><a class="el" href="group__Tools.html">BASIS Tools</a></div></div>  </div>
+<div class="title">basistest-master.sh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Test master which can be run as a cron job.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;${BASIS_BASH_UTILITIES}&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for basistest-master.sh:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="basistest-master_8sh__incl.png" border="0" usemap="#basistest-master_8sh" alt=""/></div>
-<map name="basistest-master_8sh" id="basistest-master_8sh">
-</map>
-</div>
-</div>
 <p><a href="basistest-master_8sh_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab936e8decdc0848825ab7664f80650d5"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#ab936e8decdc0848825ab7664f80650d5">date2stamp</a> (in date)</td></tr>
-<tr class="memdesc:ab936e8decdc0848825ab7664f80650d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert date to timestamp.  <a href="#ab936e8decdc0848825ab7664f80650d5">More...</a><br/></td></tr>
-<tr class="separator:ab936e8decdc0848825ab7664f80650d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455a1835ef0714f1f0cbcc58d478d716"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a455a1835ef0714f1f0cbcc58d478d716">date_add</a> (in unit, in date, in interval)</td></tr>
-<tr class="memdesc:a455a1835ef0714f1f0cbcc58d478d716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a certain time interval to a given date.  <a href="#a455a1835ef0714f1f0cbcc58d478d716">More...</a><br/></td></tr>
-<tr class="separator:a455a1835ef0714f1f0cbcc58d478d716"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaf0e0e309369654b2d3a113fbc63985"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#afaf0e0e309369654b2d3a113fbc63985">date_diff</a> (in unit, in date1, in date2)</td></tr>
-<tr class="memdesc:afaf0e0e309369654b2d3a113fbc63985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the time interval between two given dates.  <a href="#afaf0e0e309369654b2d3a113fbc63985">More...</a><br/></td></tr>
-<tr class="separator:afaf0e0e309369654b2d3a113fbc63985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7d2ee42b49c9694560ab7ad8aa5dde4"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#ae7d2ee42b49c9694560ab7ad8aa5dde4">print_help</a> ()</td></tr>
-<tr class="memdesc:ae7d2ee42b49c9694560ab7ad8aa5dde4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print help.  <a href="#ae7d2ee42b49c9694560ab7ad8aa5dde4">More...</a><br/></td></tr>
-<tr class="separator:ae7d2ee42b49c9694560ab7ad8aa5dde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d1d47a9605782e1bcd8191f67d7dab6"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a0d1d47a9605782e1bcd8191f67d7dab6">print_helpshort</a> ()</td></tr>
-<tr class="memdesc:a0d1d47a9605782e1bcd8191f67d7dab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print usage (i.e., only usage and options).  <a href="#a0d1d47a9605782e1bcd8191f67d7dab6">More...</a><br/></td></tr>
-<tr class="separator:a0d1d47a9605782e1bcd8191f67d7dab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a3cff324219c849d2daf286ddac9c54"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a5a3cff324219c849d2daf286ddac9c54">print_options</a> ()</td></tr>
-<tr class="memdesc:a5a3cff324219c849d2daf286ddac9c54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print documentation of options.  <a href="#a5a3cff324219c849d2daf286ddac9c54">More...</a><br/></td></tr>
-<tr class="separator:a5a3cff324219c849d2daf286ddac9c54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af066a018ef4e50d649788b6b66cc26ee"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#af066a018ef4e50d649788b6b66cc26ee">run_test</a> (in project, in branch, in model, in options)</td></tr>
-<tr class="memdesc:af066a018ef4e50d649788b6b66cc26ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a test given the arguments in the configuration file.  <a href="#af066a018ef4e50d649788b6b66cc26ee">More...</a><br/></td></tr>
-<tr class="separator:af066a018ef4e50d649788b6b66cc26ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ea089698e14548f33b319c208e332dc"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a9ea089698e14548f33b319c208e332dc">schedule_date</a> ()</td></tr>
-<tr class="memdesc:a9ea089698e14548f33b319c208e332dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next scheduled date of a given test.  <a href="#a9ea089698e14548f33b319c208e332dc">More...</a><br/></td></tr>
-<tr class="separator:a9ea089698e14548f33b319c208e332dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34b89ee57e63f046c88eda61afe97ed9"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a34b89ee57e63f046c88eda61afe97ed9">schedule_test</a> (in date, in time, in project, in branch, in model)</td></tr>
-<tr class="memdesc:a34b89ee57e63f046c88eda61afe97ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add entry to test schedule.  <a href="#a34b89ee57e63f046c88eda61afe97ed9">More...</a><br/></td></tr>
-<tr class="separator:a34b89ee57e63f046c88eda61afe97ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a877a373ea42484acce8f2f3890dc04d2"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a877a373ea42484acce8f2f3890dc04d2">stamp2date</a> (in stamp)</td></tr>
-<tr class="memdesc:a877a373ea42484acce8f2f3890dc04d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert timestamp to date.  <a href="#a877a373ea42484acce8f2f3890dc04d2">More...</a><br/></td></tr>
-<tr class="separator:a877a373ea42484acce8f2f3890dc04d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f5d1a7cc01cfc00a2095334b215be11"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a6f5d1a7cc01cfc00a2095334b215be11">do</a> ((linenumber++)) <a class="el" href="UtilitiesTools_8cmake.html#a9dcd381df0931716751a973e6889da5f">if</a>[-z&quot;$</td></tr>
+<tr class="separator:a6f5d1a7cc01cfc00a2095334b215be11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6395a2ce34080f04c4d2b97d28740c4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basistest-svn_8sh.html#ade43708c9e1435d458feaf2acd82ed25">v</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a6395a2ce34080f04c4d2b97d28740c4e">verbose</a> ((verbose++))</td></tr>
+<tr class="separator:a6395a2ce34080f04c4d2b97d28740c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad84f4ad58d9cbbf89f9047c9f2a9818c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#ad84f4ad58d9cbbf89f9047c9f2a9818c">__DIR__</a> =&quot;$(dirname -- &quot;$__FILE__&quot;)&quot;</td></tr>
+<tr class="separator:ad84f4ad58d9cbbf89f9047c9f2a9818c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a765da3205034326412944bbe698ce1e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a765da3205034326412944bbe698ce1e9">__FILE__</a> =&quot;$(cd -P -- &quot;$(dirname -- &quot;$BASH_SOURCE&quot;)&quot; &amp;&amp; pwd -P)/$(basename -- &quot;$BASH_SOURCE&quot;)&quot;</td></tr>
+<tr class="separator:a765da3205034326412944bbe698ce1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b3509a074c75263a3abbc9606218fd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a6b3509a074c75263a3abbc9606218fd7">BASHPATH</a></td></tr>
+<tr class="separator:a6b3509a074c75263a3abbc9606218fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ce150a4e2cd3fe42c2edc4aa3b3398"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a79ce150a4e2cd3fe42c2edc4aa3b3398">BASIS_BASH_UTILITIES</a> =&quot;$__DIR__/bash/basis/basis.sh&quot;</td></tr>
+<tr class="separator:a79ce150a4e2cd3fe42c2edc4aa3b3398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79b50ccceaf1f242083ff0b73e80c46c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a79b50ccceaf1f242083ff0b73e80c46c">conf_file</a></td></tr>
+<tr class="separator:a79b50ccceaf1f242083ff0b73e80c46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94e91d70f140fdcf64f10d12b540c3b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a94e91d70f140fdcf64f10d12b540c3b3">continue</a></td></tr>
+<tr class="separator:a94e91d70f140fdcf64f10d12b540c3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eade04694b7ee82c34c3c972aca5d82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#a4b194d31b5a44ba14e771efe761c082f">while</a> &amp;&amp;[[-<a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a>&quot;$lnk&quot;]] do&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a3eade04694b7ee82c34c3c972aca5d82">dir</a> =`<a class="el" href="doxyfilter_8pl.html#ae5942cb59b53815c431948c6ffd651ec">dirname</a> -- &quot;$lnk&quot;`</td></tr>
+<tr class="separator:a3eade04694b7ee82c34c3c972aca5d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad604cff3eb5d475cdc9f8eb5ab570fee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#ad604cff3eb5d475cdc9f8eb5ab570fee">done</a></td></tr>
+<tr class="separator:ad604cff3eb5d475cdc9f8eb5ab570fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e807eab29972f2571e882b9db259e62"><td class="memItemLeft" align="right" valign="top">dry&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a2e807eab29972f2571e882b9db259e62">dry</a> ='<a class="el" href="OptList_8pm.html#aa20c9e9fa2a608ee6fc17798ab9c9917">true</a>'</td></tr>
+<tr class="separator:a2e807eab29972f2571e882b9db259e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a525c6d00f7af932803eff1820dd88d3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a525c6d00f7af932803eff1820dd88d3a">exit</a></td></tr>
+<tr class="separator:a525c6d00f7af932803eff1820dd88d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2430242dc52b9fec75095457ac808899"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a2430242dc52b9fec75095457ac808899">fi</a></td></tr>
+<tr class="separator:a2430242dc52b9fec75095457ac808899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a118fb10bf7ab2e6a4b35d927ccf23872"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> <a class="el" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> Missing configuration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a118fb10bf7ab2e6a4b35d927ccf23872">file</a></td></tr>
+<tr class="separator:a118fb10bf7ab2e6a4b35d927ccf23872"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ea894f2e04edc7c886d260abac9a0b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> =0</td></tr>
+<tr class="separator:a2ea894f2e04edc7c886d260abac9a0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1ee9a27df79c6d2f3465a4102c3a2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a7e1ee9a27df79c6d2f3465a4102c3a2a">idx</a></td></tr>
+<tr class="separator:a7e1ee9a27df79c6d2f3465a4102c3a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a474714e59ca2a8af29b1f2610fed5f77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basistest-master_8sh.html#a6f5d1a7cc01cfc00a2095334b215be11">do</a> <a class="el" href="FindOpenCV_8cmake.html#ab11a0320b87ff903408f1e3e9894b8d1">case</a> in c conf shift&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a474714e59ca2a8af29b1f2610fed5f77">if</a> [$#-gt 0]</td></tr>
+<tr class="separator:a474714e59ca2a8af29b1f2610fed5f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a161fc294eeb92592384c6fb9a6253fca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a161fc294eeb92592384c6fb9a6253fca">lnk</a> =&quot;$__FILE__&quot;</td></tr>
+<tr class="separator:a161fc294eeb92592384c6fb9a6253fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a500f1899333f24f9e9e28740ed9a1cce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a> help&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a500f1899333f24f9e9e28740ed9a1cce">print_help</a></td></tr>
+<tr class="separator:a500f1899333f24f9e9e28740ed9a1cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ad24b78f40fa0e0fe751ed647edd723"><td class="memItemLeft" align="right" valign="top">u usage&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a4ad24b78f40fa0e0fe751ed647edd723">print_helpshort</a></td></tr>
+<tr class="separator:a4ad24b78f40fa0e0fe751ed647edd723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af14e3002570423e66eb615d4ddff40"><td class="memItemLeft" align="right" valign="top">V <a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a0af14e3002570423e66eb615d4ddff40">print_version</a></td></tr>
+<tr class="separator:a0af14e3002570423e66eb615d4ddff40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa20ce48dbcadd1e639730d943da56dcd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basistest-master_8sh.html#a6f5d1a7cc01cfc00a2095334b215be11">do</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#aa20ce48dbcadd1e639730d943da56dcd">schedule</a> [${<a class="el" href="basistest-master_8sh.html#a7e1ee9a27df79c6d2f3465a4102c3a2a">idx</a>}]</td></tr>
+<tr class="separator:aa20ce48dbcadd1e639730d943da56dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a088996917646d1ea98b1fb86a3c9788a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a088996917646d1ea98b1fb86a3c9788a">schedule_file</a></td></tr>
+<tr class="separator:a088996917646d1ea98b1fb86a3c9788a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69e8af15c428c92e92315ba7f93b0f2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basistest-master_8sh.html#a69e8af15c428c92e92315ba7f93b0f2f">test_cmd</a></td></tr>
+<tr class="separator:a69e8af15c428c92e92315ba7f93b0f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Test master which can be run as a cron job. </p>
-<p>This shell script is supposed to be scheduled as cron job, where possibly the <a class="el" href="basistest-cron_8sh.html" title="Script intended to be run as cron job to perform automated testing. ">basistest-cron.sh</a> script is in fact used as cron job command without arguments where all the settings for the cron job are fixed within this latter script. On execution, this master script parses the configuration file and executes the configured tests using by default the <a class="el" href="basistest-slave_8sh.html" title="Test execution command. ">basistest-slave.sh</a> script. </p>
-
-<p>Definition in file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ab936e8decdc0848825ab7664f80650d5"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a6f5d1a7cc01cfc00a2095334b215be11"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function date2stamp </td>
+          <td class="memname">do </td>
           <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>date</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert date to timestamp. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">date</td><td>Date.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Prints timestamp corresponding to given date to <code>STDOUT</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a455a1835ef0714f1f0cbcc58d478d716"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function date_add </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>unit</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>date</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>interval</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Adds a certain time interval to a given date. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">unit</td><td>Unit of the time interval. Either one of -s, -m, -h, or -d. Defaults to number of days. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">date</td><td>The date to which the time interval is added. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">interval</td><td>The time interval given in the specified units.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Prints the date which is <code>interval</code> time units after the given date to <code>STDOUT</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="afaf0e0e309369654b2d3a113fbc63985"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function date_diff </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>unit</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>date1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>date2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Computes the time interval between two given dates. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">unit</td><td>Unit of the time interval. Either one of -s, -m, -h, or -d. Defaults to number of days. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">date1</td><td>The first date. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">date2</td><td>The second date.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Prints time interval, i.e., an absolute value, in the given units to <code>STDOUT</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae7d2ee42b49c9694560ab7ad8aa5dde4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function print_help </td>
-          <td>(</td>
+          <td class="paramtype">(linenumber++)&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print help. </p>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00418">418</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0d1d47a9605782e1bcd8191f67d7dab6"></a>
+<a class="anchor" id="a6395a2ce34080f04c4d2b97d28740c4e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function print_helpshort </td>
+          <td class="memname"><a class="el" href="basistest-svn_8sh.html#ade43708c9e1435d458feaf2acd82ed25">v</a> verbose </td>
           <td>(</td>
+          <td class="paramtype">(verbose++)&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print usage (i.e., only usage and options). </p>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
-
 </div>
 </div>
-<a class="anchor" id="a5a3cff324219c849d2daf286ddac9c54"></a>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="ad84f4ad58d9cbbf89f9047c9f2a9818c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function print_options </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">__DIR__ =&quot;$(dirname -- &quot;$__FILE__&quot;)&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print documentation of options. </p>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af066a018ef4e50d649788b6b66cc26ee"></a>
+<a class="anchor" id="a765da3205034326412944bbe698ce1e9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function run_test </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>project</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>branch</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>model</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>options</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">&amp;&amp; __FILE__ =&quot;$(cd -P -- &quot;$(dirname -- &quot;$BASH_SOURCE&quot;)&quot; &amp;&amp; pwd -P)/$(basename -- &quot;$BASH_SOURCE&quot;)&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Runs a test given the arguments in the configuration file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">project</td><td>Name of the project to test. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">branch</td><td>Name of the branch to test. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">model</td><td>Name of the Dashboard model. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>Additional options for the CTest script.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Whether the execution of the test was successful.</dd></dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">0</td><td>On success. </td></tr>
-    <tr><td class="paramname">1</td><td>On failure. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9ea089698e14548f33b319c208e332dc"></a>
+<a class="anchor" id="a6b3509a074c75263a3abbc9606218fd7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function schedule_date </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">BASHPATH</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get next scheduled date of a given test. </p>
-<dl class="section return"><dt>Returns</dt><dd>Prints date to <code>STDOUT</code>. </dd></dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a34b89ee57e63f046c88eda61afe97ed9"></a>
+<a class="anchor" id="a79ce150a4e2cd3fe42c2edc4aa3b3398"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function schedule_test </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>date</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>project</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>branch</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>model</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">BASIS_BASH_UTILITIES =&quot;$__DIR__/bash/basis/basis.sh&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Add entry to test schedule. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">date</td><td>The date at which the test should be run next. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">time</td><td>The time at which the test should be run next. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">project</td><td>Name of the project. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">branch</td><td>Name of the branch. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">model</td><td>Name of the model.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a877a373ea42484acce8f2f3890dc04d2"></a>
+<a class="anchor" id="a79b50ccceaf1f242083ff0b73e80c46c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function stamp2date </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>stamp</em></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> conf_file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=$1</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">                <a class="code" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> <span class="stringliteral">&quot;Option --conf requires an argument!&quot;</span> 1&gt;&amp;2</div>
+<div class="line">                <a class="code" href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a> 1</div>
+<div class="line">            <a class="code" href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div>
+<div class="ttc" id="basistest-cron_8sh_html_adef5d841ff65cb02db59f0adbdd674ce"><div class="ttname"><a href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a></div><div class="ttdeci">do case in h help echo which is simply executed by this command echo echo Optional i do not actually invoke the test execution command echo print_contact exit</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00100">basistest-cron.sh:100</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_ad76e13f476cd58384ed83cf5c21d8adb"><div class="ttname"><a href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a></div><div class="ttdeci">then echo</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00236">basistest-slave.sh:236</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_ae61e3bc396177088cc8427ab6dfde48a"><div class="ttname"><a href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div><div class="ttdeci">fi</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00340">340</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94e91d70f140fdcf64f10d12b540c3b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> continue</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Convert timestamp to date. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stamp</td><td>Timestamp.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Prints date corresponding to given timestamp to <code>STDOUT</code>. </dd></dl>
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00420">420</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3eade04694b7ee82c34c3c972aca5d82"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#a4b194d31b5a44ba14e771efe761c082f">while</a>&amp;&amp; [[ -<a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a> &quot;$lnk&quot; ]] do dir =`<a class="el" href="doxyfilter_8pl.html#ae5942cb59b53815c431948c6ffd651ec">dirname</a> -- &quot;$lnk&quot;`</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad604cff3eb5d475cdc9f8eb5ab570fee"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">done</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2e807eab29972f2571e882b9db259e62"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dry dry ='<a class="el" href="OptList_8pm.html#aa20c9e9fa2a608ee6fc17798ab9c9917">true</a>'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00364">364</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a525c6d00f7af932803eff1820dd88d3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">* <a class="el" href="basistest-slave_8sh.html#a866dca7236713a5c8a5b3b80a4535e0c">print_helpshort</a> <a class="el" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> <a class="el" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> Invalid <a class="el" href="MatlabTools_8cmake.html#a03c944dd549724137c191f9b0ce556f9">option</a>&amp; exit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00367">367</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2430242dc52b9fec75095457ac808899"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fi</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a118fb10bf7ab2e6a4b35d927ccf23872"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> <a class="el" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> Missing configuration file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{<a class="code" href="basistest-master_8sh.html#a79b50ccceaf1f242083ff0b73e80c46c">conf_file</a>}\<span class="stringliteral">&quot;&quot;</span> 1&gt;&amp;2</div>
+<div class="line">    <a class="code" href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a> 1</div>
+<div class="line"><a class="code" href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="basistest-master_8sh.html#aa20ce48dbcadd1e639730d943da56dcd">schedule</a>=()</div>
+<div class="line">new_schedule=()</div>
+<div class="line"><span class="keywordflow">if</span> [ -<a class="code" href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">f</a> <span class="stringliteral">&quot;${schedule_file}&quot;</span> ]</div>
+<div class="ttc" id="basistest-cron_8sh_html_adef5d841ff65cb02db59f0adbdd674ce"><div class="ttname"><a href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a></div><div class="ttdeci">do case in h help echo which is simply executed by this command echo echo Optional i do not actually invoke the test execution command echo print_contact exit</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00100">basistest-cron.sh:100</a></div></div>
+<div class="ttc" id="basistest-master_8sh_html_aa20ce48dbcadd1e639730d943da56dcd"><div class="ttname"><a href="basistest-master_8sh.html#aa20ce48dbcadd1e639730d943da56dcd">schedule</a></div><div class="ttdeci">do schedule[${idx}]</div><div class="ttdef"><b>Definition:</b> <a href="basistest-master_8sh_source.html#l00399">basistest-master.sh:399</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a5f3722f40f37bf1a568612dd52aeed51"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a5f3722f40f37bf1a568612dd52aeed51">doxyfilter-perl.f</a></div><div class="ttdeci">tuple f</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00029">doxyfilter-perl.py:29</a></div></div>
+<div class="ttc" id="basistest-master_8sh_html_a79b50ccceaf1f242083ff0b73e80c46c"><div class="ttname"><a href="basistest-master_8sh.html#a79b50ccceaf1f242083ff0b73e80c46c">conf_file</a></div><div class="ttdeci">then conf_file</div><div class="ttdef"><b>Definition:</b> <a href="basistest-master_8sh_source.html#l00340">basistest-master.sh:340</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_ae61e3bc396177088cc8427ab6dfde48a"><div class="ttname"><a href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div><div class="ttdeci">fi</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00389">389</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2ea894f2e04edc7c886d260abac9a0b2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">let i =0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7e1ee9a27df79c6d2f3465a4102c3a2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> idx</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=0</div>
+<div class="line">    <span class="keywordflow">while</span> <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a> <a class="code" href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">line</a></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a82431360757b456272687b1b3a040df8"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">doxyfilter-perl.line</a></div><div class="ttdeci">tuple line</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00047">doxyfilter-perl.py:47</a></div></div>
+<div class="ttc" id="OptList_8pm_html_a46bac856083bd4deb98deb436d59d280"><div class="ttname"><a href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a></div><div class="ttdeci">Aaaauuugh!We ve saved a little but now it requires thought to read</div><div class="ttdef"><b>Definition:</b> <a href="OptList_8pm_source.html#l00169">OptList.pm:169</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00397">397</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a474714e59ca2a8af29b1f2610fed5f77"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="basistest_8sh.html#a9118011ef11b8aaef09efa26fd914386">fi</a> if[[&quot;${line}&quot;=~&quot;^#&quot;]]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00339">339</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a161fc294eeb92592384c6fb9a6253fca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unset <a class="el" href="basistest-svn_8sh.html#ade43708c9e1435d458feaf2acd82ed25">v</a> <a class="el" href="basistest_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> <a class="el" href="basistest_8sh.html#a3eade04694b7ee82c34c3c972aca5d82">dir</a> lnk =&quot;$__FILE__&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00002">2</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a500f1899333f24f9e9e28740ed9a1cce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a> help print_help</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00364">364</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4ad24b78f40fa0e0fe751ed647edd723"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u usage print_helpshort</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00367">367</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0af14e3002570423e66eb615d4ddff40"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">V <a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">version</a> print_version</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00368">368</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa20ce48dbcadd1e639730d943da56dcd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="basistest-master_8sh.html#a6f5d1a7cc01cfc00a2095334b215be11">do</a> schedule[${<a class="el" href="basistest-master_8sh.html#a7e1ee9a27df79c6d2f3465a4102c3a2a">idx</a>}]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=${<a class="code" href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">line</a>}</div>
+<div class="line">        ((<a class="code" href="basistest-master_8sh.html#a7e1ee9a27df79c6d2f3465a4102c3a2a">idx</a>++))</div>
+<div class="line">    <a class="code" href="basistest-cron_8sh.html#ad604cff3eb5d475cdc9f8eb5ab570fee">done</a> &lt; ${<a class="code" href="basistest-master_8sh.html#a088996917646d1ea98b1fb86a3c9788a">schedule_file</a>}</div>
+<div class="line"><a class="code" href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">minutes=0</div>
+<div class="line">hours=0</div>
+<div class="line">days=0</div>
+<div class="line"><a class="code" href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a>=<span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a class="code" href="basistest-slave_8sh.html#afac5e05b4ddbcfaa73f6cbfbcbca5b4e">branch</a>=<span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a class="code" href="basistest-slave_8sh.html#af8acd9c10908e4d992e9ad886a8bcdee">model</a>=<span class="stringliteral">&#39;&#39;</span></div>
+<div class="line">options=<span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">linenumber=0</div>
+<div class="line">errors=0</div>
+<div class="line"><span class="keywordflow">while</span> <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a> <a class="code" href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">line</a></div>
+<div class="ttc" id="basistest-cron_8sh_html_ad604cff3eb5d475cdc9f8eb5ab570fee"><div class="ttname"><a href="basistest-cron_8sh.html#ad604cff3eb5d475cdc9f8eb5ab570fee">done</a></div><div class="ttdeci">done</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_afac5e05b4ddbcfaa73f6cbfbcbca5b4e"><div class="ttname"><a href="basistest-slave_8sh.html#afac5e05b4ddbcfaa73f6cbfbcbca5b4e">branch</a></div><div class="ttdeci">then branch</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00173">basistest-slave.sh:173</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a82431360757b456272687b1b3a040df8"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">doxyfilter-perl.line</a></div><div class="ttdeci">tuple line</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00047">doxyfilter-perl.py:47</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_afbdf1d831fc0d15192ee741cd09b3350"><div class="ttname"><a href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a></div><div class="ttdeci">then project</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00164">basistest-slave.sh:164</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_af8acd9c10908e4d992e9ad886a8bcdee"><div class="ttname"><a href="basistest-slave_8sh.html#af8acd9c10908e4d992e9ad886a8bcdee">model</a></div><div class="ttdeci">then model</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00182">basistest-slave.sh:182</a></div></div>
+<div class="ttc" id="OptList_8pm_html_a46bac856083bd4deb98deb436d59d280"><div class="ttname"><a href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a></div><div class="ttdeci">Aaaauuugh!We ve saved a little but now it requires thought to read</div><div class="ttdef"><b>Definition:</b> <a href="OptList_8pm_source.html#l00169">OptList.pm:169</a></div></div>
+<div class="ttc" id="basistest-master_8sh_html_a088996917646d1ea98b1fb86a3c9788a"><div class="ttname"><a href="basistest-master_8sh.html#a088996917646d1ea98b1fb86a3c9788a">schedule_file</a></div><div class="ttdeci">then schedule_file</div><div class="ttdef"><b>Definition:</b> <a href="basistest-master_8sh_source.html#l00358">basistest-master.sh:358</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_ae61e3bc396177088cc8427ab6dfde48a"><div class="ttname"><a href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div><div class="ttdeci">fi</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+<div class="ttc" id="basistest-master_8sh_html_a7e1ee9a27df79c6d2f3465a4102c3a2a"><div class="ttname"><a href="basistest-master_8sh.html#a7e1ee9a27df79c6d2f3465a4102c3a2a">idx</a></div><div class="ttdeci">then idx</div><div class="ttdef"><b>Definition:</b> <a href="basistest-master_8sh_source.html#l00397">basistest-master.sh:397</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00399">399</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a088996917646d1ea98b1fb86a3c9788a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> schedule_file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=$1</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">                <a class="code" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> <span class="stringliteral">&quot;Option --schedule requires an argument!&quot;</span> 1&gt;&amp;2</div>
+<div class="line">                <a class="code" href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a> 1</div>
+<div class="line">            <a class="code" href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div>
+<div class="ttc" id="basistest-cron_8sh_html_adef5d841ff65cb02db59f0adbdd674ce"><div class="ttname"><a href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a></div><div class="ttdeci">do case in h help echo which is simply executed by this command echo echo Optional i do not actually invoke the test execution command echo print_contact exit</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00100">basistest-cron.sh:100</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_ad76e13f476cd58384ed83cf5c21d8adb"><div class="ttname"><a href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a></div><div class="ttdeci">then echo</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00236">basistest-slave.sh:236</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_ae61e3bc396177088cc8427ab6dfde48a"><div class="ttname"><a href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div><div class="ttdeci">fi</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00358">358</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a69e8af15c428c92e92315ba7f93b0f2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="OptList_8pm.html#a13617fa9fec7ffbbce92f0058fe0ad85">then</a> test_cmd</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=$1</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">                <a class="code" href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a> <span class="stringliteral">&quot;Option --testcmd requires an argument!&quot;</span> 1&gt;&amp;2</div>
+<div class="line">                <a class="code" href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a> 1</div>
+<div class="line">            <a class="code" href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div>
+<div class="ttc" id="basistest-cron_8sh_html_adef5d841ff65cb02db59f0adbdd674ce"><div class="ttname"><a href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a></div><div class="ttdeci">do case in h help echo which is simply executed by this command echo echo Optional i do not actually invoke the test execution command echo print_contact exit</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00100">basistest-cron.sh:100</a></div></div>
+<div class="ttc" id="basistest-slave_8sh_html_ad76e13f476cd58384ed83cf5c21d8adb"><div class="ttname"><a href="basistest-slave_8sh.html#ad76e13f476cd58384ed83cf5c21d8adb">echo</a></div><div class="ttdeci">then echo</div><div class="ttdef"><b>Definition:</b> <a href="basistest-slave_8sh_source.html#l00236">basistest-slave.sh:236</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_ae61e3bc396177088cc8427ab6dfde48a"><div class="ttname"><a href="basistest-cron_8sh.html#ae61e3bc396177088cc8427ab6dfde48a">fi</a></div><div class="ttdeci">fi</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="basistest-master_8sh_source.html#l00349">349</a> of file <a class="el" href="basistest-master_8sh_source.html">basistest-master.sh</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

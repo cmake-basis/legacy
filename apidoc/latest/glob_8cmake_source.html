@@ -89,16 +89,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake&quot;</span>)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT EXPRESSIONS)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  message (FATAL_ERROR &quot;Missing EXPRESSIONS argument!&quot;)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;endif ()</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT SOURCES_FILE)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  message (FATAL_ERROR &quot;Missing SOURCES_FILE argument!&quot;)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;endif ()</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (NOT EXPRESSIONS)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="BasisBootstrapping_8cmake.html#a4366bc73e17d6128fbe75d3a069e1763">message</a> (FATAL_ERROR &quot;Missing EXPRESSIONS argument!&quot;)</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (NOT SOURCES_FILE)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <a class="code" href="BasisBootstrapping_8cmake.html#a4366bc73e17d6128fbe75d3a069e1763">message</a> (FATAL_ERROR &quot;Missing SOURCES_FILE argument!&quot;)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;set (<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;foreach (EXPRESSION IN LISTS EXPRESSIONS)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (EXPRESSION MATCHES &quot;[*][*]&quot;)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (SOURCES)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<a class="code" href="View_8pm.html#affddc504d4d83a079e37b031d7f30d3a">foreach</a> (EXPRESSION IN LISTS EXPRESSIONS)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (EXPRESSION MATCHES &quot;[*][*]&quot;)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">string</span> (REPLACE &quot;**&quot; &quot;*&quot; EXPRESSION &quot;${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    file (GLOB_RECURSE _SOURCES &quot;</span>${EXPRESSION}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    list (APPEND SOURCES ${_SOURCES})</span></div>
@@ -120,26 +120,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">    list (APPEND _SOURCES &quot;</span>${SOURCE}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">endforeach ()</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">   48</a></span>&#160;<span class="stringliteral">set (SOURCES ${_SOURCES})</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">set (SOURCES ${_SOURCES})</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">unset (_SOURCES)</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">if (INIT)</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">  basis_write_list (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot; INITIAL_SOURCES ${SOURCES})</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">else ()</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">  include (&quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">  if (NOT &quot;</span>${<a class="code" href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a>}<span class="stringliteral">&quot; STREQUAL &quot;</span>${INITIAL_SOURCES}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">  if (NOT &quot;</span>${SOURCES}<span class="stringliteral">&quot; STREQUAL &quot;</span>${INITIAL_SOURCES}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">    # touching this file which is included by basis_add_glob_target()</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">    # re-triggers CMake upon the next build</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">    execute_process (COMMAND &quot;</span>${CMAKE_COMMAND}<span class="stringliteral">&quot; -E touch &quot;</span>${SOURCES_FILE}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">    message (FATAL_ERROR &quot;</span>${ERRORMSG}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">  endif ()</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="ttc" id="glob_8cmake_html_a8744f08ab87757e4c20c5aa81317fd41"><div class="ttname"><a href="glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41">SOURCES</a></div><div class="ttdeci">cmake SOURCES</div><div class="ttdef"><b>Definition:</b> <a href="glob_8cmake_source.html#l00048">glob.cmake:48</a></div></div>
-<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00039">testdriver-after-test.inc:39</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_a7059ed44232b3c232f3580ec7024a5d4"><div class="ttname"><a href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a></div><div class="ttdeci">fi if[!-z&quot;${mail}&quot;]</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00150">basistest-cron.sh:150</a></div></div>
+<div class="ttc" id="GenerateConfig_8cmake_html_a210b6a48b2c1bb87f5c174ada6932597"><div class="ttname"><a href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a></div><div class="ttdeci">endif()&quot; ) install ( FILES &quot;$</div><div class="ttdef"><b>Definition:</b> <a href="GenerateConfig_8cmake_source.html#l00089">GenerateConfig.cmake:89</a></div></div>
+<div class="ttc" id="CTestCustom_8cmake_html_a804be93391d90c4406a72c0c779f7d66"><div class="ttname"><a href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a></div><div class="ttdeci">set(CTEST_CURL_OPTIONS&quot;CURLOPT_SSL_VERIFYPEER_OFF&quot;&quot;CURLOPT_SSL_VERIFYHOST_OFF&quot;) set(CTEST_CUSTOM_WARNING_MATCH $</div><div class="ttdef"><b>Definition:</b> <a href="CTestCustom_8cmake_source.html#l00041">CTestCustom.cmake:41</a></div></div>
+<div class="ttc" id="View_8pm_html_affddc504d4d83a079e37b031d7f30d3a"><div class="ttname"><a href="View_8pm.html#affddc504d4d83a079e37b031d7f30d3a">foreach</a></div><div class="ttdeci">foreach(reverse @$visit)</div><div class="ttdef"><b>Definition:</b> <a href="View_8pm_source.html#l00095">View.pm:95</a></div></div>
+<div class="ttc" id="BasisBootstrapping_8cmake_html_a4366bc73e17d6128fbe75d3a069e1763"><div class="ttname"><a href="BasisBootstrapping_8cmake.html#a4366bc73e17d6128fbe75d3a069e1763">message</a></div><div class="ttdeci">message(FATAL_ERROR&quot;Could not find an existing CMake BASIS installation!\n&quot;&quot;This project uses CMake BASIS for the build configuration.&quot;&quot; Next time you configure this build by running CMake again,&quot;&quot; BASIS version ${BASIS_VERSION} will be automatically downloaded&quot;&quot; and build as part of the build configuration of this project.&quot;&quot; If you want to install this version permanently,&quot;&quot; specify an installation prefix for CMake BASIS using&quot;&quot; BASIS_INSTALL_PREFIX. Otherwise, leave it blank.\n&quot;&quot;If you installed CMake BASIS already on your system, please&quot;&quot; specify its location by setting the BASIS_DIR variable&quot;&quot; before you re-configure the build system of this project.\n&quot;&quot;Visit http://opensource.andreasschuh.com/cmake-basis for&quot;&quot; more information about the CMake BASIS package.\n&quot;) if(NOT IS_DIRECTORY&quot;$</div><div class="ttdef"><b>Definition:</b> <a href="BasisBootstrapping_8cmake_source.html#l00073">BasisBootstrapping.cmake:73</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:37. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

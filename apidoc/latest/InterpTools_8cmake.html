@@ -73,67 +73,100 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">InterpTools.cmake File Reference<div class="ingroups"><a class="el" href="group__CMakeTools.html">Auxiliary CMake Modules</a></div></div>  </div>
+<div class="title">InterpTools.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Script interpreter tools.  
-<a href="#details">More...</a></p>
-<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="InterpTools_8cmake__dep__incl.png" border="0" usemap="#InterpTools_8cmakedep" alt=""/></div>
-<map name="InterpTools_8cmakedep" id="InterpTools_8cmakedep">
-<area shape="rect" id="node2" href="BasisTools_8cmake.html" title="Definition of functions and macros used by BASIS project. " alt="" coords="11,83,140,111"/><area shape="rect" id="node3" href="BASISConfig_8cmake.html" title="CMake package configuration file. " alt="" coords="5,161,147,189"/></map>
-</div>
-</div>
 <p><a href="InterpTools_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaff8cbb47edafa1ed4be15cd0027ed3db"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#gaff8cbb47edafa1ed4be15cd0027ed3db">basis_get_bash_version</a> (out ARGV1)</td></tr>
-<tr class="memdesc:gaff8cbb47edafa1ed4be15cd0027ed3db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get version of Bash interpreter.  <a href="group__CMakeUtilities.html#gaff8cbb47edafa1ed4be15cd0027ed3db">More...</a><br/></td></tr>
-<tr class="separator:gaff8cbb47edafa1ed4be15cd0027ed3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga328d6eb921e9157e48317aab1290da3c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#ga328d6eb921e9157e48317aab1290da3c">basis_get_jython_version</a> (out ARGV1)</td></tr>
-<tr class="memdesc:ga328d6eb921e9157e48317aab1290da3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get version of Jython interpreter.  <a href="group__CMakeUtilities.html#ga328d6eb921e9157e48317aab1290da3c">More...</a><br/></td></tr>
-<tr class="separator:ga328d6eb921e9157e48317aab1290da3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f13c84391b75b38635dfc8ad3473777"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#ga0f13c84391b75b38635dfc8ad3473777">basis_get_perl_version</a> (out ARGV1)</td></tr>
-<tr class="memdesc:ga0f13c84391b75b38635dfc8ad3473777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get version of Perl interpreter.  <a href="group__CMakeUtilities.html#ga0f13c84391b75b38635dfc8ad3473777">More...</a><br/></td></tr>
-<tr class="separator:ga0f13c84391b75b38635dfc8ad3473777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga731282cdd61eb3d5dba10ccbdcd3d223"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#ga731282cdd61eb3d5dba10ccbdcd3d223">basis_get_python_version</a> (out ARGV1)</td></tr>
-<tr class="memdesc:ga731282cdd61eb3d5dba10ccbdcd3d223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get version of Python interpreter.  <a href="group__CMakeUtilities.html#ga731282cdd61eb3d5dba10ccbdcd3d223">More...</a><br/></td></tr>
-<tr class="separator:ga731282cdd61eb3d5dba10ccbdcd3d223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c47b302957173fb202adde832f47efb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="InterpTools_8cmake.html#a5c47b302957173fb202adde832f47efb">execute_process</a> (COMMAND&quot;${PYTHON_EXECUTABLE}&quot;-E-c&quot;import <a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a>; <a class="el" href="InterpTools_8cmake.html#a7bcae35a58d44e3acfdc32a682125841">sys.stdout.write</a>(';'.<a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">join</a>([str(x) <a class="el" href="OptList_8pm.html#a1f4fa28975f9b0f6dc0c6347ceabab99">for</a> x in sys.version_info[:3]]))&quot;OUTPUT_VARIABLE VERSION RESULT_VARIABLE RETVAL ERROR_QUIET) execute_process(COMMAND&quot;$</td></tr>
+<tr class="separator:a5c47b302957173fb202adde832f47efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5315adba65a8bba04bfee67f5fa4838"><td class="memItemLeft" align="right" valign="top"><a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a> stdout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="InterpTools_8cmake.html#ab5315adba65a8bba04bfee67f5fa4838">write</a> (<a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">sys.version</a>)&quot; OUTPUT_VARIABLE VERSION RESULT_VARIABLE RETVAL ERROR_QUIET ) <a class="el" href="InterpTools_8cmake.html#a5c47b302957173fb202adde832f47efb">execute_process</a>( COMMAND &quot;$</td></tr>
+<tr class="separator:ab5315adba65a8bba04bfee67f5fa4838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bcae35a58d44e3acfdc32a682125841"><td class="memItemLeft" align="right" valign="top"><a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a> stdout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="InterpTools_8cmake.html#a7bcae35a58d44e3acfdc32a682125841">write</a> (';'.<a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">join</a>([str(x) <a class="el" href="OptList_8pm.html#a1f4fa28975f9b0f6dc0c6347ceabab99">for</a> x in sys.version_info[:3]]))&quot; OUTPUT_VARIABLE VERSION RESULT_VARIABLE RETVAL ERROR_QUIET ) <a class="el" href="InterpTools_8cmake.html#a5c47b302957173fb202adde832f47efb">execute_process</a> ( COMMAND &quot;$</td></tr>
+<tr class="separator:a7bcae35a58d44e3acfdc32a682125841"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ac2a58f55a1eed1c870e8f9285f994d8c"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="InterpTools_8cmake.html#ac2a58f55a1eed1c870e8f9285f994d8c">__BASIS_INTERPTOOLS_INCLUDED</a></td></tr>
-<tr class="separator:ac2a58f55a1eed1c870e8f9285f994d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876be7cec25e02b550ba6cd66eb50bbc"><td class="memItemLeft" align="right" valign="top">E c import&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a></td></tr>
+<tr class="separator:a876be7cec25e02b550ba6cd66eb50bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Script interpreter tools. </p>
-
-<p>Definition in file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ac2a58f55a1eed1c870e8f9285f994d8c"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a5c47b302957173fb202adde832f47efb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake __BASIS_INTERPTOOLS_INCLUDED</td>
+          <td class="memname">execute_process </td>
+          <td>(</td>
+          <td class="paramtype">COMMAND&quot;${PYTHON_EXECUTABLE}&quot;-E-c&quot;import <a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a>; <a class="el" href="InterpTools_8cmake.html#a7bcae35a58d44e3acfdc32a682125841">sys.stdout.write</a>(';'.<a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">join</a>([str(x) <a class="el" href="OptList_8pm.html#a1f4fa28975f9b0f6dc0c6347ceabab99">for</a> x in sys.version_info[:3]]))&quot;OUTPUT_VARIABLE VERSION RESULT_VARIABLE RETVAL&#160;</td>
+          <td class="paramname"><em>ERROR_QUIET</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="InterpTools_8cmake_source.html#l00020">20</a> of file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
+<p>Definition at line <a class="el" href="InterpTools_8cmake_source.html#l00038">38</a> of file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5315adba65a8bba04bfee67f5fa4838"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a> stdout write </td>
+          <td>(</td>
+          <td class="paramtype">sys.&#160;</td>
+          <td class="paramname"><em>version</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="InterpTools_8cmake_source.html#l00055">55</a> of file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7bcae35a58d44e3acfdc32a682125841"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="InterpTools_8cmake.html#a876be7cec25e02b550ba6cd66eb50bbc">sys</a> stdout write </td>
+          <td>(</td>
+          <td class="paramtype">';'.&#160;</td>
+          <td class="paramname"><em>join</em>[str(x) for x in sys.version_info[:3]]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="InterpTools_8cmake_source.html#l00104">104</a> of file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="a876be7cec25e02b550ba6cd66eb50bbc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">c import sys</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="InterpTools_8cmake_source.html#l00055">55</a> of file <a class="el" href="InterpTools_8cmake_source.html">InterpTools.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -12,13 +12,21 @@ substitution options are available when you run the ``basisproject`` command, an
 are created in a new or updated project.
 
 
+.. _AvailableTemplates:
+
 Available Templates
 ===================
 
+
+.. The tabularcolumns directive is required to help with formatting the table properly
+   in case of LaTeX (PDF) output.
+
+.. tabularcolumns:: |p{1cm}|p{1cm}|p{13cm}|
+
 +------------+-----------+-----------------------------------------------------------------------------------+
-| Template   | Version   | Description                                                                       |
+| Name       | Version   | Description                                                                       |
 +============+===========+===================================================================================+
-| basis_     | 1.0       | This is the default template provided by BASIS and the one we recommend.          |
+| basis_     | 1.1_      | This is the default template provided by BASIS and the one we recommend.          |
 |            |           | It is easy to get started with and follows all of the BASIS :doc:`/standard`.     |
 |            |           | To use it simply follow the :doc:`/quickstart`.                                   |
 +------------+-----------+-----------------------------------------------------------------------------------+
@@ -34,6 +42,7 @@ Available Templates
 You can find the actual templates provided by BASIS in the ``data/templates`` directory.
 
 .. _basis: https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis
+.. _1.1:   https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis/1.1
 .. _sbia:  https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/sbia
 
 .. _HowToUseATemplate:
@@ -42,14 +51,18 @@ Use a Template
 ==============
 
 To use a template provided by BASIS or one that you have created, 
-specify the path to the template including the version subdirectory
+specify the name of the template including the version as subdirectory
 as part of the ``basisproject`` command as follows:
 
 .. code-block:: bash
 
-    basisproject --name MyProject --template path/to/MyTemplate/1.0
+    basisproject create --name MyProject --template basis/1.1
 
-Other than that you can use your custom template in the same manner as described in
+If you want to use your own custom template, simply specify the full path to
+the respective template directory which contains the template configuration file
+named ``_config.py``. A relative file path must be relative to the current
+working directory. Other than that you can use your custom template in
+the same manner as described in
 :doc:`The How-To on Creating and Modifying a Project <create-and-modify-project>`.
 
 
@@ -83,15 +96,17 @@ the name of the new template and the option ``--new-template``. Use :
 
 .. code-block:: bash
 
-    basisproject --name MyTemplate --new-template [--optional-command-options]
+    basisproject create --name MyTemplate --new-template [--optional-command-options]
 
 This will create a subdirectory called ``MyTemplate/1.0`` under the current 
 working directory and populate it with the current default project template 
-structure and BASIS configuration.
+structure and BASIS configuration. To copy an entire existing template,
+use the ``--full`` option and possibly ``--template`` to specify the location
+or name and version of the existing template.
 
 For a detailed description and overview of the available command options,
-please refer to the output of the ``basisproject --help`` command. The 
-template options of the existing template can be used to specify which 
+please refer to the output of the ``basisproject help create`` command.
+The template options of the existing template can be used to specify which 
 features to copy when creating the new template.
 
 With this you can modify the the default substitutions and file contents 

@@ -66,65 +66,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">BasisProject.cmake File Reference<div class="ingroups"><a class="el" href="group__BasisSettings.html">Settings</a></div></div>  </div>
+<div class="title">BasisProject.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Sets basic information about a BASIS Project and calls <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a>.  
-<a href="#details">More...</a></p>
-
 <p><a href="BasisProject_8cmake_source.html">Go to the source code of this file.</a></p>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Sets basic information about a BASIS Project and calls <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a>. </p>
-<p>This file defines basic information about a project by calling the <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a> function. This basic information, also known as metadata, is used by BASIS to setup the project. Moreover, if the project is a module of another BASIS project, the dependencies to other modules have to be specified here such that the top-level project can analyze the inter-module dependencies.</p>
-<dl class="section see"><dt>See Also</dt><dd><a href="http://opensource.andreasschuh.com/cmake-basis/standard/modules.html">http://opensource.andreasschuh.com/cmake-basis/standard/modules.html</a></dd></dl>
-<p>However, not only dependencies to other modules can be specified here, but also dependencies on external packages. A more flexible alternative to resolve external dependencies is to add the corresponding <a class="el" href="group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af" title="Find external software package or other project module. ">basis_find_package()</a> statements to the <a class="el" href="Depends_8cmake.html" title="Find additional dependencies. ">Depends.cmake</a> file. This should, however, only be done if specifying the dependencies as arguments to the <a class="el" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6" title="Sets basic project information including the name, version, and dependencies. ">basis_project()</a> function cannot be used to resolve the dependencies properly. If you only need to make use of additional variables set by the package configuration file of the external package or the corresponding Find&lt;Package&gt;.cmake module, add the related CMake code to the <a class="el" href="Settings_8cmake.html" title="Non-default project settings. ">Settings.cmake</a> file instead.</p>
-<p>Example: </p>
-<div class="fragment"><div class="line">*  <a class="code" href="group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project</a> (</div>
-<div class="line">*    # ------------------------------------------------------------------------</div>
-<div class="line">*    # meta-data</div>
-<div class="line">*    <a class="code" href="group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a">NAME</a>              MyProject</div>
-<div class="line">*    PACKAGE_VENDOR    shortvname  # Note: Part of <span class="keywordflow">default</span> <a class="code" href="group__BasisDirectories.html#ga1741ccfd8e3e43b5b0df091ee1c57e7c">CMAKE_INSTALL_PREFIX</a></div>
-<div class="line">*    <a class="code" href="group__BasisPythonUtilities.html#gaa6048edb75c6411c4f6e620a91a9e5f9">VERSION</a>           1.1.5</div>
-<div class="line">*    DESCRIPTION       <span class="stringliteral">&quot;This is the description of the project, which is useful for this&quot;</span></div>
-<div class="line">*                      <span class="stringliteral">&quot; important thing and that important thing.&quot;</span></div>
-<div class="line">*                      <span class="stringliteral">&quot; MyProject follows the BASIS implementation standard.&quot;</span></div>
-<div class="line">*    AUTHOR            <span class="stringliteral">&quot;Ima Nauthor&quot;</span></div>
-<div class="line">*    PROVIDER_NAME     <span class="stringliteral">&quot;Great Product Co&quot;</span></div>
-<div class="line">*    PROVIDER_WEBSITE  <span class="stringliteral">&quot;http://www.greatproductcompany.com&quot;</span></div>
-<div class="line">*    PROVIDER_LOGO     <span class="stringliteral">&quot;${PROJECT_SOURCE_DIR}/doc/logo.png&quot;</span></div>
-<div class="line">*    DIVISION_NAME     <span class="stringliteral">&quot;Awesome App Division&quot;</span></div>
-<div class="line">*    DIVISION_WEBSITE  <span class="stringliteral">&quot;http://www.awesomeapp.greatproductcompany.com&quot;</span></div>
-<div class="line">*    DIVISION_LOGO     <span class="stringliteral">&quot;&quot;</span>${PROJECT_SOURCE_DIR}/doc/division_logo.png<span class="stringliteral">&quot;&quot;</span></div>
-<div class="line">*    <a class="code" href="group__BasisPythonUtilities.html#gab50bb6f02ef678d895da7222edecd4c6">COPYRIGHT</a>         <span class="stringliteral">&quot;Copyright (c) 2014 Great Product Co&quot;</span></div>
-<div class="line">*    <a class="code" href="group__BasisPythonUtilities.html#ga1c472b0b2f43d0247c6fc82496a3f752">LICENSE</a>           <span class="stringliteral">&quot;See COPYING file.&quot;</span></div>
-<div class="line">*    <a class="code" href="group__BasisPythonUtilities.html#ga3c00786dd9f12fe7aafb54ebeee2a661">CONTACT</a>           <span class="stringliteral">&quot;Contact &lt;info@greatproductcompany.com&gt;&quot;</span></div>
-<div class="line">*    # ------------------------------------------------------------------------</div>
-<div class="line">*    # dependencies</div>
-<div class="line">*    DEPENDS          </div>
-<div class="line">*       NiftiCLib </div>
-<div class="line">*       PythonInterp</div>
-<div class="line">*    OPTIONAL_DEPENDS </div>
-<div class="line">*      PythonInterp</div>
-<div class="line">*      JythonInterp</div>
-<div class="line">*      Perl</div>
-<div class="line">*      MATLAB{matlab}</div>
-<div class="line">*      BASH</div>
-<div class="line">*      Doxygen</div>
-<div class="line">*      Sphinx{build}</div>
-<div class="line">*    TEST_DEPENDS     </div>
-<div class="line">*       Perl</div>
-<div class="line">*    OPTIONAL_TEST_DEPENDS</div>
-<div class="line">*      MATLAB{mex}</div>
-<div class="line">*      MATLAB{mcc}</div>
-<div class="line">*  )</div>
-<div class="line">*  </div>
-</div><!-- fragment --> 
-<p>Definition in file <a class="el" href="BasisProject_8cmake_source.html">BasisProject.cmake</a>.</p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -70,243 +70,633 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">DoxyFilter.pm File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Base class for Doxygen filter implementations.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="Exporter_8pm_source.html">Exporter.pm</a>&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for DoxyFilter.pm:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="DoxyFilter_8pm__incl.png" border="0" usemap="#DoxyFilter_8pm" alt=""/></div>
-<map name="DoxyFilter_8pm" id="DoxyFilter_8pm">
-<area shape="rect" id="node2" href="Exporter_8pm.html" title="Exporter.pm" alt="" coords="574,83,668,111"/><area shape="rect" id="node4" href="OptList_8pm.html" title="BASIS/Data/OptList.pm" alt="" coords="226,161,387,189"/><area shape="rect" id="node6" href="Util_8pm.html" title="BASIS/Params/Util.pm" alt="" coords="388,238,543,266"/><area shape="rect" id="node9" href="Install_8pm.html" title="BASIS/Sub/Install.pm" alt="" coords="79,238,227,266"/></map>
-</div>
-</div>
 <p><a href="DoxyFilter_8pm_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a71de901f914185400db9c79a8d70d5b1"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a71de901f914185400db9c79a8d70d5b1">_append</a> ()</td></tr>
-<tr class="memdesc:a71de901f914185400db9c79a8d70d5b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append line to output.  <a href="#a71de901f914185400db9c79a8d70d5b1">More...</a><br/></td></tr>
-<tr class="separator:a71de901f914185400db9c79a8d70d5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cc3329a1cc9059ac91834615f885f47"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a7cc3329a1cc9059ac91834615f885f47">_doxydoc_begin</a> ()</td></tr>
-<tr class="memdesc:a7cc3329a1cc9059ac91834615f885f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start of Doxygen comment.  <a href="#a7cc3329a1cc9059ac91834615f885f47">More...</a><br/></td></tr>
-<tr class="separator:a7cc3329a1cc9059ac91834615f885f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d431926d4e344ddc56046a6eea388ea"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a5d431926d4e344ddc56046a6eea388ea">_doxydoc_comment</a> ()</td></tr>
-<tr class="memdesc:a5d431926d4e344ddc56046a6eea388ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Doxygen comment line.  <a href="#a5d431926d4e344ddc56046a6eea388ea">More...</a><br/></td></tr>
-<tr class="separator:a5d431926d4e344ddc56046a6eea388ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addc26fabb7874ee951ebb140437bebcf"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#addc26fabb7874ee951ebb140437bebcf">_doxydoc_end</a> ()</td></tr>
-<tr class="memdesc:addc26fabb7874ee951ebb140437bebcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">End of Doxygen comment.  <a href="#addc26fabb7874ee951ebb140437bebcf">More...</a><br/></td></tr>
-<tr class="separator:addc26fabb7874ee951ebb140437bebcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b5c19fbb3dd1217a253c954bb08b8e0"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a0b5c19fbb3dd1217a253c954bb08b8e0">_doxydoc_param</a> ()</td></tr>
-<tr class="memdesc:a0b5c19fbb3dd1217a253c954bb08b8e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Doxygen parameter documentation.  <a href="#a0b5c19fbb3dd1217a253c954bb08b8e0">More...</a><br/></td></tr>
-<tr class="separator:a0b5c19fbb3dd1217a253c954bb08b8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87f5951e1b6bbc75baef9b7847f98f9b"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a87f5951e1b6bbc75baef9b7847f98f9b">_doxydoc_returns</a> ()</td></tr>
-<tr class="memdesc:a87f5951e1b6bbc75baef9b7847f98f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Doxygen return value documentation.  <a href="#a87f5951e1b6bbc75baef9b7847f98f9b">More...</a><br/></td></tr>
-<tr class="separator:a87f5951e1b6bbc75baef9b7847f98f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14c756147dde8abd03b6aebc68c27237"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a14c756147dde8abd03b6aebc68c27237">_noneblank</a> ()</td></tr>
-<tr class="memdesc:a14c756147dde8abd03b6aebc68c27237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle none-blank line.  <a href="#a14c756147dde8abd03b6aebc68c27237">More...</a><br/></td></tr>
-<tr class="separator:a14c756147dde8abd03b6aebc68c27237"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcb00bc585b8e86f973a3c35929bc020"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#abcb00bc585b8e86f973a3c35929bc020">new</a> ()</td></tr>
-<tr class="memdesc:abcb00bc585b8e86f973a3c35929bc020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a Doxygen filter object.  <a href="#abcb00bc585b8e86f973a3c35929bc020">More...</a><br/></td></tr>
-<tr class="separator:abcb00bc585b8e86f973a3c35929bc020"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98e7419f690167c23555380c7b8b4ae8"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a98e7419f690167c23555380c7b8b4ae8">output</a> ()</td></tr>
-<tr class="memdesc:a98e7419f690167c23555380c7b8b4ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get filter output.  <a href="#a98e7419f690167c23555380c7b8b4ae8">More...</a><br/></td></tr>
-<tr class="separator:a98e7419f690167c23555380c7b8b4ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf3e98047edd2a6e364b4be1dde0fa7c"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#adf3e98047edd2a6e364b4be1dde0fa7c">process</a> ()</td></tr>
-<tr class="memdesc:adf3e98047edd2a6e364b4be1dde0fa7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process input file.  <a href="#adf3e98047edd2a6e364b4be1dde0fa7c">More...</a><br/></td></tr>
-<tr class="separator:adf3e98047edd2a6e364b4be1dde0fa7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a886076a02053a9650e87d2a01a62feb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="CommonTools_8cmake.html#a8a330adf7e4e7f7a276c2780f6b17071">foreach</a> <a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a886076a02053a9650e87d2a01a62feb9">$line</a> (@{$<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a>'}})</td></tr>
+<tr class="separator:a886076a02053a9650e87d2a01a62feb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a326d26637fa3c433dd5b75e83dcaabf8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a326d26637fa3c433dd5b75e83dcaabf8">my</a> ($line, $next,@<a class="el" href="basistest_8sh.html#a3508721879cd88122d6dde4552cc2e21">match</a>)</td></tr>
+<tr class="separator:a326d26637fa3c433dd5b75e83dcaabf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e351e82c0fbfb53f59cfb9452bba1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Which_8pm.html#ab8e531f7856786e0378ac28370b81130">Exporter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a67e351e82c0fbfb53f59cfb9452bba1f">qw</a> (import)</td></tr>
+<tr class="separator:a67e351e82c0fbfb53f59cfb9452bba1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9dd1c600a9e0f76ce3693092ad0ee92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> param s *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> (\w+)\s+(.*)$/</td></tr>
+<tr class="separator:ad9dd1c600a9e0f76ce3693092ad0ee92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57d1c47fd70eba5f195ec56dd8291720"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a57d1c47fd70eba5f195ec56dd8291720">while</a> ($<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'reprocess'}==1 or $<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'line'}=&lt; <a class="el" href="Constants_8pm.html#afc938a9bfdcacbb3e4f2145753795510">FILE</a> &gt;)</td></tr>
+<tr class="separator:a57d1c47fd70eba5f195ec56dd8291720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aeabddd8f6af1ed3b60471df6cc9ac35f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#aeabddd8f6af1ed3b60471df6cc9ac35f">$doxydoc_begin</a> = shift</td></tr>
+<tr class="separator:aeabddd8f6af1ed3b60471df6cc9ac35f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e00233467f4f0ff8bdbe8ad1f47883"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a47e00233467f4f0ff8bdbe8ad1f47883">$doxydoc_end</a> = shift</td></tr>
+<tr class="separator:a47e00233467f4f0ff8bdbe8ad1f47883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d52a210750522f44b150d429a7e0ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a15d52a210750522f44b150d429a7e0ed">$doxydoc_line</a> = shift</td></tr>
+<tr class="separator:a15d52a210750522f44b150d429a7e0ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc65b3615f52377f540dffc7f6fb1e20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#acc65b3615f52377f540dffc7f6fb1e20">$filename</a> = shift</td></tr>
+<tr class="separator:acc65b3615f52377f540dffc7f6fb1e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2e1340729c72d116d2866d2bd5c756b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#aa2e1340729c72d116d2866d2bd5c756b">$line</a> = shift</td></tr>
+<tr class="separator:aa2e1340729c72d116d2866d2bd5c756b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4307a2102513a04849303176bd85d3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#af4307a2102513a04849303176bd85d3f">$output</a> = ''</td></tr>
+<tr class="separator:af4307a2102513a04849303176bd85d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66c7c2bb3ef3d4859e104bf492cd11e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a66c7c2bb3ef3d4859e104bf492cd11e4">$self</a> {'state'} = '<a class="el" href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a>'</td></tr>
+<tr class="separator:a66c7c2bb3ef3d4859e104bf492cd11e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef79b03f52c7615c8f999711bed35e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a9ef79b03f52c7615c8f999711bed35e2">$transitions</a> = shift</td></tr>
+<tr class="separator:a9ef79b03f52c7615c8f999711bed35e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ba6f9bb7a930f81f69593b9ad9e8a6"><td class="memItemLeft" align="right" valign="top">our&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a55ba6f9bb7a930f81f69593b9ad9e8a6">$VERSION</a> = '1.0.0'</td></tr>
+<tr class="separator:a55ba6f9bb7a930f81f69593b9ad9e8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81707b0144b84af41096dc00e80a2dd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a81707b0144b84af41096dc00e80a2dd3">_append</a></td></tr>
+<tr class="separator:a81707b0144b84af41096dc00e80a2dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c993faaf9c8f6dbb0c2180a1e6cbf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> param <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a37c993faaf9c8f6dbb0c2180a1e6cbf3">_doxydoc_param</a></td></tr>
+<tr class="separator:a37c993faaf9c8f6dbb0c2180a1e6cbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c61abf1dbe8b8ca9c858685150ce2ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> returns <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a1c61abf1dbe8b8ca9c858685150ce2ef">_doxydoc_returns</a></td></tr>
+<tr class="separator:a1c61abf1dbe8b8ca9c858685150ce2ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad566d8daf6d131f61b584fb166b063"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a3ad566d8daf6d131f61b584fb166b063">_noneblank</a></td></tr>
+<tr class="separator:a3ad566d8daf6d131f61b584fb166b063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a5c6783c880fd20c03388c65e1376e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a9a5c6783c880fd20c03388c65e1376e9">bless</a></td></tr>
+<tr class="separator:a9a5c6783c880fd20c03388c65e1376e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b54f6ba7b4c92514fb7f9a9da45bddd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a0b54f6ba7b4c92514fb7f9a9da45bddd">CONDITION</a></td></tr>
+<tr class="separator:a0b54f6ba7b4c92514fb7f9a9da45bddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10585d60b2a8d2af15d8966494734d5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a10585d60b2a8d2af15d8966494734d5e">constant</a></td></tr>
+<tr class="separator:a10585d60b2a8d2af15d8966494734d5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add88b109277bac982594e8dd3990c9cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> param <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#add88b109277bac982594e8dd3990c9cc">doxydoc</a></td></tr>
+<tr class="separator:add88b109277bac982594e8dd3990c9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eba62a8ea24add286086442c7c3c858"><td class="memItemLeft" align="right" valign="top">our&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a0eba62a8ea24add286086442c7c3c858">EXPORT_OK</a> = <a class="el" href="Utilities_8pm.html#ab2dfb1ac6999530448312c855ea5f6e0">qw</a>(FROM <a class="el" href="DoxyFilter_8pm.html#a0b54f6ba7b4c92514fb7f9a9da45bddd">CONDITION</a> ACTION TO CODE <a class="el" href="DoxyFilter_8pm.html#ae8c5ef2a021aeaf56ff0978e34146409">LABELS</a>)</td></tr>
+<tr class="separator:a0eba62a8ea24add286086442c7c3c858"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99dc3616e432d0645ad167698de3d693"><td class="memItemLeft" align="right" valign="top">our&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a99dc3616e432d0645ad167698de3d693">EXPORT_TAGS</a> = (indices =&gt; [<a class="el" href="Utilities_8pm.html#ab2dfb1ac6999530448312c855ea5f6e0">qw</a>(FROM <a class="el" href="DoxyFilter_8pm.html#a0b54f6ba7b4c92514fb7f9a9da45bddd">CONDITION</a> ACTION TO CODE <a class="el" href="DoxyFilter_8pm.html#ae8c5ef2a021aeaf56ff0978e34146409">LABELS</a>)])</td></tr>
+<tr class="separator:a99dc3616e432d0645ad167698de3d693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7884474698b5ec93c20c60ec6c72d17c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#a885acf7e0689727efb44f3603290e054">open</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a7884474698b5ec93c20c60ec6c72d17c">FILE</a></td></tr>
+<tr class="separator:a7884474698b5ec93c20c60ec6c72d17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c5ef2a021aeaf56ff0978e34146409"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#ae8c5ef2a021aeaf56ff0978e34146409">LABELS</a></td></tr>
+<tr class="separator:ae8c5ef2a021aeaf56ff0978e34146409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93a280da389a09b5dddfb6b374775a70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a93a280da389a09b5dddfb6b374775a70">new</a></td></tr>
+<tr class="separator:a93a280da389a09b5dddfb6b374775a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b8f78ce7076548f98e131161ea9f1fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a></td></tr>
+<tr class="separator:a8b8f78ce7076548f98e131161ea9f1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3491b6913f671a8872ec74eb6b6c434a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a3491b6913f671a8872ec74eb6b6c434a">process</a></td></tr>
+<tr class="separator:a3491b6913f671a8872ec74eb6b6c434a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa63834e29b93fe3588198fcbb004a5d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#aa63834e29b93fe3588198fcbb004a5d9">push</a> {$<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a>'}}</td></tr>
+<tr class="separator:aa63834e29b93fe3588198fcbb004a5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac107a2f55c0eb46642479cfa122a61ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a></td></tr>
+<tr class="separator:ac107a2f55c0eb46642479cfa122a61ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2475e10618961c050dcba04e8c42331"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#ae2475e10618961c050dcba04e8c42331">strict</a></td></tr>
+<tr class="separator:ae2475e10618961c050dcba04e8c42331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b660efae64994ccefc89367a231d4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a></td></tr>
+<tr class="separator:a64b660efae64994ccefc89367a231d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81a252e692ad238f05281aa87a6a70df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="DoxyFilter_8pm.html#a81a252e692ad238f05281aa87a6a70df">warnings</a></td></tr>
+<tr class="separator:a81a252e692ad238f05281aa87a6a70df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class for Doxygen filter implementations. </p>
-<dl class="section note"><dt>Note</dt><dd>Not to confuse with the Doxygen::Filter::Perl package available on CPAN. </dd></dl>
-
-<p>Definition in file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a71de901f914185400db9c79a8d70d5b1"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a886076a02053a9650e87d2a01a62feb9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _append </td>
+          <td class="memname"><a class="el" href="CommonTools_8cmake.html#a8a330adf7e4e7f7a276c2780f6b17071">foreach</a> <a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $line </td>
           <td>(</td>
+          <td class="paramtype">@{$<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a>'}}&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Append line to output. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00138">138</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7cc3329a1cc9059ac91834615f885f47"></a>
+<a class="anchor" id="a326d26637fa3c433dd5b75e83dcaabf8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _doxydoc_begin </td>
+          <td class="memname">my </td>
           <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$next</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">@&#160;</td>
+          <td class="paramname"><em>match</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a67e351e82c0fbfb53f59cfb9452bba1f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Which_8pm.html#ab8e531f7856786e0378ac28370b81130">Exporter</a> qw </td>
+          <td>(</td>
+          <td class="paramtype">import&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Start of Doxygen comment. </p>
-
 </div>
 </div>
-<a class="anchor" id="a5d431926d4e344ddc56046a6eea388ea"></a>
+<a class="anchor" id="ad9dd1c600a9e0f76ce3693092ad0ee92"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _doxydoc_comment </td>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> param s* s </td>
           <td>(</td>
+          <td class="paramtype">\w+&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Doxygen comment line. </p>
-
 </div>
 </div>
-<a class="anchor" id="addc26fabb7874ee951ebb140437bebcf"></a>
+<a class="anchor" id="a57d1c47fd70eba5f195ec56dd8291720"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _doxydoc_end </td>
+          <td class="memname">while </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$self-&gt;{'reprocess'}</em> = <code>=&#160;1&#160;or&#160;$<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'line'}&#160;=&#160;&lt;<a class="el" href="Constants_8pm.html#afc938a9bfdcacbb3e4f2145753795510">FILE</a>&gt;</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>End of Doxygen comment. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00102">102</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0b5c19fbb3dd1217a253c954bb08b8e0"></a>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="aeabddd8f6af1ed3b60471df6cc9ac35f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _doxydoc_param </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">$doxydoc_begin = shift</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Doxygen parameter documentation. </p>
-<p>The documentation lines which document function/method/macro parameters are extracted and the information stored in the filter object. These parameter documentations can then be used by the particular Doxygen filter to generate a proper parameter list in case of languages which do by themselves not explicitly specify the type and name of the function parameters such as in Perl and Bash, in particular. Moreover, CMake provides the special ARGN parameter which stores all additional unnamed arguments. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00061">61</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a87f5951e1b6bbc75baef9b7847f98f9b"></a>
+<a class="anchor" id="a47e00233467f4f0ff8bdbe8ad1f47883"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _doxydoc_returns </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">$doxydoc_end = shift</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Doxygen return value documentation. </p>
-<p>This function simply records in the 'returndoc' member of the filter that a "@returns" or "\returns" Doxygen is present in the current Doxygen comment. Some filters such as the one for CMake or Bash, use a pseudo return type which indicates the type of the function rather than the actual type of a return value. Often these functions do not return any particular value. In this case, if the Doxygen comment does not include a documentation for the pseudo return value, Doxygen will warn. To avoid this warning, a standard documentation for the pseudo return value may be added by the filter. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00063">63</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a14c756147dde8abd03b6aebc68c27237"></a>
+<a class="anchor" id="a15d52a210750522f44b150d429a7e0ed"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub _noneblank </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">$doxydoc_line = shift</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Handle none-blank line. </p>
-<p>This action inserts a dummy class definition which is ignored by Doxygen if the previous block was a Doxygen comment that is not associated with any following declaration. Otherwise, another transition would have handled this declaration before. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00062">62</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abcb00bc585b8e86f973a3c35929bc020"></a>
+<a class="anchor" id="acc65b3615f52377f540dffc7f6fb1e20"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub new </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="POM_8pm.html#a885acf7e0689727efb44f3603290e054">open</a> $filename or <a class="el" href="Readonly_8pm.html#a30f719278d38e54fb39b5665f0eb4189">die</a> Failed <a class="el" href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a> <a class="el" href="POM_8pm.html#a885acf7e0689727efb44f3603290e054">open</a> <a class="el" href="MatlabTools_8cmake.html#ad8bbbbba3413e584f6c72b5ff076e21e">file</a> $filename = shift</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs a Doxygen filter object. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00089">89</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a98e7419f690167c23555380c7b8b4ae8"></a>
+<a class="anchor" id="aa2e1340729c72d116d2866d2bd5c756b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub output </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $line = shift</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get filter output. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00153">153</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="adf3e98047edd2a6e364b4be1dde0fa7c"></a>
+<a class="anchor" id="af4307a2102513a04849303176bd85d3f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sub process </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a> $<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a> = ''</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Process input file. </p>
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00137">137</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66c7c2bb3ef3d4859e104bf492cd11e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a> <a class="el" href="Readonly_8pm.html#a8d1b7384672ae607b744465f456e63d7">scalar</a> each $<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a> {'state'} = '<a class="el" href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a>'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00092">92</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ef79b03f52c7615c8f999711bed35e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> $transitions = shift</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00060">60</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a55ba6f9bb7a930f81f69593b9ad9e8a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bootstrap BASIS::Params::Util $VERSION = '1.0.0'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00029">29</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81707b0144b84af41096dc00e80a2dd3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> _append</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="DoxyFilter_8pm.html#a66c7c2bb3ef3d4859e104bf492cd11e4">$self</a> = shift</div>
+<div class="ttc" id="DoxyFilter_8pm_html_a66c7c2bb3ef3d4859e104bf492cd11e4"><div class="ttname"><a href="DoxyFilter_8pm.html#a66c7c2bb3ef3d4859e104bf492cd11e4">$self</a></div><div class="ttdeci">$self</div><div class="ttdef"><b>Definition:</b> <a href="DoxyFilter_8pm_source.html#l00092">DoxyFilter.pm:92</a></div></div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00151">151</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a37c993faaf9c8f6dbb0c2180a1e6cbf3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> param <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> &amp; _doxydoc_param</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00071">71</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1c61abf1dbe8b8ca9c858685150ce2ef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> returns <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> &amp; _doxydoc_returns</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00072">72</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3ad566d8daf6d131f61b584fb166b063"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> &amp; _noneblank</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00073">73</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a5c6783c880fd20c03388c65e1376e9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a> bless</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        <span class="stringliteral">&#39;transitions&#39;</span> =&gt; <a class="code" href="DoxyFilter_8pm.html#a9ef79b03f52c7615c8f999711bed35e2">$transitions</a></div>
+<div class="ttc" id="DoxyFilter_8pm_html_a9ef79b03f52c7615c8f999711bed35e2"><div class="ttname"><a href="DoxyFilter_8pm.html#a9ef79b03f52c7615c8f999711bed35e2">$transitions</a></div><div class="ttdeci">my $transitions</div><div class="ttdef"><b>Definition:</b> <a href="DoxyFilter_8pm_source.html#l00060">DoxyFilter.pm:60</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00078">78</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b54f6ba7b4c92514fb7f9a9da45bddd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> CONDITION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; 1, # condition (regex <a class="code" href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">line</a> must <a class="code" href="Test_8pm.html#a21ff89fa8b9a12ad89f4a7bee9e826a5">match</a>) <span class="keywordflow">for</span> transition</div>
+<div class="line">    ACTION    =&gt; 2, # action <a class="code" href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a> perform upon transition</div>
+<div class="line">    TO        =&gt; 3  # state <a class="code" href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a> transition <a class="code" href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a></div>
+<div class="line">}</div>
+<div class="ttc" id="Install_8pm_html_a5cc8261681e4c942d0ab61e19ca828b1"><div class="ttname"><a href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a></div><div class="ttdeci">This routine installs a given code reference into a package as a normal subroutine The above is equivalent to</div><div class="ttdef"><b>Definition:</b> <a href="Install_8pm_source.html#l00034">Install.pm:34</a></div></div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a82431360757b456272687b1b3a040df8"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">doxyfilter-perl.line</a></div><div class="ttdeci">tuple line</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00047">doxyfilter-perl.py:47</a></div></div>
+<div class="ttc" id="Test_8pm_html_a21ff89fa8b9a12ad89f4a7bee9e826a5"><div class="ttname"><a href="Test_8pm.html#a21ff89fa8b9a12ad89f4a7bee9e826a5">match</a></div><div class="ttdeci">sub match</div><div class="ttdef"><b>Definition:</b> <a href="Test_8pm_source.html#l00066">Test.pm:66</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00040">40</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10585d60b2a8d2af15d8966494734d5e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> constant</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    FROM      =&gt; 0</div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00038">38</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add88b109277bac982594e8dd3990c9cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> returns <a class="el" href="DoxyFilter_8pm.html#ad9dd1c600a9e0f76ce3693092ad0ee92">s</a> doxydoc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00071">71</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0eba62a8ea24add286086442c7c3c858"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">our EXPORT_OK = <a class="el" href="Utilities_8pm.html#ab2dfb1ac6999530448312c855ea5f6e0">qw</a>(FROM <a class="el" href="DoxyFilter_8pm.html#a0b54f6ba7b4c92514fb7f9a9da45bddd">CONDITION</a> ACTION TO CODE <a class="el" href="DoxyFilter_8pm.html#ae8c5ef2a021aeaf56ff0978e34146409">LABELS</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00030">30</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a99dc3616e432d0645ad167698de3d693"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">our EXPORT_TAGS = (indices =&gt; [<a class="el" href="Utilities_8pm.html#ab2dfb1ac6999530448312c855ea5f6e0">qw</a>(FROM <a class="el" href="DoxyFilter_8pm.html#a0b54f6ba7b4c92514fb7f9a9da45bddd">CONDITION</a> ACTION TO CODE <a class="el" href="DoxyFilter_8pm.html#ae8c5ef2a021aeaf56ff0978e34146409">LABELS</a>)])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00031">31</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7884474698b5ec93c20c60ec6c72d17c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a> FILE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00101">101</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae8c5ef2a021aeaf56ff0978e34146409"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> LABELS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; 1  # <a class="code" href="Readonly_8pm.html#a9b4556ba2ee5299509799d5184526e05">array</a> of labels associated with <span class="keyword">this</span> <a class="code" href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">line</a></div>
+<div class="line">}</div>
+<div class="ttc" id="namespacedoxyfilter-perl_html_a82431360757b456272687b1b3a040df8"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8">doxyfilter-perl.line</a></div><div class="ttdeci">tuple line</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00047">doxyfilter-perl.py:47</a></div></div>
+<div class="ttc" id="Readonly_8pm_html_a9b4556ba2ee5299509799d5184526e05"><div class="ttname"><a href="Readonly_8pm.html#a9b4556ba2ee5299509799d5184526e05">array</a></div><div class="ttdeci">Creates a nonmodifiable and assigns a value of C&lt;$value &gt; to it its value may not be changed Any attempt to modify the value will cause your program to die A value I&lt; must &gt; be supplied If you want the variable to have C&lt; undef &gt; as its you must specify C&lt; undef &gt; If C&lt;$value &gt; is a reference to a array</div><div class="ttdef"><b>Definition:</b> <a href="Readonly_8pm_source.html#l00582">Readonly.pm:582</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00048">48</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a93a280da389a09b5dddfb6b374775a70"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> new</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="Content_8pm.html#abff5ba9952b4ce59390f49fd25badeb1">$class</a>         = shift</div>
+<div class="ttc" id="Content_8pm_html_abff5ba9952b4ce59390f49fd25badeb1"><div class="ttname"><a href="Content_8pm.html#abff5ba9952b4ce59390f49fd25badeb1">$class</a></div><div class="ttdeci">return $class</div><div class="ttdef"><b>Definition:</b> <a href="Content_8pm_source.html#l00034">Content.pm:34</a></div></div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00058">58</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b8f78ce7076548f98e131161ea9f1fb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> output</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; []            # generated <a class="code" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a> lines</div>
+<div class="line">    }, <a class="code" href="Content_8pm.html#abff5ba9952b4ce59390f49fd25badeb1">$class</a></div>
+<div class="ttc" id="DoxyFilter_8pm_html_a8b8f78ce7076548f98e131161ea9f1fb"><div class="ttname"><a href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a></div><div class="ttdeci">return output</div><div class="ttdef"><b>Definition:</b> <a href="DoxyFilter_8pm_source.html#l00080">DoxyFilter.pm:80</a></div></div>
+<div class="ttc" id="Content_8pm_html_abff5ba9952b4ce59390f49fd25badeb1"><div class="ttname"><a href="Content_8pm.html#abff5ba9952b4ce59390f49fd25badeb1">$class</a></div><div class="ttdeci">return $class</div><div class="ttdef"><b>Definition:</b> <a href="Content_8pm_source.html#l00034">Content.pm:34</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00080">80</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3491b6913f671a8872ec74eb6b6c434a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> process</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="DoxyFilter_8pm.html#a66c7c2bb3ef3d4859e104bf492cd11e4">$self</a>     = shift</div>
+<div class="ttc" id="DoxyFilter_8pm_html_a66c7c2bb3ef3d4859e104bf492cd11e4"><div class="ttname"><a href="DoxyFilter_8pm.html#a66c7c2bb3ef3d4859e104bf492cd11e4">$self</a></div><div class="ttdeci">$self</div><div class="ttdef"><b>Definition:</b> <a href="DoxyFilter_8pm_source.html#l00092">DoxyFilter.pm:92</a></div></div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00087">87</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa63834e29b93fe3588198fcbb004a5d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">push {$<a class="el" href="Readonly_8pm.html#aaa31e7aad1d41a8427240d3d13d4bf0d">self</a>-&gt;{'<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a>'}}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00154">154</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac107a2f55c0eb46642479cfa122a61ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> <a class="el" href="POM_8pm.html#ac843ad8e1fe5677914e9f5fb53a0ce38">push</a> start</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00073">73</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2475e10618961c050dcba04e8c42331"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> strict</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00018">18</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64b660efae64994ccefc89367a231d4c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">use</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00017">17</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81a252e692ad238f05281aa87a6a70df"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> warnings</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="DoxyFilter_8pm_source.html#l00019">19</a> of file <a class="el" href="DoxyFilter_8pm_source.html">DoxyFilter.pm</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

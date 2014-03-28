@@ -1,8 +1,0 @@
-<map id="CommonTools.cmake" name="CommonTools.cmake">
-<area shape="rect" id="node2" href="$BasisSettings_8cmake.html" title="Default project&#45;independent settings. " alt="" coords="5,161,149,189"/>
-<area shape="rect" id="node4" href="$BasisTools_8cmake.html" title="Definition of functions and macros used by BASIS project. " alt="" coords="174,161,303,189"/>
-<area shape="rect" id="node5" href="$MatlabTools_8cmake.html" title="Enables use of MATLAB Compiler and build of MEX&#45;files. " alt="" coords="170,83,307,111"/>
-<area shape="rect" id="node6" href="$ConfigureIncludeFiles_8cmake.html" title="CMake script used to configure and copy the public header files. " alt="" coords="331,83,524,111"/>
-<area shape="rect" id="node7" href="$glob_8cmake.html" title="Glob source files and optionally compare to previous glob result. " alt="" coords="549,83,637,111"/>
-<area shape="rect" id="node3" href="$BASISConfig_8cmake.html" title="CMake package configuration file. " alt="" coords="86,238,228,266"/>
-</map>

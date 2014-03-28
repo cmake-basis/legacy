@@ -88,6 +88,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbasisproject_1_1AccumulatorForNumbersOfChangesAndErrors.html">basisproject.AccumulatorForNumbersOfChangesAndErrors</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbasisproject_1_1PrintHelp.html">basisproject.PrintHelp</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -122,6 +124,8 @@ Functions</h2></td></tr>
 <tr class="separator:a83472b268c4da9bcb33f1169f105aa92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ce30c3c4581bc03f4bab111531c807a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a0ce30c3c4581bc03f4bab111531c807a">basisproject.rspargs</a></td></tr>
 <tr class="separator:a0ce30c3c4581bc03f4bab111531c807a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdbf201c6dd03d1c26908438e6ec2c53"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#acdbf201c6dd03d1c26908438e6ec2c53">basisproject.template_abspath</a></td></tr>
+<tr class="separator:acdbf201c6dd03d1c26908438e6ec2c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f071fd3b13729708bdb1b46f08ef464"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a9f071fd3b13729708bdb1b46f08ef464">basisproject.update_project_template</a></td></tr>
 <tr class="separator:a9f071fd3b13729708bdb1b46f08ef464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -131,25 +135,31 @@ Variables</h2></td></tr>
 <tr class="separator:a5c414e44bd52831a3ec51e488ead9865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7665dd351ccef9f83ec6ed8372cfa6d4"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a7665dd351ccef9f83ec6ed8372cfa6d4">basisproject._EXEC_NAME</a> = <a class="el" href="namespacebasis.html#a8af7a892ec86c86f619728814c2822e9">basis.exename</a>()</td></tr>
 <tr class="separator:a7665dd351ccef9f83ec6ed8372cfa6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeeb0cb31e91ebfc1ce7fe0f72e573f44"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#aeeb0cb31e91ebfc1ce7fe0f72e573f44">basisproject._template</a> = os.path.join(_template_dir, 'basis/1.0')</td></tr>
+<tr class="memitem:aeeb0cb31e91ebfc1ce7fe0f72e573f44"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#aeeb0cb31e91ebfc1ce7fe0f72e573f44">basisproject._template</a> = <a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">os.path.join</a>(_template_dir, 'basis/1.1')</td></tr>
 <tr class="separator:aeeb0cb31e91ebfc1ce7fe0f72e573f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadadb6675edab40a342832ccbcc2e924"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#aadadb6675edab40a342832ccbcc2e924">basisproject._template_dir</a> = <a class="el" href="group__BasisBashUtilities.html#ga7a2fed17038bc86b3ab39dd704531144">os.path.abspath</a>(os.path.join(_EXEC_DIR, '../share/templates'))</td></tr>
+<tr class="memitem:aadadb6675edab40a342832ccbcc2e924"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#aadadb6675edab40a342832ccbcc2e924">basisproject._template_dir</a> = os.path.abspath(<a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">os.path.join</a>(_EXEC_DIR, '../share/templates'))</td></tr>
 <tr class="separator:aadadb6675edab40a342832ccbcc2e924"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af59dbddc95d0e3664335d21c51b67e95"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#af59dbddc95d0e3664335d21c51b67e95">basisproject.acc</a> = AccumulatorForNumbersOfChangesAndErrors()</td></tr>
 <tr class="separator:af59dbddc95d0e3664335d21c51b67e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacb4f630215d74169e397c28d4cf0981"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#aacb4f630215d74169e397c28d4cf0981">basisproject.ADD</a> = 1</td></tr>
 <tr class="separator:aacb4f630215d74169e397c28d4cf0981"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab462e2625a72881ea950888c1ea7235e"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a> = parser.parse_args(argv, args)</td></tr>
+<tr class="memitem:ab462e2625a72881ea950888c1ea7235e"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a> = parser.parse_args(argv_remaining, args)</td></tr>
 <tr class="separator:ab462e2625a72881ea950888c1ea7235e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af85123db808080a2351b8847657024b2"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#af85123db808080a2351b8847657024b2">basisproject.config_file</a> = get_template(args.template, '_config.py')</td></tr>
 <tr class="separator:af85123db808080a2351b8847657024b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a2026ae1fb16e10dcdbc813e12ab43b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a7a2026ae1fb16e10dcdbc813e12ab43b">basisproject.create</a> = True</td></tr>
 <tr class="separator:a7a2026ae1fb16e10dcdbc813e12ab43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad91334a5e5e66f7abe5d24761baaa226"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ad91334a5e5e66f7abe5d24761baaa226">basisproject.create_parser</a></td></tr>
+<tr class="separator:ad91334a5e5e66f7abe5d24761baaa226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8a38469712b450c78e9c5f2cd341671"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ae8a38469712b450c78e9c5f2cd341671">basisproject.custom_template_group</a> = template_parser.add_argument_group(&quot;optional <a class="el" href="Util_8pm.html#ad6cec96c1b1c3d2ff618751cfc7432b2">arguments</a> imported <a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a> <a class="el" href="Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd">template\n</a>'&quot; + args.template + &quot;'&quot;)</td></tr>
+<tr class="separator:ae8a38469712b450c78e9c5f2cd341671"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8c22254434794494975e7c8dba07a08"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ad8c22254434794494975e7c8dba07a08">basisproject.DEL</a> = -1</td></tr>
 <tr class="separator:ad8c22254434794494975e7c8dba07a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91bd380262674e8016836cfd33262891"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a91bd380262674e8016836cfd33262891">basisproject.file_path</a> = os.path.join(root, filename)</td></tr>
+<tr class="memitem:a0fbfbc4e7e766ab1791b0b9204d5611a"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a0fbfbc4e7e766ab1791b0b9204d5611a">basisproject.depends_parser</a> = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, add_help=False)</td></tr>
+<tr class="separator:a0fbfbc4e7e766ab1791b0b9204d5611a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91bd380262674e8016836cfd33262891"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a91bd380262674e8016836cfd33262891">basisproject.file_path</a> = <a class="el" href="Content_8pm.html#af7fec1a687cabe73c919c78339e63788">os.path.join</a>(root, filename)</td></tr>
 <tr class="separator:a91bd380262674e8016836cfd33262891"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a99f33e3a65262b7c7efc2345286bd0"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></td></tr>
+<tr class="memitem:a4a99f33e3a65262b7c7efc2345286bd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0">basisproject.help</a></td></tr>
 <tr class="separator:a4a99f33e3a65262b7c7efc2345286bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cc5b6c631724543cca6cd1aec414b85"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a1cc5b6c631724543cca6cd1aec414b85">basisproject.ok</a> = True</td></tr>
 <tr class="separator:a1cc5b6c631724543cca6cd1aec414b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,9 +169,21 @@ Variables</h2></td></tr>
 <tr class="separator:ad6cb343ca62e0430a780443d6efc3d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afadf339329b40559b617507f05a4b2bf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#afadf339329b40559b617507f05a4b2bf">basisproject.preset</a> = None</td></tr>
 <tr class="separator:afadf339329b40559b617507f05a4b2bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7d5c58c24544760048ed66b3b051ea"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a4e7d5c58c24544760048ed66b3b051ea">basisproject.type</a> = 'original_template'</td></tr>
+<tr class="memitem:ade9ff6745b2d65dc929e8de52d13b7f3"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ade9ff6745b2d65dc929e8de52d13b7f3">basisproject.shared_parser</a> = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,add_help=False)</td></tr>
+<tr class="separator:ade9ff6745b2d65dc929e8de52d13b7f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f677e9129602bdfc1630f9618b9ce2b"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a1f677e9129602bdfc1630f9618b9ce2b">basisproject.subparsers</a> = parser.add_subparsers(help='Command specifying the <a class="el" href="Util_8pm.html#a7795a279227b406b09a5add00852a50f">type</a> of modification <a class="el" href="Install_8pm.html#a5cc8261681e4c942d0ab61e19ca828b1">to</a> make.', dest='subparser_name')</td></tr>
+<tr class="separator:a1f677e9129602bdfc1630f9618b9ce2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb43c2aa8e2af909c0b44a7479e45390"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ConfigureIncludeFiles_8cmake.html#a1a29a7111e07c59c4d1dcffb3a2cd430">list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#adb43c2aa8e2af909c0b44a7479e45390">basisproject.subparsers_actions</a></td></tr>
+<tr class="separator:adb43c2aa8e2af909c0b44a7479e45390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae874e0c40e8e2339c509dc9c3b2458ae"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#ae874e0c40e8e2339c509dc9c3b2458ae">basisproject.template_parser</a> = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,add_help=False)</td></tr>
+<tr class="separator:ae874e0c40e8e2339c509dc9c3b2458ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e7d5c58c24544760048ed66b3b051ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a4e7d5c58c24544760048ed66b3b051ea">basisproject.type</a> = 'original_template'</td></tr>
 <tr class="separator:a4e7d5c58c24544760048ed66b3b051ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af68750697c3ecb681fe0dba697e8c6e3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></td></tr>
+<tr class="memitem:a3e3f9ad49e937e2c3c8adf4a0521b8bc"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a3e3f9ad49e937e2c3c8adf4a0521b8bc">basisproject.update_parser</a></td></tr>
+<tr class="separator:a3e3f9ad49e937e2c3c8adf4a0521b8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8abb3630ea49fd1ca8c264e505fbd0f8"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#a8abb3630ea49fd1ca8c264e505fbd0f8">basisproject.upgrade_parser</a></td></tr>
+<tr class="separator:a8abb3630ea49fd1ca8c264e505fbd0f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af68750697c3ecb681fe0dba697e8c6e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebasisproject.html#af68750697c3ecb681fe0dba697e8c6e3">basisproject.version</a></td></tr>
 <tr class="separator:af68750697c3ecb681fe0dba697e8c6e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -171,7 +193,7 @@ Variables</h2></td></tr>
 </div></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

@@ -96,22 +96,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeAPI</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="BasisTools_8cmake.html#adbcacda9dde3ee7a5f1c3f2d74ede715">   24</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># include guard</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (<a class="code" href="BasisTools_8cmake.html#adbcacda9dde3ee7a5f1c3f2d74ede715">__BASIS_TOOLS_INCLUDED</a>)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (__BASIS_TOOLS_INCLUDED)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordflow">return</span> ()</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordflow">else</span> ()</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  set (<a class="code" href="BasisTools_8cmake.html#adbcacda9dde3ee7a5f1c3f2d74ede715">__BASIS_TOOLS_INCLUDED</a> TRUE)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;endif ()</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (__BASIS_TOOLS_INCLUDED TRUE)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># append CMake module path of BASIS to CMAKE_MODULE_PATH</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="BasisTools_8cmake.html#aba8fe14da3a2efb1fe50142593ab2e2f">   34</a></span>&#160;<span class="preprocessor"></span>set (<a class="code" href="BasisTools_8cmake.html#aba8fe14da3a2efb1fe50142593ab2e2f">CMAKE_MODULE_PATH</a> <span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}&quot;</span> ${<a class="code" href="BasisTools_8cmake.html#aba8fe14da3a2efb1fe50142593ab2e2f">CMAKE_MODULE_PATH</a>})</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (CMAKE_MODULE_PATH <span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}&quot;</span> ${CMAKE_MODULE_PATH})</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;# ----------------------------------------------------------------------------</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;# externally developed modules</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;# ExternalData.cmake <a class="code" href="namespacedoxyfilter-perl.html#a1525d69608a01eb95c8790a02403c396">module</a> - yet only part of ITK, not CMake</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;# ExternalData.cmake <a class="code" href="namespacedoxyfilter-perl.html#a1525d69608a01eb95c8790a02403c396">module</a> - yet only part of ITK, <a class="code" href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a> CMake</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;include (<span class="stringliteral">&quot;${CMAKE_CURRENT_LIST_DIR}/ExternalData.cmake&quot;</span>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># the module for the topological sort of modules according to their</span></div>
@@ -132,13 +132,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">include (&quot;</span>${CMAKE_CURRENT_LIST_DIR}/ExportTools.cmake<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">include (&quot;</span>${CMAKE_CURRENT_LIST_DIR}/ImportTools.cmake<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">include (&quot;</span>${CMAKE_CURRENT_LIST_DIR}/UtilitiesTools.cmake<span class="stringliteral">&quot;)</span></div>
-<div class="ttc" id="BasisTools_8cmake_html_aba8fe14da3a2efb1fe50142593ab2e2f"><div class="ttname"><a href="BasisTools_8cmake.html#aba8fe14da3a2efb1fe50142593ab2e2f">CMAKE_MODULE_PATH</a></div><div class="ttdeci">cmake CMAKE_MODULE_PATH</div><div class="ttdef"><b>Definition:</b> <a href="BasisTools_8cmake_source.html#l00034">BasisTools.cmake:34</a></div></div>
+<div class="ttc" id="GenerateConfig_8cmake_html_a210b6a48b2c1bb87f5c174ada6932597"><div class="ttname"><a href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a></div><div class="ttdeci">endif()&quot; ) install ( FILES &quot;$</div><div class="ttdef"><b>Definition:</b> <a href="GenerateConfig_8cmake_source.html#l00089">GenerateConfig.cmake:89</a></div></div>
 <div class="ttc" id="namespacedoxyfilter-perl_html_a1525d69608a01eb95c8790a02403c396"><div class="ttname"><a href="namespacedoxyfilter-perl.html#a1525d69608a01eb95c8790a02403c396">doxyfilter-perl.module</a></div><div class="ttdeci">tuple module</div><div class="ttdef"><b>Definition:</b> <a href="doxyfilter-perl_8py_source.html#l00089">doxyfilter-perl.py:89</a></div></div>
-<div class="ttc" id="BasisTools_8cmake_html_adbcacda9dde3ee7a5f1c3f2d74ede715"><div class="ttname"><a href="BasisTools_8cmake.html#adbcacda9dde3ee7a5f1c3f2d74ede715">__BASIS_TOOLS_INCLUDED</a></div><div class="ttdeci">cmake __BASIS_TOOLS_INCLUDED</div><div class="ttdef"><b>Definition:</b> <a href="BasisTools_8cmake_source.html#l00024">BasisTools.cmake:24</a></div></div>
+<div class="ttc" id="CTestCustom_8cmake_html_a804be93391d90c4406a72c0c779f7d66"><div class="ttname"><a href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a></div><div class="ttdeci">set(CTEST_CURL_OPTIONS&quot;CURLOPT_SSL_VERIFYPEER_OFF&quot;&quot;CURLOPT_SSL_VERIFYHOST_OFF&quot;) set(CTEST_CUSTOM_WARNING_MATCH $</div><div class="ttdef"><b>Definition:</b> <a href="CTestCustom_8cmake_source.html#l00041">CTestCustom.cmake:41</a></div></div>
+<div class="ttc" id="Util_8pm_html_afed0a18cdddf3077c2141f525990999b"><div class="ttname"><a href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a></div><div class="ttdeci">Please also note that this function expects a normal string It does not support overloading or other magic techniques to get a string Returns the string as a conveince if it is a valid or C&lt; undef &gt; if not</div><div class="ttdef"><b>Definition:</b> <a href="Util_8pm_source.html#l00149">Util.pm:149</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:37. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

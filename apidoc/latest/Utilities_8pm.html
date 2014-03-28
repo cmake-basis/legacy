@@ -73,93 +73,531 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">Utilities.pm File Reference<div class="ingroups"><a class="el" href="group__BasisPerlUtilities.html">Perl Utilities</a></div></div>  </div>
+<div class="title">Utilities.pm File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Main module of project-independent BASIS utilities.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;Cwd.pm&quot;</code><br/>
-<code>#include &quot;File/Basename.pm&quot;</code><br/>
-<code>#include &quot;File/Spec/Functions.pm&quot;</code><br/>
-<code>#include &quot;<a class="el" href="Which_8pm_source.html">BASIS/File/Which.pm</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="Exporter_8pm_source.html">BASIS/Sub/Exporter.pm</a>&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Utilities.pm:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="Utilities_8pm__incl.png" border="0" usemap="#Utilities_8pm" alt=""/></div>
-<map name="Utilities_8pm" id="Utilities_8pm">
-<area shape="rect" id="node5" href="Which_8pm.html" title="BASIS/File/Which.pm" alt="" coords="1040,83,1188,111"/><area shape="rect" id="node6" href="Exporter_8pm.html" title="Exporter.pm" alt="" coords="712,161,805,189"/><area shape="rect" id="node8" href="OptList_8pm.html" title="BASIS/Data/OptList.pm" alt="" coords="160,238,320,266"/><area shape="rect" id="node10" href="Util_8pm.html" title="BASIS/Params/Util.pm" alt="" coords="996,315,1151,343"/><area shape="rect" id="node13" href="Install_8pm.html" title="BASIS/Sub/Install.pm" alt="" coords="79,315,227,343"/></map>
-</div>
-</div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="Utilities_8pm__dep__incl.png" border="0" usemap="#Utilities_8pmdep" alt=""/></div>
-<map name="Utilities_8pmdep" id="Utilities_8pmdep">
-<area shape="rect" id="node2" href="Basis_8pm.html" title="BASIS utilities of BASIS package. " alt="" coords="11,83,87,111"/><area shape="rect" id="node3" href="doxyfilter_8pl.html" title="Doxygen filter for CMake, Python, Perl, Bash, and MATLAB. " alt="" coords="5,161,93,189"/></map>
-</div>
-</div>
 <p><a href="Utilities_8pm_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga3cd2b3e39c8eed8c7d16cca3e97ec3d7"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga3cd2b3e39c8eed8c7d16cca3e97ec3d7">execute</a> (scalar args, scalar quiet, scalar stdout, scalar allow_fail, scalar <a class="el" href="testdriver_8h.html#a82fe1f872bd00eecd93c84973facfa73">verbose</a>, scalar simulate, scalar prefix, hashref targets, scalar base)</td></tr>
-<tr class="memdesc:ga3cd2b3e39c8eed8c7d16cca3e97ec3d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute command as subprocess.  <a href="group__BasisPerlUtilities.html#ga3cd2b3e39c8eed8c7d16cca3e97ec3d7">More...</a><br/></td></tr>
-<tr class="separator:ga3cd2b3e39c8eed8c7d16cca3e97ec3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga863a4fb460fcbfc857affea61be34bfc"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga863a4fb460fcbfc857affea61be34bfc">exedir</a> (scalar name, scalar prefix, hashref targets, scalar base)</td></tr>
-<tr class="memdesc:ga863a4fb460fcbfc857affea61be34bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get directory of executable file.  <a href="group__BasisPerlUtilities.html#ga863a4fb460fcbfc857affea61be34bfc">More...</a><br/></td></tr>
-<tr class="separator:ga863a4fb460fcbfc857affea61be34bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabca2e717c117be0218e85b03394f12a2"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#gabca2e717c117be0218e85b03394f12a2">exename</a> (scalar name, scalar prefix, hashref targets, scalar base)</td></tr>
-<tr class="memdesc:gabca2e717c117be0218e85b03394f12a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get name of executable file.  <a href="group__BasisPerlUtilities.html#gabca2e717c117be0218e85b03394f12a2">More...</a><br/></td></tr>
-<tr class="separator:gabca2e717c117be0218e85b03394f12a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4293bee573d3b361253ec2bb98156be6"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga4293bee573d3b361253ec2bb98156be6">exepath</a> (scalar name, scalar prefix, hashref targets, scalar base)</td></tr>
-<tr class="memdesc:ga4293bee573d3b361253ec2bb98156be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get absolute path of executable file.  <a href="group__BasisPerlUtilities.html#ga4293bee573d3b361253ec2bb98156be6">More...</a><br/></td></tr>
-<tr class="separator:ga4293bee573d3b361253ec2bb98156be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga23e4864c61bf4b36e73cabbf643bec15"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga23e4864c61bf4b36e73cabbf643bec15">istarget</a> (scalar target, scalar prefix, hashref targets)</td></tr>
-<tr class="memdesc:ga23e4864c61bf4b36e73cabbf643bec15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine whether a given target is known.  <a href="group__BasisPerlUtilities.html#ga23e4864c61bf4b36e73cabbf643bec15">More...</a><br/></td></tr>
-<tr class="separator:ga23e4864c61bf4b36e73cabbf643bec15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac8bbc8db4d493125335de7d9b5593b92"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#gac8bbc8db4d493125335de7d9b5593b92">print_contact</a> (scalar contact)</td></tr>
-<tr class="memdesc:gac8bbc8db4d493125335de7d9b5593b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print contact information.  <a href="group__BasisPerlUtilities.html#gac8bbc8db4d493125335de7d9b5593b92">More...</a><br/></td></tr>
-<tr class="separator:gac8bbc8db4d493125335de7d9b5593b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac46a25ddb2b72525b5974f463f651d16"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#gac46a25ddb2b72525b5974f463f651d16">print_version</a> (scalar name, scalar version, scalar project, scalar copyright, scalar license)</td></tr>
-<tr class="memdesc:gac46a25ddb2b72525b5974f463f651d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print version information including copyright and license notices.  <a href="group__BasisPerlUtilities.html#gac46a25ddb2b72525b5974f463f651d16">More...</a><br/></td></tr>
-<tr class="separator:gac46a25ddb2b72525b5974f463f651d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6c36cc255e28d2585cf31657b0e9a262"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga6c36cc255e28d2585cf31657b0e9a262">qsplit</a> (scalar str)</td></tr>
-<tr class="memdesc:ga6c36cc255e28d2585cf31657b0e9a262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split quoted string.  <a href="group__BasisPerlUtilities.html#ga6c36cc255e28d2585cf31657b0e9a262">More...</a><br/></td></tr>
-<tr class="separator:ga6c36cc255e28d2585cf31657b0e9a262"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga007c368e3cb454afb99d1d8074c14e11"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga007c368e3cb454afb99d1d8074c14e11">targetuid</a> (scalar target, scalar prefix, hashref targets)</td></tr>
-<tr class="memdesc:ga007c368e3cb454afb99d1d8074c14e11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UID of build target.  <a href="group__BasisPerlUtilities.html#ga007c368e3cb454afb99d1d8074c14e11">More...</a><br/></td></tr>
-<tr class="separator:ga007c368e3cb454afb99d1d8074c14e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4fd027c17e40a693285e49e62d841829"><td class="memItemLeft" align="right" valign="top">sub&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga4fd027c17e40a693285e49e62d841829">tostring</a> (arrayref args)</td></tr>
-<tr class="memdesc:ga4fd027c17e40a693285e49e62d841829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert list to double quoted string.  <a href="group__BasisPerlUtilities.html#ga4fd027c17e40a693285e49e62d841829">More...</a><br/></td></tr>
-<tr class="separator:ga4fd027c17e40a693285e49e62d841829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabe7e4023fb6119991396f6503c3b1a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#aabe7e4023fb6119991396f6503c3b1a6">if</a> (@_!=0 and(<a class="el" href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a> <a class="el" href="OptList_8pm.html#a3484e3e45295ed1a36d8e54f88db5b3e">defined</a> $<a class="el" href="Readonly_8pm.html#a74bae34d2194037b127f80ffe7f89959">_</a>[0] or $<a class="el" href="Readonly_8pm.html#a74bae34d2194037b127f80ffe7f89959">_</a>[0]!~/^(<a class="el" href="Install_8pm.html#aa24c9d6e91eca684a0558bd17fc27eb7">name</a>|<a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">version</a>|<a class="el" href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a>|copyright|license)$/))</td></tr>
+<tr class="separator:aabe7e4023fb6119991396f6503c3b1a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1028738de54800b0862dc2089c1e425"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#af1028738de54800b0862dc2089c1e425">if</a> ($options{'<a class="el" href="basistest-slave_8sh.html#a4ab3e14ec44e7309056fd4e647cd1a6a">verbose</a>'}gt 0 or $options{'simulate'})</td></tr>
+<tr class="separator:af1028738de54800b0862dc2089c1e425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adae084da5444208ebdbc49ad1d4f93bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#adae084da5444208ebdbc49ad1d4f93bb">if</a> (<a class="el" href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a> $options{'simulate'})</td></tr>
+<tr class="separator:adae084da5444208ebdbc49ad1d4f93bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f70ef139bb1c6b778cd30eb42170d96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> Cwd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a9f70ef139bb1c6b778cd30eb42170d96">qw</a> (realpath)</td></tr>
+<tr class="separator:a9f70ef139bb1c6b778cd30eb42170d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a936a4b28721e6fa5bc982c712e32ac16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> File::Basename&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a936a4b28721e6fa5bc982c712e32ac16">qw</a> (<a class="el" href="doxyfilter_8pl.html#ae5942cb59b53815c431948c6ffd651ec">dirname</a> basename)</td></tr>
+<tr class="separator:a936a4b28721e6fa5bc982c712e32ac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90a0ea274a532a66052ca2a6ab4edc2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> File::Spec::Functions&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a90a0ea274a532a66052ca2a6ab4edc2f">qw</a> (catfile)</td></tr>
+<tr class="separator:a90a0ea274a532a66052ca2a6ab4edc2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2dfb1ac6999530448312c855ea5f6e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> BASIS::File::Which&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#ab2dfb1ac6999530448312c855ea5f6e0">qw</a> (<a class="el" href="Which_8pm.html#ac4ba424ef26e0d4d279cf9b50237037b">which</a>)</td></tr>
+<tr class="separator:ab2dfb1ac6999530448312c855ea5f6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:gaac7f4f1b55319f64ad56ae8a8222d9b5"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#gaac7f4f1b55319f64ad56ae8a8222d9b5">CONTACT</a></td></tr>
-<tr class="memdesc:gaac7f4f1b55319f64ad56ae8a8222d9b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default contact to use for help output of executables.  <a href="group__BasisPerlUtilities.html#gaac7f4f1b55319f64ad56ae8a8222d9b5">More...</a><br/></td></tr>
-<tr class="separator:gaac7f4f1b55319f64ad56ae8a8222d9b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga711473d175352242b9151cd7bf2f4411"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#ga711473d175352242b9151cd7bf2f4411">COPYRIGHT</a></td></tr>
-<tr class="memdesc:ga711473d175352242b9151cd7bf2f4411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copyright of executables.  <a href="group__BasisPerlUtilities.html#ga711473d175352242b9151cd7bf2f4411">More...</a><br/></td></tr>
-<tr class="separator:ga711473d175352242b9151cd7bf2f4411"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa502d77fd54d4fcc54b4a9bb419d779b"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b">LICENSE</a></td></tr>
-<tr class="memdesc:gaa502d77fd54d4fcc54b4a9bb419d779b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default license of executables.  <a href="group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b">More...</a><br/></td></tr>
-<tr class="separator:gaa502d77fd54d4fcc54b4a9bb419d779b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22987839a810a0eab7068bd235fdb973"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a22987839a810a0eab7068bd235fdb973">$arg</a> = ''</td></tr>
+<tr class="separator:a22987839a810a0eab7068bd235fdb973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e94494731d99ed23b123e95175bc10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a67e94494731d99ed23b123e95175bc10">$args</a> = &quot;$exec_path $<a class="el" href="Util_8pm.html#ad6cec96c1b1c3d2ff618751cfc7432b2">arguments</a>&quot;</td></tr>
+<tr class="separator:a67e94494731d99ed23b123e95175bc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd33e8d1f281f29797152c06814a07bf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#afd33e8d1f281f29797152c06814a07bf">$contact</a> = CONTACT <a class="el" href="Readonly_8pm.html#a0a2d40d4427a86fc537b9561e1294128">unless</a> $contact</td></tr>
+<tr class="separator:afd33e8d1f281f29797152c06814a07bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b41eb406f756fc93ddcf25cfa5ea7e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a5b41eb406f756fc93ddcf25cfa5ea7e6">$max</a> = shift</td></tr>
+<tr class="separator:a5b41eb406f756fc93ddcf25cfa5ea7e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48c911ec692405834c18aa5eac13226c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a48c911ec692405834c18aa5eac13226c">$output</a> = ''</td></tr>
+<tr class="separator:a48c911ec692405834c18aa5eac13226c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cebe9497ed62cd8e46963ec34b0509c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a2cebe9497ed62cd8e46963ec34b0509c">$status</a> = 0</td></tr>
+<tr class="separator:a2cebe9497ed62cd8e46963ec34b0509c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12340bf59e0aa76342473140db07d805"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Readonly_8pm.html#a30f719278d38e54fb39b5665f0eb4189">die</a> <a class="el" href="Utilities_8pm.html#a31f4279377c860b662a8de2a73b6b49b">print_version</a>()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a12340bf59e0aa76342473140db07d805">$str</a> = ' ' <a class="el" href="UtilitiesTools_8cmake.html#a9dcd381df0931716751a973e6889da5f">if</a> $str ne ''</td></tr>
+<tr class="separator:a12340bf59e0aa76342473140db07d805"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12cba0a155814ad2eeb66361cfda75e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a12cba0a155814ad2eeb66361cfda75e6">$version</a> = <a class="el" href="Util_8pm.html#a30c560b31afd1a14a67bf5e1eb560718">undef</a></td></tr>
+<tr class="separator:a12cba0a155814ad2eeb66361cfda75e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6c091c80ecb55a6c7f1a185e0eb6601"><td class="memItemLeft" align="right" valign="top">LOOP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#af6c091c80ecb55a6c7f1a185e0eb6601">__pad0__</a></td></tr>
+<tr class="separator:af6c091c80ecb55a6c7f1a185e0eb6601"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18435a624413db271030fcb0436ac744"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a18435a624413db271030fcb0436ac744">args</a> = ()</td></tr>
+<tr class="separator:a18435a624413db271030fcb0436ac744"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdc81f81e5aa73967f50cb0cfda9d476"><td class="memItemLeft" align="right" valign="top"><a class="el" href="View_8pm.html#abb9bc4e365b8540ed1cdba725c40599f">print</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#afdc81f81e5aa73967f50cb0cfda9d476">Contact</a></td></tr>
+<tr class="separator:afdc81f81e5aa73967f50cb0cfda9d476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad625b15a8845ec87693a4dcd043408ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Readonly_8pm.html#a10585d60b2a8d2af15d8966494734d5e">constant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#ad625b15a8845ec87693a4dcd043408ae">COPYRIGHT</a> =&gt; '2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University'</td></tr>
+<tr class="memdesc:ad625b15a8845ec87693a4dcd043408ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copyright of executables.  <a href="#ad625b15a8845ec87693a4dcd043408ae">More...</a><br/></td></tr>
+<tr class="separator:ad625b15a8845ec87693a4dcd043408ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0544c3fe466e421738dae463968b70ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a0544c3fe466e421738dae463968b70ba">else</a></td></tr>
+<tr class="separator:a0544c3fe466e421738dae463968b70ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e7fd02388dae70a12d6252bfe0161d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Readonly_8pm.html#a10585d60b2a8d2af15d8966494734d5e">constant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a50e7fd02388dae70a12d6252bfe0161d">LICENSE</a></td></tr>
+<tr class="memdesc:a50e7fd02388dae70a12d6252bfe0161d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default license of executables.  <a href="#a50e7fd02388dae70a12d6252bfe0161d">More...</a><br/></td></tr>
+<tr class="separator:a50e7fd02388dae70a12d6252bfe0161d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad22524cb6c42e8b7a9bf42df076d71ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#ad22524cb6c42e8b7a9bf42df076d71ea">print_contact</a></td></tr>
+<tr class="separator:ad22524cb6c42e8b7a9bf42df076d71ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f4279377c860b662a8de2a73b6b49b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a31f4279377c860b662a8de2a73b6b49b">print_version</a></td></tr>
+<tr class="separator:a31f4279377c860b662a8de2a73b6b49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab905db8dba78419bdc511f380a4ac53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#aab905db8dba78419bdc511f380a4ac53">qsplit</a></td></tr>
+<tr class="separator:aab905db8dba78419bdc511f380a4ac53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad621ba17d70eed8518bc71750053d79a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Which_8pm.html#ab8e531f7856786e0378ac28370b81130">BASIS::Sub::Exporter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#ad621ba17d70eed8518bc71750053d79a">setup</a></td></tr>
+<tr class="separator:ad621ba17d70eed8518bc71750053d79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2475e10618961c050dcba04e8c42331"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#ae2475e10618961c050dcba04e8c42331">strict</a></td></tr>
+<tr class="separator:ae2475e10618961c050dcba04e8c42331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81a252e692ad238f05281aa87a6a70df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8pm.html#a81a252e692ad238f05281aa87a6a70df">warnings</a></td></tr>
+<tr class="separator:a81a252e692ad238f05281aa87a6a70df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Main module of project-independent BASIS utilities. </p>
-<p>This module defines the BASIS utility functions. It uses the BASIS::Sub::Exporter module to enable the generation of these functions customized to the request of the particular project they are used in. This is, for example, used by the BASIS::Basis module. The default utility functions defined by this module, i.e., without any customizaton are intended for use in Perl scripts that are not build as part of a particular package. In case of a BASIS package, the already customized project-specific implementations should be used instead, i.e., those defined by the BASIS::Basis module of the project.</p>
-<dl class="section note"><dt>Note</dt><dd>This module exports also all other BASIS utility functions that are defined in other Perl modules. Therefore, only this or the BASIS::Basis module should be used. </dd></dl>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aabe7e4023fb6119991396f6503c3b1a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">if </td>
+          <td>(</td>
+          <td class="paramtype">@_!&#160;</td>
+          <td class="paramname"> = <code>0&#160;and&#160;(<a class="el" href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a>&#160;<a class="el" href="OptList_8pm.html#a3484e3e45295ed1a36d8e54f88db5b3e">defined</a>&#160;$<a class="el" href="Readonly_8pm.html#a74bae34d2194037b127f80ffe7f89959">_</a>[0]&#160;or&#160;$<a class="el" href="Readonly_8pm.html#a74bae34d2194037b127f80ffe7f89959">_</a>[0]&#160;!~&#160;/^(<a class="el" href="Install_8pm.html#aa24c9d6e91eca684a0558bd17fc27eb7">name</a>|<a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">version</a>|<a class="el" href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a>|copyright|license)$/)</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
-<p>Definition in file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
-</div></div><!-- contents -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00155">155</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af1028738de54800b0862dc2089c1e425"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">if </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$options{'verbose'}gt 0 or $options{'simulate'}</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00510">510</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adae084da5444208ebdbc49ad1d4f93bb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">if </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="Util_8pm.html#afed0a18cdddf3077c2141f525990999b">not</a> $options{'simulate'}&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00518">518</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f70ef139bb1c6b778cd30eb42170d96"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> Cwd qw </td>
+          <td>(</td>
+          <td class="paramtype">realpath&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a936a4b28721e6fa5bc982c712e32ac16"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> File::Basename qw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="doxyfilter_8pl.html#ae5942cb59b53815c431948c6ffd651ec">dirname</a>&#160;</td>
+          <td class="paramname"><em>basename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a90a0ea274a532a66052ca2a6ab4edc2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> File::Spec::Functions qw </td>
+          <td>(</td>
+          <td class="paramtype">catfile&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab2dfb1ac6999530448312c855ea5f6e0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> BASIS::File::Which qw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="Which_8pm.html#ac4ba424ef26e0d4d279cf9b50237037b">which</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="a22987839a810a0eab7068bd235fdb973"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$arg = ''</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00405">405</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a67e94494731d99ed23b123e95175bc10"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$<a class="el" href="Utilities_8pm.html#a18435a624413db271030fcb0436ac744">args</a> = &quot;$exec_path $<a class="el" href="Util_8pm.html#ad6cec96c1b1c3d2ff618751cfc7432b2">arguments</a>&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00508">508</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afd33e8d1f281f29797152c06814a07bf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$contact = CONTACT <a class="el" href="Readonly_8pm.html#a0a2d40d4427a86fc537b9561e1294128">unless</a> $contact</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00096">96</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5b41eb406f756fc93ddcf25cfa5ea7e6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $max = shift</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00404">404</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a48c911ec692405834c18aa5eac13226c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $<a class="el" href="DoxyFilter_8pm.html#a8b8f78ce7076548f98e131161ea9f1fb">output</a> = ''</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00517">517</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2cebe9497ed62cd8e46963ec34b0509c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $status = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00516">516</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12340bf59e0aa76342473140db07d805"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="POM_8pm.html#a4d999c262b621c74fa5fc434dc9197aa">return</a> $str = ' ' <a class="el" href="UtilitiesTools_8cmake.html#a9dcd381df0931716751a973e6889da5f">if</a> $str ne ''</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00386">386</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12cba0a155814ad2eeb66361cfda75e6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> $<a class="el" href="shflags_8sh.html#af9a74cebdf07baa5a1514c89b9d0a21d">version</a> = <a class="el" href="Util_8pm.html#a30c560b31afd1a14a67bf5e1eb560718">undef</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00154">154</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af6c091c80ecb55a6c7f1a185e0eb6601"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LOOP __pad0__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00409">409</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a18435a624413db271030fcb0436ac744"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#ad90d34254225fde6892b1bfa0e1f8f8d">my</a> args = ()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00406">406</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afdc81f81e5aa73967f50cb0cfda9d476"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="View_8pm.html#abb9bc4e365b8540ed1cdba725c40599f">print</a> Contact</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00097">97</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad625b15a8845ec87693a4dcd043408ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Readonly_8pm.html#a10585d60b2a8d2af15d8966494734d5e">constant</a> COPYRIGHT =&gt; '2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default copyright of executables. </p>
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00055">55</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0544c3fe466e421738dae463968b70ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">else</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        <a class="code" href="Utilities_8pm.html#a12340bf59e0aa76342473140db07d805">$str</a> = $_[0]</div>
+<div class="ttc" id="Utilities_8pm_html_a12340bf59e0aa76342473140db07d805"><div class="ttname"><a href="Utilities_8pm.html#a12340bf59e0aa76342473140db07d805">$str</a></div><div class="ttdeci">die print_version() $str</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8pm_source.html#l00386">Utilities.pm:386</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00389">389</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a50e7fd02388dae70a12d6252bfe0161d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Readonly_8pm.html#a10585d60b2a8d2af15d8966494734d5e">constant</a> LICENSE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; <span class="stringliteral">&#39;See http:</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">use constant CONTACT   =&gt; &#39;</span>andreas.schuh.84@gmail.com<span class="stringliteral">&#39;</span></div>
+</div><!-- fragment -->
+<p>Default license of executables. </p>
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00057">57</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad22524cb6c42e8b7a9bf42df076d71ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> print_contact</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="Utilities_8pm.html#afd33e8d1f281f29797152c06814a07bf">$contact</a> = shift</div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+<div class="ttc" id="Utilities_8pm_html_afd33e8d1f281f29797152c06814a07bf"><div class="ttname"><a href="Utilities_8pm.html#afd33e8d1f281f29797152c06814a07bf">$contact</a></div><div class="ttdeci">$contact</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8pm_source.html#l00096">Utilities.pm:96</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00094">94</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31f4279377c860b662a8de2a73b6b49b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> print_version</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="Util_8pm.html#a6dbff06d5535923ee4dc67bcc49e6b9f">$name</a>    = <a class="code" href="Util_8pm.html#a30c560b31afd1a14a67bf5e1eb560718">undef</a></div>
+<div class="ttc" id="Util_8pm_html_a6dbff06d5535923ee4dc67bcc49e6b9f"><div class="ttname"><a href="Util_8pm.html#a6dbff06d5535923ee4dc67bcc49e6b9f">$name</a></div><div class="ttdeci">and provides a convenient way to test to see if a value is a normal non false string of non zero length Note that this will NOT do anything magic to deal with the special C&lt;'0'&gt; false negative but will return it my $name</div><div class="ttdef"><b>Definition:</b> <a href="Util_8pm_source.html#l00138">Util.pm:138</a></div></div>
+<div class="ttc" id="Util_8pm_html_a30c560b31afd1a14a67bf5e1eb560718"><div class="ttname"><a href="Util_8pm.html#a30c560b31afd1a14a67bf5e1eb560718">undef</a></div><div class="ttdeci">return undef</div><div class="ttdef"><b>Definition:</b> <a href="Util_8pm_source.html#l00793">Util.pm:793</a></div></div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00152">152</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab905db8dba78419bdc511f380a4ac53"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a834b0acf01782c96d0480fc8d8044f03">sub</a> qsplit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    <a class="code" href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a> <a class="code" href="Utilities_8pm.html#a12340bf59e0aa76342473140db07d805">$str</a>  = shift</div>
+<div class="ttc" id="Utilities_8pm_html_a12340bf59e0aa76342473140db07d805"><div class="ttname"><a href="Utilities_8pm.html#a12340bf59e0aa76342473140db07d805">$str</a></div><div class="ttdeci">die print_version() $str</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8pm_source.html#l00386">Utilities.pm:386</a></div></div>
+<div class="ttc" id="Basis_8pm_html_afdd34d2f149676325b840e49d566ab0e"><div class="ttname"><a href="Basis_8pm.html#afdd34d2f149676325b840e49d566ab0e">my</a></div><div class="ttdeci">my($_TARGET_PREFIX,%_EXECUTABLE_TARGETS, $_TARGETS_BASE)</div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00402">402</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad621ba17d70eed8518bc71750053d79a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> <a class="el" href="Which_8pm.html#ab8e531f7856786e0378ac28370b81130">BASIS::Sub::Exporter</a> setup</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; {</div>
+<div class="line">    exports =&gt; [</div>
+<div class="line">        <a class="code" href="Which_8pm.html#a215a1d59f72928a89b0fcd095b797d65">qw</a>(<a class="code" href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">tostring</a> <a class="code" href="Utilities_8pm.html#aab905db8dba78419bdc511f380a4ac53">qsplit</a>),</div>
+<div class="line">        <a class="code" href="Basis_8pm.html#a3ed6de2c6d032404e92368298f8f54f5">print_contact</a> =&gt; \&amp;_build_print_contact,</div>
+<div class="line">        <a class="code" href="basistest-master_8sh.html#a0af14e3002570423e66eb615d4ddff40">print_version</a> =&gt; \&amp;_build_print_version,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#aae1a0b4930f10fd78fb4767574d7f3e5">targetuid</a>     =&gt; \&amp;_build_executabletargetinfo_function,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#a3ade9709801748ed8aedfc681210042f">istarget</a>      =&gt; \&amp;_build_executabletargetinfo_function,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#a5b9e0c4d86c10aa7c801e173c3a88637">exepath</a>       =&gt; \&amp;_build_executabletargetinfo_function,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#a8af7a892ec86c86f619728814c2822e9">exename</a>       =&gt; \&amp;_build_executabletargetinfo_function,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#a8ebcb1fe2c1ba9a2f14eb5ccb654be40">exedir</a>        =&gt; \&amp;_build_executabletargetinfo_function,</div>
+<div class="line">        <a class="code" href="namespacebasis.html#a3142a685f628be8ce2545c07413e32de">execute</a>       =&gt; \&amp;_build_execute],</div>
+<div class="line">    <a class="code" href="Exporter_8pm.html#a56cd19dbf731e88f867e2bbb8477cc89">groups</a> =&gt; {</div>
+<div class="line">        <span class="keywordflow">default</span>    =&gt; [<a class="code" href="Which_8pm.html#a215a1d59f72928a89b0fcd095b797d65">qw</a>(<a class="code" href="Basis_8pm.html#a3ed6de2c6d032404e92368298f8f54f5">print_contact</a> print_version exepath exename exedir execute)],</div>
+<div class="line">        <a class="code" href="Util_8pm.html#a8b1e3184e58e3e42089d85470bd6c1d7">everything</a> =&gt; [<a class="code" href="Which_8pm.html#a215a1d59f72928a89b0fcd095b797d65">qw</a>(<a class="code" href="Basis_8pm.html#a3ed6de2c6d032404e92368298f8f54f5">print_contact</a> print_version targetuid istarget exepath</div>
+<div class="line">                          exename exedir <a class="code" href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">tostring</a> <a class="code" href="Utilities_8pm.html#aab905db8dba78419bdc511f380a4ac53">qsplit</a> execute)]</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="namespacebasis_html_a8af7a892ec86c86f619728814c2822e9"><div class="ttname"><a href="namespacebasis.html#a8af7a892ec86c86f619728814c2822e9">basis::exename</a></div><div class="ttdeci">std::string exename(const std::string &amp;name=std::string())</div><div class="ttdoc">Get name of executable file. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00281">basis.cxx:281</a></div></div>
+<div class="ttc" id="Which_8pm_html_a215a1d59f72928a89b0fcd095b797d65"><div class="ttname"><a href="Which_8pm.html#a215a1d59f72928a89b0fcd095b797d65">qw</a></div><div class="ttdeci">use vars qw</div><div class="ttdef"><b>Definition:</b> <a href="Which_8pm_source.html#l00011">Which.pm:11</a></div></div>
+<div class="ttc" id="namespacebasis_html_a8ebcb1fe2c1ba9a2f14eb5ccb654be40"><div class="ttname"><a href="namespacebasis.html#a8ebcb1fe2c1ba9a2f14eb5ccb654be40">basis::exedir</a></div><div class="ttdeci">std::string exedir(const std::string &amp;name=std::string())</div><div class="ttdoc">Get directory of executable file. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00287">basis.cxx:287</a></div></div>
+<div class="ttc" id="basistest-master_8sh_html_a0af14e3002570423e66eb615d4ddff40"><div class="ttname"><a href="basistest-master_8sh.html#a0af14e3002570423e66eb615d4ddff40">print_version</a></div><div class="ttdeci">V version print_version</div><div class="ttdef"><b>Definition:</b> <a href="basistest-master_8sh_source.html#l00368">basistest-master.sh:368</a></div></div>
+<div class="ttc" id="namespacebasis_html_aae1a0b4930f10fd78fb4767574d7f3e5"><div class="ttname"><a href="namespacebasis.html#aae1a0b4930f10fd78fb4767574d7f3e5">basis::targetuid</a></div><div class="ttdeci">std::string targetuid(const std::string &amp;name)</div><div class="ttdoc">Get UID of build target. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00263">basis.cxx:263</a></div></div>
+<div class="ttc" id="Utilities_8pm_html_aab905db8dba78419bdc511f380a4ac53"><div class="ttname"><a href="Utilities_8pm.html#aab905db8dba78419bdc511f380a4ac53">qsplit</a></div><div class="ttdeci">sub qsplit</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8pm_source.html#l00402">Utilities.pm:402</a></div></div>
+<div class="ttc" id="Util_8pm_html_a8b1e3184e58e3e42089d85470bd6c1d7"><div class="ttname"><a href="Util_8pm.html#a8b1e3184e58e3e42089d85470bd6c1d7">everything</a></div><div class="ttdeci">the main point behind this module is that the functions B&lt; both &gt; Do What You and Do The Right so they are most useful when you are getting params passed into your code from someone and or somewhere else and you can t really trust the quality C&lt; BASIS::Params::Util &gt; is of most use at the edges of your where params and data are coming in from outside your code The functions provided by C&lt; BASIS::Params::Util &gt; check in the most strictly correct manner are documented as thoroughly as possible so their exact behaviour is and heavily tested so make sure they are not fooled by weird data and Really Bad Things To simply load the module providing the functions you want to use as C&lt; BASIS::Params::Util &gt; will B&lt; never &gt; export by default You must explicitly name the functions you want to or use the C&lt;:ALL &gt; param to just have it export everything(although this is not recommended if you have any _FOO functions yourself with which future additions to C&lt; BASIS::Params::Util &gt; may clash)</div></div>
+<div class="ttc" id="namespacebasis_html_a3142a685f628be8ce2545c07413e32de"><div class="ttname"><a href="namespacebasis.html#a3142a685f628be8ce2545c07413e32de">basis::execute</a></div><div class="ttdeci">int execute(const std::string &amp;cmd, bool quiet=false, std::ostream *out=NULL, bool allow_fail=false, int verbose=0, bool simulate=false)</div><div class="ttdoc">Execute command as subprocess. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00297">basis.cxx:297</a></div></div>
+<div class="ttc" id="Exporter_8pm_html_a56cd19dbf731e88f867e2bbb8477cc89"><div class="ttname"><a href="Exporter_8pm.html#a56cd19dbf731e88f867e2bbb8477cc89">groups</a></div><div class="ttdeci">my groups</div><div class="ttdef"><b>Definition:</b> <a href="Exporter_8pm_source.html#l00036">Exporter.pm:36</a></div></div>
+<div class="ttc" id="namespacebasis_html_a3ade9709801748ed8aedfc681210042f"><div class="ttname"><a href="namespacebasis.html#a3ade9709801748ed8aedfc681210042f">basis::istarget</a></div><div class="ttdeci">bool istarget(const std::string &amp;name)</div><div class="ttdoc">Determine whether a given build target is known. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00269">basis.cxx:269</a></div></div>
+<div class="ttc" id="namespacebasis_html_a5b9e0c4d86c10aa7c801e173c3a88637"><div class="ttname"><a href="namespacebasis.html#a5b9e0c4d86c10aa7c801e173c3a88637">basis::exepath</a></div><div class="ttdeci">std::string exepath(const std::string &amp;name=std::string())</div><div class="ttdoc">Get absolute path of executable file. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8cxx_source.html#l00275">basis.cxx:275</a></div></div>
+<div class="ttc" id="namespacebasis_1_1util_html_a480666ae10d3a161030554613013d817"><div class="ttname"><a href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">basis::util::tostring</a></div><div class="ttdeci">std::string tostring(const std::vector&lt; std::string &gt; &amp;args)</div><div class="ttdoc">Convert array of arguments to quoted string. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00126">utilities.cxx:126</a></div></div>
+<div class="ttc" id="Basis_8pm_html_a3ed6de2c6d032404e92368298f8f54f5"><div class="ttname"><a href="Basis_8pm.html#a3ed6de2c6d032404e92368298f8f54f5">print_contact</a></div><div class="ttdeci">use BASIS::Utilities print_contact</div><div class="ttdef"><b>Definition:</b> <a href="Basis_8pm_source.html#l00107">Basis.pm:107</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00067">67</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2475e10618961c050dcba04e8c42331"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> strict</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00031">31</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81a252e692ad238f05281aa87a6a70df"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Exporter_8pm.html#a64b660efae64994ccefc89367a231d4c">use</a> warnings</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Utilities_8pm_source.html#l00032">32</a> of file <a class="el" href="Utilities_8pm_source.html">Utilities.pm</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:39. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

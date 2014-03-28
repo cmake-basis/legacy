@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebasis.html#a145f6192a3d6b601a14c23dd8c91549f">basis</a> {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">namespace </span>basis {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// ===========================================================================</span></div>
@@ -137,9 +137,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> operator ()(<span class="keywordtype">string</span>&amp; str)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        string::size_type i;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n = 0; n &lt; 3; n++) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">while</span> ((i = str.find(olds[n])) != string::npos) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        string::size_type <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> = 0; <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> &lt; 3; <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>++) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">while</span> ((i = str.find(olds[<a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>])) != string::npos) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                str.replace(i, strlen(olds[n]), news[n]);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
@@ -147,18 +147,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}; <span class="comment">// struct ConvertSpecialChars</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#af3edfcdaee2a892b8919fffec3669981">   75</a></span>&#160;<a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">Subprocess::CommandLine</a> <a class="code" href="namespacebasis_1_1os_1_1path.html#a1af993de3ca93e9b758423289a500e16">Subprocess::split</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cmd)</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#af3edfcdaee2a892b8919fffec3669981">   75</a></span>&#160;<a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">Subprocess::CommandLine</a> <a class="code" href="namespacebasis_1_1os_1_1path.html#a1af993de3ca93e9b758423289a500e16">Subprocess::split</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a>)</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> whitespace[] = <span class="stringliteral">&quot; \f\n\r\t\v&quot;</span>;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">CommandLine</a> <a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    string::size_type j;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    string::size_type k;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>      n;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>      <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">for</span> (string::size_type i = 0; i &lt; cmd.size(); i++) {</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">if</span> (cmd[i] == <span class="charliteral">&#39;\&quot;&#39;</span>) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            j = i;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            j = <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">do</span> {</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                j = cmd.find(<span class="charliteral">&#39;\&quot;&#39;</span>, ++j);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">if</span> (j == string::npos) <span class="keywordflow">break</span>;</div>
@@ -185,7 +185,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            j = cmd.find_first_not_of(whitespace, i);</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            i = j - 1;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            j = i;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            j = <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">do</span> {</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                j = cmd.find_first_of(whitespace, ++j);</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">if</span> (j == string::npos) <span class="keywordflow">break</span>;</div>
@@ -217,18 +217,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a85bfbbcc21cb80b32b496ebe3ed3ec90">  145</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__BasisPythonUtilities.html#ga1bbad595db8076fb29fdb95b8e57cfcc">Subprocess::tostring</a>(<span class="keyword">const</span> <a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">CommandLine</a>&amp; <a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>)</div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a85bfbbcc21cb80b32b496ebe3ed3ec90">  145</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">Subprocess::tostring</a>(<span class="keyword">const</span> <a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">CommandLine</a>&amp; <a class="code" href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">args</a>)</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;{</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> whitespace[] = <span class="stringliteral">&quot; \f\n\r\t\v&quot;</span>;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">string</span> cmd;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">string</span> <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a>;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">string</span> arg;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    string::size_type j;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">for</span> (CommandLine::const_iterator i = args.begin(); i != args.end(); ++i) {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">for</span> (CommandLine::const_iterator i = args.begin(); i != args.end(); ++<a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>) {</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">if</span> (!cmd.empty()) cmd.push_back(<span class="charliteral">&#39; &#39;</span>);</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> (i-&gt;find_first_of(whitespace) != string::npos) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            arg = *i;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            arg = *<a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="comment">// escape backslashes (\) and double quotes (&quot;)</span></div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            j = arg.find_first_of(<span class="stringliteral">&quot;\\\&quot;&quot;</span>);</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">while</span> (j != string::npos) {</div>
@@ -245,7 +245,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            cmd.append(*i);</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        }</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> cmd;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a>;</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">// ===========================================================================</span></div>
@@ -283,9 +283,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    }</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (_info.pid &gt; 0) kill();</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordflow">if</span> (_stdin  != -1) close(_stdin);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">if</span> (_stdout != -1) close(_stdout);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> (_stderr != -1) close(_stderr);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordflow">if</span> (_stdin  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdin);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">if</span> (_stdout != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdout);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> (_stderr != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stderr);</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
@@ -369,14 +369,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    siStartInfo.hStdInput   = hStdIn[0];</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    siStartInfo.dwFlags    |= STARTF_USESTDHANDLES;</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordtype">string</span> cmd = <a class="code" href="group__BasisPythonUtilities.html#ga1bbad595db8076fb29fdb95b8e57cfcc">tostring</a>(args);</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordtype">string</span> <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a> = <a class="code" href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">tostring</a>(args);</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    LPTSTR szCmdline = NULL;</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="preprocessor">#ifdef UNICODE</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor"></span>    <span class="keywordtype">int</span> n = MultiByteToWideChar(CP_UTF8, 0, cmd.c_str(), -1, NULL, 0);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    szCmdline = <span class="keyword">new</span> TCHAR[n];</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor"></span>    <span class="keywordtype">int</span> <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> = MultiByteToWideChar(CP_UTF8, 0, cmd.c_str(), -1, NULL, 0);</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    szCmdline = <span class="keyword">new</span> TCHAR[<a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>];</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">if</span> (szCmdline) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        MultiByteToWideChar(CP_UTF8, 0, cmd.c_str(), -1, szCmdline, n);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        MultiByteToWideChar(CP_UTF8, 0, cmd.c_str(), -1, szCmdline, <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>);</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;Subprocess::popen(): Failed to allocate memory!&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        CloseHandle(hStdIn[0]);</div>
@@ -427,9 +427,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="preprocessor"></span>    _info.pid = -1;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">if</span> (_stdin  != -1) close(_stdin);</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="keywordflow">if</span> (_stdout != -1) close(_stdout);</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keywordflow">if</span> (_stderr != -1) close(_stderr);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">if</span> (_stdin  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdin);</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="keywordflow">if</span> (_stdout != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdout);</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keywordflow">if</span> (_stderr != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stderr);</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    _stdin = -1;</div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    _stdout = -1;</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    _stderr = -1;</div>
@@ -447,29 +447,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keywordflow">if</span> (rm_out == RM_PIPE &amp;&amp; pipe(fdsout) == -1) {</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;Subprocess::popen(): Failed to create pipe!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">if</span> (fdsin[0] != -1) close(fdsin[0]);</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordflow">if</span> (fdsin[1] != -1) close(fdsin[1]);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">if</span> (fdsin[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[0]);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordflow">if</span> (fdsin[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[1]);</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    }</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="keywordflow">if</span> (rm_err == RM_PIPE &amp;&amp; pipe(fdserr) == -1) {</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;Subprocess::popen(): Failed to create pipe!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">if</span> (fdsin[0]  != -1) close(fdsin[0]);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">if</span> (fdsin[1]  != -1) close(fdsin[1]);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) close(fdsout[0]);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) close(fdsout[1]);</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">if</span> (fdsin[0]  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[0]);</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">if</span> (fdsin[1]  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[1]);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[0]);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[1]);</div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="comment">// fork this process</span></div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">if</span> ((_info.pid = fork()) == -1) {</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;Subprocess::popen(): Failed to fork process!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <span class="keywordflow">if</span> (fdsin[0]  != -1) close(fdsin[0]);</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">if</span> (fdsin[1]  != -1) close(fdsin[1]);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) close(fdsout[0]);</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) close(fdsout[1]);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">if</span> (fdserr[0] != -1) close(fdserr[0]);</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="keywordflow">if</span> (fdserr[1] != -1) close(fdserr[1]);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <span class="keywordflow">if</span> (fdsin[0]  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[0]);</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">if</span> (fdsin[1]  != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[1]);</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[0]);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[1]);</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">if</span> (fdserr[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdserr[0]);</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="keywordflow">if</span> (fdserr[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdserr[1]);</div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    }</div>
 <div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;</div>
@@ -482,9 +482,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="keywordflow">if</span> (_info.pid == 0) {</div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        <span class="comment">// close unused ends of pipes</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keywordflow">if</span> (fdsin [1] != -1) close(fdsin [1]);</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) close(fdsout[0]);</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keywordflow">if</span> (fdserr[0] != -1) close(fdserr[0]);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keywordflow">if</span> (fdsin [1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin [1]);</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="keywordflow">if</span> (fdsout[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[0]);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keywordflow">if</span> (fdserr[0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdserr[0]);</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;</div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <span class="comment">// redirect standard input/output</span></div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="comment">//</span></div>
@@ -495,17 +495,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="keywordflow">if</span> (fdsin[0] != -1) {</div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            dup2(fdsin[0], 0);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            close(fdsin[0]);</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin[0]);</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        }</div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) {</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            dup2(fdsout[1], 1);</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            close(fdsout[1]);</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[1]);</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        }</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="keywordflow">if</span> (rm_err == RM_STDOUT) {</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            dup2(1, 2);</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (fdserr[1] != -1) {</div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            dup2(fdserr[1], 2);</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            close(fdserr[1]);</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdserr[1]);</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        }</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        <span class="comment">// redirect standard input/output</span></div>
@@ -514,12 +514,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;</div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        argv = <span class="keyword">new</span> <span class="keywordtype">char</span>*[args.size() + 1];</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; args.size(); i++) {</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            argv[i] = <span class="keyword">const_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(args[i].c_str());</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            argv[<a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>] = <span class="keyword">const_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(args[<a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>].c_str());</div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        }</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        argv[args.size()] = NULL;</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        <span class="keywordflow">if</span> (env) {</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; env-&gt;size(); ++ i) {</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; env-&gt;size(); ++ <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>) {</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                putenv(const_cast&lt;char*&gt;(env-&gt;at(i).c_str()));</div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            }</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        }</div>
@@ -528,14 +528,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        <span class="comment">// command not found</span></div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <span class="keyword">delete</span> [] argv;</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        exit(EXIT_FAILURE);</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        <a class="code" href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a>(EXIT_FAILURE);</div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
 <div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="comment">// close unused ends of pipes</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">if</span> (fdsin [0] != -1) close(fdsin [0]);</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) close(fdsout[1]);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        <span class="keywordflow">if</span> (fdserr[1] != -1) close(fdserr[1]);</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">if</span> (fdsin [0] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsin [0]);</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        <span class="keywordflow">if</span> (fdsout[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdsout[1]);</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        <span class="keywordflow">if</span> (fdserr[1] != -1) <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(fdserr[1]);</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        <span class="comment">// store file descriptors of parent side of pipes</span></div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        _stdin  = fdsin [1];</div>
@@ -720,13 +720,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">while</span> (!in.eof()) {</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;            in.read(buf, nbuf);</div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;            <span class="keywordflow">if</span>(in.bad()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            write(buf, static_cast&lt;size_t&gt;(in.gcount()));</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            <a class="code" href="OptList_8pm.html#a2e460761ffc9d3f54110bce61df53ac1">write</a>(buf, static_cast&lt;size_t&gt;(in.gcount()));</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;        }</div>
 <div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;<span class="preprocessor">#if WINDOWS</span></div>
 <div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;<span class="preprocessor"></span>        CloseHandle(_stdin);</div>
 <div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        _stdin = INVALID_HANDLE_VALUE;</div>
 <div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;<span class="preprocessor"></span>        close(_stdin);</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;<span class="preprocessor"></span>        <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdin);</div>
 <div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;        _stdin = -1;</div>
 <div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;<span class="preprocessor"></span>    }</div>
@@ -737,7 +737,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (_stdout != -1) {</div>
 <div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">while</span> (out.good()) {</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            <span class="keywordtype">int</span> n = read(buf, nbuf);</div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            <span class="keywordtype">int</span> <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> = <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a>(buf, nbuf);</div>
 <div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;            <span class="keywordflow">if</span> (n == -1) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;            out.write(buf, n);</div>
@@ -747,7 +747,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;<span class="preprocessor"></span>        CloseHandle(_stdout);</div>
 <div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;        _stdout = INVALID_HANDLE_VALUE;</div>
 <div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;<span class="preprocessor"></span>        close(_stdout);</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;<span class="preprocessor"></span>        <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdout);</div>
 <div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        _stdout = -1;</div>
 <div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;<span class="preprocessor"></span>    }</div>
@@ -758,7 +758,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (_stderr != -1) {</div>
 <div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">while</span> (err.good()) {</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;            <span class="keywordtype">int</span> n = read(buf, nbuf, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;            <span class="keywordtype">int</span> <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> = <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a>(buf, nbuf, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;            <span class="keywordflow">if</span> (n == -1) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;            <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;            err.write(buf, n);</div>
@@ -768,7 +768,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;<span class="preprocessor"></span>        CloseHandle(_stderr);</div>
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;        _stderr = INVALID_HANDLE_VALUE;</div>
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;<span class="preprocessor"></span>        close(_stderr);</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;<span class="preprocessor"></span>        <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stderr);</div>
 <div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;        _stderr = -1;</div>
 <div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;<span class="preprocessor"></span>    }</div>
@@ -784,7 +784,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;<span class="preprocessor"></span>    CloseHandle(_stdin);</div>
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;    _stdin = INVALID_HANDLE_VALUE;</div>
 <div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="preprocessor"></span>    close(_stdin);</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="preprocessor"></span>    <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdin);</div>
 <div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    _stdin = -1;</div>
 <div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> communicate(in, out, err);</div>
@@ -801,40 +801,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;    CloseHandle(_stderr);</div>
 <div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    _stderr = INVALID_HANDLE_VALUE;</div>
 <div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;<span class="preprocessor"></span>    close(_stdin);</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;<span class="preprocessor"></span>    <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stdin);</div>
 <div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    _stdin = -1;</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    close(_stderr);</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    <a class="code" href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a>(_stderr);</div>
 <div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    _stderr = -1;</div>
 <div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> communicate(in, out, err);</div>
 <div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;}</div>
 <div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;</div>
 <div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00738"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#aec487a6cbfb4b130ae62555200fa64d5">  738</a></span>&#160;<span class="keywordtype">int</span> Subprocess::write(<span class="keyword">const</span> <span class="keywordtype">void</span>* buf, <span class="keywordtype">size_t</span> nbuf)</div>
+<div class="line"><a name="l00738"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#aec487a6cbfb4b130ae62555200fa64d5">  738</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="OptList_8pm.html#a2e460761ffc9d3f54110bce61df53ac1">Subprocess::write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buf, <span class="keywordtype">size_t</span> nbuf)</div>
 <div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;{</div>
 <div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;<span class="preprocessor">#if WINDOWS</span></div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="preprocessor"></span>    DWORD n;</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="preprocessor"></span>    DWORD <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>;</div>
 <div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;    <span class="keywordflow">if</span> (_stdin == INVALID_HANDLE_VALUE) <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    <span class="keywordflow">return</span> WriteFile(_stdin, static_cast&lt;const char*&gt;(buf), nbuf, &amp;n, NULL);</div>
 <div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (_stdin == -1) <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    return ::write(_stdin, buf, nbuf);</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    <a class="code" href="OptList_8pm.html#a2e460761ffc9d3f54110bce61df53ac1">return ::write</a>(_stdin, buf, nbuf);</div>
 <div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;</div>
 <div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00751"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a60f0740996d615bb53d491c74f47102a">  751</a></span>&#160;<span class="keywordtype">int</span> Subprocess::read(<span class="keywordtype">void</span>* buf, <span class="keywordtype">size_t</span> nbuf, <span class="keywordtype">bool</span> err)</div>
+<div class="line"><a name="l00751"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a60f0740996d615bb53d491c74f47102a">  751</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">Subprocess::read</a>(<span class="keywordtype">void</span>* buf, <span class="keywordtype">size_t</span> nbuf, <span class="keywordtype">bool</span> err)</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;{</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;<span class="preprocessor">#if WINDOWS</span></div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;<span class="preprocessor"></span>    DWORD n = 0;</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    HANDLE h = _stdout;</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;<span class="preprocessor"></span>    DWORD <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a> = 0;</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;    HANDLE <a class="code" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a> = _stdout;</div>
 <div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    <span class="keywordflow">if</span> (err &amp;&amp; _stderr != INVALID_HANDLE_VALUE) h = _stderr;</div>
 <div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="keywordflow">if</span> (!ReadFile(h, static_cast&lt;char*&gt;(buf), nbuf, &amp;n, NULL)) <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;    <span class="keywordflow">return</span> n;</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a>;</div>
 <div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;<span class="preprocessor"></span>    <span class="keywordtype">int</span> fds = _stdout;</div>
 <div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;    <span class="keywordflow">if</span> (err &amp;&amp; _stderr != -1) fds = _stderr;</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    return ::read(fds, buf, nbuf);</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    <a class="code" href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">return ::read</a>(fds, buf, nbuf);</div>
 <div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;</div>
@@ -843,7 +843,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;<span class="comment">// ===========================================================================</span></div>
 <div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;</div>
 <div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00771"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a64c584b7332817e9c17098d57188c271">  771</a></span>&#160;<span class="keywordtype">int</span> Subprocess::call(<span class="keyword">const</span> <a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">CommandLine</a>&amp; cmd)</div>
+<div class="line"><a name="l00771"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a64c584b7332817e9c17098d57188c271">  771</a></span>&#160;<span class="keywordtype">int</span> Subprocess::call(<span class="keyword">const</span> <a class="code" href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">CommandLine</a>&amp; <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a>)</div>
 <div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;{</div>
 <div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;    <a class="code" href="classbasis_1_1Subprocess.html">Subprocess</a> p;</div>
 <div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    <span class="keywordflow">if</span> (p.<a class="code" href="classbasis_1_1Subprocess.html#a6bd0076820a31f4781ad987dbb359e41">popen</a>(cmd) &amp;&amp; p.<a class="code" href="classbasis_1_1Subprocess.html#add2353cf5cc8d030e65ad786fab2e054">wait</a>()) <span class="keywordflow">return</span> p.<a class="code" href="classbasis_1_1Subprocess.html#addc892d19013c73e4816f9d5e960ee4f">returncode</a>();</div>
@@ -851,7 +851,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;}</div>
 <div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;</div>
 <div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00779"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a8ec24dba2cfe1e37e98a1f6676d1561d">  779</a></span>&#160;<span class="keywordtype">int</span> Subprocess::call(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; cmd)</div>
+<div class="line"><a name="l00779"></a><span class="lineno"><a class="line" href="classbasis_1_1Subprocess.html#a8ec24dba2cfe1e37e98a1f6676d1561d">  779</a></span>&#160;<span class="keywordtype">int</span> Subprocess::call(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; <a class="code" href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a>)</div>
 <div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;{</div>
 <div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    <a class="code" href="classbasis_1_1Subprocess.html">Subprocess</a> p;</div>
 <div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;    <span class="keywordflow">if</span> (p.<a class="code" href="classbasis_1_1Subprocess.html#a6bd0076820a31f4781ad987dbb359e41">popen</a>(cmd) &amp;&amp; p.<a class="code" href="classbasis_1_1Subprocess.html#add2353cf5cc8d030e65ad786fab2e054">wait</a>()) <span class="keywordflow">return</span> p.<a class="code" href="classbasis_1_1Subprocess.html#addc892d19013c73e4816f9d5e960ee4f">returncode</a>();</div>
@@ -863,23 +863,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classbasis_1_1Subprocess_html_a997db2b48fc32f0bf16032be87089574"><div class="ttname"><a href="classbasis_1_1Subprocess.html#a997db2b48fc32f0bf16032be87089574">basis::Subprocess::RedirectMode</a></div><div class="ttdeci">RedirectMode</div><div class="ttdoc">Modes of redirection for standard input/output buffers. </div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8h_source.html#l00075">subprocess.h:75</a></div></div>
 <div class="ttc" id="except_8h_html"><div class="ttname"><a href="except_8h.html">except.h</a></div><div class="ttdoc">Basic exceptions and related helper macros. </div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html_addc892d19013c73e4816f9d5e960ee4f"><div class="ttname"><a href="classbasis_1_1Subprocess.html#addc892d19013c73e4816f9d5e960ee4f">basis::Subprocess::returncode</a></div><div class="ttdeci">int returncode() const </div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8cxx_source.html#l00620">subprocess.cxx:620</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_adef5d841ff65cb02db59f0adbdd674ce"><div class="ttname"><a href="basistest-cron_8sh.html#adef5d841ff65cb02db59f0adbdd674ce">exit</a></div><div class="ttdeci">do case in h help echo which is simply executed by this command echo echo Optional i do not actually invoke the test execution command echo print_contact exit</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00100">basistest-cron.sh:100</a></div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html_a72a40286c57db3c2e634bae4417bf252"><div class="ttname"><a href="classbasis_1_1Subprocess.html#a72a40286c57db3c2e634bae4417bf252">basis::Subprocess::CommandLine</a></div><div class="ttdeci">std::vector&lt; std::string &gt; CommandLine</div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8h_source.html#l00046">subprocess.h:46</a></div></div>
-<div class="ttc" id="namespacebasis_html_a145f6192a3d6b601a14c23dd8c91549f"><div class="ttname"><a href="namespacebasis.html#a145f6192a3d6b601a14c23dd8c91549f">basis.basis</a></div><div class="ttdeci">tuple basis</div><div class="ttdef"><b>Definition:</b> <a href="basis_8py_source.html#l00062">basis.py:62</a></div></div>
-<div class="ttc" id="group__BasisPythonUtilities_html_ga1bbad595db8076fb29fdb95b8e57cfcc"><div class="ttname"><a href="group__BasisPythonUtilities.html#ga1bbad595db8076fb29fdb95b8e57cfcc">basis.tostring</a></div><div class="ttdeci">tostring</div><div class="ttdoc">Convert array of arguments to quoted string. </div><div class="ttdef"><b>Definition:</b> <a href="basis_8py_source.html#l00258">basis.py:258</a></div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html_a6bd0076820a31f4781ad987dbb359e41"><div class="ttname"><a href="classbasis_1_1Subprocess.html#a6bd0076820a31f4781ad987dbb359e41">basis::Subprocess::popen</a></div><div class="ttdeci">bool popen(const CommandLine &amp;args, const RedirectMode rm_in=RM_NONE, const RedirectMode rm_out=RM_NONE, const RedirectMode rm_err=RM_NONE, const Environment *env=NULL)</div><div class="ttdoc">Open new subprocess. </div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8cxx_source.html#l00222">subprocess.cxx:222</a></div></div>
 <div class="ttc" id="subprocess_8h_html"><div class="ttname"><a href="subprocess_8h.html">subprocess.h</a></div><div class="ttdoc">Module used to execute subprocesses. </div></div>
 <div class="ttc" id="config_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">System related macro definitions. </div></div>
+<div class="ttc" id="Test_8pm_html_a806162169ab53de2d7d5f07db1af5cda"><div class="ttname"><a href="Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda">n</a></div><div class="ttdeci">print $ntests n</div><div class="ttdef"><b>Definition:</b> <a href="Test_8pm_source.html#l00039">Test.pm:39</a></div></div>
+<div class="ttc" id="Readonly_8pm_html_ac392b0494321e6ba0281c8b6d92989a6"><div class="ttname"><a href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">h</a></div><div class="ttdeci">Readonly h</div><div class="ttdef"><b>Definition:</b> <a href="Readonly_8pm_source.html#l00665">Readonly.pm:665</a></div></div>
 <div class="ttc" id="except_8h_html_a335b3232b1194349af174e210518379d"><div class="ttname"><a href="except_8h.html#a335b3232b1194349af174e210518379d">BASIS_THROW</a></div><div class="ttdeci">#define BASIS_THROW(type, msg)</div><div class="ttdoc">Throw exception with given message. </div><div class="ttdef"><b>Definition:</b> <a href="except_8h_source.html#l00048">except.h:48</a></div></div>
+<div class="ttc" id="POM_8pm_html_a2bc560d419eca04aa85d8c3f9a1fd71b"><div class="ttname"><a href="POM_8pm.html#a2bc560d419eca04aa85d8c3f9a1fd71b">close</a></div><div class="ttdeci">close(FP)</div></div>
 <div class="ttc" id="namespacebasis_1_1os_1_1path_html_a1af993de3ca93e9b758423289a500e16"><div class="ttname"><a href="namespacebasis_1_1os_1_1path.html#a1af993de3ca93e9b758423289a500e16">basis::os::path::split</a></div><div class="ttdeci">void split(const std::string &amp;path, std::string &amp;head, std::string &amp;tail)</div><div class="ttdoc">Split path into two parts. </div><div class="ttdef"><b>Definition:</b> <a href="path_8cxx_source.html#l00164">path.cxx:164</a></div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html_add2353cf5cc8d030e65ad786fab2e054"><div class="ttname"><a href="classbasis_1_1Subprocess.html#add2353cf5cc8d030e65ad786fab2e054">basis::Subprocess::wait</a></div><div class="ttdeci">bool wait()</div><div class="ttdoc">Wait for subprocess to terminate. </div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8cxx_source.html#l00509">subprocess.cxx:509</a></div></div>
-<div class="ttc" id="namespacebasisproject_html_ab462e2625a72881ea950888c1ea7235e"><div class="ttname"><a href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a></div><div class="ttdeci">tuple args</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00990">basisproject.py:990</a></div></div>
+<div class="ttc" id="namespacebasisproject_html_ab462e2625a72881ea950888c1ea7235e"><div class="ttname"><a href="namespacebasisproject.html#ab462e2625a72881ea950888c1ea7235e">basisproject.args</a></div><div class="ttdeci">tuple args</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l01070">basisproject.py:1070</a></div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html_ae25783047ddc3bddad3f9c092ca89032"><div class="ttname"><a href="classbasis_1_1Subprocess.html#ae25783047ddc3bddad3f9c092ca89032">basis::Subprocess::Environment</a></div><div class="ttdeci">std::vector&lt; std::string &gt; Environment</div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8h_source.html#l00047">subprocess.h:47</a></div></div>
 <div class="ttc" id="classbasis_1_1Subprocess_html"><div class="ttname"><a href="classbasis_1_1Subprocess.html">basis::Subprocess</a></div><div class="ttdoc">Platform-independent interface to create and control a subprocess. </div><div class="ttdef"><b>Definition:</b> <a href="subprocess_8h_source.html#l00040">subprocess.h:40</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_a2ea894f2e04edc7c886d260abac9a0b2"><div class="ttname"><a href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a></div><div class="ttdeci">i</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
+<div class="ttc" id="basistest-svn_8sh_html_af600002c9895f0fd1825d367b84437cf"><div class="ttname"><a href="basistest-svn_8sh.html#af600002c9895f0fd1825d367b84437cf">cmd</a></div><div class="ttdeci">esac shift done cmd</div><div class="ttdef"><b>Definition:</b> <a href="basistest-svn_8sh_source.html#l00085">basistest-svn.sh:85</a></div></div>
 <div class="ttc" id="stdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div><div class="ttdoc">Standard I/O functions. </div></div>
+<div class="ttc" id="namespacebasis_1_1util_html_a480666ae10d3a161030554613013d817"><div class="ttname"><a href="namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817">basis::util::tostring</a></div><div class="ttdeci">std::string tostring(const std::vector&lt; std::string &gt; &amp;args)</div><div class="ttdoc">Convert array of arguments to quoted string. </div><div class="ttdef"><b>Definition:</b> <a href="utilities_8cxx_source.html#l00126">utilities.cxx:126</a></div></div>
+<div class="ttc" id="OptList_8pm_html_a2e460761ffc9d3f54110bce61df53ac1"><div class="ttname"><a href="OptList_8pm.html#a2e460761ffc9d3f54110bce61df53ac1">write</a></div><div class="ttdeci">is the same more or but if you want more than one entry for a you have to use a list of pairs Even this is really boring to write</div><div class="ttdef"><b>Definition:</b> <a href="OptList_8pm_source.html#l00149">OptList.pm:149</a></div></div>
+<div class="ttc" id="OptList_8pm_html_a46bac856083bd4deb98deb436d59d280"><div class="ttname"><a href="OptList_8pm.html#a46bac856083bd4deb98deb436d59d280">read</a></div><div class="ttdeci">Aaaauuugh!We ve saved a little but now it requires thought to read</div><div class="ttdef"><b>Definition:</b> <a href="OptList_8pm_source.html#l00169">OptList.pm:169</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

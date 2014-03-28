@@ -70,118 +70,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">FindPythonModules.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Find Python modules.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;CMakeParseArguments.cmake&quot;</code><br/>
+<div class="textblock"><code>#import &lt;the&gt;</code><br/>
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for FindPythonModules.cmake:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="FindPythonModules_8cmake__incl.png" border="0" usemap="#FindPythonModules_8cmake" alt=""/></div>
-<map name="FindPythonModules_8cmake" id="FindPythonModules_8cmake">
-</map>
 </div>
 </div>
 <p><a href="FindPythonModules_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:abb6b13e05da0e7e36639eddb39c02b12"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPythonModules_8cmake.html#abb6b13e05da0e7e36639eddb39c02b12">basis_find_python_module</a> (in CACHEVAR, in ARGN)</td></tr>
-<tr class="memdesc:abb6b13e05da0e7e36639eddb39c02b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find Python module.  <a href="#abb6b13e05da0e7e36639eddb39c02b12">More...</a><br/></td></tr>
-<tr class="separator:abb6b13e05da0e7e36639eddb39c02b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a19b7c1f37311ffcf0a6b43654f70951c"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPythonModules_8cmake.html#a19b7c1f37311ffcf0a6b43654f70951c">_PythonModules_HINT</a></td></tr>
-<tr class="separator:a19b7c1f37311ffcf0a6b43654f70951c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07f81c6bbae7f71ff5e11fbeafc993c0"><td class="memItemLeft" align="right" valign="top">respective Python&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPythonModules_8cmake.html#a07f81c6bbae7f71ff5e11fbeafc993c0">module</a></td></tr>
+<tr class="separator:a07f81c6bbae7f71ff5e11fbeafc993c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Find Python modules. </p>
-<dl class="section user"><dt>Input/Output variables:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PythonModules_DIR</b>  </td><td>List of directories where Python modules are installed.  </td></tr>
-</table>
-</dd></dl>
-
-<p>Definition in file <a class="el" href="FindPythonModules_8cmake_source.html">FindPythonModules.cmake</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="abb6b13e05da0e7e36639eddb39c02b12"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function basis_find_python_module </td>
-          <td>(</td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>CACHEVAR</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>ARGN</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Find Python module. </p>
-<p>If the <code>PYTHON_EXECUTABLE</code> variable is set, this function at first tries to launch the Python interpreter, import the named Python module, and then determines the search path for the Python module from the <code><b>file</b></code> attribute of the loaded module. Otherwise, or if this fails, it looks for the Python module in the directories listed in the <code>PYTHONPATH</code> variable if defined. If this variable is not defined, the <code>PYTHONPATH</code> environment variable is used instead.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">CACHEVAR</td><td>Name of CMake cache variable which stores path of directory of the Python module. If not set or if the cache entry contains space characters only or ends in the string NOTFOUND, this function looks for the specified Python module. Otherwise, it does nothing and leaves the cache entry unmodified. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ARGN</td><td>The remaining arguments are parsed and the following options extract: </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section user"><dt></dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>NAME</b> module  </td><td>Name of the Python module.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PYTHON_EXECUTABLE</b> python  </td><td>Full path of the Python interpreter executable. If not specified the global PYTHON_EXECUTABLE CMake variable/cache entry is used.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PATH</b> dir1 [dir2...]  </td><td>Directories where to look for Python module.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>NO_PYTHONPATH</b>  </td><td>Do not consider the <code>PYTHONPATH</code> environment variable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>NO_DEFAULT_PATH</b>  </td><td>Do not look in any default path such as the directories listed by the <code>PYTHONPATH</code> environment variable.  </td></tr>
-</table>
-</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>Sets the named cache variable of type <code>PATH</code> to the absolute path of the directory containing the specified Python <code>MODULE</code> if found, or the string "&amp;lt;MODULE%gt;-NOTFOUND" otherwise. </dd></dl>
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a19b7c1f37311ffcf0a6b43654f70951c"></a>
+<a class="anchor" id="a07f81c6bbae7f71ff5e11fbeafc993c0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake _PythonModules_HINT</td>
+          <td class="memname">respective Python module</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FindPythonModules_8cmake_source.html#l00324">324</a> of file <a class="el" href="FindPythonModules_8cmake_source.html">FindPythonModules.cmake</a>.</p>
+<p>Definition at line <a class="el" href="FindPythonModules_8cmake_source.html#l00040">40</a> of file <a class="el" href="FindPythonModules_8cmake_source.html">FindPythonModules.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

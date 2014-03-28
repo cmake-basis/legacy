@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="How-to Guides" href="../howto.html" />
     <link rel="next" title="Standards" href="../standard.html" />
-    <link rel="prev" title="CMake Options" href="buildoptions.html" />
+    <link rel="prev" title="CMake Options" href="cmake-options.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
@@ -45,7 +45,7 @@
           <a href="../standard.html" title="Standards"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="buildoptions.html" title="CMake Options"
+          <a href="cmake-options.html" title="CMake Options"
              accesskey="P">previous</a> |</li>
         <li><a href="../sidebar.html">BASIS</a> &raquo;</li>
           <li><a href="../howto.html" accesskey="U">How-to Guides</a> &raquo;</li> 
@@ -176,7 +176,7 @@ updated by the testing master. Otherwise, the execution of the test is skipped.<
 <span id="basistestslave"></span><h3>basistest-slave<a class="headerlink" href="#basistest-slave" title="Permalink to this headline">¶</a></h3>
 <p>This script wraps the execution of the CTest script used for the automated
 testing of BASIS projects including the submission of the test results to the
-<a class="reference external" href="https://sbia-portal.uphs.upenn.edu/cdash">CDash</a> server. It mainly converts the command-line arguments to the correct
+<a class="reference external" href="https://sbia-portal.uphs.upenn.edu/cdash">sbiaCDash</a> server. It mainly converts the command-line arguments to the correct
 command-line for the invocation of the CTest script.</p>
 <p>The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/basistest_8ctest.html">basistest.ctest</a> script performs the actual testing of a BASIS
 project, i.e., the</p>
@@ -212,6 +212,18 @@ the <tt class="docutils literal"><span class="pre">svnuser</span></tt> involved 
 <tt class="docutils literal"><span class="pre">svn</span></tt> command.</p>
 </div>
 </div>
+</div>
+<div class="section" id="cdash-integration">
+<span id="howtointegratecdash"></span><h2>CDash Integration<a class="headerlink" href="#cdash-integration" title="Permalink to this headline">¶</a></h2>
+<p>The first step for <a class="reference external" href="http://www.cdash.org/">CDash</a> integration is to set up a CDash server by following
+the instructions provided in the CDash documentation.</p>
+<p>Then you need to create a project on the CDash site of your server through the
+Admin interface.</p>
+<p>Finally, you can configure CTest through the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/CTestConfig_8cmake.html">CTestConfig.cmake</a> file
+which must be in a project&#8217;s top-level directory to specify the URL of the
+CDash server as well as the project to submit test results to.</p>
+<p>Running tests via <tt class="docutils literal"><span class="pre">ctest</span></tt> (<strong>not</strong> <tt class="docutils literal"><span class="pre">make</span> <span class="pre">test</span></tt>) will then try to submit the
+results to the CDash server.</p>
 </div>
 <div class="section" id="administration-of-software-testing">
 <span id="administrationofautomatedtests"></span><h2>Administration of Software Testing<a class="headerlink" href="#administration-of-software-testing" title="Permalink to this headline">¶</a></h2>
@@ -472,6 +484,8 @@ for the <a class="reference internal" href="#basistestmaster"><em>basistest-mast
 <li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake-options.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-project.html">Configure a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
@@ -479,6 +493,7 @@ for the <a class="reference internal" href="#basistestmaster"><em>basistest-mast
 <li class="toctree-l2"><a class="reference internal" href="install.html">Install any Software</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Automated Testing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-basistest-family-of-scripts">The basistest family of scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cdash-integration">CDash Integration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#administration-of-software-testing">Administration of Software Testing</a></li>
 </ul>
 </li>
@@ -497,6 +512,11 @@ for the <a class="reference internal" href="#basistestmaster"><em>basistest-mast
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

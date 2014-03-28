@@ -87,8 +87,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="testdriver_8hxx__incl.png" border="0" usemap="#testdriver_8hxx" alt=""/></div>
-<map name="testdriver_8hxx" id="testdriver_8hxx">
-</map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
@@ -97,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="testdriver_8hxx__dep__incl.png" border="0" usemap="#testdriver_8hxxdep" alt=""/></div>
 <map name="testdriver_8hxxdep" id="testdriver_8hxxdep">
-<area shape="rect" id="node2" href="testdriver_8h.html" title="Default test driver include file. " alt="" coords="11,83,97,111"/></map>
+<area shape="rect" id="node2" href="testdriver_8h.html" title="Default test driver include file. " alt="" coords="11,80,92,107"/></map>
 </div>
 </div>
 <p><a href="testdriver_8hxx_source.html">Go to the source code of this file.</a></p>
@@ -112,9 +110,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a904908dc7aa485c9c36cc026c561ae72"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#a904908dc7aa485c9c36cc026c561ae72">binary_diff</a> (const char *testfile, const char *baseline)</td></tr>
 <tr class="memdesc:a904908dc7aa485c9c36cc026c561ae72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two files byte by byte.  <a href="#a904908dc7aa485c9c36cc026c561ae72">More...</a><br/></td></tr>
 <tr class="separator:a904908dc7aa485c9c36cc026c561ae72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285eb51de4b95d5aef69723ee0f0b105"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#a285eb51de4b95d5aef69723ee0f0b105">get_baseline_filenames</a> (string filename_template)</td></tr>
+<tr class="memitem:a285eb51de4b95d5aef69723ee0f0b105"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#a285eb51de4b95d5aef69723ee0f0b105">get_baseline_filenames</a> (<a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a> filename_template)</td></tr>
 <tr class="separator:a285eb51de4b95d5aef69723ee0f0b105"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a527bbf090fbd090296b3bb4305a43d1b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#a527bbf090fbd090296b3bb4305a43d1b">image_regression_test</a> (const char *imagefile, const char *baseline, double <a class="el" href="testdriver_8h.html#a0bfa662df4c361e7bf49459cfbf8603d">intensity_tolerance</a>, unsigned int <a class="el" href="testdriver_8h.html#a756730273bb3dc0c7e2a1e171604483b">max_number_of_differences</a>, unsigned int <a class="el" href="testdriver_8h.html#afb0797eb89f9be37831c923285ea9ba5">tolerance_radius</a>, bool <a class="el" href="testdriver_8h.html#a9920fca2281de0fb3f8a886ee987c435">orientation_insensitive</a>, int report)</td></tr>
+<tr class="memitem:a527bbf090fbd090296b3bb4305a43d1b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#a527bbf090fbd090296b3bb4305a43d1b">image_regression_test</a> (const char *imagefile, const char *baseline, double <a class="el" href="testdriver_8h.html#a0bfa662df4c361e7bf49459cfbf8603d">intensity_tolerance</a>, unsigned int <a class="el" href="testdriver_8h.html#a756730273bb3dc0c7e2a1e171604483b">max_number_of_differences</a>, unsigned int <a class="el" href="testdriver_8h.html#afb0797eb89f9be37831c923285ea9ba5">tolerance_radius</a>, <a class="el" href="Util_8pm.html#a2412b789951fb01a1e97943bde916c6b">bool</a> <a class="el" href="testdriver_8h.html#a9920fca2281de0fb3f8a886ee987c435">orientation_insensitive</a>, int report)</td></tr>
 <tr class="memdesc:a527bbf090fbd090296b3bb4305a43d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare output image to baseline image.  <a href="#a527bbf090fbd090296b3bb4305a43d1b">More...</a><br/></td></tr>
 <tr class="separator:a527bbf090fbd090296b3bb4305a43d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af204d521c089bdde6b08e3afd600fae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testdriver_8hxx.html#af204d521c089bdde6b08e3afd600fae1">testdriversetup</a> (int *argc, char **argv[])</td></tr>
@@ -195,9 +193,9 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;string&gt; get_baseline_filenames </td>
+          <td class="memname">vector&lt;<a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a>&gt; get_baseline_filenames </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
+          <td class="paramtype"><a class="el" href="TopologicalSort_8cmake.html#a134ae9367914a89281f44052d94bdd58">string</a>&#160;</td>
           <td class="paramname"><em>filename_template</em></td><td>)</td>
           <td></td>
         </tr>
@@ -245,7 +243,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype"><a class="el" href="Util_8pm.html#a2412b789951fb01a1e97943bde916c6b">bool</a>&#160;</td>
           <td class="paramname"><em>orientation_insensitive</em> = <code>false</code>, </td>
         </tr>
         <tr>
@@ -375,7 +373,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:39. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

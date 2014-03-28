@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="Common CMake options for the build configuration of BASIS-based software." name="description" />
+
+    <title>CMake Options &mdash; BASIS</title>
+    
+    <link rel="stylesheet" href="../_static/cmake-basis.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'v3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="BASIS" href="../index.html" />
+    <link rel="up" title="Install any Software" href="install.html" />
+    <link rel="next" title="Automated Testing" href="run-automated-tests.html" />
+    <link rel="prev" title="Install any Software" href="install.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="run-automated-tests.html" title="Automated Testing"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="install.html" title="Install any Software"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../sidebar.html">BASIS</a> &raquo;</li>
+          <li><a href="../howto.html" >How-to Guides</a> &raquo;</li>
+          <li><a href="install.html" accesskey="U">Install any Software</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cmake-options">
+<span id="cmakeoptions"></span><h1>CMake Options<a class="headerlink" href="#cmake-options" title="Permalink to this headline">¶</a></h1>
+<p>The following BASIS specific options are available when building packages.
+For the full set of options and descriptions use the <a class="reference external" href="http://www.cmake.org/cmake/help/runningcmake.html">ccmake</a> tool. For <a class="reference external" href="http://www.cmake.org/">CMake</a>
+specific options see the documentation for your CMake installation.</p>
+<p>The following standard <a class="reference external" href="http://www.cmake.org/">CMake</a> options/variables can be configured,
+see the documentation of <a class="reference external" href="http://www.cmake.org/">CMake</a> itself for more details:</p>
+<div class="section" id="standard-cmake">
+<h2>Standard CMake<a class="headerlink" href="#standard-cmake" title="Permalink to this headline">¶</a></h2>
+<dl class="option">
+<dt id="cmdoption-DCMAKE_BUILD_TYPE">
+<tt class="descname">-DCMAKE_BUILD_TYPE</tt><tt class="descclassname">:STRING</tt><a class="headerlink" href="#cmdoption-DCMAKE_BUILD_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify the build configuration to build. If not set, the <tt class="docutils literal"><span class="pre">Release</span></tt>
+configuration will be build. Common values are <tt class="docutils literal"><span class="pre">Release</span></tt> or <tt class="docutils literal"><span class="pre">Debug</span></tt>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DCMAKE_INSTALL_PREFIX">
+<tt class="descname">-DCMAKE_INSTALL_PREFIX</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DCMAKE_INSTALL_PREFIX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prefix used for package <a class="reference internal" href="install.html#installbuiltfiles"><em>installation</em></a>. See also the
+<a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#variable:CMAKE_INSTALL_PREFIX">CMake reference</a>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DUSE_">
+<tt class="descname">-DUSE_</tt><tt class="descclassname">&lt;Package&gt;:BOOL</tt><a class="headerlink" href="#cmdoption-DUSE_" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the software you are building has declared optional dependencies,
+i.e., software packages which it makes use of only if available, for each
+such optional package a <tt class="docutils literal"><span class="pre">USE_&lt;Package&gt;</span></tt> option is added by BASIS if this
+package was found on your system. It can be set to OFF in order to disable
+the use of this optional dependency by this software.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="basis-options">
+<h2>BASIS Options<a class="headerlink" href="#basis-options" title="Permalink to this headline">¶</a></h2>
+<p>There are a number of CMake options that are specific to BASIS listed throughout
+the following documents:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../standard/fhs.html"><em>Filesystem Layout</em></a></li>
+<li><a class="reference internal" href="../standard/modules.html#modulecmakevariables"><em>Module CMake Variables</em></a></li>
+</ul>
+<div class="section" id="frequently-used">
+<h3>Frequently Used<a class="headerlink" href="#frequently-used" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption-DBASIS_DIR">
+<tt class="descname">-DBASIS_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DBASIS_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory where the <tt class="docutils literal"><span class="pre">BASISConfig.cmake</span></tt> file is located. Alternatively, the
+installation prefix used to install BASIS can be specified instead.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBUILD_DOCUMENTATION">
+<tt class="descname">-DBUILD_DOCUMENTATION</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_DOCUMENTATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether build and installation instructions for the documentation should
+be added. If OFF, the build configuration of the doc/ directory is skipped.
+Otherwise, the <tt class="docutils literal"><span class="pre">doc</span></tt> target is added which can be used to build the documentation.
+You may still need to run make doc, make manual, make site, etc. by hand, this option
+enables those settings.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Though surprising at first glance, the build of the documentation may
+often be preceeded by the build of the software itself. The reason is
+that the documentation can in general only be generated after script files
+have been configured. Thus, do not be surprised if <tt class="docutils literal"><span class="pre">make</span> <span class="pre">doc</span></tt> will actually
+first build the software if not up to date before generating the API
+documentation.</p>
+</div>
+<dl class="option">
+<dt id="cmdoption-DBUILD_EXAMPLE">
+<tt class="descname">-DBUILD_EXAMPLE</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_EXAMPLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the examples should be built (if required) and/or installed.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBUILD_TESTING">
+<tt class="descname">-DBUILD_TESTING</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_TESTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the testing tree should be built and system tests, i.e., tests
+that execute the installed programs and compare the outputs to the expected
+results should be installed (if done so by the software package).</p>
+</dd></dl>
+
+</div>
+<div class="section" id="advanced">
+<span id="advancedcmakeoptions"></span><h3>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h3>
+<p>Advanced users may further be interested in the settings of the following options
+which in most cases are automatically derived from the non-advanced CMake options
+summarized above. To view these options in the <a class="reference external" href="http://www.cmake.org/cmake/help/runningcmake.html">CMake GUI</a>, press the <tt class="docutils literal"><span class="pre">t</span></tt> key in
+<tt class="docutils literal"><span class="pre">ccmake</span></tt> (Unix) or check the <tt class="docutils literal"><span class="pre">Show</span> <span class="pre">Advanced</span> <span class="pre">Values</span></tt> box (Windows).</p>
+<dl class="option">
+<dt id="cmdoption-DBASIS_ALL_DOC">
+<tt class="descname">-DBASIS_ALL_DOC</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_ALL_DOC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the build of all documentation targets as part of the <tt class="docutils literal"><span class="pre">ALL</span></tt> target
+if <tt class="docutils literal"><span class="pre">BUILD_DOCUMENTATION</span></tt> is <tt class="docutils literal"><span class="pre">ON</span></tt>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_COMPILE_SCRIPTS">
+<tt class="descname">-DBASIS_COMPILE_SCRIPTS</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_COMPILE_SCRIPTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable compilation of Python modules. If this option is enabled, only the
+compiled <tt class="docutils literal"><span class="pre">.pyc</span></tt> files are installed.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_COMPILE_MATLAB">
+<tt class="descname">-DBASIS_COMPILE_MATLAB</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_COMPILE_MATLAB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to compile <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a> sources using the <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> (mcc) if available.
+If set to <tt class="docutils literal"><span class="pre">OFF</span></tt>, the MATLAB source files are copied as part of the installation and
+a Bash script for the execution of <tt class="docutils literal"><span class="pre">matlab</span></tt> with the <tt class="docutils literal"><span class="pre">-c</span></tt> option is generated
+on Unix or a Windows NT Command script on Windows, respectively. This allows the
+convenient execution of the executable implemented in MATLAB even without having a
+license for the MATLAB Compiler. Each instance of the built executable will take up
+one MATLAB license, however. Moreover, the startup of the executable is longer every
+time, not only the first time it is launched as is the case for mcc compiled executables.
+It is therefore recommended to enable this option and to obtain a MATLAB Compiler
+license if possible. By default, this option is <tt class="docutils literal"><span class="pre">ON</span></tt>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_DEBUG">
+<tt class="descname">-DBASIS_DEBUG</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable debugging messages during build configuration.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_INSTALL_APIDOC_DIR">
+<tt class="descname">-DBASIS_INSTALL_APIDOC_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DBASIS_INSTALL_APIDOC_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Installation directory of the API documentation relative to the installation prefix.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_INSTALL_RPATH">
+<tt class="descname">-DBASIS_INSTALL_RPATH</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_INSTALL_RPATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to have BASIS set the appropriate INSTALL_RPATH property of executables and
+shared libraries instead of CMake. This option is <tt class="docutils literal"><span class="pre">ON</span></tt> by default which complies
+with the <a class="reference internal" href="../standard/execution.html#systemsearchpaths"><em>BASIS standard</em></a>. Note that this option may be
+overridden by the project developer or on the command-line by setting the variable
+<cite>CMAKE_SKIP_RPATH</cite> to <cite>FALSE</cite>. This is typcially done in the <cite>config/Settings.cmake</cite>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_INSTALL_SCHEME">
+<tt class="descname">-DBASIS_INSTALL_SCHEME</tt><tt class="descclassname">:STRING</tt><a class="headerlink" href="#cmdoption-DBASIS_INSTALL_SCHEME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Installation scheme, i.e., filesystem hierarchy, to use for the installation of the
+software files relative to the installation prefix specified by the <a class="reference internal" href="#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>.
+Valid values are <tt class="docutils literal"><span class="pre">default</span></tt>, <tt class="docutils literal"><span class="pre">usr</span></tt>, <tt class="docutils literal"><span class="pre">opt</span></tt>, or <tt class="docutils literal"><span class="pre">win</span></tt>. See <a class="reference internal" href="../standard/fhs.html#installationtree"><em>Installation Tree</em></a>
+as defined by the <a class="reference internal" href="../standard/fhs.html"><em>Filesystem Layout</em></a> of BASIS for more details.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_INSTALL_SITE_DIR">
+<tt class="descname">-DBASIS_INSTALL_SITE_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DBASIS_INSTALL_SITE_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Installation directory of the web site relative to the installation prefix.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_INSTALL_SITE_PACKAGES">
+<tt class="descname">-DBASIS_INSTALL_SITE_PACKAGES</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_INSTALL_SITE_PACKAGES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to install public module libraries written in a scripting language such as
+Python or Perl in the system-wide default locations for site packages. This option is
+disabled by default as write permission to these directories are required otherwise.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MCC_FLAGS">
+<tt class="descname">-DBASIS_MCC_FLAGS</tt><tt class="descclassname">:STRING</tt><a class="headerlink" href="#cmdoption-DBASIS_MCC_FLAGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Additional flags for MATLAB Compiler separated by spaces.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MCC_MATLAB_MODE">
+<tt class="descname">-DBASIS_MCC_MATLAB_MODE</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_MCC_MATLAB_MODE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to call the <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> in MATLAB mode. If <tt class="docutils literal"><span class="pre">ON</span></tt>, the MATLAB Compiler
+is called from within a MATLAB interpreter session, which results in the
+immediate release of the MATLAB Compiler license once the compilation is done.
+Otherwise, the license is reserved for a fixed amount of time (e.g. 30 min).</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MCC_RETRY_ATTEMPTS">
+<tt class="descname">-DBASIS_MCC_RETRY_ATTEMPTS</tt><tt class="descclassname">:INT</tt><a class="headerlink" href="#cmdoption-DBASIS_MCC_RETRY_ATTEMPTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of times the compilation of <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> target is repeated in case
+of a license checkout error.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MCC_RETRY_DELAY">
+<tt class="descname">-DBASIS_MCC_RETRY_DELAY</tt><tt class="descclassname">:INT</tt><a class="headerlink" href="#cmdoption-DBASIS_MCC_RETRY_DELAY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delay in number of seconds between retries to build <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> targets after a
+license checkout error has occurred.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MCC_TIMEOUT">
+<tt class="descname">-DBASIS_MCC_TIMEOUT</tt><tt class="descclassname">:INT</tt><a class="headerlink" href="#cmdoption-DBASIS_MCC_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timeout in seconds for the build of a <a class="reference external" href="http://www.mathworks.com/products/compiler/">MATLAB Compiler</a> target. If the build
+of the target could not be finished within the specified time, the build is
+interrupted.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MEX_FLAGS">
+<tt class="descname">-DBASIS_MEX_FLAGS</tt><tt class="descclassname">:STRING</tt><a class="headerlink" href="#cmdoption-DBASIS_MEX_FLAGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Additional flags for the <a class="reference external" href="http://www.mathworks.com/help/techdoc/ref/mex.html">MEX</a> script separated by spaces.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_MEX_TIMEOUT">
+<tt class="descname">-DBASIS_MEX_TIMEOUT</tt><tt class="descclassname">:INT</tt><a class="headerlink" href="#cmdoption-DBASIS_MEX_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timeout in seconds for the build of <a class="reference external" href="http://www.mathworks.com/help/techdoc/matlab_external/f7667.html">MEX-Files</a>.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_REGISTER">
+<tt class="descname">-DBASIS_REGISTER</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_REGISTER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to register installed package in CMake&#8217;s <a class="reference external" href="http://www.cmake.org/Wiki/index.php?title=CMake/Tutorials/Package_Registry">package registry</a>. This option
+is enabled by default such that packages are found by CMake when required by other
+packages based on this build tool.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_SUPERBUILD_MODULES">
+<tt class="descname">-DBASIS_SUPERBUILD_MODULES</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_SUPERBUILD_MODULES" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Experimental</strong> Enable the superbuild of project modules. For projects with a
+large number of modules, this can dramatically reduce the build system configuration
+time, because the configuration of each module is deferred until the build step.
+The superbuild of modules is disabled by default.
+See <a class="reference internal" href="../standard/modules.html#superbuildofmodules"><em>Superbuild of Modules</em></a> for more information.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBASIS_VERBOSE">
+<tt class="descname">-DBASIS_VERBOSE</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBASIS_VERBOSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable verbose messages during build configuration.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBUILD_BASIS_UTILITIES_FOR_">
+<tt class="descname">-DBUILD_BASIS_UTILITIES_FOR_</tt><tt class="descclassname">&lt;LANG&gt;:BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_BASIS_UTILITIES_FOR_" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default, the BASIS Utilities for a given programming language are only build if
+any of the project&#8217;s executable or library targets build from source code in the
+respective language makes use of these utilities. Use these options to force the
+build of the BASIS Utilities for the respective language. Even if not used by
+the project itself, the generated utility functions and header or scripted module
+files can be used by another project to access the project meta-data such as its
+name and version by including the respective project-specific BASIS Utilities.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBUILD_CHANGELOG">
+<tt class="descname">-DBUILD_CHANGELOG</tt><tt class="descclassname">:BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_CHANGELOG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request build of ChangeLog as part of the <tt class="docutils literal"><span class="pre">ALL</span></tt> target. Note that the ChangeLog
+is generated either from the <a class="reference external" href="http://subversion.apache.org/">Subversion</a> history if the source tree is a SVN
+working copy, or from the Git history if it is a <a class="reference external" href="http://git-scm.com/">Git</a> repository. Otherwise,
+the ChangeLog cannot be generated and this option is disabled again by BASIS.
+In case of Subversion, be aware that the generation of the ChangeLog takes
+several minutes and may require the input of user credentials for access to the
+Subversion repository. It is recommended to leave this option disabled and to
+build the <tt class="docutils literal"><span class="pre">changelog</span></tt> target separate from the rest of the software package
+instead (see <a class="reference internal" href="install.html#build"><em>Build the Software</em></a>).</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DBUILD_MODULES_BY_DEFAULT">
+<tt class="descname">-DBUILD_MODULES_BY_DEFAULT</tt><tt class="descclassname">::BOOL</tt><a class="headerlink" href="#cmdoption-DBUILD_MODULES_BY_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to enable project modules (i.e., subprojects) by default or not. This option
+has only effect when given directly on the command-line when calling <tt class="docutils literal"><span class="pre">cmake</span></tt> or
+<tt class="docutils literal"><span class="pre">ccmake</span></tt>, respectively. Otherwise the default value of this option will be
+used for the first build system configuration run which adds the <tt class="docutils literal"><span class="pre">MODULE_*</span></tt>
+options already and sets them to the respective default (<tt class="docutils literal"><span class="pre">TRUE</span></tt>). This default
+value cannot be overriden by consecutive configuration runs unless the <tt class="docutils literal"><span class="pre">MODULE_*</span></tt>
+options themselves are changed.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DITK_DIR">
+<tt class="descname">-DITK_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DITK_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the directory of your ITK installation, if applicable.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DMATLAB_DIR">
+<tt class="descname">-DMATLAB_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DMATLAB_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the directory of your MATLAB installation, if applicable.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-DSPHINX_DIR">
+<tt class="descname">-DSPHINX_DIR</tt><tt class="descclassname">:PATH</tt><a class="headerlink" href="#cmdoption-DSPHINX_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the directory of your Sphinx installation, if applicable.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../index.html">
+    <img class="logo" src="../_static/logo_title.svg" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+<h3><a href="../contents.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">CMake Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#standard-cmake">Standard CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basis-options">BASIS Options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configure-project.html">Configure a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package.html">Packaging Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install any Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-automated-tests.html">Automated Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../standard.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guideline.html">Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Getting Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+</ul>
+
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+  </div>
+  
+  </body>
+</html>

@@ -70,56 +70,129 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">UtilitiesTools.cmake File Reference<div class="ingroups"><a class="el" href="group__CMakeTools.html">Auxiliary CMake Modules</a></div></div>  </div>
+<div class="title">UtilitiesTools.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>CMake functions related to configuration of BASIS utilities.  
-<a href="#details">More...</a></p>
-<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="UtilitiesTools_8cmake__dep__incl.png" border="0" usemap="#UtilitiesTools_8cmakedep" alt=""/></div>
-<map name="UtilitiesTools_8cmakedep" id="UtilitiesTools_8cmakedep">
-<area shape="rect" id="node2" href="MatlabTools_8cmake.html" title="Enables use of MATLAB Compiler and build of MEX&#45;files. " alt="" coords="5,83,141,111"/><area shape="rect" id="node3" href="BasisTools_8cmake.html" title="Definition of functions and macros used by BASIS project. " alt="" coords="61,161,189,189"/><area shape="rect" id="node4" href="BASISConfig_8cmake.html" title="CMake package configuration file. " alt="" coords="54,238,196,266"/></map>
-</div>
-</div>
 <p><a href="UtilitiesTools_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a2d542f1ca7d25d2ad05681d6d87feb4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="UtilitiesTools_8cmake.html#a2d542f1ca7d25d2ad05681d6d87feb4d">dependency</a>&#160;&#160;&#160;on non-<a class="el" href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a> specific utilities <a class="el" href="Install_8pm.html#a589bdd4af7d0024a6b785a69ba3b15c0">as</a> the order in</td></tr>
+<tr class="separator:a2d542f1ca7d25d2ad05681d6d87feb4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga20ea7191c6b2f88daacfe58bf70b1f1b"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#ga20ea7191c6b2f88daacfe58bf70b1f1b">basis_add_utilities_library</a> (out UID)</td></tr>
-<tr class="memdesc:ga20ea7191c6b2f88daacfe58bf70b1f1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add build target for BASIS C++ utilities library.  <a href="group__CMakeUtilities.html#ga20ea7191c6b2f88daacfe58bf70b1f1b">More...</a><br/></td></tr>
-<tr class="separator:ga20ea7191c6b2f88daacfe58bf70b1f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga54a47c127e5b125ec4e4df73d1ae36c1"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#ga54a47c127e5b125ec4e4df73d1ae36c1">basis_configure_utilities</a> ()</td></tr>
-<tr class="memdesc:ga54a47c127e5b125ec4e4df73d1ae36c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure BASIS utilities.  <a href="group__CMakeUtilities.html#ga54a47c127e5b125ec4e4df73d1ae36c1">More...</a><br/></td></tr>
-<tr class="separator:ga54a47c127e5b125ec4e4df73d1ae36c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab9be951fa5ca6aa6101c7f79e8127cac"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CMakeUtilities.html#gab9be951fa5ca6aa6101c7f79e8127cac">basis_utilities_check</a> (out VAR, in SOURCE_FILE, in ARGN)</td></tr>
-<tr class="memdesc:gab9be951fa5ca6aa6101c7f79e8127cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the BASIS utilities are used within a given source file.  <a href="group__CMakeUtilities.html#gab9be951fa5ca6aa6101c7f79e8127cac">More...</a><br/></td></tr>
-<tr class="separator:gab9be951fa5ca6aa6101c7f79e8127cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff9aa507a2e5b8b15a4d4617ccca1015"><td class="memItemLeft" align="right" valign="top">*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="UtilitiesTools_8cmake.html#aff9aa507a2e5b8b15a4d4617ccca1015">if</a> (SCRIPT MATCHES&quot;[^a-zA-<a class="el" href="Readonly_8pm.html#a74bae34d2194037b127f80ffe7f89959">Z._</a>]${PYTHON_PACKAGE}.basis([.; \<a class="el" href="Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd">t\n</a>]|$)&quot;) foreach(RE IN ITEMS&quot;import[ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+basis&quot;&quot;import[ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+$</td></tr>
+<tr class="separator:aff9aa507a2e5b8b15a4d4617ccca1015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dcd381df0931716751a973e6889da5f"><td class="memItemLeft" align="right" valign="top">basis import[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis <a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a> <br class="typebreak"/>
+import basis <a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a>[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] <br class="typebreak"/>
+import *[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="UtilitiesTools_8cmake.html#a9dcd381df0931716751a973e6889da5f">if</a> (SCRIPT MATCHES&quot;(^|\n|;)[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*${RE}([ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*<a class="el" href="Install_8pm.html#a589bdd4af7d0024a6b785a69ba3b15c0">as</a>[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+.*)?([ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*#.*|[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*)(;|\<a class="el" href="Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd">n</a>|$)&quot;) set(RE&quot;(use|<a class="el" href="POM_8pm.html#a4b4eb847520ff4e45de16db801e26133">require</a>)[ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+$</td></tr>
+<tr class="separator:a9dcd381df0931716751a973e6889da5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af405f0bb7871f741886f21bae7668a3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="UtilitiesTools_8cmake.html#af405f0bb7871f741886f21bae7668a3b">set</a> (RE&quot;[ \\t]*#[ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*include[ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+[&lt;\&quot;](${PREFIX})?<a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">basis.h</a>[\&quot;&gt;]&quot;) <a class="el" href="UtilitiesTools_8cmake.html#a9dcd381df0931716751a973e6889da5f">if</a>(SCRIPT MATCHES&quot;(^|\n)[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*$</td></tr>
+<tr class="separator:af405f0bb7871f741886f21bae7668a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:gac219bcb2f56d7fdc73bfcd4a868db37d"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisBashUtilities.html#gac219bcb2f56d7fdc73bfcd4a868db37d">BASIS_BASH___DIR__</a></td></tr>
-<tr class="memdesc:gac219bcb2f56d7fdc73bfcd4a868db37d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute path of directory of current BASH file.  <a href="group__BasisBashUtilities.html#gac219bcb2f56d7fdc73bfcd4a868db37d">More...</a><br/></td></tr>
-<tr class="separator:gac219bcb2f56d7fdc73bfcd4a868db37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae2a6c462130f64d8f2dab9be145c3296"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BasisBashUtilities.html#gae2a6c462130f64d8f2dab9be145c3296">BASIS_BASH___FILE__</a></td></tr>
-<tr class="memdesc:gae2a6c462130f64d8f2dab9be145c3296"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute path of current BASH file.  <a href="group__BasisBashUtilities.html#gae2a6c462130f64d8f2dab9be145c3296">More...</a><br/></td></tr>
-<tr class="separator:gae2a6c462130f64d8f2dab9be145c3296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6090bf34a1288ff78c3d0aed68de755"><td class="memItemLeft" align="right" valign="top">basis import[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a> [\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]</td></tr>
+<tr class="separator:aa6090bf34a1288ff78c3d0aed68de755"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>CMake functions related to configuration of BASIS utilities. </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a2d542f1ca7d25d2ad05681d6d87feb4d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define dependency&#160;&#160;&#160;on non-<a class="el" href="basistest-slave_8sh.html#afbdf1d831fc0d15192ee741cd09b3350">project</a> specific utilities <a class="el" href="Install_8pm.html#a589bdd4af7d0024a6b785a69ba3b15c0">as</a> the order in</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
-<p>Definition in file <a class="el" href="UtilitiesTools_8cmake_source.html">UtilitiesTools.cmake</a>.</p>
-</div></div><!-- contents -->
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aff9aa507a2e5b8b15a4d4617ccca1015"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">* if </td>
+          <td>(</td>
+          <td class="paramtype">SCRIPT MATCHES&quot;${PYTHON_PACKAGE}.basis([.; \<a class="el" href="Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd">t\n</a>]|$)&quot;&#160;</td>
+          <td class="paramname">[^a-zA-Z._]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="UtilitiesTools_8cmake_source.html#l00076">76</a> of file <a class="el" href="UtilitiesTools_8cmake_source.html">UtilitiesTools.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9dcd381df0931716751a973e6889da5f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">basis import [ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis <a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a> import basis <a class="el" href="UtilitiesTools_8cmake.html#aa6090bf34a1288ff78c3d0aed68de755">from</a> [ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis [ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] import* [ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] if </td>
+          <td>(</td>
+          <td class="paramtype">SCRIPT MATCHES&quot;(^|\n|;)*${RE}([ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*<a class="el" href="Install_8pm.html#a589bdd4af7d0024a6b785a69ba3b15c0">as</a>[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]+.*)?([ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*#.*|[ \<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]*)(;|\<a class="el" href="Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd">n</a>|$)&quot;&#160;</td>
+          <td class="paramname">[\t]</td><td>)</td>
+          <td>)[ \\t]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="UtilitiesTools_8cmake_source.html#l00089">89</a> of file <a class="el" href="UtilitiesTools_8cmake_source.html">UtilitiesTools.cmake</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af405f0bb7871f741886f21bae7668a3b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">set </td>
+          <td>(</td>
+          <td class="paramtype">RE&quot;*#*include+(${PREFIX})?<a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">basis.h</a>&quot;&#160;</td>
+          <td class="paramname">[\\t][\\t][\\t][&lt;\&quot;][\&quot;&gt;]</td><td>)</td>
+          <td>)[ \t]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="UtilitiesTools_8cmake_source.html#l00060">60</a> of file <a class="el" href="UtilitiesTools_8cmake_source.html">UtilitiesTools.cmake</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="aa6090bf34a1288ff78c3d0aed68de755"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">basis import [ \\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>] basis from[\\<a class="el" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{PYTHON_PACKAGE}[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+<span class="keyword">import</span>[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+basis<span class="stringliteral">&quot;   # e.g., from &lt;package&gt; import basis</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span><a class="code" href="Install_8pm.html#ac66c11ce84f4ecc25614a4bc04b593d1">from</a>[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+${PYTHON_PACKAGE}.basis[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+<span class="keyword">import</span>[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>].*<span class="stringliteral">&quot; # e.g., from &lt;package&gt;.basis import which</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span><a class="code" href="Install_8pm.html#ac66c11ce84f4ecc25614a4bc04b593d1">from</a>[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+\\.\\.?[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+<span class="keyword">import</span>[ \<a class="code" href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">\t</a>]+basis<span class="stringliteral">&quot;             # e.g., from . import basis&quot;</span></div>
+<div class="ttc" id="Install_8pm_html_ac66c11ce84f4ecc25614a4bc04b593d1"><div class="ttname"><a href="Install_8pm.html#ac66c11ce84f4ecc25614a4bc04b593d1">from</a></div><div class="ttdeci">*If C&lt; into &gt; is not the sub is installed into the calling package If C&lt; code &gt; is not a code it is looked for as an existing sub in the package named in the C&lt; from &gt; parameter If C&lt; from &gt; is not it will look in the calling package If C&lt; as &gt; is not and if C&lt; code &gt; is a C&lt; as &gt; will default to C&lt; code &gt; If C&lt; as &gt; is not but if C&lt; code &gt; is a code BASIS::Sub::Install will try to find the name of the given code ref and use that as C&lt; as &gt; That means that this from</div><div class="ttdef"><b>Definition:</b> <a href="Install_8pm_source.html#l00070">Install.pm:70</a></div></div>
+<div class="ttc" id="ProjectTools_8cmake_html_a87857d75f0fe905b424016a4a44d46e7"><div class="ttname"><a href="ProjectTools_8cmake.html#a87857d75f0fe905b424016a4a44d46e7">t</a></div><div class="ttdeci">is set to the non existing path n t</div><div class="ttdef"><b>Definition:</b> <a href="ProjectTools_8cmake_source.html#l00064">ProjectTools.cmake:64</a></div></div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="UtilitiesTools_8cmake_source.html#l00084">84</a> of file <a class="el" href="UtilitiesTools_8cmake_source.html">UtilitiesTools.cmake</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:39. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

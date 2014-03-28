@@ -90,8 +90,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="except_8h__incl.png" border="0" usemap="#except_8h" alt=""/></div>
-<map name="except_8h" id="except_8h">
-</map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
@@ -100,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="except_8h__dep__incl.png" border="0" usemap="#except_8hdep" alt=""/></div>
 <map name="except_8hdep" id="except_8hdep">
-<area shape="rect" id="node2" href="utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="113,83,185,111"/><area shape="rect" id="node7" href="CmdLine_8cxx.html" title="Manages command line definition and parsing of arguments. " alt="" coords="209,83,307,111"/><area shape="rect" id="node8" href="os_8cxx.html" title="Operating system dependent functions. " alt="" coords="332,83,391,111"/><area shape="rect" id="node9" href="path_8cxx.html" title="File/directory path related functions. " alt="" coords="415,83,485,111"/><area shape="rect" id="node10" href="subprocess_8cxx.html" title="Definition of module used to execute subprocesses. " alt="" coords="510,83,623,111"/><area shape="rect" id="node3" href="basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="68,161,131,189"/><area shape="rect" id="node6" href="utilities_8cxx.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="156,161,241,189"/><area shape="rect" id="node4" href="testdriver_8h.html" title="Default test driver include file. " alt="" coords="4,238,91,266"/><area shape="rect" id="node5" href="basis_8cxx.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="115,238,191,266"/></map>
+<area shape="rect" id="node2" href="utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="112,80,179,107"/><area shape="rect" id="node7" href="CmdLine_8cxx.html" title="Manages command line definition and parsing of arguments. " alt="" coords="203,80,297,107"/><area shape="rect" id="node8" href="os_8cxx.html" title="Operating system dependent functions. " alt="" coords="323,80,381,107"/><area shape="rect" id="node9" href="path_8cxx.html" title="File/directory path related functions. " alt="" coords="406,80,476,107"/><area shape="rect" id="node10" href="subprocess_8cxx.html" title="Definition of module used to execute subprocesses. " alt="" coords="501,80,613,107"/><area shape="rect" id="node3" href="basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="65,155,129,181"/><area shape="rect" id="node6" href="utilities_8cxx.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="153,155,233,181"/><area shape="rect" id="node4" href="testdriver_8h.html" title="Default test driver include file. " alt="" coords="5,229,85,256"/><area shape="rect" id="node5" href="basis_8cxx.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="111,229,188,256"/></map>
 </div>
 </div>
 <p><a href="except_8h_source.html">Go to the source code of this file.</a></p>
@@ -114,7 +112,7 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a1619b790ef34938ccb7bac671d8fc78c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="except_8h.html#a1619b790ef34938ccb7bac671d8fc78c">_BASIS_EXCEPT_H</a></td></tr>
 <tr class="separator:a1619b790ef34938ccb7bac671d8fc78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a335b3232b1194349af174e210518379d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="except_8h.html#a335b3232b1194349af174e210518379d">BASIS_THROW</a>(type, msg)</td></tr>
+<tr class="memitem:a335b3232b1194349af174e210518379d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="except_8h.html#a335b3232b1194349af174e210518379d">BASIS_THROW</a>(<a class="el" href="Util_8pm.html#a7795a279227b406b09a5add00852a50f">type</a>, msg)</td></tr>
 <tr class="memdesc:a335b3232b1194349af174e210518379d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throw exception with given message.  <a href="#a335b3232b1194349af174e210518379d">More...</a><br/></td></tr>
 <tr class="separator:a335b3232b1194349af174e210518379d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -165,7 +163,7 @@ TCLAP::CmdLineParseException&#160;</td><td class="memItemRight" valign="bottom">
           <td class="memname">#define BASIS_THROW</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">type, </td>
+          <td class="paramname"><a class="el" href="Util_8pm.html#a7795a279227b406b09a5add00852a50f">type</a>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -183,13 +181,13 @@ TCLAP::CmdLineParseException&#160;</td><td class="memItemRight" valign="bottom">
 <b>Value:</b><div class="fragment"><div class="line">{ \</div>
 <div class="line">       ::std::ostringstream oss; \</div>
 <div class="line">       oss &lt;&lt; msg; \</div>
-<div class="line">       throw <a class="code" href="namespacebasisproject.html#a4e7d5c58c24544760048ed66b3b051ea">type</a>(oss.str().c_str()); \</div>
+<div class="line">       throw <a class="code" href="Util_8pm.html#a7795a279227b406b09a5add00852a50f">type</a>(oss.str().c_str()); \</div>
 <div class="line">    }</div>
-<div class="ttc" id="namespacebasisproject_html_a4e7d5c58c24544760048ed66b3b051ea"><div class="ttname"><a href="namespacebasisproject.html#a4e7d5c58c24544760048ed66b3b051ea">basisproject.type</a></div><div class="ttdeci">string type</div><div class="ttdef"><b>Definition:</b> <a href="basisproject_8py_source.html#l00901">basisproject.py:901</a></div></div>
+<div class="ttc" id="Util_8pm_html_a7795a279227b406b09a5add00852a50f"><div class="ttname"><a href="Util_8pm.html#a7795a279227b406b09a5add00852a50f">type</a></div><div class="ttdeci">$class The C&lt; _INSTANCE &gt; function is intended to be imported into your and provides a convenient way to test for an object of a particular class in a strictly correct manner Returns the object itself as a convenience or C&lt; undef &gt; if the value provided is not an object of that type</div><div class="ttdef"><b>Definition:</b> <a href="Util_8pm_source.html#l00622">Util.pm:622</a></div></div>
 </div><!-- fragment -->
 <p>Throw exception with given message. </p>
 <p>Example: </p>
-<div class="fragment"><div class="line">* <span class="keywordtype">void</span> func(<span class="keywordtype">int</span> i) {</div>
+<div class="fragment"><div class="line">* <span class="keywordtype">void</span> func(<span class="keywordtype">int</span> <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>) {</div>
 <div class="line">*     <span class="keywordflow">if</span> (i &lt; 0) <a class="code" href="except_8h.html#a335b3232b1194349af174e210518379d">BASIS_THROW</a>(std::invalid_argument, <span class="stringliteral">&quot;Argument i (= &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;) must be positive&quot;</span>);</div>
 <div class="line">* }</div>
 <div class="line">* </div>
@@ -208,7 +206,7 @@ TCLAP::CmdLineParseException&#160;</td><td class="memItemRight" valign="bottom">
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

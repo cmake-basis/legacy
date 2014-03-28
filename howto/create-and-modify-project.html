@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -73,9 +73,14 @@ please refer to the output of the following command:</p>
 <span id="howtocreateaproject"></span><h2>Create a New Project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline">¶</a></h2>
 <p>The fastest way to create a new project is to call <tt class="docutils literal"><span class="pre">basisproject</span></tt> with the name
 of the new project and a brief project description as arguments:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyProject <span class="se">\</span>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyProject <span class="se">\</span>
         --description <span class="s2">&quot;This is a brief description of the project.&quot;</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use the <cite>&#8211;full</cite> option to create a project from all template features.
+Most projects, however, will only need the default set of features.</p>
 </div>
 <p>This will create a subdirectory called <tt class="docutils literal"><span class="pre">MyProject</span></tt> under the current working directory
 and populate it with the standard project directory structure and BASIS configuration.
@@ -84,13 +89,13 @@ These can be added later either manually or as described <a class="reference int
 However, if you know already that your project will depend, for example, on <a class="reference external" href="http://www.itk.org/">ITK</a> and
 optionally make use of <a class="reference external" href="http://www.vtk.org/">VTK</a> if available, you can specify these dependencies
 when creating the project using the <tt class="docutils literal"><span class="pre">--use</span></tt> or <tt class="docutils literal"><span class="pre">--useopt</span></tt> option, respectivley:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyProject <span class="se">\</span>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyProject <span class="se">\</span>
         --description <span class="s2">&quot;This is a brief description of the project.&quot;</span> <span class="se">\</span>
         --use ITK --useopt VTK
 </pre></div>
 </div>
-<p>The basisproject tool will in turn modify the <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> file to add the
-named packages to the corresponding lists of dependencies.</p>
+<p>The <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool will in turn modify the <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a>
+file to add the named packages to the corresponding lists of dependencies.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">In order for <tt class="docutils literal"><span class="pre">basisproject</span></tt> to be able to find the correct place where to insert
@@ -141,23 +146,20 @@ the project creation), but your software requires auxiliary data such as a
 pre-computed lookup table or a medical image atlas, you can add the <tt class="docutils literal"><span class="pre">data/</span></tt>
 directory in which these auxiliary files should be stored in the source tree using
 the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">data</span>
-</pre></div>
+<div class="highlight-python"><pre>basisproject update --data</pre>
 </div>
 <p>As another example, if you want to extend the default <a class="reference internal" href="../standard/scripttargets.html#scriptconfig"><em>script configuration file</em></a>
 which is used to configure the build of scripts written in Python, Perl, BASH, or any
 other scripting language (even if not currently supported by BASIS will it likely
 still be able to &#8220;build&#8221; these), use the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">script</span>
-</pre></div>
+<div class="highlight-python"><pre>basisproject update --config-script</pre>
 </div>
 </div>
 <div class="section" id="removing-features">
 <h3>Removing Features<a class="headerlink" href="#removing-features" title="Permalink to this headline">¶</a></h3>
 <p>For example, in order to remove the <tt class="docutils literal"><span class="pre">conf/Settings.cmake</span></tt> file and the <tt class="docutils literal"><span class="pre">example/</span></tt>
 directory tree, run the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">noconfig</span><span class="o">-</span><span class="n">settings</span> <span class="o">--</span><span class="n">noexample</span>
-</pre></div>
+<div class="highlight-python"><pre>basisproject update --noconfig-settings --noexample</pre>
 </div>
 <p>If any of the project files which were initially added during the project creation
 differ from the original project file, the removal of such files will fail with
@@ -195,7 +197,7 @@ notice that we would like to make use of ITK in our implementation.
 Thus, in order to add CMake code to the build configuration to resolve the dependency
 on ITK, which also includes the so-called Use file of ITK (named <tt class="docutils literal"><span class="pre">UseITK.cmake</span></tt>)
 to import its build configuration, run the command:</p>
-<div class="highlight-python"><pre>basisproject --use ITK</pre>
+<div class="highlight-python"><pre>basisproject update --use ITK</pre>
 </div>
 <p>If your project can optionally make use of the features of a certain external software
 package, but will also built and run without this package being installed, you can use
@@ -207,7 +209,7 @@ case must match the one of the first argument of <a class="reference external" h
 <p>For example, let&#8217;s assume your software can optionally make use of CUDA.
 Therefore, as CMake includes already a <tt class="docutils literal"><span class="pre">FindCUDA.cmake</span></tt> module, we can run the
 following command in order to have CMake look for an installation of the CUDA libraries:</p>
-<div class="highlight-python"><pre>basisproject --useopt CUDA</pre>
+<div class="highlight-python"><pre>basisproject update --useopt CUDA</pre>
 </div>
 <p>If this search was successful, the CMake variable <tt class="docutils literal"><span class="pre">CUDA_FOUND</span></tt> will be <tt class="docutils literal"><span class="pre">TRUE</span></tt>,
 and <tt class="docutils literal"><span class="pre">FALSE</span></tt> otherwise.</p>
@@ -219,60 +221,97 @@ module included with CMake. The <a class="reference external" href="http://opens
 with BASIS. It improves the way CMake looks for a MATLAB installation and furthermore
 looks for executables required by BASIS, such as in particular <tt class="docutils literal"><span class="pre">matlab</span></tt>, <tt class="docutils literal"><span class="pre">mcc</span></tt>, and
 <tt class="docutils literal"><span class="pre">mex</span></tt>. Use the following command to add a dependency on MATLAB:</p>
-<div class="highlight-python"><pre>basisproject --use MATLAB</pre>
+<div class="highlight-python"><pre>basisproject update --use MATLAB</pre>
 </div>
 </div>
 <div class="section" id="removing-dependencies">
 <h3>Removing Dependencies<a class="headerlink" href="#removing-dependencies" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">basisproject</span></tt> does at the moment not support the removal of previously added
+<p><tt class="docutils literal"><span class="pre">basisproject</span></tt> does not currently support the removal of previously added
 dependencies. Therefore, please edit the  <a class="reference internal" href="../standard/template.html#basisproject"><em>BasisProject.cmake</em></a> file manually
 and simply remove all CMake code referring to the particular package you do no
 longer require or use.</p>
 </div>
 </div>
-<div class="section" id="add-modules">
-<span id="howtoaddmodules"></span><h2>Add Modules<a class="headerlink" href="#add-modules" title="Permalink to this headline">¶</a></h2>
-<p>BASIS supports the <a class="reference internal" href="../standard/modules.html"><em>modularization</em></a> of a project similar to the
-<a class="reference external" href="http://www.vtk.org/Wiki/ITK/Release_4/Modularization">ITK 4 Modularization</a>, where each module is itself a BASIS project which may depends
-on other modules of the top-level project or other external packages. As each module
-itself is a project, modules are created just the same way as projects are created.
-The only difference might be that modules may include different sets of features
-(directories and files) than the top-level project. A project which uses such
-modularization in turn often does not include source files by its own, but is
-a collection of the projects (i.e., subprojects) which are its modules.</p>
-<p>Therefore, the top-level project often excludes the <tt class="docutils literal"><span class="pre">src/</span></tt> subdirectory,
-but includes the <tt class="docutils literal"><span class="pre">modules/</span></tt> directory instead, in which the project&#8217;s modules
-reside. First create the top-level project as follows (or simply add a <tt class="docutils literal"><span class="pre">modules/</span></tt>
+<div class="section" id="modularize-a-project">
+<span id="howtomodularizeaproject"></span><h2>Modularize a Project<a class="headerlink" href="#modularize-a-project" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../standard/modules.html"><em>Project Modularization</em></a> is a
+technique that aims to maximize code reusability, allowing
+components to be split up as independent modules that can
+be shared with other projects while only building and
+packaging the components that are really needed.
+Modularized projects consist of a Top Level
+Project and one or more Project Modules.</p>
+<div class="section" id="create-the-top-level-project">
+<h3>Create the Top Level Project<a class="headerlink" href="#create-the-top-level-project" title="Permalink to this headline">¶</a></h3>
+<p>First create the top-level project as follows (or simply add a <tt class="docutils literal"><span class="pre">modules/</span></tt>
 directory to an existing project):</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyToolkit --description <span class="s2">&quot;A modularized project.&quot;</span> --toplevel
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyToolkit --description <span class="s2">&quot;A modularized project.&quot;</span> --toplevel
 </pre></div>
 </div>
-<p>To now add modules to your modularized project, i.e., one which has a
-<tt class="docutils literal"><span class="pre">modules/</span></tt> subdirectory, change to the modules/ subdirectory of the
+</div>
+<div class="section" id="create-the-modules">
+<h3>Create the Modules<a class="headerlink" href="#create-the-modules" title="Permalink to this headline">¶</a></h3>
+<p>To add modules to your Top Level project, which has a <tt class="docutils literal"><span class="pre">modules/</span></tt>
+subdirectory, change to the modules/ subdirectory of the
 top-level project, and run the command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyModule --description <span class="s2">&quot;A module of MyToolkit.&quot;</span> --module
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd </span>MyToolkit/modules
+basisproject create --name MyModule --description <span class="s2">&quot;A module in MyToolkit.&quot;</span> --module
 </pre></div>
 </div>
+<p>More than one module can be in the same folder:</p>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name OtherModule --description <span class="s2">&quot;Another module in MyToolkit.&quot;</span> --module
+</pre></div>
 </div>
-<div class="section" id="update-a-project">
-<span id="howtoupdateaproject"></span><h2>Update a Project<a class="headerlink" href="#update-a-project" title="Permalink to this headline">¶</a></h2>
+<p>You may also add an existing BASIS project module to
+the <tt class="docutils literal"><span class="pre">/modules</span></tt> folder, but not another Top Level project.</p>
+</div>
+<div class="section" id="configure-the-build">
+<h3>Configure the build<a class="headerlink" href="#configure-the-build" title="Permalink to this headline">¶</a></h3>
+<p>Configure the build system using CMake 2.8.4 or a more recent version:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ../..
+mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+ccmake ../MyToolkit
+</pre></div>
+</div>
+<ul class="simple">
+<li>Press <tt class="docutils literal"><span class="pre">c</span></tt> to configure the project.</li>
+<li>Change <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> to <tt class="docutils literal"><span class="pre">~/local</span></tt>.</li>
+<li>Set option <tt class="docutils literal"><span class="pre">BUILD_ALL_MODULES</span></tt> to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
+<li>Press <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles and exit <tt class="docutils literal"><span class="pre">ccmake</span></tt>.</li>
+</ul>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../standard/modules.html#modulecmakevariables"><em>Module CMake Variables</em></a></p>
+</div>
+</div>
+<div class="section" id="build-the-top-level-project-and-its-modules">
+<h3>Build the Top Level Project and its Modules<a class="headerlink" href="#build-the-top-level-project-and-its-modules" title="Permalink to this headline">¶</a></h3>
+<p>CMake has generated Makefiles for GNU Make. The build and installation are then thus triggered with the make command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make
+make install
+</pre></div>
+</div>
+<p>As a result, CMake copies the built files into the installation tree as specified by the
+<tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> variable.</p>
+</div>
+</div>
+<div class="section" id="upgrade-a-project">
+<span id="howtoupdateaproject"></span><h2>Upgrade a Project<a class="headerlink" href="#upgrade-a-project" title="Permalink to this headline">¶</a></h2>
 <p>Occasionally, the project template of BASIS may be modified as the development
-of BASIS progresses. In such case, you may want or need to update the files of a
-project which have been created from a previous version of the project template.
-In order to help updating a project to a newer project template version, the
-project tool uses a three-way file comparison similar to Subversion to merge
-changes in the template files with those changes you have made to the
+of BASIS progresses, you may want or need to upgrade the files from a previous
+version to the current version of the template. <tt class="docutils literal"><span class="pre">basisproject</span></tt> provides the
+ability to upgrade by using a three-way file comparison similar to Subversion
+to merge changes in the template files with those changes you have made to the
 corresponding files of your project. If such merge fails because both the
 template as well as the project file have been changed at the same lines,
-a merge conflict occurs which has to be resolved manually. In no case, however,
-<tt class="docutils literal"><span class="pre">basisproject</span></tt> will discard your changes. There will always be a backup of
-your current project file, before the automatic file merge is performed.</p>
-<p>To update the project files, run the following command in the root directory
+a merge conflict occurs which has to be resolved manually. However,
+<tt class="docutils literal"><span class="pre">basisproject</span></tt> will never discard your changes. There will always be a backup of
+your current project file before the automatic file merge is performed.</p>
+<p>To upgrade the project files, run the following command in the root directory
 of your project&#8217;s source tree:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">update</span>
-</pre></div>
+<div class="highlight-python"><pre>basisproject upgrade</pre>
 </div>
-<p>If the project template has not been changed since the last update, no files
+<p>If the project template has not been changed since the last upgrade, no files
 will be modified by this command.</p>
 <div class="section" id="resolving-merge-conflicts">
 <span id="howtoresolveprojectupdateconflicts"></span><h3>Resolving Merge Conflicts<a class="headerlink" href="#resolving-merge-conflicts" title="Permalink to this headline">¶</a></h3>
@@ -353,8 +392,7 @@ Otherwise, when you run the update command again, it will fail with an
 error message indicating that there are unresolved merge conflicts.
 You can delete those files either manually or using the following command
 in the root directory of your project&#8217;s source tree.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basisproject</span> <span class="o">--</span><span class="n">cleanup</span>
-</pre></div>
+<div class="highlight-python"><pre>basisproject upgrade --cleanup</pre>
 </div>
 </div>
 </div>
@@ -390,11 +428,13 @@ in the root directory of your project&#8217;s source tree.</p>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Create/Modify a Project</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-project">Create a New Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modify-an-existing-project">Modify an Existing Project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#add-modules">Add Modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#update-a-project">Update a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modularize-a-project">Modularize a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#upgrade-a-project">Upgrade a Project</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake-options.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-project.html">Configure a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
@@ -416,6 +456,11 @@ in the root directory of your project&#8217;s source tree.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

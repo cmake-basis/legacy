@@ -1,15 +1,15 @@
 var searchData=
 [
-  ['name',['NAME',['../group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a',1,'NAME():&#160;BasisScriptConfig.cmake'],['../namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed',1,'doxyfilter-perl.name()']]],
-  ['name_5fl',['NAME_L',['../group__BasisScriptConfig.html#ga6336377488cd0884f514bacea1f2e93d',1,'BasisScriptConfig.cmake']]],
-  ['name_5fu',['NAME_U',['../group__BasisScriptConfig.html#ga6f5572f4e3fd8d2ff91623029b563594',1,'BasisScriptConfig.cmake']]],
+  ['n',['n',['../Test_8pm.html#a806162169ab53de2d7d5f07db1af5cda',1,'n():&#160;Test.pm'],['../Doxygen_8pm.html#adb77697383b99844d2d55d2cb750dbdd',1,'n():&#160;Doxygen.pm']]],
+  ['name',['name',['../namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed',1,'doxyfilter-perl.name()'],['../OptList_8pm.html#abb7587cff81e3218a52d8dde9de11f46',1,'name():&#160;OptList.pm'],['../Util_8pm.html#abb7587cff81e3218a52d8dde9de11f46',1,'name():&#160;Util.pm'],['../Install_8pm.html#aa24c9d6e91eca684a0558bd17fc27eb7',1,'name():&#160;Install.pm'],['../Sequence_8pm.html#a57972b9e70d3db965db541436673dcc3',1,'NAME():&#160;Sequence.pm']]],
+  ['names',['names',['../Exporter_8pm.html#a80e07f0b129a57ec295d91220e7799f3',1,'Exporter.pm']]],
   ['nargs',['nargs',['../classbasis_1_1argparse_1_1Action.html#a0bbbcc4e29ebac721478197307817f75',1,'basis::argparse::Action']]],
-  ['nifticlib_5fdir',['NiftiCLib_DIR',['../FindNiftiCLib_8cmake.html#a0a5b0b607f79664d2e3354b0d1c6995c',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5ffound',['NiftiCLib_FOUND',['../FindNiftiCLib_8cmake.html#adf036a0b5b5a8ffbfaa150e724a721fd',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5finclude_5fdirs',['NiftiCLib_INCLUDE_DIRS',['../FindNiftiCLib_8cmake.html#abd277b747d96c1fecbe3589383c79d7b',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5fincludes',['NiftiCLib_INCLUDES',['../FindNiftiCLib_8cmake.html#ab7480c264c36c1bc2f581d689c334f59',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5flib',['NiftiCLib_LIB',['../FindNiftiCLib_8cmake.html#a2e8598d9ffbebed400b158320e99d510',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5flibraries',['NiftiCLib_LIBRARIES',['../FindNiftiCLib_8cmake.html#a3d12f5fd63e4f161fc7b5cdb2a1aa43e',1,'FindNiftiCLib.cmake']]],
-  ['nifticlib_5forig_5fcmake_5ffind_5flibrary_5fsuffixes',['NiftiCLib_ORIG_CMAKE_FIND_LIBRARY_SUFFIXES',['../FindNiftiCLib_8cmake.html#a805f3509f288726bba9d2e236eaac028',1,'FindNiftiCLib.cmake']]],
-  ['ns',['NS',['../group__BasisConfig.html#ga83ac9c1526dc640f51896af534e59815',1,'NS():&#160;Settings.cmake'],['../group__BasisConfig.html#ga83ac9c1526dc640f51896af534e59815',1,'NS():&#160;BASISConfig.cmake'],['../BASISUse_8cmake.html#a83ac9c1526dc640f51896af534e59815',1,'NS():&#160;BASISUse.cmake']]]
+  ['new',['new',['../Bash_8pm.html#a4c0fd8719752b090049313057e59fb48',1,'new():&#160;Bash.pm'],['../Python_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Python.pm'],['../DoxyFilter_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;DoxyFilter.pm'],['../Content_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Content.pm'],['../For_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;For.pm'],['../Head1_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Head1.pm'],['../Head2_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Head2.pm'],['../Head3_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Head3.pm'],['../Head4_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Head4.pm'],['../Item_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Item.pm'],['../Sequence_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Sequence.pm'],['../Node_2Text_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Text.pm'],['../Node_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Node.pm'],['../HTML_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;HTML.pm'],['../View_2Text_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;Text.pm'],['../View_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;View.pm'],['../POM_8pm.html#a93a280da389a09b5dddfb6b374775a70',1,'new():&#160;POM.pm']]],
+  ['new_5felement',['NEW_ELEMENT',['../TopologicalSort_8cmake.html#a2e2acfaace0095e5abe1f87586aa0419',1,'TopologicalSort.cmake']]],
+  ['nextkey',['NEXTKEY',['../Readonly_8pm.html#a0e2cda019ad7e4df7fa171599363e813',1,'Readonly.pm']]],
+  ['nonmodifiable',['nonmodifiable',['../Readonly_8pm.html#a74d13b46d7721a8fd1a46bee4c8fddf1',1,'Readonly.pm']]],
+  ['normal',['normal',['../Readonly_8pm.html#a429fef1ca34e34b4d3c6622c9dd4e97f',1,'Readonly.pm']]],
+  ['not',['not',['../Util_8pm.html#afed0a18cdddf3077c2141f525990999b',1,'Util.pm']]],
+  ['ntests',['ntests',['../Test_8pm.html#a25c5edd3f2a687e86f97a6308d26784e',1,'Test.pm']]],
+  ['number',['number',['../Util_8pm.html#a78bb1c60229ec44c2265fbb0809e9eee',1,'Util.pm']]]
 ];

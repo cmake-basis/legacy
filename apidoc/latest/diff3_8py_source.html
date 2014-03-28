@@ -109,7 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">    @param [in] yourtext   Array of lines of your text.</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    @param [in] origtext   Array of lines of original text.</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    @param [in] theirtext   Array of lines of their text.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    @param [in] theirtext  Array of lines of their text.</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">    @returns Array of tuples containing diff results. The tuples consist of</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">             (cmd, loA, hiA, loB, hiB), where cmd is either one of</span></div>
@@ -137,10 +137,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        j  = i</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        k  = xor(i, 1)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        hi = d2[j][0][2]</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        r2[j].append(d2[j].pop(0))</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        r2[j].append(d2[j].<a class="code" href="View_8pm.html#a5b7c898b643dfa6ee20c9ae40e2ae2c1">pop</a>(0))</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">while</span> d2[k] <span class="keywordflow">and</span> d2[k][0][1] &lt;= hi + 1:</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            hi_k = d2[k][0][2]</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            r2[k].append(d2[k].pop(0))</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            r2[k].append(d2[k].<a class="code" href="View_8pm.html#a5b7c898b643dfa6ee20c9ae40e2ae2c1">pop</a>(0))</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span> hi &lt; hi_k:</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                hi = hi_k</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                j  = k</div>
@@ -311,12 +311,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment"># ----------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="namespacebasis_1_1diff3.html#ab490858b2d140e8629a00a9328e2d5ba">  237</a></span>&#160;diff = _diff_heckel <span class="comment"># default two-way diff function used by diff3()</span></div>
 <div class="ttc" id="namespacebasis_1_1diff3_html_a6530aa9ae192c6b0aace21127205e0d8"><div class="ttname"><a href="namespacebasis_1_1diff3.html#a6530aa9ae192c6b0aace21127205e0d8">basis.diff3.merge</a></div><div class="ttdeci">def merge</div><div class="ttdef"><b>Definition:</b> <a href="diff3_8py_source.html#l00115">diff3.py:115</a></div></div>
+<div class="ttc" id="View_8pm_html_a5b7c898b643dfa6ee20c9ae40e2ae2c1"><div class="ttname"><a href="View_8pm.html#a5b7c898b643dfa6ee20c9ae40e2ae2c1">pop</a></div><div class="ttdeci">pop(@$visit)</div></div>
 <div class="ttc" id="namespacebasis_1_1diff3_html_ac584a98d056e951b726401ffbfd88ad9"><div class="ttname"><a href="namespacebasis_1_1diff3.html#ac584a98d056e951b726401ffbfd88ad9">basis.diff3.diff3</a></div><div class="ttdeci">def diff3</div><div class="ttdef"><b>Definition:</b> <a href="diff3_8py_source.html#l00032">diff3.py:32</a></div></div>
 <div class="ttc" id="namespacebasis_1_1diff3_html_ab490858b2d140e8629a00a9328e2d5ba"><div class="ttname"><a href="namespacebasis_1_1diff3.html#ab490858b2d140e8629a00a9328e2d5ba">basis.diff3.diff</a></div><div class="ttdeci">diff</div><div class="ttdef"><b>Definition:</b> <a href="diff3_8py_source.html#l00237">diff3.py:237</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:37. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

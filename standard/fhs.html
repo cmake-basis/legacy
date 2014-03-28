@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -74,7 +74,7 @@ of a software project. These variables should be used where possible,
 so that directories can be renamed without breaking the build system.</p>
 <p>The <a class="reference internal" href="template.html"><em>Project Template</em></a> provides a reference implementation of this standard.
 See the <a class="reference internal" href="../howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a> How-to Guide for details
-on how to make use of this template to create a new project which is conform
+on how to make use of this template to create a new project which conforms
 with the filesystem hierarchy standard detailed in this section.</p>
 <p><strong>Legend</strong></p>
 <ul class="simple">
@@ -213,7 +213,8 @@ while the actual names of the directories are listed on the right:</p>
     + PROJECT_DOC_DIR                 + doc/
     + PROJECT_EXAMPLE_DIR             + example/
     + PROJECT_MODULES_DIR             + modules/
-    + PROJECT_TESTING_DIR             + test/</pre>
+    + PROJECT_TESTING_DIR             + test/
+    + PROJECT_SUBDIRS                 + &lt;multiple additonal subdirs&gt;</pre>
 </div>
 <p>Here are CMake variables defined in place of the default name for each of the following directories:</p>
 <table border="1" class="docutils">
@@ -252,6 +253,9 @@ its own subdirectory.</td>
 </tr>
 <tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_TESTING_DIR</span></tt></td>
 <td>Implementation of tests and test data.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">PROJECT_SUBDIRS</span></tt></td>
+<td>List of additional directories for source code files.</td>
 </tr>
 </tbody>
 </table>
@@ -306,13 +310,35 @@ the build step are run.</p>
 </table>
 </div>
 <div class="section" id="installation-tree">
-<span id="insallationtree"></span><h2>Installation Tree<a class="headerlink" href="#installation-tree" title="Permalink to this headline">¶</a></h2>
+<span id="installationtree"></span><h2>Installation Tree<a class="headerlink" href="#installation-tree" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation-schemes">
+<h3>Installation Schemes<a class="headerlink" href="#installation-schemes" title="Permalink to this headline">¶</a></h3>
+<p>An installation scheme is a specific installation tree
+layout that is utilized based on contextual information.</p>
+<p>BASIS automatically switches the installation scheme if you
+change <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> from <tt class="docutils literal"><span class="pre">/opt/...</span></tt> to <tt class="docutils literal"><span class="pre">/usr/...</span></tt>
+and vice versa.</p>
 <p>The following directory structure is used when installing the software package,
 either by building the install target with &#8220;make install&#8221;,
 extracting a binary distribution package, or running an installer.</p>
 <p>Different installation hierarchies are defined in order to account
 for different installation schemes depending on the location
 and target system on which the software is being installed.</p>
+<p>The directory structures including the installation is defined in
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DirectoriesSettings_8cmake.html">DirectoriesSettings.cmake</a>. The default &#8220;/opt&#8221; prefix is
+hard coded for Unix. On Windows it is &#8220;C:/Program Files&#8221; or, if the
+registry value can be read, the corresponding directory in the
+installation language of the OS, e.g., &#8220;C:/Programme&#8221; in German.</p>
+<p>BASIS knows about a few &#8220;installation schemes&#8221;. These distinguish
+between common filesystem hierarchy standards such as the one for
+&#8220;/opt&#8221; or &#8220;/usr&#8221; on Unix. The difference is that under &#8220;/opt&#8221;,
+packages are installed in their own respective subdirectories which
+contain then subdirectories such as &#8220;include&#8221;, &#8220;lib&#8221;, &#8220;doc&#8221;, etc.
+Under the &#8220;/usr&#8221; directory, however, the hierarchy is first divided
+by &#8220;include&#8221;, &#8220;lib&#8221;, &#8220;bin&#8221;, &#8220;doc&#8221;, and then by package name.</p>
+</div>
+<div class="section" id="possible-schemes">
+<h3>Possible Schemes<a class="headerlink" href="#possible-schemes" title="Permalink to this headline">¶</a></h3>
 <p>The first installation scheme is referred to as the <tt class="docutils literal"><span class="pre">usr</span></tt> scheme which is in
 compliance with the <a class="reference external" href="http://www.pathname.com/fhs/pub/fhs-2.3.html#THEUSRHIERARCHY">Linux Filesystem Hierarchy Standard for /usr</a>:</p>
 <div class="highlight-python"><pre>- CMAKE_INSTALL_PREFIX           - &lt;prefix&gt;/
@@ -433,6 +459,14 @@ All other directories are specified relative to this prefix.</td>
 </tbody>
 </table>
 </div>
+<div class="section" id="forcing-schemes">
+<h3>Forcing Schemes<a class="headerlink" href="#forcing-schemes" title="Permalink to this headline">¶</a></h3>
+<p>Schemes can be selected using the CMake <a class="reference internal" href="../howto/cmake-options.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a> variable.</p>
+<p>You can force BASIS to use one specific scheme using <tt class="docutils literal"><span class="pre">BASIS_INSTALL_SCHEME</span></tt>.
+For example, if you want to install the software in <tt class="docutils literal"><span class="pre">/usr/&lt;package&gt;</span></tt> using
+the same hierarchy typically used under &#8220;/opt&#8221;.</p>
+</div>
+</div>
 </div>
 
 
@@ -489,6 +523,11 @@ All other directories are specified relative to this prefix.</td>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

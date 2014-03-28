@@ -106,7 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebasis.html#a145f6192a3d6b601a14c23dd8c91549f">basis</a> {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>basis {</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// ---------------------------------------------------------------------------</span></div>
@@ -160,11 +160,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                       <span class="keywordtype">int</span>           indent,</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                       <span class="keywordtype">int</span>           offset)</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="assert_8h.html#acdcc5aaebf3f273c1762f24a6ece2e5e">assert</a>(indent + offset &lt; width); <span class="comment">// such that allowed_length &gt; 0</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="Test_8pm.html#a4121f6285d553d649b05adfc200f00b0">assert</a>(indent + offset &lt; width); <span class="comment">// such that allowed_length &gt; 0</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">int</span> text_length    = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(text.length());</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">int</span> allowed_length = width - indent;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">int</span> start          = 0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a>          = 0;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">// Note: Despite of the TCLAP::StdOutput::spacePrint() implementation,</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//       the following while loop is always performed even if the given</span></div>
@@ -174,7 +174,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">while</span> (start &lt; text_length) {</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment">// determine length of next line to be printed</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">int</span> line_length = min&lt;int&gt;(text_length - start, allowed_length);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">int</span> line_length = min&lt;int&gt;(text_length - <a class="code" href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a>, allowed_length);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">if</span> (line_length == allowed_length) {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">while</span> (line_length &gt;= 0 &amp;&amp;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    text[start + line_length] != <span class="charliteral">&#39; &#39;</span> &amp;&amp; </div>
@@ -185,11 +185,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">if</span> (line_length &lt;= 0) line_length = allowed_length;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment">// truncate line at already present newline (including the newline)</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; line_length; i++) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (text[start + i] == <span class="charliteral">&#39;\n&#39;</span>) line_length = i + 1;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> = 0; <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> &lt; line_length; <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>++) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (text[start + <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>] == <span class="charliteral">&#39;\n&#39;</span>) line_length = <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> + 1;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">// print the line and add a newline</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; indent; i++ ) os &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> = 0; <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a> &lt; indent; <a class="code" href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a>++ ) os &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        os &lt;&lt; text.substr(start, line_length) &lt;&lt; endl;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment">// adjust indent for lines after the first one</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">if</span> (start == 0) {</div>
@@ -209,18 +209,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;} <span class="comment">// namespace basis</span></div>
 <div class="ttc" id="group__BasisCxxUtilities_html_ga4872238184e0fe6835c7c4d057e53f97"><div class="ttname"><a href="group__BasisCxxUtilities.html#ga4872238184e0fe6835c7c4d057e53f97">basis::get_terminal_size</a></div><div class="ttdeci">void get_terminal_size(int &amp;lines, int &amp;columns)</div><div class="ttdoc">Get size of terminal window. </div><div class="ttdef"><b>Definition:</b> <a href="stdio_8cxx_source.html#l00038">stdio.cxx:38</a></div></div>
-<div class="ttc" id="assert_8h_html_acdcc5aaebf3f273c1762f24a6ece2e5e"><div class="ttname"><a href="assert_8h.html#acdcc5aaebf3f273c1762f24a6ece2e5e">assert</a></div><div class="ttdeci">#define assert(condition)</div><div class="ttdoc">Assertion without custom message. </div><div class="ttdef"><b>Definition:</b> <a href="assert_8h_source.html#l00044">assert.h:44</a></div></div>
-<div class="ttc" id="namespacebasis_html_a145f6192a3d6b601a14c23dd8c91549f"><div class="ttname"><a href="namespacebasis.html#a145f6192a3d6b601a14c23dd8c91549f">basis.basis</a></div><div class="ttdeci">tuple basis</div><div class="ttdef"><b>Definition:</b> <a href="basis_8py_source.html#l00062">basis.py:62</a></div></div>
+<div class="ttc" id="Test_8pm_html_a4121f6285d553d649b05adfc200f00b0"><div class="ttname"><a href="Test_8pm.html#a4121f6285d553d649b05adfc200f00b0">assert</a></div><div class="ttdeci">sub assert</div><div class="ttdef"><b>Definition:</b> <a href="Test_8pm_source.html#l00053">Test.pm:53</a></div></div>
 <div class="ttc" id="config_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">System related macro definitions. </div></div>
+<div class="ttc" id="DoxyFilter_8pm_html_ac107a2f55c0eb46642479cfa122a61ae"><div class="ttname"><a href="DoxyFilter_8pm.html#ac107a2f55c0eb46642479cfa122a61ae">start</a></div><div class="ttdeci">push push push start</div><div class="ttdef"><b>Definition:</b> <a href="DoxyFilter_8pm_source.html#l00073">DoxyFilter.pm:73</a></div></div>
 <div class="ttc" id="assert_8h_html"><div class="ttname"><a href="assert_8h.html">assert.h</a></div><div class="ttdoc">Defines macros used for assertions. </div></div>
 <div class="ttc" id="group__BasisCxxUtilities_html_ga8476530e9ce64c523d3d8278b396050f"><div class="ttname"><a href="group__BasisCxxUtilities.html#ga8476530e9ce64c523d3d8278b396050f">basis::get_terminal_lines</a></div><div class="ttdeci">int get_terminal_lines()</div><div class="ttdoc">Get maximum number of lines of terminal window. </div><div class="ttdef"><b>Definition:</b> <a href="stdio_8cxx_source.html#l00066">stdio.cxx:66</a></div></div>
 <div class="ttc" id="group__BasisCxxUtilities_html_ga0701ae678aab2819e33913ae93b70780"><div class="ttname"><a href="group__BasisCxxUtilities.html#ga0701ae678aab2819e33913ae93b70780">basis::print_wrapped</a></div><div class="ttdeci">std::ostream &amp; print_wrapped(std::ostream &amp;os, const std::string &amp;text, int width, int indent, int offset)</div><div class="ttdoc">Print text, wrapped at a fixed maximum number of columns. </div><div class="ttdef"><b>Definition:</b> <a href="stdio_8cxx_source.html#l00082">stdio.cxx:82</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_a2ea894f2e04edc7c886d260abac9a0b2"><div class="ttname"><a href="basistest-cron_8sh.html#a2ea894f2e04edc7c886d260abac9a0b2">i</a></div><div class="ttdeci">i</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00002">basistest-cron.sh:2</a></div></div>
 <div class="ttc" id="stdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div><div class="ttdoc">Standard I/O functions. </div></div>
 <div class="ttc" id="group__BasisCxxUtilities_html_gab3267cb5952d8f14b98d88404b289e2e"><div class="ttname"><a href="group__BasisCxxUtilities.html#gab3267cb5952d8f14b98d88404b289e2e">basis::get_terminal_columns</a></div><div class="ttdeci">int get_terminal_columns()</div><div class="ttdoc">Get maximum number of columns of terminal window. </div><div class="ttdef"><b>Definition:</b> <a href="stdio_8cxx_source.html#l00074">stdio.cxx:74</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

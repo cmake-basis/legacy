@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -64,8 +64,8 @@ a new project or its installation.</p>
 <li class="toctree-l1"><a class="reference internal" href="howto/create-and-modify-project.html">Create/Modify a Project</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#create-a-new-project">Create a New Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#modify-an-existing-project">Modify an Existing Project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#add-modules">Add Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#update-a-project">Update a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#modularize-a-project">Modularize a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html#upgrade-a-project">Upgrade a Project</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="howto/use-and-customize-templates.html">Using and Customizing Templates</a><ul>
@@ -74,8 +74,24 @@ a new project or its installation.</p>
 <li class="toctree-l2"><a class="reference internal" href="howto/use-and-customize-templates.html#create-a-custom-template">Create a Custom Template</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="howto/cmake-options.html">CMake Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/cmake-options.html#standard-cmake">Standard CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cmake-options.html#basis-options">BASIS Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="howto/configure-project.html">Configure a Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#build-configuration">Build Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#header-files">Header Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#custom-layout">Custom Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#superbuild">Superbuild</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#test-configuration">Test Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html#redistributable-files">Redistributable Files</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="howto/manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howto/document.html">Documenting Software</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/document.html#documentation-quick-start">Documentation Quick Start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html#doxygen-documentation">Doxygen Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html#sphinx-documentation">Sphinx Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html#markdown">Markdown</a></li>
@@ -104,6 +120,7 @@ a new project or its installation.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="howto/run-automated-tests.html">Automated Testing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="howto/run-automated-tests.html#the-basistest-family-of-scripts">The basistest family of scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/run-automated-tests.html#cdash-integration">CDash Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/run-automated-tests.html#administration-of-software-testing">Administration of Software Testing</a></li>
 </ul>
 </li>
@@ -140,6 +157,8 @@ a new project or its installation.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="">How-to Guides</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="howto/create-and-modify-project.html">Create/Modify a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/use-and-customize-templates.html">Using and Customizing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cmake-options.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html">Configure a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/branch-and-release.html">Branch and Release</a></li>
@@ -161,6 +180,11 @@ a new project or its installation.</p>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

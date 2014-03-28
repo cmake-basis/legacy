@@ -70,138 +70,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">FindPerl.cmake File Reference<div class="ingroups"><a class="el" href="group__CMakeFindModules.html">Find Package Modules</a></div></div>  </div>
+<div class="title">FindPerl.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Find Perl interpreter.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;FindCygwin.cmake&quot;</code><br/>
-<code>#include &quot;FindPackageHandleStandardArgs.cmake&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for FindPerl.cmake:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="FindPerl_8cmake__incl.png" border="0" usemap="#FindPerl_8cmake" alt=""/></div>
-<map name="FindPerl_8cmake" id="FindPerl_8cmake">
-</map>
-</div>
-</div>
 <p><a href="FindPerl_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ab64eb4ff8fb62d62084a71e8f1dcd6f3"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#ab64eb4ff8fb62d62084a71e8f1dcd6f3">PERL_POSSIBLE_BIN_PATHS</a></td></tr>
-<tr class="separator:ab64eb4ff8fb62d62084a71e8f1dcd6f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab86957c802629095cc4280476d781b9d"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#ab86957c802629095cc4280476d781b9d">PERL_VERSION_MAJOR</a></td></tr>
-<tr class="separator:ab86957c802629095cc4280476d781b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9bd3c480d14d12e6619cb6e9cd86f1a"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#aa9bd3c480d14d12e6619cb6e9cd86f1a">PERL_VERSION_MINOR</a></td></tr>
-<tr class="separator:aa9bd3c480d14d12e6619cb6e9cd86f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13e8cb4e22a766ff1a2fed9a98f20f57"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#a13e8cb4e22a766ff1a2fed9a98f20f57">PERL_VERSION_PATCH</a></td></tr>
-<tr class="separator:a13e8cb4e22a766ff1a2fed9a98f20f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af457dd3bf927a0c3420fd97438f88bc0"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#af457dd3bf927a0c3420fd97438f88bc0">PERL_VERSION_STRING</a></td></tr>
-<tr class="separator:af457dd3bf927a0c3420fd97438f88bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a6627b5e500ec5f4b835db65ee43f554d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindPerl_8cmake.html#a6627b5e500ec5f4b835db65ee43f554d">get_filename_component</a> (ActivePerl_CurrentVersion&quot;[HKEY_LOCAL_MACHINE\\SOFTWARE\\ActiveState\\ActivePerl;CurrentVersion]&quot;NAME) <a class="el" href="UtilitiesTools_8cmake.html#af405f0bb7871f741886f21bae7668a3b">set</a>(PERL_POSSIBLE_BIN_PATHS $</td></tr>
+<tr class="separator:a6627b5e500ec5f4b835db65ee43f554d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Find Perl interpreter. </p>
-<dl class="section user"><dt>Output variables:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Perl_FOUND</b>  </td><td>Was the Python executable found.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_FOUND</b>  </td><td>Alias for <b>Perl_FOUND</b> for backwards compatibility.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_EXECUTABLE</b>  </td><td>Path to the Perl interpreter.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_VERSION_STRING</b>  </td><td>Perl version found e.g. 5.12.4.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_VERSION_MAJOR</b>  </td><td>Perl major version found e.g. 5.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_VERSION_MINOR</b>  </td><td>Perl minor version found e.g. 12.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>PERL_VERSION_PATCH</b>  </td><td>Perl patch version found e.g. 4.  </td></tr>
-</table>
-</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This module has been copied from CMake 2.8.5 and modified to also obtain the version information of the found Perl interpreter. </dd></dl>
-
-<p>Definition in file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ab64eb4ff8fb62d62084a71e8f1dcd6f3"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a6627b5e500ec5f4b835db65ee43f554d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake PERL_POSSIBLE_BIN_PATHS</td>
+          <td class="memname">get_filename_component </td>
+          <td>(</td>
+          <td class="paramtype">ActivePerl_CurrentVersion&quot;&quot;&#160;</td>
+          <td class="paramname"><em>NAME</em>[HKEY_LOCAL_MACHINE\\SOFTWARE\\ActiveState\\ActivePerl;CurrentVersion]</td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00043">43</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab86957c802629095cc4280476d781b9d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake PERL_VERSION_MAJOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00096">96</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa9bd3c480d14d12e6619cb6e9cd86f1a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake PERL_VERSION_MINOR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00097">97</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a13e8cb4e22a766ff1a2fed9a98f20f57"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake PERL_VERSION_PATCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00098">98</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af457dd3bf927a0c3420fd97438f88bc0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake PERL_VERSION_STRING</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00099">99</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
+<p>Definition at line <a class="el" href="FindPerl_8cmake_source.html#l00080">80</a> of file <a class="el" href="FindPerl_8cmake_source.html">FindPerl.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

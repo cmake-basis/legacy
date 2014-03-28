@@ -134,54 +134,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># @ingroup CMakeFindModules</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span><span class="preprocessor">##############################################################################</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="FindLIBLINEAR_8cmake.html#a6620ddab82e6db891e02bb53315eaf26">   62</a></span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"># ----------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># initialize search</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT <a class="code" href="FindLIBLINEAR_8cmake.html#a6620ddab82e6db891e02bb53315eaf26">LIBLINEAR_DIR</a>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  set (LIBLINEAR_DIR <span class="stringliteral">&quot;$ENV{LIBLINEAR_DIR}&quot;</span> CACHE PATH <span class="stringliteral">&quot;Installation prefix for LIBLINEAR.&quot;</span> FORCE)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;endif ()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (NOT LIBLINEAR_DIR)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (LIBLINEAR_DIR <span class="stringliteral">&quot;$ENV{LIBLINEAR_DIR}&quot;</span> CACHE PATH <span class="stringliteral">&quot;Installation prefix for LIBLINEAR.&quot;</span> FORCE)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (NOT <a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (<a class="code" href="ExecuteProcess_8cmake.html#a4f834ee91b73cc020d13636b391906de">COMMAND</a> <a class="code" href="group__CMakeUtilities.html#ga0fd76a90b19ac2a81175c520c5fce893">basis_mexext</a>)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="group__CMakeUtilities.html#ga0fd76a90b19ac2a81175c520c5fce893">basis_mexext</a> (<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  else ()</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">   72</a></span>&#160;    set (<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a> &quot;mexa64&quot;)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  endif ()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;endif ()</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (NOT MEX_EXT)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (COMMAND basis_mexext)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    basis_mexext (MEX_EXT)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <a class="code" href="OptList_8pm.html#a0544c3fe466e421738dae463968b70ba">else</a> ()</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (MEX_EXT &quot;mexa64&quot;)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#--------------------------------------------------------------</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># find paths/files</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span><span class="keywordflow">if</span> (LIBLINEAR_DIR)</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  find_file (</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">   80</a></span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    LIBLINEAR_libsvmwrite_MEX</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      NAMES         libsvmwrite.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      NAMES         libsvmwrite.${MEX_EXT}</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      HINTS         ${LIBLINEAR_DIR}</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      DOC           <span class="stringliteral">&quot;The libsvmwrite MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      NO_DEFAULT_PATH</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  )</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  find_file (</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    LIBLINEAR_libsvmread_MEX</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      NAMES         libsvmread.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      NAMES         libsvmread.${MEX_EXT}</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      HINTS         ${LIBLINEAR_DIR}</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      DOC           <span class="stringliteral">&quot;The libsvmread MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      NO_DEFAULT_PATH</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  )</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  find_file (</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    LIBLINEAR_train_MEX</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      NAMES         train.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      NAMES         train.${MEX_EXT}</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      HINTS         ${LIBLINEAR_DIR}</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      DOC           <span class="stringliteral">&quot;The train MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      NO_DEFAULT_PATH</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  )</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  find_file (</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    LIBLINEAR_predict_MEX</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      NAMES         predict.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      NAMES         predict.${MEX_EXT}</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      HINTS         ${LIBLINEAR_DIR}</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      DOC           <span class="stringliteral">&quot;The predict MEX-file of the LIBLINEAR library.&quot;</span></div>
@@ -190,44 +190,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordflow">else</span> ()</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  find_file (</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    LIBLINEAR_libsvmwrite_MEX</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      NAMES         libsvmwrite.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      NAMES         libsvmwrite.${MEX_EXT}</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      DOC           <span class="stringliteral">&quot;The libsvmwrite MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  )</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  find_file (</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    LIBLINEAR_libsvmread_MEX</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      NAMES         libsvmread.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      NAMES         libsvmread.${MEX_EXT}</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      DOC           <span class="stringliteral">&quot;The libsvmread MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  )</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  find_file (</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    LIBLINEAR_train_MEX</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      NAMES         train.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      NAMES         train.${MEX_EXT}</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      DOC           <span class="stringliteral">&quot;The train MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  )</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  find_file (</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <a class="code" href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a> (</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    LIBLINEAR_predict_MEX</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;      NAMES         predict.${<a class="code" href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a>}</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;      NAMES         predict.${MEX_EXT}</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;      PATH_SUFFIXES <span class="stringliteral">&quot;matlab&quot;</span></div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      DOC           <span class="stringliteral">&quot;The predict MEX-file of the LIBLINEAR library.&quot;</span></div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  )</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;endif ()</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<a class="code" href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a> ()</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;mark_as_advanced (LIBLINEAR_libsvmread_MEX)</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;mark_as_advanced (LIBLINEAR_libsvmwrite_MEX)</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;mark_as_advanced (LIBLINEAR_train_MEX)</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;mark_as_advanced (LIBLINEAR_predict_MEX)</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;set (LIBLINEAR_MEX_FILES)</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<a class="code" href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a> (LIBLINEAR_libsvmread_MEX)</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  list (APPEND LIBLINEAR_MEX_FILES &quot;${LIBLINEAR_libsvmread_MEX}<span class="stringliteral">&quot;)</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<a class="code" href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a> (LIBLINEAR_MEX_FILES)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<a class="code" href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a> (LIBLINEAR_libsvmread_MEX)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <a class="code" href="ConfigureIncludeFiles_8cmake.html#a1a29a7111e07c59c4d1dcffb3a2cd430">list</a> (APPEND LIBLINEAR_MEX_FILES &quot;${LIBLINEAR_libsvmread_MEX}<span class="stringliteral">&quot;)</span></div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="stringliteral">endif ()</span></div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="stringliteral">if (LIBLINEAR_libsvmwrite_MEX)</span></div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="stringliteral">  list (APPEND LIBLINEAR_MEX_FILES &quot;</span>${LIBLINEAR_libsvmwrite_MEX}<span class="stringliteral">&quot;)</span></div>
@@ -262,15 +262,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="stringliteral">  set (LIBLINEAR_DIR &quot;</span>${LIBLINEAR_PREFIX}<span class="stringliteral">&quot; CACHE PATH &quot;</span>Installation prefix <span class="keywordflow">for</span> LIBLINEAR.<span class="stringliteral">&quot; FORCE)</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="stringliteral">  unset (LIBLINEAR_PREFIX)</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="stringliteral">endif ()</span></div>
-<div class="ttc" id="FindLIBLINEAR_8cmake_html_a6620ddab82e6db891e02bb53315eaf26"><div class="ttname"><a href="FindLIBLINEAR_8cmake.html#a6620ddab82e6db891e02bb53315eaf26">LIBLINEAR_DIR</a></div><div class="ttdeci">cmake LIBLINEAR_DIR</div><div class="ttdef"><b>Definition:</b> <a href="FindLIBLINEAR_8cmake_source.html#l00062">FindLIBLINEAR.cmake:62</a></div></div>
-<div class="ttc" id="ExecuteProcess_8cmake_html_a4f834ee91b73cc020d13636b391906de"><div class="ttname"><a href="ExecuteProcess_8cmake.html#a4f834ee91b73cc020d13636b391906de">COMMAND</a></div><div class="ttdeci">cmake COMMAND</div><div class="ttdef"><b>Definition:</b> <a href="ExecuteProcess_8cmake_source.html#l00092">ExecuteProcess.cmake:92</a></div></div>
-<div class="ttc" id="group__CMakeUtilities_html_ga0fd76a90b19ac2a81175c520c5fce893"><div class="ttname"><a href="group__CMakeUtilities.html#ga0fd76a90b19ac2a81175c520c5fce893">basis_mexext</a></div><div class="ttdeci">function basis_mexext(out ARGN)</div><div class="ttdoc">Determine extension of MEX-files for this architecture. </div></div>
-<div class="ttc" id="FindLIBLINEAR_8cmake_html_a65b977c2e1c685abf923d200742fc1cb"><div class="ttname"><a href="FindLIBLINEAR_8cmake.html#a65b977c2e1c685abf923d200742fc1cb">MEX_EXT</a></div><div class="ttdeci">cmake MEX_EXT</div><div class="ttdef"><b>Definition:</b> <a href="FindLIBLINEAR_8cmake_source.html#l00072">FindLIBLINEAR.cmake:72</a></div></div>
-<div class="ttc" id="testdriver-after-test_8inc_html_a1bc71cc4441e84b1acb303b95854ebeb"><div class="ttname"><a href="testdriver-after-test_8inc.html#a1bc71cc4441e84b1acb303b95854ebeb">if</a></div><div class="ttdeci">if(oldcoutbuf)</div><div class="ttdef"><b>Definition:</b> <a href="testdriver-after-test_8inc_source.html#l00039">testdriver-after-test.inc:39</a></div></div>
+<div class="ttc" id="FindLIBLINEAR_8cmake_html_a83b8181e4d4dbf45d8cc299e16971a58"><div class="ttname"><a href="FindLIBLINEAR_8cmake.html#a83b8181e4d4dbf45d8cc299e16971a58">find_file</a></div><div class="ttdeci">find_file(LIBLINEAR_libsvmwrite_MEX NAMES libsvmwrite.${MEX_EXT}HINTS ${LIBLINEAR_DIR}PATH_SUFFIXES&quot;matlab&quot;DOC&quot;The libsvmwrite MEX-file of the LIBLINEAR library.&quot;NO_DEFAULT_PATH) find_file(LIBLINEAR_libsvmread_MEX NAMES libsvmread.$</div><div class="ttdef"><b>Definition:</b> <a href="FindLIBLINEAR_8cmake_source.html#l00080">FindLIBLINEAR.cmake:80</a></div></div>
+<div class="ttc" id="basistest-cron_8sh_html_a7059ed44232b3c232f3580ec7024a5d4"><div class="ttname"><a href="basistest-cron_8sh.html#a7059ed44232b3c232f3580ec7024a5d4">if</a></div><div class="ttdeci">fi if[!-z&quot;${mail}&quot;]</div><div class="ttdef"><b>Definition:</b> <a href="basistest-cron_8sh_source.html#l00150">basistest-cron.sh:150</a></div></div>
+<div class="ttc" id="GenerateConfig_8cmake_html_a210b6a48b2c1bb87f5c174ada6932597"><div class="ttname"><a href="GenerateConfig_8cmake.html#a210b6a48b2c1bb87f5c174ada6932597">endif</a></div><div class="ttdeci">endif()&quot; ) install ( FILES &quot;$</div><div class="ttdef"><b>Definition:</b> <a href="GenerateConfig_8cmake_source.html#l00089">GenerateConfig.cmake:89</a></div></div>
+<div class="ttc" id="ConfigureIncludeFiles_8cmake_html_a1a29a7111e07c59c4d1dcffb3a2cd430"><div class="ttname"><a href="ConfigureIncludeFiles_8cmake.html#a1a29a7111e07c59c4d1dcffb3a2cd430">list</a></div><div class="ttdeci">which defines CMake variables for use in h in files list(SORT _CONFIGURED_HEADERS) file(APPEND&quot;$</div><div class="ttdef"><b>Definition:</b> <a href="ConfigureIncludeFiles_8cmake_source.html#l00085">ConfigureIncludeFiles.cmake:85</a></div></div>
+<div class="ttc" id="CTestCustom_8cmake_html_a804be93391d90c4406a72c0c779f7d66"><div class="ttname"><a href="CTestCustom_8cmake.html#a804be93391d90c4406a72c0c779f7d66">set</a></div><div class="ttdeci">set(CTEST_CURL_OPTIONS&quot;CURLOPT_SSL_VERIFYPEER_OFF&quot;&quot;CURLOPT_SSL_VERIFYHOST_OFF&quot;) set(CTEST_CUSTOM_WARNING_MATCH $</div><div class="ttdef"><b>Definition:</b> <a href="CTestCustom_8cmake_source.html#l00041">CTestCustom.cmake:41</a></div></div>
+<div class="ttc" id="OptList_8pm_html_a0544c3fe466e421738dae463968b70ba"><div class="ttname"><a href="OptList_8pm.html#a0544c3fe466e421738dae463968b70ba">else</a></div><div class="ttdeci">else</div><div class="ttdef"><b>Definition:</b> <a href="OptList_8pm_source.html#l00049">OptList.pm:49</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:07. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:37. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

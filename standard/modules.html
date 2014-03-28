@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -59,71 +59,255 @@
             
   <div class="section" id="project-modularization">
 <h1>Project Modularization<a class="headerlink" href="#project-modularization" title="Permalink to this headline">¶</a></h1>
-<p>This article details the design and implementation of the project
-modularization, where a project, also referred to as top-level project
-(note that BASIS only allows one level of submodularization),
-can have other projects as subprojects (referred to as modules in this
-context to distinguish them from the superproject/subproject relationship
-in case of the superbuild approach, see below).
-The project modules are conceptual cohesive groups of the project files.</p>
-<p>A top-level project can also be described as a modularized project,
-where each module of this project may depend on other modules of the
-same project or external projects (also referred to as packages).
-Note that an external project can also be another top-level project which
-utilizes the same project modularization as discussed herein.
-The idea, and partly the CMake implementation, has been borrowed from the
-<a class="reference external" href="http://www.itk.org/Wiki/ITK_Release_4">ITK 4</a> project. See the Wiki of this project for details on the
-<a class="reference external" href="http://www.vtk.org/Wiki/ITK_Release_4/Modularization">ITK 4 Modularization</a>.</p>
+<p>Project modularization is a technique that aims to maximize
+code reusability, allowing components to be split up as
+independent modules that can be shared with other projects,
+while only building and packaging the components that are
+really needed.</p>
+<p id="toplevelprojectdefinition"><strong>Top Level Project</strong></p>
+<p>A top level project is a project that is split into separate
+independent subprojects, and each of those subprojects are
+referred to as modules. A top level project will often have
+no source files of its own, simply serving as a lightweight
+container for its modules.</p>
+<p id="projectmoduledefinition"><strong>Project Module</strong></p>
+<p>A (project) module is a completely independent BASIS project with its
+own dependencies that resides in the <tt class="docutils literal"><span class="pre">modules/</span></tt> directory of a top-level project.
+Each module will often reside in a separate repository that is designed
+to be shared with other projects.</p>
+<p>Because modules are usually developed by the same development team,
+name conflicts are uncommon and can be avoided by appropriate naming
+conventions. Therefore, all modules share a common <em>namespace</em>,
+namely the one of the top-level project.</p>
+<p>For example, if <tt class="docutils literal"><span class="pre">BASIS_USE_TARGET_UIDS</span></tt> is enabled in <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt>
+of the top-level project, the actual build target names of the top-level
+project and its modules are of the form <tt class="docutils literal"><span class="pre">&lt;toplevel&gt;.&lt;target&gt;</span></tt>, where
+<tt class="docutils literal"><span class="pre">&lt;toplevel&gt;</span></tt> is the package name of the top-level project which usually
+is the same as the name of the top-level project, and <tt class="docutils literal"><span class="pre">&lt;target&gt;</span></tt> is
+the target name argument of <span>basis_add_executable()</span> or
+<span>basis_add_library()</span>.
+Note that if <tt class="docutils literal"><span class="pre">BASIS_USE_FULLY_QUALIFIED_TARGET_UIDS</span></tt> is disabled (the default),
+the <tt class="docutils literal"><span class="pre">&lt;toplevel&gt;</span></tt> part is only used for the export of the target.</p>
+<p>The <span>basis_project()</span> call of a module must use the <tt class="docutils literal"><span class="pre">NAME</span></tt>
+parameter to set the name of the module (instead of <tt class="docutils literal"><span class="pre">SUBPROJECT</span></tt>).</p>
+<p id="subprojectdefinition"><strong>Subproject</strong></p>
+<p>A subproject is very similar to a project module with a few important differences.
+While project modules are lightweight subprojects which are tightly integrated
+into the top-level project, subprojects are more self-sustained and should
+be treated as separate smaller projects. The top-level project serves as
+meta-project to group multiple subprojects. A use case would be to bundle several
+more or less independent software projects in a single package. The top-level
+project can be thus be seen as collection of related software packages,
+which may or may not depend on each other.</p>
+<p>Because subprojects are usually developed by different development teams,
+name conflicts are more likely to occur. Therefore, each subproject has
+its own (nested) <em>namespace</em> inside the namespace of the package it belongs
+to, whereas the symbols of modules have no own namespace, but are directly
+defined within the namespace of the top-level project.</p>
+<p>For example, if <tt class="docutils literal"><span class="pre">BASIS_USE_TARGET_UIDS</span></tt> is enabled in <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt>
+of the top-level project, the actual build target names are of the form
+<tt class="docutils literal"><span class="pre">&lt;package&gt;.&lt;subproject&gt;.&lt;target&gt;</span></tt>, where <tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt> is the package name
+of the subproject which corresponds to the package name of the top-level
+project if not specified, and <tt class="docutils literal"><span class="pre">&lt;target&gt;</span></tt> is the target name argument
+of <span>basis_add_executable()</span> or <span>basis_add_library()</span>.
+Note that if <tt class="docutils literal"><span class="pre">BASIS_USE_FULLY_QUALIFIED_TARGET_UIDS</span></tt> is disabled (the default),
+the <tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt> part is only used for the export of the target.</p>
+<p>Other differences are that BASIS will install separate uninstaller scripts
+for each subproject and also register each subproject installation if
+<a class="reference internal" href="../howto/cmake-options.html#cmdoption-DBASIS_REGISTER"><em class="xref std std-option">-DBASIS_REGISTER</em></a> is enabled. Therefore, a subproject which is
+installed by one package can be used directly by other packages as if
+the subproject was installed separate from the other subprojects and
+modules of the top-level project.</p>
+<p>The <span>basis_project()</span> call of a subproject must use the <tt class="docutils literal"><span class="pre">SUBPROJECT</span></tt>
+parameter to set the name of the subproject (instead of <tt class="docutils literal"><span class="pre">NAME</span></tt>).
+Additionally, as subprojects are likely shared by multiple top-level
+projects, it is recommended to set the <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt> (short <tt class="docutils literal"><span class="pre">PACKAGE</span></tt>)
+to the name of the package which this subproject belongs to primarily.
+Note that this package need not actually exist. By providing this
+package name, the namespace of the subproject will always be the same
+no matter what the name of the top-level project is.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It should be noted that the concept of a <em>namespace</em> can be extended to all aspects of a
+software project, not only symbols of programming languages which have it built in such
+as C++. Therefore, the <em>symbols</em> which belong to the package namespace include project
+modules, target names, C++ classes and functions, as well as scripted libraries.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">See <a class="reference internal" href="../howto/create-and-modify-project.html#howtomodularizeaproject"><em>Modularize a Project</em></a> for usage instructions and <a class="reference internal" href="template.html"><em>Project Template</em></a> for a reference implementation.</p>
+</div>
+<div class="section" id="filesystem-layout">
+<h2>Filesystem Layout<a class="headerlink" href="#filesystem-layout" title="Permalink to this headline">¶</a></h2>
+<p>By default each module is placed in its own <tt class="docutils literal"><span class="pre">modules/&lt;module_name&gt;</span></tt>
+subdirectory, but this can be configured in <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> by
+modifying the <tt class="docutils literal"><span class="pre">PROJECT_MODULES_DIR</span></tt> variable. More details can be found in
+the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a>.</p>
+<p>The Top Level project often excludes the <tt class="docutils literal"><span class="pre">src/</span></tt> subdirectory,
+and instead includes the <tt class="docutils literal"><span class="pre">modules/</span></tt> directory where the
+project&#8217;s modules reside.</p>
+</div>
+<div class="section" id="dependency-requirements">
+<h2>Dependency Requirements<a class="headerlink" href="#dependency-requirements" title="Permalink to this headline">¶</a></h2>
+<p>There are several features and limitations when one top level or subproject uses code from another.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Modules may depend on each other.</li>
+<li>Each module of a top level project may depend on other modules of the same project, or external projects and packages.</li>
+<li>Only one level of submodules are allowed in a top level project</li>
+<li>An external project can also be another top-level project with its own modules.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="module-cmake-variables">
+<span id="modulecmakevariables"></span><h2>Module CMake Variables<a class="headerlink" href="#module-cmake-variables" title="Permalink to this headline">¶</a></h2>
+<p>CMake variables available to any project utilizing BASIS. These options can
+be modified with the <tt class="docutils literal"><span class="pre">ccmake</span></tt> command. <a class="reference internal" href="../howto/cmake-options.html"><em>CMake Options</em></a> describes
+other important CMake options.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">CMake Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt></td>
+<td>Builds the module named <tt class="docutils literal"><span class="pre">&lt;module&gt;</span></tt> when set to <tt class="docutils literal"><span class="pre">ON</span></tt> and excludes it when <tt class="docutils literal"><span class="pre">OFF</span></tt>.
+It is automatically set to <tt class="docutils literal"><span class="pre">ON</span></tt> if it is required by another module that is <tt class="docutils literal"><span class="pre">ON</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">BUILD_MODULES_BY_DEFAULT</span></tt></td>
+<td>Sets the default state of each <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> switch. <tt class="docutils literal"><span class="pre">ON</span></tt> by default.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">BUILD_ALL_MODULES</span></tt></td>
+<td>Global switch enabling the build of all modules. Overrides all <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> variables.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">PROJECT_IS_MODULE</span></tt></td>
+<td>Specifies if the current project is a module of another project.</td>
+</tr>
+</tbody>
+</table>
+<p>It is recommended that customized defaults for these variables be set in <a class="reference internal" href="template.html#settings"><em>config/Settings.cmake</em></a>.</p>
+</div>
 <div class="section" id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p>The modularization is mainly implemented by the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/ProjectTools_8cmake.html">ProjectTools.cmake</a>
-module, in particular, the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#gadc15bedde27fe73c74a7f0f56b1c36d1">basis_project_modules()</a> function which is
-called at the very top of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga127b37093051faec042f572ac7fde9ed">basis_project_impl()</a> macro, which is
-the foundation for the root CMake configuration file (<tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt>) of
-every BASIS project. The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#gadc15bedde27fe73c74a7f0f56b1c36d1">basis_project_modules()</a> function searches
-the subdirectories in the <tt class="docutils literal"><span class="pre">modules/</span></tt> directory for the presence of the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a> file. It then loads this file, to retrieve the
-meta-data of each module, i.e., its name and dependencies. It then adds for
-each module a <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> option to the build configuration. When this
-option is set to <tt class="docutils literal"><span class="pre">OFF</span></tt>, the module is excluded from both the project build
-and any package generated by <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cpack.html">CPack</a>. Otherwise, if it is set to <tt class="docutils literal"><span class="pre">ON</span></tt>,
-the module is build as part of the top-level project. These options are
-superceded by the <tt class="docutils literal"><span class="pre">BUILD_ALL_MODULES</span></tt> option if this option is set to <tt class="docutils literal"><span class="pre">ON</span></tt>,
-however.</p>
-<p>Besides adding these options, the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#gadc15bedde27fe73c74a7f0f56b1c36d1">basis_project_modules()</a>
-function ensures that the modules are configured and build in the right order,
-such that a module which is needed by another module is build prior to this
-dependent module. Moreover, it helps the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a> function
-to find the other modules, in particular their configured package configuration
-files, which are either generated from the default
+<p>The modularization is mainly implemented with the following hierarchy presented
+in the same manner as a stack trace with the top function being the last function
+called:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/ProjectTools_8cmake.html">ProjectTools.cmake</a>     - <span>basis_project_modules()</span></li>
+<li><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/ProjectTools_8cmake.html">ProjectTools.cmake</a>     - <span>basis_project_begin()</span></li>
+<li><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a>     - script file that is executed directly</li>
+<li><tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt>               - root file of any CMake project</li>
+</ul>
+</div></blockquote>
+<p>The script then takes the following steps:</p>
+<ol class="arabic">
+<li><p class="first">The <span>basis_project_modules()</span> function searches the subdirectories in the
+<tt class="docutils literal"><span class="pre">modules/</span></tt> directory for the presence of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a> file.</p>
+</li>
+<li><p class="first"><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a> is then loaded to retrieve the meta-data of each module
+such as its name and dependencies.</p>
+</li>
+<li><p class="first">A <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> option is added to the build configuration for each module and
+module dependencies are defined that correspond to the settings in <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a>.
+This enables the eventual execution of the build step to be in the correct topological order.
+The <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> settings obey the following constraints:</p>
+<blockquote>
+<div><ul class="simple">
+<li>When <tt class="docutils literal"><span class="pre">OFF</span></tt> the module is excluded from both the project build and any package generated by <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cpack.html">CPack</a>.</li>
+<li>When <tt class="docutils literal"><span class="pre">ON</span></tt> the module builds as part of the top-level project.</li>
+<li>If one module requires another, the required module will automatically be set to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
+<li>All <tt class="docutils literal"><span class="pre">MODULE_&lt;module&gt;</span></tt> options are superceded by the <tt class="docutils literal"><span class="pre">BUILD_ALL_MODULES</span></tt> when it is set to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p>Besides adding these options, the <span>basis_project_modules()</span>
+function ensures that the modules are configured with the right dependencies
+so that the generated build files will compile them correctly.</p>
+<p>It also helps the <span>basis_find_package()</span> function find the other modules&#8217; package
+configuration files, which are either generated from the default
 <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BASISConfig_8cmake.html">Config.cmake.in</a> file or a corresponding file found
 in the <tt class="docutils literal"><span class="pre">config/</span></tt> directory of each module.</p>
-<p>The other BASIS CMake functions may further change their actual behaviour
-depending on the <tt class="docutils literal"><span class="pre">PROJECT_IS_MODULE</span></tt> variable which specifies whether the
+<p>The other BASIS CMake functions may also change their actual behaviour
+depending on the <tt class="docutils literal"><span class="pre">PROJECT_IS_MODULE</span></tt> variable, which specifies whether the
 project that is currently being configured is a module of another project
 (i.e., <tt class="docutils literal"><span class="pre">PROJECT_IS_MODULE</span></tt> is <tt class="docutils literal"><span class="pre">TRUE</span></tt>) or a top-level project
 (i.e., <tt class="docutils literal"><span class="pre">PROJECT_IS_MODULE</span></tt> is <tt class="docutils literal"><span class="pre">FALSE</span></tt>).</p>
+<div class="section" id="origin">
+<h3>Origin<a class="headerlink" href="#origin" title="Permalink to this headline">¶</a></h3>
+<p>The modularization concepts and part of the CMake implementation
+are from the <a class="reference external" href="http://www.itk.org/Wiki/ITK_Release_4">ITK 4</a> project. See the Wiki of this project for
+details on the <a class="reference external" href="http://www.vtk.org/Wiki/ITK_Release_4/Modularization">ITK 4 Modularization</a>.</p>
 </div>
-<div class="section" id="future-work">
-<h2>Future Work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO: The super-build methodology is not yet implemented as part of BASIS!</strong></p>
-<p>Once the CMake BASIS package is installed it can be used to build other
-BASIS projects. Alternatively, if the package is not found, each BASIS project
-which is built on top of BASIS and implements the super-build feature,
-retrieves and builds a local copy using CMake&#8217;s <span>ExternalProject.cmake</span>
-module This super-build methodology, which is becoming popular in
-the CMake community could be utilized by BASIS to not only ease the
-development and maintenance of separately managed software projects, but also
-enable the fusion of these more or less independently developed software
-packages into so-called superprojects. In this context, the separately managed
-software packages are considered components of the superproject.</p>
-<p>Besides the super-build of BASIS projects, BASIS helps create a tighter
-coupling between software components. The top-level project (i.e., the
-superproject) could contain other BASIS projects as modules, and these
-modules define the dependencies to other modules of the project. When the
-superproject is configured, a subset of these modules can be selected and only
-these will be build and installed. This type of modularization closely follows
-the [modularization approach of the ITK 4 project][10].</p>
+</div>
+<div class="section" id="reuse">
+<h2>Reuse<a class="headerlink" href="#reuse" title="Permalink to this headline">¶</a></h2>
+<p>Modules can be built standalone without a Top Level Project.</p>
+<p>This is why the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a> meta-data requires an explicit <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt>.
+When you configure the build system of a project module directly, i.e.,
+by using the module&#8217;s subdirectory as root of the source tree, it will still
+build as if it was part of a Top Level Project with name equal to the <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt>
+of the project.</p>
+<p>The explicit package name is also important for the executable (target) referencing
+that is used for subprocess invocations covered in <a class="reference internal" href="execution.html"><em>Calling Conventions</em></a>.
+A developer can use the target name (e.g., basis.basisproject) in the BASIS utility
+functions for executing a subprocess, and the path to the actually installed binary
+is resolved by BASIS. This allows the developer of the respective module to change
+the location/name of a binary file through the CMake configuration and other code
+which uses this module&#8217;s executable can still call it by its unchanged build target name.
+As the target name includes the package name of a project to avoid name conflicts
+among packages, the package name which a module belongs to must be known even if
+the module is build independently without any Top Level Project.</p>
+</div>
+<div class="section" id="superbuild">
+<span id="superbuildofmodules"></span><h2>Superbuild<a class="headerlink" href="#superbuild" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>The superbuild of project modules is yet experimental and not fully documented!</strong></p>
+</div>
+<p>CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#module:ExternalProject">ExternalProject</a> module is sometimes used to create a superbuild,
+where components of a software or its external dependencies are compiled separately.
+This has already been done with several projects.</p>
+<p>An experimental superbuild of project modules is implemented by the <span>basis_add_module</span>
+function. It is disabled by default, i.e. each module is configured right away using
+<tt class="docutils literal"><span class="pre">add_subdirectory</span></tt>. The <a class="reference internal" href="../howto/cmake-options.html#cmdoption-DBASIS_SUPERBUILD_MODULES"><em class="xref std std-option">-DBASIS_SUPERBUILD_MODULES</em></a> option can be used to
+enable the superbuild of modules. This can dramatically speed up the build system
+configuration for projects which contain a large number of modules, because the
+configuration of each module is deferred until the build step. Moreover, only modules
+which were modified since the last build will be reconfigured when the top-level project
+is re-build. Without the superbuild approach, the entire build system of the top-level
+project needs to be reconfigured in such case.</p>
+<p>If the superbuild of modules should always be enabled, add the following
+CMake code to <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">BASIS_SUPERBUILD_MODULES</span><span class="p">)</span>
+  <span class="nb">set</span> <span class="p">(</span>
+    <span class="s">BASIS_SUPERBUILD_MODULES</span> <span class="s">ON</span> <span class="s">CACHE</span> <span class="s">BOOLEAN</span>
+      <span class="s2">&quot;This project always builds the modules using a superbuild approach.&quot;</span>
+    <span class="s">FORCE</span>
+  <span class="p">)</span>
+  <span class="nb">message</span> <span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Option BASIS_SUPERBUILD_MODULES set to ON as this project&quot;</span>
+                   <span class="s2">&quot; always builds its modules using a superbuild approach.&quot;</span>
+                   <span class="s2">&quot; The BASIS_SUPERBUILD_MODULES option cannot be changed.&quot;</span><span class="p">)</span>
+<span class="nb">endif</span> <span class="p">()</span>
+</pre></div>
+</div>
+<p>Alternatively, the following line would be sufficient as well without feedback for the user:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">set</span> <span class="p">(</span><span class="s">BASIS_SUPERBUILD_MODULES</span> <span class="s">OFF</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">A superbuild can also take care of building BASIS itself if it is not
+installed on the system, as well as any other external library that is
+specified as dependency of the project.
+See the <a class="reference internal" href="../howto/configure-project.html#superbuildofdependencies"><em>Superbuild of BASIS and other dependencies</em></a>.</p>
+</div>
 </div>
 </div>
 
@@ -158,8 +342,12 @@ the [modularization approach of the ITK 4 project][10].</p>
 <li class="toctree-l2"><a class="reference internal" href="fhs.html">Filesystem Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="template.html">Project Template</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Project Modularization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#filesystem-layout">Filesystem Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependency-requirements">Dependency Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-cmake-variables">Module CMake Variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implementation">Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#future-work">Future Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reuse">Reuse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#superbuild">Superbuild</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
@@ -179,6 +367,11 @@ the [modularization approach of the ITK 4 project][10].</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

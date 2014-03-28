@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -78,6 +78,327 @@ idea is to make projects easier for developers to create, share, and use.</p>
 <li><a class="reference external" href="http://www.cmake.org/">CMake</a>&#8216;s <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> file setup.</li>
 <li>Basic build flags that are required.</li>
 </ul>
+<div class="section" id="standard-project-files">
+<h2>Standard Project Files<a class="headerlink" href="#standard-project-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="file-formats">
+<h3>File Formats<a class="headerlink" href="#file-formats" title="Permalink to this headline">¶</a></h3>
+<p>Standard project files utilize the following formats:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">.txt</span></tt></td>
+<td>A utf8 plain text file.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">.md</span></tt></td>
+<td><a class="reference external" href="http://daringfireball.net/projects/markdown/">Markdown</a></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">.rst</span></tt></td>
+<td><a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a></td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt></td>
+<td>CMake listfile format.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">.cmake</span></tt></td>
+<td>CMake listfile format.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="required-project-files">
+<h3>Required Project Files<a class="headerlink" href="#required-project-files" title="Permalink to this headline">¶</a></h3>
+<p>The following files have to be part of any project which follows the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a>.
+This is the minimal set of project files provided
+when instantiating a new software project. Besides these files, a project
+will have either a <tt class="docutils literal"><span class="pre">src/</span></tt> directory or a <tt class="docutils literal"><span class="pre">modules/</span></tt> directory,
+or even both of them. See below for a description of these directories.</p>
+<dl class="docutils" id="readme">
+<dt><strong>README.md</strong></dt>
+<dd><dl class="first last docutils">
+<dt>This is the main (root) documentation file.</dt>
+<dd><ul class="first last simple">
+<li>Every user is assumed to first read this file, which in turn will refer
+them to the more extensive documentation.</li>
+<li>Briefly introduces the software package, including a
+summary of the package files.</li>
+<li>Refer to the <a class="reference internal" href="#install"><em>INSTALL.txt</em></a> and <a class="reference internal" href="#copying"><em>COPYING.txt</em></a>
+files for details on the build and installation and software license,
+respectively.</li>
+<li>Include references to scientific articles related
+to the software package in this file.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>AUTHORS.md</strong></dt>
+<dd>Names the authors of the software package and people who
+dirctly made notable contributions to the software, even
+if they did not actually edit any project files. Others
+who mostly contributed indirectly should be named in the
+<a class="reference internal" href="#readme"><em>README.txt</em></a> file instead. It is not necessary
+to list author names in each source file, as these are generally
+edited by multiple people and updating the authors information
+within each source file is tedious.</dd>
+</dl>
+<dl class="docutils" id="copying">
+<dt><strong>COPYING.txt</strong></dt>
+<dd>Contains copyright and license information. If some files
+of the project were copied from other sources, the copyright
+and license information of these files shall be stated here
+as well. It is important to clearly state which copyright
+and license text corresponds to which project files.</dd>
+</dl>
+<dl class="docutils" id="install">
+<dt><strong>INSTALL.md</strong></dt>
+<dd>Contains build and installation instructions. As the build
+of all projects which follow BASIS is very similar, this
+file shall only describe additional steps/CMake variables
+which are not described in the <a class="reference internal" href="../howto/install.html"><em>Install any Software</em></a> guide.</dd>
+</dl>
+<dl class="docutils" id="basisproject">
+<dt><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a></dt>
+<dd><p class="first">Sets basic information about a BASIS Project and calls the
+<span>basis_project()</span> command.
+The basic project information, also known as metadata,
+will typically include:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the project name and release version</li>
+<li>a brief description which is used for the packaging</li>
+<li>dependencies</li>
+</ul>
+</div></blockquote>
+<p>Note that additional dependencies may optionally be specified using
+by the CMake code in the <a class="reference internal" href="#depends"><em>config/Depends.cmake</em></a> file.
+If the project is a module of another project, this file is read by
+the top-level project to be able to identify its
+modules and the dependencies among them.</p>
+<p class="last"><a class="reference internal" href="../howto/configure-project.html#configurebasisproject"><em>BasisProject.cmake</em></a> explains using this file to configure your project.</p>
+</dd>
+<dt><strong>CMakeLists.txt</strong></dt>
+<dd>The root CMake configuration file. <strong>Do not edit this file.</strong></dd>
+</dl>
+</div>
+<div class="section" id="common-project-files">
+<h3>Common Project Files<a class="headerlink" href="#common-project-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>CTestConfig.cmake</strong></dt>
+<dd>The <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/ctest.html">CTest</a> configuration file. This file
+specifies the URL of the <a class="reference external" href="http://www.cdash.org/">CDash</a> dashboard of the project
+where test results should be submitted to.</dd>
+</dl>
+<dl class="docutils" id="settings">
+<dt><strong>config/:apidoc:`Settings.cmake`</strong></dt>
+<dd><p class="first">This is the main CMake script file used to configure the build
+system, and BASIS. Put CMake code required to configure
+the build system in this file.
+You may want to:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Add common compiler flags</li>
+<li>Add new variable definitions or modifying existing CMake BASIS variables</li>
+<li>Write specialized code required to utilize dependencies</li>
+<li>Make CMake <tt class="docutils literal"><span class="pre">configure_file()</span></tt> calls</li>
+</ul>
+</div></blockquote>
+<dl class="last docutils">
+<dt>Examples:</dt>
+<dd><ul class="first last simple">
+<li>Setting the project directory variables. The line <tt class="docutils literal"><span class="pre">set(PROJECT_SUBDIRS</span> <span class="pre">random)</span></tt>
+will cause BASIS to call <span>basis_add_subdirectory()</span> on <tt class="docutils literal"><span class="pre">&lt;source&gt;/random</span></tt> at
+the appropriate time during the execution of BASIS.</li>
+<li>See basis/config/Settings.cmake for more examples.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>modules/</strong></dt>
+<dd><p class="first">This directory contains independent project modules.
+If the project files are organized into conceptual cohesive groups,
+similar to the modularization goal of the ITK 4, this directory
+contains these conceptual modules of the project. The files of each
+module reside in a subdirectory named after the module. Note that each
+module itself is a project derived from this project template.</p>
+<p class="last"><a class="reference internal" href="modules.html"><em>Project Modularization</em></a></p>
+</dd>
+</dl>
+</div>
+<div class="section" id="cmakelists-txt-build-files">
+<h3>CMakeLists.txt Build Files<a class="headerlink" href="#cmakelists-txt-build-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>build/CMakeLists.txt</strong></dt>
+<dd><p class="first">CMake configuration file for performing super-build of external library
+components and requirements by utilizing the CMake <tt class="docutils literal"><span class="pre">ExternalProject_Add()</span></tt> call.</p>
+<dl class="docutils">
+<dt>The source packages of the prerequisites are either:</dt>
+<dd><ul class="first last simple">
+<li>downloaded during the bundle build</li>
+<li>included with the distribution package.</li>
+</ul>
+</dd>
+</dl>
+<p class="last">In the latter case, these source packages should be placed in the <tt class="docutils literal"><span class="pre">build/</span></tt>
+directory next to this CMake configuration file.</p>
+</dd>
+<dt><strong>data/CMakeLists.txt</strong></dt>
+<dd>This CMake configuration file can contains code to acquire or simply install
+every data file and directory from the source tree into the <tt class="docutils literal"><span class="pre">INSTALL_DATA_DIR</span></tt>
+directory of the installation tree.</dd>
+<dt><strong>doc/CMakeLists.txt</strong></dt>
+<dd>This CMake configuration file adds rules to build the documentation.
+For example, the in-source comments using <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> or <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>
+sources using <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>. Moreover, for every documentation file, such as the
+software manual, the <span>basis_add_doc()</span> command has to be added to
+this file.</dd>
+<dt><strong>example/CMakeLists.txt</strong></dt>
+<dd>This CMake configuration file contains code to install every
+file and directory from the source tree into the <tt class="docutils literal"><span class="pre">INSTALL_EXAMPLE_DIR</span></tt>
+directory of the installation tree. It may be modified to configure
+and/or build example programs if applicable or required.</dd>
+<dt><strong>src/CMakeLists.txt</strong></dt>
+<dd><dl class="first last docutils">
+<dt>This is the CMake file where your primary software packages are built.</dt>
+<dd><ul class="first last simple">
+<li>Use the command <span>basis_add_library()</span> to add a shared, static,
+or module library, which can also be a module written in a scripting language.</li>
+<li>Use the command <span>basis_add_executable()</span> to add an executable target,
+which can be either a binary or a script file.</li>
+<li>All targets can added to the <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt>
+file using relative paths.</li>
+<li>If necessary, source code files may be organized in subdirectories
+of the <tt class="docutils literal"><span class="pre">src/</span></tt> directory.</li>
+<li>Typically subdirectories aren&#8217;t necessary for less than 20 files.</li>
+<li>Separate <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> files can be used for each subdirectory.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>test/CMakeLists.txt</strong></dt>
+<dd>Tests are added to this build configuration file using the
+<span>basis_add_test()</span> command. The test input files are usually put
+in a subdirectory named <tt class="docutils literal"><span class="pre">test/input/</span></tt>, while the baseline
+data of the expected test output is stored inside a subdirectory
+named <tt class="docutils literal"><span class="pre">test/baseline/</span></tt>. Generally, however, the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a> of
+BASIS does not dictate how the test sources, input, and baseline
+data have to be organized inside the <tt class="docutils literal"><span class="pre">test/</span></tt> directory.</dd>
+<dt><strong>test/internal/CMakeLists.txt</strong></dt>
+<dd><p class="first">Tests for internal use only that require data specific to your work organization.
+These files are expected to be excluded from the public source distribution package
+are configured using this CMake configuration file. Reasons for excluding
+tests from a public distribution include:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>some tests may depend on the internal software environment</li>
+<li>may require a particular machine architecture.</li>
+<li>The size of the downloadable distribution
+packages my otherwise be excessively large.</li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</div>
+<div class="section" id="documenation-files">
+<h3>Documenation Files<a class="headerlink" href="#documenation-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>doc/manual.rst</strong></dt>
+<dd>The main page of the software manual.</dd>
+<dt><strong>doc/index.rst</strong></dt>
+<dd>The main page of the project web site.</dd>
+<dt><strong>doc/intro.rst</strong></dt>
+<dd>Introductory description of the project, will appear at top of website
+front page and at the beginning of the manual.</dd>
+<dt><strong>doc/features.rst</strong></dt>
+<dd>Page listing project features that will appear after the intro on website
+front page and at the beginning of the manual.</dd>
+</dl>
+</div>
+<div class="section" id="advanced-project-files">
+<h3>Advanced Project Files<a class="headerlink" href="#advanced-project-files" title="Permalink to this headline">¶</a></h3>
+<p>The customization of the following files is usually not required, and hence,
+in most cases, most of these files need not to be part of a project.</p>
+<dl class="docutils">
+<dt><strong>config/ScriptConfig.cmake.in</strong></dt>
+<dd>See the documentation on the <a class="reference internal" href="scripttargets.html"><em>build of script targets</em></a>
+for details on how this <a class="reference internal" href="scripttargets.html#scriptconfig"><em>script configuration</em></a> is used.</dd>
+<dt><strong>config/Components.cmake</strong></dt>
+<dd>Contains CMake code to configure the components used by
+component-based installers. Currently, component-based installers
+are not very well supported by BASIS, and hence this file
+is mostly unused and is currently subject to change.</dd>
+</dl>
+<dl class="docutils" id="config-in">
+<dt><strong>config/Config.cmake.in</strong></dt>
+<dd>This is the template of the package configuration file.
+When the project is configured/installed using CMake,
+a configured version of this file is copied to the build
+or installation tree, respectively, where the information
+about the package configuration is substituted as appropriate
+for the actual build/installation of the package. For example,
+the configured file contains the absolute path to the
+installed public header files such that other packages can
+easily add this path to their include search path.
+The <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#command:find_package">find_package()</a> command of CMake will look
+for this file and automatically import the CMake settings when
+this software package was found. For many projects, the default
+package configuration file of BASIS which is used if this file
+is missing in the project&#8217;s <tt class="docutils literal"><span class="pre">config/</span></tt> directory,
+is sufficient and thus this file is often not required.</dd>
+<dt><strong>config/ConfigSettings.cmake</strong></dt>
+<dd>This file sets CMake variables for use in the
+<a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file. As the package configuration
+for the final installation differs from the one of the build tree,
+this file has to contain CMake code to set the variables used in the
+<a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file differently depending on whether
+the variables are being set for use within the build tree or the
+installation tree. This file only needs to be present if the project
+uses a custom <a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file, which in turn
+contains CMake variables whose value differs between build tree and
+installation.</dd>
+<dt><strong>config/ConfigUse.cmake.in</strong></dt>
+<dd><p class="first">An optional convenience file for CMake code which uses the
+variables set by the standard CMake packageConfig.cmake file.
+BASIS generates a standard packageConfig.cmake file from
+<a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a>,
+which is used by other packages to set all the CMake
+variables they need to utilize your package.
+Example:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The package configuration sets a variable to a list of include directories
+have to be added to the include search path. ConfigUse.cmake.in would then contain
+CMake instructions to actually add these directories to the path.</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>config/ConfigVersion.cmake.in</strong></dt>
+<dd>This file accompanies the package configuration file
+generated from the <a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file. It is used
+by CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#command:find_package">find_package()</a> command to identify versions of this software
+package which are compatible with the version requested by the dependent
+project. This file needs almost never be customized by a project
+and thus should generally not be included in a project&#8217;s source tree.</dd>
+</dl>
+<dl class="docutils" id="depends">
+<dt><strong>config/Depends.cmake</strong></dt>
+<dd>If the generic code used by BASIS to resolve the dependencies on external
+packages is not sufficient, add this file to your project. CMake code required
+to find and make use of external software packages properly shall be added
+to this file. In order to only make use of the variables set by the package
+configuration of the found dependency, consider to add a dependency entry
+to the <a class="reference internal" href="#basisproject"><em>BasisProject.cmake</em></a> file instead and code to use
+these variables to <a class="reference internal" href="#settings"><em>config/Settings.cmake</em></a>.</dd>
+<dt><strong>config/Package.cmake</strong></dt>
+<dd>Configures <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cpack.html">CPack</a>, the CMake package generator for CMake.
+The packaging of software using CPack is currently not completely
+supported by BASIS. This template file is subject to change.</dd>
+<dt><strong>CTestCustom.cmake.in</strong></dt>
+<dd>This file defines <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/ctest.html">CTest</a> variables which
+<a class="reference external" href="http://www.vtk.org/Wiki/CMake_Testing_With_CTest#Customizing_CTest">customize CTest</a>.</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="template-layout">
 <span id="templatelayout"></span><h2>Template Layout<a class="headerlink" href="#template-layout" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><pre>- template_name/
@@ -107,237 +428,8 @@ Whenever a template file is modified or removed, the previous project template h
 new directory with an updated template version! Otherwise, the three-way diff merge used by the
 <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to update existing projects to this newer template will fail.</p>
 </div>
-</div>
-<div class="section" id="standard-project-files">
-<h2>Standard Project Files<a class="headerlink" href="#standard-project-files" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="required-project-files">
-<h3>Required Project Files<a class="headerlink" href="#required-project-files" title="Permalink to this headline">¶</a></h3>
-<p>The following files have to be part of any project which follows the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a>.
-This is the minimal set of project files provided
-when instantiating a new software project. Besides these files, a project
-will have either a <tt class="docutils literal"><span class="pre">src/</span></tt> directory or a <tt class="docutils literal"><span class="pre">modules/</span></tt> directory,
-or even both of them. See below for a description of these directories.</p>
-<dl class="docutils" id="readme">
-<dt><strong>README.txt</strong></dt>
-<dd>This is the main (root) documentation file. Every user is
-assumed to first read this file, which in turn will refer
-them to the more extensive documentation. This file in
-particular introduces the software package shortly, including a
-summary of the package files. Moreover, it refers to the
-<a class="reference internal" href="#install"><em>INSTALL.txt</em></a> and <a class="reference internal" href="#copying"><em>COPYING.txt</em></a>
-files for details on the build and installation and software license,
-respectively. Furthermore, references to scientific articles related
-to the software package shall be included in this file.</dd>
-<dt><strong>AUTHORS.txt</strong></dt>
-<dd>Names the authors of the software package. People who
-notably contributed to the software directly should also be named
-here as well, even if they did not actually edit any project
-file. Others, who mostly contributed indirectly should be
-named in the <a class="reference internal" href="#readme"><em>README.txt</em></a> file instead. No author names shall
-be given in any particular source code file, as these are generally
-edited by multiple persons and updating the authors information
-within each source file is tedious.</dd>
-</dl>
-<dl class="docutils" id="copying">
-<dt><strong>COPYING.txt</strong></dt>
-<dd>Contains copyright and license information. If some files
-of the project were copied from other sources, the copyright
-and license information of these files shall be stated here
-as well. It is important to clearly state which copyright
-and license text corresponds to which project files.</dd>
-</dl>
-<dl class="docutils" id="install">
-<dt><strong>INSTALL.txt</strong></dt>
-<dd>Contains build and installation instructions. As the build
-of all projects which follow BASIS is very similar, this
-file shall only describe additional steps/CMake variables
-which are not described in the <a class="reference internal" href="../howto/install.html"><em>Install any Software</em></a> guide.</dd>
-</dl>
-<dl class="docutils" id="basisproject">
-<dt><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a></dt>
-<dd>Sets basic information about a BASIS Project and calls the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command.
-The basic project information, also known as metadata,
-will typically include the project name and release version,
-its brief description which is used for the packaging,
-and the dependencies. Note that additional dependencies may be given
-by the CMake code in the <a class="reference internal" href="#depends"><em>config/Depends.cmake</em></a> file,
-if such file is present. If the project is a module of another project,
-this file is read by the top-level project to be able to identify its
-modules and the dependencies among them.</dd>
-<dt><strong>CMakeLists.txt</strong></dt>
-<dd>The root CMake configuration file. <strong>Do not edit this file.</strong></dd>
-</dl>
-</div>
-<div class="section" id="common-project-files">
-<h3>Common Project Files<a class="headerlink" href="#common-project-files" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><strong>build/CMakeLists.txt</strong></dt>
-<dd>CMake configuration file for bundle build (also referred to as super-build)
-of the project and all or some of its prerequisites. The source packages
-of the prerequisites are either downloaded during the bundle build or
-may be included with the distribution package. In the latter case, these
-source packages shall be placed in the build/ directory next to this
-CMake configuration file.</dd>
-<dt><strong>CTestConfig.cmake</strong></dt>
-<dd>The <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/ctest.html">CTest</a> configuration file. This file in particular
-specifies the URL of the <a class="reference external" href="http://www.cdash.org/">CDash</a> dashboard of the project
-where test results should be submitted to.</dd>
-</dl>
-<dl class="docutils" id="settings">
-<dt><strong>config/Settings.cmake</strong></dt>
-<dd>This is the main CMake script file used to configure the build
-system, and BASIS in particular. Any CMake code required to configure
-the build system, such as adding common compiler flags, or adding
-common definitions which have not yet been added by the generic code
-used by BASIS to utilize a found dependency should go into this file.</dd>
-<dt><strong>config/ScriptConfig.cmake.in</strong></dt>
-<dd>See the documentation on the <a class="reference internal" href="scripttargets.html"><em>build of script targets</em></a>
-for details on how this <a class="reference internal" href="scripttargets.html#scriptconfig"><em>script configuration</em></a> is used.</dd>
-<dt><strong>data/CMakeLists.txt</strong></dt>
-<dd>This CMake configuration file contains code to simply install every file
-and directory from the source tree into the <tt class="docutils literal"><span class="pre">INSTALL_DATA_DIR</span></tt> directory
-of the installation tree.</dd>
-<dt><strong>doc/CMakeLists.txt</strong></dt>
-<dd>This CMake configuration file adds rules to build the documentation
-from, for example, the in-source comments using <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> or <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>
-sources using <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>. Moreover, for every documentation file, such as the
-software manual, the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a> command has to be added to
-this file.</dd>
-<dt><strong>doc/index.rst</strong></dt>
-<dd>The main page of the <cite>comprehensive</cite> software manual which may also serve as
-project web site at the same time.</dd>
-<dt><strong>doc/manual/index.rst</strong></dt>
-<dd>The main page of the <cite>condensed</cite> software manual, i.e., a manual which focuses
-on the use of the software rather than it&#8217;s installation and detailed reference.</dd>
-<dt><strong>doc/guide/index.rst</strong></dt>
-<dd>The main page of the developer&#8217;s guide which is intended for those who continue
-development or maintenance of the software.</dd>
-<dt><strong>doc/site/indes.rst</strong></dt>
-<dd>The main page of the project web site.</dd>
-<dt><strong>example/CMakeLists.txt</strong></dt>
-<dd>This CMake configuration file contains by default code to install every
-file and directory from the source tree into the <tt class="docutils literal"><span class="pre">INSTALL_EXAMPLE_DIR</span></tt>
-directory of the installation tree. It may be modified to configure
-and/or build certain files of the example if applicable or required.</dd>
-<dt><strong>src/CMakeLists.txt</strong></dt>
-<dd>The definition of all software build targets shall be added to this
-file, using the commands <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a> to add a shared,
-static, or module library, which can also be a module written in a scripting
-language, and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> to add an executable target,
-which can be either a binary or a script file. If appropriate,
-the source code files may be further organized in subdirectories
-of the <tt class="docutils literal"><span class="pre">src/</span></tt> directory, in which case either separate
-<tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> files can be used for each subdirectory,
-or yet all targets are added to the <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt>
-file using relative paths which include the subdirectory in which
-the source files are found. In general, if the number of source
-code files is low, i.e., close to or below 20, no subdirectory
-structure is required.</dd>
-<dt><strong>test/CMakeLists.txt</strong></dt>
-<dd>Tests are added to this build configuration file using the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga4f8b3637e8577369144ad177d35446f8">basis_add_test()</a> command. The test input files are usually put
-in a subdirectory named <tt class="docutils literal"><span class="pre">test/input/</span></tt>, while the baseline
-data of the expected test output is stored inside a subdirectory
-named <tt class="docutils literal"><span class="pre">test/baseline/</span></tt>. Generally, however, the <a class="reference internal" href="fhs.html"><em>Filesystem Layout</em></a> of
-BASIS does not dictate how the test sources, input, and baseline
-data have to be organized inside the <tt class="docutils literal"><span class="pre">test/</span></tt> directory.</dd>
-<dt><strong>test/internal/CMakeLists.txt</strong></dt>
-<dd>More elaborate and extended tests which are intended for internal use only
-and which shall be excluded from the public source distribution package
-are configured using this CMake configuration file. Reasons for excluding
-tests from a public distribution are that some tests may depend on the
-internal software environment to succeed and further the particular
-machine architecture. Moreover, the size of the downloadable distribution
-packages shall be kept as small as possible and therefore some of the
-more specialized tests may be excluded from this distribution.</dd>
-<dt><strong>modules/</strong></dt>
-<dd>If the project files are organized into conceptual cohesive groups,
-similar to the modularization goal of the ITK 4, this directory
-contains these conceptual modules of the project. The files of each
-module reside in a subdirectory named after the module. Note that each
-module itself is a project derived from this project template.</dd>
-</dl>
-</div>
-<div class="section" id="advanced-project-files">
-<h3>Advanced Project Files<a class="headerlink" href="#advanced-project-files" title="Permalink to this headline">¶</a></h3>
-<p>The customization of the following files is usually not required, and hence,
-in most cases, most of these files need not to be part of a project.</p>
-<dl class="docutils">
-<dt><strong>config/Components.cmake</strong></dt>
-<dd>Contains CMake code to configure the components used by
-component-based installers. Currently, component-based installers
-are not very well supported by BASIS, and hence this file
-is mostly unused and is yet subject to change.</dd>
-</dl>
-<dl class="docutils" id="config-in">
-<dt><strong>config/Config.cmake.in</strong></dt>
-<dd>This is the template of the package configuration file.
-When the project is configured/installed using CMake,
-a configured version of this file is copied to the build
-or installation tree, respectively, where the information
-about the package configuration is substituted as appropriate
-for the actual build/installation of the package. For example,
-the configured file contains the absolute path to the
-installed public header files such that other packages can
-easily add this path to their include search path.
-The <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#command:find_package">find_package()</a> command of CMake, in particular, will look
-for this file and automatically import the CMake settings when
-this software package was found. For many projects, the default
-package configuration file of BASIS which is used if this file
-is missing in the project&#8217;s <tt class="docutils literal"><span class="pre">config/</span></tt> directory,
-is sufficient and thus this file is often not required.</dd>
-<dt><strong>config/ConfigSettings.cmake</strong></dt>
-<dd>This file sets CMake variables for use in the
-<a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file. As the package configuration
-for the final installation differs from the one of the build tree,
-this file has to contain CMake code to set the variables used in the
-<a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file differently depending on whether
-the variables are being set for use within the build tree or the
-installation tree. This file only needs to be present if the project
-uses a custom <a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file, which in turn
-contains CMake variables whose value differs between build tree and
-installation.</dd>
-<dt><strong>config/ConfigUse.cmake.in</strong></dt>
-<dd>This file is provided for convenience of the user of the
-software package. It contains CMake code which uses the
-variables set by the package configuration file (i.e.,
-the file generated from the file <a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a>)
-in order to configure the build system of packages which
-use this software packages properly such that they can
-make use of this software. For example, the package
-configuration sets a variable to a list of include directories
-have to be added to the include search path. This file would then contain
-CMake instructions to actually add these directories to the path.</dd>
-<dt><strong>config/ConfigVersion.cmake.in</strong></dt>
-<dd>This file accompanies the package configuration file
-generated from the <a class="reference internal" href="#config-in"><em>config/Config.cmake.in</em></a> file. It is used
-by CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cmake.html#command:find_package">find_package()</a> command to identify versions of this software
-package which are compatible with the version requested by the dependent
-project. This file needs almost never be customized by a project
-and thus should generally not be included in a project&#8217;s source tree.</dd>
-</dl>
-<dl class="docutils" id="depends">
-<dt><strong>config/Depends.cmake</strong></dt>
-<dd>If the generic code used by BASIS to resolve the dependencies on external
-packages is not sufficient, add this file to your project. CMake code required
-to find and make use of external software packages properly shall be added
-to this file. In order to only make use of the variables set by the package
-configuration of the found dependency, consider to add a dependency entry
-to the <a class="reference internal" href="#basisproject"><em>BasisProject.cmake</em></a> file instead and code to use
-these variables to <a class="reference internal" href="#settings"><em>config/Settings.cmake</em></a>.</dd>
-<dt><strong>config/Package.cmake</strong></dt>
-<dd>Configures <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/cpack.html">CPack</a>, the package generator of CMake.
-The packaging of software using CPack is currently not completely
-supported by BASIS. This template file is yet subject to change.</dd>
-<dt><strong>CTestCustom.cmake.in</strong></dt>
-<dd>This file defines <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.8/ctest.html">CTest</a> variables which
-<a class="reference external" href="http://www.vtk.org/Wiki/CMake_Testing_With_CTest#Customizing_CTest">customize CTest</a>.</dd>
-</dl>
-</div>
-</div>
 <div class="section" id="custom-substitutions">
-<h2>Custom Substitutions<a class="headerlink" href="#custom-substitutions" title="Permalink to this headline">¶</a></h2>
+<h3>Custom Substitutions<a class="headerlink" href="#custom-substitutions" title="Permalink to this headline">¶</a></h3>
 <p>The template configuration file named <tt class="docutils literal"><span class="pre">_config.py</span></tt> and located in the top directory of each project
 template defines not only which files constitute a project, but also the available substitution parameters
 and defaults used by <tt class="docutils literal"><span class="pre">basisproject</span></tt>. The template configuration file requires a basic understanding
@@ -413,11 +505,11 @@ package in <tt class="docutils literal"><span class="pre">data/templates/basis/1
     <span class="s">&#39;default&#39;</span> <span class="p">:</span> <span class="s">&quot;SBIA&quot;</span>
   <span class="p">},</span>
   <span class="s">&#39;copyright&#39;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="s">&#39;help&#39;</span>    <span class="p">:</span> <span class="s">&quot;Copyrigth statement optionally including years, but not </span><span class="se">\&quot;</span><span class="s">. All rights reserved.</span><span class="se">\&quot;</span><span class="s">.&quot;</span><span class="p">,</span>
+    <span class="s">&#39;help&#39;</span>    <span class="p">:</span> <span class="s">&quot;Copyrigth statement optionally including years.&quot;</span><span class="p">,</span>
     <span class="s">&#39;default&#39;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; University of Pennsylvania&quot;</span>
   <span class="p">},</span>
   <span class="s">&#39;license&#39;</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="s">&#39;help&#39;</span>    <span class="p">:</span> <span class="s">&quot;Software license statement, e.g., </span><span class="se">\&quot;</span><span class="s">Simplified BSD</span><span class="se">\&quot;</span><span class="s"> or reference to license text.&quot;</span><span class="p">,</span>
+    <span class="s">&#39;help&#39;</span>    <span class="p">:</span> <span class="s">&quot;Software license statement, e.g., </span><span class="se">\&quot;</span><span class="s">Simplified BSD</span><span class="se">\&quot;</span><span class="s">.&quot;</span><span class="p">,</span>
     <span class="s">&#39;default&#39;</span> <span class="p">:</span> <span class="s">&quot;See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.&quot;</span>
   <span class="p">},</span>
   <span class="s">&#39;contact&#39;</span> <span class="p">:</span> <span class="p">{</span>
@@ -434,7 +526,7 @@ a substitution is another substitution tag, it will be replaced by the value of
 that respective substitution. See the <tt class="docutils literal"><span class="pre">contact</span></tt> substitution above for an example.</p>
 </div>
 <div class="section" id="binary-template-files">
-<h3>Binary Template Files<a class="headerlink" href="#binary-template-files" title="Permalink to this headline">¶</a></h3>
+<h4>Binary Template Files<a class="headerlink" href="#binary-template-files" title="Permalink to this headline">¶</a></h4>
 <p>In general, template files are assumed to be binary and thus no substitution is performed,
 unless the template file is known to be a text file. Whether or not a template file is considered
 to be a text file for which subsitution takes place depends on its <a class="reference external" href="https://en.wikipedia.org/wiki/MIME">MIME type</a> .
@@ -442,6 +534,7 @@ The <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool
 in order to determine the type of each template file. In addition to the default types known
 by this module, the file name extensions .cmake, .md, .mdown, .markdown, .rst, .dox, and .in
 are treated as text files.</p>
+</div>
 </div>
 </div>
 </div>
@@ -476,9 +569,8 @@ are treated as text files.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="../standard.html">Standards</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fhs.html">Filesystem Layout</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Project Template</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#template-layout">Template Layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#standard-project-files">Standard Project Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#custom-substitutions">Custom Substitutions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-layout">Template Layout</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html">Project Modularization</a></li>
@@ -499,6 +591,11 @@ are treated as text files.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

@@ -1,4 +1,4 @@
 <map id="basis.argparse.ArgumentParser" name="basis.argparse.ArgumentParser">
-<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="5,209,173,306"/>
-<area shape="rect" id="node4" href="$classbasis_1_1argparse_1_1__ActionsContainer.html" title="{basis.argparse._ActionsContainer\n|+ argument_default\l+ conflict_handler\l+ description\l+ prefix_chars\l|+ __init__()\l+ add_argument()\l+ add_argument_group()\l+ add_mutually_exclusive\l_group()\l+ get_default()\l+ register()\l+ set_defaults()\l}" alt="" coords="199,137,420,378"/>
+<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="5,197,168,289"/>
+<area shape="rect" id="node4" href="$classbasis_1_1argparse_1_1__ActionsContainer.html" title="{basis.argparse._ActionsContainer\n|+ argument_default\l+ conflict_handler\l+ description\l+ prefix_chars\l|+ __init__()\l+ add_argument()\l+ add_argument_group()\l+ add_mutually_exclusive\l_group()\l+ get_default()\l+ register()\l+ set_defaults()\l}" alt="" coords="192,131,405,355"/>
 </map>

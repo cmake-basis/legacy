@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -60,13 +60,21 @@
   <div class="section" id="calling-conventions">
 <h1>Calling Conventions<a class="headerlink" href="#calling-conventions" title="Permalink to this headline">¶</a></h1>
 <p>This document discusses and describes the conventions for calling other
-executables from a program. The calling conventions address the question
-whether to use relative or absolute file paths when calling executables
-and introduce a name mapping from build target names to actual executable
-file paths. These calling conventions are, however, hidden to the developer
+executables from a program. The calling conventions address problems
+stemming from the use of relative or absolute file paths when calling
+executables. It also introduce a name mapping from build target names
+to actual executable file paths. These calling conventions are handled
 through automatically generated utility functions for each supported
 programming language. See <a class="reference internal" href="#callingconventionsimpl"><em>Implementation</em></a> for details on the
-specific implementations in the different languages.</p>
+specific implementations in each language.</p>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>One nice feature about using the target name instead of the actual executable file allows a developer of project B to call executables of project A using the (&#8220;full qualified&#8221;) target names, e.g.,</p>
+<div class="highlight-cmake"><pre>execute(“projecta.utility”);</pre>
+</div>
+<p>This target has been imported from the export file during CMake configuration and the BASIS execute function will map this target name to the installed executable of project A. The developer of project A can rename the executable or change the installation location as they wish. They only need to keep the internal target name.</p>
+<p>The file name of executable scripts, for example, will be different on Unix and Windows. On Unix, we don’t use file name extensions and instead rely on the <a class="reference external" href="http://en.wikipedia.org/wiki/Shebang_(Unix)">hashbang/shebang #!</a> directive such that script executables look and are used just like binary executables. On Windows, any executable script (i.e., only Python or Perl at the moment) is wrapped into a Windows Command file with the .cmd file name extension. This file contains a few lines additional Windows Command code to invoke the script interpreter with the very same file. The Windows Command code is just a comment to the Python/Perl interpreter which will ignore it.</p>
+</div>
 <div class="section" id="relative-vs-absolute-paths">
 <span id="relvsabsexecpath"></span><h2>Relative vs. Absolute Paths<a class="headerlink" href="#relative-vs-absolute-paths" title="Permalink to this headline">¶</a></h2>
 <p>Relative paths such as only the executable file name require a proper setting
@@ -128,7 +136,7 @@ configuration and does not require a modification of the source code files
 which make use of this executable.</p>
 </div>
 <div class="section" id="search-paths">
-<h2>Search Paths<a class="headerlink" href="#search-paths" title="Permalink to this headline">¶</a></h2>
+<span id="systemsearchpaths"></span><h2>Search Paths<a class="headerlink" href="#search-paths" title="Permalink to this headline">¶</a></h2>
 <p>All considered operating systems&#8211;or more specifically the used shell and dynamic
 loader&#8211;provide certain ways to configure the search paths for executable files
 and shared libraries which are dynamically loaded on demand. The details on how
@@ -136,7 +144,7 @@ these search paths can be configured are summarized next including the pros and
 cons of each method to manipulate these search paths. Following these
 considerations, the solution aimed at by BASIS is detailed.</p>
 <div class="section" id="unix">
-<h3>Unix<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h3>
+<span id="unixsearchpaths"></span><h3>Unix<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h3>
 <p>On Unix-based systems (including in particular all variants of Linux and
 Mac OS) executables are searched in directories specified by the <tt class="docutils literal"><span class="pre">PATH</span></tt>
 environment variable. Shared libraries, on the other side, are first
@@ -349,6 +357,7 @@ MATLAB is yet not provided by BASIS.</p>
 <li class="toctree-l2"><a class="reference internal" href="scripttargets.html">Build of Script Targets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Calling Conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#purpose">Purpose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#relative-vs-absolute-paths">Relative vs. Absolute Paths</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#file-vs-target-name">File vs. Target Name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#search-paths">Search Paths</a></li>
@@ -370,6 +379,11 @@ MATLAB is yet not provided by BASIS.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

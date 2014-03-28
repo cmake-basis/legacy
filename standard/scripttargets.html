@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -69,7 +69,7 @@ variables in a source file by their respective values which are set in the
 <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> files (or an included CMake script file). As it is often
 useful to introduce build specific information in a script file such as
 the relative location of auxiliary executables or data files, the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a> commands
+<span>basis_add_executable()</span> and <span>basis_add_library()</span> commands
 also provide a means of building script files. How these functions process
 scripts during the build of the software is discussed next. Afterwards it is
 described how the build of scripts can be configured.</p>
@@ -89,12 +89,12 @@ script files are configured during the build step to allow for the used
 CMake variables to be set differently depending on whether the script is
 intended for use inside the build tree or the installation tree.
 Moreover, certain properties of the script target can still be modified
-after the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> or <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a>
-command, respectively, using the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga0402a3fb3e7f04f4a61a92f41b816203">basis_set_target_properties()</a> or
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga2a4a9b1c9c3aab8379d0f51b5853d9c4">basis_set_property()</a> command. Hence, the final values of these
+after the <span>basis_add_executable()</span> or <span>basis_add_library()</span>
+command, respectively, using the <span>basis_set_target_properties()</span> or
+<span>basis_set_property()</span> command. Hence, the final values of these
 variables are not known before the configuration of the build system has
 been completed. Therefore, all CMake variables which are defined when the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> or <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a>
+<span>basis_add_executable()</span> or <span>basis_add_library()</span>
 command is called, are dumped to a CMake script file to preserve their value
 at this moment and the dump of the variables is written to a file in the
 build tree. This file is loaded again during the build step by the custom
@@ -113,7 +113,7 @@ following order:</p>
 <li>Default script configuration file of individual project
 (<tt class="docutils literal"><span class="pre">ScriptConfig.cmake</span></tt>, optional).</li>
 <li>Script configuration code specified using the <tt class="docutils literal"><span class="pre">CONFIG</span></tt> argument of the
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> or <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a> command.</li>
+<span>basis_add_executable()</span> or <span>basis_add_library()</span> command.</li>
 </ol>
 </div>
 <div class="section" id="script-configuration">
@@ -121,8 +121,8 @@ following order:</p>
 <p>The so-called script configuration is CMake code which defines CMake variables
 for use within script files. This code is either saved in a CMake script file
 with the <tt class="docutils literal"><span class="pre">.cmake</span></tt> file name extension or specified directly as argument
-of the <tt class="docutils literal"><span class="pre">CONFIG</span></tt> option of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab7b7600c0ab4197db811f810a04670be">basis_add_executable()</a> or
-<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga3a56e2ed99608316be7309fcc090cc66">basis_add_library()</a> command used to add a script target to the build
+of the <tt class="docutils literal"><span class="pre">CONFIG</span></tt> option of the <span>basis_add_executable()</span> or
+<span>basis_add_library()</span> command used to add a script target to the build
 system. The variables defined by the script configuration are substituted by
 their respective values during the build of the script target. Note that the
 CMake code of the script configuration is evaluated during the build of the
@@ -164,7 +164,7 @@ exedir EXEDIR <span class="o">&amp;&amp;</span> <span class="nb">readonly </span
 </div>
 <p>where <tt class="docutils literal"><span class="pre">DATA_DIR</span></tt> is the relative path to the required data files as determined
 during the evaluation of the script configuration. See documentation of
-the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gaccf81cde4956c3f4607a008bc340a79a">basis_set_script_path()</a> function for a convenience function which
+the <span>basis_set_script_path()</span> function for a convenience function which
 can be  used therefore. Note that this function is defined in the custom build
 script generated by BASIS for the build of each script target and hence can only be
 used within a script configuration. For example, use this function as follows
@@ -232,6 +232,11 @@ list of available variables.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

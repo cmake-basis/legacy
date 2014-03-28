@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -76,6 +76,13 @@
 <li class="toctree-l4"><a class="reference internal" href="quickstart.html#install-the-libraries">Install the libraries</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#create-a-modularized-repository">Create a Modularized Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quickstart.html#create-a-top-level-project">Create a Top Level Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quickstart.html#create-a-sub-project-containing-a-library">Create a sub-project Containing a Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quickstart.html#create-a-sub-project-that-uses-the-library">Create a sub-project that uses the Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quickstart.html#install-the-projects">Install the Projects</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="quickstart.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -93,8 +100,14 @@
 <li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#removing-dependencies">Removing Dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-and-modify-project.html#add-modules">Add Modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="howto/create-and-modify-project.html#update-a-project">Update a Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/create-and-modify-project.html#modularize-a-project">Modularize a Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#create-the-top-level-project">Create the Top Level Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#create-the-modules">Create the Modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#configure-the-build">Configure the build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#build-the-top-level-project-and-its-modules">Build the Top Level Project and its Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/create-and-modify-project.html#upgrade-a-project">Upgrade a Project</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="howto/create-and-modify-project.html#resolving-merge-conflicts">Resolving Merge Conflicts</a></li>
 </ul>
 </li>
@@ -109,8 +122,60 @@
 <li class="toctree-l3"><a class="reference internal" href="howto/use-and-customize-templates.html#create-a-custom-template">Create a Custom Template</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="howto/cmake-options.html">CMake Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/cmake-options.html#standard-cmake">Standard CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/cmake-options.html#basis-options">BASIS Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/cmake-options.html#frequently-used">Frequently Used</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/cmake-options.html#advanced">Advanced</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="howto/configure-project.html">Configure a Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#build-configuration">Build Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#basisproject-cmake">BasisProject.cmake</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#settings-cmake">Settings.cmake</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#depends-cmake">Depends.cmake</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#config-cmake-in">Config.cmake.in</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#version-cmake-in">Version.cmake.in</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#scriptconfig-cmake-in">ScriptConfig.cmake.in</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#package-cmake-and-components-cmake">Package.cmake and Components.cmake</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#header-files">Header Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#public-interface">Public Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#private-interface">Private Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#search-path">Search Path</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#custom-layout">Custom Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#superbuild">Superbuild</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#bootstrapping-basis">Bootstrapping BASIS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#superbuild-of-other-dependencies">Superbuild of other Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#nested-superbuild-of-basis-and-other-dependencies">Nested Superbuild of BASIS and other Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#test-configuration">Test Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#cdash">CDash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#code-coverage">Code Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#installation">Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#prefix">Prefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/configure-project.html#rpath">RPATH</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="howto/configure-project.html#redistributable-files">Redistributable Files</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="howto/manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/document.html">Documenting Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/document.html#documentation-quick-start">Documentation Quick Start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#writing-documentation">Writing Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#generating-documentation">Generating Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="howto/document.html#serving-website-locally">Serving Website Locally</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="howto/document.html#doxygen-documentation">Doxygen Documentation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="howto/document.html#language-support">Language Support</a></li>
 <li class="toctree-l4"><a class="reference internal" href="howto/document.html#doxygen-filters">Doxygen Filters</a></li>
@@ -170,6 +235,7 @@
 <li class="toctree-l4"><a class="reference internal" href="howto/run-automated-tests.html#basistest-svn">basistest-svn</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="howto/run-automated-tests.html#cdash-integration">CDash Integration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="howto/run-automated-tests.html#administration-of-software-testing">Administration of Software Testing</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="howto/run-automated-tests.html#initial-basis-installation">Initial BASIS Installation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="howto/run-automated-tests.html#updating-the-basis-installation">Updating the BASIS Installation</a></li>
@@ -190,29 +256,41 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#source-code-tree">Source Code Tree</a></li>
 <li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#build-tree">Build Tree</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#installation-tree">Installation Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/fhs.html#installation-tree">Installation Tree</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#installation-schemes">Installation Schemes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#possible-schemes">Possible Schemes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/fhs.html#forcing-schemes">Forcing Schemes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/template.html">Project Template</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html#template-layout">Template Layout</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/template.html#template-versions">Template Versions</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="standard/template.html#standard-project-files">Standard Project Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#file-formats">File Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="standard/template.html#required-project-files">Required Project Files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="standard/template.html#common-project-files">Common Project Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#cmakelists-txt-build-files">CMakeLists.txt Build Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#documenation-files">Documenation Files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="standard/template.html#advanced-project-files">Advanced Project Files</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="standard/template.html#custom-substitutions">Custom Substitutions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="standard/template.html#binary-template-files">Binary Template Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/template.html#template-layout">Template Layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#template-versions">Template Versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="standard/template.html#custom-substitutions">Custom Substitutions</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/modules.html">Project Modularization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#implementation">Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#future-work">Future Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#filesystem-layout">Filesystem Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#dependency-requirements">Dependency Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#module-cmake-variables">Module CMake Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#implementation">Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="standard/modules.html#origin">Origin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#reuse">Reuse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="standard/modules.html#superbuild">Superbuild</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/scripttargets.html">Build of Script Targets</a><ul>
@@ -226,6 +304,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="standard/execution.html">Calling Conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="standard/execution.html#purpose">Purpose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="standard/execution.html#relative-vs-absolute-paths">Relative vs. Absolute Paths</a></li>
 <li class="toctree-l3"><a class="reference internal" href="standard/execution.html#file-vs-target-name">File vs. Target Name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="standard/execution.html#search-paths">Search Paths</a><ul>
@@ -268,6 +347,7 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#release-3-1-0-mar-28-2014">Release 3.1.0 (Mar 28, 2014)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-3-0-0-jan-15-2014">Release 3.0.0 (Jan 15, 2014)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-2-1-4-apr-20-2013">Release 2.1.4 (Apr 20, 2013)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#release-2-1-3-mar-1-2013">Release 2.1.3 (Mar 1, 2013)</a></li>
@@ -333,7 +413,15 @@
 <h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Getting Help</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="help.html#frequently-asked-questions">Frequently Asked Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="help.html#standard-cmake-commands">Standard CMake Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="help.html#cmake-package-configuration">CMake Package Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="help.html#export-of-build-targets">Export of Build Targets</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="about.html#history">History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#purpose">Purpose</a></li>
@@ -385,6 +473,11 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

@@ -70,218 +70,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">FindWeka.cmake File Reference<div class="ingroups"><a class="el" href="group__CMakeFindModules.html">Find Package Modules</a></div></div>  </div>
+<div class="title">FindWeka.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Find Weka (<a href="http://www.cs.waikato.ac.nz/ml/weka/">http://www.cs.waikato.ac.nz/ml/weka/</a>) package.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;FindPackageHandleStandardArgs.cmake&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for FindWeka.cmake:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="FindWeka_8cmake__incl.png" border="0" usemap="#FindWeka_8cmake" alt=""/></div>
-<map name="FindWeka_8cmake" id="FindWeka_8cmake">
-</map>
-</div>
-</div>
 <p><a href="FindWeka_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac99bfcfddb4255a55a4c08a98903bd62"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#ac99bfcfddb4255a55a4c08a98903bd62">weka_get_version</a> (out <a class="el" href="group__BasisBashUtilities.html#ga48e98402033e0f924454fedb735cddc5">VERSION</a>, out MAJOR, out MINOR, out PATCH)</td></tr>
-<tr class="memdesc:ac99bfcfddb4255a55a4c08a98903bd62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Weka version.  <a href="#ac99bfcfddb4255a55a4c08a98903bd62">More...</a><br/></td></tr>
-<tr class="separator:ac99bfcfddb4255a55a4c08a98903bd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab62f912738079df20e8244a275104922"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#ab62f912738079df20e8244a275104922">weka_has_package_manager</a> ()</td></tr>
-<tr class="separator:ab62f912738079df20e8244a275104922"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0ec9761209246718a4c08c3a24295f9"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#ac0ec9761209246718a4c08c3a24295f9">weka_list_packages</a> (out PACKAGES, in WHICH)</td></tr>
-<tr class="memdesc:ac0ec9761209246718a4c08c3a24295f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get list of Weka packages.  <a href="#ac0ec9761209246718a4c08c3a24295f9">More...</a><br/></td></tr>
-<tr class="separator:ac0ec9761209246718a4c08c3a24295f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a4f82b9ee39b7d67526480f9432bcb97e"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#a4f82b9ee39b7d67526480f9432bcb97e">Weka_DIR</a></td></tr>
-<tr class="separator:a4f82b9ee39b7d67526480f9432bcb97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee2f57019f0e48d25dd5b62fc1a78188"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#aee2f57019f0e48d25dd5b62fc1a78188">Weka_PACKAGES_DIR</a></td></tr>
-<tr class="separator:aee2f57019f0e48d25dd5b62fc1a78188"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616d1f0c17fc056ee041199cb301ee70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindWeka_8cmake.html#a616d1f0c17fc056ee041199cb301ee70">string</a> (TOLOWER&quot;${WHICH}&quot;WHICH) <a class="el" href="InterpTools_8cmake.html#a5c47b302957173fb202adde832f47efb">execute_process</a>(COMMAND&quot;$</td></tr>
+<tr class="separator:a616d1f0c17fc056ee041199cb301ee70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Find Weka (<a href="http://www.cs.waikato.ac.nz/ml/weka/">http://www.cs.waikato.ac.nz/ml/weka/</a>) package. </p>
-<dl class="section user"><dt>Input variables:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_DIR</b>  </td><td>The Weka package files are searched under the specified root directory. If they are not found there, the default search paths are considered. This variable can also be set as environment variable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>WEKA_DIR</b>  </td><td>Alternative environment variable for <code>Weka_DIR</code>.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_PACKAGES_DIR</b>  </td><td>Directory where additional Weka packages are installed. If they are not found there or if this variable is not set, this module will look in the standard installation directories. This variable can also be set as environment variable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>WEKA_PACKAGES_DIR</b>  </td><td>Alternative environment variable for <code>Weka_PACKAGES_DIR</code>.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_&lt;package&gt;_DIR</b>  </td><td>The path of the given Weka package, i.e., the directory containing the <code>&lt;package&gt;.jar</code> file or a subdirectory named <code>weka</code> with the uncompressed <code>.class</code> files of the package.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_FIND_COMPONENTS</b>  </td><td>The <code>COMPONENTS</code> argument(s) of the <a class="el" href="group__CMakeUtilities.html#ga5c1c42894c3201de207948ad33015b41" title="Overloaded find_package() command. ">find_package()</a> command can be used to also look for additionally installed Weka packages.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_FIND_OPTIONAL_COMPONENTS</b>  </td><td>The <code>OPTIONAL_COMPONENTS</code> argument(s) of the <a class="el" href="group__CMakeUtilities.html#ga5c1c42894c3201de207948ad33015b41" title="Overloaded find_package() command. ">find_package()</a> command can be used to also look for additionally installed Weka packages.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_ADDITIONAL_VERSIONS</b>  </td><td>List of version numbers that should be taken into account when searching for Weka.  </td></tr>
-</table>
-</dd></dl>
-<dl class="section user"><dt>Output variables:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_FOUND</b>  </td><td>Whether the package was found and the following CMake variables are valid.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_HAS_PACKAGE_MANAGER</b>  </td><td>Whether the found version of Weka has a package manager.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_CLASSPATH</b>  </td><td>The path of the found <code>weka.jar</code> file.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_PACKAGES_CLASSPATH</b>  </td><td>The <code>CLASSPATH</code> of all found additional Weka packages (non-cached).  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>Weka_CLASSPATHS</b>  </td><td>Combination of both <code>Weka_CLASSPATH</code> and <code>Weka_PACKAGES_CLASSPATH</code>.  </td></tr>
-</table>
-</dd></dl>
-
-<p>Definition in file <a class="el" href="FindWeka_8cmake_source.html">FindWeka.cmake</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ac99bfcfddb4255a55a4c08a98903bd62"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a616d1f0c17fc056ee041199cb301ee70"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">function weka_get_version </td>
+          <td class="memname">string </td>
           <td>(</td>
-          <td class="paramtype">out&#160;</td>
-          <td class="paramname"><em>VERSION</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">out&#160;</td>
-          <td class="paramname"><em>MAJOR</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">out&#160;</td>
-          <td class="paramname"><em>MINOR</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">out&#160;</td>
-          <td class="paramname"><em>PATCH</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get Weka version. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">VERSION</td><td>Version string of Weka or 0.0.0. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">MAJOR</td><td>Major version of Weka or 0. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">MINOR</td><td>Minor version of Weka or 0. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">PATCH</td><td>Patch number of Weka or 0. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ab62f912738079df20e8244a275104922"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">macro weka_has_package_manager </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">TOLOWER&quot;${WHICH}&quot;&#160;</td>
+          <td class="paramname"><em>WHICH</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
 
-</div>
-</div>
-<a class="anchor" id="ac0ec9761209246718a4c08c3a24295f9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function weka_list_packages </td>
-          <td>(</td>
-          <td class="paramtype">out&#160;</td>
-          <td class="paramname"><em>PACKAGES</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">in&#160;</td>
-          <td class="paramname"><em>WHICH</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get list of Weka packages. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">PACKAGES</td><td>Name of variable storing the list of packages. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">WHICH</td><td>Argument to -list-packages option of Weka package manager, i.e., "all", "available", or "installed". </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Nothing. </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a4f82b9ee39b7d67526480f9432bcb97e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake Weka_DIR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindWeka_8cmake_source.html#l00218">218</a> of file <a class="el" href="FindWeka_8cmake_source.html">FindWeka.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aee2f57019f0e48d25dd5b62fc1a78188"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cmake Weka_PACKAGES_DIR</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindWeka_8cmake_source.html#l00290">290</a> of file <a class="el" href="FindWeka_8cmake_source.html">FindWeka.cmake</a>.</p>
+<p>Definition at line <a class="el" href="FindWeka_8cmake_source.html#l00120">120</a> of file <a class="el" href="FindWeka_8cmake_source.html">FindWeka.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

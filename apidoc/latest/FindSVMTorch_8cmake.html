@@ -70,129 +70,92 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">FindSVMTorch.cmake File Reference<div class="ingroups"><a class="el" href="group__CMakeFindModules.html">Find Package Modules</a></div></div>  </div>
+<div class="title">FindSVMTorch.cmake File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Find SVMTorch II package.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;FindPackageHandleStandardArgs.cmake&quot;</code><br/>
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for FindSVMTorch.cmake:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="FindSVMTorch_8cmake__incl.png" border="0" usemap="#FindSVMTorch_8cmake" alt=""/></div>
-<map name="FindSVMTorch_8cmake" id="FindSVMTorch_8cmake">
-</map>
-</div>
-</div>
 <p><a href="FindSVMTorch_8cmake_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a0c16e905d3f24c8490d72e6a72c380ff"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a0c16e905d3f24c8490d72e6a72c380ff">_SVMTorch_COMPONENTS</a></td></tr>
-<tr class="separator:a0c16e905d3f24c8490d72e6a72c380ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af998dd58f3407bb5753643fce7895045"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#af998dd58f3407bb5753643fce7895045">SVMTorch_DIR</a></td></tr>
-<tr class="separator:af998dd58f3407bb5753643fce7895045"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0888f99ab2dcd3028bec3e1113a04bc8"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a0888f99ab2dcd3028bec3e1113a04bc8">SVMTorch_FIND_COMPONENTS</a></td></tr>
-<tr class="separator:a0888f99ab2dcd3028bec3e1113a04bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52c2b44718af050f96e4f56240bc6279"><td class="memItemLeft" align="right" valign="top">cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a52c2b44718af050f96e4f56240bc6279">SVMTorch_FIND_OPTIONAL_COMPONENTS</a></td></tr>
-<tr class="separator:a52c2b44718af050f96e4f56240bc6279"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a86f4731d298db92b2068b19a953de374"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a86f4731d298db92b2068b19a953de374">find_program</a> (SVMTorch_train_EXECUTABLE NAMES <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> HINTS ${SVMTorch_DIR}DOC&quot;The <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> executable.&quot;NO_DEFAULT_PATH) find_program(SVMTorch_train_EXECUTABLE NAMES <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> DOC&quot;The <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> executable.&quot;) find_program(SVMTorch_test_EXECUTABLE NAMES SVMTest HINTS $</td></tr>
+<tr class="separator:a86f4731d298db92b2068b19a953de374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a948f9fce5f383fe883204f8df85fd980"><td class="memItemLeft" align="right" valign="top">DOC The SVMTest executable <br class="typebreak"/>
+NO_DEFAULT_PATH&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a948f9fce5f383fe883204f8df85fd980">find_program</a> (SVMTorch_test_EXECUTABLE NAMES SVMTest DOC&quot;The SVMTest executable.&quot;) find_path(SVMTorch_INCLUDE_DIR NAMES <a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">IOTorch.h</a> HINTS&quot;$</td></tr>
+<tr class="separator:a948f9fce5f383fe883204f8df85fd980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc5d46338b8a57b1308311c2e97d59d"><td class="memItemLeft" align="right" valign="top">DOC Directory containing the <br class="typebreak"/>
+header <a class="el" href="Which_8pm.html#a2c3225555b0baee0aa70cad80319cbf1">files</a> of&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> (i.e., <a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">IOTorch.h</a>).&quot; NO_DEFAULT_PATH ) <a class="el" href="FindOpenCV_8cmake.html#acf61cdcc8fadd5300d828e416d65515a">find_path</a> ( SVMTorch_INCLUDE_DIR NAMES <a class="el" href="Readonly_8pm.html#ac392b0494321e6ba0281c8b6d92989a6">IOTorch.h</a> DOC &quot;Directory containing the header <a class="el" href="Which_8pm.html#a2c3225555b0baee0aa70cad80319cbf1">files</a> of SVMTorch(i.e.</td></tr>
+<tr class="separator:a4bc5d46338b8a57b1308311c2e97d59d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Find SVMTorch II package. </p>
-<dl class="section user"><dt>Input varibales:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_DIR</b>  </td><td>The SVMTorch package files are searched primarily under the specified root directory. This variable can be alternatively set as environment variable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_FIND_COMPONENTS</b>  </td><td><code>COMPONENTS</code> of SVMTorch to look for: <code>train</code>, <code>test</code>, <code>lib</code>. (default: <code>train</code>, <code>test</code>)  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_FIND_OPTIONAL_COMPONENTS</b>  </td><td><code>OPTIONAL_COMPONENTS</code> of SVMTorch to look for: <code>train</code>, <code>test</code>, <code>lib</code>. (default: <code>lib</code>)  </td></tr>
-</table>
-</dd></dl>
-<dl class="section user"><dt>Output variables:</dt><dd><table  border="0">
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_FOUND</b>  </td><td>Whether the package was found and the following CMake variables are valid.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_INCLUDE_DIR</b>  </td><td>The directory containing the include files.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_LIBRARY</b>  </td><td>Found object files (.o).  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_train_EXECUTABLE</b>  </td><td>Absolute path of found <code>SVMTorch</code> executable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>SVMTorch_test_EXECUTABLE</b>  </td><td>Absolute path of found <code>SVMTest</code> executable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>svmtorch.SVMTorch</b>  </td><td>Import target of <code>SVMTorch</code> executable.  </td></tr>
-<tr>
-<td style="white-space:nowrap; vertical-align:top; padding-right:1em"><b>svmtorch.SVMTest</b>  </td><td>Import target of <code>SVMTest</code> executable.  </td></tr>
-</table>
-</dd></dl>
-
-<p>Definition in file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a0c16e905d3f24c8490d72e6a72c380ff"></a>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a86f4731d298db92b2068b19a953de374"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake _SVMTorch_COMPONENTS</td>
+          <td class="memname">find_program </td>
+          <td>(</td>
+          <td class="paramtype">SVMTorch_train_EXECUTABLE NAMES <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> HINTS ${SVMTorch_DIR}DOC&quot;The <a class="el" href="FindSVMTorch_8cmake.html#a4bc5d46338b8a57b1308311c2e97d59d">SVMTorch</a> executable.&quot;&#160;</td>
+          <td class="paramname"><em>NO_DEFAULT_PATH</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00078">78</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
+<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00091">91</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af998dd58f3407bb5753643fce7895045"></a>
+<a class="anchor" id="a948f9fce5f383fe883204f8df85fd980"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake SVMTorch_DIR</td>
+          <td class="memname">DOC The SVMTest executable NO_DEFAULT_PATH find_program </td>
+          <td>(</td>
+          <td class="paramtype">SVMTorch_test_EXECUTABLE NAMES SVMTest DOC&quot;The SVMTest executable.&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00067">67</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
+<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00122">122</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0888f99ab2dcd3028bec3e1113a04bc8"></a>
+<a class="anchor" id="a4bc5d46338b8a57b1308311c2e97d59d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cmake SVMTorch_FIND_COMPONENTS</td>
+          <td class="memname">DOC Directory containing the header <a class="el" href="Which_8pm.html#a2c3225555b0baee0aa70cad80319cbf1">files</a> of SVMTorch </td>
+          <td>(</td>
+          <td class="paramtype">i.&#160;</td>
+          <td class="paramname"><em>e.</em>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00074">74</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a52c2b44718af050f96e4f56240bc6279"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">cmake SVMTorch_FIND_OPTIONAL_COMPONENTS</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IOTorch.&#160;</td>
+          <td class="paramname"><em>h</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="FindSVMTorch_8cmake_source.html#l00075">75</a> of file <a class="el" href="FindSVMTorch_8cmake_source.html">FindSVMTorch.cmake</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 
 <div class="footer">
-&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Wed Jan 15 2014 20:46:08. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
+&copy; 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University. Last updated on Fri Mar 28 2014 04:41:38. Created using <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.5.
 </div>
 </body>
 </html>

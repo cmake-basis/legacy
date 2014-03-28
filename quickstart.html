@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -104,7 +104,7 @@ ccmake ..
 <li>Change <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> to <tt class="docutils literal"><span class="pre">~/local</span></tt>.</li>
 <li>Set option <tt class="docutils literal"><span class="pre">BUILD_EXAMPLE</span></tt> to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
 <li>Make sure that option <tt class="docutils literal"><span class="pre">BUILD_PROJECT_TOOL</span></tt> is enabled.</li>
-<li>Press <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles.</li>
+<li>Press <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles and exit <tt class="docutils literal"><span class="pre">ccmake</span></tt>.</li>
 </ul>
 </div>
 <div class="section" id="build-and-install-basis">
@@ -142,13 +142,13 @@ setenv HELLOBASIS_RSC_DIR <span class="s2">&quot;${BASIS_EXAMPLE_DIR}/hellobasis
 <div class="section" id="create-an-example-project">
 <h3>Create an Example Project<a class="headerlink" href="#create-an-example-project" title="Permalink to this headline">¶</a></h3>
 <p>Create a new and empty project as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name HelloBasis --description <span class="s2">&quot;This is a BASIS project.&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name HelloBasis --description <span class="s2">&quot;This is a BASIS project.&quot;</span>
              --root ~/local/src/hellobasis
 </pre></div>
 </div>
 <p>The next command demonstrates that you can modify a previously created project by using the
-project tool again:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --root ~/local/src/hellobasis --noexample --config-settings
+project tool again, this time with the <cite>update</cite> command.</p>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject update --root ~/local/src/hellobasis --noexample --config-settings
 </pre></div>
 </div>
 <p>Here we removed the <tt class="docutils literal"><span class="pre">example/</span></tt> subdirectory and added some configuration file used by BASIS.
@@ -186,7 +186,14 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 </div>
 <p>Alternatively, you can use the implementation of this example executable in
 Python, Perl, BASH or MATLAB. In case of MATLAB, add also a dependency to MATLAB:</p>
-<div class="highlight-cmake"><pre>basisproject --root ~/local/src/hellobasis --use MATLAB</pre>
+<div class="highlight-cmake"><pre>basisproject update --root ~/local/src/hellobasis --use MATLAB</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">basis_add_executable</span></tt> command, if given only a single (existing)
+source code file or directory as argument, uses the name of this source
+file without extension or the name of the directory containing all
+source files of the executable, respectively, as the build target name.</p>
 </div>
 <div class="section" id="change-target-properties">
 <h4>Change target properties<a class="headerlink" href="#change-target-properties" title="Permalink to this headline">¶</a></h4>
@@ -242,7 +249,7 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 </pre></div>
 </div>
 <p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">foo.cxx</span><span class="p">)</span>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -250,7 +257,7 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <h4>Add a public library<a class="headerlink" href="#add-a-public-library" title="Permalink to this headline">¶</a></h4>
 <p>Create the subdirectory tree for the public header files declaring the public interface:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis
-basisproject --root . --include
+basisproject update --root . --include
 mkdir include/hellobasis
 </pre></div>
 </div>
@@ -260,7 +267,7 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 </pre></div>
 </div>
 <p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">bar.cxx</span><span class="p">)</span>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">bar</span> <span class="s">bar.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -274,6 +281,17 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">FooBar.pm</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unlike C++ libraries, which are commonly build from multiple source files,
+libraries written in a scripting language are separate script module files.
+Therefore, <tt class="docutils literal"><span class="pre">basis_add_library</span></tt> can be called with only a single argument,
+the name of the library source file. The name of this source file will be used
+as build target name including the file name extension, with <tt class="docutils literal"><span class="pre">.</span></tt> replaced by <tt class="docutils literal"><span class="pre">_</span></tt>.
+This is to avoid name conflicts between library modules written in different
+languages which have the same name such as, for example, the BASIS Utilities
+for Python (<tt class="docutils literal"><span class="pre">basis.py</span></tt>), Perl (<tt class="docutils literal"><span class="pre">basis.pm</span></tt>), and Bash (<tt class="docutils literal"><span class="pre">basis.sh</span></tt>).</p>
 </div>
 </div>
 <div class="section" id="the-in-suffix">
@@ -290,6 +308,66 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <p>Now build the libraries and install them:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis/build
 make <span class="o">&amp;&amp;</span> make install
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-a-modularized-repository">
+<h3>Create a Modularized Repository<a class="headerlink" href="#create-a-modularized-repository" title="Permalink to this headline">¶</a></h3>
+<p>BASIS is designed to integrate multiple BASIS libraries as
+part of a modular build system where components can be added
+and removed with ease. A top-level repository contains one or
+more modules or sub-projects, then builds those modules based
+on their dependencies.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">See <a class="reference internal" href="howto/create-and-modify-project.html#howtomodularizeaproject"><em>Modularize a Project</em></a> for usage instructions,
+<a class="reference internal" href="standard/template.html"><em>Project Template</em></a> for a reference implementation,
+and <a class="reference internal" href="standard/modules.html"><em>Project Modularization</em></a> for the design.</p>
+</div>
+<div class="section" id="create-a-top-level-project">
+<h4>Create a Top Level Project<a class="headerlink" href="#create-a-top-level-project" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">TOPLEVEL_DIR</span><span class="o">=</span><span class="s2">&quot;~/local/src/HelloTopLevel&quot;</span>
+basisproject create --name HelloTopLevel --description <span class="s2">&quot;This is a BASIS TopLevel project. It demonstrates how easy it is to create a simple BASIS project.&quot;</span>  --root <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>  --toplevel
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-sub-project-containing-a-library">
+<h4>Create a sub-project Containing a Library<a class="headerlink" href="#create-a-sub-project-containing-a-library" title="Permalink to this headline">¶</a></h4>
+<p>Create a sub-project module similarly to how helloBasis was created earlier.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">MODA_DIR</span><span class="o">=</span><span class="s2">&quot;~/local/src/HelloTopLevel/modules/moda&quot;</span>
+basisproject create --name moda --description <span class="s2">&quot;Subproject library to be used elsewhere&quot;</span> --root <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span> --module --include
+cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/moda.cxx <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/src/
+mkdir <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/include/moda
+cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/moda.h <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/include/moda/
+</pre></div>
+</div>
+<p>Add the following line to <tt class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">moda</span> <span class="s">SHARED</span> <span class="s">moda.cxx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-sub-project-that-uses-the-library">
+<h4>Create a sub-project that uses the Library<a class="headerlink" href="#create-a-sub-project-that-uses-the-library" title="Permalink to this headline">¶</a></h4>
+<p>Create a sub-project module similarly to how helloBasis was created earlier.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">MODB_DIR</span><span class="o">=</span><span class="s2">&quot;${TOPLEVEL_DIR}/modules/modb&quot;</span>
+basisproject create --name modb --description <span class="s2">&quot;User example subproject executable utility repository that uses the library&quot;</span>  --root <span class="k">${</span><span class="nv">MODB_DIR</span><span class="k">}</span> --module --src --use moda
+cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/userprog.cpp <span class="k">${</span><span class="nv">MODB_DIR</span><span class="k">}</span>/src/
+</pre></div>
+</div>
+<p>Add the following line to <tt class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></tt> under the section &#8220;executable target(s)&#8221;:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_executable</span><span class="p">(</span><span class="s">userprog.cpp</span><span class="p">)</span>
+<span class="nb">basis_target_link_libraries</span><span class="p">(</span><span class="s">userprog</span> <span class="s">moda</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-the-projects">
+<h4>Install the Projects<a class="headerlink" href="#install-the-projects" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>mkdir <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>/build
+<span class="nb">cd</span> <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>/build
+cmake -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>~/local ..
+
+make install
 </pre></div>
 </div>
 </div>
@@ -354,6 +432,7 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
 <li class="toctree-l3"><a class="reference internal" href="#install-your-project">Install Your Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-an-executable">Add an Executable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-libraries">Add Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-modularized-repository">Create a Modularized Repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -374,6 +453,11 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

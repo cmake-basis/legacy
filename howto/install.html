@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="How-to Guides" href="../howto.html" />
-    <link rel="next" title="CMake Options" href="buildoptions.html" />
+    <link rel="next" title="CMake Options" href="cmake-options.html" />
     <link rel="prev" title="Packaging Software" href="package.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -42,7 +42,7 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="buildoptions.html" title="CMake Options"
+          <a href="cmake-options.html" title="CMake Options"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="package.html" title="Packaging Software"
@@ -381,7 +381,7 @@ file, the installation prefix, i.e., root directory should be specified. See the
 build instructions of the particular software package you are building for more
 details on the particular <tt class="docutils literal"><span class="pre">&lt;Package&gt;_DIR</span></tt> variables that may have to be set if the
 packages were not found automatically by CMake.</p>
-<p>See the documentation of the available <a class="reference internal" href="buildoptions.html"><em>CMake Options</em></a> for
+<p>See the documentation of the available <a class="reference internal" href="cmake-options.html"><em>CMake Options</em></a> for
 more options that can be used to configure the build of any project developed with BASIS.
 Please refer also to the package specific build instructions given in the <tt class="docutils literal"><span class="pre">INSTALL</span></tt> file
 or software manual of the corresponding package for information on available
@@ -400,7 +400,7 @@ the configured build tree:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">make</span>
 </pre></div>
 </div>
-<p>In order to build the documentation, the <a class="reference internal" href="buildoptions.html#cmdoption-DBUILD_DOCUMENTATION"><em class="xref std std-option">-DBUILD_DOCUMENTATION</em></a> option
+<p>In order to build the documentation, the <a class="reference internal" href="cmake-options.html#cmdoption-DBUILD_DOCUMENTATION"><em class="xref std std-option">-DBUILD_DOCUMENTATION</em></a> option
 has to be set to <tt class="docutils literal"><span class="pre">ON</span></tt>. If not set before, this option can be enabled using
 the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>cmake -D BUILD_DOCUMENTATION:BOOL<span class="o">=</span>ON ~/<span class="nv">$package</span>-build
@@ -422,8 +422,8 @@ the command:</p>
 documentation may be useful which can be build using the <tt class="docutils literal"><span class="pre">apidoc</span></tt> target:</p>
 <div class="highlight-python"><pre>make apidoc</pre>
 </div>
-<p>The advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_APIDOC_DIR"><em class="xref std std-option">-DBASIS_INSTALL_APIDOC_DIR</em></a> configuration option can be set to an
-absolute path or a path relative to the <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> directory
+<p>The advanced <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_APIDOC_DIR"><em class="xref std std-option">-DBASIS_INSTALL_APIDOC_DIR</em></a> configuration option can be set to an
+absolute path or a path relative to the <a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> directory
 in order to modify the installation directory for the API documentation which is
 generated from the in-source comments using tools such as <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a class="reference external" href="http://sphinx.pooco.org/">Sphinx</a>.
 This can be useful, for example, to install the documentation in the document
@@ -440,8 +440,8 @@ the following command instead:</p>
 <div class="highlight-python"><pre>make site_dirhtml</pre>
 </div>
 <p>The resulting web site can then be found in <tt class="docutils literal"><span class="pre">doc/site/dirhtml/</span></tt>.
-Optionally, the advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_DIR"><em class="xref std std-option">-DBASIS_INSTALL_SITE_DIR</em></a> configuration option can be
-set to an absolute path or a path relative to the <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>
+Optionally, the advanced <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_SITE_DIR"><em class="xref std std-option">-DBASIS_INSTALL_SITE_DIR</em></a> configuration option can be
+set to an absolute path or a path relative to the <a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>
 directory in order to modify the installation directory for the generated
 web site. This can be useful, for example, to install the web site in the
 document directory of a web server.</p>
@@ -488,9 +488,9 @@ dataset.</p>
 </div>
 <div class="section" id="install-the-software">
 <span id="installbuiltfiles"></span><h4>Install the Software<a class="headerlink" href="#install-the-software" title="Permalink to this headline">¶</a></h4>
-<p>First, make sure that the CMake configuration options <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>,
-<a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a>, and <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> are set properly,
-where for normal use cases only <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> may be modified.
+<p>First, make sure that the CMake configuration options <a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a>,
+<a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a>, and <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> are set properly,
+where for normal use cases only <a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> may be modified.
 These variables can be set as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre>cmake -D <span class="s2">&quot;CMAKE_INSTALL_PREFIX:PATH=&lt;prefix&gt;&quot;</span> ~/<span class="nv">$package</span>-build
 </pre></div>
@@ -504,9 +504,9 @@ These variables can be set as follows:</p>
 </div>
 <p>This can be omitted if these variables were set already during the configuration
 of the build tree or if the default values should be used.
-On Linux, <a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> is by default set to <tt class="docutils literal"><span class="pre">/opt/&lt;provider&gt;/&lt;package&gt;[-&lt;version&gt;]</span></tt>
+On Linux, <a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> is by default set to <tt class="docutils literal"><span class="pre">/opt/&lt;provider&gt;/&lt;package&gt;[-&lt;version&gt;]</span></tt>
 and on Windows to <tt class="docutils literal"><span class="pre">C:/Program</span> <span class="pre">Files/&lt;Provider&gt;/&lt;Package&gt;[-&lt;version&gt;]</span></tt>.</p>
-<p>The advanced <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a> option specifies how to install the files relative
+<p>The advanced <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_SCHEME"><em class="xref std std-option">-DBASIS_INSTALL_SCHEME</em></a> option specifies how to install the files relative
 to this installation prefix. If it is set to <tt class="docutils literal"><span class="pre">default</span></tt> (the default), BASIS will
 decide the appropriate directory structure based on the set installation prefix. On Unix,
 if the installation prefix contains the package name, the <tt class="docutils literal"><span class="pre">opt</span></tt> installation scheme
@@ -525,7 +525,7 @@ similar to the <tt class="docutils literal"><span class="pre">opt</span></tt> sc
 and start with a capital letter. For example, the default installation directory for
 package library files on Windows given the installation prefix
 <tt class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\&lt;Provider&gt;\&lt;Package&gt;</span></tt> is <tt class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\&lt;Provider&gt;\&lt;Package&gt;\Lib</span></tt>.</p>
-<p>If the <a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> option is <tt class="docutils literal"><span class="pre">ON</span></tt>, module libraries written
+<p>If the <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_SITE_PACKAGES"><em class="xref std std-option">-DBASIS_INSTALL_SITE_PACKAGES</em></a> option is <tt class="docutils literal"><span class="pre">ON</span></tt>, module libraries written
 in a scripting language such as Python or Perl are installed to the system-wide default
 directories for site packages of these languages. As this requires write permission to
 these directories, this option is disabled by default.</p>
@@ -551,7 +551,7 @@ the configuration step. The <tt class="docutils literal"><span class="pre">insta
 installed binary executable and shared object files, which can save disk space.</p>
 <p>If more than one version of a software package shall be installed,
 include the package version in the installation prefix by setting
-<a class="reference internal" href="buildoptions.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> to <tt class="docutils literal"><span class="pre">/opt/[&lt;provider&gt;/]/&lt;package&gt;[-&lt;version&gt;]</span></tt>,
+<a class="reference internal" href="cmake-options.html#cmdoption-DCMAKE_INSTALL_PREFIX"><em class="xref std std-option">-DCMAKE_INSTALL_PREFIX</em></a> to <tt class="docutils literal"><span class="pre">/opt/[&lt;provider&gt;/]/&lt;package&gt;[-&lt;version&gt;]</span></tt>,
 for example (the default). Otherwise, you may choose to install the package
 in <tt class="docutils literal"><span class="pre">/usr/local</span></tt>, which will by default make the executables in the
 <tt class="docutils literal"><span class="pre">bin/</span></tt> directory and the header files available to other packages without
@@ -559,7 +559,7 @@ the need to change any environment settings.</p>
 <p>Besides the installation of the built files of the software package to the
 named locations, the directory where the CMake configuration file of the package
 was installed is added to CMake&#8217;s <a class="reference external" href="http://www.cmake.org/Wiki/index.php?title=CMake/Tutorials/Package_Registry">package registry</a> if the advanced option
-<a class="reference internal" href="buildoptions.html#cmdoption-DBASIS_REGISTER"><em class="xref std std-option">-DBASIS_REGISTER</em></a> is set to <tt class="docutils literal"><span class="pre">ON</span></tt> (the default). This helps CMake to find the
+<a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_REGISTER"><em class="xref std std-option">-DBASIS_REGISTER</em></a> is set to <tt class="docutils literal"><span class="pre">ON</span></tt> (the default). This helps CMake to find the
 installed package when used by another software package based on CMake.</p>
 <p>After the successful installation, the build tree can be deleted. It should
 be verified before, however, that the installation indeed was successful.</p>
@@ -688,6 +688,8 @@ only to be able to uninstall the package again.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="../howto.html">How-to Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="create-and-modify-project.html">Create/Modify a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="use-and-customize-templates.html">Using and Customizing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake-options.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-project.html">Configure a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
@@ -715,6 +717,11 @@ only to be able to uninstall the package again.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>

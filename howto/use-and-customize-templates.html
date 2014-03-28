@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.0',
+        VERSION:     'v3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,7 +28,7 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="BASIS" href="../index.html" />
     <link rel="up" title="How-to Guides" href="../howto.html" />
-    <link rel="next" title="Managing Test Data" href="manage-data.html" />
+    <link rel="next" title="CMake Options" href="cmake-options.html" />
     <link rel="prev" title="Create/Modify a Project" href="create-and-modify-project.html" />
    
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -42,7 +42,7 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="manage-data.html" title="Managing Test Data"
+          <a href="cmake-options.html" title="CMake Options"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="create-and-modify-project.html" title="Create/Modify a Project"
@@ -64,7 +64,7 @@ setup with mad-libs style text substitution. In other words, the template define
 substitution options are available when you run the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command, and what files
 are created in a new or updated project.</p>
 <div class="section" id="available-templates">
-<h2>Available Templates<a class="headerlink" href="#available-templates" title="Permalink to this headline">¶</a></h2>
+<span id="availabletemplates"></span><h2>Available Templates<a class="headerlink" href="#available-templates" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="11%" />
@@ -72,14 +72,14 @@ are created in a new or updated project.</p>
 <col width="78%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Template</th>
+<tr class="row-odd"><th class="head">Name</th>
 <th class="head">Version</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference external" href="https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis">basis</a></td>
-<td>1.0</td>
+<td><a class="reference external" href="https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/basis/1.1">1.1</a></td>
 <td>This is the default template provided by BASIS and the one we recommend.
 It is easy to get started with and follows all of the BASIS <a class="reference internal" href="../standard.html"><em>Standards</em></a>.
 To use it simply follow the <a class="reference internal" href="../quickstart.html"><em>Quick Start</em></a>.</td>
@@ -103,12 +103,16 @@ will only be useful as an example for those that are not a member of this group.
 <div class="section" id="use-a-template">
 <span id="howtouseatemplate"></span><h2>Use a Template<a class="headerlink" href="#use-a-template" title="Permalink to this headline">¶</a></h2>
 <p>To use a template provided by BASIS or one that you have created,
-specify the path to the template including the version subdirectory
+specify the name of the template including the version as subdirectory
 as part of the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyProject --template path/to/MyTemplate/1.0
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyProject --template basis/1.1
 </pre></div>
 </div>
-<p>Other than that you can use your custom template in the same manner as described in
+<p>If you want to use your own custom template, simply specify the full path to
+the respective template directory which contains the template configuration file
+named <tt class="docutils literal"><span class="pre">_config.py</span></tt>. A relative file path must be relative to the current
+working directory. Other than that you can use your custom template in
+the same manner as described in
 <a class="reference internal" href="create-and-modify-project.html"><em>The How-To on Creating and Modifying a Project</em></a>.</p>
 <div class="section" id="change-the-default-template">
 <h3>Change the Default Template<a class="headerlink" href="#change-the-default-template" title="Permalink to this headline">¶</a></h3>
@@ -133,15 +137,17 @@ the <tt class="docutils literal"><span class="pre">basisproject</span></tt> comm
 <a class="reference internal" href="../standard/template.html"><em>Project Template</em></a> customized for your needs.</p>
 <p>The fastest way to create a new template is to call <tt class="docutils literal"><span class="pre">basisproject</span></tt> with
 the name of the new template and the option <tt class="docutils literal"><span class="pre">--new-template</span></tt>. Use :</p>
-<div class="highlight-bash"><div class="highlight"><pre>basisproject --name MyTemplate --new-template <span class="o">[</span>--optional-command-options<span class="o">]</span>
+<div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyTemplate --new-template <span class="o">[</span>--optional-command-options<span class="o">]</span>
 </pre></div>
 </div>
 <p>This will create a subdirectory called <tt class="docutils literal"><span class="pre">MyTemplate/1.0</span></tt> under the current
 working directory and populate it with the current default project template
-structure and BASIS configuration.</p>
+structure and BASIS configuration. To copy an entire existing template,
+use the <tt class="docutils literal"><span class="pre">--full</span></tt> option and possibly <tt class="docutils literal"><span class="pre">--template</span></tt> to specify the location
+or name and version of the existing template.</p>
 <p>For a detailed description and overview of the available command options,
-please refer to the output of the <tt class="docutils literal"><span class="pre">basisproject</span> <span class="pre">--help</span></tt> command. The
-template options of the existing template can be used to specify which
+please refer to the output of the <tt class="docutils literal"><span class="pre">basisproject</span> <span class="pre">help</span> <span class="pre">create</span></tt> command.
+The template options of the existing template can be used to specify which
 features to copy when creating the new template.</p>
 <p>With this you can modify the the default substitutions and file contents
 for your needs. You can also create new versions so that users can update
@@ -184,6 +190,8 @@ template.</p>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-custom-template">Create a Custom Template</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="cmake-options.html">CMake Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-project.html">Configure a Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage-data.html">Managing Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document.html">Documenting Software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="branch-and-release.html">Branch and Release</a></li>
@@ -205,6 +213,11 @@ template.</p>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 </ul>
 
+<h3>External Links</h3>
+<ul>
+  <li><a href="https://github.com/schuhschuh/cmake-basis">Repository</a></ li>
+  <li><a href="https://github.com/schuhschuh/cmake-basis/issues">Issues</a></ li>
+</ul>
         </div>
       </div>
       <div class="clearer"></div>
