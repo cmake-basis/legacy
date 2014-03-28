@@ -37,6 +37,17 @@ endif ()
 # set_target_properties()</a> command and extends its functionality.
 # In particular, it maps the given target names to the corresponding target UIDs.
 #
+# @note If @c BASIS_USE_TARGET_UIDS is @c OFF and is not required by a project,
+#       it is recommended to use _set_target_properties() instead (note that
+#       set_target_properties is overriden by the ImportTools.cmake module of BASIS).
+#       This will break the build configuration scripts when @c BASIS_USE_TARGET_UIDS
+#       is set to @c ON later. It should thus only be used if the project will
+#       never use the target UID feature of BASIS. A project can possibly define
+#       a global macro which either calls _set_target_properties or
+#       basis_set_target_properties. But be aware of the related CMake bugs
+#       which prevent basis_set_target_properties to do the same already.
+#       ARGV/ARGN do not preserve empty arguments nor list arguments!
+#
 # @note Due to a bug in CMake (http://www.cmake.org/Bug/view.php?id=12303),
 #       except of the first property given directly after the @c PROPERTIES keyword,
 #       only properties listed in @c BASIS_PROPERTIES_ON_TARGETS can be set.
@@ -374,18 +385,24 @@ endfunction ()
 # @sa http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_dependencies
 #
 # @ingroup CMakeAPI
-function (basis_add_dependencies)
-  set (ARGS)
-  foreach (ARG ${ARGN})
-    basis_get_target_uid (UID "${ARG}")
-    if (TARGET "${UID}")
-      list (APPEND ARGS "${UID}")
-    else ()
-      list (APPEND ARGS "${ARG}")
-    endif ()
-  endforeach ()
-  add_dependencies (${ARGS})
-endfunction ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_add_dependencies)
+    set (ARGS)
+    foreach (ARG ${ARGN})
+      basis_get_target_uid (UID "${ARG}")
+      if (TARGET "${UID}")
+        list (APPEND ARGS "${UID}")
+      else ()
+        list (APPEND ARGS "${ARG}")
+      endif ()
+    endforeach ()
+    add_dependencies (${ARGS})
+  endfunction ()
+else ()
+  macro (basis_add_dependencies)
+    add_dependencies (${ARGV})
+  endmacro ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Add link dependencies to build target.
@@ -431,14 +448,24 @@ function (basis_target_link_libraries TARGET_NAME)
   # substitute non-fully qualified target names
   set (ARGS)
   foreach (ARG ${ARGN})
-    basis_get_target_uid (UID "${ARG}")
-    if (TARGET "${UID}")
-      if (UID MATCHES "^${TARGET_UID}$")
-        message (FATAL_ERROR "Cannot add link library as dependency of itself!")
+    if ("^${ARG}$" STREQUAL "^basis$")
+      get_target_property (LANGUAGE ${TARGET_UID} LANGUAGE)
+      if (NOT LANGUAGE OR "^${LANGUAGE}$" STREQUAL "^UNKNOWN$")
+        message (FATAL_ERROR "Target ${TARGET_UID} is of unknown LANGUAGE! Cannot add dependency on \"basis\" utilities.")
       endif ()
-      list (APPEND ARGS "${UID}")
+      basis_add_utilities_library (BASIS_UTILITIES_TARGET ${LANGUAGE})
+      list (APPEND ARGS ${BASIS_UTILITIES_TARGET})
+      _set_target_properties (${TARGET_UID} PROPERTIES BASIS_UTILITIES TRUE)
     else ()
-      list (APPEND ARGS "${ARG}")
+      basis_get_target_uid (UID "${ARG}")
+      if (TARGET "${UID}")
+        if ("^${UID}$" STREQUAL "^${TARGET_UID}$")
+          message (FATAL_ERROR "Cannot add link library ${UID} as dependency of itself!")
+        endif ()
+        list (APPEND ARGS "${UID}")
+      else ()
+        list (APPEND ARGS "${ARG}")
+      endif ()
     endif ()
   endforeach ()
   # get current link libraries
@@ -498,6 +525,28 @@ macro (basis_add_custom_target TARGET_NAME)
   basis_make_target_uid (_UID "${TARGET_NAME}")
   add_custom_target (${_UID} ${ARGN})
   unset (_UID)
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Determine language of source files.
+# @sa basis_add_executable(), basis_add_library()
+macro (_basis_target_source_language)
+  if (NOT ARGN_LANGUAGE)
+    basis_get_source_language (ARGN_LANGUAGE ${SOURCES})
+    if (ARGN_LANGUAGE MATCHES "AMBIGUOUS|UNKNOWN")
+      set (_FILES)
+      foreach (SOURCE IN LISTS SOURCES)
+        set (_FILES "${_FILES}\n  ${SOURCE}")
+      endforeach ()
+      if (ARGN_LANGUAGE MATCHES "AMBIGUOUS")
+        message (FATAL_ERROR "Target ${TARGET_UID}: Ambiguous source code files! Try to set LANGUAGE manually and make sure that no unknown option was given:${_FILES}")
+      elseif (ARGN_LANGUAGE MATCHES "UNKNOWN")
+        message (FATAL_ERROR "Target ${TARGET_UID}: Unknown source code language! Try to set LANGUAGE manually and make sure that no unknown option was given:${_FILES}")
+      endif ()
+    endif ()
+  else ()
+    string (TOUPPER "${ARGN_LANGUAGE}" ARGN_LANGUAGE)
+  endif ()
 endmacro ()
 
 # ----------------------------------------------------------------------------
@@ -645,7 +694,7 @@ endmacro ()
 # @returns Adds an executable build target. In case of an executable which is
 #          not build from C++ source files, the function basis_finalize_targets()
 #          has to be invoked to finalize the addition of the custom build target.
-#          This is done at the end of the basis_project_impl() macro.
+#          This is done by the basis_project_end() macro.
 #
 # @sa basis_add_executable_target()
 # @sa basis_add_script()
@@ -677,6 +726,12 @@ function (basis_add_executable TARGET_NAME)
   if (ARGN_UNPARSED_ARGUMENTS)
     list (APPEND SOURCES ${ARGN_UNPARSED_ARGUMENTS})
   endif ()
+  if (NOT SOURCES)
+    message (FATAL_ERROR "basis_add_executable called with only one argument which does however not"
+                         " appear to be a file name. Note that the filename extension must be"
+                         " included if the target name should be derived from the base filename"
+                         " of the source file.")
+  endif ()
   # --------------------------------------------------------------------------
   # make target UID
   basis_check_target_name ("${TARGET_NAME}")
@@ -686,21 +741,7 @@ function (basis_add_executable TARGET_NAME)
   basis_add_glob_target (${TARGET_UID} SOURCES ${SOURCES})
   # --------------------------------------------------------------------------
   # determine programming language
-  if (NOT ARGN_LANGUAGE)
-    basis_get_source_language (ARGN_LANGUAGE ${SOURCES})
-    if (ARGN_LANGUAGE MATCHES "AMBIGUOUS|UNKNOWN")
-      message ("Target ${TARGET_UID}: Given source code files:")
-      foreach (SOURCE IN LISTS SOURCES)
-        message ("  ${SOURCE}")
-      endforeach ()
-      if (ARGN_LANGUAGE MATCHES "AMBIGUOUS")
-        message (FATAL_ERROR "Target ${TARGET_UID}: Ambiguous source code files! Try to set LANGUAGE manually and make sure that no unknown option was given.")
-      elseif (ARGN_LANGUAGE MATCHES "UNKNOWN")
-        message (FATAL_ERROR "Target ${TARGET_UID}: Unknown source code language! Try to set LANGUAGE manually and make sure that no unknown option was given.")
-      endif ()
-    endif ()
-  endif ()
-  string (TOUPPER "${ARGN_LANGUAGE}" ARGN_LANGUAGE)
+  _basis_target_source_language ()
   # --------------------------------------------------------------------------
   # prepare arguments for subcommand
   foreach (ARG IN LISTS ARGN_UNPARSED_ARGUMENTS)
@@ -710,26 +751,26 @@ function (basis_add_executable TARGET_NAME)
   # --------------------------------------------------------------------------
   # C++
   if (ARGN_LANGUAGE MATCHES "CXX")
-    basis_add_executable_target (${TARGET_NAME} ${ARGN})
+    basis_add_executable_target (.${TARGET_UID} ${ARGN})
   # --------------------------------------------------------------------------
   # MATLAB
   elseif (ARGN_LANGUAGE MATCHES "MATLAB")
     if (ARGN_LIBEXEC)
       list (REMOVE_ITEM ARGN LIBEXEC)
-      basis_add_mcc_target (${TARGET_NAME} LIBEXEC ${ARGN})
+      basis_add_mcc_target (.${TARGET_UID} LIBEXEC ${ARGN})
     else ()
       list (REMOVE_ITEM ARGN EXECUTABLE)
-      basis_add_mcc_target (${TARGET_NAME} EXECUTABLE ${ARGN})
+      basis_add_mcc_target (.${TARGET_UID} EXECUTABLE ${ARGN})
     endif ()
   # --------------------------------------------------------------------------
   # others
   else ()
     if (ARGN_LIBEXEC)
       list (REMOVE_ITEM ARGN LIBEXEC)
-      basis_add_script (${TARGET_NAME} LIBEXEC ${ARGN})
+      basis_add_script (.${TARGET_UID} LIBEXEC ${ARGN})
     else ()
       list (REMOVE_ITEM ARGN EXECUTABLE)
-      basis_add_script (${TARGET_NAME} EXECUTABLE ${ARGN})
+      basis_add_script (.${TARGET_UID} EXECUTABLE ${ARGN})
     endif ()
   endif ()
   # --------------------------------------------------------------------------
@@ -930,7 +971,7 @@ endfunction ()
 # @returns Adds a library build target. In case of a library not written in C++
 #          or MEX-file targets, basis_finalize_targets() has to be invoked
 #          to finalize the addition of the build target(s). This is done
-#          at the end of the basis_project_impl() macro.
+#          by the basis_project_end() macro.
 #
 # @sa basis_add_library_target()
 # @sa basis_add_script_library()
@@ -959,7 +1000,12 @@ function (basis_add_library TARGET_NAME)
     if (ARGN_MEX)
       basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME_WE)
     else ()
-      basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME)
+      _basis_target_source_language ()
+      if ("$${ARGN_LANGUAGE}" STREQUAL "$CXX")
+        basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME_WE)
+      else ()
+        basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME)
+      endif ()
     endif ()
   else ()
     set (SOURCES)
@@ -976,21 +1022,7 @@ function (basis_add_library TARGET_NAME)
   basis_add_glob_target (${TARGET_UID} SOURCES ${SOURCES})
   # --------------------------------------------------------------------------
   # determine programming language
-  if (NOT ARGN_LANGUAGE)
-    basis_get_source_language (ARGN_LANGUAGE ${SOURCES})
-    if (ARGN_LANGUAGE MATCHES "AMBIGUOUS|UNKNOWN")
-      message ("Target ${TARGET_UID}: Given source code files:")
-      foreach (SOURCE IN LISTS SOURCES)
-        message ("  ${SOURCE}")
-      endforeach ()
-      if (ARGN_LANGUAGE MATCHES "AMBIGUOUS")
-        message (FATAL_ERROR "Target ${TARGET_UID}: Ambiguous source code files! Try to set LANGUAGE manually and make sure that no unknown option was given.")
-      elseif (ARGN_LANGUAGE MATCHES "UNKNOWN")
-        message (FATAL_ERROR "Target ${TARGET_UID}: Unknown source code language! Try to set LANGUAGE manually and make sure that no unknown option was given.")
-      endif ()
-    endif ()
-  endif ()
-  string (TOUPPER "${ARGN_LANGUAGE}" ARGN_LANGUAGE)
+  _basis_target_source_language ()
   # --------------------------------------------------------------------------
   # prepare arguments for subcommand
   foreach (ARG IN LISTS ARGN_UNPARSED_ARGUMENTS)
@@ -1008,10 +1040,10 @@ function (basis_add_library TARGET_NAME)
       list (REMOVE_ITEM ARGN MODULE)
       list (REMOVE_ITEM ARGN SHARED)
       list (REMOVE_ITEM ARGN MEX)
-      basis_add_mex_file (${TARGET_NAME} ${ARGN})
+      basis_add_mex_file (.${TARGET_UID} ${ARGN})
     # library
     else ()
-      basis_add_library_target (${TARGET_NAME} ${ARGN})
+      basis_add_library_target (.${TARGET_UID} ${ARGN})
     endif ()
   # --------------------------------------------------------------------------
   # MATLAB
@@ -1021,10 +1053,10 @@ function (basis_add_library TARGET_NAME)
     endif ()
     if (ARGN_SHARED)
       list (REMOVE_ITEM ARGN SHARED)
-      basis_add_mcc_target (${TARGET_NAME} SHARED ${ARGN})
+      basis_add_mcc_target (.${TARGET_UID} SHARED ${ARGN})
     else ()
       list (REMOVE_ITEM ARGN MODULE) # optional
-      basis_add_script_library (${TARGET_NAME} ${ARGN})
+      basis_add_script_library (.${TARGET_UID} ${ARGN})
     endif ()
   # --------------------------------------------------------------------------
   # other
@@ -1033,7 +1065,7 @@ function (basis_add_library TARGET_NAME)
       message (FATAL_ERROR "Target ${TARGET_UID}: Invalid library type! Only modules can be built from scripts.")
     endif ()
     list (REMOVE_ITEM ARGN MODULE)
-    basis_add_script_library (${TARGET_NAME} ${ARGN})
+    basis_add_script_library (.${TARGET_UID} ${ARGN})
   endif ()
   # --------------------------------------------------------------------------
   # re-glob source files before each build (if necessary)
@@ -1096,9 +1128,8 @@ endfunction ()
 # CMake command. Before the invokation of basis_build_script(), the target
 # properties can be modified using basis_set_target_properties().
 #
-# @note Custom BASIS build targets are finalized by BASIS at the end of
-#       basis_project_impl(), i.e., the end of the root CMake configuration file
-#       of the (sub-)project.
+# @note Custom BASIS build targets are finalized by BASIS using basis_project_end(),
+#       i.e., the end of the root CMake configuration file of the (sub-)project.
 #
 # @par Properties on script targets
 # <table border=0>
@@ -1320,9 +1351,10 @@ function (basis_add_script TARGET_NAME)
     else ()
       basis_get_source_target_name (TARGET_NAME "${TARGET_NAME}" NAME_WE)
     endif ()
+    set (SET_OUTPUT_NAME_TO_TARGET_NAMEE FALSE)
   else ()
     set (SOURCES)
-    set (OUTPUT_NAME "${TARGET_NAME}")
+    set (SET_OUTPUT_NAME_TO_TARGET_NAME TRUE)
   endif ()
   # check target name
   basis_check_target_name ("${TARGET_NAME}")
@@ -1357,6 +1389,8 @@ function (basis_add_script TARGET_NAME)
     string (REGEX REPLACE "\\.in$" "" SOURCES "${SOURCES}")
     message (FATAL_ERROR "Target ${TARGET_UID}: Source file ${SOURCES}[.in] does not exist!")
   endif ()
+  # add custom target
+  add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
   # dump CMake variables for configuration of script
   set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}.dir")
   basis_dump_variables ("${BUILD_DIR}/cache.cmake")
@@ -1383,7 +1417,9 @@ function (basis_add_script TARGET_NAME)
   endif ()
   # output name
   string (REGEX REPLACE "\\.in$" "" SOURCE_NAME "${SOURCES}")
-  if (NOT OUTPUT_NAME)
+  if (SET_OUTPUT_NAME_TO_TARGET_NAME)
+    basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
+  else ()
     get_filename_component (OUTPUT_NAME "${SOURCE_NAME}" NAME_WE)
   endif ()
   if (ARGN_MODULE)
@@ -1462,8 +1498,7 @@ function (basis_add_script TARGET_NAME)
       message ("** Target ${TARGET_UID} uses the BASIS utilities for ${UTILITIES_LANGUAGE}.")
     endif ()
   endif ()
-  # add custom target
-  add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
+  # set properties of custom build target
   _set_target_properties (
     ${TARGET_UID}
     PROPERTIES
@@ -1676,7 +1711,8 @@ function (basis_add_executable_target TARGET_NAME)
   if (TARGET __${TARGET_UID}) # re-glob source files
     add_dependencies (_${TARGET_UID} __${TARGET_UID})
   endif ()
-  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "EXECUTABLE" OUTPUT_NAME "${TARGET_NAME}")
+  basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
+  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "EXECUTABLE" LANGUAGE "CXX" OUTPUT_NAME "${OUTPUT_NAME}")
   if (ARGN_LIBEXEC)
     _set_target_properties (${TARGET_UID} PROPERTIES LIBEXEC 1 COMPILE_DEFINITIONS LIBEXEC SCRIPT_DEFINITIONS LIBEXEC)
   else ()
@@ -1699,34 +1735,14 @@ function (basis_add_executable_target TARGET_NAME)
   _set_target_properties (${TARGET_UID} PROPERTIES RUNTIME_INSTALL_DIRECTORY "${ARGN_DESTINATION}")
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
-      message (FATAL_ERROR "Target ${TARGET_UID} seems to make use of the BASIS C++"
-                           " utilities but BASIS was built without C++ utilities enabled."
-                           " Either specify the option NO_BASIS_UTILITIES, set the global"
-                           " variable BASIS_UTILITIES to FALSE"
-                           " (in ${PROJECT_CONFIG_DIR}/Settings.cmake) or"
-                           " rebuild BASIS with C++ utilities enabled.")
-    endif ()
-    # add project-specific library target if not present yet
-    basis_add_utilities_library (BASIS_UTILITIES_TARGET)
-    # non-project specific utilities build as part of BASIS
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
-    # project-specific utilities build as part of this project
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_UTILITIES_TARGET})
+    basis_target_link_libraries (.${TARGET_UID} basis)
+  else ()
+    _set_target_properties (${TARGET_UID} PROPERTIES BASIS_UTILITIES FALSE)
   endif ()
-  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_UTILITIES ${USES_BASIS_UTILITIES})
   # export
   set (EXPORT_OPT)
   if (EXPORT)
-    if (TEST)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    else ()
-      basis_set_project_property (APPEND PROPERTY EXPORT_TARGETS "${TARGET_UID}")
-      if (ARGN_DESTINATION)
-        basis_set_project_property (APPEND PROPERTY INSTALL_EXPORT_TARGETS "${TARGET_UID}")
-      endif ()
-      set (EXPORT_OPT "EXPORT" "${PROJECT_NAME}") # for install() below
-    endif ()
+    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${TEST}" ${ARGN_DESTINATION})
   endif ()
   # installation
   if (ARGN_DESTINATION)
@@ -1967,7 +1983,8 @@ function (basis_add_library_target TARGET_NAME)
   if (TARGET __${TARGET_UID}) # re-glob source files
     add_dependencies (_${TARGET_UID} __${TARGET_UID})
   endif ()
-  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "${TYPE}_LIBRARY" OUTPUT_NAME "${TARGET_NAME}")
+  basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
+  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "${TYPE}_LIBRARY" LANGUAGE "CXX" OUTPUT_NAME "${OUTPUT_NAME}")
   # output directory
   if (TEST)
     _set_target_properties (
@@ -1997,51 +2014,31 @@ function (basis_add_library_target TARGET_NAME)
   )
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
-      message (FATAL_ERROR "Target ${TARGET_UID} makes use of the BASIS C++ utilities"
-                           " but BASIS was build without C++ utilities enabled."
-                           " Either specify the option NO_BASIS_UTILITIES, set the global"
-                           " variable BASIS_UTILITIES to FALSE"
-                           " (in ${PROJECT_CONFIG_DIR}/Settings.cmake) or"
-                           " rebuild BASIS with C++ utilities enabled.")
-    endif ()
-    # add project-specific library target if not present yet
-    basis_add_utilities_library (BASIS_UTILITIES_TARGET)
-    # non-project specific utilities build as part of BASIS
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
-    # project-specific utilities build as part of this project
-    basis_target_link_libraries (${TARGET_UID} ${BASIS_UTILITIES_TARGET})
+    basis_target_link_libraries (.${TARGET_UID} basis)
+  else ()
+    _set_target_properties (${TARGET_UID} PROPERTIES BASIS_UTILITIES FALSE)
   endif ()
-  _set_target_properties (${TARGET_UID} PROPERTIES BASIS_UTILITIES ${USES_BASIS_UTILITIES})
+  # export
+  set (EXPORT_OPT)
+  if (EXPORT)
+    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${TEST}" ${ARGN_RUNTIME_DESTINATION} ${ARGN_LIBRARY_DESTINATION})
+  endif ()
   # installation
+  set (DESTINATION_OPTS)
   if (TEST)
     # TODO At the moment, no tests are installed. Once there is a way to
     #      install selected tests, the shared libraries they depend on
     #      need to be installed as well.
-    if (EXPORT)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    endif ()
   else ()
-    if (EXPORT)
-      set (EXPORT_OPT "EXPORT" "${PROJECT_NAME}")
-      basis_set_project_property (APPEND PROPERTY EXPORT_TARGETS "${TARGET_UID}")
-      if (ARGN_RUNTIME_DESTINATION OR ARGN_LIBRARY_DESTINATION)
-        basis_set_project_property (APPEND PROPERTY INSTALL_EXPORT_TARGETS "${TARGET_UID}")
-      endif ()
-    else ()
-      set (EXPORT_OPT)
-    endif ()
     if (ARGN_RUNTIME_DESTINATION)
-      install (
-        TARGETS ${TARGET_UID} ${EXPORT_OPT}
+      list (APPEND DESTINATION_OPTS
         RUNTIME
           DESTINATION "${ARGN_RUNTIME_DESTINATION}"
           COMPONENT   "${ARGN_RUNTIME_COMPONENT}"
       )
     endif ()
     if (ARGN_LIBRARY_DESTINATION)
-      install (
-        TARGETS ${TARGET_UID} ${EXPORT_OPT}
+      list (APPEND DESTINATION_OPTS
         LIBRARY
           DESTINATION "${ARGN_LIBRARY_DESTINATION}"
           COMPONENT   "${ARGN_LIBRARY_COMPONENT}"
@@ -2050,6 +2047,9 @@ function (basis_add_library_target TARGET_NAME)
           COMPONENT   "${ARGN_LIBRARY_COMPONENT}"
       )
     endif ()
+  endif ()
+  if (DESTINATION_OPTS)
+    install (TARGETS ${TARGET_UID} ${EXPORT_OPT} ${DESTINATION_OPTS})
   endif ()
   # done
   message (STATUS "Adding ${type} library ${TARGET_UID}... - done")
@@ -2077,9 +2077,8 @@ endfunction ()
 # basis_build_script_library(), the target properties can be modified using
 # basis_set_target_properties().
 #
-# @note Custom BASIS build targets are finalized by BASIS at the end of
-#       basis_project_impl(), i.e., the end of the root CMake configuration file
-#       of the (sub-)project.
+# @note Custom BASIS build targets are finalized by BASIS using basis_project_end(),
+#       i.e., the end of the root CMake configuration file of the (sub-)project.
 #
 # @par Properties on script library targets
 # <table border=0>
@@ -2390,7 +2389,7 @@ function (basis_add_script_library TARGET_NAME)
                            " detected correctly.")
     endif ()
     set (USES_BASIS_UTILITIES TRUE)
-  elseif (NOT ARGN_NO_BASIS_UTILITIES AND NOT UTILITIES_LANGUAGE MATCHES "UNKNOWN")
+  elseif (BASIS_UTILITIES AND NOT ARGN_NO_BASIS_UTILITIES AND NOT UTILITIES_LANGUAGE MATCHES "UNKNOWN")
     set (USES_BASIS_UTILITIES FALSE)
     foreach (M IN LISTS SOURCES)
       basis_utilities_check (USES_BASIS_UTILITIES "${M}" ${UTILITIES_LANGUAGE})
@@ -2400,12 +2399,6 @@ function (basis_add_script_library TARGET_NAME)
     endforeach ()
   else ()
     set (USES_BASIS_UTILITIES FALSE)
-  endif ()
-  if (USES_BASIS_UTILITIES)
-    basis_set_project_property (PROPERTY PROJECT_USES_${UTILITIES_LANGUAGE}_UTILITIES TRUE)
-    if (BASIS_DEBUG)
-      message ("** Target ${TARGET_UID} uses the BASIS utilities for ${UTILITIES_LANGUAGE}.")
-    endif ()
   endif ()
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
@@ -2428,6 +2421,13 @@ function (basis_add_script_library TARGET_NAME)
       COMPILE                   "${BASIS_COMPILE_SCRIPTS}"
       TEST                      "${TEST}"
   )
+  # link to BASIS utilities
+  if (USES_BASIS_UTILITIES)
+    basis_target_link_libraries (.${TARGET_UID} basis)
+    if (BASIS_DEBUG)
+      message ("** Target ${TARGET_UID} uses the BASIS utilities for ${UTILITIES_LANGUAGE}.")
+    endif ()
+  endif ()
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
   message (STATUS "Adding script library ${TARGET_UID}... - done")
@@ -2440,7 +2440,7 @@ endfunction ()
 # ----------------------------------------------------------------------------
 ## @brief Finalize custom targets by adding the missing build commands.
 #
-# This function is called by basis_project_impl() in order to finalize the
+# This function is called by basis_project_end() in order to finalize the
 # addition of the custom build targets such as, for example, build targets
 # for the build of executable scripts, Python packages, MATLAB Compiler
 # executables and shared libraries, and MEX-files.
@@ -2458,7 +2458,11 @@ function (basis_finalize_targets)
     if (NOT TARGET _${TARGET_UID})
       get_target_property (BASIS_TYPE ${TARGET_UID} BASIS_TYPE)
       if (BASIS_TYPE MATCHES "^EXECUTABLE$|^(SHARED|MODULE)_LIBRARY$")
-        basis_set_target_install_rpath (${TARGET_UID})
+        if (BASIS_INSTALL_RPATH AND NOT CMAKE_SKIP_RPATH)
+          # Only if BASIS is allowed to take care of the INSTALL_RPATH property
+          # and the use of this property was not disabled by the project
+          basis_set_target_install_rpath (${TARGET_UID})
+        endif ()
       elseif (BASIS_TYPE MATCHES "SCRIPT_LIBRARY")
         basis_build_script_library (${TARGET_UID})
       elseif (BASIS_TYPE MATCHES "SCRIPT")
@@ -2485,6 +2489,9 @@ endfunction ()
 # @sa basis_get_target_link_libraries()
 function (basis_set_target_install_rpath TARGET_NAME)
   basis_get_target_uid (TARGET_UID "${TARGET_NAME}")
+  if (BASIS_VERBOSE)
+    message (STATUS "Setting INSTALL_RPATH property of ${TARGET_UID}...")
+  endif ()
   if (NOT TARGET "${TARGET_UID}")
     message (FATAL_ERROR "Unknown target: ${TARGET_UID}")
   endif ()
@@ -2566,14 +2573,17 @@ function (basis_set_target_install_rpath TARGET_NAME)
   if (BASIS_DEBUG)
     message ("**    INSTALL_RPATH: [${INSTALL_RPATH}]")
   endif ()
+  if (BASIS_VERBOSE)
+    message (STATUS "Setting INSTALL_RPATH property of ${TARGET_UID}... - done")
+  endif ()
 endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Add custom command for build of single script.
 #
 # This function is called by basis_finalize_targets() which in turn is called
-# at the end of basis_project_impl(), i.e., the end of the root CMake
-# configuration file of the (sub-)project.
+# by basis_project_end(), i.e., the end of the root CMake configuration file
+# of the (sub-)project.
 #
 # @param [in] TARGET_UID Name/UID of custom target added by basis_add_script().
 #
@@ -2831,11 +2841,7 @@ function (basis_build_script TARGET_UID)
   endforeach ()
   # export target
   if (EXPORT)
-    if (TEST)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    else ()
-      basis_set_project_property (APPEND PROPERTY CUSTOM_EXPORT_TARGETS "${TARGET_UID}")
-    endif ()
+    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
   endif ()
   # install script
   if (INSTALL_DIRECTORY)
@@ -2886,8 +2892,8 @@ endfunction ()
 ## @brief Add custom command for build of script library.
 #
 # This function is called by basis_finalize_targets() which in turn is called
-# at the end of basis_project_impl(), i.e., the end of the root CMake
-# configuration file of the (sub-)project.
+# by basis_project_end(), i.e., the end of the root CMake configuration file
+# of the (sub-)project.
 #
 # @param [in] TARGET_UID Name/UID of custom target added by basis_add_script_library().
 #
@@ -2918,6 +2924,7 @@ function (basis_build_script_library TARGET_UID)
       SCRIPT_DEFINITIONS         # CMake code to set variables used to configure modules
       SCRIPT_DEFINITIONS_FILE    # script configuration file
       LINK_DEPENDS               # paths of script modules/packages used by the modules of this library
+      TEST                       # whether this script is used for testing only
       EXPORT                     # whether to export this target
       COMPILE                    # whether to compile the modules/library if applicable
       SOURCES                    # source files of module scripts
@@ -3071,11 +3078,7 @@ function (basis_build_script_library TARGET_UID)
   endforeach ()
   # export target
   if (EXPORT)
-    if (TEST)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    else ()
-      basis_set_project_property (APPEND PROPERTY CUSTOM_EXPORT_TARGETS "${TARGET_UID}")
-    endif ()
+    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
   endif ()
   # add installation rule
   foreach (INSTALL_FILE IN LISTS FILES_TO_INSTALL)

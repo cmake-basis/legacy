@@ -8,8 +8,46 @@
 CMake Options
 =============
 
+The following BASIS specific options are available when building packages. 
+For the full set of options and descriptions use the ccmake_ tool. For CMake_ 
+specific options see the documentation for your CMake installation.
+
 The following standard CMake_ options/variables can be configured, 
 see the documentation of CMake_ itself for more details:
+
+
+Standard CMake
+==============
+
+.. option:: -DCMAKE_BUILD_TYPE:STRING
+
+    Specify the build configuration to build. If not set, the ``Release``
+    configuration will be build. Common values are ``Release`` or ``Debug``.
+
+.. option:: -DCMAKE_INSTALL_PREFIX:PATH
+
+    Prefix used for package :ref:`installation <InstallBuiltFiles>`. See also the
+    `CMake reference <http://www.cmake.org/cmake/help/v2.8.8/cmake.html#variable:CMAKE_INSTALL_PREFIX>`_.
+
+.. option:: -DUSE_<Package>:BOOL
+
+    If the software you are building has declared optional dependencies,
+    i.e., software packages which it makes use of only if available, for each
+    such optional package a ``USE_<Package>`` option is added by BASIS if this
+    package was found on your system. It can be set to OFF in order to disable
+    the use of this optional dependency by this software.
+
+BASIS Options
+==============
+
+There are a number of CMake options that are specific to BASIS listed throughout 
+the following documents:
+
+- :doc:`/standard/fhs`
+- :ref:`ModuleCMakeVariables`
+
+Frequently Used
+---------------
 
 .. option:: -DBASIS_DIR:PATH
 
@@ -41,32 +79,11 @@ see the documentation of CMake_ itself for more details:
     that execute the installed programs and compare the outputs to the expected
     results should be installed (if done so by the software package).
 
-.. option:: -DCMAKE_BUILD_TYPE:STRING
-
-    Specify the build configuration to build. If not set, the ``Release``
-    configuration will be build. Common values are ``Release`` or ``Debug``.
-
-.. option:: -DCMAKE_INSTALL_PREFIX:PATH
-
-    Prefix used for package :ref:`installation <InstallBuiltFiles>`. See also the
-    `CMake reference <http://www.cmake.org/cmake/help/v2.8.8/cmake.html#variable:CMAKE_INSTALL_PREFIX>`_.
-
-.. option:: -DUSE_<Package>:BOOL
-
-    If the software you are building has declared optional dependencies,
-    i.e., software packages which it makes use of only if available, for each
-    such optional package a ``USE_<Package>`` option is added by BASIS if this
-    package was found on your system. It can be set to OFF in order to disable
-    the use of this optional dependency by this software.
-
-
-The following BASIS specific options are available when building packages. For the full set of options and descriptions use the ccmake_ tool. For CMake_ specific options see the documentation for your CMake installation.
-
 
 .. _AdvancedCMakeOptions:
 
-Advanced CMake Options
-======================
+Advanced
+--------
 
 Advanced users may further be interested in the settings of the following options
 which in most cases are automatically derived from the non-advanced CMake options
@@ -104,11 +121,19 @@ summarized above. To view these options in the `CMake GUI`_, press the ``t`` key
 
     Installation directory of the API documentation relative to the installation prefix.
 
+.. option:: -DBASIS_INSTALL_RPATH:BOOL
+
+    Whether to have BASIS set the appropriate INSTALL_RPATH property of executables and
+    shared libraries instead of CMake. This option is ``ON`` by default which complies
+    with the :ref:`BASIS standard <SystemSearchPaths>`. Note that this option may be
+    overridden by the project developer or on the command-line by setting the variable
+    `CMAKE_SKIP_RPATH` to `FALSE`. This is typcially done in the `config/Settings.cmake`.
+
 .. option:: -DBASIS_INSTALL_SCHEME:STRING
 
     Installation scheme, i.e., filesystem hierarchy, to use for the installation of the
     software files relative to the installation prefix specified by the :option:`-DCMAKE_INSTALL_PREFIX`.
-    Valid values are ``default``, ``usr``, ``opt``, or ``win``. See :ref:`InsallationTree`
+    Valid values are ``default``, ``usr``, ``opt``, or ``win``. See :ref:`InstallationTree`
     as defined by the :doc:`/standard/fhs` of BASIS for more details.
 
 .. option:: -DBASIS_INSTALL_SITE_DIR:PATH
@@ -162,9 +187,27 @@ summarized above. To view these options in the `CMake GUI`_, press the ``t`` key
     is enabled by default such that packages are found by CMake when required by other
     packages based on this build tool.
 
+.. option:: -DBASIS_SUPERBUILD_MODULES:BOOL
+
+    **Experimental** Enable the superbuild of project modules. For projects with a
+    large number of modules, this can dramatically reduce the build system configuration
+    time, because the configuration of each module is deferred until the build step.
+    The superbuild of modules is disabled by default.
+    See :ref:`Superbuild of Modules <SuperbuildOfModules>` for more information.
+
 .. option:: -DBASIS_VERBOSE:BOOL
 
     Enable verbose messages during build configuration.
+
+.. option:: -DBUILD_BASIS_UTILITIES_FOR_<LANG>:BOOL
+
+    By default, the BASIS Utilities for a given programming language are only build if
+    any of the project's executable or library targets build from source code in the
+    respective language makes use of these utilities. Use these options to force the
+    build of the BASIS Utilities for the respective language. Even if not used by
+    the project itself, the generated utility functions and header or scripted module
+    files can be used by another project to access the project meta-data such as its
+    name and version by including the respective project-specific BASIS Utilities.
 
 .. option:: -DBUILD_CHANGELOG:BOOL
 
@@ -177,6 +220,16 @@ summarized above. To view these options in the `CMake GUI`_, press the ``t`` key
     Subversion repository. It is recommended to leave this option disabled and to
     build the ``changelog`` target separate from the rest of the software package
     instead (see :ref:`Build`).
+
+.. option:: -DBUILD_MODULES_BY_DEFAULT::BOOL
+
+    Whether to enable project modules (i.e., subprojects) by default or not. This option
+    has only effect when given directly on the command-line when calling ``cmake`` or
+    ``ccmake``, respectively. Otherwise the default value of this option will be
+    used for the first build system configuration run which adds the ``MODULE_*``
+    options already and sets them to the respective default (``TRUE``). This default
+    value cannot be overriden by consecutive configuration runs unless the ``MODULE_*``
+    options themselves are changed.
 
 .. option:: -DITK_DIR:PATH
 

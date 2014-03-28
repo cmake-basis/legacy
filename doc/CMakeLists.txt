@@ -1,6 +1,6 @@
 # ============================================================================
 # Copyright (c) 2011-2012 University of Pennsylvania
-# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Carnegie Mellon University
 # Copyright (c) 2013-2014 Andreas Schuh
 # All rights reserved.
 #
@@ -43,18 +43,25 @@ basis_add_custom_target (manual) # build PDF manual
 
 # replace < year|contact|copyright|license > pattern in template file which
 # shall be included in documentation to avoid unrecognized xml/html tag warning
-file (READ "${PROJECT_DATA_DIR}/templates/basis/1.0/config/Depends.cmake" TEMPLATE)
-string (REGEX REPLACE "<year>"      "&lt;year&gt;"      TEMPLATE "${TEMPLATE}")
-string (REGEX REPLACE "<contact>"   "&lt;contact&gt;"   TEMPLATE "${TEMPLATE}")
-string (REGEX REPLACE "<copyright>" "&lt;copyright&gt;" TEMPLATE "${TEMPLATE}")
-string (REGEX REPLACE "<license>"   "&lt;license&gt;"   TEMPLATE "${TEMPLATE}")
-file (WRITE "${PROJECT_BINARY_DIR}/doc/Depends.cmake" "${TEMPLATE}")
-unset (TEMPLATE)
+function (basis_sanitize_template_for_doxygen OUTPUT_FILE_VAR TEMPLATE_FILE)
+  get_filename_component (TEMPLATE_NAME "${TEMPLATE_FILE}" NAME)
+  file (READ "${TEMPLATE_FILE}" TEMPLATE)
+  string (REGEX REPLACE "<year>"      "&lt;year&gt;"      TEMPLATE "${TEMPLATE}")
+  string (REGEX REPLACE "<contact>"   "&lt;contact&gt;"   TEMPLATE "${TEMPLATE}")
+  string (REGEX REPLACE "<copyright>" "&lt;copyright&gt;" TEMPLATE "${TEMPLATE}")
+  string (REGEX REPLACE "<license>"   "&lt;license&gt;"   TEMPLATE "${TEMPLATE}")
+  set (OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${TEMPLATE_NAME}")
+  file (WRITE "${OUTPUT_FILE}" "${TEMPLATE}")
+  set (${OUTPUT_FILE_VAR} "${OUTPUT_FILE}" PARENT_SCOPE)
+endfunction ()
+
+basis_sanitize_template_for_doxygen (DEPENDS_MODULE   "${PROJECT_DATA_DIR}/templates/basis/1.0/config/Depends.cmake")
+basis_sanitize_template_for_doxygen (BOOTSTRAP_MODULE "${PROJECT_DATA_DIR}/templates/basis/1.1/BasisBootstrapping.cmake")
 
 basis_add_doc (
   apidoc 
   GENERATOR             Doxygen
-  INPUT                 "${PROJECT_BINARY_DIR}/doc/Depends.cmake" 
+  INPUT                 "${DEPENDS_MODULE}" "${BOOTSTRAP_MODULE}"
   EXCLUDE_PATTERNS      # External libraries packaged with BASIS to exclude from final documentation
                         "*/gmock/*"            # Google Mock
                         "*/gtest/*"            # Google Test
@@ -89,7 +96,7 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/manual.rst" AND
     HTML_THEME       cmake-basis                          # select the Sphinx layout theme
     HTML_LOGO        logo_title.svg                       # logo to use at heading of documentation
     HTML_FAVICON     favicon.ico                          # icon for bookmark and tab title
-    HTML_SIDEBARS    searchbox globaltoc                  # sidebar options to use
+    HTML_SIDEBARS    searchbox globaltoc links            # sidebar options to use
     HTML_DESTINATION "${INSTALL_DOC_DIR}/html"            # output directory for completed documentation
     SIDEBARWIDTH     300                                  # sidebar width in pixels
     MASTER_DOC       "sidebar"                            # .rst file to start with when generating HTML

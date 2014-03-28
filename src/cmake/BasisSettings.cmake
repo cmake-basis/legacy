@@ -32,6 +32,12 @@
 # @ingroup BasisSettings
 ##############################################################################
 
+if (__BASIS_SETTINGS_INCLUDED)
+  return ()
+else ()
+  set (__BASIS_SETTINGS_INCLUDED TRUE)
+endif ()
+
 ## @addtogroup BasisSettings
 # @{
 
@@ -58,58 +64,6 @@ endif ()
 
 if (POLICY CMP0017)
   cmake_policy (SET CMP0017 NEW)
-endif ()
-
-# ============================================================================
-# system checks
-# ============================================================================
-
-# used by tests to disable these checks
-if (NOT BASIS_NO_SYSTEM_CHECKS)
-  include (CheckTypeSize)
-  include (CheckIncludeFileCXX)
-
-  # check if type long long is supported
-  CHECK_TYPE_SIZE ("long long" LONG_LONG)
-
-  if (HAVE_LONG_LONG)
-    set (HAVE_LONG_LONG 1)
-  else ()
-    set (HAVE_LONG_LONG 0)
-  endif ()
-
-  # check for presence of sstream header
-  include (TestForSSTREAM)
-
-  if (CMAKE_NO_ANSI_STRING_STREAM)
-    set (HAVE_SSTREAM 0)
-  else ()
-    set (HAVE_SSTREAM 1)
-  endif ()
-
-  # check if tr/tuple header file is available
-  if (CMAKE_GENERATOR MATCHES "Visual Studio [1-9][0-9]+")
-    set (HAVE_TR1_TUPLE 1)
-  else ()
-    CHECK_INCLUDE_FILE_CXX ("tr1/tuple" HAVE_TR1_TUPLE)
-    if (HAVE_TR1_TUPLE)
-      set (HAVE_TR1_TUPLE 1)
-    else ()
-      set (HAVE_TR1_TUPLE 0)
-    endif ()
-  endif ()
-
-  # check for availibility of pthreads library
-  # defines CMAKE_USE_PTHREADS_INIT and CMAKE_THREAD_LIBS_INIT
-  find_package (Threads)
-
-  if (Threads_FOUND)
-    if (CMAKE_USE_PTHREADS_INIT)
-      set (HAVE_PTHREAD 1)
-    else  ()
-      set (HAVE_PTHREAD 0)
-    endif ()
-  endif ()
 endif ()
 
 # ============================================================================
@@ -147,9 +101,20 @@ set (
     CONTACT
     VERSION
     TEMPLATE       # used by basisproject tool
+    INCLUDE_DIR    # alias for INCLUDE_DIRS
+    CODE_DIR       # alias for CODE_DIRS
+    MODULES_DIR    # single directory containing multiple modules, see also MODULE_DIRS
+    CONFIG_DIR     # directory containing the CMake/BASIS configuration
+    DATA_DIR       # directory containing the auxiliary program data
+    DOC_DIR        # directory containing the documentation
+    DOCRES_DIR     # directory containing the ressource files such as a project logo
+    EXAMPLE_DIR    # directory containing some example files
+    LIBRARY_DIR    # directory containing script libraries such as Perl or Python modules
+    TESTING_DIR    # directory containing the source code and data of the software tests
 )
 
 ## @brief Names of project meta-data with multiple arguments.
+#  @see basis_project() in ProjectTools.cmake
 set (
   BASIS_METADATA_LIST_MULTI
     AUTHORS
@@ -158,11 +123,17 @@ set (
     OPTIONAL_DEPENDS
     TEST_DEPENDS
     OPTIONAL_TEST_DEPENDS
+    INCLUDE_DIRS   # list of directories containing public header files
+    CODE_DIRS      # list of directories containing source code files, see also CODE_DIR
+    MODULE_DIRS    # list of separate module directories, see also MODULES_DIR
+    SUBDIRS        # list of additional (generic) project subdirectories
 )
 
 ## @brief Names of project meta-data.
+#  @see basis_project() in ProjectTools.cmake
 set (
   BASIS_METADATA_LIST
+    ${BASIS_METADATA_LIST_SWITCH}
     ${BASIS_METADATA_LIST_SINGLE}
     ${BASIS_METADATA_LIST_MULTI}
 )
@@ -397,6 +368,23 @@ set (BASIS_PROPERTIES_ON_TARGETS
 # convert list of property names into regular expression
 basis_list_to_regex (BASIS_PROPERTIES_ON_TARGETS_RE ${BASIS_PROPERTIES_ON_TARGETS})
 
+## @brief Whether BASIS shall use target UIDs.
+#
+# If this option is OFF, target UIDs are idential to the target names
+# given as arguments to the "basis_add_*" functions.
+#
+# The target UIDs ensure that no name conflict between the targets
+# of this project and those of an external library which are imported
+# occurs. Another reason for using these target UIDs is to avoid
+# target name conflicts between modules or subprojects which may
+# be developed by different teams.
+#
+# The downside of using target UIDs is, however, a slower configuration
+# of the build system because every target name must be mapped to its
+# target UID and possibly vice versa. Moreover, the use of target UIDs
+# is less intuitive for those new to BASIS but experienced with CMake.
+basis_set_if_empty (BASIS_USE_TARGET_UIDS OFF)
+
 ## @brief Whether BASIS shall use fully-qualified target UIDs.
 #
 # If this option is OFF, the namespace of the top-level BASIS project is
@@ -420,12 +408,48 @@ set (BASIS_LIBRARY_COMPONENT "Development")
 # are associated with if no component was specified, explicitly.
 set (BASIS_RUNTIME_COMPONENT "Runtime")
 
-## @brief Specifies that the BASIS C++ utilities shall by default not be added
-#         as dependency of an executable.
-set (BASIS_UTILITIES TRUE)
+## @brief Enable the automatic detection of the use of the BASIS utilities.
+#
+# If @c TRUE, the basis_add_executable() and basis_add_library() commands will try to
+# automatically detect whether a given executable or library makes use of the
+# BASIS utilities. If so, it configures the utilities for this project and adds
+# a respective library build target as well as a link dependency on this target.
+# This was the default until BASIS v3.1. Since this version, it is recommended
+# to either use the @c USE_BASIS_UTILITIES option of basis_add_executable() and
+# basis_add_library() or to add a link dependency on "basis" (recommended):
+#
+# @code
+# basis_add_executable(foo.cxx)
+# basis_target_link_libraries(foo basis)
+# @endcode
+set (BASIS_UTILITIES FALSE)
 
-## @brief Whether to export build targets by default.
+## @brief Whether to always build the BASIS C++ utilities even if not required by any target
+option (BUILD_BASIS_UTILITIES_FOR_CXX    "Force the build of the BASIS C++ Utilities even if not used by this project" OFF)
+## @brief Whether to always build the BASIS Python utilities even if not required by any target
+option (BUILD_BASIS_UTILITIES_FOR_PYTHON "Force the build of the BASIS Python Utilities even if not used by this project" OFF)
+## @brief Whether to always build the BASIS Perl utilities even if not required by any target
+option (BUILD_BASIS_UTILITIES_FOR_PERL   "Force the build of the BASIS Perl Utilities even if not used by this project" OFF)
+## @brief Whether to always build the BASIS Bash utilities even if not required by any target
+option (BUILD_BASIS_UTILITIES_FOR_BASH   "Force the build of the BASIS Bash Utilities even if not used by this project" OFF)
+
+mark_as_advanced (BUILD_BASIS_UTILITIES_FOR_CXX
+                  BUILD_BASIS_UTILITIES_FOR_PYTHON
+                  BUILD_BASIS_UTILITIES_FOR_PERL
+                  BUILD_BASIS_UTILITIES_FOR_BASH)
+
+## @brief Whether to export targets by default.
+#
+# This global variable specifies the default for the export of build targets if the
+# @c EXPORT or @c NO_EXPORT options of the basis_add_executable and basis_add_library
+# commands are not given.
 set (BASIS_EXPORT TRUE)
+
+## @brief Whether to create <Package>Exports.cmake file so other projects can import the exported targets.
+#
+# @sa GenerateConfig.cmake, ExportTools.cmake, http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:export
+option (BASIS_EXPORTS_FILE "Create <Package>Exports.cmake file so other projects can import the build targets from this one. OFF may reduce configure time." ON)
+mark_as_advanced (BASIS_EXPORTS_FILE)
 
 ## @brief Disable use of the revision information obtained from the revision
 #         control software such as Subversion.
@@ -443,6 +467,7 @@ mark_as_advanced (BASIS_REVISION_INFO)
 # @sa basis_add_script_target()
 option (BASIS_COMPILE_SCRIPTS "Enable compilation of scripts if supported by the language." OFF)
 mark_as_advanced (BASIS_COMPILE_SCRIPTS)
+
 
 ## @brief Enable the installation of scripted modules in site specific default directories.
 #
@@ -501,9 +526,34 @@ set (BASIS_SVN_USERS_FILE "${BASIS_MODULE_PATH}/SubversionUsers.txt")
 # @sa basis_install_public_headers()
 basis_set_if_empty (BASIS_INSTALL_PUBLIC_HEADERS_OF_CXX_UTILITIES FALSE)
 
+## @brief Whether BASIS should configure any public header file with the .in file name suffix.
+#
+# If a project does not contain any such public header file (typically one named config.h.in),
+# this option can be set to @c FALSE in the @c "config/Settings.cmake" file of the project.
+# For better performance, if only one header file needs to be configured, this can be done
+# manually by adding a corresponding configure_file() call to the root CMakeLists.txt file
+# right after basis_project_begin(). The configured files should be written to the
+# @c BINARY_INCLUDE_DIR which is located in the build tree of the project.
+set (BASIS_CONFIGURE_PUBLIC_HEADERS FALSE)
+
+## @brief Whether basis_project_begin() should support the configuration of Slicer modules.
+#
+# This option must be set to @c TRUE in @c "config/Settings.cmake" of a project
+# which either itself or one of its modules is a 3D Slicer Extension.
+#
+# @sa http://www.slicer.org
+set (BASIS_SUPPORT_SLICER_MODULES FALSE)
+
 ## @brief Enable/disable registration of installed package in CMake registry.
 option (BASIS_REGISTER "Request registration of installed package in CMake package registry." ON)
 mark_as_advanced (BASIS_REGISTER)
+
+## @brief EXPERIMENTAL - Build project modules as separate external projects.
+#
+# This may improve performance of the initial configure step but comes with the caveats
+# inherent to the superbuild approach as implemented by the ExternalProject module.
+option (BASIS_SUPERBUILD_MODULES "EXPERIMENTAL - Build project modules as part of a superbuild. May improve configure speed." OFF)
+mark_as_advanced (BASIS_SUPERBUILD_MODULES)
 
 # ============================================================================
 # programming language specific settings
@@ -512,7 +562,7 @@ mark_as_advanced (BASIS_REGISTER)
 ## @brief List of programming languages explicitly supported by BASIS.
 #
 # @todo Add full support for Java.
-set (BASIS_LANGUAGES CXX Python Jython Perl Matlab Bash)
+set (BASIS_LANGUAGES CMake CXX Python Jython Perl Matlab Bash)
 
 string (TOLOWER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_L)
 string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
@@ -521,6 +571,8 @@ string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
 # namespace delimiters
 # ----------------------------------------------------------------------------
 
+## @brief Namespace delimiter used in CMake.
+set (BASIS_NAMESPACE_DELIMITER_CMAKE .)
 ## @brief Namespace delimiter used in C++.
 set (BASIS_NAMESPACE_DELIMITER_CXX .)
 ## @brief Namespace delimiter used in Python.
@@ -546,7 +598,7 @@ set (BASIS_NAMESPACE_DELIMITER_BASH .)
 ## @brief Name of library target which builds Python modules in @c PROJECT_LIBRARY_DIR.
 #
 # This variable is used by basis_configure_script_libraries() which is called
-# by basis_project_impl() to add a library target of the given name for the
+# by basis_project_begin() to add a library target of the given name for the
 # build of the Python modules found in the @c PROJECT_LIBRARY_DIR.
 #
 # @note The given target name is argument to the basis_add_library() command.
@@ -556,7 +608,7 @@ set (PYTHON_LIBRARY_TARGET "pythonlib")
 ## @brief Name of library target which builds Jython modules in @c PROJECT_LIBRARY_DIR.
 #
 # This variable is used by basis_configure_script_libraries() which is called
-# by basis_project_impl() to add a library target of the given name for the
+# by basis_project_begin() to add a library target of the given name for the
 # build of the Jython modules found in the @c PROJECT_LIBRARY_DIR.
 #
 # @note The given target name is argument to the basis_add_library() command.
@@ -566,7 +618,7 @@ set (JYTHON_LIBRARY_TARGET "jythonlib")
 ## @brief Name of library target which builds Perl modules in @c PROJECT_LIBRARY_DIR.
 #
 # This variable is used by basis_configure_script_libraries() which is called
-# by basis_project_impl() to add a library target of the given name for the
+# by basis_project_begin() to add a library target of the given name for the
 # build of the Perl modules found in the @c PROJECT_LIBRARY_DIR.
 #
 # @note The given target name is argument to the basis_add_library() command.
@@ -576,7 +628,7 @@ set (PERL_LIBRARY_TARGET "perllib")
 ## @brief Name of library target which builds MATLAB modules in @c PROJECT_LIBRARY_DIR.
 #
 # This variable is used by basis_configure_script_libraries() which is called
-# by basis_project_impl() to add a library target of the given name for the
+# by basis_project_begin() to add a library target of the given name for the
 # build of the MATLAB modules found in the @c PROJECT_LIBRARY_DIR.
 #
 # @note The given target name is argument to the basis_add_library() command.
@@ -586,7 +638,7 @@ set (MATLAB_LIBRARY_TARGET "matlablib")
 ## @brief Name of library target which builds Bash modules in @c PROJECT_LIBRARY_DIR.
 #
 # This variable is used by basis_configure_script_libraries() which is called
-# by basis_project_impl() to add a library target of the given name for the
+# by basis_project_begin() to add a library target of the given name for the
 # build of the Bash modules found in the @c PROJECT_LIBRARY_DIR.
 #
 # @note The given target name is argument to the basis_add_library() command.
@@ -631,6 +683,10 @@ mark_as_advanced (BASIS_VERBOSE)
 option (BASIS_DEBUG "Request BASIS functions to help debugging." OFF)
 mark_as_advanced (BASIS_DEBUG)
 
+## @brief Request configuration of software build only, skipping steps related to packaging and installation.
+option (BASIS_BUILD_ONLY "Request configuration of software build only, skipping steps related to packaging and installation." OFF)
+mark_as_advanced (BASIS_BUILD_ONLY)
+
 # ============================================================================
 # build configuration
 # ============================================================================
@@ -655,11 +711,20 @@ if (DEFINED CMAKE_OSX_SYSROOT)
   mark_as_advanced (CMAKE_OSX_SYSROOT)
 endif ()
 
-# use RPATH
-set (CMAKE_SKIP_RPATH                  FALSE) # use RPATH for installed project own binaries
-set (CMAKE_SKIP_BUILD_RPATH            FALSE) # use RPATH for project own binaries
-set (CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE) # do not add directories outside project to RPATH
-set (CMAKE_BUILD_WITH_INSTALL_RPATH    FALSE) # use different RPATH for build tree executables
+## @brief Whether to have BASIS set the RPATH of binaries rather than CMake
+#
+# @sa http://www.cmake.org/Wiki/CMake_RPATH_handling for details on how CMake
+#     itself handles the RPATH setting of executables and shared libraries.
+option (BASIS_INSTALL_RPATH "Whether to have BASIS set the RPATH of binaries rather than CMake" ON)
+mark_as_advanced (BASIS_INSTALL_RPATH)
+
+# use INSTALL_RPATH set by BASIS instead of CMake
+if (BASIS_INSTALL_RPATH)
+  set (CMAKE_SKIP_RPATH                  FALSE) # use RPATH for installed project own binaries
+  set (CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE) # do not add directories outside project to RPATH
+endif ()
+set (CMAKE_SKIP_BUILD_RPATH              FALSE) # use RPATH for project own binaries
+set (CMAKE_BUILD_WITH_INSTALL_RPATH      FALSE) # use different RPATH for build tree executables
 
 
 ## @}

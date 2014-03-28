@@ -107,23 +107,6 @@ if (NOT PerlLibs_FOUND)
 endif ()
 
 # ============================================================================
-# source tree
-# ============================================================================
-
-set (PROJECT_CODE_DIR    "${PROJECT_SOURCE_DIR}/src")
-set (PROJECT_CONFIG_DIR  "${PROJECT_SOURCE_DIR}/config")
-set (PROJECT_DATA_DIR    "${PROJECT_SOURCE_DIR}/data")
-set (PROJECT_DOC_DIR     "${PROJECT_SOURCE_DIR}/doc")
-set (PROJECT_DOCRES_DIR  "${PROJECT_SOURCE_DIR}/doc/static")
-set (PROJECT_EXAMPLE_DIR "${PROJECT_SOURCE_DIR}/example")
-set (PROJECT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-set (PROJECT_LIBRARY_DIR "${PROJECT_SOURCE_DIR}/lib")
-set (PROJECT_MODULES_DIR "${PROJECT_SOURCE_DIR}/modules")
-set (PROJECT_TESTING_DIR "${PROJECT_SOURCE_DIR}/test")
-
-set (PROJECT_SUBDIRS) # default subdirs are added to list in basis_project_impl
-
-# ============================================================================
 # testing tree
 # ============================================================================
 
@@ -148,9 +131,7 @@ foreach (_P CODE CONFIG DATA DOC EXAMPLE MODULES TESTING)
   set (BINARY_${_P}_DIR "${PROJECT_BINARY_DIR}/${_D}")
 endforeach ()
 
-basis_get_relative_path (_D "${PROJECT_SOURCE_DIR}" "${PROJECT_INCLUDE_DIR}")
-set (BINARY_INCLUDE_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/${_D}")
-
+set (BINARY_INCLUDE_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/include")
 set (BINARY_RUNTIME_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/bin")
 set (BINARY_LIBEXEC_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib${_MODULE}")
 set (BINARY_LIBRARY_DIR "${TOPLEVEL_PROJECT_BINARY_DIR}/lib${_MODULE}")
@@ -510,10 +491,10 @@ if (NOT PROJECT_IS_MODULE)
   endforeach ()
   # installation
   foreach (_D IN ITEMS CONFIG INCLUDE RUNTIME LIBEXEC LIBRARY ARCHIVE DATA DOC EXAMPLE SHARE)
-    set (BASIS_INSTALL_${_D}_DIR "${INSTALL_${_D}_DIR}")
+    set (TOPLEVEL_INSTALL_${_D}_DIR "${INSTALL_${_D}_DIR}")
   endforeach ()
   foreach (_L IN ITEMS PYTHON JYTHON PERL MATLAB BASH)
-    set (BASIS_INSTALL_${_L}_LIBRARY_DIR "${INSTALL_${_L}_LIBRARY_DIR}")
+    set (TOPLEVEL_INSTALL_${_L}_LIBRARY_DIR "${INSTALL_${_L}_LIBRARY_DIR}")
   endforeach ()
 endif ()
 

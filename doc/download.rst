@@ -18,10 +18,7 @@ Either clone the Git repository:
     
     git clone https://github.com/schuhschuh/cmake-basis.git
 
-or download a pre-packaged ``.tar.gz`` of the latest BASIS release:
-
-- `Download CMake BASIS v3.0.0 as .zip    <https://github.com/schuhschuh/cmake-basis/archive/v3.0.0.zip>`__
-- `Download CMake BASIS v3.0.0 as .tar.gz <https://github.com/schuhschuh/cmake-basis/archive/v3.0.0.tar.gz>`__
+or download the `latest BASIS release package <https://github.com/schuhschuh/cmake-basis/releases>`__.
 
 .. seealso:: The :doc:`Quick Start Guide <quickstart>` can help you get up and running.
 
@@ -52,7 +49,7 @@ The "BASIS" package was released under the
 `SBIA Contribution and Software License Agreement <http://www.rad.upenn.edu/sbia/software/license.html>`__,
 a BSD-style Open Source software license. Since 2013, the forked and slightly renamed "CMake BASIS"
 package is further developed and maintained by its original author Andreas Schuh after leaving SBIA.
-Andrew Hundt from `Carnegie Melon University <http://www.cmu.edu/>`__ joined the development
+Andrew Hundt from `Carnegie Mellon University <http://www.cmu.edu/>`__ joined the development
 of CMake BASIS soon after. 
 
 .. _BSD 2-Clause License: http://opensource.org/licenses/BSD-2-Clause

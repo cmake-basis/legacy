@@ -1,6 +1,6 @@
 # ============================================================================
 # Copyright (c) 2011-2012 University of Pennsylvania
-# Copyright (c) 2013-2014 Carnegie Melon University
+# Copyright (c) 2013-2014 Carnegie Mellon University
 # Copyright (c) 2013-2014 Andreas Schuh
 # All rights reserved.
 #
@@ -1158,65 +1158,71 @@ endfunction ()
 # @sa http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:set_property
 #
 # @ingroup CMakeAPI
-function (basis_set_property SCOPE)
-  if (SCOPE MATCHES "^TARGET$|^TEST$")
-    # map target/test names to UIDs
-    list (LENGTH ARGN ARGN_LENGTH)
-    if (ARGN_LENGTH EQUAL 0)
-      message (FATAL_ERROR "basis_set_property(${SCOPE}): Expected arguments after SCOPE!")
-    endif ()
-    set (IDX 0)
-    set (ARG)
-    while (IDX LESS ARGN_LENGTH)
-      list (GET ARGN ${IDX} ARG)
-      if (ARG MATCHES "^APPEND$")
-        math (EXPR IDX "${IDX} + 1")
-        list (GET ARGN ${IDX} ARG)
-        if (NOT ARG MATCHES "^PROPERTY$")
-          message (FATAL_ERROR "basis_set_properties(${SCOPE}): Expected PROPERTY keyword after APPEND!")
-        endif ()
-        break ()
-      elseif (ARG MATCHES "^PROPERTY$")
-        break ()
-      else ()
-        if (SCOPE MATCHES "^TEST$")
-          basis_get_test_uid (UID "${ARG}")
-        else ()
-          basis_get_target_uid (UID "${ARG}")
-        endif ()
-        list (INSERT ARGN ${IDX} "${UID}")
-        math (EXPR IDX "${IDX} + 1")
-        list (REMOVE_AT ARGN ${IDX}) # after insert to avoid index out of range
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_set_property SCOPE)
+    if (SCOPE MATCHES "^TARGET$|^TEST$")
+      # map target/test names to UIDs
+      list (LENGTH ARGN ARGN_LENGTH)
+      if (ARGN_LENGTH EQUAL 0)
+        message (FATAL_ERROR "basis_set_property(${SCOPE}): Expected arguments after SCOPE!")
       endif ()
-    endwhile ()
-    if (IDX EQUAL ARGN_LENGTH)
-      message (FATAL_ERROR "basis_set_properties(${SCOPE}): Missing PROPERTY keyword!")
-    endif ()
-    math (EXPR IDX "${IDX} + 1")
-    list (GET ARGN ${IDX} ARG)
-    # property name matches DEPENDS
-    if (ARG MATCHES "DEPENDS")
-      math (EXPR IDX "${IDX} + 1")
+      set (IDX 0)
+      set (ARG)
       while (IDX LESS ARGN_LENGTH)
         list (GET ARGN ${IDX} ARG)
-        if (SCOPE MATCHES "^TEST$")
-          basis_get_test_uid (UID "${ARG}")
+        if (ARG MATCHES "^APPEND$")
+          math (EXPR IDX "${IDX} + 1")
+          list (GET ARGN ${IDX} ARG)
+          if (NOT ARG MATCHES "^PROPERTY$")
+            message (FATAL_ERROR "basis_set_properties(${SCOPE}): Expected PROPERTY keyword after APPEND!")
+          endif ()
+          break ()
+        elseif (ARG MATCHES "^PROPERTY$")
+          break ()
         else ()
-          basis_get_target_uid (UID "${ARG}")
+          if (SCOPE MATCHES "^TEST$")
+            basis_get_test_uid (UID "${ARG}")
+          else ()
+            basis_get_target_uid (UID "${ARG}")
+          endif ()
+          list (INSERT ARGN ${IDX} "${UID}")
+          math (EXPR IDX "${IDX} + 1")
+          list (REMOVE_AT ARGN ${IDX}) # after insert to avoid index out of range
         endif ()
-        list (INSERT ARGN ${IDX} "${UID}")
-        math (EXPR IDX "${IDX} + 1")
-        list (REMOVE_AT ARGN ${IDX}) # after insert ot avoid index out of range
       endwhile ()
+      if (IDX EQUAL ARGN_LENGTH)
+        message (FATAL_ERROR "basis_set_properties(${SCOPE}): Missing PROPERTY keyword!")
+      endif ()
+      math (EXPR IDX "${IDX} + 1")
+      list (GET ARGN ${IDX} ARG)
+      # property name matches DEPENDS
+      if (ARG MATCHES "DEPENDS")
+        math (EXPR IDX "${IDX} + 1")
+        while (IDX LESS ARGN_LENGTH)
+          list (GET ARGN ${IDX} ARG)
+          if (SCOPE MATCHES "^TEST$")
+            basis_get_test_uid (UID "${ARG}")
+          else ()
+            basis_get_target_uid (UID "${ARG}")
+          endif ()
+          list (INSERT ARGN ${IDX} "${UID}")
+          math (EXPR IDX "${IDX} + 1")
+          list (REMOVE_AT ARGN ${IDX}) # after insert to avoid index out of range
+        endwhile ()
+      endif ()
     endif ()
-  endif ()
-  if (BASIS_DEBUG)
-    message ("** basis_set_property():")
-    message ("**   Scope:     ${SCOPE}")
-    message ("**   Arguments: [${ARGN}]")
-  endif ()
-  set_property (${SCOPE} ${ARGN})
-endfunction ()
+    if (BASIS_DEBUG)
+      message ("** basis_set_property():")
+      message ("**   Scope:     ${SCOPE}")
+      message ("**   Arguments: [${ARGN}]")
+    endif ()
+    set_property (${SCOPE} ${ARGN})
+  endfunction ()
+else ()
+  macro (basis_set_property)
+    set_property (${ARGV})
+  endmacro ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get a property.
@@ -1241,15 +1247,21 @@ endfunction ()
 # @sa http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:get_property
 #
 # @ingroup CMakeAPI
-function (basis_get_property VAR SCOPE ELEMENT)
-  if (SCOPE MATCHES "^TARGET$")
-    basis_get_target_uid (ELEMENT "${ELEMENT}")
-  elseif (SCOPE MATCHES "^TEST$")
-    basis_get_test_uid (ELEMENT "${ELEMENT}")
-  endif ()
-  get_property (VALUE ${SCOPE} ${ELEMENT} ${ARGN})
-  set ("${VAR}" "${VALUE}" PARENT_SCOPE)
-endfunction ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_property VAR SCOPE ELEMENT)
+    if (SCOPE MATCHES "^TARGET$")
+      basis_get_target_uid (ELEMENT "${ELEMENT}")
+    elseif (SCOPE MATCHES "^TEST$")
+      basis_get_test_uid (ELEMENT "${ELEMENT}")
+    endif ()
+    get_property (VALUE ${SCOPE} ${ELEMENT} ${ARGN})
+    set ("${VAR}" "${VALUE}" PARENT_SCOPE)
+  endfunction ()
+else ()
+  macro (basis_get_property)
+    get_property (${ARGV})
+  endmacro ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Set project-global property.
@@ -1276,7 +1288,7 @@ function (basis_set_project_property)
   list (REMOVE_AT ARGN_PROPERTY 0) # remove property name from values
 
   if (ARGN_APPEND)
-    basis_get_project_property (CURRENT PROPERTY ${PROPERTY_NAME})
+    basis_get_project_property (CURRENT ${ARGN_PROJECT} ${PROPERTY_NAME})
     if (NOT "${CURRENT}" STREQUAL "")
       list (INSERT ARGN_PROPERTY 0 "${CURRENT}")
     endif ()
@@ -1340,6 +1352,9 @@ endfunction ()
 #
 # @note This function may not work for all cases, but is used in particular
 #       to sanitize project names, target names, namespace identifiers,...
+#
+#       This takes all of the dollar signs, and other special characters and
+#       adds escape characters such as backslash as necessary.
 #
 # @param [out] OUT String that can be used in regular expression.
 # @param [in]  STR String to sanitize.
@@ -1526,9 +1541,50 @@ function (basis_get_source_target_name TARGET_NAME SOURCE_FILE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
+## @brief Strip of top-level package name from target UID if present.
+#
+# If @c BASIS_USE_FULLY_QUALIFIED_TARGET_UID is @c ON, the top-level package
+# name is always preserved and this operation does nothing.
+#
+# @param[in,out] TARGET_UID "Global" target name, i.e., actual CMake target name.
+#
+# @returns Sets @p TARGET_UID to the (stripped) UID.
+function (basis_strip_target_uid TARGET_UID)
+  if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
+    basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
+    string (REGEX REPLACE "^\\.*${RE}\\." "" UID "${${TARGET_UID}}")
+    set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
+  endif ()
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Make target UID from given target name.
+#
+# This function is intended for internal use only.
+#
+# @param [out] TARGET_UID  "Global" target name, i.e., actual CMake target name.
+# @param [in]  TARGET_NAME Target name used as argument to BASIS CMake functions.
+#
+# @returns Sets @p TARGET_UID to the UID of the build target @p TARGET_NAME.
+#
+# @sa basis_make_target_uid()
+function (_basis_make_target_uid TARGET_UID TARGET_NAME)
+  if (TARGET_NAME MATCHES "^\\.+(.*)$")
+    set (${TARGET_UID} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+  else ()
+    set (UID "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
+    basis_strip_target_uid (UID)
+    set (${TARGET_UID} "${UID}" PARENT_SCOPE)
+  endif ()
+endfunction ()
+
+# ----------------------------------------------------------------------------
 ## @brief Make target UID from given target name.
 #
 # This function is intended for use by the basis_add_*() functions only.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_UID to the given @p TARGET_NAME.
 #
 # @param [out] TARGET_UID  "Global" target name, i.e., actual CMake target name.
 # @param [in]  TARGET_NAME Target name used as argument to BASIS CMake functions.
@@ -1536,15 +1592,20 @@ endfunction ()
 # @returns Sets @p TARGET_UID to the UID of the build target @p TARGET_NAME.
 #
 # @sa basis_get_target_uid()
-macro (basis_make_target_uid TARGET_UID TARGET_NAME)
-  set (${TARGET_UID} "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
-  # optionally strip off top-level namespace part
-  if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    basis_sanitize_for_regex (_bmtu_RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
-    string (REGEX REPLACE "^${_bmtu_RE}\\." "" ${TARGET_UID} "${${TARGET_UID}}")
-    unset (_bmtu_RE)
-  endif ()
-endmacro ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_make_target_uid TARGET_UID TARGET_NAME)
+    _basis_make_target_uid (UID "${TARGET_NAME}")
+    set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
+  endfunction ()
+else ()
+  function (basis_make_target_uid TARGET_UID TARGET_NAME)
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
+      set ("${TARGET_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_UID}" "${TARGET_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "global" target name, i.e., actual CMake target name.
@@ -1567,6 +1628,9 @@ endmacro ()
 # The counterpart basis_get_target_name() can be used to convert the target UID
 # back to the target name without namespace prefix.
 #
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_UID to the given @p TARGET_NAME.
+#
 # @note At the moment, BASIS does not support modules which themselves have
 #       modules again. This would require a more nested namespace hierarchy
 #       and makes things unnecessarily complicated.
@@ -1577,98 +1641,128 @@ endmacro ()
 # @returns Sets @p TARGET_UID to the UID of the build target @p TARGET_NAME.
 #
 # @sa basis_get_target_name()
-function (basis_get_target_uid TARGET_UID TARGET_NAME)
-  basis_sanitize_for_regex (BASE_RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
-  # in case of a leading namespace separator, do not modify target name
-  if (TARGET_NAME MATCHES "^\\.")
-    set (UID "${TARGET_NAME}")
-  # otherwise,
-  else ()
-    set (UID "${TARGET_NAME}")
-    # try prepending namespace or parts of it until target is known,
-    # first assuming the simplified UIDs without the common prefix
-    # of this package which applies to targets of this package
-    if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS AND NOT TARGET "${UID}")
-      string (REGEX REPLACE "^${BASE_RE}\\." "" PREFIX "${PROJECT_NAMESPACE_CMAKE}")
-      while (PREFIX)
-        if (TARGET "${PREFIX}.${TARGET_NAME}")
-          set (UID "${PREFIX}.${TARGET_NAME}")
-          break ()
-        else ()
-          if (PREFIX MATCHES "(.*)\\.[^.]+")
-            set (PREFIX "${CMAKE_MATCH_1}")
-          else ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_target_uid TARGET_UID TARGET_NAME)
+    # in case of a leading namespace separator, do not modify target name
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
+      set (UID "${CMAKE_MATCH_1}")
+    # otherwise,
+    else ()
+      set (UID "${TARGET_NAME}")
+      basis_sanitize_for_regex (BASE_RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
+      # try prepending namespace or parts of it until target is known,
+      # first assuming the simplified UIDs without the common prefix
+      # of this package which applies to targets of this package
+      if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS AND NOT TARGET "${UID}")
+        string (REGEX REPLACE "^${BASE_RE}\\." "" PREFIX "${PROJECT_NAMESPACE_CMAKE}")
+        while (PREFIX)
+          if (TARGET "${PREFIX}.${TARGET_NAME}")
+            set (UID "${PREFIX}.${TARGET_NAME}")
             break ()
-          endif ()
-        endif ()
-      endwhile ()
-    endif ()
-    # and then with the fully qualified UIDs for imported targets
-    if (NOT TARGET "${UID}")
-      set (PREFIX "${PROJECT_NAMESPACE_CMAKE}")
-      while (PREFIX)
-        if (TARGET "${PREFIX}.${TARGET_NAME}")
-          set (UID "${PREFIX}.${TARGET_NAME}")
-          break ()
-        else ()
-          if (PREFIX MATCHES "(.*)\\.[^.]+")
-            set (PREFIX "${CMAKE_MATCH_1}")
           else ()
-            break ()
+            if (PREFIX MATCHES "(.*)\\.[^.]+")
+              set (PREFIX "${CMAKE_MATCH_1}")
+            else ()
+              break ()
+            endif ()
           endif ()
-        endif ()
-      endwhile ()
+        endwhile ()
+      endif ()
+      # and then with the fully qualified UIDs for imported targets
+      if (NOT TARGET "${UID}")
+        set (PREFIX "${PROJECT_NAMESPACE_CMAKE}")
+        while (PREFIX)
+          if (TARGET "${PREFIX}.${TARGET_NAME}")
+            set (UID "${PREFIX}.${TARGET_NAME}")
+            break ()
+          else ()
+            if (PREFIX MATCHES "(.*)\\.[^.]+")
+              set (PREFIX "${CMAKE_MATCH_1}")
+            else ()
+              break ()
+            endif ()
+          endif ()
+        endwhile ()
+      endif ()
     endif ()
-  endif ()
-  # strip off top-level namespace part (optional)
-  if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    string (REGEX REPLACE "^${BASE_RE}\\." "" UID "${UID}")
-  endif ()
-  # return
-  set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
-endfunction ()
+    # strip off top-level namespace part (optional)
+    if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
+      string (REGEX REPLACE "^${BASE_RE}\\." "" UID "${UID}")
+    endif ()
+    # return
+    set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
+  endfunction ()
+else ()
+  function (basis_get_target_uid TARGET_UID TARGET_NAME)
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
+      set (${TARGET_UID} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_UID}" "${TARGET_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get fully-qualified target name.
 #
 # This function always returns a fully-qualified target UID, no matter if
-# the option @c BASIS_USE_FULLY_QUALIFIED_UIDS is @c OFF. Note that
-# if this option is @c ON, the returned target UID is may not be the
-# actual name of a CMake target.
+# the option @c BASIS_USE_TARGET_UIDS or @c BASIS_USE_FULLY_QUALIFIED_UIDS
+# is @c OFF. Note that if @c BASIS_USE_FULLY_QUALIFIED_UIDS is @c ON, the
+# returned target UID may not be the actual name of a CMake target.
 #
 # @param [out] TARGET_UID  Fully-qualified target UID.
 # @param [in]  TARGET_NAME Target name used as argument to BASIS CMake functions.
 #
 # @sa basis_get_target_uid()
 function (basis_get_fully_qualified_target_uid TARGET_UID TARGET_NAME)
-  basis_get_target_uid (UID "${TARGET_NAME}")
-  if (TARGET "${UID}" AND NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    get_target_property (IMPORTED "${UID}" IMPORTED)
-    if (NOT IMPORTED)
-      set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${UID}")
+  if (BASIS_USE_TARGET_UIDS)
+    basis_get_target_uid (UID "${TARGET_NAME}")
+    if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
+      if (TARGET "${UID}")
+        get_target_property (IMPORTED "${UID}" IMPORTED)
+        if (NOT IMPORTED)
+          set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${UID}")
+        endif ()
+      else ()
+        set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${UID}")
+      endif ()
     endif ()
+    set (${TARGET_UID} "${UID}" PARENT_SCOPE)
+  else ()
+    set (${TARGET_UID} "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}" PARENT_SCOPE)
   endif ()
-  set (${TARGET_UID} "${UID}" PARENT_SCOPE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get namespace of build target.
 #
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_NS to an empty string.
+#
 # @param [out] TARGET_NS  Namespace part of target UID.
 # @param [in]  TARGET_UID Target UID/name.
-function (basis_get_target_namespace TARGET_NS TARGET_UID)
-  # make sure we have a fully-qualified target UID
-  basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
-  # return namespace part
-  if (UID MATCHES "^(.*)\\.")
-    set ("${TARGET_NS}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
-  else ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_target_namespace TARGET_NS TARGET_UID)
+    # make sure we have a fully-qualified target UID
+    basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
+    # return namespace part
+    if (UID MATCHES "^(.*)\\.")
+      set ("${TARGET_NS}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_NS}" "" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (basis_get_target_namespace TARGET_NS TARGET_UID)
     set ("${TARGET_NS}" "" PARENT_SCOPE)
-  endif ()
-endfunction ()
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "local" target name, i.e., BASIS target name.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_NAME to the given @p TARGET_UID.
 #
 # @param [out] TARGET_NAME Target name used as argument to BASIS functions.
 # @param [in]  TARGET_UID  "Global" target name, i.e., actual CMake target name.
@@ -1676,15 +1770,21 @@ endfunction ()
 # @returns Sets @p TARGET_NAME to the name of the build target with UID @p TARGET_UID.
 #
 # @sa basis_get_target_uid()
-function (basis_get_target_name TARGET_NAME TARGET_UID)
-  # make sure we have a fully-qualified target UID
-  basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
-  # strip off namespace of current project
-  basis_sanitize_for_regex (RE "${PROJECT_NAMESPACE_CMAKE}")
-  string (REGEX REPLACE "^${RE}\\." "" NAME "${UID}")
-  # return
-  set (${TARGET_NAME} "${NAME}" PARENT_SCOPE)
-endfunction ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_target_name TARGET_NAME TARGET_UID)
+    # make sure we have a fully-qualified target UID
+    basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
+    # strip off namespace of current project
+    basis_sanitize_for_regex (RE "${PROJECT_NAMESPACE_CMAKE}")
+    string (REGEX REPLACE "^${RE}\\." "" NAME "${UID}")
+    # return
+    set (${TARGET_NAME} "${NAME}" PARENT_SCOPE)
+  endfunction ()
+else ()
+  function (basis_get_target_name TARGET_NAME TARGET_UID)
+    set (${TARGET_NAME} "${TARGET_UID}" PARENT_SCOPE)
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Checks whether a given name is a valid target name.
@@ -1702,7 +1802,7 @@ function (basis_check_target_name TARGET_NAME)
     endif ()
   endforeach ()
   # invalid target name ?
-  if (NOT TARGET_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$|^__init__(_py)?$")
+  if (NOT TARGET_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+.]|-)*$|^__init__(_py)?$")
     message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid.\nChoose a target name"
                          " which only contains alphanumeric characters,"
                          " '_', '-', or '+', and starts with a letter."
@@ -1723,15 +1823,19 @@ endfunction ()
 #
 # This function is intended for use by the basis_add_test() only.
 #
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TEST_UID to the given @p TEST_NAME.
+#
 # @param [out] TEST_UID  "Global" test name, i.e., actual CTest test name.
 # @param [in]  TEST_NAME Test name used as argument to BASIS CMake functions.
 #
 # @returns Sets @p TEST_UID to the UID of the test @p TEST_NAME.
 #
 # @sa basis_get_test_uid()
-macro (basis_make_test_uid TEST_UID TEST_NAME)
-  basis_make_target_uid ("${TEST_UID}" "${TEST_NAME}")
-endmacro ()
+function (basis_make_test_uid TEST_UID TEST_NAME)
+  basis_make_target_uid (UID "${TEST_NAME}")
+  set ("${TEST_UID}" "${UID}" PARENT_SCOPE)
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "global" test name, i.e., actual CTest test name.
@@ -1743,26 +1847,34 @@ endmacro ()
 # The function basis_get_test_name() can be used to convert the unique test
 # name, the test UID, back to the original test name passed to this function.
 #
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TEST_UID to the given @p TEST_NAME.
+#
 # @param [out] TEST_UID  "Global" test name, i.e., actual CTest test name.
 # @param [in]  TEST_NAME Test name used as argument to BASIS CMake functions.
 #
 # @returns Sets @p TEST_UID to the UID of the test @p TEST_NAME.
 #
 # @sa basis_get_test_name()
-function (basis_get_test_uid TEST_UID TEST_NAME)
-  if (TEST_NAME MATCHES "^\\.")
-    set (UID "${TEST_NAME}")
-  else ()
-    set (UID "${PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
-  endif ()
-  # strip off top-level namespace part (optional)
-  if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-    basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
-    string (REGEX REPLACE "^${RE}\\." "" UID "${UID}")
-  endif ()
-  # return
-  set (${TEST_UID} "${UID}" PARENT_SCOPE)
-endfunction ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set (UID "${PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
+      basis_strip_target_uid (UID ${UID})
+      set ("${TEST_UID}" "${UID}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (basis_get_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TEST_UID}" "${TEST_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "global" test name, i.e., actual CTest test name.
@@ -1772,36 +1884,60 @@ endfunction ()
 # if this option is @c ON, the returned test UID may not be the
 # actual name of a CMake test.
 #
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TEST_UID to the given @p TEST_NAME.
+#
 # @param [out] TEST_UID  Fully-qualified test UID.
 # @param [in]  TEST_NAME Test name used as argument to BASIS CMake functions.
 #
 # @sa basis_get_test_uid()
-function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
-  if (TEST_NAME MATCHES "\\.")
-    set (UID "${TEST_NAME}")
-  else ()
-    set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
-  endif ()
-  set (${TEST_UID} "${UID}" PARENT_SCOPE)
-endfunction ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TEST_UID}" "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TEST_UID}" "${TEST_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get namespace of test.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TEST_NS to an empty string.
 #
 # @param [out] TEST_NS  Namespace part of test UID. If @p TEST_UID is
 #                       no UID, i.e., does not contain a namespace part,
 #                       the namespace of this project is returned.
 # @param [in]  TEST_UID Test UID/name.
-macro (basis_get_test_namespace TEST_NS TEST_UID)
-  if (TEST_UID MATCHES "^(.*)\\.")
-    set (${TEST_NS} "${CMAKE_MATCH_1}")
-  else ()
-    set (${TEST_NS} "")
-  endif ()
-endmacro ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_test_namespace TEST_NS TEST_UID)
+    if (TEST_UID MATCHES "^(.*)\\.")
+      set (${TEST_NS} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set (${TEST_NS} "" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (basis_get_test_namespace TEST_NS TEST_UID)
+    set ("${TEST_UID}" "" PARENT_SCOPE)
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "local" test name, i.e., BASIS test name.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TEST_NAME to the given @p TEST_UID.
 #
 # @param [out] TEST_NAME Test name used as argument to BASIS functions.
 # @param [in]  TEST_UID  "Global" test name, i.e., actual CTest test name.
@@ -1809,13 +1945,19 @@ endmacro ()
 # @returns Sets @p TEST_NAME to the name of the test with UID @p TEST_UID.
 #
 # @sa basis_get_test_uid()
-macro (basis_get_test_name TEST_NAME TEST_UID)
-  if (TEST_UID MATCHES "([^.]+)$")
-    set (${TEST_NAME} "${CMAKE_MATCH_1}")
-  else ()
-    set (${TEST_NAME} "")
-  endif ()
-endmacro ()
+if (BASIS_USE_TARGET_UIDS)
+  function (basis_get_test_name TEST_NAME TEST_UID)
+    if (TEST_UID MATCHES "([^.]+)$")
+      set (${TEST_NAME} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set (${TEST_NAME} "" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (basis_get_test_name TEST_NAME TEST_UID)
+    set ("${TEST_NAME}" "${TEST_UID}" PARENT_SCOPE)
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Checks whether a given name is a valid test name.
@@ -1833,7 +1975,7 @@ function (basis_check_test_name TEST_NAME)
     endif ()
   endforeach ()
   # invalid test name ?
-  if (NOT TEST_NAME MATCHES "^[a-zA-Z]([a-zA-Z0-9_+]|-)*$")
+  if (NOT TEST_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+.]|-)*$")
     message (FATAL_ERROR "Test name ${TEST_NAME} is invalid.\nChoose a test name "
                          " which only contains alphanumeric characters,"
                          " '_', '-', or '+', and starts with a letter.\n")
@@ -1907,7 +2049,7 @@ function (basis_get_compiled_file CFILE SOURCE)
     basis_get_source_language (LANGUAGE "${SOURCE}")
   endif ()
   set (${CFILE} "" PARENT_SCOPE)
-  if (SOURCE)
+  if (USE_Python AND SOURCE)
     if (LANGUAGE MATCHES "PYTHON")
       set (${CFILE} "${SOURCE}c" PARENT_SCOPE)
     elseif (LANGUAGE MATCHES "JYTHON")
@@ -2144,11 +2286,11 @@ function (basis_get_source_language LANGUAGE)
       if (LANGUAGE_OUT AND NOT LANG MATCHES "^${LANGUAGE_OUT}$")
         if (LANGUAGE_OUT MATCHES "CXX" AND LANG MATCHES "MATLAB")
           # MATLAB Compiler can handle this...
-        elseif (LANGUAGE_OUT MATCHES "MATLAB" AND LANG MATCHES "CXX")
+        elseif (USE_MATLAB AND LANGUAGE_OUT MATCHES "MATLAB" AND LANG MATCHES "CXX")
           set (LANG "MATLAB") # language stays MATLAB
-        elseif (LANGUAGE_OUT MATCHES "PYTHON" AND LANG MATCHES "JYTHON")
+        elseif (USE_Python AND LANGUAGE_OUT MATCHES "PYTHON" AND LANG MATCHES "JYTHON")
           # Jython can deal with Python scripts/modules
-        elseif (LANGUAGE_OUT MATCHES "JYTHON" AND LANG MATCHES "PYTHON")
+        elseif (USE_Python AND LANGUAGE_OUT MATCHES "JYTHON" AND LANG MATCHES "PYTHON")
           set (LANG "JYTHON") # language stays JYTHON
         else ()
           # ambiguity
@@ -2162,7 +2304,11 @@ function (basis_get_source_language LANGUAGE)
     endif ()
   endforeach ()
   # return
-  set (${LANGUAGE} "${LANGUAGE_OUT}" PARENT_SCOPE)
+  if (LANGUAGE_OUT)
+    set (${LANGUAGE} "${LANGUAGE_OUT}" PARENT_SCOPE)
+  else ()
+    message (FATAL_ERROR "basis_get_source_language called without arguments!")
+  endif ()
 endfunction ()
 
 # ----------------------------------------------------------------------------
@@ -2293,7 +2439,7 @@ endmacro ()
 #
 # This function is used to configure script files during the build. It is
 # called by the build script generated by basis_add_script_target() for each script
-# target. It is further used to configure the modules of the packages
+# target. It is also used to configure the modules of the packages
 # implemented in supported scripting languages which are located in the
 # @c PROJECT_LIBRARY_DIR of the source tree.
 #
@@ -2444,7 +2590,7 @@ function (basis_configure_script INPUT OUTPUT)
       string (CONFIGURE "${SCRIPT}" SCRIPT @ONLY)
     endif ()
     # add code to set module search path
-    if (ARGN_LANGUAGE MATCHES "[JP]YTHON")
+    if ( USE_Python AND ARGN_LANGUAGE MATCHES "[JP]YTHON")
       if (ARGN_LINK_DEPENDS)
         set (PYTHON_CODE "import sys; import os.path; __dir__ = os.path.dirname(os.path.realpath(__file__))")
         list (REVERSE ARGN_LINK_DEPENDS)
@@ -2471,7 +2617,7 @@ function (basis_configure_script INPUT OUTPUT)
         basis_remove_blank_line (SCRIPT) # remove a blank line therefore
         set (SCRIPT "${FUTURE_STATEMENTS}${PYTHON_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
-    elseif (ARGN_LANGUAGE MATCHES "PERL")
+    elseif ( USE_Perl AND ARGN_LANGUAGE MATCHES "PERL")
       if (ARGN_LINK_DEPENDS)
         set (PERL_CODE "use Cwd qw(realpath); use File::Basename;")
         foreach (DIR ${ARGN_LINK_DEPENDS})
@@ -2490,7 +2636,7 @@ function (basis_configure_script INPUT OUTPUT)
         basis_remove_blank_line (SCRIPT) # remove a blank line therefore
         set (SCRIPT "${PERL_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
-    elseif (ARGN_LANGUAGE MATCHES "BASH")
+    elseif ( USE_BASH AND ARGN_LANGUAGE MATCHES "BASH")
       basis_library_prefix (PREFIX BASH)
       # In case of Bash, set BASIS_BASH_UTILITIES which is required to first source the
       # BASIS utilities modules (in particular core.sh). This variable should be set to
@@ -2547,7 +2693,7 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
       set (SCRIPT "${BASH_CODE} # <-- added by BASIS\n${SCRIPT}")
     endif ()
     # replace shebang directive
-    if (ARGN_LANGUAGE MATCHES "PYTHON" AND PYTHON_EXECUTABLE)
+    if (USE_PYTHON AND PYTHON_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PYTHON")
       if (WIN32)
         set (SHEBANG "@setlocal enableextensions & \"${PYTHON_EXECUTABLE}\" -x \"%~f0\" %* & goto :EOF")
       else ()
@@ -2566,7 +2712,7 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
         #            -schuha
         set (SHEBANG "#! /usr/bin/env ${JYTHON_EXECUTABLE}")
       endif ()
-    elseif (ARGN_LANGUAGE MATCHES "PERL" AND PERL_EXECUTABLE)
+    elseif (USE_Perl AND PERL_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PERL")
       if (WIN32)
         set (SHEBANG "@goto = \"START_OF_BATCH\" ;\n@goto = ();")
         set (SCRIPT "${SCRIPT}\n\n__END__\n\n:\"START_OF_BATCH\"\n@\"${PERL_EXECUTABLE}\" -w -S \"%~f0\" %*")
@@ -3010,6 +3156,25 @@ function (basis_process_generator_expressions ARGS)
   endforeach ()
   set (${ARGS} "${ARGS_OUT}" PARENT_SCOPE)
 endfunction ()
+
+
+##
+#  @brief basis_append_to_each takes an input list and appends a single element to each item in that list and appends it to the output list.
+#                For example, this is useful for adding relative paths to the end of a list of paths.
+#
+#  @param OUTPUT_LIST Name of list that will be filled with appended names.
+#  @param INPUT_LIST  Name of list that contains items to have text appended.
+#  @param ITEM_TO_APPEND text to append to each item in the input list.
+#
+function(basis_append_to_each OUTPUT_LIST INPUT_LIST ITEM_TO_APPEND)
+  foreach(PATH IN LISTS ${INPUT_LIST})
+    list(APPEND ${OUTPUT_LIST} ${PATH}${ITEM_TO_APPEND} )
+  endforeach()
+
+  if(${OUTPUT_LIST})
+    set(${OUTPUT_LIST} ${${OUTPUT_LIST}} PARENT_SCOPE)
+  endif()
+endfunction()
 
 
 ## @}

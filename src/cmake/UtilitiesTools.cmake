@@ -19,133 +19,7 @@
 
 
 # ============================================================================
-# C++ utilities
-# ============================================================================
-
-# ----------------------------------------------------------------------------
-## @brief Add build target for BASIS C++ utilities library.
-#
-# This function is called by the top-level project in order to add the "basis"
-# build target for the static project-specific BASIS utilities library for C++.
-# It is called by basis_project_impl() in the root CMakeLists.txt file of the
-# top-level project.
-#
-# The CMake function add_library() checks if the specified source code files
-# exist. If a source file is not found, an error is raised by CMake. The BASIS
-# utilities can, however, only be configured at the end of the configuration
-# step. Therefore, this function simply writes dummy C++ source files in order
-# to pass the existence check. The actual source files are configured by the
-# function basis_configure_utilities().
-#
-# After writing these dummy source files, a library build target for the
-# project-specific BASIS C++ utilities is added. This build target is not
-# being build as part of the ALL target in case it is never used by any of
-# the build targets of the project. Only if build target links to this
-# library, it will be build and installed.
-#
-# @param [out] UID UID of added build target.
-function (basis_add_utilities_library UID)
-  # target UID of "basis" library target
-  basis_make_target_uid (TARGET_UID basis)
-  if (NOT TARGET ${TARGET_UID})
-    if (PROJECT_IS_SUBPROJECT)
-      # a subproject has it's own version of the project-specific BASIS utilities
-      # as the targets and functions live in a separate namespace
-      set (CODE_DIR    "${BINARY_CODE_DIR}")
-      set (INCLUDE_DIR "${BINARY_INCLUDE_DIR}")
-      set (OUTPUT_DIR  "${BINARY_ARCHIVE_DIR}")
-      set (INSTALL_DIR "${INSTALL_ARCHIVE_DIR}")
-    else ()
-      # modules, on the other side, share the library with the top-level project
-      # the addition of the utilities target is in this case only required because
-      # of the install(TARGETS) and install(EXPORT) commands.
-      set (CODE_DIR    "${TOPLEVEL_BINARY_CODE_DIR}")
-      set (INCLUDE_DIR "${TOPLEVEL_BINARY_INCLUDE_DIR}")
-      set (OUTPUT_DIR  "${TOPLEVEL_BINARY_ARCHIVE_DIR}")
-      set (INSTALL_DIR "${BASIS_INSTALL_ARCHIVE_DIR}")
-    endif ()
-    # write dummy source files
-    basis_library_prefix (PREFIX CXX)
-    foreach (S IN ITEMS basis.h basis.cxx)
-      if (S MATCHES "\\.h$")
-        set (S "${INCLUDE_DIR}/${PREFIX}${S}")
-      else ()
-        set (S "${CODE_DIR}/${S}")
-      endif ()
-      if (NOT EXISTS "${S}")
-        file (WRITE "${S}"
-          "#error This dummy source file should have been replaced by the"
-          " BASIS CMake function basis_configure_utilities()"
-        )
-      endif ()
-    endforeach ()
-    # add library target if not present yet - only build if required
-    add_library (${TARGET_UID} STATIC "${CODE_DIR}/basis.cxx")
-    # define dependency on non-project specific utilities as the order in
-    # which static libraries are listed on the command-line for the linker
-    # matters; this will help CMake to get the order right
-    target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
-    # set target properties
-    _set_target_properties (
-      ${TARGET_UID}
-      PROPERTIES
-        BASIS_TYPE                STATIC_LIBRARY
-        OUTPUT_NAME               basis
-        ARCHIVE_OUTPUT_DIRECTORY  "${OUTPUT_DIR}"
-        ARCHIVE_INSTALL_DIRECTORY "${INSTALL_DIR}"
-    )
-    # add installation rule
-    install (
-      TARGETS ${TARGET_UID}
-      EXPORT  ${PROJECT_NAME}
-      ARCHIVE
-        DESTINATION "${INSTALL_DIR}"
-        COMPONENT   "${BASIS_LIBRARY_COMPONENT}"
-    )
-    basis_set_project_property (APPEND PROPERTY EXPORT_TARGETS         ${TARGET_UID})
-    basis_set_project_property (APPEND PROPERTY INSTALL_EXPORT_TARGETS ${TARGET_UID})
-    # debug message
-    if (BASIS_DEBUG)
-      message ("** Added BASIS utilities library ${TARGET_UID}")
-    endif ()
-  endif ()
-  # done
-  basis_set_project_property (PROPERTY PROJECT_USES_CXX_UTILITIES TRUE)
-  set (${UID} "${TARGET_UID}" PARENT_SCOPE)
-endfunction ()
-
-# ============================================================================
-# BASH utilities
-# ============================================================================
-
-# ----------------------------------------------------------------------------
-## @brief Absolute path of current BASH file.
-#
-# @note Does not resolve symbolic links.
-#
-# Example:
-# @code
-# readonly __MYMODULE=@BASIS_BASH___FILE__@
-# @endcode
-#
-# @ingroup BasisBashUtilities
-set (BASIS_BASH___FILE__ "$(cd -- \"$(dirname -- \"\${BASH_SOURCE}\")\" && pwd -P)/$(basename -- \"$BASH_SOURCE\")")
-
-# ----------------------------------------------------------------------------
-## @brief Absolute path of directory of current BASH file.
-#
-# @note Does not resolve symbolic links.
-#
-# Example:
-# @code
-# readonly __MYMODULE_dir=@BASIS_BASH___DIR__@
-# @endcode
-#
-# @ingroup BasisBashUtilities
-set (BASIS_BASH___DIR__ "$(cd -- \"$(dirname -- \"\${BASH_SOURCE}\")\" && pwd -P)")
-
-# ============================================================================
-# determine which utilities are used
+# auto-detect which utilities are used
 # ============================================================================
 
 # ----------------------------------------------------------------------------
@@ -254,14 +128,278 @@ function (basis_utilities_check VAR SOURCE_FILE)
 endfunction ()
 
 # ============================================================================
+# C++ utilities
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Add build target for BASIS C++ utilities library.
+#
+# This function is called by basis_add_executable_target() and basis_add_library_target()
+# in order to add the "basis" build target for the static project-specific
+# BASIS utilities library for C++. If the target was added before, it is
+# only used to get the target UID of this build target so the newly added
+# executable or library can be linked to it.
+#
+# The CMake function add_library() checks if the specified source code files
+# exist. If a source file is not found, an error is raised by CMake. The BASIS
+# utilities can, however, only be configured at the end of the configuration
+# step. Therefore, this function simply writes dummy C++ source files in order
+# to pass the existence check. The actual source files are configured by the
+# function basis_configure_utilities() which is called by basis_project_end().
+#
+# After writing these dummy source files, a library build target for the
+# project-specific BASIS C++ utilities is added. This build target is not
+# being build as part of the ALL target in case it is never used by any of
+# the build targets of the project. Only if build target links to this
+# library, it will be build and installed.
+#
+# @param [out] UID UID of added build target.
+function (basis_add_cxx_utilities_library UID)
+  # target UID of "basis" library target
+  _basis_make_target_uid (TARGET_UID basis)
+  if (NOT TARGET ${TARGET_UID})
+    if (PROJECT_IS_SUBPROJECT)
+      # a subproject has it's own version of the project-specific BASIS utilities
+      # as the targets and functions live in a separate namespace
+      set (CODE_DIR    "${BINARY_CODE_DIR}")
+      set (INCLUDE_DIR "${BINARY_INCLUDE_DIR}")
+      set (OUTPUT_DIR  "${BINARY_ARCHIVE_DIR}")
+      set (INSTALL_DIR "${INSTALL_ARCHIVE_DIR}")
+    else ()
+      # modules, on the other side, share the library with the top-level project
+      # the addition of the utilities target is in this case only required because
+      # of the install(TARGETS) and install(EXPORT) commands.
+      set (CODE_DIR    "${TOPLEVEL_BINARY_CODE_DIR}")
+      set (INCLUDE_DIR "${TOPLEVEL_BINARY_INCLUDE_DIR}")
+      set (OUTPUT_DIR  "${TOPLEVEL_BINARY_ARCHIVE_DIR}")
+      set (INSTALL_DIR "${TOPLEVEL_INSTALL_ARCHIVE_DIR}")
+    endif ()
+    # write dummy source files
+    basis_library_prefix (PREFIX CXX)
+    foreach (S IN ITEMS basis.h basis.cxx)
+      if (S MATCHES "\\.h$")
+        set (S "${INCLUDE_DIR}/${PREFIX}${S}")
+      else ()
+        set (S "${CODE_DIR}/${S}")
+      endif ()
+      if (NOT EXISTS "${S}")
+        file (WRITE "${S}"
+          "#error This dummy source file should have been replaced by the"
+          " BASIS CMake function basis_configure_utilities()"
+        )
+      endif ()
+    endforeach ()
+    # add library target if not present yet - only build if required
+    add_library (${TARGET_UID} STATIC "${CODE_DIR}/basis.cxx")
+    # define dependency on non-project specific utilities as the order in
+    # which static libraries are listed on the command-line for the linker
+    # matters; this will help CMake to get the order right
+    target_link_libraries (${TARGET_UID} ${BASIS_CXX_UTILITIES_LIBRARY})
+    # set target properties
+    _set_target_properties (
+      ${TARGET_UID}
+      PROPERTIES
+        BASIS_TYPE                STATIC_LIBRARY
+        OUTPUT_NAME               basis
+        ARCHIVE_OUTPUT_DIRECTORY  "${OUTPUT_DIR}"
+        ARCHIVE_INSTALL_DIRECTORY "${INSTALL_DIR}"
+    )
+    # export
+    basis_add_export_target (EXPORT_OPT ${TARGET_UID} FALSE ${INSTALL_DIR})
+    # installation
+    install (
+      TARGETS ${TARGET_UID} ${EXPORT_OPT}
+      ARCHIVE
+        DESTINATION "${INSTALL_DIR}"
+        COMPONENT   "${BASIS_LIBRARY_COMPONENT}"
+    )
+    # debug message
+    if (BASIS_DEBUG)
+      message ("** Added BASIS utilities library ${TARGET_UID}")
+    endif ()
+  endif ()
+  # done
+  basis_set_project_property (PROPERTY PROJECT_USES_CXX_UTILITIES TRUE)
+  set (${UID} "${TARGET_UID}" PARENT_SCOPE)
+endfunction ()
+
+# ============================================================================
+# Python utilities
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Add build target for BASIS Python utilities library.
+#
+# This function is called by basis_target_link_libraries() in order to add the
+# "basis" build target for the project-specific BASIS Python utilities.
+# If the target was added before, it is only used to get the target UID of
+# this build target so the executable or library can be linked to it.
+#
+# @note The basis_target_link_libraries() function in fact calls
+#       basis_add_utilities_library() which calls this function.
+#
+# @param [out] UID UID of added build target.
+function (basis_add_python_utilities_library UID)
+  basis_make_target_uid (TARGET_UID basis_py)
+  if (NOT TARGET ${TARGET_UID})
+    basis_library_prefix (PREFIX PYTHON)
+    basis_add_library (.${TARGET_UID} "${BASIS_PYTHON_TEMPLATES_DIR}/basis.py")
+    basis_target_link_libraries (.${TARGET_UID} ${BASIS_PYTHON_UTILITIES_LIBRARY})
+  endif ()
+  basis_set_project_property (PROPERTY PROJECT_USES_PYTHON_UTILITIES TRUE)
+  set (${UID} ${TARGET_UID} PARENT_SCOPE)
+endfunction ()
+
+# ============================================================================
+# Perl utilities
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Add build target for BASIS Perl utilities library.
+#
+# This function is called by basis_target_link_libraries() in order to add the
+# "basis" build target for the project-specific BASIS Perl utilities.
+# If the target was added before, it is only used to get the target UID of
+# this build target so the executable or library can be linked to it.
+#
+# @note The basis_target_link_libraries() function in fact calls
+#       basis_add_utilities_library() which calls this function.
+#
+# @param [out] UID UID of added build target.
+function (basis_add_perl_utilities_library UID)
+  basis_make_target_uid (TARGET_UID Basis_pm)
+  if (NOT TARGET ${TARGET_UID})
+    basis_library_prefix (PREFIX PERL)
+    basis_add_library (.${TARGET_UID} "${BASIS_PERL_TEMPLATES_DIR}/Basis.pm")
+    basis_target_link_libraries (.${TARGET_UID} ${BASIS_PERL_UTILITIES_LIBRARY})
+  endif ()
+  basis_set_project_property (PROPERTY PROJECT_USES_PERL_UTILITIES TRUE)
+  set (${UID} ${TARGET_UID} PARENT_SCOPE)
+endfunction ()
+
+# ============================================================================
+# Bash utilities
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Absolute path of current BASH file.
+#
+# @note Does not resolve symbolic links.
+#
+# Example:
+# @code
+# readonly __MYMODULE=@BASIS_BASH___FILE__@
+# @endcode
+#
+# @ingroup BasisBashUtilities
+set (BASIS_BASH___FILE__ "$(cd -- \"$(dirname -- \"\${BASH_SOURCE}\")\" && pwd -P)/$(basename -- \"$BASH_SOURCE\")")
+
+# ----------------------------------------------------------------------------
+## @brief Absolute path to directory of current BASH file.
+#
+# @note Does not resolve symbolic links.
+#
+# Example:
+# @code
+# readonly __MYMODULE_dir=@BASIS_BASH___DIR__@
+# @endcode
+#
+# @ingroup BasisBashUtilities
+set (BASIS_BASH___DIR__ "$(cd -- \"$(dirname -- \"\${BASH_SOURCE}\")\" && pwd -P)")
+
+# ----------------------------------------------------------------------------
+## @brief Add build target for BASIS Bash utilities library.
+#
+# This function is called by basis_target_link_libraries() in order to add the
+# "basis" build target for the project-specific BASIS Bash utilities.
+# If the target was added before, it is only used to get the target UID of
+# this build target so the executable or library can be linked to it.
+#
+# @note The basis_target_link_libraries() function in fact calls
+#       basis_add_utilities_library() which calls this function.
+#
+# @param [out] UID UID of added build target.
+function (basis_add_bash_utilities_library UID)
+  basis_make_target_uid (TARGET_UID basis_sh)
+  if (NOT TARGET ${TARGET_UID})
+    basis_library_prefix (PREFIX BASH)
+    basis_add_library (.${TARGET_UID} "${BASIS_BASH_TEMPLATES_DIR}/basis.sh")
+    basis_target_link_libraries (.${TARGET_UID} ${BASIS_BASH_UTILITIES_LIBRARY})
+  endif ()
+  basis_set_project_property (PROPERTY PROJECT_USES_BASH_UTILITIES TRUE)
+  set (${UID} ${TARGET_UID} PARENT_SCOPE)
+endfunction ()
+
+# ============================================================================
 # configuration
 # ============================================================================
+
+# ----------------------------------------------------------------------------
+## @brief Add build target for BASIS utilities library.
+#
+# This function is called by basis_target_link_libraries() in order to add the
+# "basis" build target for the project-specific BASIS utilities for a given
+# source code language. If the target was added before, it is only used to get
+# the target UID of this build target so the executable or library can be
+# linked to it.
+#
+# @param [out] UID      UID of added build target.
+# @param [in]  LANGUAGE Programming language of utilities.
+macro (basis_add_utilities_library UID LANGUAGE)
+  if ("^${LANGUAGE}$" STREQUAL "^CXX$")
+    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
+      message (FATAL_ERROR "This project makes use of the BASIS C++ utilities"
+                           " but BASIS was built without these utilities enabled.")
+    endif ()
+    basis_add_cxx_utilities_library (${UID})
+  elseif ("^${LANGUAGE}$" STREQUAL "^PYTHON$")
+    if (NOT TARGET ${BASIS_PYTHON_UTILITIES_LIBRARY})
+      message (FATAL_ERROR "This project makes use of the BASIS Python utilities"
+                           " but BASIS was built without these utilities enabled.")
+    endif ()
+    basis_add_python_utilities_library (${UID})
+  elseif ("^${LANGUAGE}$" STREQUAL "^PERL$")
+    if (NOT TARGET ${BASIS_PERL_UTILITIES_LIBRARY})
+      message (FATAL_ERROR "This project makes use of the BASIS Perl utilities"
+                           " but BASIS was built without these utilities enabled.")
+    endif ()
+    basis_add_perl_utilities_library (${UID})
+  elseif ("^${LANGUAGE}$" STREQUAL "^BASH$")
+    if (NOT TARGET ${BASIS_BASH_UTILITIES_LIBRARY})
+      message (FATAL_ERROR "This project makes use of the BASIS Bash utilities"
+                           " but BASIS was built without these utilities enabled.")
+    endif ()
+    basis_add_bash_utilities_library (${UID})
+  else ()
+    message (FATAL_ERROR "Unsupported language: ${LANGUAGE}")
+  endif ()
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Determine whether this project uses any of the BASIS Utilities.
+function (basis_get_project_uses_utilities RETVAL)
+  basis_get_project_property (CXX    PROPERTY PROJECT_USES_CXX_UTILITIES)
+  basis_get_project_property (PYTHON PROPERTY PROJECT_USES_PYTHON_UTILITIES)
+  basis_get_project_property (PERL   PROPERTY PROJECT_USES_PERL_UTILITIES)
+  basis_get_project_property (BASH   PROPERTY PROJECT_USES_BASH_UTILITIES)
+  if (CXX OR PYTHON OR PERL OR BASH)
+    set (RETVAL TRUE PARENT_SCOPE)
+  else ()
+    set (RETVAL FALSE PARENT_SCOPE)
+  endif ()
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Configure BASIS utilities.
 #
 # This function configures the following source files which can be used
-# within the source code of the project.
+# within the source code of the project. If the BASIS utilities for a specific
+# language are not used by any of the project's build targets, no target for
+# the build of these utilities is added, unless the
+# @c BUILD_BASIS_UTILITIES_FOR_<LANGUAGE> option is set to @c ON. A reason
+# for forcing the build of the BASIS utilities is that the libraries should
+# be used by other projects which may want to make use of the BASIS Utilities
+# to get access to the project attributes.
 #
 # <table border="0">
 #   <tr>
@@ -287,21 +425,28 @@ endfunction ()
 # </table>
 #
 # @note Dummy versions of the C++ source files have been written by the
-#       function basis_configure_auxiliary_sources() beforehand. This is
+#       function basis_add_utilities_library() beforehand. This is
 #       necessary because CMake's add_executable() and add_library() commands
 #       raise an error if any of the specified source files does not exist.
 function (basis_configure_utilities)
-  set (CXX TRUE)
-  basis_get_project_property (PYTHON PROPERTY PROJECT_USES_PYTHON_UTILITIES)
-  basis_get_project_property (PERL   PROPERTY PROJECT_USES_PERL_UTILITIES)
-  basis_get_project_property (BASH   PROPERTY PROJECT_USES_BASH_UTILITIES)
-  if (NOT CXX AND NOT PYTHON AND NOT PERL AND NOT BASH)
+  set (SKIP TRUE)
+  foreach (L IN ITEMS CXX PYTHON PERL BASH)
+    if (BUILD_BASIS_UTILITIES_FOR_${L})
+      set (${L} ON)
+    else ()
+      basis_get_project_property (${L} PROPERTY PROJECT_USES_${L}_UTILITIES)
+    endif ()
+    if (${L})
+      set (SKIP FALSE)
+    endif ()
+  endforeach ()
+  if (SKIP)
     return ()
   endif ()
   message (STATUS "Configuring BASIS utilities...")
   # --------------------------------------------------------------------------
   # executable target information
-  _basis_generate_executable_target_info(${CXX} ${PYTHON} ${PERL} ${BASH})
+  _basis_generate_executable_target_info (${CXX} ${PYTHON} ${PERL} ${BASH})
   # --------------------------------------------------------------------------
   # project ID -- used by print_version() in particular
   set (PROJECT_ID "${PROJECT_PACKAGE_NAME}")
@@ -311,6 +456,10 @@ function (basis_configure_utilities)
   # --------------------------------------------------------------------------
   # C++
   if (CXX)
+    # make sure that library target is added which is not the case yet
+    # if the BASIS C++ utilities are not used by any project target, but
+    # their build is forced via the BUILD_BASIS_UTILITIES_FOR_CXX option
+    basis_add_cxx_utilities_library (TARGET_UID)
     # paths - build tree
     set (BUILD_ROOT_PATH_CONFIG    "${CMAKE_BINARY_DIR}")
     set (RUNTIME_BUILD_PATH_CONFIG "${BINARY_RUNTIME_DIR}")
@@ -350,9 +499,11 @@ function (basis_configure_utilities)
                            " but BASIS was built without Python utilities."
                            " Rebuild BASIS with Python utilities enabled.")
     endif ()
-    # add project-specific utilities
-    basis_library_prefix (PREFIX PYTHON)
-    basis_add_library (basis_py "${BASIS_PYTHON_TEMPLATES_DIR}/basis.py")
+    # make sure that library target is added which is not the case yet
+    # if the BASIS Python utilities are not used by any project target, but
+    # their build is forced via the BUILD_BASIS_UTILITIES_FOR_PYTHON option
+    basis_add_python_utilities_library (TARGET_UID)
+    # set target properties
     set (SCRIPT_DEFINITIONS
       "if (BUILD_INSTALL_SCRIPT)
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PYTHON_I}\")
@@ -360,15 +511,16 @@ function (basis_configure_utilities)
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PYTHON_B}\")
        endif ()"
     )
-    if (PROJECT_NAME MATCHES "^BASIS$")
+    if ("^${PROJECT_NAME}" STREQUAL "^BASIS")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_PYTHONPATH \"${BINARY_PYTHON_LIBRARY_DIR}\" \"${INSTALL_PYTHON_LIBRARY_DIR}\")")
     elseif (BUNDLE_PROJECTS MATCHES "(^|;)BASIS(;|$)")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_PYTHONPATH \"${BASIS_PYTHONPATH}\")")
     else ()
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nset (_BASIS_PYTHONPATH \"${BASIS_PYTHONPATH}\")")
     endif ()
+    basis_library_prefix (PREFIX PYTHON)
     basis_set_target_properties (
-      basis_py
+      .${TARGET_UID}
       PROPERTIES
         SOURCE_DIRECTORY          "${BASIS_PYTHON_TEMPLATES_DIR}"
         BINARY_DIRECTORY          "${BINARY_CODE_DIR}"
@@ -377,8 +529,6 @@ function (basis_configure_utilities)
         PREFIX                    "${PREFIX}"
         SCRIPT_DEFINITIONS        "${SCRIPT_DEFINITIONS}"
     )
-    # dependencies
-    basis_target_link_libraries (basis_py ${BASIS_PYTHON_UTILITIES_LIBRARY})
   endif ()
   # --------------------------------------------------------------------------
   # Perl
@@ -389,11 +539,14 @@ function (basis_configure_utilities)
                            " but BASIS was built without Perl utilities."
                            " Rebuild BASIS with Perl utilities enabled.")
     endif ()
-    # add project-specific utilities
+    # make sure that library target is added which is not the case yet
+    # if the BASIS Python utilities are not used by any project target, but
+    # their build is forced via the BUILD_BASIS_UTILITIES_FOR_PERL option
+    basis_add_perl_utilities_library (TARGET_UID)
+    # set target properties
     basis_library_prefix (PREFIX PERL)
-    basis_add_library (Basis_pm "${BASIS_PERL_TEMPLATES_DIR}/Basis.pm")
     basis_set_target_properties (
-      Basis_pm
+      .${TARGET_UID}
       PROPERTIES
         SOURCE_DIRECTORY          "${BASIS_PERL_TEMPLATES_DIR}"
         BINARY_DIRECTORY          "${BINARY_CODE_DIR}"
@@ -407,8 +560,6 @@ function (basis_configure_utilities)
              set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PERL_B}\")
            endif ()"
     )
-    # dependencies
-    basis_target_link_libraries (Basis_pm ${BASIS_PERL_UTILITIES_LIBRARY})
   endif ()
   # --------------------------------------------------------------------------
   # Bash
@@ -418,15 +569,16 @@ function (basis_configure_utilities)
       message (WARNING "Package uses BASIS Bash utilities but is build"
                        " on a non-Unix system.")
     endif ()
-    # utilities available?
     if (NOT BASIS_UTILITIES_ENABLED MATCHES "BASH")
       message (FATAL_ERROR "BASIS Bash utilities required by this package"
                            " but BASIS was built without Bash utilities."
                            " Rebuild BASIS with Bash utilities enabled.")
     endif ()
-    # add project-specific utilities
-    basis_library_prefix (PREFIX BASH)
-    basis_add_library (basis_sh "${BASIS_BASH_TEMPLATES_DIR}/basis.sh")
+    # make sure that library target is added which is not the case yet
+    # if the BASIS Python utilities are not used by any project target, but
+    # their build is forced via the BUILD_BASIS_UTILITIES_FOR_BASH option
+    basis_add_bash_utilities_library (TARGET_UID)
+    # set target properties
     set (SCRIPT_DEFINITIONS
       "if (BUILD_INSTALL_SCRIPT)
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_BASH_I}\")
@@ -435,15 +587,16 @@ function (basis_configure_utilities)
        endif ()
        set (EXECUTABLE_ALIASES \"${EXECUTABLE_TARGET_INFO_BASH_A}\n\n    # define short aliases for this project's targets\n    ${EXECUTABLE_TARGET_INFO_BASH_S}\")"
     )
-    if (PROJECT_NAME MATCHES "^BASIS$")
+    if ("^${PROJECT_NAME}" STREQUAL "^BASIS")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_BASH_LIBRARY_DIR \"${BINARY_BASH_LIBRARY_DIR}\" \"${INSTALL_BASH_LIBRARY_DIR}\")")
     elseif (BUNDLE_PROJECTS MATCHES "(^|;)BASIS(;|$)")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_BASH_LIBRARY_DIR \"${BASIS_BASHPATH}\")")
     else ()
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nset (_BASIS_BASH_LIBRARY_DIR \"${BASIS_BASHPATH}\")")
     endif ()
+    basis_library_prefix (PREFIX BASH)
     basis_set_target_properties (
-      basis_sh
+      .${TARGET_UID}
       PROPERTIES
         SOURCE_DIRECTORY          "${BASIS_BASH_TEMPLATES_DIR}"
         BINARY_DIRECTORY          "${BINARY_CODE_DIR}"
@@ -452,10 +605,7 @@ function (basis_configure_utilities)
         PREFIX                    "${PREFIX}"
         SCRIPT_DEFINITIONS        "${SCRIPT_DEFINITIONS}"
     )
-    # dependencies
-    basis_target_link_libraries (basis_sh ${BASIS_BASH_UTILITIES_LIBRARY})
   endif ()
-
   message (STATUS "Configuring BASIS utilities... - done")
 endfunction ()
 
@@ -609,11 +759,7 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
       endif ()
     endforeach ()
     # target UID including project namespace
-    if (IMPORTED OR TARGET_UID MATCHES "^\\.")
-      set (ALIAS "${TARGET_UID}")
-    elseif (NOT BASIS_USE_FULLY_QUALIFIED_TARGET_UIDS AND TOPLEVEL_PROJECT_NAMESPACE_CMAKE)
-      set (ALIAS "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TARGET_UID}")
-    endif ()
+    basis_get_fully_qualified_target_uid (ALIAS "${TARGET_UID}")
     # indentation after dictionary key, i.e., alias
     string (LENGTH "${ALIAS}" ALIAS_LENGTH)
     math (EXPR NUM "${MAX_ALIAS_LENGTH} - ${ALIAS_LENGTH} + 1")

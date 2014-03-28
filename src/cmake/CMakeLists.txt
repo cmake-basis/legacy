@@ -21,7 +21,7 @@ set (
     "BasisTools.cmake"              # definition of macros and functions
     "BasisTest.cmake"               # testing, wraps CTest
     "BasisSettings.cmake"           # default project-independent settings
-    # submodules included by BasisTools.cmake
+    # submodules included by BasisTools.cmake or on demand, respectively
     "CommonTools.cmake"             # common functions/macros
     "DirectoriesSettings.cmake"     # project directory structure
     "DocTools.cmake"                # documentation generation
@@ -35,6 +35,7 @@ set (
     "ProjectTools.cmake"            # main project/module helpers
     "RevisionTools.cmake"           # revision control system support
     "SlicerTools.cmake"             # support build of Slicer Extensions
+    "SuperBuildTools.cmake"         # super-build related functions
     "TargetTools.cmake"             # addition of build target
     "TopologicalSort.cmake"         # topological sorting of build dependencies
     "UtilitiesTools.cmake"          # generation/configuration of utilities
@@ -123,7 +124,7 @@ basis_install (
 # Attention: DO NOT add the uninstall subdirectory here! Instead, the
 #            CMakeLists.txt file is installed in a separate directory.
 #            This directory is added to the build configuration of each
-#            BASIS project (including BASIS) at the end of basis_project_impl().
+#            BASIS project (including BASIS) at the end of basis_project_end().
 basis_install (
   FILES       "uninstall/CMakeLists.txt"
   DESTINATION "${INSTALL_MODULES_DIR}/uninstall"

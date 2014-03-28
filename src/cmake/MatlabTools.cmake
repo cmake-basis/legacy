@@ -361,7 +361,7 @@ endfunction ()
 # @ingroup CMakeUtilities
 function (basis_create_addpaths_mfile)
   basis_get_project_property (INCLUDE_DIRS PROPERTY PROJECT_INCLUDE_DIRS)
-  basis_write_addpaths_mfile("${CMAKE_CURRENT_BINARY_DIR}/add_${PROJECT_NAME_L}_paths.m" ${INCLUDE_DIRS})
+  basis_write_addpaths_mfile ("${CMAKE_CURRENT_BINARY_DIR}/add_${PROJECT_NAME_L}_paths.m" ${INCLUDE_DIRS})
 endfunction ()
 
 # ----------------------------------------------------------------------------
@@ -577,9 +577,8 @@ endfunction ()
 # basis_build_mex_target(), the target properties can be modified using
 # basis_set_target_properties().
 #
-# @note Custom BASIS build targets are finalized by BASIS at the end of
-#       basis_project_impl(), i.e., the end of the root CMake configuration file
-#       of the (sub-)project.
+# @note Custom BASIS build targets are finalized by BASIS using basis_project_end(),
+#       i.e., the end of the root CMake configuration file of the (sub-)project.
 #
 # @par Properties on script library targets
 # <table border=0>
@@ -693,21 +692,6 @@ function (basis_add_mex_file TARGET_NAME)
   endif ()
   # configure (.in) source files
   basis_configure_sources (SOURCES ${SOURCES})
-  # link to BASIS utilities
-  if (USES_BASIS_UTILITIES)
-    if (NOT TARGET ${BASIS_CXX_UTILITIES_LIBRARY})
-      message (FATAL_ERROR "Target ${TARGET_UID} makes use of the BASIS C++ utilities"
-                           " but BASIS was build without C++ utilities enabled."
-                           " Either specify the option NO_BASIS_UTILITIES, set the global"
-                           " variable BASIS_UTILITIES to FALSE"
-                           " (in ${PROJECT_CONFIG_DIR}/Settings.cmake) or"
-                           " rebuild BASIS with C++ utilities enabled.")
-    endif ()
-    # add project-specific library target if not present yet
-    basis_add_utilities_library (BASIS_UTILITIES_TARGET)
-    # non-project specific and project-specific utilities
-    list (APPEND LINK_DEPENDS ${BASIS_CXX_UTILITIES_LIBRARY} ${BASIS_UTILITIES_TARGET})
-  endif ()
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
   get_directory_property (INCLUDE_DIRS INCLUDE_DIRECTORIES)
@@ -735,6 +719,10 @@ function (basis_add_mex_file TARGET_NAME)
       TEST                      ${TEST}
       EXPORT                    ${EXPORT}
   )
+  # link to BASIS utilities
+  if (USES_BASIS_UTILITIES)
+    basis_target_link_libraries (.${TARGET_UID} basis)
+  endif ()
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
   message (STATUS "Adding MEX-file ${TARGET_UID}... - done")
@@ -762,9 +750,8 @@ endfunction ()
 # basis_build_mcc_target(), the target properties can be modified using
 # basis_set_target_properties().
 #
-# @note Custom BASIS build targets are finalized by BASIS at the end of
-#       basis_project_impl(), i.e., the end of the root CMake configuration file
-#       of the (sub-)project.
+# @note Custom BASIS build targets are finalized by BASIS using basis_project_end(),
+#       i.e., the end of the root CMake configuration file of the (sub-)project.
 #
 # @par Properties on MATLAB Compiler targets
 # <table border=0>
@@ -1027,6 +1014,7 @@ function (basis_add_mcc_target TARGET_NAME)
   basis_configure_sources (SOURCES ${SOURCES})
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
+  basis_get_target_name (OUTPUT_NAME "${TARGET_UID}")
   get_directory_property (INCLUDE_DIRS INCLUDE_DIRECTORIES)
   get_directory_property (LINK_DIRS    LINK_DIRECTORIES)
   _set_target_properties (
@@ -1045,7 +1033,7 @@ function (basis_add_mcc_target TARGET_NAME)
       RUNTIME_OUTPUT_DIRECTORY  "${RUNTIME_OUTPUT_DIRECTORY}"
       RUNTIME_INSTALL_DIRECTORY "${ARGN_RUNTIME_DESTINATION}"
       RUNTIME_COMPONENT         "${ARGN_RUNTIME_COMPONENT}"
-      OUTPUT_NAME               "${TARGET_NAME}"
+      OUTPUT_NAME               "${OUTPUT_NAME}"
       SUFFIX                    "${SUFFIX}"
       COMPILE_FLAGS             "${COMPILE_FLAGS}"
       COMPILE                   "${COMPILE}"
@@ -1067,8 +1055,8 @@ endfunction ()
 ## @brief Add custom command for build of MEX-file.
 #
 # This function is called by basis_finalize_targets() which in turn is called
-# at the end of basis_project_impl(), i.e., the end of the root CMake
-# configuration file of the (sub-)project.
+# by basis_project_end(), i.e., the end of the root CMake configuration file
+# of the (sub-)project.
 #
 # @param [in] TARGET_UID Name/UID of custom target added by basis_add_mex_file().
 #
@@ -1376,11 +1364,7 @@ function (basis_build_mex_file TARGET_UID)
   )
   # export target
   if (EXPORT)
-    if (TEST)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    else ()
-      basis_set_project_property (APPEND PROPERTY CUSTOM_EXPORT_TARGETS "${TARGET_UID}")
-    endif ()
+    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
   endif ()
   # install MEX-file
   if (LIBRARY_INSTALL_DIRECTORY)
@@ -1399,8 +1383,8 @@ endfunction ()
 ## @brief Add custom command for build of MATLAB Compiler target.
 #
 # This function is called by basis_finalize_targets() which in turn is called
-# at the end of basis_project_impl(), i.e., the end of the root CMake
-# configuration file of the (sub-)project.
+# by basis_project_end(), i.e., the end of the root CMake configuration file
+# of the (sub-)project.
 #
 # @param [in] TARGET_UID Name/UID of custom target added by basis_add_mcc_target().
 #
@@ -1828,11 +1812,7 @@ function (basis_build_mcc_target TARGET_UID)
   endif ()
   # export target
   if (EXPORT)
-    if (TEST)
-      basis_set_project_property (APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
-    else ()
-      basis_set_project_property (APPEND PROPERTY CUSTOM_EXPORT_TARGETS "${TARGET_UID}")
-    endif ()
+    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
   endif ()
   # install executable or library
   if (LIBRARY)

@@ -175,16 +175,6 @@ def load_config(config_file, parser):
             sys.stderr.write('Invalid template configuration: ' + config_file + '\n')
             sys.stderr.write('The presets attribute must be a dictionary.\n')
             sys.exit(1)
-        for name in config.presets:
-            opt = config.presets[name]
-            if not 'desc' in opt: opt['desc'] = ''
-            if not 'args' in opt: opt['args'] = []
-            if not type(opt['args']) is list: opt['args'] = [opt['args']]
-            if len(opt['args']) > 0:
-                for o in config.options:
-                    if not o in opt['args']:
-                        opt['args'].append('no' + o)
-                parser.add_argument('--' + name, nargs=0, action=PresetAction, help=opt['desc'])
     else:
         setattr(config, 'presets', {})
     if not 'full' in config.presets:
@@ -192,6 +182,16 @@ def load_config(config_file, parser):
             'desc' : 'Choose project template with all optional files.',
             'args' : config.options.keys()
         }
+    for name in config.presets:
+        opt = config.presets[name]
+        if not 'desc' in opt: opt['desc'] = ''
+        if not 'args' in opt: opt['args'] = []
+        if not type(opt['args']) is list: opt['args'] = [opt['args']]
+        if len(opt['args']) > 0:
+            for o in config.options:
+                if not o in opt['args']:
+                    opt['args'].insert(0, 'no' + o)
+            parser.add_argument('--' + name, nargs=0, action=PresetAction, help=opt['desc'])
     # add options for subsitutions
     if not hasattr(config, 'substitutions'):
         setattr(config, 'substitutions', [])
@@ -253,6 +253,14 @@ def get_original_template(args):
     m = re.search(r'\s*(basis_project|basis_slicer_module)\s*\([^)]*TEMPLATE\s+"(?P<template>[^"]+)"', txt)
     if m: return os.path.join(_template_dir, m.group('template'))
     return None
+
+# ----------------------------------------------------------------------------
+def template_abspath(template):
+    """Make absolute path from given template argument."""
+    path = os.path.abspath(template)
+    if not os.path.isdir(path):
+        path = os.path.join(_template_dir, template)
+    return path
 
 # ============================================================================
 # add / remove project file
@@ -333,7 +341,7 @@ def alter(filename, args, backup=True, update=False):
           more or less useless again after the template configuration has been
           introduced and not only fixed substitutions are performed.
     """
-    if args.noalter: return 0
+    if  hasattr(args, 'noalter') and args.noalter: return 0
     # ensure that file is a text file that can be configured
     if not filename.endswith('.in'):
         mtype = mimetypes.guess_type(filename)[0]
@@ -446,7 +454,7 @@ def update_project_template(args):
         if re.search(r'\s+TEMPLATE\s+"' + template + '"', txt):
             return 0
         else:
-            out = re.sub(r'(\s+)TEMPLATE(\s+)"[^"]*"', '\1TEMPLATE\2"' + template + '")', txt)
+            out = re.sub(r'(\s+)TEMPLATE(\s+)"[^"]*"', '\\1TEMPLATE\\2"' + template + '"', txt)
     else:
         ok = False
     if ok and out != txt:
@@ -483,9 +491,9 @@ def add(path, args, isdir=False):
     """
     retval = 0
 
-    template_path          = get_template(args.template, path)
+    template_path          = get_template(args.template,          path)
     original_template_path = get_template(args.original_template, path)
-    project_path           = os.path.join(args.root, path)
+    project_path           = os.path.join(args.root,              path)
 
     # check existence of template
     if not isdir and not os.path.exists(template_path):
@@ -509,7 +517,7 @@ def add(path, args, isdir=False):
                 return -1
             # if update of existing files is disabled, only alter file
             # to add further dependencies or specify an author...
-            if not args.update:
+            if not args.upgrade:
                 rv = alter(project_path, args, backup=args.backup)
                 if rv == 1: print "M %s" % project_path
                 return rv
@@ -669,7 +677,7 @@ def delete(path, args, isdir=False):
     retval = 0
 
     original_template_path = get_template(args.original_template, path)
-    project_path = os.path.join(args.root, path)
+    project_path           = os.path.join(args.root,              path)
 
     # delete existing directory
     if os.path.isdir(project_path):
@@ -813,43 +821,65 @@ class AccumulatorForNumbersOfChangesAndErrors(object):
 # ----------------------------------------------------------------------------
 if __name__ == '__main__':
     ok = True
-
+    
     # ------------------------------------------------------------------------
     # program help
     parser = argparse.ArgumentParser(prog='basisproject', description="""
-  This command-line tool, also referred to as project tool, can be used to
-  create a new project from a given project template or to modify a previously
-  created BASIS project.
+  This tool can create a new project from a template or modify an existing project.\n\n
+  
+  Creating a new project:
 
-  Depending on the grade of customization or optional inclusion of template
-  components, different subsets of the fully featured project template can be
-  selected. Additional template files and directories can be added to an existing
-  project at any time. Further, if the --no* options are given explicitly,
-  project files which were previously copied from the template are deleted.
-  Files are, however, only deleted if they were not modified by the project
-  developer since their creation and hence do not contain project related changes.
-  Similarly are directories deleted by this tool only if empty. The deletion of
-  modified files can be forced by supplying the --force option.
+    Example for creating a new project which contains the full functionality
+    provided by the configured default project template:
 
-  Besides the name of the new project and a brief description, names of external
-  packages required or optionally used by this project can be specified. For each
-  such package, an entry in the list of dependencies given as argument to either
-  one of the DEPENDS* options of the basis_project() command is added.
+      basisproject create --name        ProjectName
+                          --description "Brief description of what it does."
+                          --author      "Author Name1, Author Name2"
+                          --full
 
-  An additional feature of this tool is, that it can upgrade an existing project
-  to a newer project template version, given that the existing directory structure
-  and file names were preserved. User changes to previously added template files
-  are preserved and merged with the changes of the template using a so-called
-  three-way diff similar to the Subversion tool svn. If the automatic file merge
-  is not successful, a copy of the original project file (*.mine) as well as the
-  new template file (*.template) are written to the project directory next to the
-  project file which has been overwritten with the merged content which includes
-  markers to indicate where the conflicts occurred. The project file has to be
-  edited manually in this case to resolve any conflicts. Once the conflicts have
-  been resolved, the *.mine and *.template files must be removed before this
-  tool can be used for another update of the project files. This can be done
-  either manually or by running this program with the --cleanup option.""",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    You can also select the components of a template you want in your project,
+    or update an existing project with additional template files and directories.
+
+    Note: Most projects do not need the full functionality. It is recommended to
+          start with the --default set of files and add others when needed.
+
+  Updating a project:
+ 
+    Functionality can be removed by updating a project with the --no* options.
+    However, directories and files are only deleted if they are empty or were
+    not modified, respectively, by the project developer since their creation.
+    The deletion of modified files can be forced by supplying the --force option.
+
+  External package requirements:
+
+    Besides the name of the new project and a brief description, names of external
+    packages required or optionally used by this project can be specified. For each
+    such package, an entry in the list of dependencies given as argument to either
+    one of the DEPENDS* options of the basis_project() command is added. The call
+    to this command can be found in the BasisProject.cmake file of the project.
+
+  Upgrading a project:
+
+    The basisproject tool can upgrade an existing project to a newer template version, 
+    given that the existing directory structure and file names were preserved.
+  
+    User changes to previously added template files are kept and merged with the
+    changes of the project template using a so-called three-way diff. This update
+    process is similar to how remote changes are merged with your working copy changes
+    by version control systems such as Subversion or Git.
+  
+    If the automatic file merge is not successful, basisproject creates:
+  
+        - a copy of the original project file (*.mine)
+        - the new template file (*.template) 
+        - the project file which has been overwritten with the merged content
+          including markers to indicate where the conflicts occurred.
+
+    The project file has to be edited manually or with a merge tool such as kdiff3 to 
+    resolve any conflicts. Once the conflicts have been resolved, the *.mine and 
+    *.template files must be removed either with the --cleanup option or manually 
+    before another update is possible.""",
+        formatter_class=argparse.RawTextHelpFormatter,
         argument_default=None,
         add_help=False)
 
@@ -869,105 +899,37 @@ before execution. Include other response files recursively using @/path/to/file.
     parser.add_argument('--version', action='version',
             help="Show version information and exit.",
             version="""%(prog)s (@PROJECT_NAME@) @PROJECT_VERSION_AND_REVISION@
-Copyright (c) 2011, 2012 University of Pennsylvania, 2013 Andreas Schuh. All rights reserved.
-See http://www.rad.upenn.edu/sbia/software/license.html or COPYING file.""")
+Copyright (c) 2011-2012 University of Pennsylvania, 2013-2014 Andreas Schuh. All rights reserved.
+See http://opensource.andreasschuh.com/cmake-basis/download.html#software-license.""")
 
     # --verbose
     parser.add_argument('-v', '--verbose', action='count', default=0,
             help="Increase verbosity of output messages.")
 
-    # --name/--description/--author
-    parser.add_argument('--name', metavar='<name>', default=None,
-            help="Name of new project.")
+    # --template
+    parser.add_argument('--template', metavar='<dir>', default=_template,
+            help="""Root directory of project template. Paths can be absolute or relative to
+either the current working directory or the installation directory of the
+default templates. The configured default template is used if none specified.""")
+    
+    # --help
+    parser.add_argument('-h', '--help', default=argparse.SUPPRESS, action='help',
+            help="""Print help and exit. For help with subcommand arguments type 'basisproject help <command>'.""")
 
-    parser.add_argument('--description', metavar='<text>', default=None,
-            help="Brief project description.")
-
-    parser.add_argument('--author', metavar='<author>', default='',
-            help="Name of original author of the software.")
-
-    # --root/--template
-    parser.add_argument('--root', metavar='<dir>', type=os.path.abspath, default=None,
-            help="""Project root directory. Defaults to a subdirectory named after the
-project created in the current working directory. In order to update
-an existing project, specify the root directory of this project
-using this option.""")
-
-    parser.add_argument('--template', metavar='<dir>', type=os.path.abspath, default=_template,
-            help="""Root directory of project template. Defaults to the template
-corresponding to this BASIS installation.""")
-
-    parser.add_argument('--original', metavar='<dir>', default=None,
-            type=os.path.abspath, dest='original_template',
-            help="""Root directory of project template which the already existing project
-was created from or last updated to. By default, the version of the original template
-is extracted from the root CMakeLists.txt file of the project. Given this version,
-this tool determines the path of the corresponding project template which is part of
-the BASIS installation. If this previous template is not available, an automatic
-update of project files to a newer template version is not feasible.""")
-
-    # --use et al.
-    parser.add_argument('--use', metavar='<pkg>', action='append', default=[],
-            help="""Name of external package used by this project.
-Note that the package name is case sensitive.""")
-
-    parser.add_argument('--useopt', metavar='<pkg>', action='append', default=[],
-            help="""Name of external package optionally used by this project.
-Note that the package name is case sensitive.""")
-
-
-    parser.add_argument('--usetest', metavar='<pkg>', action='append', default=[],
-            help="""Name of external package required by tests of this project.
-Note that the package name is case sensitive.""")
-
-    parser.add_argument('--useopttest', metavar='<pkg>', action='append', default=[],
-            help="""Name of external package optionally used by tests of this project.
-Note that the package name is case sensitive.""")
-
-    # --update
-    parser.add_argument('-u', '--update', action='store_true', default=False,
-            help="""Enable update of existing project files. If this option is given,
-changes of the project file are merged with those of the
-corresponding template file if the template has been modified,
-for example, as part of a new release of BASIS.""")
-
-    # --cleanup
-    parser.add_argument('-c', '--cleanup', action='store_true', default=False,
-            help="""Remove files resulting from merge conflicts of a previous update
-of existing project files and backups. The conflicts should have
-been manually resolved before using this option.""")
-
-    # --force
-    parser.add_argument('-f', '--force', action='store_true', default=False,
-            help="""Enable removal of non-empty directories and modified project files.
-By default, only empty directories and project files which have not
-been edited since their creation are removed.""")
-
-    # --nobackup
-    parser.add_argument('--nobackup', action='store_false', default=True, dest='backup',
-            help="""Disable backup of existing project files. By default, whenever an
-existing project file is modified, a backup of this file is made and saved under the
-same filename, but with the ~ character as suffix. If this option is given, such backup
-files are not made. In case of a merge conflict, however, existing project files are
-always backed-up, using .mine as suffix for the file name of the backup in this case.""")
-
-    # --noalter
-    parser.add_argument('--noalter', action='store_true', default=False,
-            help="""Disable alteration of template files.""")
-
-    # --new-template
-    parser.add_argument('--new-template', action='store_true', default=False,
-            help="""Create a new project template instead of a project. Implies --noalter.""")
+    # --helpall
+    parser.add_argument('--helpall', default=argparse.SUPPRESS, action='store_true',
+            help="""Print the complete help for all commands.""")
 
     # ----------------------------------------------------------------------------
     # parse common options
-    if len(argv) == 0:
-        parser.print_help()
-        sys.exit(1)
-    args, argv = parser.parse_known_args(argv)
-
-    # option --new-template implies --noalter
-    if args.new_template: args.noalter = True
+    if len(argv) > 0:
+        args, argv_remaining = parser.parse_known_args(argv)
+        args.template = template_abspath(args.template)
+    else:
+        args.template = _template
+    
+    template_parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,add_help=False)
+    custom_template_group = template_parser.add_argument_group("optional arguments imported from template\n'" + args.template + "'")
 
     # ----------------------------------------------------------------------------
     # load template configuration
@@ -976,18 +938,136 @@ always backed-up, using .mine as suffix for the file name of the backup in this 
         sys.stderr.write('Missing template configuration file: ' + config_file + '\n')
         sys.stderr.write('Please specify a valid project template directory using --template.\n')
         sys.exit(1)
-    config, parser = load_config(config_file, parser)
+    config, custom_template_group = load_config(config_file, custom_template_group)
+    
+    subparsers = parser.add_subparsers(help='Command specifying the type of modification to make.', dest='subparser_name')
+    
+    # ----------------------------------------------------------------------------
+    # the shared_parser is for commands that work across all subparsers
+    shared_parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,add_help=False)
 
-    # require also template _config.py when creating a new project template
-    if args.new_template: config.required.insert(0, '_config.py')
+    # --root
+    shared_parser.add_argument('--root', metavar='<dir>', type=os.path.abspath, default=None,
+            help="""Project root directory. Defaults to a subdirectory named after the
+project created in the current working directory. In order to update
+an existing project, specify the root directory of this project
+using this option.""")
+
+    # --cleanup
+    shared_parser.add_argument('--cleanup', action='store_true', default=False,
+            help="""Remove files resulting from merge conflicts of a previous update
+of existing project files and backups. The conflicts should have
+been manually resolved before using this option.""")
+
+    # --nobackup
+    shared_parser.add_argument('--nobackup', action='store_false', default=True, dest='backup',
+            help="""Disable backup of existing project files. By default, whenever an
+existing project file is modified, a backup of this file is made and saved under the
+same filename, but with the ~ character as suffix. If this option is given, such backup
+files are not made. In case of a merge conflict, however, existing project files are
+always backed-up, using .mine as suffix for the file name of the backup in this case.""")
 
     # ----------------------------------------------------------------------------
-    # parse template options
-    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, 
-            help="""Print help and exit.""")
+    # parser for specified dependencies -- used by create and update subcommand
+    depends_parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, add_help=False)
 
-    if len(argv) > 0:
-        args = parser.parse_args(argv, args)
+    depends_parser.add_argument('--use', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package used by this project (case sensitive).""")
+    depends_parser.add_argument('--useopt', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package optionally used by this project (case sensitive).""")
+    depends_parser.add_argument('--usetest', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package required by tests of this project (case sensitive).""")
+    depends_parser.add_argument('--useopttest', metavar='<pkg>', action='append', default=[],
+            help="""Name of external package optionally used by tests of this project (case sensitive).""")
+    
+    # ----------------------------------------------------------------------------
+    # command: create
+    create_parser = subparsers.add_parser('create', parents=[shared_parser,depends_parser,template_parser],
+            help="""Create a new project or template""")
+
+    # --noalter
+    create_parser.add_argument('--noalter', action='store_true', default=False,
+            help="""Disable alteration of template files.""")
+
+    # --new-template
+    create_parser.add_argument('--new-template', action='store_true', default=False,
+            help="""Create a new template for generating projects instead of a project. Implies --noalter.""")
+
+    # --name/--description/--author
+    create_parser.add_argument('--name', metavar='<name>', default=None, required=True,
+            help="Name of new project.")
+
+    create_parser.add_argument('--description', metavar='<text>', default=None,
+            help="Brief project description.")
+
+    create_parser.add_argument('--author', metavar='<author>', default='',
+            help="Name of original author of the software.")
+
+    # ----------------------------------------------------------------------------
+    # command: update
+    update_parser = subparsers.add_parser('update', parents=[shared_parser,depends_parser,template_parser],
+            help="""Modify an existing project.""")
+    
+    # --force
+    update_parser.add_argument('-f', '--force', action='store_true', default=False,
+            help="""Enable removal of non-empty directories and modified project files.
+By default, only empty directories and project files which have not
+been edited since their creation are removed.""")
+
+    # ----------------------------------------------------------------------------
+    # command: upgrade
+    upgrade_parser = subparsers.add_parser('upgrade', parents=[shared_parser,template_parser],
+            help="""Upgrade an existing project to a newer template version.""")
+
+    # --original
+    upgrade_parser.add_argument('--original', metavar='<dir>', default=None,
+            type=os.path.abspath, dest='original_template',
+            help="""Root directory of project template which the already existing project
+was created from or last updated to. By default, the path of the original template
+is extracted from the BasisProject.cmake file of the project. This path can be relative to
+to the installation directory of the default templates. If this option is specified
+on the command-line, paths can also be relative to the current working directory.
+Absolute paths are always possible. If the specified previous template is not available,
+an automatic upgrade of project files to a newer template is not feasible.""")
+    
+    # ----------------------------------------------------------------------------
+    # command: help
+
+    class PrintHelp(argparse.Action):
+        def __call__(self, parser, namespace, values, option_string):
+            if   values[0] == 'create':  print create_parser .format_help()
+            elif values[0] == 'update':  print update_parser .format_help()
+            elif values[0] == 'upgrade': print upgrade_parser.format_help()
+            else:                        print parser        .format_help()
+            sys.exit(0)
+
+    help_parser = subparsers.add_parser('help', help='Show command help.', add_help=False)
+    help_parser.add_argument('command', nargs=1, action=PrintHelp, default='all', help='Show help of named command.')
+
+    # ----------------------------------------------------------------------------
+    # parse common options
+    
+    # @sa https://stackoverflow.com/questions/20094215/argparse-subparser-monolithic-help-output
+    if hasattr(args, 'helpall') and args.helpall:
+        # print main help
+        parser.print_help()
+        # retrieve subparsers from parser
+        subparsers_actions = [
+            action for action in parser._actions 
+            if isinstance(action, argparse._SubParsersAction)]
+        # there will probably only be one subparser_action,
+        # but better save than sorry
+        for subparsers_action in subparsers_actions:
+            # get all subparsers and print help
+            for choice, subparser in subparsers_action.choices.items():
+                print("\n\nUsing the 'basisproject {}' command:".format(choice))
+                print(subparser.format_help())
+        sys.exit(1)
+    if len(argv) == 0:
+        parser.print_help()
+        sys.exit(1)
+    if len(argv_remaining) > 0:
+        args = parser.parse_args(argv_remaining, args)
     if not hasattr(args, 'ops'):
         setattr(args, 'ops', {})
 
@@ -995,8 +1075,14 @@ always backed-up, using .mine as suffix for the file name of the backup in this 
     # create new project or update existing one?
 
     # request to create new project
-    if args.name:
-        create = True
+    if args.subparser_name == 'create':
+        create       = True
+        args.upgrade = False
+        args.backup  = False
+        # option --new-template implies --noalter
+        if args.new_template: args.noalter = True
+        # require also template _config.py when creating a new project template
+        if args.new_template: config.required.insert(0, '_config.py')
         # create subdirectory in current working directory by default
         if not args.root:
             args.root = os.path.join(os.getcwd(), args.name)
@@ -1015,31 +1101,26 @@ always backed-up, using .mine as suffix for the file name of the backup in this 
         if args.new_template: args.root = os.path.join(args.root, '1.0')
         # set path of original template to current template
         args.original_template = args.template
-        # require a project description
-        if args.new_template:
-            if args.description:
-                sys.stderr.write("Project description ignored. Creating a new project template.\n")
-        elif not args.description:
-            sys.stderr.write("No project description given!\n")
-            sys.exit(1)
+        # warn if project description is ignored
+        if args.new_template and args.description:
+            sys.stderr.write("Project description ignored. Creating a new project template.\n")
         # verify that name is valid
-        if not re.match(r'^[a-zA-Z0-9]+$', args.name):
+        if not re.match(r'^[a-zA-Z0-9][-_a-zA-Z0-9]+$', args.name):
             if args.new_template:
                 sys.stderr.write("Invalid template name: " + args.name + "\n")
-                sys.stderr.write("A template name may only consist of alphanumeric characters!\n")
+                sys.stderr.write("A template name may only consist of alphanumeric characters, `-`, and `_`!\n")
             else:
                 sys.stderr.write("Invalid project name: " + args.name + "\n")
-                sys.stderr.write("A project name may only consist of alphanumeric characters!\n")
-                sys.stderr.write("If you are attempting to modify an existent project, check whether the\n")
-                sys.stderr.write("project name is correctly extracted from the BasisProject.cmake file.\n")
+                sys.stderr.write("A project name may only consist of alphanumeric characters, `-`, and `_`!\n")
+                sys.stderr.write("If you are attempting to modify an existing project, check if the\n")
+                sys.stderr.write("project name has been correctly extracted from the BasisProject.cmake file.\n")
             sys.exit(1)
     # request to modify existing project
     else:
         create = False
-        # throw error if --new-template used without specifying a name for the template
-        if args.new_template:
-            sys.stderr.write("Option --new-template requires a --name for the new template to be specified!\n")
-            sys.exit(1)
+        # whether to upgrade existing project files
+        if args.subparser_name == 'upgrade': args.upgrade = True
+        else:                                args.upgrade = False
         # use current working directory if root not specified
         if not args.root:
             args.root = os.getcwd()
@@ -1063,18 +1144,20 @@ always backed-up, using .mine as suffix for the file name of the backup in this 
                     + "See the documentation section on How To Create and Modify a Project for more details.")
             sys.exit(1)
         # notify user that --description option is invalid
-        if args.description:
+        if hasattr(args, 'description') and args.description:
             sys.stderr.write("Cannot modify description of existing project. Please edit file BasisProject.cmake.\n")
             sys.stderr.write("Do not use option --description when attempting to modify an existing project.\n")
             sys.exit(1)
         # get project name
-        if not args.name:
+        if not hasattr(args, 'description') or not args.name:
             args.name = get_project_name(os.path.join(args.root, 'BasisProject.cmake'))
             if not args.name:
                 sys.stderr.write("Failed to determine project name!\n")
                 sys.exit(1)
         # get original template directory
-        if not args.original_template:
+        if args.original_template:
+            args.original_template = template_abspath(args.original_template)
+        else:
             args.original_template = get_original_template(args)
             if not args.original_template:
                 sys.stderr.write("Failed to determine original template directory and version!\n")
@@ -1109,7 +1192,7 @@ always backed-up, using .mine as suffix for the file name of the backup in this 
                             if args.verbose > 0: sys.stderr.write(': ' + str(e))
                             sys.stderr.write('\n')
                             ok = False
-                    elif args.update and not filename.endswith('~'):
+                    elif args.upgrade and not filename.endswith('~'):
                         sys.stderr.write(
 """Conflicts occured when updating the project files before.
 
@@ -1141,13 +1224,13 @@ template files in the .basis/ subdirectory.
             for path in config.options[opt].get('path', []):
                 acc.call(addordel, op, path, args)
         # update template version
-        if args.update: acc.call(update_project_template, args)
-
+        if args.subparser_name == 'upgrade':
+            acc.call(update_project_template, args)
     except Exception, e:
         sys.stderr.write("Failed to ")
         if create: sys.stderr.write("create")
         else:      sys.stderr.write("modify")
-        sys.stderr.write(" project: " + str(e) + '\n')
+        sys.stderr.write(" project: " + str(e) + "\n\n\tPlease check for existing issues related to this error.\t\tIf you cannot find anything please file a report at:\n\thttps://github.com/schuhschuh/cmake-basis/issues/")
         ok = False
         raise e
 
@@ -1165,7 +1248,7 @@ template files in the .basis/ subdirectory.
                 if acc.changes > 1: sys.stdout.write('s')
                 sys.stdout.write(" added (A), removed (D), or modified (G, C)\n")
             elif acc.errors == 0:
-                if args.update:
+                if args.upgrade:
                     sys.stdout.write("Project is up to date\n")
                 else:
                     sys.stdout.write("No project files added, removed, or modified\n")
