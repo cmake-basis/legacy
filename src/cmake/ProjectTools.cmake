@@ -703,13 +703,7 @@ macro (basis_project_modules)
 
   # glob BasisProject.cmake files in modules subdirectory
   if (PROJECT_MODULES_DIR)
-    file (
-      GLOB
-        MODULE_INFO_FILES
-      RELATIVE
-        "${CMAKE_CURRENT_SOURCE_DIR}"
-        "${PROJECT_MODULES_DIR}/*/BasisProject.cmake"
-    )
+    file (GLOB MODULE_INFO_FILES "${PROJECT_MODULES_DIR}/*/BasisProject.cmake")
   endif ()
   
   # add each manually specified module
@@ -774,7 +768,7 @@ macro (basis_project_modules)
     basis_module_info (${F})
     list (APPEND PROJECT_MODULES ${MODULE})
     get_filename_component (${MODULE}_BASE ${F} PATH)
-    set (MODULE_${MODULE}_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${${MODULE}_BASE}")
+    set (MODULE_${MODULE}_SOURCE_DIR "${${MODULE}_BASE}")
     # use module name as subdirectory name such that the default package
     # configuration file knows where to find the module configurations
     set (MODULE_${MODULE}_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/modules/${MODULE}")
@@ -1245,8 +1239,8 @@ macro (basis_configure_root_documentation_files)
     elseif (EXISTS "${PROJECT_SOURCE_DIR}/${F}.md")
       set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}.md")
       set (DOC_EXT ".md")
-    endif()
-    
+    endif ()
+
     if (EXISTS "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
       set (PROJECT_${F}_FILE "${PROJECT_SOURCE_DIR}/${F}${DOC_EXT}")
       if (PROJECT_IS_MODULE)
@@ -1287,8 +1281,6 @@ macro (basis_configure_root_documentation_files)
           )
         endif ()
       endif ()
-    elseif (NOT F MATCHES "WELCOME" AND NOT PROJECT_IS_MODULE)
-      message (FATAL_ERROR "Project requires a ${F}.txt or ${F}.md file in ${PROJECT_SOURCE_DIR}!")
     endif ()
   endforeach ()
   set (PROJECT_LICENSE_FILE "${PROJECT_COPYING_FILE}") # compatibility with Slicer
@@ -1586,12 +1578,7 @@ macro (basis_initialize_settings)
   
   # --------------------------------------------------------------------------
   # configure project specific BASIS settings
-  set (_BASIS_NAMESPACE_CMAKE "${PROJECT_PACKAGE_NAME_L}")
-  if (PROJECT_IS_SUBPROJECT OR PROJECT_IS_MODULE)
-    set (_NAMESPACE_CMAKE "${_BASIS_NAMESPACE_CMAKE}.${PROJECT_NAME_L}")
-  else ()
-    set (_NAMESPACE_CMAKE "${_BASIS_NAMESPACE_CMAKE}")
-  endif ()
+  set (_TOPLEVEL_NAMESPACE_CMAKE "${PROJECT_PACKAGE_NAME_L}")
   # default namespaces used for supported programming languages
   foreach (_L IN LISTS BASIS_LANGUAGES_U)
     if (_L MATCHES "PERL")
@@ -1604,14 +1591,14 @@ macro (basis_initialize_settings)
     foreach (_L IN LISTS BASIS_LANGUAGES_U)
       if (_L MATCHES "PERL")
         set (_NAMESPACE_${_L} "${_NAMESPACE_${_L}}${BASIS_NAMESPACE_DELIMITER_${_L}}${PROJECT_NAME}")
-      elseif (NOT _L MATCHES "CMAKE")
+      else ()
         set (_NAMESPACE_${_L} "${_NAMESPACE_${_L}}${BASIS_NAMESPACE_DELIMITER_${_L}}${PROJECT_NAME_L}")
       endif ()
     endforeach ()
   endif ()
   # package configuration
   set (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX "${TOPLEVEL_PROJECT_PACKAGE_NAME}")
-  if (PROJECT_IS_SUBPROJECT OR PROJECT_IS_MODULE)
+  if (PROJECT_IS_MODULE)
     set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}")
   else ()
     set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}")
@@ -1628,8 +1615,8 @@ macro (basis_initialize_settings)
     @ONLY
   )
   # unset local variables
+  unset (_TOPLEVEL_NAMESPACE_CMAKE)
   foreach (_L IN LISTS BASIS_LANGUAGES_U)
-    unset (_BASIS_NAMESPACE_${_L})
     unset (_NAMESPACE_${_L})
   endforeach ()
   unset (_TOPLEVEL_PROJECT_PACKAGE_UID)
@@ -2092,7 +2079,9 @@ macro (basis_project_end)
 
     # --------------------------------------------------------------------------
     # change log
-    basis_add_changelog ()
+    if (NOT PROJECT_IS_MODULE)
+      basis_add_changelog ()
+    endif ()
 
     # --------------------------------------------------------------------------
     # package software

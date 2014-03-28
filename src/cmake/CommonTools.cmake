@@ -1541,29 +1541,40 @@ function (basis_get_source_target_name TARGET_NAME SOURCE_FILE)
 endfunction ()
 
 # ----------------------------------------------------------------------------
+## @brief Strip of top-level package name from target UID if present.
+#
+# If @c BASIS_USE_FULLY_QUALIFIED_TARGET_UID is @c ON, the top-level package
+# name is always preserved and this operation does nothing.
+#
+# @param[in,out] TARGET_UID "Global" target name, i.e., actual CMake target name.
+#
+# @returns Sets @p TARGET_UID to the (stripped) UID.
+function (basis_strip_target_uid TARGET_UID)
+  if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
+    basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
+    string (REGEX REPLACE "^\\.*${RE}\\." "" UID "${${TARGET_UID}}")
+    set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
+  endif ()
+endfunction ()
+
+# ----------------------------------------------------------------------------
 ## @brief Make target UID from given target name.
 #
-# This function is intended for use by the basis_add_*() functions only.
-#
-# Unlike basis_make_target_uid(), it ignores @c BASIS_USE_TARGET_UIDS and
-# always makes a target UID. It is especially used to create unique target
-# names for targets which are common to every (sub-)project such as the
-# ChangeLog target or the BASIS C++ Utilities target.
+# This function is intended for internal use only.
 #
 # @param [out] TARGET_UID  "Global" target name, i.e., actual CMake target name.
 # @param [in]  TARGET_NAME Target name used as argument to BASIS CMake functions.
 #
 # @returns Sets @p TARGET_UID to the UID of the build target @p TARGET_NAME.
-function (basis_always_make_target_uid TARGET_UID TARGET_NAME)
-  if (TARGET_NAME MATCHES "^\\.(.*)$")
+#
+# @sa basis_make_target_uid()
+function (_basis_make_target_uid TARGET_UID TARGET_NAME)
+  if (TARGET_NAME MATCHES "^\\.+(.*)$")
     set (${TARGET_UID} "${CMAKE_MATCH_1}" PARENT_SCOPE)
   else ()
     set (UID "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
-    if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-      basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
-      string (REGEX REPLACE "^${RE}\\." "" UID "${UID}")
-    endif ()
-    set (${TARGET_UID} ${UID} PARENT_SCOPE)
+    basis_strip_target_uid (UID)
+    set (${TARGET_UID} "${UID}" PARENT_SCOPE)
   endif ()
 endfunction ()
 
@@ -1582,13 +1593,18 @@ endfunction ()
 #
 # @sa basis_get_target_uid()
 if (BASIS_USE_TARGET_UIDS)
-  macro (basis_make_target_uid TARGET_UID TARGET_NAME)
-    basis_always_make_target_uid ("${TARGET_UID}" "${TARGET_NAME}")
-  endmacro ()
+  function (basis_make_target_uid TARGET_UID TARGET_NAME)
+    _basis_make_target_uid (UID "${TARGET_NAME}")
+    set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
+  endfunction ()
 else ()
-  macro (basis_make_target_uid TARGET_UID TARGET_NAME)
-    set ("${TARGET_UID}" "${TARGET_NAME}")
-  endmacro ()
+  function (basis_make_target_uid TARGET_UID TARGET_NAME)
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
+      set ("${TARGET_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_UID}" "${TARGET_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1628,7 +1644,7 @@ endif ()
 if (BASIS_USE_TARGET_UIDS)
   function (basis_get_target_uid TARGET_UID TARGET_NAME)
     # in case of a leading namespace separator, do not modify target name
-    if (TARGET_NAME MATCHES "^\\.(.*)$")
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
       set (UID "${CMAKE_MATCH_1}")
     # otherwise,
     else ()
@@ -1677,9 +1693,13 @@ if (BASIS_USE_TARGET_UIDS)
     set ("${TARGET_UID}" "${UID}" PARENT_SCOPE)
   endfunction ()
 else ()
-  macro (basis_get_target_uid TARGET_UID TARGET_NAME)
-    set ("${TARGET_UID}" "${TARGET_NAME}")
-  endmacro ()
+  function (basis_get_target_uid TARGET_UID TARGET_NAME)
+    if (TARGET_NAME MATCHES "^\\.+(.*)$")
+      set (${TARGET_UID} "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_UID}" "${TARGET_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1733,9 +1753,9 @@ if (BASIS_USE_TARGET_UIDS)
     endif ()
   endfunction ()
 else ()
-  macro (basis_get_target_namespace TARGET_NS TARGET_UID)
-    set ("${TARGET_NS}" "")
-  endmacro ()
+  function (basis_get_target_namespace TARGET_NS TARGET_UID)
+    set ("${TARGET_NS}" "" PARENT_SCOPE)
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1761,9 +1781,9 @@ if (BASIS_USE_TARGET_UIDS)
     set (${TARGET_NAME} "${NAME}" PARENT_SCOPE)
   endfunction ()
 else ()
-  macro (basis_get_target_name TARGET_NAME TARGET_UID)
-    set (${TARGET_NAME} "${TARGET_UID}")
-  endmacro ()
+  function (basis_get_target_name TARGET_NAME TARGET_UID)
+    set (${TARGET_NAME} "${TARGET_UID}" PARENT_SCOPE)
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1782,7 +1802,7 @@ function (basis_check_target_name TARGET_NAME)
     endif ()
   endforeach ()
   # invalid target name ?
-  if (NOT TARGET_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+]|-)*$|^__init__(_py)?$")
+  if (NOT TARGET_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+.]|-)*$|^__init__(_py)?$")
     message (FATAL_ERROR "Target name '${TARGET_NAME}' is invalid.\nChoose a target name"
                          " which only contains alphanumeric characters,"
                          " '_', '-', or '+', and starts with a letter."
@@ -1812,15 +1832,10 @@ endfunction ()
 # @returns Sets @p TEST_UID to the UID of the test @p TEST_NAME.
 #
 # @sa basis_get_test_uid()
-if (BASIS_USE_TARGET_UIDS)
-  macro (basis_make_test_uid TEST_UID TEST_NAME)
-    basis_make_target_uid ("${TEST_UID}" "${TEST_NAME}")
-  endmacro ()
-else ()
-  macro (basis_make_test_uid TEST_UID TEST_NAME)
-    set ("${TEST_UID}" "${TEST_NAME}")
-  endmacro ()
-endif ()
+function (basis_make_test_uid TEST_UID TEST_NAME)
+  basis_make_target_uid (UID "${TEST_NAME}")
+  set ("${TEST_UID}" "${UID}" PARENT_SCOPE)
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get "global" test name, i.e., actual CTest test name.
@@ -1843,22 +1858,22 @@ endif ()
 # @sa basis_get_test_name()
 if (BASIS_USE_TARGET_UIDS)
   function (basis_get_test_uid TEST_UID TEST_NAME)
-    if (TEST_NAME MATCHES "^\\.(.*)$")
-      set (UID "${CMAKE_MATCH_1}")
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
     else ()
       set (UID "${PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
-      if (NOT BASIS_USE_FULLY_QUALIFIED_UIDS)
-        basis_sanitize_for_regex (RE "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}")
-        string (REGEX REPLACE "^${RE}\\." "" UID "${UID}")
-      endif ()
+      basis_strip_target_uid (UID ${UID})
+      set ("${TEST_UID}" "${UID}" PARENT_SCOPE)
     endif ()
-    # return
-    set (${TEST_UID} "${UID}" PARENT_SCOPE)
   endfunction ()
 else ()
-  macro (basis_get_test_uid TEST_UID TEST_NAME)
-    set ("${TEST_UID}" "${TEST_NAME}")
-  endmacro ()
+  function (basis_get_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TEST_UID}" "${TEST_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1878,17 +1893,20 @@ endif ()
 # @sa basis_get_test_uid()
 if (BASIS_USE_TARGET_UIDS)
   function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
-    if (TEST_NAME MATCHES "^\\.(.*)$")
-      set (UID "${CMAKE_MATCH_1}")
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
     else ()
-      set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}")
+      set ("${TEST_UID}" "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TEST_NAME}" PARENT_SCOPE)
     endif ()
-    set (${TEST_UID} "${UID}" PARENT_SCOPE)
   endfunction ()
 else ()
-  macro (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
-    set (${TEST_UID} "${TEST_NAME}")
-  endmacro ()
+  function (basis_get_fully_qualified_test_uid TEST_UID TEST_NAME)
+    if (TEST_NAME MATCHES "^\\.+(.*)$")
+      set ("${TEST_UID}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TEST_UID}" "${TEST_NAME}" PARENT_SCOPE)
+    endif ()
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1902,17 +1920,17 @@ endif ()
 #                       the namespace of this project is returned.
 # @param [in]  TEST_UID Test UID/name.
 if (BASIS_USE_TARGET_UIDS)
-  macro (basis_get_test_namespace TEST_NS TEST_UID)
+  function (basis_get_test_namespace TEST_NS TEST_UID)
     if (TEST_UID MATCHES "^(.*)\\.")
-      set (${TEST_NS} "${CMAKE_MATCH_1}")
+      set (${TEST_NS} "${CMAKE_MATCH_1}" PARENT_SCOPE)
     else ()
-      set (${TEST_NS} "")
+      set (${TEST_NS} "" PARENT_SCOPE)
     endif ()
-  endmacro ()
+  endfunction ()
 else ()
-  macro (basis_get_test_namespace TEST_NS TEST_UID)
-    set ("${TEST_UID}" "")
-  endmacro ()
+  function (basis_get_test_namespace TEST_NS TEST_UID)
+    set ("${TEST_UID}" "" PARENT_SCOPE)
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1928,17 +1946,17 @@ endif ()
 #
 # @sa basis_get_test_uid()
 if (BASIS_USE_TARGET_UIDS)
-  macro (basis_get_test_name TEST_NAME TEST_UID)
+  function (basis_get_test_name TEST_NAME TEST_UID)
     if (TEST_UID MATCHES "([^.]+)$")
-      set (${TEST_NAME} "${CMAKE_MATCH_1}")
+      set (${TEST_NAME} "${CMAKE_MATCH_1}" PARENT_SCOPE)
     else ()
-      set (${TEST_NAME} "")
+      set (${TEST_NAME} "" PARENT_SCOPE)
     endif ()
-  endmacro ()
+  endfunction ()
 else ()
-  macro (basis_get_test_name TEST_NAME TEST_UID)
-    set ("${TEST_NAME}" "${TEST_UID}")
-  endmacro ()
+  function (basis_get_test_name TEST_NAME TEST_UID)
+    set ("${TEST_NAME}" "${TEST_UID}" PARENT_SCOPE)
+  endfunction ()
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -1957,7 +1975,7 @@ function (basis_check_test_name TEST_NAME)
     endif ()
   endforeach ()
   # invalid test name ?
-  if (NOT TEST_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+]|-)*$")
+  if (NOT TEST_NAME MATCHES "^\\.?[a-zA-Z]([a-zA-Z0-9_+.]|-)*$")
     message (FATAL_ERROR "Test name ${TEST_NAME} is invalid.\nChoose a test name "
                          " which only contains alphanumeric characters,"
                          " '_', '-', or '+', and starts with a letter.\n")

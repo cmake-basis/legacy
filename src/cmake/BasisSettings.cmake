@@ -552,7 +552,7 @@ mark_as_advanced (BASIS_SUPERBUILD_MODULES)
 ## @brief List of programming languages explicitly supported by BASIS.
 #
 # @todo Add full support for Java.
-set (BASIS_LANGUAGES CXX Python Jython Perl Matlab Bash)
+set (BASIS_LANGUAGES CMake CXX Python Jython Perl Matlab Bash)
 
 string (TOLOWER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_L)
 string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
@@ -561,6 +561,8 @@ string (TOUPPER "${BASIS_LANGUAGES}" BASIS_LANGUAGES_U)
 # namespace delimiters
 # ----------------------------------------------------------------------------
 
+## @brief Namespace delimiter used in CMake.
+set (BASIS_NAMESPACE_DELIMITER_CMAKE .)
 ## @brief Namespace delimiter used in C++.
 set (BASIS_NAMESPACE_DELIMITER_CXX .)
 ## @brief Namespace delimiter used in Python.
@@ -704,7 +706,7 @@ endif ()
 # @sa http://www.cmake.org/Wiki/CMake_RPATH_handling for details on how CMake
 #     itself handles the RPATH setting of executables and shared libraries.
 option (BASIS_INSTALL_RPATH "Whether to have BASIS set the RPATH of binaries rather than CMake" ON)
-mark_as_advanced(BASIS_INSTALL_RPATH)
+mark_as_advanced (BASIS_INSTALL_RPATH)
 
 # use INSTALL_RPATH set by BASIS instead of CMake
 if (BASIS_INSTALL_RPATH)
