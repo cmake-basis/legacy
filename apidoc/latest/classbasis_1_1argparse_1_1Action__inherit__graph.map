@@ -1,14 +1,14 @@
 <map id="basis.argparse.Action" name="basis.argparse.Action">
-<area shape="rect" id="node4" href="$classbasis_1_1argparse_1_1__AppendAction.html" title="{basis.argparse._AppendAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="5,559,203,651"/>
-<area shape="rect" id="node5" href="$classbasis_1_1argparse_1_1__AppendConstAction.html" title="{basis.argparse._AppendConst\lAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="227,552,425,659"/>
-<area shape="rect" id="node6" href="$classbasis_1_1argparse_1_1__CountAction.html" title="{basis.argparse._CountAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="451,559,637,651"/>
-<area shape="rect" id="node7" href="$classbasis_1_1argparse_1_1__HelpAction.html" title="{basis.argparse._HelpAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="661,559,840,651"/>
-<area shape="rect" id="node8" href="$classbasis_1_1argparse_1_1__StoreAction.html" title="{basis.argparse._StoreAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="864,559,1045,651"/>
-<area shape="rect" id="node9" href="$classbasis_1_1argparse_1_1__StoreConstAction.html" title="{basis.argparse._StoreConst\lAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="1069,552,1251,659"/>
-<area shape="rect" id="node12" href="$classbasis_1_1argparse_1_1__SubParsersAction.html" title="{basis.argparse._SubParsers\lAction\n||+ __call__()\l+ __init__()\l+ add_parser()\l}" alt="" coords="1275,545,1461,666"/>
-<area shape="rect" id="node13" href="$classbasis_1_1argparse_1_1__SubParsersAction_1_1__ChoicesPseudoAction.html" title="{basis.argparse._SubParsers\lAction._ChoicesPseudoAction\n||+ __init__()\l}" alt="" coords="1486,559,1676,651"/>
-<area shape="rect" id="node14" href="$classbasis_1_1argparse_1_1__VersionAction.html" title="{basis.argparse._VersionAction\n|+ version\l|+ __call__()\l+ __init__()\l}" alt="" coords="1701,559,1896,651"/>
-<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="873,131,1036,223"/>
-<area shape="rect" id="node10" href="$classbasis_1_1argparse_1_1__StoreFalseAction.html" title="{basis.argparse._StoreFalse\lAction\n||+ __init__()\l}" alt="" coords="972,715,1151,807"/>
-<area shape="rect" id="node11" href="$classbasis_1_1argparse_1_1__StoreTrueAction.html" title="{basis.argparse._StoreTrue\lAction\n||+ __init__()\l}" alt="" coords="1175,715,1345,807"/>
+<area shape="rect" id="node4" href="$classbasis_1_1argparse_1_1__AppendAction.html" title="{basis.argparse._AppendAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="5,557,204,649"/>
+<area shape="rect" id="node5" href="$classbasis_1_1argparse_1_1__AppendConstAction.html" title="{basis.argparse._AppendConst\lAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="228,550,427,657"/>
+<area shape="rect" id="node6" href="$classbasis_1_1argparse_1_1__CountAction.html" title="{basis.argparse._CountAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="451,557,638,649"/>
+<area shape="rect" id="node7" href="$classbasis_1_1argparse_1_1__HelpAction.html" title="{basis.argparse._HelpAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="662,557,841,649"/>
+<area shape="rect" id="node8" href="$classbasis_1_1argparse_1_1__StoreAction.html" title="{basis.argparse._StoreAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="865,557,1046,649"/>
+<area shape="rect" id="node9" href="$classbasis_1_1argparse_1_1__StoreConstAction.html" title="{basis.argparse._StoreConst\lAction\n||+ __call__()\l+ __init__()\l}" alt="" coords="1070,550,1251,657"/>
+<area shape="rect" id="node12" href="$classbasis_1_1argparse_1_1__SubParsersAction.html" title="{basis.argparse._SubParsers\lAction\n||+ __call__()\l+ __init__()\l+ add_parser()\l}" alt="" coords="1275,543,1462,664"/>
+<area shape="rect" id="node13" href="$classbasis_1_1argparse_1_1__SubParsersAction_1_1__ChoicesPseudoAction.html" title="{basis.argparse._SubParsers\lAction._ChoicesPseudoAction\n||+ __init__()\l}" alt="" coords="1487,557,1677,649"/>
+<area shape="rect" id="node14" href="$classbasis_1_1argparse_1_1__VersionAction.html" title="{basis.argparse._VersionAction\n|+ version\l|+ __call__()\l+ __init__()\l}" alt="" coords="1702,557,1897,649"/>
+<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="874,131,1037,223"/>
+<area shape="rect" id="node10" href="$classbasis_1_1argparse_1_1__StoreFalseAction.html" title="{basis.argparse._StoreFalse\lAction\n||+ __init__()\l}" alt="" coords="973,712,1151,804"/>
+<area shape="rect" id="node11" href="$classbasis_1_1argparse_1_1__StoreTrueAction.html" title="{basis.argparse._StoreTrue\lAction\n||+ __init__()\l}" alt="" coords="1175,712,1346,804"/>
 </map>

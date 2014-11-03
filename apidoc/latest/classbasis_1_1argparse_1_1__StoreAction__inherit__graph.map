@@ -1,4 +1,4 @@
 <map id="basis.argparse._StoreAction" name="basis.argparse._StoreAction">
-<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1Action.html" title="{basis.argparse.Action\n|+ choices\l+ const\l+ default\l+ dest\l+ help\l+ metavar\l+ nargs\l+ option_strings\l+ required\l+ type\l|+ __call__()\l+ __init__()\l}" alt="" coords="23,272,168,496"/>
+<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1Action.html" title="{basis.argparse.Action\n|+ choices\l+ const\l+ default\l+ dest\l+ help\l+ metavar\l+ nargs\l+ option_strings\l+ required\l+ type\l|+ __call__()\l+ __init__()\l}" alt="" coords="23,271,169,495"/>
 <area shape="rect" id="node3" href="$classbasis_1_1argparse_1_1__AttributeHolder.html" title="{basis.argparse._Attribute\lHolder\n||+ __repr__()\l}" alt="" coords="15,131,177,223"/>
 </map>

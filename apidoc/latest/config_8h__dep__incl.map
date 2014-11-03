@@ -1,11 +1,11 @@
 <map id="config.h" name="config.h">
 <area shape="rect" id="node2" href="$subprocess_8h.html" title="Module used to execute subprocesses. " alt="" coords="85,80,184,107"/>
 <area shape="rect" id="node3" href="$subprocess_8cxx.html" title="Definition of module used to execute subprocesses. " alt="" coords="5,155,117,181"/>
-<area shape="rect" id="node5" href="$test_8h.html" title="Main include file of C++ unit testing framework. " alt="" coords="209,80,260,107"/>
+<area shape="rect" id="node5" href="$test_8h.html" title="Main include file of C++ unit testing framework. " alt="" coords="209,80,261,107"/>
 <area shape="rect" id="node6" href="$utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="285,80,352,107"/>
 <area shape="rect" id="node10" href="$os_8cxx.html" title="Operating system dependent functions. " alt="" coords="376,80,435,107"/>
-<area shape="rect" id="node11" href="$path_8cxx.html" title="File/directory path related functions. " alt="" coords="459,80,529,107"/>
-<area shape="rect" id="node12" href="$stdio_8cxx.html" title="Standard I/O functions. " alt="" coords="554,80,624,107"/>
+<area shape="rect" id="node11" href="$path_8cxx.html" title="File/directory path related functions. " alt="" coords="459,80,530,107"/>
+<area shape="rect" id="node12" href="$stdio_8cxx.html" title="Standard I/O functions. " alt="" coords="554,80,625,107"/>
 <area shape="rect" id="node4" href="$utilities_8cxx.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="168,155,248,181"/>
 <area shape="rect" id="node7" href="$basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="287,155,351,181"/>
 <area shape="rect" id="node8" href="$testdriver_8h.html" title="Default test driver include file. " alt="" coords="226,229,307,256"/>

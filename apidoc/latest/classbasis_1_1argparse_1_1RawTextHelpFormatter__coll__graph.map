@@ -1,4 +1,4 @@
 <map id="basis.argparse.RawTextHelpFormatter" name="basis.argparse.RawTextHelpFormatter">
-<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1RawDescriptionHelpFormatter.html" title="{basis.argparse.RawDescription\lHelpFormatter\n||}" alt="" coords="5,361,208,453"/>
-<area shape="rect" id="node3" href="$classbasis_1_1argparse_1_1HelpFormatter.html" title="{basis.argparse.HelpFormatter\n||+ __init__()\l+ add_argument()\l+ add_arguments()\l+ add_text()\l+ add_usage()\l+ end_section()\l+ format_help()\l+ start_section()\l}" alt="" coords="13,131,200,311"/>
+<area shape="rect" id="node2" href="$classbasis_1_1argparse_1_1RawDescriptionHelpFormatter.html" title="{basis.argparse.RawDescription\lHelpFormatter\n||}" alt="" coords="5,359,208,451"/>
+<area shape="rect" id="node3" href="$classbasis_1_1argparse_1_1HelpFormatter.html" title="{basis.argparse.HelpFormatter\n||+ __init__()\l+ add_argument()\l+ add_arguments()\l+ add_text()\l+ add_usage()\l+ end_section()\l+ format_help()\l+ start_section()\l}" alt="" coords="13,131,201,311"/>
 </map>

@@ -1,0 +1,11 @@
+<map id="doxyfilter.pl" name="doxyfilter.pl">
+<area shape="rect" id="node4" href="$Basis_8pm.html" title="BASIS utilities of BASIS package. " alt="" coords="749,80,867,107"/>
+<area shape="rect" id="node24" href="$Bash_8pm.html" title="Doxygen filter for Bash. " alt="" coords="1080,155,1256,181"/>
+<area shape="rect" id="node25" href="$CMake_8pm.html" title="Doxygen filter for CMake. " alt="" coords="1179,80,1365,107"/>
+<area shape="rect" id="node5" href="$Exporter_8pm.html" title="BASIS/Sub/Exporter.pm" alt="" coords="626,304,787,331"/>
+<area shape="rect" id="node20" href="$Utilities_8pm.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="847,155,969,181"/>
+<area shape="rect" id="node7" href="$OptList_8pm.html" title="BASIS/Data/OptList.pm" alt="" coords="787,379,947,405"/>
+<area shape="rect" id="node9" href="$Util_8pm.html" title="BASIS/Params/Util.pm" alt="" coords="945,453,1095,480"/>
+<area shape="rect" id="node12" href="$Install_8pm.html" title="BASIS/Sub/Install.pm" alt="" coords="643,453,789,480"/>
+<area shape="rect" id="node22" href="$Which_8pm.html" title="BASIS/File/Which.pm" alt="" coords="947,229,1090,256"/>
+</map>
