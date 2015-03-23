@@ -17,8 +17,9 @@
 
 #include <algorithm>      // min<T>()
 #include <stdlib.h>       // getenv()
+#include <algorithm>      // min()
 
-#if WINDOWS
+#if _WINDOWS
 #  include <windows.h>    // GetConsoleScreenBufferInfo()
 #else
 #  include <unistd.h>     // STDOUT_FILENO
