@@ -3156,7 +3156,10 @@ function (basis_add_init_py_target)
           set (LOCATION         "${LOCATION}/${PREFIX}")
           set (INSTALL_LOCATION "${INSTALL_LOCATION}/${PREFIX}")
         endif ()
-        list (REMOVE_AT SOURCES 0) # strange, but this is a CMakeFiles/ subdirectory
+        list (GET SOURCES 0 BINARY_DIR) # CMake <3.1 stores path to internal build directory here
+        if (BINARY_DIR MATCHES "CMakeFiles")
+          list (REMOVE_AT SOURCES 0)
+        endif ()
         foreach (SOURCE IN LISTS SOURCES)
           file (RELATIVE_PATH SOURCE "${SOURCE_DIRECTORY}" "${SOURCE}")
           list (APPEND _LOCATION         "${LOCATION}/${SOURCE}")
@@ -3176,7 +3179,7 @@ function (basis_add_init_py_target)
       # directories for which to build a __init__.py file
       foreach (L IN LISTS LOCATION)
         basis_get_filename_component (DIR "${L}" PATH)
-        if (L MATCHES "/__init__.py$")
+        if (L MATCHES "/__init__\\.py$")
           list (APPEND EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
@@ -3196,7 +3199,7 @@ function (basis_add_init_py_target)
       # directories for which to install a __init__.py file
       foreach (L IN LISTS INSTALL_LOCATION)
         basis_get_filename_component (DIR "${L}" PATH)
-        if (L MATCHES "/__init__.py$")
+        if (L MATCHES "/__init__\\.py$")
           list (APPEND INSTALL_EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
@@ -3333,6 +3336,9 @@ function (basis_add_init_py_target)
       foreach (DIR IN LISTS INSTALL_${LANGUAGE}_DIRS_${COMPONENT})
         list (FIND INSTALL_EXCLUDE "${DIR}" IDX)
         if (IDX EQUAL -1)
+          if (BASIS_DEBUG AND BASIS_VERBOSE)
+            message("**    Copy ${${LANGUAGE}_INSTALL_FILE} to ${DIR} upon installation of ${COMPONENT} component")
+          endif ()
           install (
             FILES       "${${LANGUAGE}_INSTALL_FILE}"
             DESTINATION "${DIR}"
