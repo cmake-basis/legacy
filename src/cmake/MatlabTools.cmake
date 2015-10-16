@@ -38,69 +38,84 @@ include ("${CMAKE_CURRENT_LIST_DIR}/UtilitiesTools.cmake")
 ## @addtogroup BasisSettings
 #  @{
 
-
 ## @brief Enable/Disable compilation of MATLAB sources if the MATLAB Compiler is available.
 option (BASIS_COMPILE_MATLAB "Enable compilation of MATLAB sources if MATLAB Compiler (mcc) is available." ON)
-
-## @brief Enable/Disable invocation of MATLAB Compiler in MATLAB mode.
-option (
-  BASIS_MCC_MATLAB_MODE
-  "Prefer MATLAB mode over standalone mode to invoke MATLAB Compiler."
-  "ON" # prefer as it releases the license immediately once done
-)
-
 mark_as_advanced (BASIS_COMPILE_MATLAB)
-mark_as_advanced (BASIS_MCC_MATLAB_MODE)
 
+# ----------------------------------------------------------------------------
+## @brief Add global MATLAB MEX-script options to CMake cache
+#
+# @par MATLAB MEX-script options:
+# <table border="0">
+#   <tr>
+#     @tp @b BASIS_MEX_TIMEOUT @endtp
+#     <td>Timeout for MEX script execution.</td>
+#   </tr>
+#   <tr>
+#     @tp @b BASIS_MEX_FLAGS @endtp
+#     <td>Compile flags used to build MEX-files using the MEX script.</td>
+#   </tr>
+# </table>
+macro(basis_add_mex_options)
+  if (MATLAB_MEX_EXECUTABLE)
+    set (BASIS_MEX_TIMEOUT "600" CACHE STRING "Timeout for MEX script execution")
+    set (BASIS_MEX_FLAGS   ""    CACHE STRING "Common MEX switches (separated by ' '; use '\\' to mask ' ').")
+    mark_as_advanced (BASIS_MEX_FLAGS)
+    mark_as_advanced (BASIS_MEX_TIMEOUT)
+  endif ()
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Add global MATLAB Compiler (mcc) options to CMake cache
+#
+# @par MATLAB Compiler options:
+# <table border="0">
+#   <tr>
+#     @tp @b BASIS_MCC_MATLAB_MODE @endtp
+#     <td>Enable/Disable invocation of MATLAB Compiler in MATLAB mode.</td>
+#   </tr>
+#   <tr>
+#     @tp @b BASIS_MCC_FLAGS @endtp
+#     <td>Compile flags used to build MATLAB Compiler targets.</td>
+#   </tr>
+#   <tr>
+#     @tp @b BASIS_MCC_TIMEOUT @endtp
+#     <td>Timeout for building MATLAB Compiler targets.</td>
+#   </tr>
+#   <tr>
+#     @tp @b BASIS_MCC_RETRY_ATTEMPTS @endtp
+#     <td>Maximum number of retries on MATLAB Compiler license checkout.</td>
+#   </tr>
+#   <tr>
+#     @tp @b BASIS_MCC_RETRY_DELAY @endtp
+#     <td>Delay between retries to build MATLAB Compiler compiled targets on license checkout errors.</td>
+#   </tr>
+# </table>
+macro(basis_add_mcc_options)
+  option (
+    BASIS_MCC_MATLAB_MODE
+    "Prefer MATLAB mode over standalone mode to invoke MATLAB Compiler to release MCC licence ASAP."
+    OFF # using MATLAB mode is preferred when the license is shared
+        # among users as it releases the license immediately once done
+  )
+  set (
+    BASIS_MCC_FLAGS
+      "-R -singleCompThread"
+    CACHE STRING
+      "Common MATLAB Compiler flags (separated by ' '; use '\\' to mask ' ')."
+  )
+  set (BASIS_MCC_TIMEOUT        "1800" CACHE STRING "Timeout for MATLAB Compiler execution")
+  set (BASIS_MCC_RETRY_ATTEMPTS "4"    CACHE STRING "Maximum number of retries on MATLAB Compiler license checkout error.")
+  set (BASIS_MCC_RETRY_DELAY    "30"   CACHE STRING "Delay between retries to build MATLAB Compiler compiled targets on license checkout error.")
+  mark_as_advanced (BASIS_MCC_MATLAB_MODE)
+  mark_as_advanced (BASIS_MCC_FLAGS)
+  mark_as_advanced (BASIS_MCC_TIMEOUT)
+  mark_as_advanced (BASIS_MCC_RETRY_ATTEMPTS)
+  mark_as_advanced (BASIS_MCC_RETRY_DELAY)
+endmacro ()
 
 ## @}
 # end of Doxygen group
-
-
-# ============================================================================
-# build configuration
-# ============================================================================
-
-## @addtogroup BasisSettings
-#  @{
-
-
-## @brief Compile flags used to build MATLAB Compiler targets.
-set (
-  BASIS_MCC_FLAGS
-    "-R -singleCompThread"
-  CACHE STRING
-    "Common MATLAB Compiler flags (separated by ' '; use '\\' to mask ' ')."
-)
-
-## @brief Compile flags used to build MEX-files using the MEX script.
-set (
-  BASIS_MEX_FLAGS
-    ""
-  CACHE STRING
-    "Common MEX switches (separated by ' '; use '\\' to mask ' ')."
-)
-
-## @brief Timeout for building MATLAB Compiler targets.
-set (BASIS_MCC_TIMEOUT "1800" CACHE STRING "Timeout for MATLAB Compiler execution")
-## @brief Maximum number of retries on MATLAB Compiler license checkout.
-set (BASIS_MCC_RETRY_ATTEMPTS "4" CACHE STRING "Maximum number of retries on MATLAB Compiler license checkout error.")
-## @brief Delay between retries to build MATLAB Compiler compiled targets on license checkout errors.
-set (BASIS_MCC_RETRY_DELAY "30" CACHE STRING "Delay between retries to build MATLAB Compiler compiled targets on license checkout error.")
-## @brief Timeout for building MEX-file targets.
-set (BASIS_MEX_TIMEOUT "600" CACHE STRING "Timeout for MEX script execution")
-
-mark_as_advanced (BASIS_MCC_FLAGS)
-mark_as_advanced (BASIS_MCC_TIMEOUT)
-mark_as_advanced (BASIS_MCC_RETRY_ATTEMPTS)
-mark_as_advanced (BASIS_MCC_RETRY_DELAY)
-mark_as_advanced (BASIS_MEX_FLAGS)
-mark_as_advanced (BASIS_MEX_TIMEOUT)
-
-
-## @}
-# end of Doxygen group
-
 
 # ============================================================================
 # utilities
@@ -142,18 +157,12 @@ function (basis_get_full_matlab_version VERSION)
   # run matlab command to write return value of "version" command to text file
   if (NOT _MATLAB_VERSION)
     message (STATUS "Determining MATLAB version...")
-    set (CMD "${MATLAB_EXECUTABLE}" -nodesktop -nosplash -nojvm -singleCompThread)
+    set (CMD "${MATLAB_EXECUTABLE}" -nodesktop -nosplash -singleCompThread)
     if (WIN32)
       list (APPEND CMD -automation)
+    else ()
+      list (APPEND CMD -nojvm)
     endif ()
-    # The following direct command works on Mac OS, but not Cent OS Linux because
-    # of the surrounding double quotes which are needed on Mac OS, but not Linux.
-    # Therefore, write MATLAB script first to file and execute it in order to
-    # have the same CMake code on all platforms. Furthermore, if the quotes might
-    # no longer be required also on Mac OS, we do not have to worry about it here.
-    # -schuha
-    #list (APPEND CMD -r "\"fid = fopen('${OUTPUT_FILE}', 'w'), [...], fclose(fid), quit force\"")
-    list (APPEND CMD "-r" basis_get_full_matlab_version)
     file (WRITE "${WORKING_DIR}/basis_get_full_matlab_version.m" 
 "% DO NOT EDIT. Automatically created by BASIS (basis_get_full_matlab_version).
 fid = fopen ('${OUTPUT_FILE}', 'w')
@@ -164,7 +173,7 @@ quit force
 "
     )
     execute_process (
-      COMMAND           ${CMD}
+      COMMAND           ${CMD} -r "cd('${WORKING_DIR}');basis_get_full_matlab_version;"
       WORKING_DIRECTORY "${WORKING_DIR}"
       RESULT_VARIABLE   RETVAL
       TIMEOUT           600 # MATLAB startup can be *very* slow the first time
@@ -183,6 +192,21 @@ quit force
       message (STATUS "Determining MATLAB version... - failed${REASON}")
       return ()
     endif ()
+    # wait until MATLAB process terminated entirely and wrote the (buffered?) file
+    set (nsleep_count 0)
+    set (nsleep_max  30)
+    while (NOT EXISTS "${OUTPUT_FILE}")
+      math (EXPR nsleep_count "${nsleep_count}+1")
+      if (nsleep_count GREATER nsleep_max)
+        message (STATUS "Determining MATLAB version... - failed: File ${OUTPUT_FILE} still non-existent after ${nsleep_max}s of successful MATLAB termination")
+        return ()
+      endif ()
+      if (WIN32)
+        execute_process (COMMAND ping 1.1.1.1 -n 1 -w 1000 OUTPUT_QUIET)
+      else ()
+        execute_process (COMMAND sleep 1 OUTPUT_QUIET)
+      endif ()
+    endwhile ()
     # read MATLAB version from text file
     file (READ "${OUTPUT_FILE}" LINES)
     string (REGEX REPLACE "\n"    ";" LINES "${LINES}")
@@ -643,8 +667,9 @@ function (basis_add_mex_file TARGET_NAME)
   # required commands available ?
   if (NOT MATLAB_MEX_EXECUTABLE)
     message (FATAL_ERROR "MATLAB MEX script (mex) not found! It is required to build target ${TARGET_UID}."
-                         " Forgot to add MATLAB as dependency? Otherwise, set MATLAB_MEX_EXECUTABLE manually and try again.")
+                         " Forgot to add MATLAB{mex} as dependency? Otherwise, set MATLAB_MEX_EXECUTABLE manually and try again.")
   endif ()
+  basis_add_mex_options()
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
     ARGN
@@ -666,12 +691,12 @@ function (basis_add_mex_file TARGET_NAME)
     set (USES_BASIS_UTILITIES ${BASIS_UTILITIES})
   endif ()
   basis_mexext (MEXEXT)
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # installation component
   if (NOT ARGN_COMPONENT)
@@ -696,6 +721,9 @@ function (basis_add_mex_file TARGET_NAME)
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
   get_directory_property (INCLUDE_DIRS INCLUDE_DIRECTORIES)
   get_directory_property (LINK_DIRS    LINK_DIRECTORIES)
+  if (MATLAB_LIBRARY_DIR)
+    list (INSERT LINK_DIRS 0 "${MATLAB_LIBRARY_DIR}")
+  endif ()
   _set_target_properties (
     ${TARGET_UID}
     PROPERTIES
@@ -704,6 +732,7 @@ function (basis_add_mex_file TARGET_NAME)
       BASIS_UTILITIES           ${USES_BASIS_UTILITIES}
       BASIS_INCLUDE_DIRECTORIES "${INCLUDE_DIRS}"
       BASIS_LINK_DIRECTORIES    "${LINK_DIRS}"
+      BUILD_DIRECTORY           "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}"
       SOURCE_DIRECTORY          "${CMAKE_CURRENT_SOURCE_DIR}"
       BINARY_DIRECTORY          "${CMAKE_CURRENT_BINARY_DIR}"
       LIBRARY_OUTPUT_DIRECTORY  "${BINARY_MATLAB_LIBRARY_DIR}"
@@ -716,7 +745,7 @@ function (basis_add_mex_file TARGET_NAME)
       OUTPUT_NAME               ""
       SUFFIX                    ".${MEXEXT}"
       MFILE                     ""
-      TEST                      ${TEST}
+      TEST                      ${IS_TEST}
       EXPORT                    ${EXPORT}
   )
   # link to BASIS utilities
@@ -815,6 +844,13 @@ endfunction ()
 #         (default: @c INSTALL_ARCHIVE_DIR)</td>
 #   </tr>
 #   <tr>
+#     @tp @b HEADER_DESTINATION dir @endtp
+#     <td>Installation directory of the library header file relative to
+#         @c INSTALL_INCLUDE_DIR. If "none" (case-insensitive) is given as argument or
+#         an executable is build, no installation rule for the library header file is added.
+#         (default: @c INSTALL_INCLUDE_DIR)</td>
+#   </tr>
+#   <tr>
 #     @tp @b RUNTIME_COMPONENT name @endtp
 #     <td>Name of component as part of which executable or runtime library, respectively,
 #         will be installed if the @c RUNTIME_INSTALL_DIRECTORY property is not "none".
@@ -864,33 +900,42 @@ function (basis_add_mcc_target TARGET_NAME)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
     ARGN
-      "SHARED;EXECUTABLE;LIBEXEC;EXPORT;NOEXPORT"
-      "COMPONENT;RUNTIME_COMPONENT;LIBRARY_COMPONENT;DESTINATION;RUNTIME_DESTINATION;LIBRARY_DESTINATION"
+      "SHARED;EXECUTABLE;LIBEXEC;USE_BASIS_UTILITIES;NO_BASIS_UTILITIES;EXPORT;NOEXPORT"
+      "COMPONENT;RUNTIME_COMPONENT;LIBRARY_COMPONENT;DESTINATION;RUNTIME_DESTINATION;LIBRARY_DESTINATION;HEADER_DESTINATION"
       ""
     ${ARGN}
   )
   set (SOURCES "${ARGN_UNPARSED_ARGUMENTS}")
   basis_set_flag (ARGN EXPORT ${BASIS_EXPORT})
+  if (ARGN_USE_BASIS_UTILITIES AND ARGN_NO_BASIS_UTILITIES)
+    message (FATAL_ERROR "Target ${TARGET_UID}: Options USE_BASIS_UTILITIES and NO_BASIS_UTILITIES are mutually exclusive!")
+  endif ()
+  if (ARGN_USE_BASIS_UTILITIES)
+    set (USES_BASIS_UTILITIES TRUE)
+  elseif (ARGN_NO_BASIS_UTILITIES)
+    set (USES_BASIS_UTILITIES FALSE)
+  else ()
+    set (USES_BASIS_UTILITIES ${BASIS_UTILITIES})
+  endif ()
   if (ARGN_SHARED AND (ARGN_EXECUTABLE OR ARGN_LIBEXEC))
     message (FATAL_ERROR "Target ${TARGET_UID}: Options SHARED and EXECUTABLE or LIBEXEC are mutually exclusive!")
   endif ()
   if (ARGN_SHARED)
-    message (FATAL_ERROR "Target ${TARGET_UID}: Build of shared MATLAB library not yet supported.")
     set (TYPE LIBRARY)
   else ()
     set (TYPE EXECUTABLE)
   endif ()
   string (TOLOWER "${TYPE}" type)
   message (STATUS "Adding MATLAB ${type} ${TARGET_UID}...")
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # output directory
-  if (TEST)
+  if (IS_TEST)
     set (LIBRARY_OUTPUT_DIRECTORY "${TESTING_LIBRARY_DIR}")
     if (ARGN_LIBEXEC)
       set (RUNTIME_OUTPUT_DIRECTORY "${TESTING_LIBEXEC_DIR}")
@@ -934,20 +979,22 @@ function (basis_add_mcc_target TARGET_NAME)
     if (NOT ARGN_LIBRARY_DESTINATION)
       set (ARGN_LIBRARY_DESTINATION "${ARGN_DESTINATION}")
     endif ()
-  endif ()
-  if (NOT ARGN_RUNTIME_DESTINATION)
-    if (TEST)
-      set (ARGN_RUNTIME_DESTINATION) # do not install
-    else ()
-      if (ARGN_LIBEXEC)
-        set (ARGN_RUNTIME_DESTINATION "${INSTALL_LIBEXEC_DIR}")
-      else ()
-        set (ARGN_RUNTIME_DESTINATION "${INSTALL_RUNTIME_DIR}")
-      endif ()
+    if (NOT ARGN_HEADER_DESTINATION)
+      set (ARGN_HEADER_DESTINATION "${ARGN_DESTINATION}")
     endif ()
   endif ()
-  if (NOT ARGN_LIBRARY_DESTINATION)
+  if (NOT ARGN_RUNTIME_DESTINATION AND NOT IS_TEST)
+    if (ARGN_LIBEXEC)
+      set (ARGN_RUNTIME_DESTINATION "${INSTALL_LIBEXEC_DIR}")
+    else ()
+      set (ARGN_RUNTIME_DESTINATION "${INSTALL_RUNTIME_DIR}")
+    endif ()
+  endif ()
+  if (NOT ARGN_LIBRARY_DESTINATION AND NOT IS_TEST)
     set (ARGN_LIBRARY_DESTINATION "${INSTALL_LIBRARY_DIR}")
+  endif ()
+  if (NOT ARGN_HEADER_DESTINATION AND NOT IS_TEST)
+    set (ARGN_HEADER_DESTINATION ".")
   endif ()
   if (ARGN_RUNTIME_DESTINATION MATCHES "^[nN][oO][nN][eE]$")
     set (ARGN_RUNTIME_DESTINATION)
@@ -955,30 +1002,36 @@ function (basis_add_mcc_target TARGET_NAME)
   if (ARGN_LIBRARY_DESTINATION MATCHES "^[nN][oO][nN][eE]$")
     set (ARGN_LIBRARY_DESTINATION)
   endif ()
-  # whether to compile and compilation flags (for mcc)
-  if (TYPE MATCHES "LIBRARY" AND NOT MATLAB_MCC_EXECUTABLE)
-    message (FATAL_ERROR "MATLAB Compiler not found! It is required to build target ${TARGET_UID}."
-                         " Set MATLAB_DIR and/or MATLAB_MCC_EXECUTABLE manually and try again.")
+  if (ARGN_HEADER_DESTINATION MATCHES "^[nN][oO][nN][eE]$")
+    set (ARGN_HEADER_DESTINATION)
+  elseif (NOT IS_ABSOLUTE ARGN_HEADER_DESTINATION)
+    set (ARGN_HEADER_DESTINATION "${BINARY_INCLUDE_DIR}/${ARGN_HEADER_DESTINATION}")
   endif ()
-  if ((BASIS_COMPILE_MATLAB AND MATLAB_MCC_EXECUTABLE) OR TYPE MATCHES "LIBRARY")
+  # whether to compile and compilation flags (for mcc)
+  if ("^${TYPE}$" STREQUAL "^LIBRARY$")
     set (COMPILE TRUE)
-  else ()
-    if (BASIS_COMPILE_MATLAB)
+  elseif (BASIS_COMPILE_MATLAB)
+    if (MATLAB_MCC_EXECUTABLE)
+      set (COMPILE TRUE)
+    else ()
+      set (COMPILE FALSE)
       message (WARNING "MATLAB Compiler not found. Will generate a wrapper script for target"
                        " ${TARGET_UID} which executes the MATLAB code using the -r option of"
                        " the MATLAB interpreter. It is recommended to compile the MATLAB code"
                        " using the MATLAB Compiler if possible, however. Therefore, make sure"
                        " that the MATLAB Compiler is available and check the value of the"
-                       " advanced MATLAB_MCC_EXECUTABLE variable in CMake.")
+                       " advanced MATLAB_MCC_EXECUTABLE variable in CMake."
+                       "\nMake sure to include MATLAB{mcc} as project dependency.")
     endif ()
+  else ()
     set (COMPILE FALSE)
   endif ()
   if (WIN32 AND NOT COMPILE)
     # TODO implement generation of Windows Command on Windows
     set (CONTACT)
     if (PROJECT_CONTACT)
-      set (CONTACT "\n\nYou may further want to contact ${CONTACT} in order to ask for"
-                   " a binary distribution package which contains pre-build binaries"
+      set (CONTACT "\n\nYou may further want to contact ${PROJECT_CONTACT} in order to ask"
+                   " for a binary distribution package which contains pre-build binaries"
                    " created using the MATLAB Compiler and download the MATLAB Compiler"
                    " Runtime only if no MATLAB Compiler license is available to you.")
       basis_list_to_string (CONTACT ${CONTACT})
@@ -994,21 +1047,44 @@ function (basis_add_mcc_target TARGET_NAME)
                          " MATLAB_MCC_EXECUTABLE variable in CMake or use this package"
                          " on a Unix system instead.${CONTACT}")
   endif ()
-  set (COMPILE_FLAGS "${BASIS_MCC_FLAGS}")
   if (COMPILE)
     if (NOT MATLAB_MCC_EXECUTABLE)
-      find_package (MATLAB COMPONENTS mcc QUIET)
+      message (FATAL_ERROR "MATLAB Compiler not found! It is required to build target ${TARGET_UID}."
+                           " Ensure that MATLAB{mcc} is declared as project dependency"
+                           " and check the setting of MATLAB_DIR and/or MATLAB_MCC_EXECUTABLE.")
     endif ()
+    basis_add_mcc_options()
   else ()
     if (NOT MATLAB_EXECUTABLE)
-      find_package (MATLAB COMPONENTS matlab QUIET)
+      message (FATAL_ERROR "MATLAB not found! It is required to build target ${TARGET_UID}."
+                           " Ensure that MATLAB{matlab} is declared as project dependency"
+                           " and check the setting of MATLAB_DIR and/or MATLAB_EXECUTABLE.")
     endif ()
   endif ()
-  # suffix
-  if (WIN32 AND EXECUTABLE AND COMPILE_FLAGS MATCHES "^NOMCC$")
-    set (SUFFIX ".cmd")
+  if ("^${TYPE}$" STREQUAL "^EXECUTABLE$")
+    set (COMPILE_FLAGS "${BASIS_MCC_FLAGS}")
   else ()
-    set (SUFFIX)
+    set (COMPILE_FLAGS "")
+  endif ()
+  # output file name prefix/suffix
+  if ("^${TYPE}$" STREQUAL "^EXECUTABLE$")
+    set (PREFIX)
+    if (WIN32 AND "^${COMPILE_FLAGS}$" STREQUAL "^NOMCC$")
+      set (SUFFIX ".cmd")
+    else ()
+      set (SUFFIX)
+    endif ()
+  else ()
+    if (WIN32)
+      set (PREFIX)
+      set (SUFFIX .lib) # link library file extension
+    elseif (APPLE)
+      set (PREFIX lib)
+      set (SUFFIX .dylib)
+    else ()
+      set (PREFIX lib)
+      set (SUFFIX .so)
+    endif ()
   endif ()
   # configure (.in) source files
   basis_configure_sources (SOURCES ${SOURCES})
@@ -1025,14 +1101,17 @@ function (basis_add_mcc_target TARGET_NAME)
       BASIS_UTILITIES           FALSE # TODO Implement utilities for MATLAB
       BASIS_INCLUDE_DIRECTORIES "${INCLUDE_DIRS}"
       BASIS_LINK_DIRECTORIES    "${LINK_DIRS}"
+      BUILD_DIRECTORY           "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}"
       SOURCE_DIRECTORY          "${CMAKE_CURRENT_SOURCE_DIR}"
       BINARY_DIRECTORY          "${CMAKE_CURRENT_BINARY_DIR}"
       LIBRARY_OUTPUT_DIRECTORY  "${LIBRARY_OUTPUT_DIRECTORY}"
       LIBRARY_INSTALL_DIRECTORY "${ARGN_LIBRARY_DESTINATION}"
+      LIBRARY_HEADER_DIRECTORY  "${ARGN_HEADER_DESTINATION}"
       LIBRARY_COMPONENT         "${ARGN_LIBRARY_COMPONENT}"
       RUNTIME_OUTPUT_DIRECTORY  "${RUNTIME_OUTPUT_DIRECTORY}"
       RUNTIME_INSTALL_DIRECTORY "${ARGN_RUNTIME_DESTINATION}"
       RUNTIME_COMPONENT         "${ARGN_RUNTIME_COMPONENT}"
+      PREFIX                    "${PREFIX}"
       OUTPUT_NAME               "${OUTPUT_NAME}"
       SUFFIX                    "${SUFFIX}"
       COMPILE_FLAGS             "${COMPILE_FLAGS}"
@@ -1040,7 +1119,7 @@ function (basis_add_mcc_target TARGET_NAME)
       LINK_DEPENDS              ""
       EXPORT                    ${EXPORT}
       LIBEXEC                   ${ARGN_LIBEXEC}
-      TEST                      ${TEST}
+      TEST                      ${IS_TEST}
   )
   # add target to list of targets
   basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
@@ -1080,6 +1159,7 @@ function (basis_build_mex_file TARGET_UID)
       BASIS_UTILITIES
       BASIS_INCLUDE_DIRECTORIES
       BASIS_LINK_DIRECTORIES
+      BUILD_DIRECTORY
       SOURCE_DIRECTORY
       BINARY_DIRECTORY
       LIBRARY_OUTPUT_DIRECTORY
@@ -1092,23 +1172,25 @@ function (basis_build_mex_file TARGET_UID)
       LINK_DEPENDS
       LINK_FLAGS
       MFILE
-      TEST
       EXPORT
       SOURCES
   )
+  get_target_property (IS_TEST ${TARGET_UID} TEST)
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
+    if (NOT ${PROPERTY})
+      set (${PROPERTY})
+    endif ()
   endforeach ()
   # sanity check of property values
   if (NOT BASIS_TYPE MATCHES "^MEX$")
     message (FATAL_ERROR "Target ${TARGET_UID}: Invalid BASIS_TYPE: ${BASIS_TYPE}")
   endif ()
-  list (GET SOURCES 0 BUILD_DIR) # strange, but CMake stores path to internal build directory here
-  list (REMOVE_AT SOURCES 0)
-  set (BUILD_DIR "${BUILD_DIR}.dir")
-  if (NOT IS_DIRECTORY "${BUILD_DIR}")
-  file (MAKE_DIRECTORY "${BUILD_DIR}")
+  list (GET SOURCES 0 BUILD_DIR) # CMake <3.1 stores path to internal build directory here
+  if (BUILD_DIR MATCHES "CMakeFiles")
+    list (REMOVE_AT SOURCES 0)
   endif ()
+  set (BUILD_DIR "${BUILD_DIRECTORY}.dir")
   if (NOT SOURCES)
     message (FATAL_ERROR "Target ${TARGET_UID}: Empty SOURCES list!"
                          " Have you accidentally modified this read-only property or"
@@ -1145,6 +1227,7 @@ function (basis_build_mex_file TARGET_UID)
     basis_get_target_uid (UID "${LIB}")
     if (TARGET ${UID})
       basis_get_target_location (LIB_FILE ${UID} ABSOLUTE)
+      string (REPLACE "<${BASIS_GE_CONFIG}>" "{CONFIG}" LIB_FILE "${LIB_FILE}")
       list (APPEND DEPENDS ${UID})
     else ()
       set (LIB_FILE "${LIB}")
@@ -1261,33 +1344,42 @@ function (basis_build_mex_file TARGET_UID)
   foreach (LIBRARY ${LINK_LIBS})                                # link libraries
     get_filename_component (LINK_DIR "${LIBRARY}" PATH)         # as specified via basis_target_link_libraries()
     get_filename_component (LINK_LIB "${LIBRARY}" NAME)
-    string (REGEX REPLACE "\\.(so|a)(\\.[0-9]+)*$" "" LINK_LIB "${LINK_LIB}")
-    string (REGEX REPLACE "^-l"                    "" LINK_LIB "${LINK_LIB}")
+    string (REGEX REPLACE "\\.(so|dylib)(\\.[0-9]+)*$" "" LINK_LIB "${LINK_LIB}")
+    if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+      # cf. https://github.com/schuhschuh/cmake-basis/issues/443
+      string (REGEX REPLACE "\\.a(\\.[0-9]+)*$" "" LINK_LIB "${LINK_LIB}")
+    endif ()
+    string (REGEX REPLACE "^-l" "" LINK_LIB "${LINK_LIB}")
+    if (LINK_DIR)
+      if (WIN32)
+        string (REPLACE "/" "\\" LINK_DIR "${LINK_DIR}")
+        set (LINK_DIR "/LIBPATH:\\\"${LINK_DIR}\\\"")
+      else ()
+        set (LINK_DIR "-L${LINK_DIR}")
+      endif ()
+      list (APPEND MEX_LIBPATH "${LINK_DIR}")
+    endif ()
     if (WIN32)
-      string (REPLACE "/" "\\" LINK_DIR "${LINK_DIR}")
-      set (LINK_DIR "/LIBPATH:\\\"${LINK_DIR}\\\"")
       if (NOT LINK_LIB MATCHES "\\.lib$")
         set (LINK_LIB "${LINK_LIB}.lib")
       endif ()
     else ()
       string (REGEX REPLACE "^lib" "" LINK_LIB "${LINK_LIB}")
-      set (LINK_DIR "-L${LINK_DIR}")
       set (LINK_LIB "-l${LINK_LIB}")
     endif ()
-    list (APPEND MEX_LIBPATH "${LINK_DIR}")
-    list (APPEND MEX_LIBS    "${LINK_LIB}")
+    list (APPEND MEX_LIBS "${LINK_LIB}")
   endforeach ()
   if (MEX_LIBPATH)
     list (REMOVE_DUPLICATES MEX_LIBPATH)
   endif ()
-  if (MEX_LIBS)
-    list (REMOVE_DUPLICATES MEX_LIBS)
-  endif ()
+  # do not remove duplicate entries in MEX_LIBS which may be needed
+  # to resolve (cyclic) dependencies between statically linked libraries
+  # (cf. https://github.com/schuhschuh/cmake-basis/issues/444)
   if (MEX_LIBPATH OR MEX_LIBS)
     if (WIN32)
-    basis_list_to_delimited_string (MEX_LIBPATH " " NOAUTOQUOTE ${MEX_LIBPATH})
-    basis_list_to_delimited_string (MEX_LIBS    " " ${MEX_LIBS})
-    list (APPEND MEX_ARGS "LINKFLAGS#$LINKFLAGS ${MEX_LIBPATH} ${MEX_LIBS}")
+      basis_list_to_delimited_string (MEX_LIBPATH " " NOAUTOQUOTE ${MEX_LIBPATH})
+      basis_list_to_delimited_string (MEX_LIBS    " " ${MEX_LIBS})
+      list (APPEND MEX_ARGS "LINKFLAGS#$LINKFLAGS ${MEX_LIBPATH} ${MEX_LIBS}")
     else ()
       list (APPEND MEX_ARGS ${MEX_LIBPATH} ${MEX_LIBS})
     endif ()
@@ -1298,6 +1390,7 @@ function (basis_build_mex_file TARGET_UID)
   list (APPEND MEX_ARGS ${SOURCES})
   # build command for invocation of MEX script
   set (BUILD_CMD     "${MATLAB_MEX_EXECUTABLE}" -v ${MEX_ARGS})
+  set (BUILD_SCRIPT  "${BUILD_DIR}/build.cmake")
   set (BUILD_LOG     "${BUILD_DIR}/build.log")
   set (BUILD_OUTPUT  "${LIBRARY_OUTPUT_DIRECTORY}${PREFIX}/${OUTPUT_NAME}")
   set (BUILD_OUTPUTS "${BUILD_OUTPUT}")
@@ -1308,28 +1401,27 @@ function (basis_build_mex_file TARGET_UID)
     set (BUILD_MFILE)
   endif ()
   # configure build script
-  set (COMMAND "${BUILD_CMD}")
-  configure_file ("${BASIS_SCRIPT_EXECUTE_PROCESS}" "${BUILD_DIR}/build.cmake" @ONLY)
+  configure_file ("${BASIS_SCRIPT_EXECUTE_PROCESS}" "${BUILD_SCRIPT}" @ONLY)
   # relative paths used for comments of commands
   file (RELATIVE_PATH REL "${CMAKE_BINARY_DIR}" "${BUILD_OUTPUT}")
   # add custom command to build executable using MEX script
   add_custom_command (
     OUTPUT "${BUILD_OUTPUT}"
     # rebuild when input sources were modified
-    DEPENDS ${DEPENDS}
+    DEPENDS "${BUILD_SCRIPT}" "${CMAKE_CURRENT_LIST_FILE}" ${DEPENDS}
     # invoke MEX script, wrapping the command in CMake execute_process()
     # command allows for inspection of command output for error messages
     # and specification of timeout
     COMMAND "${CMAKE_COMMAND}"
-          "-DCOMMAND=${COMMAND}"
+            "-DCONFIG=$<${BASIS_GE_CONFIG}>"
             "-DWORKING_DIRECTORY=${BUILD_DIR}"
             "-DTIMEOUT=${BASIS_MEX_TIMEOUT}"
-            "-DERROR_EXPRESSION=[E|e]rror"
+            "-DERROR_EXPRESSION=[E|e]rror:"
             "-DOUTPUT_FILE=${BUILD_LOG}"
             "-DERROR_FILE=${BUILD_LOG}"
             "-DVERBOSE=OFF"
             "-DLOG_ARGS=ON"
-            "-P" "${BASIS_SCRIPT_EXECUTE_PROCESS}"
+            "-P" "${BUILD_SCRIPT}"
     # post-build command
     COMMAND "${CMAKE_COMMAND}" -E copy   "${BUILD_DIR}/${OUTPUT_NAME}" "${BUILD_OUTPUT}"
     COMMAND "${CMAKE_COMMAND}" -E remove "${BUILD_DIR}/${OUTPUT_NAME}"
@@ -1349,9 +1441,6 @@ function (basis_build_mex_file TARGET_UID)
   endif ()
   # add custom target
   add_custom_target (_${TARGET_UID} DEPENDS ${BUILD_OUTPUTS} SOURCES ${SOURCES})
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean"
   set_property (
@@ -1364,7 +1453,7 @@ function (basis_build_mex_file TARGET_UID)
   )
   # export target
   if (EXPORT)
-    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
+    basis_add_custom_export_target (${TARGET_UID} "${IS_TEST}")
   endif ()
   # install MEX-file
   if (LIBRARY_INSTALL_DIRECTORY)
@@ -1408,10 +1497,12 @@ function (basis_build_mcc_target TARGET_UID)
       BASIS_UTILITIES
       BASIS_INCLUDE_DIRECTORIES
       BASIS_LINK_DIRECTORIES
+      BUILD_DIRECTORY
       SOURCE_DIRECTORY
       BINARY_DIRECTORY
       LIBRARY_OUTPUT_DIRECTORY
       LIBRARY_INSTALL_DIRECTORY
+      LIBRARY_HEADER_DIRECTORY
       LIBRARY_COMPONENT
       RUNTIME_OUTPUT_DIRECTORY
       RUNTIME_INSTALL_DIRECTORY
@@ -1423,11 +1514,14 @@ function (basis_build_mcc_target TARGET_UID)
       COMPILE_FLAGS
       COMPILE
       LINK_DEPENDS
-      TEST
       EXPORT
   )
+  get_target_property (IS_TEST ${TARGET_UID} TEST)
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
+    if (NOT ${PROPERTY})
+      set (${PROPERTY})
+    endif ()
   endforeach ()
   # sanity checks of property values
   set (EXECUTABLE FALSE)
@@ -1441,9 +1535,11 @@ function (basis_build_mcc_target TARGET_UID)
   else ()
     message (FATAL_ERROR "Target ${TARGET_UID}: Invalid BASIS_TYPE: ${BASIS_TYPE}")
   endif ()
-  list (GET SOURCES 0 BUILD_DIR) # strange, but CMake stores path to internal build directory here
-  list (REMOVE_AT SOURCES 0)
-  set (BUILD_DIR "${BUILD_DIR}.dir")
+  list (GET SOURCES 0 BUILD_DIR) # CMake <3.1 stores path to internal build directory here
+  if (BUILD_DIR MATCHES "CMakeFiles")
+    list (REMOVE_AT SOURCES 0)
+  endif ()
+  set (BUILD_DIR "${BUILD_DIRECTORY}.dir")
   if (NOT SOURCES)
     message (FATAL_ERROR "Target ${TARGET_UID}: Empty SOURCES list!"
                          " Have you accidentally modified this read-only property or"
@@ -1466,8 +1562,20 @@ function (basis_build_mcc_target TARGET_UID)
   if (SUFFIX)
     set (OUTPUT_NAME "${OUTPUT_NAME}${SUFFIX}")
   endif ()
-  # split compile flags at spaces into list
-  basis_string_to_list (MCC_USER_FLAGS "${COMPILE_FLAGS}")
+  get_filename_component (OUTPUT_NAME_WE "${OUTPUT_NAME}" NAME_WE)
+  # MCC only allows alpha-numeric characters and underscores
+  # TODO: Figure out how to build a shared library without this restriction
+  #       (cf. https://github.com/schuhschuh/cmake-basis/issues/410).
+  if (NOT OUTPUT_NAME MATCHES "[a-zA-Z][_a-zA-Z0-9]*")
+    message (FATAL_ERROR "Target ${TARGET_UID} has invalid output name ${OUTPUT_NAME}."
+                         "MCC only allows alpha-numeric characters and underscores. "
+                         "See GitHub issue #410 for updates on this restriction at\n"
+                         "https://github.com/schuhschuh/cmake-basis/issues/410")
+  endif ()
+  set (MCC_OUTPUT_NAME    "${OUTPUT_NAME}")
+  set (MCC_OUTPUT_NAME_WE "${OUTPUT_NAME_WE}")
+  #string (REGEX REPLACE "\\+|-" "_" MCC_OUTPUT_NAME "${OUTPUT_NAME}")
+  #get_filename_component (MCC_OUTPUT_NAME_WE "${MCC_OUTPUT_NAME}" NAME_WE)
   # initialize dependencies of custom build command
   set (DEPENDS ${SOURCES})
   # build output file and comment
@@ -1650,6 +1758,7 @@ function (basis_build_mcc_target TARGET_UID)
       basis_get_target_uid (UID "${LIB}")
       if (TARGET ${UID})
         basis_get_target_location (LIB_FILE ${UID} ABSOLUTE)
+        string (REPLACE "<${BASIS_GE_CONFIG}>" "{CONFIG}" LIB_FILE "${LIB_FILE}")
         list (APPEND DEPENDS ${UID})
       else ()
         set (LIB_FILE "${LIB}")
@@ -1679,13 +1788,12 @@ function (basis_build_mcc_target TARGET_UID)
       endif ()
     endforeach ()
     if (LIBRARY)
-      list (APPEND MCC_ARGS -l)                                 # build library
+      list (APPEND MCC_ARGS -W "cpplib:${MCC_OUTPUT_NAME_WE}" -T link:lib) # build library
     else ()                                                     #      or
-      list (APPEND MCC_ARGS -m)                                 # build standalone application
+      list (APPEND MCC_ARGS -m -o "${MCC_OUTPUT_NAME_WE}")      # build standalone application
     endif ()
     list (APPEND MCC_ARGS -d "${BUILD_DIR}")                    # (temp) output directory
-    list (APPEND MCC_ARGS -o "${OUTPUT_NAME}")                  # output name
-    list (APPEND MCC_ARGS ${MAIN_SOURCE})                       # main source M-file
+    list (APPEND MCC_ARGS ${SOURCES})                           # source M-files
     foreach (LIB ${LINK_LIBS})                                  # link libraries, e.g. MEX-files
       list (FIND MCC_ARGS "${LIB}" IDX)
       if (LIB AND IDX EQUAL -1)
@@ -1693,16 +1801,17 @@ function (basis_build_mcc_target TARGET_UID)
       endif ()
     endforeach ()
     # build command for invocation of MATLAB Compiler in standalone mode
-    set (BUILD_CMD   "${MATLAB_MCC_EXECUTABLE}" ${MCC_USER_ARGS} ${MCC_ARGS})
-    set (BUILD_LOG   "${BUILD_DIR}/build.log")
-    set (WORKING_DIR "${SOURCE_DIRECTORY}")
-    set (MATLAB_MODE OFF)
+    set (BUILD_CMD    "${MATLAB_MCC_EXECUTABLE}" ${MCC_USER_ARGS} ${MCC_ARGS})
+    set (BUILD_LOG    "${BUILD_DIR}/build.log")
+    set (BUILD_SCRIPT "${BUILD_DIR}/build.cmake")
+    set (WORKING_DIR  "${SOURCE_DIRECTORY}")
+    set (MATLAB_MODE  OFF)
     # build command for invocation of MATLAB Compiler in MATLAB mode
     if (BASIS_MCC_MATLAB_MODE)
       set (MATLAB_MODE ON)
       if (NOT MATLAB_EXECUTABLE)
         message (WARNING "MATLAB executable not found. It is required to build target ${TARGET_UID} in MATLAB mode."
-                         " Forgot to MATLAB as dependency? Otherwise, set MATLAB_EXECUTABLE manually and try again or set BASIS_MCC_MATLAB_MODE to OFF."
+                         " Either set the advanced option BASIS_MCC_MATLAB_MODE to OFF or add MATLAB{matlab} as dependency."
                          " Will build target ${TARGET_UID} in standalone mode instead.")
         set (MATLAB_MODE OFF)
       endif ()
@@ -1719,33 +1828,55 @@ function (basis_build_mcc_target TARGET_UID)
       endif ()
     endif ()
     # post-build command
-    if (LIBRARY)
-      set (
-        POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy
-                           "${BUILD_DIR}/${OUTPUT_NAME}"
-                           "${LIBRARY_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+    set (POST_BUILD_COMMAND)
+    if (NOT "^${MCC_OUTPUT_NAME}$" STREQUAL "^${OUTPUT_NAME}$")
+      list (APPEND POST_BUILD_COMMAND
+        COMMAND "${CMAKE_COMMAND}" -E copy
+                "${BUILD_DIR}/${MCC_OUTPUT_NAME}"
+                "${BUILD_DIR}/${OUTPUT_NAME}"
+        COMMAND "${CMAKE_COMMAND}" -E copy
+                "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}.h"
+                "${BUILD_DIR}/${OUTPUT_NAME_WE}.h"
       )
+    endif ()
+    if (LIBRARY)
+      list (APPEND POST_BUILD_COMMAND
+        COMMAND "${CMAKE_COMMAND}" -E copy
+                "${BUILD_DIR}/${OUTPUT_NAME}"
+                "${LIBRARY_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+        COMMAND "${CMAKE_COMMAND}" -E copy
+                "${BUILD_DIR}/${OUTPUT_NAME_WE}.h"
+                "${LIBRARY_HEADER_DIRECTORY}/${OUTPUT_NAME_WE}.h"
+      )
+      if (WIN32)
+        list (APPEND POST_BUILD_COMMAND
+          COMMAND "${CMAKE_COMMAND}" -E copy
+                  "${BUILD_DIR}/${OUTPUT_NAME_WE}.dll"
+                  "${LIBRARY_OUTPUT_DIRECTORY}/${OUTPUT_NAME_WE}.dll")
+      endif ()
     else ()
       if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         # TODO: This file should be regenerated if it is missing.
-        file (WRITE "${BUILD_DIR}/${OUTPUT_NAME}" "#!/bin/bash\nexec $(dirname $BASH_SOURCE)/${OUTPUT_NAME}.app/Contents/MacOS/${OUTPUT_NAME}")
+        file (WRITE "${BUILD_DIR}/${OUTPUT_NAME}" "#!/bin/bash\nexec $(dirname $BASH_SOURCE)/${OUTPUT_NAME_WE}.app/Contents/MacOS/${MCC_OUTPUT_NAME_WE}")
         execute_process (COMMAND chmod +x "${BUILD_DIR}/${OUTPUT_NAME}")
-        set (
-          POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy_directory
-                             "${BUILD_DIR}/${OUTPUT_NAME}.app"
-                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}.app"
-                     COMMAND "${CMAKE_COMMAND}" -E copy
-                             "${BUILD_DIR}/${OUTPUT_NAME}"
-                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+        list (APPEND POST_BUILD_COMMAND
+          COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                  "${BUILD_DIR}/${OUTPUT_NAME_WE}.app"
+                  "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME_WE}.app"
+          COMMAND "${CMAKE_COMMAND}" -E copy
+                  "${BUILD_DIR}/${OUTPUT_NAME}"
+                  "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
         )
       else ()
-        set (
-          POST_BUILD_COMMAND "${CMAKE_COMMAND}" -E copy
-                             "${BUILD_DIR}/${OUTPUT_NAME}"
-                             "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
+        list (APPEND POST_BUILD_COMMAND
+          COMMAND "${CMAKE_COMMAND}" -E copy
+                  "${BUILD_DIR}/${OUTPUT_NAME}"
+                  "${RUNTIME_OUTPUT_DIRECTORY}/${OUTPUT_NAME}"
         )
       endif ()
     endif ()
+    # configure build script
+    configure_file ("${BASIS_SCRIPT_EXECUTE_PROCESS}" "${BUILD_SCRIPT}" @ONLY)
     # add custom command to build executable using MATLAB Compiler
     add_custom_command (
       OUTPUT ${BUILD_OUTPUT}
@@ -1756,20 +1887,20 @@ function (basis_build_mcc_target TARGET_UID)
       # wrapping command in CMake execute_process() command allows for inspection
       # of command output for error messages and specification of timeout
       COMMAND "${CMAKE_COMMAND}"
-              "-DCOMMAND=${BUILD_CMD}"
+              "-DCONFIG=$<${BASIS_GE_CONFIG}>"
               "-DWORKING_DIRECTORY=${WORKING_DIR}"
               "-DTIMEOUT=${BASIS_MCC_TIMEOUT}"
               "-DRETRY_EXPRESSION=License checkout failed"
               "-DRETRY_ATTEMPTS=${BASIS_MCC_RETRY_ATTEMPTS}"
               "-DRETRY_DELAY=${BASIS_MCC_RETRY_DELAY}"
-              "-DERROR_EXPRESSION=[E|e]rror"
+              "-DERROR_EXPRESSION=[E|e]rror:|Illegal output name"
               "-DOUTPUT_FILE=${BUILD_LOG}"
               "-DERROR_FILE=${BUILD_LOG}"
               "-DVERBOSE=OFF"
               "-DLOG_ARGS=ON"
-              "-P" "${BASIS_SCRIPT_EXECUTE_PROCESS}"
+              "-P" "${BUILD_SCRIPT}"
       # post build command(s)
-      COMMAND ${POST_BUILD_COMMAND}
+      ${POST_BUILD_COMMAND}
       # inform user where build log can be found
       COMMAND "${CMAKE_COMMAND}" -E echo "Build log written to ${BUILD_LOG}"
       # comment
@@ -1780,48 +1911,76 @@ function (basis_build_mcc_target TARGET_UID)
   # --------------------------------------------------------------------------
   # add custom target
   add_custom_target (_${TARGET_UID} DEPENDS ${BUILD_OUTPUT} SOURCES ${SOURCES})
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean"
-  set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${BUILD_OUTPUT})
+  set (ADDITIONAL_MAKE_CLEAN_FILES "${BUILD_OUTPUT}")
   if (COMPILE)
-    set_property (
-      DIRECTORY
-      APPEND PROPERTY
-        ADDITIONAL_MAKE_CLEAN_FILES
-          "${BUILD_DIR}/${OUTPUT_NAME}.prj"
-          "${BUILD_DIR}/mccExcludedFiles.log"
-          "${BUILD_DIR}/mccBuild.log"
-          "${BUILD_DIR}/readme.txt"
+    list (APPEND ADDITIONAL_MAKE_CLEAN_FILES
+      "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}.prj"
+      "${BUILD_DIR}/mccExcludedFiles.log"
+      "${BUILD_DIR}/mccBuild.log"
+      "${BUILD_DIR}/readme.txt"
     )
     if (LIBRARY)
-      # TODO
+      list (APPEND ADDITIONAL_MAKE_CLEAN_FILES
+        "${BUILD_DIR}/${OUTPUT_NAME_WE}.h"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}.h"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}.c"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}.exports"
+      )
     else ()
-      set_property (
-        DIRECTORY
-        APPEND PROPERTY
-          ADDITIONAL_MAKE_CLEAN_FILES
-            "${BUILD_DIR}/${OUTPUT_NAME}"
-            "${BUILD_DIR}/run_${OUTPUT_NAME}.sh"
-            "${BUILD_DIR}/${OUTPUT_NAME}_main.c"
-            "${BUILD_DIR}/${OUTPUT_NAME}_mcc_component_data.c"
+      list (APPEND ADDITIONAL_MAKE_CLEAN_FILES
+        "${BUILD_DIR}/${OUTPUT_NAME}"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME}"
+        "${BUILD_DIR}/run_${MCC_OUTPUT_NAME_WE}.sh"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}_main.c"
+        "${BUILD_DIR}/${MCC_OUTPUT_NAME_WE}_mcc_component_data.c"
       )
     endif ()
   endif ()
+  set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${ADDITIONAL_MAKE_CLEAN_FILES}")
+  unset (ADDITIONAL_MAKE_CLEAN_FILES)
   # export target
   if (EXPORT)
-    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
+    basis_add_custom_export_target (${TARGET_UID} "${IS_TEST}")
   endif ()
   # install executable or library
   if (LIBRARY)
-    # TODO
+    if (LIBRARY_HEADER_DIRECTORY)
+      file (RELATIVE_PATH INCLUDE_DIR_SUFFIX "${BINARY_INCLUDE_DIR}" "${LIBRARY_HEADER_DIRECTORY}")
+      if (NOT INCLUDE_DIR_SUFFIX MATCHES "^../")
+        string (REGEX REPLACE "/$" "" INCLUDE_DIR_SUFFIX "${INCLUDE_DIR_SUFFIX}")
+        if (INCLUDE_DIR_SUFFIX STREQUAL ".")
+          set (INCLUDE_DIR_SUFFIX)
+        else ()
+          set (INCLUDE_DIR_SUFFIX "/${INCLUDE_DIR_SUFFIX}")
+        endif ()
+        install (
+          FILES       "${BUILD_DIR}/${OUTPUT_NAME_WE}.h"
+          DESTINATION "${INSTALL_INCLUDE_DIR}${INCLUDE_DIR_SUFFIX}"
+          COMPONENT   "${LIBRARY_COMPONENT}"
+        )
+      endif ()
+    endif ()
+    if (LIBRARY_INSTALL_DIRECTORY)
+      if (WIN32)
+        install (
+          FILES       "${BUILD_DIR}/${OUTPUT_NAME_WE}.dll"
+          DESTINATION "${RUNTIME_INSTALL_DIRECTORY}"
+          COMPONENT   "${RUNTIME_COMPONENT}"
+        )
+      endif ()
+      install (
+        FILES       "${INSTALL_FILE}"
+        DESTINATION "${LIBRARY_INSTALL_DIRECTORY}"
+        COMPONENT   "${LIBRARY_COMPONENT}"
+      )
+    endif ()
   else ()
     if (RUNTIME_INSTALL_DIRECTORY)
       if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         install (
-          DIRECTORY   "${BUILD_DIR}/${OUTPUT_NAME}.app"
+          DIRECTORY   "${BUILD_DIR}/${OUTPUT_NAME_WE}.app"
           DESTINATION "${RUNTIME_INSTALL_DIRECTORY}"
           COMPONENT   "${RUNTIME_COMPONENT}"
           USE_SOURCE_PERMISSIONS

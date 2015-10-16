@@ -198,49 +198,58 @@ macro (basis_find_package PACKAGE)
   set (PKG_IS_MODULE FALSE)
   if (PROJECT_IS_MODULE)
     # allow modules to specify top-level project as dependency
-    if (PKG MATCHES "^${TOPLEVEL_PROJECT_NAME}$")
+    if ("^${PKG}$" STREQUAL "^${TOPLEVEL_PROJECT_NAME}$")
       if (BASIS_DEBUG)
         message ("**     This is the top-level project.")
       endif ()
       set (${PKG}_FOUND TRUE)
     # look for other module of top-level project
-    elseif (PROJECT_MODULES MATCHES "(^|;)${PKG}(;|$)")
-      set (PKG_IS_MODULE TRUE)
-      if (PROJECT_MODULES_ENABLED MATCHES "(^|;)${PKG}(;|$)")
-        if (BASIS_DEBUG)
-          message ("**     Identified it as other module of this project.")
+    else ()
+      list (FIND PROJECT_MODULES "${PKG}" PKGIDX)
+      if (NOT PKGIDX EQUAL -1)
+        set (PKG_IS_MODULE TRUE)
+        list (FIND PROJECT_MODULES_ENABLED "${PKG}" PKGIDX)
+        if (NOT PKGIDX EQUAL -1)
+          if (BASIS_DEBUG)
+            message ("**     Identified it as other module of this project.")
+          endif ()
+          include ("${${PKG}_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PKG}Config.cmake")
+          set (${PKG}_FOUND TRUE)
+        else ()
+          set (${PKG}_FOUND FALSE)
         endif ()
-        include ("${${PKG}_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PKG}Config.cmake")
-        set (${PKG}_FOUND TRUE)
-      else ()
-        set (${PKG}_FOUND FALSE)
       endif ()
+      unset (PKGIDX)
     endif ()
   # --------------------------------------------------------------------------
   # find bundled packages
-  elseif (BUNDLE_PROJECTS MATCHES "(^|;)${PKG}(;|$)")
-    if  (EXISTS "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG}Config.cmake")
-      set (PKG_CONFIG_FILE "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG}Config.cmake")
-    else ()
-      string (TOLOWER "${PKG}" PKG_L)
-      if (EXISTS "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG_L}-config.cmake")
-        set (PKG_CONFIG_FILE "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG_L}-config.cmake")
+  else ()
+    list (FIND BUNDLE_PROJECTS "${PKG}" PKGIDX)
+    if (NOT PKGIDX EQUAL -1)
+      if  (EXISTS "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG}Config.cmake")
+        set (PKG_CONFIG_FILE "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG}Config.cmake")
       else ()
-        set (PKG_CONFIG_FILE)
+        string (TOLOWER "${PKG}" PKG_L)
+        if (EXISTS "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG_L}-config.cmake")
+          set (PKG_CONFIG_FILE "${CMAKE_INSTALL_PREFIX}/${INSTALL_CONFIG_DIR}/${PKG_L}-config.cmake")
+        else ()
+          set (PKG_CONFIG_FILE)
+        endif ()
+        unset (PKG_L)
       endif ()
-      unset (PKG_L)
-    endif ()
-    if (PKG_CONFIG_FILE)
-      if (BASIS_DEBUG)
-        message ("**     Identified it as other package of this bundle.")
+      if (PKG_CONFIG_FILE)
+        if (BASIS_DEBUG)
+          message ("**     Identified it as other package of this bundle.")
+        endif ()
+        get_filename_component (PKG_CONFIG_DIR "${PKG_CONFIG_FILE}" PATH)
+        basis_set_or_update_value (${PKG}_DIR "${PKG_CONFIG_DIR}")
+        include ("${PKG_CONFIG_FILE}")
+        set (${PKG}_FOUND TRUE)
+        unset (PKG_CONFIG_DIR)
       endif ()
-      get_filename_component (PKG_CONFIG_DIR "${PKG_CONFIG_FILE}" PATH)
-      basis_set_or_update_value (${PKG}_DIR "${PKG_CONFIG_DIR}")
-      include ("${PKG_CONFIG_FILE}")
-      set (${PKG}_FOUND TRUE)
-      unset (PKG_CONFIG_DIR)
+      unset (PKG_CONFIG_FILE)
     endif ()
-    unset (PKG_CONFIG_FILE)
+    unset (PKGIDX)
   endif ()
   # --------------------------------------------------------------------------
   # otherwise, look for external package
@@ -280,8 +289,9 @@ macro (basis_find_package PACKAGE)
         basis_sanitize_for_regex (_BFP_RE "${${PKG}_DIR}")
         if (NOT _${PKG}_DIR MATCHES "^${_BFP_RE}$")
           get_cmake_property (_BFP_VARS VARIABLES)
+          basis_sanitize_for_regex (PKG_RE "${PKG}")
           foreach (_BFP_VAR IN LISTS _BFP_VARS)
-            if (_BFP_VAR MATCHES "^${PKG}[_-]" AND NOT _BFP_VAR MATCHES "^${PKG}_DIR$")
+            if (_BFP_VAR MATCHES "^${PKG_RE}[_-]" AND NOT "^${_BFP_VAR}$" STREQUAL "^${PKG}_DIR$")
               basis_is_cached (_BFP_CACHED ${_BFP_VAR})
               if (_BFP_CACHED)
                 get_property (_BFP_TYPE CACHE ${_BFP_VAR} PROPERTY TYPE)
@@ -292,6 +302,7 @@ macro (basis_find_package PACKAGE)
               endif ()
             endif ()
           endforeach ()
+          unset (PKG_RE)
           unset (_BFP_VAR)
           unset (_BFP_VARS)
           unset (_BFP_CACHED)
@@ -337,7 +348,7 @@ macro (basis_find_package PACKAGE)
         elseif (ARGN_REQUIRED)
           list (APPEND FIND_ARGN "REQUIRED")
         endif ()
-        if ("${PKG}" MATCHES "^(MFC|wxWidgets)$")
+        if (PKG MATCHES "^(MFC|wxWidgets)$")
           # if Find<Pkg>.cmake prints status message, don't do it here
           find_package (${PKG} ${VER} ${FIND_ARGN})
         else ()
@@ -356,9 +367,9 @@ macro (basis_find_package PACKAGE)
           find_package (${PKG} ${VER} ${FIND_ARGN})
           # set common <Pkg>_VERSION_STRING variable if possible and not set
           if (NOT DEFINED ${PKG}_VERSION_STRING)
-            if (PKG MATCHES "^PythonInterp$")
+            if ("^${PKG}$" STREQUAL "^PythonInterp$")
               set (${PKG}_VERSION_STRING ${PYTHON_VERSION_STRING})
-            elseif (PKG MATCHES "^JythonInterp$")
+            elseif ("^${PKG}$" STREQUAL "^JythonInterp$")
               set (${PKG}_VERSION_STRING ${JYTHON_VERSION_STRING})
             elseif (DEFINED ${PKG}_VERSION_MAJOR)
               set (${PKG}_VERSION_STRING ${${PKG}_VERSION_MAJOR})
@@ -391,23 +402,15 @@ macro (basis_find_package PACKAGE)
         # remember which components where found already
         if (${PKG}_FOUND AND ARGN_COMPONENTS)
           if (${PKG}_FOUND_COMPONENTS)
-          list (APPEND ARGN_COMPONENTS ${${PKG}_FOUND_COMPONENTS})
-          list (REMOVE_DUPLICATES ARGN_COMPONENTS)
-        endif ()
+            list (APPEND ARGN_COMPONENTS ${${PKG}_FOUND_COMPONENTS})
+            list (REMOVE_DUPLICATES ARGN_COMPONENTS)
+          endif ()
           set (${PKG}_FOUND_COMPONENTS "${ARGN_COMPONENTS}")
         endif ()
         # if previously components of this package where found and the additional
         # components are only optional, set <PKG>_FOUND to TRUE again
         if (_${PKG}_FOUND AND NOT ARGN_REQUIRED)
           set (${PKG}_FOUND TRUE)
-        endif ()
-        # provide option which allows users to disable use of not required packages
-        if (${PKG}_FOUND AND NOT ARGN_REQUIRED)
-          option (USE_${PKG} "Enable/disable use of package ${PKG}." ON)
-          mark_as_advanced (USE_${PKG})
-          if (NOT USE_${PKG})
-            set (${PKG}_FOUND FALSE)
-          endif ()
         endif ()
       endif ()
       # ----------------------------------------------------------------------
@@ -420,6 +423,17 @@ macro (basis_find_package PACKAGE)
       # (used above to reset other <PKG>_* variables whenever <PKG>_DIR changed)
       if (DEFINED ${PKG}_DIR)
         set (_${PKG}_DIR "${${PKG}_DIR}" CACHE INTERNAL "(Previous) Installation directory of ${PKG}." FORCE)
+      endif ()
+    endif ()
+    # ------------------------------------------------------------------------
+    # provide option which allows users to disable use of optional packages
+    if (${PKG}_FOUND AND NOT ARGN_REQUIRED)
+      if (NOT DEFINED USE_${PKG})
+        option (USE_${PKG} "Enable/disable use of package ${PKG}." ON)
+        mark_as_advanced (USE_${PKG})
+      endif ()
+      if (NOT USE_${PKG})
+        set (${PKG}_FOUND FALSE)
       endif ()
     endif ()
   endif ()
@@ -477,29 +491,33 @@ macro (basis_use_package PACKAGE)
     if (PROJECT_IS_MODULE)
       # ignore BASIS as module dependency
       # important if BASIS itself is a project module
-      if (PKG MATCHES "^BASIS$")
+      if ("^${PKG}$" STREQUAL "^BASIS$")
         if (BASIS_DEBUG)
           message ("**     Ignoring BASIS dependency as it clearly is used already by the top-level project.")
         endif ()
         break ()
       # allow modules to specify top-level project as dependency
-      elseif (PKG MATCHES "^${TOPLEVEL_PROJECT_NAME}$")
+      elseif ("^${PKG}$" STREQUAL "^${TOPLEVEL_PROJECT_NAME}$")
         if (BASIS_DEBUG)
           message ("**     This is the top-level project.")
         endif ()
         break () # instead of return()
       # use other module of top-level project
-      elseif (PROJECT_MODULES MATCHES "(^|;)${PKG}(;|$)")
-        if (${PKG}_FOUND)
-          if (BASIS_DEBUG)
-            message ("**     Include package use file of other module.")
+      else ()
+        list (FIND PROJECT_MODULES "${PKG}" PKGIDX)
+        if (NOT PKGIDX EQUAL -1)
+          if (${PKG}_FOUND)
+            if (BASIS_DEBUG)
+              message ("**     Include package use file of other module.")
+            endif ()
+            include ("${${PKG}_USE_FILE}")
+            break () # instead of return()
+          else ()
+            message (FATAL_ERROR "Module ${PKG} not found! This must be an error in BASIS."
+                                 " Report this issue to the maintainer of this package.")
           endif ()
-          include ("${${PKG}_USE_FILE}")
-          break () # instead of return()
-        else ()
-          message (FATAL_ERROR "Module ${PKG} not found! This must be an error in BASIS."
-                               " Report this issue to the maintainer of this package.")
         endif ()
+        unset (PKGIDX)
       endif ()
     endif ()
     # if this package is an external project, i.e., a project build as part
@@ -512,12 +530,13 @@ macro (basis_use_package PACKAGE)
     # cmake to a list naming all the other packages which are part of the
     # superbuild.
     if (BUNDLE_PROJECTS)
-      list (FIND BUNDLE_PROJECTS "${PKG}" IDX)
-      if (IDX EQUAL -1)
+      list (FIND BUNDLE_PROJECTS "${PKG}" PKGIDX)
+      if (PKGIDX EQUAL -1)
         set (BUNDLE_PROJECT FALSE)
       else ()
         set (BUNDLE_PROJECT TRUE)
       endif ()
+      unset (PKGIDX)
     endif ()
     # use external package
     if (${PKG}_FOUND)
@@ -532,7 +551,7 @@ macro (basis_use_package PACKAGE)
         if (BASIS_DEBUG)
           message ("**     Include package use file of external package.")
         endif ()
-        if (PKG MATCHES "^BASIS$")
+        if ("^${PKG}$" STREQUAL "^BASIS$")
           include ("${${PKG}_USE_FILE}" NO_POLICY_SCOPE)
         else ()
           include ("${${PKG}_USE_FILE}")
@@ -542,7 +561,7 @@ macro (basis_use_package PACKAGE)
           message ("**     Use variables which were set by basis_find_package().")
         endif ()
         # OpenCV
-        if (PKG MATCHES "^OpenCV$")
+        if ("^${PKG}$" STREQUAL "^OpenCV$")
           # the cv.h may be found as part of PerlLibs, the include path of
           # which is added at first by BASISConfig.cmake
           if (OpenCV_INCLUDE_DIRS)
@@ -564,7 +583,7 @@ macro (basis_use_package PACKAGE)
         endif ()
       endif ()
       set (BASIS_USE_${PKG}_INCLUDED TRUE)
-    elseif (ARGC GREATER 1 AND "${ARGV1}" MATCHES "^REQUIRED$")
+    elseif (ARGC GREATER 1 AND "^${ARGV1}$" STREQUAL "^REQUIRED$")
       if (BASIS_DEBUG)
         basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterFind${PKG}.cmake")
       endif ()
@@ -594,6 +613,9 @@ endmacro ()
 #       an alias to emphasize that this function is different from CMake's
 #       <a href="http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:get_filename_component">
 #       get_filename_component()</a> command.
+#
+# @todo Fix issue http://public.kitware.com/Bug/view.php?id=15743 which
+#       affects also basis_get_relative_path.
 #
 # @param [in,out] ARGN Arguments as accepted by get_filename_component().
 #
@@ -626,7 +648,7 @@ function (get_filename_component)
     _get_filename_component (${VAR} "${STR}" ${CMD})
   endif ()
   if (ARGC EQUAL 4)
-    if (NOT ARGV3 MATCHES "^CACHE$")
+    if (NOT "^${ARGV3}$" STREQUAL "^CACHE$")
       message (FATAL_ERROR "[basis_]get_filename_component(): Invalid fourth argument: ${ARGV3}!")
     else ()
       set (${VAR} "${${VAR}}" CACHE STRING "")
@@ -673,6 +695,7 @@ function (basis_get_relative_path REL BASE PATH)
   if (PATH MATCHES "^$")
     set (PATH ".")
   endif ()
+  # Attention: http://public.kitware.com/Bug/view.php?id=15743
   basis_get_filename_component (PATH "${PATH}" ABSOLUTE)
   basis_get_filename_component (BASE "${BASE}" ABSOLUTE)
   if (NOT PATH)
@@ -688,75 +711,72 @@ function (basis_get_relative_path REL BASE PATH)
   set (${REL} "${P}" PARENT_SCOPE)
 endfunction ()
 
-##
-#  @brief Create a string from a list of variables indicating if they are defined and their values. Useful for debug and user errors.
+## @brief Create a string from a list of variables indicating if they are defined and their values.
 #
-#  @param VAR_INFO_STRING[out] The output string variable that will set with the debug string.
-#
-#  @param ARGN[in]        List of variables to be put into a string along with their value.
-#
-#  @code
-#    set(VAR1 "I'm a string")
-#    set(VAR2 2)
-#    basis_variable_value_status(VAR_INFO_STRING VAR1 VAR2 VAR3)
-#    message(STATUS ${VAR_INFO_STRING})
-#    
-#  @endcode
-function(basis_variable_value_status VAR_INFO_STRING)
-  set(OUTPUT_STRING)
-  foreach(VARIABLE_NAME IN ITEMS ${ARGN})
-     if(DEFINED ${VARIABLE_NAME})
-        set(OUTPUT_STRING "${OUTPUT_STRING}\n  variable name: ${VARIABLE_NAME}  value: ${${VARIABLE_NAME}}")
-     else()
-        set(OUTPUT_STRING "${OUTPUT_STRING}\n  variable name: ${VARIABLE_NAME}  value is not defined")
-     endif()
-  endforeach()
-  set(${VAR_INFO_STRING} ${OUTPUT_STRING} PARENT_SCOPE)
-  # debug:
-  #message(STATUS "OUTPUT_STRING:${OUTPUT_STRING}")
-  #message(STATUS "VAR_INFO_STRING:${VAR_INFO_STRING}:${${VAR_INFO_STRING}}")
-endfunction()
-
-##########################################################
-# ------- Variable Check ---------------
-##########################################################
-#
-# @brief VariableCheck checks for a list of variables 
-#        required later in the script and produces a clear error 
-#        message explaining the problem and how to fix it if they 
-#        are not present.
-#  
-# Multi Arg Params:
-#
-#     @param REQUIRED[in]         List of variables that MUST be set to run this script correctly. 
-#                                 Will produce a FATAL_ERROR message explaining which variables 
-#                                 are misisng and exit the cmake script.
-#
-#     @param OPTIONAL[in]         List of variables that be OPTIONALLY set to run this script with additional features. 
-#                                 Will produce an AUTHOR_WARNING message explaining which variables 
-#                                 are misisng and continue running the cmake script.
-#
-#
-#     @param PATH_EXISTS[in]      List of path variables that MUST be set to a location that exists.
-#
-#
-#     @param OPTIONAL_PATH_EXISTS[in]   LIST of path variables that are optional, but once set must be empty or provide a path to location that exists.
-#
+# Useful for debug and user errors, for example:
 # @code
-#     basis_variable_check(
-#        REQUIRED
-#           LIBRARY1_INCLUDE_DIRS
-#           LIBRARY2_INCLUDE_DIRS
-#           LIBRARY2_LIBRARIES
-#        OPTIONAL
-#           LIBRARY3_INCLUDE_DIRS
-#           LIBRARY3_LIBRARIES
-#        OPTIONAL_PATH
-#           
-#     )
+# set(VAR1 "I'm a string")
+# set(VAR2 2)
+# basis_variable_value_status(VAR_INFO_STRING VAR1 VAR2 VAR3)
+# message(STATUS ${VAR_INFO_STRING})
 # @endcode
 #
-##########################################################
+# @param[out] VAR_INFO_STRING The output string variable that will set with the debug string.
+# @param[in]  ARGN            List of variables to be put into a string along with their value.
+function(basis_variable_value_status VAR_INFO_STRING)
+  set (OUTPUT_STRING)
+  foreach (VARIABLE_NAME IN ITEMS ${ARGN})
+    if (DEFINED ${VARIABLE_NAME})
+      set (OUTPUT_STRING "${OUTPUT_STRING}\n  variable name: ${VARIABLE_NAME}  value: ${${VARIABLE_NAME}}")
+    else ()
+      set (OUTPUT_STRING "${OUTPUT_STRING}\n  variable name: ${VARIABLE_NAME}  value is not defined")
+    endif ()
+  endforeach ()
+  set (${VAR_INFO_STRING} ${OUTPUT_STRING} PARENT_SCOPE)
+endfunction()
+
+## @brief Checks for a list of variables required later in the script.
+#
+# Produces a clear error message explaining the problem and how to fix it if they are not present.
+#
+# @code
+# basis_variable_check(
+#    REQUIRED
+#       LIBRARY1_INCLUDE_DIRS
+#       LIBRARY2_INCLUDE_DIRS
+#       LIBRARY2_LIBRARIES
+#    OPTIONAL
+#       LIBRARY3_INCLUDE_DIRS
+#       LIBRARY3_LIBRARIES
+#    OPTIONAL_PATH
+#       
+# )
+# @endcode
+#
+# @param [in] ARGN This argument list is parsed and the following
+#                  arguments are extracted.
+# @par
+# <table border="0">
+#   <tr>
+#     @tp @b REQUIRED var... @endtp
+#     <td>List of variables that MUST be set to run this script correctly. 
+#         Will produce a FATAL_ERROR message explaining which variables 
+#         are misisng and exit the cmake script.</td>
+#   </tr>
+#   <tr>
+#     @tp @b OPTIONAL var... @endtp
+#     <td>List of variables need not be set to run this script correctly.</td>
+#   </tr>
+#   <tr>
+#     @tp @b PATH_EXISTS var... @endtp
+#     <td>List of path variables that MUST be set to a location that exists.</td>
+#   </tr>
+#   <tr>
+#     @tp @b OPTIONAL_PATH_EXISTS var... @endtp
+#     <td>List of path variables that are optional, but once set must be empty
+#         or provide a path to location that exists.</td>
+#   </tr>
+# </table>
 function(basis_variable_check)
 
   set(options ) # currently none
@@ -1077,10 +1097,11 @@ function (basis_set_script_path VAR PATH)
   endif ()
   basis_get_relative_path (PATH "${__DIR__}" "${PATH}")
   if (NOT PATH)
-    set (PATH ".")
+    set (${VAR} "." PARENT_SCOPE)
+  else ()
+    string (REGEX REPLACE "/+$" "" PATH "${PATH}")
+    set (${VAR} "${PATH}" PARENT_SCOPE)
   endif ()
-  string (REGEX REPLACE "/$" "" PATH "${PATH}")
-  set (${VAR} "${PATH}" PARENT_SCOPE)
 endfunction ()
 
 # ============================================================================
@@ -1409,11 +1430,12 @@ function (basis_list_to_delimited_string STR DELIM)
       set (AUTOQUOTE FALSE)
     endif ()
   endif ()
+  basis_sanitize_for_regex (DELIM_RE "${DELIM}")
   foreach (ELEM ${ARGN})
     if (OUT)
       set (OUT "${OUT}${DELIM}")
     endif ()
-    if (AUTOQUOTE AND ELEM MATCHES "${DELIM}")
+    if (AUTOQUOTE AND ELEM MATCHES "${DELIM_RE}")
       set (OUT "${OUT}\"${ELEM}\"")
     else ()
       set (OUT "${OUT}${ELEM}")
@@ -1727,11 +1749,42 @@ function (basis_get_fully_qualified_target_uid TARGET_UID TARGET_NAME)
         set (UID "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${UID}")
       endif ()
     endif ()
-    set (${TARGET_UID} "${UID}" PARENT_SCOPE)
   else ()
-    set (${TARGET_UID} "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}" PARENT_SCOPE)
+    if (TARGET "${TARGET_NAME}")
+      get_target_property (IMPORTED "${TARGET_NAME}" IMPORTED)
+    else ()
+      set (IMPORTED FALSE)
+    endif ()
+    if (IMPORTED)
+      set (UID "${TARGET_NAME}")
+    else ()
+      set (UID "${PROJECT_NAMESPACE_CMAKE}.${TARGET_NAME}")
+    endif ()
   endif ()
+  set (${TARGET_UID} "${UID}" PARENT_SCOPE)
 endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Get namespace of build target without check of UID.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_NS to an empty string.
+#
+# @param [out] TARGET_NS  Namespace part of target UID.
+# @param [in]  TARGET_UID Target UID.
+if (BASIS_USE_TARGET_UIDS)
+  function (_basis_get_target_namespace TARGET_NS TARGET_UID)
+    if (UID MATCHES "^(.*)\\.")
+      set ("${TARGET_NS}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
+    else ()
+      set ("${TARGET_NS}" "" PARENT_SCOPE)
+    endif ()
+  endfunction ()
+else ()
+  function (_basis_get_target_namespace TARGET_NS TARGET_UID)
+    set ("${TARGET_NS}" "" PARENT_SCOPE)
+  endfunction ()
+endif ()
 
 # ----------------------------------------------------------------------------
 ## @brief Get namespace of build target.
@@ -1743,18 +1796,39 @@ endfunction ()
 # @param [in]  TARGET_UID Target UID/name.
 if (BASIS_USE_TARGET_UIDS)
   function (basis_get_target_namespace TARGET_NS TARGET_UID)
-    # make sure we have a fully-qualified target UID
     basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
-    # return namespace part
-    if (UID MATCHES "^(.*)\\.")
-      set ("${TARGET_NS}" "${CMAKE_MATCH_1}" PARENT_SCOPE)
-    else ()
-      set ("${TARGET_NS}" "" PARENT_SCOPE)
-    endif ()
+    _basis_get_target_namespace (NS "${UID}")
+    set ("${TARGET_NS}" "${NS}" PARENT_SCOPE)
   endfunction ()
 else ()
   function (basis_get_target_namespace TARGET_NS TARGET_UID)
     set ("${TARGET_NS}" "" PARENT_SCOPE)
+  endfunction ()
+endif ()
+
+# ----------------------------------------------------------------------------
+## @brief Get "local" target name, i.e., BASIS target name without check of UID.
+#
+# If @c BASIS_USE_TARGET_UIDS is set to @c OFF, this operation
+# always just sets the @p TARGET_NAME to the given @p TARGET_UID.
+#
+# @param [out] TARGET_NAME Target name used as argument to BASIS functions.
+# @param [in]  TARGET_UID  "Global" target name, i.e., actual CMake target name.
+#
+# @returns Sets @p TARGET_NAME to the name of the build target with UID @p TARGET_UID.
+#
+# @sa basis_get_target_name(), basis_get_target_uid()
+if (BASIS_USE_TARGET_UIDS)
+  function (_basis_get_target_name TARGET_NAME TARGET_UID)
+    # strip off namespace of current project
+    basis_sanitize_for_regex (RE "${PROJECT_NAMESPACE_CMAKE}")
+    string (REGEX REPLACE "^${RE}\\." "" NAME "${UID}")
+    # return
+    set (${TARGET_NAME} "${NAME}" PARENT_SCOPE)
+  endfunction ()
+else ()
+  function (_basis_get_target_name TARGET_NAME TARGET_UID)
+    set (${TARGET_NAME} "${TARGET_UID}" PARENT_SCOPE)
   endfunction ()
 endif ()
 
@@ -1772,12 +1846,8 @@ endif ()
 # @sa basis_get_target_uid()
 if (BASIS_USE_TARGET_UIDS)
   function (basis_get_target_name TARGET_NAME TARGET_UID)
-    # make sure we have a fully-qualified target UID
     basis_get_fully_qualified_target_uid (UID "${TARGET_UID}")
-    # strip off namespace of current project
-    basis_sanitize_for_regex (RE "${PROJECT_NAMESPACE_CMAKE}")
-    string (REGEX REPLACE "^${RE}\\." "" NAME "${UID}")
-    # return
+    _basis_get_target_name (NAME "${UID}")
     set (${TARGET_NAME} "${NAME}" PARENT_SCOPE)
   endfunction ()
 else ()
@@ -1797,7 +1867,7 @@ endif ()
 function (basis_check_target_name TARGET_NAME)
   # reserved target name ?
   foreach (PATTERN IN LISTS BASIS_RESERVED_TARGET_NAMES)
-    if (TARGET_NAME MATCHES "^${PATTERN}$")
+    if ("^${TARGET_NAME}$" STREQUAL "^${PATTERN}$")
       message (FATAL_ERROR "Target name \"${TARGET_NAME}\" is reserved and cannot be used.")
     endif ()
   endforeach ()
@@ -1970,7 +2040,7 @@ endif ()
 function (basis_check_test_name TEST_NAME)
   # reserved test name ?
   foreach (PATTERN IN LISTS BASIS_RESERVED_TARGET_NAMES)
-    if (TARGET_NAME MATCHES "^${PATTERN}$")
+    if ("^${TARGET_NAME}$" STREQUAL "^${PATTERN}$")
       message (FATAL_ERROR "Test name \"${TARGET_NAME}\" is reserved and cannot be used.")
     endif ()
   endforeach ()
@@ -2049,7 +2119,7 @@ function (basis_get_compiled_file CFILE SOURCE)
     basis_get_source_language (LANGUAGE "${SOURCE}")
   endif ()
   set (${CFILE} "" PARENT_SCOPE)
-  if (USE_Python AND SOURCE)
+  if (SOURCE)
     if (LANGUAGE MATCHES "PYTHON")
       set (${CFILE} "${SOURCE}c" PARENT_SCOPE)
     elseif (LANGUAGE MATCHES "JYTHON")
@@ -2283,14 +2353,14 @@ function (basis_get_source_language LANGUAGE)
 
       # ------------------------------------------------------------------------
       # detect ambiguity
-      if (LANGUAGE_OUT AND NOT LANG MATCHES "^${LANGUAGE_OUT}$")
+      if (LANGUAGE_OUT AND NOT "^${LANG}$" STREQUAL "^${LANGUAGE_OUT}$")
         if (LANGUAGE_OUT MATCHES "CXX" AND LANG MATCHES "MATLAB")
           # MATLAB Compiler can handle this...
-        elseif (USE_MATLAB AND LANGUAGE_OUT MATCHES "MATLAB" AND LANG MATCHES "CXX")
+        elseif (LANGUAGE_OUT MATCHES "MATLAB" AND LANG MATCHES "CXX")
           set (LANG "MATLAB") # language stays MATLAB
-        elseif (USE_Python AND LANGUAGE_OUT MATCHES "PYTHON" AND LANG MATCHES "JYTHON")
+        elseif (LANGUAGE_OUT MATCHES "PYTHON" AND LANG MATCHES "JYTHON")
           # Jython can deal with Python scripts/modules
-        elseif (USE_Python AND LANGUAGE_OUT MATCHES "JYTHON" AND LANG MATCHES "PYTHON")
+        elseif (LANGUAGE_OUT MATCHES "JYTHON" AND LANG MATCHES "PYTHON")
           set (LANG "JYTHON") # language stays JYTHON
         else ()
           # ambiguity
@@ -2345,8 +2415,15 @@ function (basis_configure_sources LIST_NAME)
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (ARGN "KEEP_DOT_IN_SUFFIX" "BINARY_DIRECTORY" "" ${ARGN})
 
-  if (ARGN_BINARY_DIRECTORY AND NOT ARGN_BINARY_DIRECTORY MATCHES "^${PROJECT_BINARY_DIR}")
-    message (FATAL_ERROR "Specified BINARY_DIRECTORY must be inside the build tree!")
+  # ensure that specified BINARY_DIRECTORY is inside build tree of project
+  if (ARGN_BINARY_DIRECTORY)
+    get_filename_component (_binpath "${ARGN_BINARY_DIRECTORY}" ABSOLUTE)
+    file (RELATIVE_PATH _relpath "${PROJECT_BINARY_DIR}" "${_binpath}")
+    if (_relpath MATCHES "^\\.\\./")
+      message (FATAL_ERROR "Specified BINARY_DIRECTORY must be inside the build tree!")
+    endif ()
+    unset (_binpath)
+    unset (_relpath)
   endif ()
 
   # configure source files
@@ -2388,8 +2465,7 @@ function (basis_configure_sources LIST_NAME)
       # otherwise,
       else ()
         # if source is in project's source tree use relative binary directory
-        basis_sanitize_for_regex (REGEX "${PROJECT_SOURCE_DIR}")
-        if (SOURCE MATCHES "^${REGEX}")
+        if ("^${SOURCE}$" STREQUAL "^${PROJECT_SOURCE_DIR}$")
           basis_get_relative_path (CONFIGURED_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}" "${SOURCE}")
           get_filename_component (CONFIGURED_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${CONFIGURED_SOURCE}" ABSOLUTE)
           if (NOT ARGN_KEEP_DOT_IN_SUFFIX)
@@ -2590,7 +2666,7 @@ function (basis_configure_script INPUT OUTPUT)
       string (CONFIGURE "${SCRIPT}" SCRIPT @ONLY)
     endif ()
     # add code to set module search path
-    if ( USE_Python AND ARGN_LANGUAGE MATCHES "[JP]YTHON")
+    if (ARGN_LANGUAGE MATCHES "[JP]YTHON")
       if (ARGN_LINK_DEPENDS)
         set (PYTHON_CODE "import sys; import os.path; __dir__ = os.path.dirname(os.path.realpath(__file__))")
         list (REVERSE ARGN_LINK_DEPENDS)
@@ -2617,7 +2693,7 @@ function (basis_configure_script INPUT OUTPUT)
         basis_remove_blank_line (SCRIPT) # remove a blank line therefore
         set (SCRIPT "${FUTURE_STATEMENTS}${PYTHON_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
-    elseif ( USE_Perl AND ARGN_LANGUAGE MATCHES "PERL")
+    elseif (ARGN_LANGUAGE MATCHES "PERL")
       if (ARGN_LINK_DEPENDS)
         set (PERL_CODE "use Cwd qw(realpath); use File::Basename;")
         foreach (DIR ${ARGN_LINK_DEPENDS})
@@ -2636,7 +2712,7 @@ function (basis_configure_script INPUT OUTPUT)
         basis_remove_blank_line (SCRIPT) # remove a blank line therefore
         set (SCRIPT "${PERL_CODE} # <-- added by BASIS\n${SCRIPT}")
       endif ()
-    elseif ( USE_BASH AND ARGN_LANGUAGE MATCHES "BASH")
+    elseif (ARGN_LANGUAGE MATCHES "BASH")
       basis_library_prefix (PREFIX BASH)
       # In case of Bash, set BASIS_BASH_UTILITIES which is required to first source the
       # BASIS utilities modules (in particular core.sh). This variable should be set to
@@ -2693,13 +2769,13 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
       set (SCRIPT "${BASH_CODE} # <-- added by BASIS\n${SCRIPT}")
     endif ()
     # replace shebang directive
-    if (USE_PYTHON AND PYTHON_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PYTHON")
+    if (PYTHON_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PYTHON")
       if (WIN32)
         set (SHEBANG "@setlocal enableextensions & \"${PYTHON_EXECUTABLE}\" -x \"%~f0\" %* & goto :EOF")
       else ()
         set (SHEBANG "#! ${PYTHON_EXECUTABLE}")
       endif ()
-    elseif (ARGN_LANGUAGE MATCHES "JYTHON" AND JYTHON_EXECUTABLE)
+    elseif (JYTHON_EXECUTABLE AND ARGN_LANGUAGE MATCHES "JYTHON")
       if (WIN32)
         set (SHEBANG "@setlocal enableextensions & \"${JYTHON_EXECUTABLE}\" -x \"%~f0\" %* & goto :EOF")
       else ()
@@ -2712,14 +2788,14 @@ BASIS_BASH_UTILITIES=\"$__DIR__/${BASH_LIBRARY_DIR}/${PREFIX}basis.sh\""
         #            -schuha
         set (SHEBANG "#! /usr/bin/env ${JYTHON_EXECUTABLE}")
       endif ()
-    elseif (USE_Perl AND PERL_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PERL")
+    elseif (PERL_EXECUTABLE AND ARGN_LANGUAGE MATCHES "PERL")
       if (WIN32)
         set (SHEBANG "@goto = \"START_OF_BATCH\" ;\n@goto = ();")
         set (SCRIPT "${SCRIPT}\n\n__END__\n\n:\"START_OF_BATCH\"\n@\"${PERL_EXECUTABLE}\" -w -S \"%~f0\" %*")
       else ()
         set (SHEBANG "#! ${PERL_EXECUTABLE} -w")
       endif ()
-    elseif (ARGN_LANGUAGE MATCHES "BASH" AND BASH_EXECUTABLE)
+    elseif (BASH_EXECUTABLE AND ARGN_LANGUAGE MATCHES "BASH")
       set (SHEBANG "#! ${BASH_EXECUTABLE}")
     endif ()
     # add (modified) shebang directive again
@@ -2770,16 +2846,30 @@ endfunction ()
 # ----------------------------------------------------------------------------
 ## @brief Get type name of target.
 #
+# @param [out] TYPE       The target's type name or NOTFOUND.
+# @param [in]  TARGET_UID The UID of the target.
+function (_basis_get_target_type TYPE TARGET_UID)
+  get_target_property (IMPORTED ${TARGET_UID} IMPORTED)
+  if (IMPORTED)
+    get_target_property (TYPE_OUT ${TARGET_UID} TYPE)
+  else ()
+    get_target_property (TYPE_OUT ${TARGET_UID} BASIS_TYPE)
+    if (NOT TYPE_OUT)
+      get_target_property (TYPE_OUT ${TARGET_UID} TYPE)
+    endif ()
+  endif ()
+  set ("${TYPE}" "${TYPE_OUT}" PARENT_SCOPE)
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Get type name of target.
+#
 # @param [out] TYPE        The target's type name or NOTFOUND.
 # @param [in]  TARGET_NAME The name of the target.
 function (basis_get_target_type TYPE TARGET_NAME)
   basis_get_target_uid (TARGET_UID "${TARGET_NAME}")
   if (TARGET ${TARGET_UID})
-    get_target_property (TYPE_OUT ${TARGET_UID} "BASIS_TYPE")
-    if (NOT TYPE_OUT)
-      # in particular imported targets may not have a BASIS_TYPE property
-      get_target_property (TYPE_OUT ${TARGET_UID} "TYPE")
-    endif ()
+    _basis_get_target_type(TYPE_OUT ${TARGET_UID})
   else ()
     set (TYPE_OUT "NOTFOUND")
   endif ()
@@ -2795,6 +2885,12 @@ endfunction ()
 # reading this porperty. In case of scripted libraries, this function returns
 # the path of the root directory of the library that has to be added to the
 # module search path.
+#
+# @note If the target is a binary built from C++ source files and the CMake
+#       generator is an IDE such as Visual Studio or Xcode, the absolute
+#       directory of the target location ends with the generator expression
+#       "/$<${BASIS_GE_CONFIG}>" which is to be substituted by the respective
+#       build configuration.
 #
 # @param [out] VAR         Path of build target output file.
 # @param [in]  TARGET_NAME Name of build target.
@@ -2812,11 +2908,11 @@ endfunction ()
 function (basis_get_target_location VAR TARGET_NAME PART)
   basis_get_target_uid (TARGET_UID "${TARGET_NAME}")
   if (TARGET "${TARGET_UID}")
-    basis_get_target_name (TARGET_NAME "${TARGET_UID}")
-    basis_get_target_type (TYPE        "${TARGET_UID}")
+    _basis_get_target_name (TARGET_NAME "${TARGET_UID}")
+    _basis_get_target_type (TYPE        "${TARGET_UID}")
     get_target_property (IMPORTED ${TARGET_UID} IMPORTED)
     # ------------------------------------------------------------------------
-    # imported custom targets
+    # imported targets
     #
     # Note: This might not be required though as even custom executable
     #       and library targets can be imported using CMake's
@@ -2855,9 +2951,9 @@ function (basis_get_target_location VAR TARGET_NAME PART)
         file (RELATIVE_PATH LOCATION "${CMAKE_INSTALL_PREFIX}" "${LOCATION}")
       endif ()
     # ------------------------------------------------------------------------
-    # non-imported custom targets
+    # non-imported targets
     else ()
-      # Attention: The order of the matches/if cases is matters here!
+      # Attention: The order of the matches/if cases matters here!
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # scripts
       if (TYPE MATCHES "^SCRIPT_(EXECUTABLE|MODULE)$")
@@ -2907,7 +3003,7 @@ function (basis_get_target_location VAR TARGET_NAME PART)
         if (NOT FNAME)
           get_target_property (FNAME ${TARGET_UID} OUTPUT_NAME)
         endif ()
-        if (NOT TYPE MATCHES "^SCRIPT_LIBRARY$")
+        if (NOT "^${TYPE}$" STREQUAL "^SCRIPT_LIBRARY$")
           get_target_property (PREFIX ${TARGET_UID} PREFIX)
           get_target_property (SUFFIX ${TARGET_UID} SUFFIX)
           if (FNAME)
@@ -2920,8 +3016,18 @@ function (basis_get_target_location VAR TARGET_NAME PART)
           endif ()
           if (SUFFIX)
             set (TARGET_FILE "${TARGET_FILE}${SUFFIX}")
-          elseif (WIN32 AND TYPE MATCHES "^EXECUTABLE$")
+          elseif (WIN32 AND "^${TYPE}$" STREQUAL "^EXECUTABLE$")
             set (TARGET_FILE "${TARGET_FILE}.exe")
+          endif ()
+        endif ()
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # prepend $<CONFIG> "generator expression" for non-custom binaries
+        # when built with an IDE such as Visual Studio or Xcode
+        if ("^${TYPE}$" STREQUAL "^EXECUTABLE$" OR "^${TYPE}$" STREQUAL "^LIBRARY$")
+          if (NOT PART MATCHES "INSTALL")
+            if (CMAKE_GENERATOR MATCHES "Visual Studio|Xcode")
+              set (DIRECTORY "${DIRECTORY}/$<${BASIS_GE_CONFIG}>")
+            endif ()
           endif ()
         endif ()
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

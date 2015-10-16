@@ -27,7 +27,8 @@
 #     <td>The @c COMPONENTS argument(s) of the find_package() command can
 #         be used to only look for specific MATLAB executables and libraries.
 #         Valid component values are "matlab", "mcc", "mexext", "mex",
-#         "libmex", "mx" or "libmx", and "eng" or "libeng".</td>
+#         "libmex", "mx" or "libmx", "eng" or "libeng",
+#         "libmwmclmcr" or "mwmclmcr", and "libmwmclmcrrt" or "mwmclmcrrt".</td>
 #   </tr>
 #   <tr>
 #     @tp @b MATLAB_FIND_OPTIONAL_COMPONENTS @endtp
@@ -99,6 +100,10 @@
 #     <td>Include directories including prerequisite libraries.</td>
 #   </tr>
 #   <tr>
+#     @tp @b MATLAB_LIBRARY_DIR @endtp
+#     <td>Directory containing the MATLAB libraries.</td>
+#   </tr>
+#   <tr>
 #     @tp @b MATLAB_mex_LIBRARY @endtp
 #     <td>The MEX library of MATLAB.</td>
 #   </tr>
@@ -111,8 +116,16 @@
 #     <td>The MATLAB engine library.</td>
 #   </tr>
 #   <tr>
+#     @tp @b MATLAB_mwmclmcr_LIBRARY @endtp
+#     <td>The MATLAB Compiler library.</td>
+#   </tr>
+#   <tr>
+#     @tp @b MATLAB_mwmclmcrrt_LIBRARY @endtp
+#     <td>The MATLAB Compiler runtime library.</td>
+#   </tr>
+#   <tr>
 #     @tp @b MATLAB_LIBRARY @endtp
-#     <td>All MATLAB libraries.</td>
+#     <td>All MATLAB libraries excluding @c mwmclmcrrt.</td>
 #   </tr>
 #   <tr>
 #     @tp @b MATLAB_LIBRARIES @endtp
@@ -153,15 +166,15 @@ if (NOT MATLAB_PATH_SUFFIXES)
     endif ()
   elseif (APPLE)
     if (CMAKE_SIZE_OF_VOID_P EQUAL 4)
-      set (MATLAB_PATH_SUFFIXES "bin/maci")
+      set (MATLAB_PATH_SUFFIXES "bin/maci"   "runtime/maci")
     else ()
-      set (MATLAB_PATH_SUFFIXES "bin/maci64")
+      set (MATLAB_PATH_SUFFIXES "bin/maci64" "runtime/maci64")
     endif ()
   else ()
     if (CMAKE_SIZE_OF_VOID_P EQUAL 4)
-      set (MATLAB_PATH_SUFFIXES "bin/glnx86")
+      set (MATLAB_PATH_SUFFIXES "bin/glnx86"  "runtime/glnx86")
     else ()
-      set (MATLAB_PATH_SUFFIXES "bin/glnxa64")
+      set (MATLAB_PATH_SUFFIXES "bin/glnxa64" "runtime/glnxa64")
     endif ()
   endif ()
 endif ()
@@ -176,7 +189,7 @@ if (MATLAB_FIND_COMPONENTS OR MATLAB_FIND_OPTIONAL_COMPONENTS)
     string (TOLOWER "${_MATLAB_COMPONENT}" _MATLAB_COMPONENT)
     if (_MATLAB_COMPONENT MATCHES "^(matlab|mcc|mexext|mex)$")
       list (APPEND _MATLAB_EXECUTABLE_NAMES ${_MATLAB_COMPONENT})
-    elseif (_MATLAB_COMPONENT MATCHES "^(lib)?(mex|mx|eng)$")
+    elseif (_MATLAB_COMPONENT MATCHES "^(lib)?(mex|mx|eng|mwmclmcr|mwmclmcrrt)$")
       list (APPEND _MATLAB_LIBRARY_NAMES ${CMAKE_MATCH_2})
     else ()
       message (FATAL_ERROR "Unknown MATLAB component: ${_MATLAB_COMPONENT}")
@@ -186,7 +199,7 @@ if (MATLAB_FIND_COMPONENTS OR MATLAB_FIND_OPTIONAL_COMPONENTS)
     string (TOLOWER "${_MATLAB_COMPONENT}" _MATLAB_COMPONENT)
     if (_MATLAB_COMPONENT MATCHES "^(matlab|mcc|mexext|mex)$")
       list (APPEND _MATLAB_OPTIONAL_EXECUTABLE_NAMES ${_MATLAB_COMPONENT})
-    elseif (_MATLAB_COMPONENT MATCHES "^(lib)?(mex|mx|eng)$")
+    elseif (_MATLAB_COMPONENT MATCHES "^(lib)?(mex|mx|eng|mwmclmcrrt)$")
       list (APPEND _MATLAB_OPTIONAL_LIBRARY_NAMES ${CMAKE_MATCH_2})
     else ()
       message (FATAL_ERROR "Unknown MATLAB component: ${_MATLAB_COMPONENT}")
@@ -195,8 +208,8 @@ if (MATLAB_FIND_COMPONENTS OR MATLAB_FIND_OPTIONAL_COMPONENTS)
 else ()
   set (_MATLAB_EXECUTABLE_NAMES          matlab)
   set (_MATLAB_OPTIONAL_EXECUTABLE_NAMES mcc mex mexext)
-  set (_MATLAB_LIBRARY_NAMES             mex mx eng)
-  set (_MATLAB_OPTIONAL_LIBRARY_NAMES)
+  set (_MATLAB_LIBRARY_NAMES             mwmclmcrrt)
+  set (_MATLAB_OPTIONAL_LIBRARY_NAMES    mex mx eng)
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -215,9 +228,9 @@ if (_MATLAB_EXECUTABLE_NAMES OR _MATLAB_OPTIONAL_EXECUTABLE_NAMES)
         mark_as_advanced (MATLAB_EXECUTABLE)
       else ()
         string (TOUPPER "${_MATLAB_EXE}" _MATLAB_EXE_U)
-		if (WIN32 AND _MATLAB_EXE MATCHES "mex")
-		  list (APPEND _MATLAB_EXE "${_MATLAB_EXE}.bat")
-		endif ()
+        if (WIN32 AND _MATLAB_EXE MATCHES "mex")
+          list (APPEND _MATLAB_EXE "${_MATLAB_EXE}.bat")
+        endif ()
         find_program (
           MATLAB_${_MATLAB_EXE_U}_EXECUTABLE
             NAMES ${_MATLAB_EXE}
@@ -332,6 +345,23 @@ if (_MATLAB_LIBRARY_NAMES OR _MATLAB_OPTIONAL_LIBRARY_NAMES)
 endif ()
 
 # ----------------------------------------------------------------------------
+# set MATLAB_DIR
+if (NOT MATLAB_DIR AND MATLAB_INCLUDE_DIR)
+  string (REGEX REPLACE "/extern/include/?" "" _MATLAB_PREFIX "${MATLAB_INCLUDE_DIR}")
+  set (MATLAB_DIR "${_MATLAB_PREFIX}" CACHE PATH "Installation prefix for MATLAB." FORCE)
+endif ()
+
+# ----------------------------------------------------------------------------
+# set MATLAB_LIBRARY_DIR
+set (MATLAB_LIBRARY_DIR)
+foreach (_MATLAB_LIB IN LISTS MATLAB_LIBRARY)
+  get_filename_component (MATLAB_LIBRARY_DIR "${_MATLAB_LIB}" PATH)
+  if (MATLAB_LIBRARY_DIR)
+    break ()
+  endif ()
+endforeach ()
+
+# ----------------------------------------------------------------------------
 # handle the QUIETLY and REQUIRED arguments and set *_FOUND to TRUE
 # if all listed variables are found or TRUE
 include (FindPackageHandleStandardArgs)
@@ -360,17 +390,11 @@ if (_MATLAB_REQUIRED_VARS)
   # MESSAGE
       DEFAULT_MSG
   # VARIABLES
+      MATLAB_DIR # for status message "Found MATLAB: ..."
       ${_MATLAB_REQUIRED_VARS}
   )
 else ()
   set (MATLAB_FOUND TRUE)
-endif ()
-
-# ----------------------------------------------------------------------------
-# set MATLAB_DIR
-if (NOT MATLAB_DIR AND MATLAB_INCLUDE_DIR)
-  string (REGEX REPLACE "/extern/include/?" "" _MATLAB_PREFIX "${MATLAB_INCLUDE_DIR}")
-  set (MATLAB_DIR "${_MATLAB_PREFIX}" CACHE PATH "Installation prefix for MATLAB." FORCE)
 endif ()
 
 # ----------------------------------------------------------------------------

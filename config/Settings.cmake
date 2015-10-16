@@ -66,15 +66,17 @@ set (INSTALL_TEMPLATE_DIR "${INSTALL_SHARE_DIR}/templates" CACHE PATH "Installat
 
 # force default template to be set
 if (NOT DEFAULT_TEMPLATE)
-  set_property (CACHE DEFAULT_TEMPLATE PROPERTY VALUE "basis/1.1")
+  set_property (CACHE DEFAULT_TEMPLATE PROPERTY VALUE "basis/1.3")
 endif ()
 # disable installation of templates if no destination specified
 if (NOT INSTALL_TEMPLATE_DIR)
-  message (WARNING "No installation directory for project templates specified."
-                   " Disabling installation of templates. To enable the installation"
-                   " of the project templates again, set INSTALL_TEMPLATE_DIR to"
-                   " the desired destination such as \"share/templates\" and the"
-                   " option INSTALL_TEMPLATES to ON.")
+  if (BUILD_PROJECT_TOOL)
+    message (WARNING "No installation directory for project templates specified."
+                     " Disabling installation of templates. To enable the installation"
+                     " of the project templates again, set INSTALL_TEMPLATE_DIR to"
+                     " the desired destination such as \"share/templates\" and the"
+                     " option INSTALL_TEMPLATES to ON.")
+  endif ()
   set_property (CACHE INSTALL_TEMPLATES PROPERTY VALUE OFF)
 endif ()
 
@@ -222,5 +224,10 @@ set (BASIS_BASH_UTILITIES_LIBRARY   "${NS}utilities_bash")
 set (BASIS_TEST_LIBRARY             "${NS}testlib")
 set (BASIS_TEST_MAIN_LIBRARY        "${NS}testmain")
 
-configure_file(include/basis/config.h.in ${BINARY_INCLUDE_DIR}/basis/config.h)
+# ============================================================================
+# configure public header files
+# ============================================================================
 
+if (NOT BASIS_CONFIGURE_PUBLIC_HEADERS)
+  configure_file ("include/basis/config.h.in" "${BINARY_INCLUDE_DIR}/basis/config.h")
+endif ()

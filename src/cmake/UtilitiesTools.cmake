@@ -57,10 +57,9 @@ function (basis_utilities_check VAR SOURCE_FILE)
     file (READ "${SOURCE_FILE}" SOURCE)
     # match use/require statements
     basis_library_prefix (PREFIX ${LANGUAGE})
-    set (RE "[ \\t]*#[ \\t]*include[ \\t]+[<\"](${PREFIX})?basis.h[\">]") # e.g., #include "basis.h", #include <pkg/basis.h>
+    basis_sanitize_for_regex (RE "[ \\t]*#[ \\t]*include[ \\t]+[<\"](${PREFIX})?basis.h[\">]") # e.g., #include "basis.h", #include <pkg/basis.h>
     if (SCRIPT MATCHES "(^|\n)[ \t]*${RE}([ \t]*//.*|[ \t]*)(\n|$)")
       set (UTILITIES_USED TRUE)
-      break ()
     endif ()
   # --------------------------------------------------------------------------
   # Python/Jython
@@ -106,7 +105,6 @@ function (basis_utilities_check VAR SOURCE_FILE)
     set (RE "(use|require)[ \\t]+${PERL_PACKAGE}::Basis([ \\t]+.*)?") # e.g., use <Package>::Basis qw(:everything);
     if (SCRIPT MATCHES "(^|\n|;)[ \t]*${RE}([ \t]*#.*|[ \t]*)(;|\n|$)")
       set (UTILITIES_USED TRUE)
-      break ()
     endif ()
   # --------------------------------------------------------------------------
   # Bash
@@ -118,7 +116,7 @@ function (basis_utilities_check VAR SOURCE_FILE)
       message (FATAL_ERROR "Script ${SOURCE_FILE} uses the deprecated BASIS macro \@BASIS_BASH_UTILITIES\@!")
     endif ()
     # match source/. built-ins
-    set (RE "(source|\\.)[ \\t]+\\\"?\\\${?BASIS_BASH_UTILITIES}?\\\"?[ \\t]*(\\|\\|.*|&&.*)?(#.*)?") # e.g., . ${BASIS_BASH_UTILITIES} || exit 1
+    set (RE "(source|\\.)[ \\t]+\\\"?\\\${BASIS_BASH_UTILITIES}?\\\"?[ \\t]*(\\|\\|.*|&&.*)?(#.*)?") # e.g., . ${BASIS_BASH_UTILITIES} || exit 1
     if (SCRIPT MATCHES "(^|\n|;)[ \t]*(${RE})[ \t]*(;|\n|$)")
       set (UTILITIES_USED TRUE)
     endif ()
@@ -450,7 +448,7 @@ function (basis_configure_utilities)
   # --------------------------------------------------------------------------
   # project ID -- used by print_version() in particular
   set (PROJECT_ID "${PROJECT_PACKAGE_NAME}")
-  if (NOT PROJECT_NAME MATCHES "${PROJECT_PACKAGE_NAME}")
+  if (NOT PROJECT_NAME MATCHES "${PROJECT_PACKAGE_NAME_RE}")
     set (PROJECT_ID "${PROJECT_ID}, ${PROJECT_NAME}")
   endif ()
   # --------------------------------------------------------------------------
@@ -505,13 +503,14 @@ function (basis_configure_utilities)
     basis_add_python_utilities_library (TARGET_UID)
     # set target properties
     set (SCRIPT_DEFINITIONS
-      "if (BUILD_INSTALL_SCRIPT)
+      "set (PROJECT_ID \"${PROJECT_ID}\")
+       if (BUILD_INSTALL_SCRIPT)
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PYTHON_I}\")
        else ()
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PYTHON_B}\")
        endif ()"
     )
-    if ("^${PROJECT_NAME}" STREQUAL "^BASIS")
+    if ("^${PROJECT_NAME}$" STREQUAL "^BASIS$")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_PYTHONPATH \"${BINARY_PYTHON_LIBRARY_DIR}\" \"${INSTALL_PYTHON_LIBRARY_DIR}\")")
     elseif (BUNDLE_PROJECTS MATCHES "(^|;)BASIS(;|$)")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_PYTHONPATH \"${BASIS_PYTHONPATH}\")")
@@ -540,7 +539,7 @@ function (basis_configure_utilities)
                            " Rebuild BASIS with Perl utilities enabled.")
     endif ()
     # make sure that library target is added which is not the case yet
-    # if the BASIS Python utilities are not used by any project target, but
+    # if the BASIS Perl utilities are not used by any project target, but
     # their build is forced via the BUILD_BASIS_UTILITIES_FOR_PERL option
     basis_add_perl_utilities_library (TARGET_UID)
     # set target properties
@@ -554,7 +553,8 @@ function (basis_configure_utilities)
         LIBRARY_INSTALL_DIRECTORY "${INSTALL_PERL_LIBRARY_DIR}"
         PREFIX                    "${PREFIX}"
         SCRIPT_DEFINITIONS
-          "if (BUILD_INSTALL_SCRIPT)
+          "set (PROJECT_ID \"${PROJECT_ID}\")
+           if (BUILD_INSTALL_SCRIPT)
              set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PERL_I}\")
            else ()
              set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_PERL_B}\")
@@ -580,14 +580,15 @@ function (basis_configure_utilities)
     basis_add_bash_utilities_library (TARGET_UID)
     # set target properties
     set (SCRIPT_DEFINITIONS
-      "if (BUILD_INSTALL_SCRIPT)
+      "set (PROJECT_ID \"${PROJECT_ID}\")
+       if (BUILD_INSTALL_SCRIPT)
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_BASH_I}\")
        else ()
          set (EXECUTABLE_TARGET_INFO \"${EXECUTABLE_TARGET_INFO_BASH_B}\")
        endif ()
        set (EXECUTABLE_ALIASES \"${EXECUTABLE_TARGET_INFO_BASH_A}\n\n    # define short aliases for this project's targets\n    ${EXECUTABLE_TARGET_INFO_BASH_S}\")"
     )
-    if ("^${PROJECT_NAME}" STREQUAL "^BASIS")
+    if ("^${PROJECT_NAME}$" STREQUAL "^BASIS$")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_BASH_LIBRARY_DIR \"${BINARY_BASH_LIBRARY_DIR}\" \"${INSTALL_BASH_LIBRARY_DIR}\")")
     elseif (BUNDLE_PROJECTS MATCHES "(^|;)BASIS(;|$)")
       set (SCRIPT_DEFINITIONS "${SCRIPT_DEFINITIONS}\nbasis_set_script_path (_BASIS_BASH_LIBRARY_DIR \"${BASIS_BASHPATH}\")")
@@ -685,7 +686,7 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
         if (LOCATION MATCHES "^NOTFOUND$")
           message (WARNING "Imported target ${TARGET} has no location property!")
         else ()
-          list (APPEND EXECUTABLE_TARGETS ${TARGET})
+          list (APPEND EXECUTABLE_TARGETS "${UID}")
           list (APPEND BUILD_LOCATIONS    "${LOCATION}")
           list (APPEND INSTALL_LOCATIONS  "${LOCATION}")
         endif ()
@@ -697,11 +698,8 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
   # determine maximum length of target alias for prettier output
   set (MAX_ALIAS_LENGTH 0)
   foreach (TARGET_UID IN LISTS EXECUTABLE_TARGETS)
-    if (TARGET_UID MATCHES "^\\.")
-      string (LENGTH "${TARGET_UID}" LENGTH)
-    else ()
-      string (LENGTH "${TOPLEVEL_PROJECT_NAMESPACE_CMAKE}.${TARGET_UID}" LENGTH)
-    endif ()
+    basis_get_fully_qualified_target_uid (ALIAS "${TARGET_UID}")
+    string (LENGTH "${ALIAS}" LENGTH)
     if (LENGTH GREATER MAX_ALIAS_LENGTH)
       set (MAX_ALIAS_LENGTH ${LENGTH})
     endif ()
@@ -733,19 +731,6 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
     list (GET INSTALL_LOCATIONS  ${I} INSTALL_LOCATION)
     get_target_property (BUNDLED  ${TARGET_UID} BUNDLED)
     get_target_property (IMPORTED ${TARGET_UID} IMPORTED)
-    # insert $(IntDir) for Visual Studio build location
-    if (CMAKE_GENERATOR MATCHES "Visual Studio")
-      basis_get_target_type (TYPE ${TARGET_UID})
-      if (TYPE MATCHES "^EXECUTABLE$")
-        get_filename_component (DIRECTORY "${BUILD_LOCATION}" PATH)
-        get_filename_component (FILENAME  "${BUILD_LOCATION}" NAME)
-        set (BUILD_LOCATION_WITH_INTDIR "${DIRECTORY}/$(IntDir)/${FILENAME}")
-      else ()
-        set (BUILD_LOCATION_WITH_INTDIR "${BUILD_LOCATION}")
-      endif ()
-    else ()
-      set (BUILD_LOCATION_WITH_INTDIR "${BUILD_LOCATION}")
-    endif ()
     # installation path (relative) to different library paths
     foreach (L LIBRARY PYTHON_LIBRARY PERL_LIBRARY BASH_LIBRARY)
       if (INSTALL_LOCATION AND (NOT IMPORTED OR BUNDLED))
@@ -771,8 +756,8 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
     # ------------------------------------------------------------------------
     # C++
     if (CXX)
-      get_filename_component (EXEC_NAME   "${BUILD_LOCATION}"   NAME)
-      get_filename_component (BUILD_DIR   "${BUILD_LOCATION}"   PATH)
+      get_filename_component (EXEC_NAME "${BUILD_LOCATION}" NAME)
+      get_filename_component (BUILD_DIR "${BUILD_LOCATION}" PATH)
       if (INSTALL_LOCATION)
         get_filename_component (INSTALL_DIR "${INSTALL_LOCATION}" PATH)
       endif ()
@@ -786,7 +771,7 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
     # ------------------------------------------------------------------------
     # Python
     if (PYTHON)
-      set (PY_B "${PY_B}    '${ALIAS}':${S}'${BUILD_LOCATION_WITH_INTDIR}',\n")
+      set (PY_B "${PY_B}    '${ALIAS}':${S}'${BUILD_LOCATION}',\n")
       if (INSTALL_LOCATION)
         set (PY_I "${PY_I}    '${ALIAS}':${S}'${INSTALL_LOCATION_REL2PYTHON_LIBRARY}',\n")
       else ()
@@ -799,7 +784,7 @@ function (_basis_generate_executable_target_info CXX PYTHON PERL BASH)
       if (PL_B)
         set (PL_B "${PL_B},\n")
       endif ()
-      set (PL_B "${PL_B}        '${ALIAS}'${S}=> '${BUILD_LOCATION_WITH_INTDIR}'")
+      set (PL_B "${PL_B}        '${ALIAS}'${S}=> '${BUILD_LOCATION}'")
       if (PL_I)
         set (PL_I "${PL_I},\n")
       endif ()

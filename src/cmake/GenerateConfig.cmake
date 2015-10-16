@@ -28,6 +28,8 @@
 # @ingroup CMakeTools
 ##############################################################################
 
+basis_sanitize_for_regex (CMAKE_CURRENT_LIST_DIR_RE "${CMAKE_CURRENT_LIST_DIR}")
+
 # ============================================================================
 # names of output files
 # ============================================================================
@@ -60,7 +62,7 @@ set (CUSTOM_EXPORTS_FILE "${CONFIG_PREFIX}CustomExports.cmake")
 # export build targets
 # ============================================================================
 
-if (BASIS_EXPORTS_FILE)
+if (BASIS_CREATE_EXPORTS_FILE)
   basis_export_targets (
     FILE        "${EXPORTS_FILE}"
     CUSTOM_FILE "${CUSTOM_EXPORTS_FILE}"
@@ -107,7 +109,7 @@ endif ()
 # ----------------------------------------------------------------------------
 # provide code of BASIS config file as variable
 
-if (NOT TEMPLATE MATCHES "^${CMAKE_CURRENT_LIST_DIR}/")
+if (NOT TEMPLATE MATCHES "^${CMAKE_CURRENT_LIST_DIR_RE}/")
   if (PROJECT_IS_MODULE)
     file (READ "${CMAKE_CURRENT_LIST_DIR}/ModuleConfig.cmake.in" BASIS_TEMPLATE)
   else ()
@@ -133,26 +135,30 @@ include ("${PROJECT_CONFIG_DIR}/ConfigSettings.cmake" OPTIONAL)
 string (CONFIGURE "${BASIS_TEMPLATE}" BASIS_CONFIG @ONLY)
 configure_file ("${TEMPLATE}" "${PROJECT_BINARY_DIR}/${CONFIG_FILE}" @ONLY)
 
-# ----------------------------------------------------------------------------
-# install tree related configuration
+if (NOT BASIS_BUILD_ONLY)
 
-set (BUILD_CONFIG_SETTINGS 0)
-include ("${CMAKE_CURRENT_LIST_DIR}/BasisConfigSettings.cmake")
-include ("${PROJECT_CONFIG_DIR}/ConfigSettings.cmake" OPTIONAL)
+  # --------------------------------------------------------------------------
+  # install tree related configuration
 
-# ----------------------------------------------------------------------------
-# configure project configuration file for install tree
+  set (BUILD_CONFIG_SETTINGS 0)
+  include ("${CMAKE_CURRENT_LIST_DIR}/BasisConfigSettings.cmake")
+  include ("${PROJECT_CONFIG_DIR}/ConfigSettings.cmake" OPTIONAL)
 
-string (CONFIGURE "${BASIS_TEMPLATE}" BASIS_CONFIG @ONLY)
-configure_file ("${TEMPLATE}" "${BINARY_CONFIG_DIR}/${CONFIG_FILE}" @ONLY)
+  # --------------------------------------------------------------------------
+  # configure project configuration file for install tree
+  
+  string (CONFIGURE "${BASIS_TEMPLATE}" BASIS_CONFIG @ONLY)
+  configure_file ("${TEMPLATE}" "${BINARY_CONFIG_DIR}/${CONFIG_FILE}" @ONLY)
+  
+  # --------------------------------------------------------------------------
+  # install project configuration file
+  
+  install (
+    FILES       "${BINARY_CONFIG_DIR}/${CONFIG_FILE}"
+    DESTINATION "${INSTALL_CONFIG_DIR}"
+  )
 
-# ----------------------------------------------------------------------------
-# install project configuration file
-
-install (
-  FILES       "${BINARY_CONFIG_DIR}/${CONFIG_FILE}"
-  DESTINATION "${INSTALL_CONFIG_DIR}"
-)
+endif ()
 
 # ============================================================================
 # project version file
@@ -175,10 +181,12 @@ configure_file ("${TEMPLATE}" "${PROJECT_BINARY_DIR}/${VERSION_FILE}" @ONLY)
 # ----------------------------------------------------------------------------
 # install project configuration version file
 
-install (
-  FILES       "${PROJECT_BINARY_DIR}/${VERSION_FILE}"
-  DESTINATION "${INSTALL_CONFIG_DIR}"
-)
+if (NOT BASIS_BUILD_ONLY)
+  install (
+    FILES       "${PROJECT_BINARY_DIR}/${VERSION_FILE}"
+    DESTINATION "${INSTALL_CONFIG_DIR}"
+  )
+endif ()
 
 # ============================================================================
 # project use file
@@ -200,7 +208,7 @@ endif ()
 
 # ----------------------------------------------------------------------------
 # provide code of BASIS use file as variable
-if (NOT TEMPLATE MATCHES "^${CMAKE_CURRENT_LIST_DIR}/")
+if (NOT TEMPLATE MATCHES "^${CMAKE_CURRENT_LIST_DIR_RE}/")
   if (PROJECT_IS_MODULE)
     file (READ "${CMAKE_CURRENT_LIST_DIR}/ModuleConfigUse.cmake.in" BASIS_USE)
   else ()
@@ -222,12 +230,15 @@ configure_file ("${TEMPLATE}" "${PROJECT_BINARY_DIR}/${USE_FILE}" @ONLY)
 # ----------------------------------------------------------------------------
 # install project use file
 
-install (
-  FILES       "${PROJECT_BINARY_DIR}/${USE_FILE}"
-  DESTINATION "${INSTALL_CONFIG_DIR}"
-)
+if (NOT BASIS_BUILD_ONLY)
+  install (
+    FILES       "${PROJECT_BINARY_DIR}/${USE_FILE}"
+    DESTINATION "${INSTALL_CONFIG_DIR}"
+  )
+endif ()
 
 unset (BASIS_NS)
 unset (BASIS_TEMPLATE)
 unset (BASIS_CONFIG)
 unset (BASIS_USE)
+unset (CMAKE_CURRENT_LIST_DIR_RE)

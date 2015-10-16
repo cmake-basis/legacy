@@ -35,15 +35,16 @@ endif ()
 # @param[out] EXPORT_OPTION Export option for install() command including
 #                           the EXPORT option name. Set to an empty string
 #                           if target is not installed.
-# @param[in]  TEST          Whether given target is a test executable or library.
+# @param[in]  TARGET_UID    UID of target to be exported.
+# @param[in]  IS_TEST       Whether given target is a test executable or library.
 # @param[in]  ARGN          Optional installation destinations.
-function (basis_add_export_target EXPORT_OPTION TARGET_UID TEST)
+function (basis_add_export_target EXPORT_OPTION TARGET_UID IS_TEST)
   if (PROJECT_IS_SUBPROJECT)
     set (EXPORT_SET "${PROJECT_NAME}")
   else ()
     set (EXPORT_SET "${TOPLEVEL_PROJECT_NAME}")
   endif ()
-  if (TEST)
+  if (IS_TEST)
     basis_set_project_property (PROJECT "${EXPORT_SET}" APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
   else ()
     basis_set_project_property (PROJECT "${EXPORT_SET}" APPEND PROPERTY EXPORT_TARGETS "${TARGET_UID}")
@@ -62,14 +63,14 @@ endfunction ()
 # are added to the export set named after the top-level project.
 #
 # @param[in]  TARGET_UID UID of target to add to the export set.
-# @param[in]  TEST       Whether given target is a test executable or library.
-function (basis_add_custom_export_target TARGET_UID TEST)
+# @param[in]  IS_TEST    Whether given target is a test executable or library.
+function (basis_add_custom_export_target TARGET_UID IS_TEST)
   if (PROJECT_IS_SUBPROJECT)
     set (EXPORT_SET "${PROJECT_NAME}")
   else ()
     set (EXPORT_SET "${TOPLEVEL_PROJECT_NAME}")
   endif ()
-  if (TEST)
+  if (IS_TEST)
     basis_set_project_property (PROJECT "${EXPORT_SET}" APPEND PROPERTY TEST_EXPORT_TARGETS "${TARGET_UID}")
   else ()
     basis_set_project_property (PROJECT "${EXPORT_SET}" APPEND PROPERTY CUSTOM_EXPORT_TARGETS "${TARGET_UID}")
@@ -90,6 +91,7 @@ function (basis_get_soname SONAME OBJFILE)
   basis_get_target_uid (TARGET_UID ${OBJFILE})
   if (TARGET TARGET_UID)
     basis_get_target_location (OBJFILE ${TARGET_UID} ABSOLUTE)
+    string (REPLACE "$<${BASIS_GE_CONFIG}>" "${CMAKE_BUILD_TYPE}" OBJFILE "${OBJFILE}")
   else ()
     get_filename_component (OBJFILE "${OBJFILE}" ABSOLUTE)
   endif ()
@@ -197,6 +199,7 @@ function (basis_export_build_properties CODE)
       set (C "${C}  IMPORTED_LINK_INTERFACE_LIBRARIES_${CONFIG_U} \"${LINK_UIDS}\"\n")
     endif ()
     basis_get_target_location (LOCATION ${T} ABSOLUTE)
+    string (REPLACE "$<${BASIS_GE_CONFIG}>" "${CONFIG}" LOCATION "${LOCATION}")
     set (C "${C}  IMPORTED_LOCATION_${CONFIG_U} \"${LOCATION}\"\n")
     set (C "${C}  )\n")
   endforeach ()

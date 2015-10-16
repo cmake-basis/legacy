@@ -18,7 +18,10 @@
 # modules
 # ============================================================================
 
+from __future__ import unicode_literals
+
 import os
+import io
 import sys
 import shutil
 import getopt
@@ -52,8 +55,8 @@ def parse_arguments(flags='v', options=['verbose'], allow_args=False):
             sys.stderr.write("Unhandled positional parameters given!\n")
             sys.stderr.write("Arguments: " + repr(args) + "\n")
             sys.exit(1)
-    except getopt.GetoptError, e:
-        sys.stderr.write(str(e) + '\n')
+    except getopt.GetoptError as e:
+        sys.stderr.write(basis.tostring(e) + '\n')
         sys.exit(1)
     if allow_args: return opts, args
     else: return opts
@@ -61,13 +64,13 @@ def parse_arguments(flags='v', options=['verbose'], allow_args=False):
 # ----------------------------------------------------------------------------
 def create_project(name, *args, **kwargs):
     "Create test project."
-    print "Creating test project..."
+    print("Creating test project...")
     description = kwargs.get('description', 'This is a test project.')
     use = kwargs.get('use', [])
     useopt = kwargs.get('useopt', [])
     if os.path.exists(SOURCE_DIR): shutil.rmtree(SOURCE_DIR)
     # attention: changing the project name will affect the tests!
-    create_cmd = ['basis.basisproject',
+    create_cmd = ['basis.basisproject', 'create',
             '--name', name,
             '--description', description,
             '--root', SOURCE_DIR]
@@ -77,29 +80,29 @@ def create_project(name, *args, **kwargs):
     for pkg in useopt:
         create_cmd.extend(['--useopt', pkg])
     basis.execute(create_cmd, verbose=True)
-    print "Creating test project... - done"
+    print("Creating test project... - done")
 
 # ----------------------------------------------------------------------------
 def update_project(name, *args, **kwargs):
     "Update test project."
-    print "Updating test project..."
+    print("Updating test project...")
     use = kwargs.get('use', [])
     useopt = kwargs.get('useopt', [])
     if not os.path.isdir(SOURCE_DIR):
         raise Exception("Cannot update non-existing project in %s" % SOURCE_DIR)
-    update_cmd = ['basis.basisproject', '--root', SOURCE_DIR]
+    update_cmd = ['basis.basisproject', 'update', '--root', SOURCE_DIR]
     update_cmd.extend(args)
     for pkg in use:
         update_cmd.extend(['--use', pkg])
     for pkg in useopt:
         update_cmd.extend(['--useopt', pkg])
     basis.execute(update_cmd, verbose=True)
-    print "Updating test project... - done"
+    print("Updating test project... - done")
 
 # ----------------------------------------------------------------------------
 def build_project(verbose=0, cmakeopts=None):
     "Build test project."
-    print "Configuring test project..."
+    print("Configuring test project...")
     if os.path.exists(BUILD_DIR): shutil.rmtree(BUILD_DIR)
     os.makedirs(BUILD_DIR)
     wd=os.getcwd()
@@ -111,15 +114,15 @@ def build_project(verbose=0, cmakeopts=None):
             '-DBASIS_DIR:PATH=' + BASIS_DIR,
             '-DCMAKE_BUILD_TYPE:STRING=@TESTING_BUILD_TYPE@']
     if cmakeopts != None: config_cmd.extend(cmakeopts)
-    if '@TESTING_C_FLAGS@' != '':
+    if '@TESTING_C_FLAGS@'.strip() != '':
         config_cmd.append('-DCMAKE_C_FLAGS:STRING=@TESTING_C_FLAGS@')
-    if '@TESTING_CXX_FLAGS@' != '':
+    if '@TESTING_CXX_FLAGS@'.strip() != '':
         config_cmd.append('-DCMAKE_CXX_FLAGS:STRING=@TESTING_CXX_FLAGS@')
-    if '@TESTING_EXE_LINKER_FLAGS@' != '':
+    if '@TESTING_EXE_LINKER_FLAGS@'.strip() != '':
         config_cmd.append('-DCMAKE_EXE_LINKER_FLAGS:STRING=@TESTING_EXE_LINKER_FLAGS@')
-    if '@TESTING_SHARED_LINKER_FLAGS@' != '':
+    if '@TESTING_SHARED_LINKER_FLAGS@'.strip() != '':
         config_cmd.append('-DCMAKE_SHARED_LINKER_FLAGS:STRING=@TESTING_SHARED_LINKER_FLAGS@')
-    if '@TESTING_MODULE_LINKER_FLAGS@' != '':
+    if '@TESTING_MODULE_LINKER_FLAGS@'.strip() != '':
         config_cmd.append('-DCMAKE_MODULE_LINKER_FLAGS:STRING=@TESTING_MODULE_LINKER_FLAGS@')
     if verbose > 0:
         config_cmd.append('-DBASIS_VERBOSE:BOOL=ON')
@@ -127,8 +130,8 @@ def build_project(verbose=0, cmakeopts=None):
         config_cmd.append('-DBASIS_DEBUG:BOOL=ON')
     config_cmd.append(SOURCE_DIR)
     basis.execute(config_cmd, verbose=True)
-    print "Configuring test project... - done"
-    print "Building test project..."
+    print("Configuring test project... - done")
+    print("Building test project...")
     build_cmd = None
     if sys.platform == 'win32':
         solution_file = False
@@ -144,7 +147,7 @@ def build_project(verbose=0, cmakeopts=None):
         build_cmd = ['make']
         if verbose > 0: build_cmd.append('VERBOSE=1')
     basis.execute(build_cmd, verbose=True)
-    print "Building test project... - done"
+    print("Building test project... - done")
     os.chdir(wd)
 
 # ----------------------------------------------------------------------------
@@ -179,23 +182,23 @@ def add_file(file, prefix='.', name=None):
         os.makedirs(dstdir)
     dst = os.path.join(dstdir, name)
     shutil.copy(os.path.join(RESSOURCES_DIR, file), dst)
-    print "Added file " + dst
+    print("Added file " + dst)
 
 # ----------------------------------------------------------------------------
 def add_dependency(package, required=True):
     "Add package to list of project dependencies."
-    fp = open(os.path.join(SOURCE_DIR, 'BasisProject.cmake'), "r")
+    fp = io.open(os.path.join(SOURCE_DIR, 'BasisProject.cmake'), "r")
     code = fp.read()
     fp.close()
     if required:
         code = code.replace('#<dependency>', package + '\n    #<dependency>')
     else:
         code = code.replace('#<optional-dependency>', package + '\n    #<optional-dependency>')
-    fp = open(os.path.join(SOURCE_DIR, 'BasisProject.cmake'), "w")
+    fp = io.open(os.path.join(SOURCE_DIR, 'BasisProject.cmake'), "w")
     fp.write(code)
     fp.close()
-    if required: print "Added dependency on " + package
-    else: print "Added optional dependency on " + package
+    if required: print("Added dependency on " + package)
+    else: print("Added optional dependency on " + package)
 
 # ----------------------------------------------------------------------------
 def add_cmake_code(cmakefile, code):
@@ -203,10 +206,10 @@ def add_cmake_code(cmakefile, code):
     cmakefile = os.path.join(SOURCE_DIR, cmakefile)
     if not os.path.exists(cmakefile):
         raise Exception('File ' + cmakefile + ' does not exist!')
-    fp = open(os.path.join(SOURCE_DIR, cmakefile), 'a')
+    fp = io.open(os.path.join(SOURCE_DIR, cmakefile), 'a')
     fp.write(code + '\n')
     fp.close()
-    print "Modified file " + cmakefile
+    print("Modified file " + cmakefile)
 
 # ----------------------------------------------------------------------------
 def cleanup():

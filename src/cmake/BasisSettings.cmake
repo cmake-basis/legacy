@@ -43,12 +43,6 @@ endif ()
 
 
 # ============================================================================
-# required modules
-# ============================================================================
-
-include ("${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake")
-
-# ============================================================================
 # CMake version and policies
 # ============================================================================
 
@@ -64,6 +58,23 @@ endif ()
 
 if (POLICY CMP0017)
   cmake_policy (SET CMP0017 NEW)
+endif ()
+
+# ============================================================================
+# required modules
+# ============================================================================
+
+include ("${CMAKE_CURRENT_LIST_DIR}/CommonTools.cmake")
+
+# ============================================================================
+# generator expressions
+# ============================================================================
+
+## @brief Name of build configuration ("$<CONFIG>") generator expression
+if (CMAKE_MAJOR_VERSION LESS 3)
+  set (BASIS_GE_CONFIG "CONFIGURATION")
+else ()
+  set (BASIS_GE_CONFIG "CONFIG")
 endif ()
 
 # ============================================================================
@@ -330,6 +341,7 @@ set (BASIS_PROPERTIES_ON_TARGETS
   LIBRARY_COMPONENT            # package component of the library component
   RUNTIME_COMPONENT            # package component of the runtime component
   ARCHIVE_INSTALL_DIRECTORY    # installation directory of library
+  LIBRARY_HEADER_DIRECTORY     # output directory of generated header files
   LIBRARY_INSTALL_DIRECTORY    # installation directory of library
   RUNTIME_INSTALL_DIRECTORY    # installation directory of runtime
   OUTPUT_DIRECTORY             # output directory for generated files
@@ -359,6 +371,7 @@ set (BASIS_PROPERTIES_ON_TARGETS
   DOXYFILE                     # Doxygen configuration file
   OUTPUT                       # Doxygen output formats
   TAGFILE                      # Doxygen tag file
+  BUILD_DIRECTORY              # CMakeFiles build directory of target
   CONFIG_DIRECTORY             # Sphinx configuration directory
   BINARY_DIRECTORY             # CMake build tree directory
   SOURCE_DIRECTORY             # CMake or Sphinx source directory
@@ -445,14 +458,14 @@ mark_as_advanced (BUILD_BASIS_UTILITIES_FOR_CXX
 # commands are not given.
 set (BASIS_EXPORT TRUE)
 
-## @brief Whether to create <Package>Exports.cmake file so other projects can import the exported targets.
+## @brief Whether to create "<Package>Exports.cmake" file so other projects can import the exported targets.
 #
 # @sa GenerateConfig.cmake, ExportTools.cmake, http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:export
-option (BASIS_EXPORTS_FILE "Create <Package>Exports.cmake file so other projects can import the build targets from this one. OFF may reduce configure time." ON)
-mark_as_advanced (BASIS_EXPORTS_FILE)
+option (BASIS_CREATE_EXPORTS_FILE "Create <Package>Exports.cmake file so other projects can import the build targets from this one. OFF may reduce configure time." ON)
+mark_as_advanced (BASIS_CREATE_EXPORTS_FILE)
 
 ## @brief Disable use of the revision information obtained from the revision
-#         control software such as Subversion.
+#         control software such as Subversion or Git.
 #
 # If this option is @c TRUE, the revision information is not included in the
 # @c PROJECT_RELEASE information.

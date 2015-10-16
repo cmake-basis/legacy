@@ -17,7 +17,7 @@
 # CMake command execute_process() can be used, i.e., a timeout can be
 # specified.
 #
-# The arguments of the execute_process() command have to specified via
+# The arguments of the execute_process() command have to be specified via
 # the -D option on the command line of cmake before the -P \<this script\>
 # option is given. The name of the CMake variables must be equal the
 # name of the arguments to the execute_process() command.
@@ -80,6 +80,10 @@
 # @ingroup CMakeUtilities
 ##############################################################################
 
+if (POLICY CMP0053)
+  cmake_policy (SET CMP0053 NEW)
+endif ()
+
 # ----------------------------------------------------------------------------
 # unset environment variables that may cause problems otherwise
 unset (ENV{PYTHONHOME})
@@ -87,8 +91,10 @@ unset (ENV{PYTHONPATH})
 
 # ----------------------------------------------------------------------------
 # initialize arguments
-set (CONFIGURED_COMMAND "@COMMAND@")
-if (CONFIGURED_COMMAND)
+set (CONFIGURED_COMMAND "@BUILD_CMD@")
+
+string (REPLACE "#" "@" AT_BUILD_CMD_AT "#BUILD_CMD#")
+if (CONFIGURED_COMMAND AND NOT CONFIGURED_COMMAND STREQUAL "${AT_BUILD_CMD_AT}")
   set (COMMAND "${CONFIGURED_COMMAND}")
 elseif (NOT COMMAND)
   message (FATAL_ERROR "No command specified for execute_process(): use \"-DCOMMAND=cmd\"")

@@ -31,14 +31,15 @@ endif ()
 ## @brief Check if a project name fits the BASIS standards.
 #
 macro (basis_name_check INPUT_PROJECT_NAME)
-  if (NOT ${INPUT_PROJECT_NAME} MATCHES "^([a-z][-_a-z0-9]*|[a-zA-Z0-9][-_a-zA-Z0-9]*)$")
+  if (NOT ${INPUT_PROJECT_NAME} MATCHES "^[a-zA-Z][-+_a-zA-Z0-9]*$")
     message (FATAL_ERROR "Invalid name: ${${INPUT_PROJECT_NAME}}\n"
-                         "We suggest that you use upper CamelCase notation."
-                         "(see http://en.wikipedia.org/wiki/CamelCase#Variations_and_synonyms)."
-                         "Please choose a name with either only captial letters"
+                         "We suggest that you use upper CamelCase notation. "
+                         "(see http://en.wikipedia.org/wiki/CamelCase#Variations_and_synonyms). "
+                         "Please choose a name with either only captial letters "
                          "in the case of an acronym or a name with mixed case, "
-                         "but starting with a captial letter.\n"
-                         "Note that numbers, `-` and `_` are allowed, but not as first character.")
+                         "but starting with a (captial) letter.\n"
+                         "Note that numbers, `-`, `+`, and `_` are allowed, "
+                         "but not as first character.")
   endif()
 endmacro()
 
@@ -111,10 +112,16 @@ macro (basis_project_check_metadata)
   basis_name_check(PROJECT_NAME)
   string (TOLOWER "${PROJECT_NAME}" PROJECT_NAME_L)
   string (TOUPPER "${PROJECT_NAME}" PROJECT_NAME_U)
+  basis_sanitize_for_regex(PROJECT_NAME_RE "${PROJECT_NAME}")
+  string (TOLOWER "${PROJECT_NAME_RE}" PROJECT_NAME_RE_L)
+  string (TOUPPER "${PROJECT_NAME_RE}" PROJECT_NAME_RE_U)
   if (NOT PROJECT_IS_MODULE)
-    set (TOPLEVEL_PROJECT_NAME   "${PROJECT_NAME}")
-    set (TOPLEVEL_PROJECT_NAME_L "${PROJECT_NAME_L}")
-    set (TOPLEVEL_PROJECT_NAME_U "${PROJECT_NAME_U}")
+    set (TOPLEVEL_PROJECT_NAME      "${PROJECT_NAME}")
+    set (TOPLEVEL_PROJECT_NAME_L    "${PROJECT_NAME_L}")
+    set (TOPLEVEL_PROJECT_NAME_U    "${PROJECT_NAME_U}")
+    set (TOPLEVEL_PROJECT_NAME_RE   "${PROJECT_NAME_RE}")
+    set (TOPLEVEL_PROJECT_NAME_RE_L "${PROJECT_NAME_RE_L}")
+    set (TOPLEVEL_PROJECT_NAME_RE_U "${PROJECT_NAME_RE_U}")
   endif ()
   # PROJECT_PACKAGE_NAME
   if (PROJECT_PACKAGE AND PROJECT_PACKAGE_NAME)
@@ -141,10 +148,16 @@ macro (basis_project_check_metadata)
   basis_name_check(PROJECT_PACKAGE_NAME)
   string (TOLOWER "${PROJECT_PACKAGE_NAME}" PROJECT_PACKAGE_NAME_L)
   string (TOUPPER "${PROJECT_PACKAGE_NAME}" PROJECT_PACKAGE_NAME_U)
+  basis_sanitize_for_regex(PROJECT_PACKAGE_NAME_RE "${PROJECT_PACKAGE_NAME}")
+  string (TOLOWER "${PROJECT_PACKAGE_NAME_RE}" PROJECT_PACKAGE_NAME_RE_L)
+  string (TOUPPER "${PROJECT_PACKAGE_NAME_RE}" PROJECT_PACKAGE_NAME_RE_U)
   if (NOT PROJECT_IS_MODULE)
-    set (TOPLEVEL_PROJECT_PACKAGE_NAME   "${PROJECT_PACKAGE_NAME}")
-    set (TOPLEVEL_PROJECT_PACKAGE_NAME_L "${PROJECT_PACKAGE_NAME_L}")
-    set (TOPLEVEL_PROJECT_PACKAGE_NAME_U "${PROJECT_PACKAGE_NAME_U}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME      "${PROJECT_PACKAGE_NAME}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_L    "${PROJECT_PACKAGE_NAME_L}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_U    "${PROJECT_PACKAGE_NAME_U}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_RE   "${PROJECT_PACKAGE_NAME_RE}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_RE_L "${PROJECT_PACKAGE_NAME_RE_L}")
+    set (TOPLEVEL_PROJECT_PACKAGE_NAME_RE_U "${PROJECT_PACKAGE_NAME_RE_U}")
   endif ()
   # PROJECT_PACKAGE_VENDOR
   if (PROJECT_PROVIDER AND PROJECT_VENDOR AND PROJECT_PACKAGE_VENDOR)
@@ -648,8 +661,7 @@ endmacro ()
 function (basis_buildtree_asserts)
   string (TOLOWER "${CMAKE_SOURCE_DIR}" SOURCE_ROOT)
   string (TOLOWER "${CMAKE_BINARY_DIR}" BUILD_ROOT)
-  basis_sanitize_for_regex (SOURCE_ROOT_RE "${SOURCE_ROOT}")
-  if (BUILD_ROOT MATCHES "^${SOURCE_ROOT_RE}$")
+  if ("^${BUILD_ROOT}$" STREQUAL "^${SOURCE_ROOT}$")
     message(FATAL_ERROR "This project should not be configured & build in the "
                         "source directory:\n"
                         "  ${CMAKE_SOURCE_DIR}\n"
@@ -674,8 +686,7 @@ function (basis_installtree_asserts)
   string (TOLOWER "${CMAKE_SOURCE_DIR}"     SOURCE_ROOT)
   string (TOLOWER "${CMAKE_BINARY_DIR}"     BUILD_ROOT)
   string (TOLOWER "${CMAKE_INSTALL_PREFIX}" INSTALL_ROOT)
-  basis_sanitize_for_regex (INSTALL_ROOT_RE "${INSTALL_ROOT}")
-  if (BUILD_ROOT MATCHES "^${INSTALL_ROOT_RE}$" OR SOURCE_ROOT MATCHES "^${INSTALL_ROOT_RE}$")
+  if ("^${BUILD_ROOT}$" STREQUAL "^${INSTALL_ROOT}$" OR "^${SOURCE_ROOT}$" STREQUAL "^${INSTALL_ROOT}$")
     message (FATAL_ERROR "The current CMAKE_INSTALL_PREFIX points at the source or build tree:\n"
                          "  ${CMAKE_INSTALL_PREFIX}\n"
                          "This is not permitted by this project. "
@@ -1186,25 +1197,27 @@ function (basis_configure_script_libraries)
         list (APPEND EXPRESSIONS "${LIB_DIR}/**${MODULE_EXT}")
       endforeach ()
       file (GLOB_RECURSE SOURCES ${EXPRESSIONS})
-      basis_get_source_language (SOURCE_LANGUAGE ${SOURCES}) # in particular required to
-                                                             # not falsely build Jython modules
-                                                             # as Python library
-      if (SOURCE_LANGUAGE MATCHES "UNKNOWN|AMBIGUOUS")
-        message (WARNING "Failed to auto-detect scripting language of modules in ${LIB_DIR}!"
-                         " Skipping source files matching one of the extensions [${${LANGUAGE}_EXT}].")
-      elseif (SOURCE_LANGUAGE MATCHES "${LANGUAGE}")
-        set (TARGET_NAME "${${LANGUAGE}_LIBRARY_TARGET}")
-        basis_add_library (${TARGET_NAME} ${EXPRESSIONS} LANGUAGE ${LANGUAGE})
-        basis_set_target_properties (
-          ${TARGET_NAME}
-          PROPERTIES
-            SOURCE_DIRECTORY          "${LIB_DIR}"
-            LIBRARY_OUTPUT_DIRECTORY  "${BINARY_${LANGUAGE}_LIBRARY_DIR}"
-            LIBRARY_INSTALL_DIRECTORY "${INSTALL_${LANGUAGE}_SITE_DIR}"
-            PREFIX                    ""
-        )
-        list (APPEND TARGETS ${TARGET_NAME})
-        break ()
+      if (SOURCES)
+        basis_get_source_language (SOURCE_LANGUAGE ${SOURCES}) # in particular required to
+                                                               # not falsely build Jython modules
+                                                               # as Python library
+        if (SOURCE_LANGUAGE MATCHES "UNKNOWN|AMBIGUOUS")
+          message (WARNING "Failed to auto-detect scripting language of modules in ${LIB_DIR}!"
+                           " Skipping source files matching one of the extensions [${${LANGUAGE}_EXT}].")
+        elseif (SOURCE_LANGUAGE MATCHES "${LANGUAGE}")
+          set (TARGET_NAME "${${LANGUAGE}_LIBRARY_TARGET}")
+          basis_add_library (${TARGET_NAME} ${EXPRESSIONS} LANGUAGE ${LANGUAGE})
+          basis_set_target_properties (
+            ${TARGET_NAME}
+            PROPERTIES
+              SOURCE_DIRECTORY          "${LIB_DIR}"
+              LIBRARY_OUTPUT_DIRECTORY  "${BINARY_${LANGUAGE}_LIBRARY_DIR}"
+              LIBRARY_INSTALL_DIRECTORY "${INSTALL_${LANGUAGE}_SITE_DIR}"
+              PREFIX                    ""
+          )
+          list (APPEND TARGETS ${TARGET_NAME})
+          break ()
+        endif ()
       endif ()
     endforeach ()
   endforeach ()
@@ -1398,6 +1411,11 @@ macro (basis_project_initialize)
     cmake_policy (SET CMP0017 NEW)
   endif ()
 
+  if (POLICY CMP0048)
+    # PROJECT_VERSION et al. variables are set by basis_project instead
+    cmake_policy (SET CMP0048 OLD)
+  endif ()
+
   # --------------------------------------------------------------------------
   # reset
 
@@ -1439,8 +1457,13 @@ macro (basis_project_initialize)
   # Note: Use revision when branch, i.e., either trunk, a branch, or a tag
   #       has been modified last. For tags, this should in particular
   #       correspond to the revision when the tag was created.
+  basis_is_git_repository (PROJECT_IS_GIT_REPOSITORY "${PROJECT_SOURCE_DIR}")
   if (BASIS_REVISION_INFO)
-    basis_svn_get_last_changed_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
+    if (PROJECT_IS_GIT_REPOSITORY)
+      basis_git_get_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION 7)
+    else ()
+      basis_svn_get_last_changed_revision ("${PROJECT_SOURCE_DIR}" PROJECT_REVISION)
+    endif ()
   else ()
     set (PROJECT_REVISION 0)
   endif ()
@@ -1458,7 +1481,11 @@ macro (basis_project_initialize)
   # version information string
   if (PROJECT_VERSION MATCHES "^0+(\\.0+)?(\\.0+)?")
     if (PROJECT_REVISION)
-      set (PROJECT_RELEASE "r${PROJECT_REVISION}")
+      if (PROJECT_IS_GIT_REPOSITORY)
+        set (PROJECT_RELEASE "${PROJECT_REVISION}")
+      else ()
+        set (PROJECT_RELEASE "r${PROJECT_REVISION}")
+      endif ()
     else ()
       basis_get_build_timestamp (BUILD_TIMESTAMP)
       if (BUILD_TIMESTAMP)
@@ -1473,7 +1500,11 @@ macro (basis_project_initialize)
       set (PROJECT_RELEASE "${PROJECT_RELEASE}.${PROJECT_VERSION_PATCH}")
     endif ()
     if (PROJECT_REVISION)
-      set (PROJECT_RELEASE "${PROJECT_RELEASE} (r${PROJECT_REVISION})")
+      if (PROJECT_IS_GIT_REPOSITORY)
+        set (PROJECT_RELEASE "${PROJECT_RELEASE} (${PROJECT_REVISION})")
+      else ()
+        set (PROJECT_RELEASE "${PROJECT_RELEASE} (r${PROJECT_REVISION})")
+      endif ()
     endif ()
   endif ()
 
@@ -1883,46 +1914,38 @@ macro (basis_project_begin)
 
   # --------------------------------------------------------------------------
   # get interpreter versions - set to invalid version if not available
-  if (USE_PythonInterp AND NOT PYTHON_VERSION_STRING)
+  if (NOT PYTHON_VERSION_STRING)
     basis_get_python_version ()
   endif ()
-  if (USE_JythonInterp AND NOT JYTHON_VERSION_STRING)
+  if (NOT JYTHON_VERSION_STRING)
     basis_get_jython_version ()
   endif ()
-  if (USE_Perl AND NOT PERL_VERSION_STRING)
+  if (NOT PERL_VERSION_STRING)
     basis_get_perl_version ()
   endif ()
-  if (USE_BASH AND NOT BASH_VERSION_STRING)
+  if (NOT BASH_VERSION_STRING)
     basis_get_bash_version ()
   endif ()
-  if (USE_MATLAB AND NOT MATLAB_VERSION_STRING)
+  if (NOT MATLAB_VERSION_STRING)
     basis_get_matlab_version ()
   endif ()
 
-  if (USE_PythonInterp AND PYTHON_EXECUTABLE AND PYTHON_VERSION_MAJOR EQUAL 0 OR (PYTHON_VERSION_MAJOR EQUAL 1 AND PYTHON_VERSION_MINOR EQUAL 4))
+  if (PYTHON_EXECUTABLE AND PYTHON_VERSION_MAJOR EQUAL 0 OR (PYTHON_VERSION_MAJOR EQUAL 1 AND PYTHON_VERSION_MINOR EQUAL 4))
     message (WARNING "Failed to determine Python version! Check if you can run \"${PYTHON_EXECUTABLE} -E\" in a Terminal.")
   endif ()
-  if (USE_JythonInterp AND JYTHON_EXECUTABLE AND JYTHON_VERSION_MAJOR EQUAL 0)
+  if (JYTHON_EXECUTABLE AND JYTHON_VERSION_MAJOR EQUAL 0)
     message (WARNING "Failed to determine Jython version! Check if you can run \"${JYTHON_EXECUTABLE}\".")
   endif ()
-  if (USE_Perl AND PERL_EXECUTABLE AND PERL_VERSION_MAJOR EQUAL 0)
+  if (PERL_EXECUTABLE AND PERL_VERSION_MAJOR EQUAL 0)
     message (WARNING "Failed to determine Perl version! Check if you can run \"${PERL_EXECUTABLE}\".")
   endif ()
-  if (USE_BASH AND NBASH_EXECUTABLE AND BASH_VERSION_MAJOR EQUAL 0)
+  if (BASH_EXECUTABLE AND BASH_VERSION_MAJOR EQUAL 0)
     message (WARNING "Failed to determine Bash version! Check if you can run \"${BASH_EXECUTABLE}\".")
   endif ()
-  if (USE_MATLAB AND MATLAB_EXECUTABLE AND MATLAB_VERSION_MAJOR EQUAL 0)
+  if (MATLAB_EXECUTABLE AND MATLAB_VERSION_MAJOR EQUAL 0)
     message (WARNING "Failed to determine MATLAB version! Check if you can run \"${MATLAB_EXECUTABLE} -nodesktop -nosplash -r 'version,quit force'\" and try again.")
   endif ()
 
-  # initial set of USE_Python
-  # TODO: Consider making this a boolean option
-  if (USE_PythonInterp OR USE_JythonInterp)
-    set(USE_Python TRUE)
-  elseif()
-    set(USE_Python FALSE)
-  endif()
-  
   # --------------------------------------------------------------------------
   # initialize settings
   basis_initialize_settings ()
@@ -2047,7 +2070,7 @@ macro (basis_project_end)
     # add missing build commands for custom targets
     basis_finalize_targets ()
     # add build target for missing __init__.py files of Python package
-    if (USE_Python)
+    if (PythonInterp_FOUND OR JythonInterp_FOUND)
       basis_add_init_py_target ()
     endif ()
   endif ()
@@ -2062,6 +2085,10 @@ macro (basis_project_end)
     add_subdirectory ("${PROJECT_DOC_DIR}")
   endif ()
 
+  # --------------------------------------------------------------------------
+  # generate configuration files
+  include ("${BASIS_MODULE_PATH}/GenerateConfig.cmake")
+
   if (NOT BASIS_BUILD_ONLY)
 
     # --------------------------------------------------------------------------
@@ -2073,10 +2100,6 @@ macro (basis_project_end)
     # --------------------------------------------------------------------------
     # add installation rules for public headers
     basis_install_public_headers ()
-
-    # --------------------------------------------------------------------------
-    # generate configuration files
-    include ("${BASIS_MODULE_PATH}/GenerateConfig.cmake")
 
     # --------------------------------------------------------------------------
     # change log

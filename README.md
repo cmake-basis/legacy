@@ -2,15 +2,19 @@
 CMake BASIS
 ===========
 
+[![Build Status](https://travis-ci.org/schuhschuh/cmake-basis.svg?branch=develop)](https://travis-ci.org/schuhschuh/cmake-basis)
+
 The [CMake Build system And Software Implementation Standard (BASIS)][1] makes it
 easy to create sharable software and libraries that work together. This is accomplished
 by combining and documenting some of the best practices and utilities available.
 More importantly, BASIS supplies a fully integrated suite of functionality to make
 the whole process seamless! 
 
-Web:  [CMake BASIS Website]  [1] |
-Code: [CMake BASIS on GitHub][2]
-
+  [Homepage][1]
+| [GitHub](https://github.com/schuhschuh/cmake-basis "CMake BASIS on GitHub")
+| [SourceForge](http://sourceforge.net/projects/sbia-basis/ "CMake BASIS on SourceForge")
+| [Open Hub (Ohloh)](https://www.openhub.net/p/cmake-basis "CMake BASIS Statistics on Open Hub (Ohloh)")
+| [Travis CI](https://travis-ci.org/schuhschuh/cmake-basis/builds "CMake BASIS Continuous Integration Tests")
 
 Features
 ========
@@ -100,7 +104,7 @@ License
 =======
 
 Copyright (c) 2011-2013 University of Pennsylvania   <br />
-Copyright (c) 2013-2014 Andreas Schuh                <br />
+Copyright (c) 2013-2015 Andreas Schuh                <br />
 Copyright (c) 2013-2014 Carnegie Mellon University
 
 CMake BASIS is available under a BSD compatible license. The complete license text
@@ -146,7 +150,6 @@ Path                     | Content description
 
 <!-- Links to web page and online ressources -->
 [1]:  http://opensource.andreasschuh.com/cmake-basis
-[2]:  https://github.com/schuhschuh/cmake-basis
 [3]:  http://opensource.andreasschuh.com/cmake-basis/quickstart.html
 [4]:  http://opensource.andreasschuh.com/cmake-basis/howto.html
 [5]:  http://opensource.andreasschuh.com/cmake-basis/reference.html

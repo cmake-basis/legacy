@@ -1070,6 +1070,9 @@ function (basis_add_library TARGET_NAME)
   # --------------------------------------------------------------------------
   # re-glob source files before each build (if necessary)
   if (TARGET __${TARGET_UID})
+    if (TARGET _${TARGET_UID})
+      add_dependencies (_${TARGET_UID} __${TARGET_UID})
+    endif ()
     add_dependencies (${TARGET_UID} __${TARGET_UID})
   endif ()
 endfunction ()
@@ -1392,20 +1395,20 @@ function (basis_add_script TARGET_NAME)
   # add custom target
   add_custom_target (${TARGET_UID} ALL SOURCES ${SOURCES})
   # dump CMake variables for configuration of script
-  set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}.dir")
-  basis_dump_variables ("${BUILD_DIR}/cache.cmake")
+  set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}")
+  basis_dump_variables ("${BUILD_DIR}.dir/cache.cmake.in")
   # auto-detect programming language (may be as well UNKNOWN)
   if (ARGN_LANGUAGE)
     string (TOUPPER "${ARGN_LANGUAGE}" ARGN_LANGUAGE)
   else ()
     basis_get_source_language (ARGN_LANGUAGE ${SOURCES})
   endif ()
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # default directory infix used below
   if (ARGN_MODULE)
@@ -1436,7 +1439,7 @@ function (basis_add_script TARGET_NAME)
     endif ()
   endif ()
   # output directory
-  if (TEST)
+  if (IS_TEST)
     set (OUTPUT_DIRECTORY "${TESTING_${TYPE_INFIX}_DIR}")
   else ()
     set (OUTPUT_DIRECTORY "${BINARY_${TYPE_INFIX}_DIR}")
@@ -1459,7 +1462,7 @@ function (basis_add_script TARGET_NAME)
     elseif (IS_ABSOLUTE "${ARGN_DESTINATION}")
       file (RELATIVE_PATH ARGN_DESTINATION "${CMAKE_INSTALL_PREFIX}" "${ARGN_DESTINATION}")
     endif ()
-  elseif (TEST)
+  elseif (IS_TEST)
     set (ARGN_DESTINATION) # do not install
   else ()
     set (ARGN_DESTINATION "${INSTALL_${TYPE_INFIX}_DIR}")
@@ -1505,6 +1508,7 @@ function (basis_add_script TARGET_NAME)
       LANGUAGE                 ${ARGN_LANGUAGE}
       BASIS_TYPE               SCRIPT_${TYPE}
       BASIS_UTILITIES          ${USES_BASIS_UTILITIES}
+      BUILD_DIRECTORY          "${BUILD_DIR}"
       SOURCE_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}"
       BINARY_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}"
       OUTPUT_DIRECTORY         "${OUTPUT_DIRECTORY}"
@@ -1518,7 +1522,7 @@ function (basis_add_script TARGET_NAME)
       LINK_DEPENDS             "${LINK_DEPENDS}"
       EXPORT                   ${EXPORT}
       COMPILE                  ${BASIS_COMPILE_SCRIPTS}
-      TEST                     ${TEST}
+      TEST                     ${IS_TEST}
       LIBEXEC                  ${ARGN_LIBEXEC}
   )
   # add target to list of targets
@@ -1546,11 +1550,11 @@ endfunction ()
 #
 # @sa http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_executable
 function (add_executable TARGET_UID)
-  if (ARGC EQUAL 2 AND ARGV1 MATCHES "^IMPORTED$")
-    _add_executable (${TARGET_UID} IMPORTED)
+  _add_executable (${TARGET_UID} ${ARGN})
+  list (FIND ARGN IMPORTED IDX)
+  if (IDX EQUAL 0)
     basis_add_imported_target ("${TARGET_UID}" EXECUTABLE)
   else ()
-    _add_executable (${TARGET_UID} ${ARGN})
     basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
   endif ()
 endfunction ()
@@ -1569,11 +1573,11 @@ endfunction ()
 #
 # @sa http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:add_library
 function (add_library TARGET_UID)
-  if (ARGC EQUAL 3 AND ARGV2 MATCHES "^IMPORTED$")
-    _add_library (${TARGET_UID} "${ARGV1}" IMPORTED)
+  _add_library (${TARGET_UID} ${ARGN})
+  list (FIND ARGN IMPORTED IDX)
+  if (IDX EQUAL 1)
     basis_add_imported_target ("${TARGET_UID}" "${ARGV1}")
   else ()
-    _add_library (${TARGET_UID} ${ARGN})
     basis_set_project_property (APPEND PROPERTY TARGETS "${TARGET_UID}")
   endif ()
 endfunction ()
@@ -1674,12 +1678,12 @@ function (basis_add_executable_target TARGET_NAME)
   else ()
     set (USES_BASIS_UTILITIES ${BASIS_UTILITIES})
   endif ()
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # installation component
   if (NOT ARGN_COMPONENT)
@@ -1708,9 +1712,6 @@ function (basis_add_executable_target TARGET_NAME)
   if (TARGET "${HEADERS_TARGET}")
     add_dependencies (${TARGET_UID} ${HEADERS_TARGET})
   endif ()
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
   _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "EXECUTABLE" LANGUAGE "CXX" OUTPUT_NAME "${OUTPUT_NAME}")
   if (ARGN_LIBEXEC)
@@ -1718,9 +1719,9 @@ function (basis_add_executable_target TARGET_NAME)
   else ()
     _set_target_properties (${TARGET_UID} PROPERTIES LIBEXEC 0)
   endif ()
-  _set_target_properties (${TARGET_UID} PROPERTIES TEST ${TEST})
+  _set_target_properties (${TARGET_UID} PROPERTIES TEST ${IS_TEST})
   # output directory
-  if (TEST)
+  if (IS_TEST)
     if (ARGN_LIBEXEC)
       _set_target_properties (${TARGET_UID} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TESTING_LIBEXEC_DIR}")
     else ()
@@ -1742,11 +1743,11 @@ function (basis_add_executable_target TARGET_NAME)
   # export
   set (EXPORT_OPT)
   if (EXPORT)
-    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${TEST}" ${ARGN_DESTINATION})
+    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${IS_TEST}" ${ARGN_DESTINATION})
   endif ()
   # installation
   if (ARGN_DESTINATION)
-    if (TEST)
+    if (IS_TEST)
       # TODO install (selected?) tests
     else ()
       install (
@@ -1893,12 +1894,12 @@ function (basis_add_library_target TARGET_NAME)
   else ()
     set (USES_BASIS_UTILITIES ${BASIS_UTILITIES})
   endif ()
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # library type
   if (NOT ARGN_SHARED AND NOT ARGN_STATIC AND NOT ARGN_MODULE)
@@ -1980,13 +1981,10 @@ function (basis_add_library_target TARGET_NAME)
   if (TARGET ${HEADERS_TARGET})
     add_dependencies (${TARGET_UID} ${HEADERS_TARGET})
   endif ()
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
   _set_target_properties (${TARGET_UID} PROPERTIES BASIS_TYPE "${TYPE}_LIBRARY" LANGUAGE "CXX" OUTPUT_NAME "${OUTPUT_NAME}")
   # output directory
-  if (TEST)
+  if (IS_TEST)
     _set_target_properties (
       ${TARGET_UID}
       PROPERTIES
@@ -2021,11 +2019,11 @@ function (basis_add_library_target TARGET_NAME)
   # export
   set (EXPORT_OPT)
   if (EXPORT)
-    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${TEST}" ${ARGN_RUNTIME_DESTINATION} ${ARGN_LIBRARY_DESTINATION})
+    basis_add_export_target (EXPORT_OPT ${TARGET_UID} "${IS_TEST}" ${ARGN_RUNTIME_DESTINATION} ${ARGN_LIBRARY_DESTINATION})
   endif ()
   # installation
   set (DESTINATION_OPTS)
-  if (TEST)
+  if (IS_TEST)
     # TODO At the moment, no tests are installed. Once there is a way to
     #      install selected tests, the shared libraries they depend on
     #      need to be installed as well.
@@ -2268,8 +2266,8 @@ function (basis_add_script_library TARGET_NAME)
   basis_make_target_uid (TARGET_UID "${TARGET_NAME}")
   message (STATUS "Adding script library ${TARGET_UID}...")
   # dump CMake variables for configuration of script
-  set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}.dir")
-  basis_dump_variables ("${BUILD_DIR}/cache.cmake")
+  set (BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TARGET_UID}")
+  basis_dump_variables ("${BUILD_DIR}.dir/cache.cmake.in")
   # parse arguments
   CMAKE_PARSE_ARGUMENTS (
     ARGN
@@ -2280,12 +2278,12 @@ function (basis_add_script_library TARGET_NAME)
   )
   basis_set_flag (ARGN EXPORT ${BASIS_EXPORT})
   set (SOURCES "${ARGN_UNPARSED_ARGUMENTS}")
-  # TEST flag
+  # IS_TEST flag
   basis_sanitize_for_regex (RE "${PROJECT_TESTING_DIR}")
   if (CMAKE_CURRENT_SOURCE_DIR MATCHES "^${RE}")
-    set (TEST TRUE)
+    set (IS_TEST TRUE)
   else ()
-    set (TEST FALSE)
+    set (IS_TEST FALSE)
   endif ()
   # check source files
   set (_SOURCES)
@@ -2321,7 +2319,7 @@ function (basis_add_script_library TARGET_NAME)
     endif ()
   endif ()
   # output directory
-  if (TEST)
+  if (IS_TEST)
     if (DEFINED TESTING_${ARGN_LANGUAGE}_LIBRARY_DIR)
       set (OUTPUT_DIRECTORY "${TESTING_${ARGN_LANGUAGE}_LIBRARY_DIR}")
     else ()
@@ -2342,7 +2340,7 @@ function (basis_add_script_library TARGET_NAME)
     set (ARGN_COMPONENT "Unspecified")
   endif ()
   # installation directory
-  if (TEST)
+  if (IS_TEST)
     if (ARGN_DESTINATION)
       message (WARNING "Target ${TARGET_UID} is a library used for testing only."
                        " Installation to the specified directory will be skipped.")
@@ -2408,6 +2406,7 @@ function (basis_add_script_library TARGET_NAME)
       LANGUAGE                  "${ARGN_LANGUAGE}"
       BASIS_TYPE                "SCRIPT_LIBRARY"
       BASIS_UTILITIES           "${USES_BASIS_UTILITIES}"
+      BUILD_DIRECTORY           "${BUILD_DIR}"
       SOURCE_DIRECTORY          "${CMAKE_CURRENT_SOURCE_DIR}"
       BINARY_DIRECTORY          "${CMAKE_CURRENT_BINARY_DIR}"
       LIBRARY_OUTPUT_DIRECTORY  "${OUTPUT_DIRECTORY}"
@@ -2419,7 +2418,7 @@ function (basis_add_script_library TARGET_NAME)
       LINK_DEPENDS              ""
       EXPORT                    "${EXPORT}"
       COMPILE                   "${BASIS_COMPILE_SCRIPTS}"
-      TEST                      "${TEST}"
+      TEST                      "${IS_TEST}"
   )
   # link to BASIS utilities
   if (USES_BASIS_UTILITIES)
@@ -2604,6 +2603,7 @@ function (basis_build_script TARGET_UID)
     PROPERTIES
       LANGUAGE                 # programming language of script
       BASIS_TYPE               # must match "^SCRIPT_(EXECUTABLE|LIBEXEC|MODULE)$"
+      BUILD_DIRECTORY          # CMakeFiles build directory
       SOURCE_DIRECTORY         # CMake source directory
       BINARY_DIRECTORY         # CMake binary directory
       OUTPUT_DIRECTORY         # output directory for built script
@@ -2614,11 +2614,11 @@ function (basis_build_script TARGET_UID)
       SUFFIX                   # name suffix (e.g., extension for executable script)
       SCRIPT_DEFINITIONS       # CMake code to set variables used to configure script
       SCRIPT_DEFINITIONS_FILE  # script configuration file
-      TEST                     # whether this script is used for testing only
       EXPORT                   # whether this target shall be exported
       COMPILE                  # whether to compile script if applicable
       SOURCES                  # path of script source file
   )
+  get_target_property (IS_TEST ${TARGET_UID} TEST) # whether this script is used for testing only
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
   endforeach ()
@@ -2636,21 +2636,26 @@ function (basis_build_script TARGET_UID)
   if (NOT BINARY_DIRECTORY)
     message (FATAL_ERROR "Target ${TARGET_UID}: Missing BINARY_DIRECTORY property!")
   endif ()
-  if (NOT BINARY_DIRECTORY MATCHES "^${CMAKE_BINARY_DIR}(/|$)")
+  file (RELATIVE_PATH _relpath "${CMAKE_BINARY_DIR}" "${BINARY_DIRECTORY}")
+  if (_relpath MATCHES "^\\.\\./")
     message (FATAL_ERROR "Target ${TARGET_UID}: BINARY_DIRECTORY must be inside of build tree!")
   endif ()
+  unset (_relpath)
   if (INSTALL_DIRECTORY AND NOT COMPONENT)
     set (COMPONENT "Unspecified")
   endif ()
-  list (LENGTH SOURCES L)
-  if (NOT L EQUAL 2)
-    message (FATAL_ERROR "Target ${TARGET_UID}: Expected two elements in SOURCES list!"
-                         " Have you accidentally modified this read-only property or"
-                         " is your (newer) CMake version not compatible with BASIS?")
+  list (GET SOURCES 0 BUILD_DIR) # CMake <3.1 stores path to internal build directory here
+  if (BUILD_DIR MATCHES "CMakeFiles")
+    list (REMOVE_AT SOURCES 0)
   endif ()
-  list (GET SOURCES 0 BUILD_DIR) # strange, but CMake stores path to internal build directory here
-  list (GET SOURCES 1 SOURCE_FILE)
-  set (BUILD_DIR "${BUILD_DIR}.dir")
+  list (LENGTH SOURCES L)
+  if (NOT L EQUAL 1)
+    message (FATAL_ERROR "Target ${TARGET_UID}: Expected one element in SOURCES list!"
+                         " Have you modified this (read-only) property or is your"
+                         " (newer) CMake version not compatible with BASIS?")
+  endif ()
+  set (SOURCE_FILE "${SOURCES}")
+  set (BUILD_DIR   "${BUILD_DIRECTORY}.dir")
   # output name
   if (NOT OUTPUT_NAME)
     basis_get_target_name (OUTPUT_NAME ${TARGET_UID})
@@ -2664,9 +2669,13 @@ function (basis_build_script TARGET_UID)
   # arguments of build script
   set (OUTPUT_FILE "${OUTPUT_DIRECTORY}/${OUTPUT_NAME}")
   if (INSTALL_DIRECTORY)
-    get_filename_component (SOURCE_NAME "${SOURCE_FILE}" NAME)
-    set (INSTALL_FILE "${BUILD_DIR}/build/${SOURCE_NAME}")
-    string (REGEX REPLACE "\\.in$" "" INSTALL_FILE "${INSTALL_FILE}")
+    if (MODULE)
+      get_filename_component (SOURCE_NAME "${SOURCE_FILE}" NAME)
+      set (INSTALL_FILE "${BUILD_DIR}/build/${SOURCE_NAME}")
+      string (REGEX REPLACE "\\.in$" "" INSTALL_FILE "${INSTALL_FILE}")
+    else ()
+      set (INSTALL_FILE "${BUILD_DIR}/build/${OUTPUT_NAME}")
+    endif ()
     set (DESTINATION "${INSTALL_DIRECTORY}")
     if (NOT IS_ABSOLUTE "${DESTINATION}")
       set (DESTINATION "${CMAKE_INSTALL_PREFIX}/${DESTINATION}")
@@ -2675,18 +2684,29 @@ function (basis_build_script TARGET_UID)
     set (INSTALL_FILE)
     set (DESTINATION)
   endif ()
-  set (CONFIG_FILE)
+  set (CONFIG_FILES)
   if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
-    list (APPEND CONFIG_FILE "${BASIS_SCRIPT_CONFIG_FILE}")
+    list (APPEND CONFIG_FILES "${BASIS_SCRIPT_CONFIG_FILE}")
   endif ()
   if (SCRIPT_DEFINITIONS_FILE)
-    list (APPEND CONFIG_FILE ${SCRIPT_DEFINITIONS_FILE})
+    list (APPEND CONFIG_FILES "${SCRIPT_DEFINITIONS_FILE}")
   endif ()
   if (SCRIPT_DEFINITIONS)
-    file (WRITE "${BUILD_DIR}/ScriptConfig.cmake" "# DO NOT edit. Automatically generated by BASIS.\n${SCRIPT_DEFINITIONS}\n")
-    list (APPEND CONFIG_FILE "${BUILD_DIR}/ScriptConfig.cmake")
+    set (SCRIPT_CONFIG_FILE "${BUILD_DIR}/ScriptConfig.cmake")
+    file (WRITE "${SCRIPT_CONFIG_FILE}.in" "# DO NOT edit. Automatically generated by BASIS.\n${SCRIPT_DEFINITIONS}\n")
+    add_custom_command (
+      OUTPUT "${SCRIPT_CONFIG_FILE}"
+      COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+              "${SCRIPT_CONFIG_FILE}.in" "${SCRIPT_CONFIG_FILE}"
+    )
+    list (APPEND CONFIG_FILES "${SCRIPT_CONFIG_FILE}")
   endif ()
   set (CACHE_FILE "${BUILD_DIR}/cache.cmake")
+  add_custom_command (
+    OUTPUT  "${CACHE_FILE}"
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${CACHE_FILE}.in" "${CACHE_FILE}"
+  )
   set (OPTIONS)
   foreach (FLAG IN ITEMS COMPILE EXECUTABLE)
     if (${FLAG})
@@ -2750,7 +2770,7 @@ function (basis_build_script TARGET_UID)
   endif ()
   list (INSERT BUILD_LINK_DEPENDS   0 "${BINARY_LIBRARY_DIR}")
   list (INSERT INSTALL_LINK_DEPENDS 0 "relative ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBRARY_DIR}")
-  if (TEST)
+  if (IS_TEST)
     list (INSERT BUILD_LINK_DEPENDS 0 "${TESTING_LIBRARY_DIR}")
   endif ()
   if (BUILD_LINK_DEPENDS)
@@ -2813,7 +2833,7 @@ function (basis_build_script TARGET_UID)
     COMMAND         "${CMAKE_COMMAND}" -P "${BUILD_SCRIPT}"
     MAIN_DEPENDENCY "${SOURCE_FILE}"
     DEPENDS         "${BUILD_SCRIPT}" "${BASIS_MODULE_PATH}/CommonTools.cmake" # basis_configure_script() definition
-                    "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
+                    "${CACHE_FILE}" ${CONFIG_FILES}
     COMMENT         "${COMMENT}"
     VERBATIM
   )
@@ -2824,9 +2844,6 @@ function (basis_build_script TARGET_UID)
       add_dependencies (_${TARGET_UID} ${T})
     endif ()
   endforeach ()
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean" - including compiled files regardless of COMPILE flag
   set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${OUTPUT_FILES})
@@ -2841,7 +2858,7 @@ function (basis_build_script TARGET_UID)
   endforeach ()
   # export target
   if (EXPORT)
-    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
+    basis_add_custom_export_target (${TARGET_UID} "${IS_TEST}")
   endif ()
   # install script
   if (INSTALL_DIRECTORY)
@@ -2915,6 +2932,7 @@ function (basis_build_script_library TARGET_UID)
       LANGUAGE                   # programming language of modules
       BASIS_TYPE                 # must be "SCRIPT_LIBRARY"
       BASIS_UTILITIES            # whether this target requires the BASIS utilities
+      BUILD_DIRECTORY            # CMakeFiles build directory
       SOURCE_DIRECTORY           # CMake source directory
       BINARY_DIRECTORY           # CMake binary directory
       LIBRARY_OUTPUT_DIRECTORY   # output directory for built modules
@@ -2924,11 +2942,11 @@ function (basis_build_script_library TARGET_UID)
       SCRIPT_DEFINITIONS         # CMake code to set variables used to configure modules
       SCRIPT_DEFINITIONS_FILE    # script configuration file
       LINK_DEPENDS               # paths of script modules/packages used by the modules of this library
-      TEST                       # whether this script is used for testing only
       EXPORT                     # whether to export this target
       COMPILE                    # whether to compile the modules/library if applicable
       SOURCES                    # source files of module scripts
   )
+  get_target_property (IS_TEST ${TARGET_UID} TEST) # whether this script is used for testing only
   foreach (PROPERTY ${PROPERTIES})
     get_target_property (${PROPERTY} ${TARGET_UID} ${PROPERTY})
   endforeach ()
@@ -2944,33 +2962,48 @@ function (basis_build_script_library TARGET_UID)
   if (NOT IS_ABSOLUTE "${LIBRARY_OUTPUT_DIRECTORY}")
     set (LIBRARY_OUTPUT_DIRECTORY "${TOPLEVEL_PROJECT_BINARY_DIR}/${LIBRARY_OUTPUT_DIRECTORY}")
   endif ()
-  if (NOT LIBRARY_OUTPUT_DIRECTORY MATCHES "^${CMAKE_BINARY_DIR}")
+  file (RELATIVE_PATH _relpath "${CMAKE_BINARY_DIR}" "${LIBRARY_OUTPUT_DIRECTORY}")
+  if (_relpath MATCHES "^\\.\\./")
     message (FATAL_ERROR "Output directory LIBRARY_OUTPUT_DIRECTORY is outside the build tree!")
   endif ()
+  unset(_relpath)
   if (NOT LIBRARY_COMPONENT)
     set (LIBRARY_COMPONENT "Unspecified")
   endif ()
-  list (GET SOURCES 0 BUILD_DIR) # strange, but CMake stores path to internal build directory here
-  list (REMOVE_AT SOURCES 0)
-  set (BUILD_DIR "${BUILD_DIR}.dir")
+  list (GET SOURCES 0 BUILD_DIR) # CMake <3.1 stores path to internal build directory here
+  if (BUILD_DIR MATCHES "CMakeFiles")
+    list (REMOVE_AT SOURCES 0)
+  endif ()
   if (NOT SOURCES)
-    message (FATAL_ERROR "Target ${TARGET_UID}: Empty SOURCES list!"
-                         " Have you accidentally modified this read-only property or"
+    message (FATAL_ERROR "Target ${TARGET_UID}: Expected at least one element in SOURCES list!"
+                         " Have you incorrectly modified this (read-only) property or"
                          " is your (newer) CMake version not compatible with BASIS?")
   endif ()
+  set (BUILD_DIR "${BUILD_DIRECTORY}.dir")
   # common arguments of build script
-  set (CONFIG_FILE)
+  set (CONFIG_FILES)
   if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
-    list (APPEND CONFIG_FILE "${BASIS_SCRIPT_CONFIG_FILE}")
+    list (APPEND CONFIG_FILES "${BASIS_SCRIPT_CONFIG_FILE}")
   endif ()
   if (SCRIPT_DEFINITIONS_FILE)
-    list (APPEND CONFIG_FILE ${SCRIPT_DEFINITIONS_FILE})
+    list (APPEND CONFIG_FILES ${SCRIPT_DEFINITIONS_FILE})
   endif ()
   if (SCRIPT_DEFINITIONS)
-    file (WRITE "${BUILD_DIR}/ScriptConfig.cmake" "# DO NOT edit. Automatically generated by BASIS.\n${SCRIPT_DEFINITIONS}\n")
-    list (APPEND CONFIG_FILE "${BUILD_DIR}/ScriptConfig.cmake")
+    set (SCRIPT_CONFIG_FILE "${BUILD_DIR}/ScriptConfig.cmake")
+    file (WRITE "${SCRIPT_CONFIG_FILE}.in" "# DO NOT edit. Automatically generated by BASIS.\n${SCRIPT_DEFINITIONS}\n")
+    add_custom_command (
+      OUTPUT  "${SCRIPT_CONFIG_FILE}"
+      COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+              "${SCRIPT_CONFIG_FILE}.in" "${SCRIPT_CONFIG_FILE}"
+    )
+    list (APPEND CONFIG_FILES "${SCRIPT_CONFIG_FILE}")
   endif ()
   set (CACHE_FILE "${BUILD_DIR}/cache.cmake")
+  add_custom_command (
+    OUTPUT  "${CACHE_FILE}"
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${CACHE_FILE}.in" "${CACHE_FILE}"
+  )
   set (OPTIONS) # no additional options
   if (COMPILE)
     list (APPEND OPTIONS COMPILE)
@@ -3047,7 +3080,7 @@ function (basis_build_script_library TARGET_UID)
       COMMAND         "${CMAKE_COMMAND}" -P "${BUILD_SCRIPT}"
       MAIN_DEPENDENCY "${SOURCE_FILE}"
       DEPENDS         "${BUILD_SCRIPT}" "${BASIS_MODULE_PATH}/CommonTools.cmake" # basis_configure_script() definition
-                      "${BUILD_DIR}/cache.cmake" ${CONFIG_FILE}
+                      "${CACHE_FILE}" ${CONFIG_FILES}
       COMMENT         "${COMMENT}"
       VERBATIM
     )
@@ -3061,9 +3094,6 @@ function (basis_build_script_library TARGET_UID)
       add_dependencies (_${TARGET_UID} ${T})
     endif ()
   endforeach ()
-  if (TARGET __${TARGET_UID}) # re-glob source files
-    add_dependencies (_${TARGET_UID} __${TARGET_UID})
-  endif ()
   add_dependencies (${TARGET_UID} _${TARGET_UID})
   # cleanup on "make clean" - including compiled files regardless of COMPILE flag
   set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${OUTPUT_FILES})
@@ -3078,7 +3108,7 @@ function (basis_build_script_library TARGET_UID)
   endforeach ()
   # export target
   if (EXPORT)
-    basis_add_custom_export_target (${TARGET_UID} "${TEST}")
+    basis_add_custom_export_target (${TARGET_UID} "${IS_TEST}")
   endif ()
   # add installation rule
   foreach (INSTALL_FILE IN LISTS FILES_TO_INSTALL)
@@ -3152,7 +3182,10 @@ function (basis_add_init_py_target)
           set (LOCATION         "${LOCATION}/${PREFIX}")
           set (INSTALL_LOCATION "${INSTALL_LOCATION}/${PREFIX}")
         endif ()
-        list (REMOVE_AT SOURCES 0) # strange, but this is a CMakeFiles/ subdirectory
+        list (GET SOURCES 0 BINARY_DIR) # CMake <3.1 stores path to internal build directory here
+        if (BINARY_DIR MATCHES "CMakeFiles")
+          list (REMOVE_AT SOURCES 0)
+        endif ()
         foreach (SOURCE IN LISTS SOURCES)
           file (RELATIVE_PATH SOURCE "${SOURCE_DIRECTORY}" "${SOURCE}")
           list (APPEND _LOCATION         "${LOCATION}/${SOURCE}")
@@ -3172,7 +3205,7 @@ function (basis_add_init_py_target)
       # directories for which to build a __init__.py file
       foreach (L IN LISTS LOCATION)
         basis_get_filename_component (DIR "${L}" PATH)
-        if (L MATCHES "/__init__.py$")
+        if (L MATCHES "/__init__\\.py$")
           list (APPEND EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
@@ -3192,7 +3225,7 @@ function (basis_add_init_py_target)
       # directories for which to install a __init__.py file
       foreach (L IN LISTS INSTALL_LOCATION)
         basis_get_filename_component (DIR "${L}" PATH)
-        if (L MATCHES "/__init__.py$")
+        if (L MATCHES "/__init__\\.py$")
           list (APPEND INSTALL_EXCLUDE "${DIR}")
         else ()
           list (APPEND DEPENDENTS ${TARGET_UID}) # depends on _initpy
@@ -3329,6 +3362,9 @@ function (basis_add_init_py_target)
       foreach (DIR IN LISTS INSTALL_${LANGUAGE}_DIRS_${COMPONENT})
         list (FIND INSTALL_EXCLUDE "${DIR}" IDX)
         if (IDX EQUAL -1)
+          if (BASIS_DEBUG AND BASIS_VERBOSE)
+            message("**    Copy ${${LANGUAGE}_INSTALL_FILE} to ${DIR} upon installation of ${COMPONENT} component")
+          endif ()
           install (
             FILES       "${${LANGUAGE}_INSTALL_FILE}"
             DESTINATION "${DIR}"

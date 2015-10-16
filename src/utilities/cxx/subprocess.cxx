@@ -28,10 +28,6 @@
 #    include <sys/errno.h> // errno, ECHILD
 #    include <stdio.h>     // strerror_r
 #endif
-#if MACOS
-#    include <vproc.h>     // vproc_transaction_begin, required for work-around
-                           // of a bug in libgcov in Mac OS X Snow Leopard
-#endif
 
 #include <basis/except.h>
 #include <basis/subprocess.h>
@@ -398,12 +394,6 @@ bool Subprocess::popen(const CommandLine& args,
         return false;
     }
 
-    // On Mac OS X Snow Leopard, there is a bug in the libgcov library which
-    // is nicely traced and described at http://rachelbythebay.com/w/2011/07/12/forkcrash/
-    #if MACOS
-    vproc_transaction_begin(0);
-    #endif
-
     if (_info.pid == 0) {
 
         // close unused ends of pipes
@@ -495,8 +485,13 @@ bool Subprocess::poll() const
     if (_info.pid > 0) {
         pid_t pid = waitpid(_info.pid, &_status, WNOHANG | WUNTRACED | WCONTINUED);
         if (pid == -1 && errno != ECHILD) {
+#if MACOS || ((_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE)
             char errormsg[256];
             strerror_r(errno, errormsg, sizeof(errormsg));
+#else
+            char buf[256];
+            char * const errormsg = strerror_r(errno, buf, sizeof(buf));
+#endif
             BASIS_THROW(runtime_error, "waitpid() failed with error: " << errormsg << " (" << errno << ")");
         }
         return WIFEXITED(_status) || WIFSIGNALED(_status);
@@ -597,8 +592,13 @@ bool Subprocess::signaled() const
         pid_t pid = waitpid(_info.pid, &_status, WNOHANG | WUNTRACED | WCONTINUED);
         int errnum = errno;
         if (pid == -1 && errnum != ECHILD) {
+#if MACOS || ((_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE)
             char errormsg[256];
             strerror_r(errnum, errormsg, sizeof(errormsg));
+#else
+            char buf[256];
+            char * const errormsg = strerror_r(errnum, buf, sizeof(buf));
+#endif
             BASIS_THROW(runtime_error, "waitpid() failed with error: " << errormsg << " (" << errnum << ")");
         }
     }
