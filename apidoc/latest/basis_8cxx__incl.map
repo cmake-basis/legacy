@@ -1,13 +1,13 @@
 <map id="basis.cxx" name="basis.cxx">
-<area shape="rect" id="node3" href="$basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="512,80,616,107"/>
-<area shape="rect" id="node4" href="$utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="513,155,615,181"/>
-<area shape="rect" id="node8" href="$config_8h.html" title="System related macro definitions. " alt="" coords="875,229,975,256"/>
-<area shape="rect" id="node9" href="$assert_8h.html" title="Defines macros used for assertions. " alt="" coords="784,229,851,256"/>
-<area shape="rect" id="node11" href="$except_8h.html" title="Basic exceptions and related helper macros. " alt="" coords="243,229,314,256"/>
+<area shape="rect" id="node3" href="$basis_8h.html" title="BASIS utilities of BASIS project of BASIS package. " alt="" coords="525,80,627,107"/>
+<area shape="rect" id="node4" href="$utilities_8h.html" title="Main module of project&#45;independent BASIS utilities. " alt="" coords="521,155,631,181"/>
+<area shape="rect" id="node8" href="$config_8h.html" title="System related macro definitions. " alt="" coords="897,229,1001,256"/>
+<area shape="rect" id="node9" href="$assert_8h.html" title="Defines macros used for assertions. " alt="" coords="804,229,873,256"/>
+<area shape="rect" id="node11" href="$except_8h.html" title="Basic exceptions and related helper macros. " alt="" coords="247,229,319,256"/>
 <area shape="rect" id="node15" href="$os_8h.html" title="Operating system dependent functions. " alt="" coords="27,304,74,331"/>
-<area shape="rect" id="node18" href="$CmdLine_8h.html" title="Manages command line definition and parsing of arguments. " alt="" coords="571,229,653,256"/>
-<area shape="rect" id="node16" href="$path_8h.html" title="File/directory path related functions. " alt="" coords="239,379,315,405"/>
-<area shape="rect" id="node20" href="$CmdArgs_8h.html" title="Definition of commonly used command&#45;line arguments. " alt="" coords="693,304,779,331"/>
-<area shape="rect" id="node25" href="$ValueArg_8h.html" title="Extends TCLAP&#39;s ValueArg implementation. " alt="" coords="989,379,1073,405"/>
-<area shape="rect" id="node27" href="$MultiArg_8h.html" title="Extends TCLAP&#39;s MultiArg implementation. " alt="" coords="1097,379,1173,405"/>
+<area shape="rect" id="node18" href="$CmdLine_8h.html" title="Manages command line definition and parsing of arguments. " alt="" coords="582,229,669,256"/>
+<area shape="rect" id="node16" href="$path_8h.html" title="File/directory path related functions. " alt="" coords="241,379,319,405"/>
+<area shape="rect" id="node20" href="$CmdArgs_8h.html" title="Definition of commonly used command&#45;line arguments. " alt="" coords="709,304,798,331"/>
+<area shape="rect" id="node25" href="$ValueArg_8h.html" title="Extends TCLAP&#39;s ValueArg implementation. " alt="" coords="1019,379,1107,405"/>
+<area shape="rect" id="node27" href="$MultiArg_8h.html" title="Extends TCLAP&#39;s MultiArg implementation. " alt="" coords="1131,379,1213,405"/>
 </map>

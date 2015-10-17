@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -69,18 +69,18 @@ command-line argument classes. The API documentation of the TCLAP classes can
 also be found as part of this documentation.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">BASIS provides its own subclass of the <tt class="docutils literal"><span class="pre">TCLAP::CmdLine</span></tt> class
-which is also named <tt class="docutils literal"><span class="pre">CmdLine</span></tt>, but in the <tt class="docutils literal"><span class="pre">basis</span></tt> namespace, i.e.,
-<tt class="docutils literal"><span class="pre">basis::CmdLine</span></tt>. Most of the argument implementations are, however,
-simply typedefs of the commonly used <tt class="docutils literal"><span class="pre">TCLAP::Arg</span></tt> subclasses.
+<p class="last">BASIS provides its own subclass of the <code class="docutils literal"><span class="pre">TCLAP::CmdLine</span></code> class
+which is also named <code class="docutils literal"><span class="pre">CmdLine</span></code>, but in the <code class="docutils literal"><span class="pre">basis</span></code> namespace, i.e.,
+<code class="docutils literal"><span class="pre">basis::CmdLine</span></code>. Most of the argument implementations are, however,
+simply typedefs of the commonly used <code class="docutils literal"><span class="pre">TCLAP::Arg</span></code> subclasses.
 See the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CxxCmdLine.html">API documentation</a>
 for a list of command-line arguments which are made available as part of
-the <tt class="docutils literal"><span class="pre">basis</span></tt> namespace.</p>
+the <code class="docutils literal"><span class="pre">basis</span></code> namespace.</p>
 </div>
 <p>The usage of the command-line parsing library shall be demonstrated in the
 following on the implementation of an example command-line program. It should
-be noted that the try-catch block in the <tt class="docutils literal"><span class="pre">main()</span></tt> function will only help to
-track errors in the command-line specification, but once the <tt class="docutils literal"><span class="pre">cmd</span></tt> instance
+be noted that the try-catch block in the <code class="docutils literal"><span class="pre">main()</span></code> function will only help to
+track errors in the command-line specification, but once the <code class="docutils literal"><span class="pre">cmd</span></code> instance
 is initialized properly, all runtime exceptions related to the parsing of
 the command-line are handled by BASIS.</p>
 <div class="highlight-c++"><div class="highlight"><pre><span class="cm">/**</span>
@@ -214,8 +214,8 @@ the command-line are handled by BASIS.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Running the above program with the <tt class="docutils literal"><span class="pre">--help</span></tt> option will give the output:</p>
-<div class="highlight-python"><pre>SYNOPSIS
+<p>Running the above program with the <code class="docutils literal"><span class="pre">--help</span></code> option will give the output:</p>
+<div class="highlight-python"><div class="highlight"><pre>SYNOPSIS
     smoothimage [--std &lt;float&gt;] [--radius &lt;rx&gt; &lt;ry&gt; &lt;rz&gt;] [--verbose|-v]
                 {--gaussian|--anisotropic} &lt;image&gt;
     smoothimage [--help|-h|--helpshort|--helpxml|--helpman|--version]
@@ -275,12 +275,14 @@ EXAMPLE
         Smooths the image brain.nii using an anisotropic diffusion filter.
 
 CONTACT
-    SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;</pre>
+    SBIA Group &lt;sbia-software at uphs.upenn.edu&gt;
+</pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">--helpshort</span></tt> output contains the synopsis of the full help only:</p>
-<div class="highlight-python"><pre>smoothimage [--std &lt;float&gt;] [--radius &lt;rx&gt; &lt;ry&gt; &lt;rz&gt;] [--verbose|-v]
+<p>The <code class="docutils literal"><span class="pre">--helpshort</span></code> output contains the synopsis of the full help only:</p>
+<div class="highlight-python"><div class="highlight"><pre>smoothimage [--std &lt;float&gt;] [--radius &lt;rx&gt; &lt;ry&gt; &lt;rz&gt;] [--verbose|-v]
             {--gaussian|--anisotropic} &lt;image&gt;
-smoothimage [--help|-h|--helpshort|--helpxml|--helpman|--version]</pre>
+smoothimage [--help|-h|--helpshort|--helpxml|--helpman|--version]
+</pre></div>
 </div>
 </div>
 
@@ -346,8 +348,8 @@ smoothimage [--help|-h|--helpshort|--helpxml|--helpman|--version]</pre>
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

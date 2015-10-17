@@ -2,11 +2,9 @@ var searchData=
 [
   ['testing_20framework',['Testing Framework',['../group__CxxTesting.html',1,'']]],
   ['targettools_2ecmake',['TargetTools.cmake',['../TargetTools_8cmake.html',1,'']]],
-  ['targetuid',['targetuid',['../classbasis_1_1util_1_1IExecutableTargetInfo.html#aeeb67d28e3538f7b057835cee640f385',1,'basis::util::IExecutableTargetInfo::targetuid()'],['../namespacebasis.html#aae1a0b4930f10fd78fb4767574d7f3e5',1,'basis::targetuid()'],['../namespacebasis_1_1util.html#ab132e20cd2f5636cd594f6c14f14063a',1,'basis::util::targetuid()'],['../group__BasisBashUtilities.html#ga82168745b1417b84337855ed636e4b56',1,'targetuid(out uid, in name):&#160;utilities.sh'],['../group__BasisPerlUtilities.html#ga007c368e3cb454afb99d1d8074c14e11',1,'targetuid(scalar target, scalar prefix, hashref targets):&#160;Utilities.pm'],['../namespacebasis_1_1utilities.html#aef341158a23de53a4cc5f1fbddbf21ba',1,'basis.utilities.targetuid()']]],
+  ['targetuid',['targetuid',['../classbasis_1_1util_1_1IExecutableTargetInfo.html#aeeb67d28e3538f7b057835cee640f385',1,'basis::util::IExecutableTargetInfo::targetuid()'],['../namespacebasis.html#aae1a0b4930f10fd78fb4767574d7f3e5',1,'basis::targetuid()'],['../namespacebasis_1_1util.html#ab132e20cd2f5636cd594f6c14f14063a',1,'basis::util::targetuid()'],['../group__BasisBashUtilities.html#ga82168745b1417b84337855ed636e4b56',1,'targetuid():&#160;utilities.sh'],['../namespacebasis_1_1utilities.html#aef341158a23de53a4cc5f1fbddbf21ba',1,'basis.utilities.targetuid()']]],
   ['template',['TEMPLATE',['../GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b',1,'GenerateConfig.cmake']]],
-  ['template_5fabspath',['template_abspath',['../namespacebasisproject.html#acdbf201c6dd03d1c26908438e6ec2c53',1,'basisproject']]],
   ['template_5fdir_5fconfig',['TEMPLATE_DIR_CONFIG',['../ConfigSettings_8cmake.html#a6bd933eaaed0e10920f77068b37cb198',1,'ConfigSettings.cmake']]],
-  ['template_5fparser',['template_parser',['../namespacebasisproject.html#ae874e0c40e8e2339c509dc9c3b2458ae',1,'basisproject']]],
   ['templatefile',['templateFile',['../namespaceupdatefile.html#acaf1cee8c462de3b4d25a79c2e9a207e',1,'updatefile']]],
   ['terminate',['terminate',['../classbasis_1_1Subprocess.html#ad914f96ed11b90334b1d9dc6e58a012a',1,'basis::Subprocess']]],
   ['test_2eh',['test.h',['../test_8h.html',1,'']]],
@@ -33,6 +31,7 @@ var searchData=
   ['testing_5fruntime_5fdir',['TESTING_RUNTIME_DIR',['../group__BasisDirectories.html#ga31ad2efddbbabfc434dc242bddf5396d',1,'TESTING_RUNTIME_DIR():&#160;Directories.cmake'],['../DirectoriesSettings_8cmake.html#a31ad2efddbbabfc434dc242bddf5396d',1,'TESTING_RUNTIME_DIR():&#160;DirectoriesSettings.cmake']]],
   ['testmethod',['TestMethod',['../testdriver_8h.html#af1834e0f61fffad3dc43b95b6da9dd41',1,'testdriver.h']]],
   ['text_5fdiff_5flines',['text_diff_lines',['../testdriver_8h.html#a1a47a8bf50c16b1d5cd339c32b006adb',1,'text_diff_lines(const char *testfile, const char *baseline, unsigned int max_number_of_differences=0):&#160;testdriver.hxx'],['../testdriver_8hxx.html#a5f49c9309c5a84eec001f5915bf2a5fb',1,'text_diff_lines(const char *testfile, const char *baseline, unsigned int max_number_of_differences):&#160;testdriver.hxx']]],
+  ['text_5ftype',['text_type',['../namespacebasis_1_1utilities.html#a04c46e359276fbc8cea18f65928e592c',1,'basis::utilities']]],
   ['title',['title',['../classbasis_1_1argparse_1_1__ArgumentGroup.html#a3f257fa8487fcc538834bb47d32fbf43',1,'basis::argparse::_ArgumentGroup']]],
   ['tmp',['TMP',['../ExecuteProcess_8cmake.html#a7a0cb2292fa4b19d9207e2efd0833ac9',1,'ExecuteProcess.cmake']]],
   ['todo_20list',['Todo List',['../todo.html',1,'']]],
@@ -51,8 +50,7 @@ var searchData=
   ['toplevel_5fproject_5fsource_5fdir',['TOPLEVEL_PROJECT_SOURCE_DIR',['../group__BasisDirectories.html#ga2995d3c4365fb3d4c073936e5be2ae85',1,'TOPLEVEL_PROJECT_SOURCE_DIR():&#160;Directories.cmake'],['../DirectoriesSettings_8cmake.html#a2995d3c4365fb3d4c073936e5be2ae85',1,'TOPLEVEL_PROJECT_SOURCE_DIR():&#160;DirectoriesSettings.cmake']]],
   ['topological_5fsort',['topological_sort',['../TopologicalSort_8cmake.html#afb8628bdbeed9935c8817e8ef84cf46d',1,'TopologicalSort.cmake']]],
   ['topologicalsort_2ecmake',['TopologicalSort.cmake',['../TopologicalSort_8cmake.html',1,'']]],
-  ['tostring',['tostring',['../classbasis_1_1Subprocess.html#a85bfbbcc21cb80b32b496ebe3ed3ec90',1,'basis::Subprocess::tostring()'],['../namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817',1,'basis::util::tostring()'],['../group__BasisBashUtilities.html#gadfff40a7e7b367518655f0bfee452875',1,'tostring(out var, in elements):&#160;utilities.sh'],['../group__BasisPerlUtilities.html#ga4fd027c17e40a693285e49e62d841829',1,'tostring(arrayref args):&#160;Utilities.pm'],['../namespacebasis_1_1utilities.html#a505ea3d2001cc1c75f8fafb18749e14e',1,'basis.utilities.tostring()']]],
-  ['transitions',['TRANSITIONS',['../Python_8pm.html#a6079dbf045ee7ae49971741a9f01c51d',1,'Python.pm']]],
+  ['tostring',['tostring',['../classbasis_1_1Subprocess.html#a85bfbbcc21cb80b32b496ebe3ed3ec90',1,'basis::Subprocess::tostring()'],['../namespacebasis_1_1util.html#a480666ae10d3a161030554613013d817',1,'basis::util::tostring()'],['../group__BasisBashUtilities.html#gadfff40a7e7b367518655f0bfee452875',1,'tostring():&#160;utilities.sh'],['../namespacebasis_1_1utilities.html#a50cb6bdd133ec6c2ad68016329a0af39',1,'basis.utilities.tostring()']]],
   ['try',['try',['../testdriver-before-test_8inc.html#abe4cc9788f52e49485473dc699537388',1,'testdriver-before-test.inc']]],
-  ['type',['type',['../classbasis_1_1argparse_1_1Action.html#a4781fb010370e3a9f8a39b0f51b2414c',1,'basis.argparse.Action.type()'],['../namespacebasisproject.html#a652dd054d80096445ca3951dd9d3e4b9',1,'basisproject.type()']]]
+  ['type',['type',['../classbasis_1_1argparse_1_1Action.html#a4781fb010370e3a9f8a39b0f51b2414c',1,'basis::argparse::Action']]]
 ];

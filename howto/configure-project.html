@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -73,11 +73,11 @@ tricks, and tools to modify and configure your project.</p>
 <p>The key file for any project is the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisProject_8cmake.html">BasisProject.cmake</a> file which
 can be found in the root directory of each project or module if the project
 is a subproject of another. It sets basic information about a project such as
-its name, version, and dependencies. Therefore it calls the <span>basis_project()</span>
+its name, version, and dependencies. Therefore it calls the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>
 command which provides several parameters for setting these project attributes.</p>
 <div class="section" id="dependencies">
 <h4>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h4>
-<p>Dependencies specified as arguments of the <span>basis_project()</span> command
+<p>Dependencies specified as arguments of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command
 also support  more advanced selection of specific version and package components.
 If some components of an external package are optional while others are required,
 multiple dependency declarations to the same package can be used which will
@@ -96,15 +96,15 @@ only differ in the list of package components.</p>
 <p class="last">The components can be separated by whitespace characters such as
 spaces, tabs, and newlines. In this case, the dependency declaration
 has to be enclosed in double quotes such that it is treated by
-CMake as a single argument of the <tt class="docutils literal"><span class="pre">basis_project</span></tt> command.</p>
+CMake as a single argument of the <code class="docutils literal"><span class="pre">basis_project</span></code> command.</p>
 </div>
-<p>In the example below, <tt class="docutils literal"><span class="pre">ITK-4{IOKernel}</span></tt> therefore is a dependency on the
-external <tt class="docutils literal"><span class="pre">ITK</span></tt> package, in particular version 4 or above and only the <tt class="docutils literal"><span class="pre">IOKernel</span></tt>
+<p>In the example below, <code class="docutils literal"><span class="pre">ITK-4{IOKernel}</span></code> therefore is a dependency on the
+external <code class="docutils literal"><span class="pre">ITK</span></code> package, in particular version 4 or above and only the <code class="docutils literal"><span class="pre">IOKernel</span></code>
 component is required. You can also be more specific regarding the version
-using a dependency declaration such as <tt class="docutils literal"><span class="pre">ITK-4.2</span></tt> or <tt class="docutils literal"><span class="pre">ITK-3.18.0</span></tt>. Whether
+using a dependency declaration such as <code class="docutils literal"><span class="pre">ITK-4.2</span></code> or <code class="docutils literal"><span class="pre">ITK-3.18.0</span></code>. Whether
 or not an external dependency meets the version requirements is determined
 by CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:find_package">find_package</a> command. See the CMake documentation of this command
-for more details, where the <tt class="docutils literal"><span class="pre">VERSION</span></tt> and <tt class="docutils literal"><span class="pre">COMPONENTS</span></tt> options
+for more details, where the <code class="docutils literal"><span class="pre">VERSION</span></code> and <code class="docutils literal"><span class="pre">COMPONENTS</span></code> options
 directly relate to the respective parts of the BASIS dependency declaration.</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_project</span><span class="p">(</span>
   <span class="c"># [...]</span>
@@ -134,18 +134,18 @@ have one of its own modules as dependency. The modules themselves, however,
 can and usually will depend on other modules of the same top-level project.
 If the module should also be able to exist as a standalone project or as
 part of other top-level projects, the dependency declaration should refer to
-another module as <tt class="docutils literal"><span class="pre">PackageName{OtherModule}</span></tt> instead of just <tt class="docutils literal"><span class="pre">OtherModule</span></tt>,
-where <tt class="docutils literal"><span class="pre">PackageName</span></tt> is the name of the top-level project which provides
+another module as <code class="docutils literal"><span class="pre">PackageName{OtherModule}</span></code> instead of just <code class="docutils literal"><span class="pre">OtherModule</span></code>,
+where <code class="docutils literal"><span class="pre">PackageName</span></code> is the name of the top-level project which provides
 the other module, i.e., which defines the root namespace that the modules
 belong to.</p>
 </div>
 </div>
 <div class="section" id="settings-cmake">
 <h3><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/Settings_8cmake.html">Settings.cmake</a><a class="headerlink" href="#settings-cmake" title="Permalink to this headline">¶</a></h3>
-<p>Besides the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file, the <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file
+<p>Besides the <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file, the <code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file
 contains the second most important project build configuration settings of
 a BASIS project. It is not required, but will be present in many projects.
-It is included by the root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> of a typical BASIS project
+It is included by the root <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code> of a typical BASIS project
 after the project meta-data is defined, information about the project modules
 has been collected, and the default BASIS settings were set. It is used by
 projects to override these default settings and to add additional project
@@ -153,16 +153,16 @@ specific CMake options to the cache, e.g., using CMake&#8217;s <a class="referen
 Another use case of this file is to set global project build settings such
 as common include directories or library paths which have not automatically
 been set by BASIS. In particular if an external dependency&#8217;s CMake configuration
-or <tt class="docutils literal"><span class="pre">FindPackage.cmake</span></tt> module set some non-standard CMake variables,
-a project can make use of these in the <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file.
+or <code class="docutils literal"><span class="pre">FindPackage.cmake</span></code> module set some non-standard CMake variables,
+a project can make use of these in the <code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file.
 An example of such settings are compiler and linker flags. If you want
 to add certain compiler flags or override the defaults, then do so
-in the <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file. It should be noted that
+in the <code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file. It should be noted that
 some BASIS settings cannot be overridden using this file if the BASIS
 standard does not allow so. But most settings can be overridden using this file.</p>
 <p>For example if you want to enable all compiler warnings for your project
 and consider them moreover as errors, you would add the following to the
-<tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file:</p>
+<code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_COMPILER_IS_GNU_CXX</span><span class="p">)</span>
   <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-Wall</span> <span class="s">-Werror</span><span class="p">)</span>
 <span class="nb">endif</span><span class="p">()</span>
@@ -174,22 +174,22 @@ and consider them moreover as errors, you would add the following to the
 <p>This build configuration file is for advanced use only in cases where the
 generic resolution of external dependencies used by BASIS fails due to
 an incompatible external package. In other words, if you need to call
-<span>basis_find_package</span> or even CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:find_package">find_package</a> directly to
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a> or even CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:find_package">find_package</a> directly to
 find a particular external dependency, add the needed commands to the
 <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/Depends_8cmake.html">Depends.cmake</a> file. One use case would be if a package or the corresponding
-<tt class="docutils literal"><span class="pre">FindPackage.cmake</span></tt> module, respectively, requires certain
-CMake variables to be set prior to the <tt class="docutils literal"><span class="pre">find_package</span></tt> call. In such
-case, set these variables in <tt class="docutils literal"><span class="pre">config/Depends.cmake</span></tt> and specify the
-dependency as usual in the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file. If this approach
+<code class="docutils literal"><span class="pre">FindPackage.cmake</span></code> module, respectively, requires certain
+CMake variables to be set prior to the <code class="docutils literal"><span class="pre">find_package</span></code> call. In such
+case, set these variables in <code class="docutils literal"><span class="pre">config/Depends.cmake</span></code> and specify the
+dependency as usual in the <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file. If this approach
 is still not feasible for the particular package, add any code needed to
-find the dependency to <tt class="docutils literal"><span class="pre">config/Depends.cmake</span></tt> and remove the dependency
-declaration from <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> such that BASIS is not itself
+find the dependency to <code class="docutils literal"><span class="pre">config/Depends.cmake</span></code> and remove the dependency
+declaration from <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> such that BASIS is not itself
 attempting to resolve the dependency automatically. This should only
 be needed and used in rare cases where the external dependency is not
 following the usual CMake guidelines. Often such situation is better
-resolved by providing a suitable <tt class="docutils literal"><span class="pre">FindPackage.cmake</span></tt> module for the
+resolved by providing a suitable <code class="docutils literal"><span class="pre">FindPackage.cmake</span></code> module for the
 external dependency. This module can then be added to BASIS,
-or put in the <tt class="docutils literal"><span class="pre">config/</span></tt> directory of the project.
+or put in the <code class="docutils literal"><span class="pre">config/</span></code> directory of the project.
 If you have a CMake module to contribute to BASIS,
 we encourage you to <a class="reference external" href="https://github.com/schuhschuh/cmake-basis/issues">open an issue</a>
 with a patch attached or to send a pull request on
@@ -197,29 +197,29 @@ with a patch attached or to send a pull request on
 </div>
 <div class="section" id="config-cmake-in">
 <h3><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BASISConfig_8cmake.html">Config.cmake.in</a><a class="headerlink" href="#config-cmake-in" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">Config.cmake.in</span></tt> file is the template for the so-called CMake package
+<p>The <code class="docutils literal"><span class="pre">Config.cmake.in</span></code> file is the template for the so-called CMake package
 configuration file which is generated by BASIS at the end of the build
-system configuration. The generated file will be named <tt class="docutils literal"><span class="pre">PackageConfig.cmake</span></tt>,
-where <tt class="docutils literal"><span class="pre">Package</span></tt> is the name of the top-level project, and contain
+system configuration. The generated file will be named <code class="docutils literal"><span class="pre">PackageConfig.cmake</span></code>,
+where <code class="docutils literal"><span class="pre">Package</span></code> is the name of the top-level project, and contain
 information about the installation, the exported library targets, and
 possibly compiler options that were used to build the project. CMake&#8217;s
 <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:find_package">find_package</a> command searches for this file when looking
-for the package named <tt class="docutils literal"><span class="pre">Package</span></tt> and includes it to import the build
+for the package named <code class="docutils literal"><span class="pre">Package</span></code> and includes it to import the build
 and installation settings. Besides the typical attributes of the build
 and installation which are written automatically by BASIS to the
-<tt class="docutils literal"><span class="pre">PackageConfig.cmake</span></tt> file, additional custom project settings
-can be added using the <tt class="docutils literal"><span class="pre">config/Config.cmake.in</span></tt> file, along with a
-file named <tt class="docutils literal"><span class="pre">config/ConfigSettings.cmake</span></tt> which sets the CMake
-variables that are used in the <tt class="docutils literal"><span class="pre">Config.cmake.in</span></tt> template.</p>
+<code class="docutils literal"><span class="pre">PackageConfig.cmake</span></code> file, additional custom project settings
+can be added using the <code class="docutils literal"><span class="pre">config/Config.cmake.in</span></code> file, along with a
+file named <code class="docutils literal"><span class="pre">config/ConfigSettings.cmake</span></code> which sets the CMake
+variables that are used in the <code class="docutils literal"><span class="pre">Config.cmake.in</span></code> template.</p>
 </div>
 <div class="section" id="version-cmake-in">
 <h3><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BASISConfigVersion_8cmake.html">Version.cmake.in</a><a class="headerlink" href="#version-cmake-in" title="Permalink to this headline">¶</a></h3>
-<p>This file is the template for the <tt class="docutils literal"><span class="pre">PackageConfigVersion.cmake</span></tt> file which
+<p>This file is the template for the <code class="docutils literal"><span class="pre">PackageConfigVersion.cmake</span></code> file which
 is examined by CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:find_package">find_package</a> command in order to determine
-whether the found package with the package configuration in <tt class="docutils literal"><span class="pre">PackageConfig.cmake</span></tt>
+whether the found package with the package configuration in <code class="docutils literal"><span class="pre">PackageConfig.cmake</span></code>
 meets the requested version requirements.
 The default file written by BASIS contains the following CMake code which
-is suitable for most projects. Otherwise, add a custom <tt class="docutils literal"><span class="pre">config/Version.cmake.in</span></tt>
+is suitable for most projects. Otherwise, add a custom <code class="docutils literal"><span class="pre">config/Version.cmake.in</span></code>
 template file to your project and it will be used instead.</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="c"># Package version as specified in BasisProject.cmake file</span>
 <span class="nb">set</span> <span class="p">(</span><span class="s">PACKAGE_VERSION</span> <span class="s2">&quot;@PROJECT_VERSION@&quot;</span><span class="p">)</span>
@@ -241,34 +241,34 @@ template file to your project and it will be used instead.</p>
 <h3><a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/ScriptConfig_8cmake.html">ScriptConfig.cmake.in</a><a class="headerlink" href="#scriptconfig-cmake-in" title="Permalink to this headline">¶</a></h3>
 <p>The so-called script configuration file sets CMake variables which can be
 used in scripted executables or libraries (i.e., modules). The respective
-build targets are added via <tt class="docutils literal"><span class="pre">basis_add_executable</span></tt> or <tt class="docutils literal"><span class="pre">basis_add_library</span></tt>.
+build targets are added via <code class="docutils literal"><span class="pre">basis_add_executable</span></code> or <code class="docutils literal"><span class="pre">basis_add_library</span></code>.
 See the <a class="reference internal" href="../standard/scripttargets.html"><em>Build of Script Targets</em></a> standard for details, in particular
-the section about the <a class="reference internal" href="../standard/scripttargets.html#scriptconfig"><em>Script Configuration</em></a>.</p>
+the section about the <a class="reference internal" href="../standard/scripttargets.html#scriptconfig"><span>Script Configuration</span></a>.</p>
 </div>
 <div class="section" id="package-cmake-and-components-cmake">
 <h3>Package.cmake and Components.cmake<a class="headerlink" href="#package-cmake-and-components-cmake" title="Permalink to this headline">¶</a></h3>
 <p>The configuration of <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html">CPack</a> for the generation of installers or other
 distribution packages, such as source code or binary packages, is done by
-the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a> module. This module includes the <tt class="docutils literal"><span class="pre">config/Package.cmake</span></tt>
+the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisPack_8cmake.html">BasisPack.cmake</a> module. This module includes the <code class="docutils literal"><span class="pre">config/Package.cmake</span></code>
 file after the <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#section_VariablescommontoallCPackgenerators">CPack variables</a> have been set to the BASIS defaults if it exists.</p>
 <p>The default configuration is derived from the project information as specified in the
-<tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file. As the <tt class="docutils literal"><span class="pre">config/Package.cmake</span></tt> file is included before
+<code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file. As the <code class="docutils literal"><span class="pre">config/Package.cmake</span></code> file is included before
 the CPack module, it can be used to override the default CPack configuration.
 For example, additional exclude patterns can be added to
-<tt class="docutils literal"><span class="pre">CPACK_SOURCE_IGNORE_FILES</span></tt> to exclude additional files from the source code
+<code class="docutils literal"><span class="pre">CPACK_SOURCE_IGNORE_FILES</span></code> to exclude additional files from the source code
 distribution package. Another example would be to change the type of installers
 that should be generated by CPack by selecting the preferred <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#section_Generators">CPack generators</a>.
 The default generator chosen by BASIS is the <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#gen:TGZ">TGZ generator</a>.</p>
 <p>To define any package components for installers which support the installation
-of selected components, you can use the <span>basis_add_component</span>,
-<span>basis_add_component_group</span>, <span>basis_add_install_type</span>,
-and <span>basis_configure_downloads</span> commands.
-The respective CPack commands used by these <tt class="docutils literal"><span class="pre">basis_</span></tt> counterparts are defined
-by the <tt class="docutils literal"><span class="pre">CPack.cmake</span></tt> module which is included, however, after the <tt class="docutils literal"><span class="pre">config/Package.cmake</span></tt>
+of selected components, you can use the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gaced9a5e1170a437f4cb9dfe3290eec30">basis_add_component()</a>,
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga1cdc08431ecf20ec14574274d720f6cc">basis_add_component_group()</a>, <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gaeeb3f3537fee2c9758a0ca061010a9f3">basis_add_install_type()</a>,
+and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga49e6cfe6432bc2ce57095f1bdf82a815">basis_configure_downloads()</a> commands.
+The respective CPack commands used by these <code class="docutils literal"><span class="pre">basis_</span></code> counterparts are defined
+by the <code class="docutils literal"><span class="pre">CPack.cmake</span></code> module which is included, however, after the <code class="docutils literal"><span class="pre">config/Package.cmake</span></code>
 file as required by CPack.
 Therefore, the BasisPack module considers another project configuration file named
-<tt class="docutils literal"><span class="pre">config/Components.cmake</span></tt>. This optional file should contain any custom installation
-component definitions using aforementioned <tt class="docutils literal"><span class="pre">basis_add_</span></tt> commands.</p>
+<code class="docutils literal"><span class="pre">config/Components.cmake</span></code>. This optional file should contain any custom installation
+component definitions using aforementioned <code class="docutils literal"><span class="pre">basis_add_</span></code> commands.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last"><a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#command:cpack_add_component">cpack_add_component</a>, <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#command:cpack_add_component_group">cpack_add_component_group</a>, <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#command:cpack_add_install_type">cpack_add_install_type</a>, <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cpack.html#command:cpack_configure_downloads">cpack_configure_downloads</a></p>
@@ -280,19 +280,19 @@ component definitions using aforementioned <tt class="docutils literal"><span cl
 <div class="section" id="public-interface">
 <h3>Public Interface<a class="headerlink" href="#public-interface" title="Permalink to this headline">¶</a></h3>
 <p>Header files are considered part of the public interface of a project, if they
-are placed in any of the directories specified using the <tt class="docutils literal"><span class="pre">INCLUDE_DIRS</span></tt> parameter
-of the <span>basis_project()</span> command, which by default is the <tt class="docutils literal"><span class="pre">include</span></tt> directory
+are placed in any of the directories specified using the <code class="docutils literal"><span class="pre">INCLUDE_DIRS</span></code> parameter
+of the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command, which by default is the <code class="docutils literal"><span class="pre">include</span></code> directory
 of the project source tree. Using the recommended project layout, public header files
 have to be put in</p>
 <ul class="simple">
-<li><a class="reference internal" href="../standard/modules.html#toplevelprojectdefinition"><em>Top Level Project</em></a>: <tt class="docutils literal"><span class="pre">include/&lt;package&gt;/</span></tt></li>
-<li><a class="reference internal" href="../standard/modules.html#projectmoduledefinition"><em>Project Module</em></a>  : <tt class="docutils literal"><span class="pre">&lt;module&gt;/include/&lt;package&gt;/</span></tt></li>
-<li><a class="reference internal" href="../standard/modules.html#subprojectdefinition"><em>Subproject</em></a>     : <tt class="docutils literal"><span class="pre">&lt;subproject&gt;/include/&lt;package&gt;/&lt;subproject&gt;/</span></tt></li>
+<li><a class="reference internal" href="../standard/modules.html#toplevelprojectdefinition"><span>Top Level Project</span></a>: <code class="docutils literal"><span class="pre">include/&lt;package&gt;/</span></code></li>
+<li><a class="reference internal" href="../standard/modules.html#projectmoduledefinition"><span>Project Module</span></a>  : <code class="docutils literal"><span class="pre">&lt;module&gt;/include/&lt;package&gt;/</span></code></li>
+<li><a class="reference internal" href="../standard/modules.html#subprojectdefinition"><span>Subproject</span></a>     : <code class="docutils literal"><span class="pre">&lt;subproject&gt;/include/&lt;package&gt;/&lt;subproject&gt;/</span></code></li>
 </ul>
 <p>Notice the subdirectories inside the include directory that help prevent the collision
-of header file names across packages and subprojects. Here, <tt class="docutils literal"><span class="pre">&lt;package&gt;</span></tt> is usually
+of header file names across packages and subprojects. Here, <code class="docutils literal"><span class="pre">&lt;package&gt;</span></code> is usually
 the name of the top-level project which in case of a module or subproject is the
-argument of the <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt> (or short <tt class="docutils literal"><span class="pre">PACKAGE</span></tt>) parameter of <span>basis_project()</span>.</p>
+argument of the <code class="docutils literal"><span class="pre">PACKAGE_NAME</span></code> (or short <code class="docutils literal"><span class="pre">PACKAGE</span></code>) parameter of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>In most cases, the package name of the module is identical to the project/package name of
@@ -303,8 +303,8 @@ a submodule feature of the used version control system, the module is considered
 corresponds to the (package) name of the top-level project. Even though the source
 tree of the top-level project includes the module source tree directly,
 external modules should still be considered part of an external package, i.e.,
-the one named by the <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt> of the respective module.</p>
-<p class="last">Note that a top-level project whose name is specified as <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt> of a module
+the one named by the <code class="docutils literal"><span class="pre">PACKAGE_NAME</span></code> of the respective module.</p>
+<p class="last">Note that a top-level project whose name is specified as <code class="docutils literal"><span class="pre">PACKAGE_NAME</span></code> of a module
 does not have to exist. The package name serves rather as <em>namespace</em> for the module.
 All symbols of a software project belong to this (package) namespace. It should be
 emphasized that the concept of a <em>namespace</em> can be extended to all aspects of a
@@ -318,12 +318,12 @@ modules, target names, C++ classes and functions, as well as scripted libraries.
 <p>Header files which are located in a source code directory can be included in a source
 file without the need for a subdirectory structure such as the one used for public header
 files. These files are not automatically installed as they are assumed to be only used
-by <tt class="docutils literal"><span class="pre">.cpp</span></tt> modules which are eventually linked to an executable binary.</p>
-<p>Private header files are generally located next to the <tt class="docutils literal"><span class="pre">.cpp</span></tt> files that include them.
-They can be included using paths relative to the location of the <tt class="docutils literal"><span class="pre">.cpp</span></tt> module using
-the <tt class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;header.h&quot;</span></tt> preprocessor directive. Alternatively, private header files
+by <code class="docutils literal"><span class="pre">.cpp</span></code> modules which are eventually linked to an executable binary.</p>
+<p>Private header files are generally located next to the <code class="docutils literal"><span class="pre">.cpp</span></code> files that include them.
+They can be included using paths relative to the location of the <code class="docutils literal"><span class="pre">.cpp</span></code> module using
+the <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;header.h&quot;</span></code> preprocessor directive. Alternatively, private header files
 can be included relative to a directory which is listed in the search path for header
-files using the syntax <tt class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;header.h&gt;</span></tt> which is also used for public header files.</p>
+files using the syntax <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;header.h&gt;</span></code> which is also used for public header files.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Header files which are included by other public header files or contain public
@@ -334,14 +334,14 @@ of the include directories.</p>
 </div>
 <div class="section" id="search-path">
 <h3>Search Path<a class="headerlink" href="#search-path" title="Permalink to this headline">¶</a></h3>
-<p>All directories which are given as arguments of either the <tt class="docutils literal"><span class="pre">INCLUDE_DIRS</span></tt>
-or the <tt class="docutils literal"><span class="pre">CODE_DIRS</span></tt> parameter of <span>basis_project()</span> are automatically
-added to the include search path using the <tt class="docutils literal"><span class="pre">BEFORE</span></tt> option of CMake&#8217;s
-<tt class="docutils literal"><span class="pre">include_directories</span></tt> command to ensure that the header files of the
+<p>All directories which are given as arguments of either the <code class="docutils literal"><span class="pre">INCLUDE_DIRS</span></code>
+or the <code class="docutils literal"><span class="pre">CODE_DIRS</span></code> parameter of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> are automatically
+added to the include search path using the <code class="docutils literal"><span class="pre">BEFORE</span></code> option of CMake&#8217;s
+<code class="docutils literal"><span class="pre">include_directories</span></code> command to ensure that the header files of the
 current project are preferred by the preprocessor.</p>
-<p>Additional include paths can be added using the <span>basis_include_directories()</span>
-command. This can be done either in the <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> of the respective
-source code subtree or in the <tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file (recommended).</p>
+<p>Additional include paths can be added using the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gaca67363ae5fdb53a2160d74585e2d257">basis_include_directories()</a>
+command. This can be done either in the <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code> of the respective
+source code subtree or in the <code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file (recommended).</p>
 </div>
 </div>
 <div class="section" id="custom-layout">
@@ -350,22 +350,22 @@ source code subtree or in the <tt class="docutils literal"><span class="pre">con
 <p class="first admonition-title">Note</p>
 <p class="last">Using a custom project layout is not recommended.</p>
 </div>
-<p>The <a class="reference internal" href="../standard/fhs.html#sourcecodetree"><em>BASIS layout</em></a> has been battle tested and is based
+<p>The <a class="reference internal" href="../standard/fhs.html#sourcecodetree"><span>BASIS layout</span></a> has been battle tested and is based
 on standards. It is both reusable and cross-platform with a design that prevents subtle incompatibilities
 and assumptions that we have encountered with other layouts. Through experience
 and standardization we settled on the recommended layout which we believe should
 be effective for most use cases.</p>
 <p>Nonetheless, we understand that requirements and existing code cannot always
 accomodate the standard layout, so it is possible to customize the layout.
-Therefore, the <span>basis_project()</span> command provides several options
+Therefore, the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a> command provides several options
 to change the default directories and add additional custom include and source
 code directories to be considered by BASIS during the build system configuration.</p>
 <p>For example, a project may contain source code of a common static library in the
-<tt class="docutils literal"><span class="pre">Common</span></tt> subdirectory, image processing related library code in <tt class="docutils literal"><span class="pre">ImageProcessing</span></tt>,
-and implementations of executables in <tt class="docutils literal"><span class="pre">Tools</span></tt>, while the documentation is located
-in the subdirectory named <tt class="docutils literal"><span class="pre">Documentation</span></tt> and any CMake BASIS configuration files
-in <tt class="docutils literal"><span class="pre">Configuration</span></tt>. The <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file of this project could contain
-the following <tt class="docutils literal"><span class="pre">basis_project()</span></tt> call:</p>
+<code class="docutils literal"><span class="pre">Common</span></code> subdirectory, image processing related library code in <code class="docutils literal"><span class="pre">ImageProcessing</span></code>,
+and implementations of executables in <code class="docutils literal"><span class="pre">Tools</span></code>, while the documentation is located
+in the subdirectory named <code class="docutils literal"><span class="pre">Documentation</span></code> and any CMake BASIS configuration files
+in <code class="docutils literal"><span class="pre">Configuration</span></code>. The <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file of this project could contain
+the following <code class="docutils literal"><span class="pre">basis_project()</span></code> call:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_project</span><span class="p">(</span>
   <span class="s">NAME</span>        <span class="s">CustomLayoutProject</span>
   <span class="s">DESCRIPTION</span> <span class="s2">&quot;A project which demonstrates the use of a custom source tree layout.&quot;</span>
@@ -377,11 +377,11 @@ the following <tt class="docutils literal"><span class="pre">basis_project()</sp
 </pre></div>
 </div>
 <p>Another example for customization is given below for a top-level project which
-contains different subprojects named <tt class="docutils literal"><span class="pre">ModulaA</span></tt>, <tt class="docutils literal"><span class="pre">ModuleB</span></tt>, and <tt class="docutils literal"><span class="pre">ModuleC</span></tt>.
-By default, BASIS would look for these modules in the <tt class="docutils literal"><span class="pre">modules</span></tt> directory.
-This can be changed using either of the following <tt class="docutils literal"><span class="pre">basis_project</span></tt> commands,
+contains different subprojects named <code class="docutils literal"><span class="pre">ModulaA</span></code>, <code class="docutils literal"><span class="pre">ModuleB</span></code>, and <code class="docutils literal"><span class="pre">ModuleC</span></code>.
+By default, BASIS would look for these modules in the <code class="docutils literal"><span class="pre">modules</span></code> directory.
+This can be changed using either of the following <code class="docutils literal"><span class="pre">basis_project</span></code> commands,
 where in the first case it is assumed that all modules are located in
-a common subdirectory named <tt class="docutils literal"><span class="pre">Components</span></tt>:</p>
+a common subdirectory named <code class="docutils literal"><span class="pre">Components</span></code>:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_project</span><span class="p">(</span>
   <span class="s">NAME</span>        <span class="s">TopLevelProjectWithCustomModulesDirectory</span>
   <span class="s">DESCRIPTION</span> <span class="s2">&quot;A project which demonstrates the use of a custom modules directory.&quot;</span>
@@ -405,7 +405,7 @@ where external components are compiled separately.</p>
 building BASIS itself if it is not installed on the system, as well as any other
 external library that is specified as dependency of the project.</p>
 <p>The default project template of BASIS implements a superbuild of BASIS itself.
-This process is referred to as <a class="reference internal" href="#bootstrapping"><em>Bootstrapping BASIS</em></a> and
+This process is referred to as <a class="reference internal" href="#bootstrapping"><span>Bootstrapping BASIS</span></a> and
 detailed below. A superbuild of other dependencies requires a custom superbuild script.
 A possible implementation of such superbuild is summarized below as well,
 including a working example.</p>
@@ -416,16 +416,16 @@ and Visual Studio, because the commands you select may only account for the plat
 you are using with the side effect of breaking others.</p>
 <div class="section" id="bootstrapping-basis">
 <span id="bootstrapping"></span><h3>Bootstrapping BASIS<a class="headerlink" href="#bootstrapping-basis" title="Permalink to this headline">¶</a></h3>
-<p>The bootstrapping of BASIS is implemented by the default <tt class="docutils literal"><span class="pre">basis</span></tt> template since version 1.1,
+<p>The bootstrapping of BASIS is implemented by the default <code class="docutils literal"><span class="pre">basis</span></code> template since version 1.1,
 which is included in BASIS since version 3.1. It is the recommended superbuild approach
 to automate the build of BASIS. Because BASIS is downloaded and build right away during the
 build system configuration, no separate <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#module:ExternalProject">ExternalProject</a> target is required for BASIS.</p>
-<p>The <a class="reference internal" href="use-and-customize-templates.html#availabletemplates"><em>basis project template</em></a> includes a <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html">BasisBootstrapping.cmake</a>
+<p>The <a class="reference internal" href="use-and-customize-templates.html#availabletemplates"><span>basis project template</span></a> includes a <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html">BasisBootstrapping.cmake</a>
 module which is included by the root CMakeLists.txt file. This module contains the definition of the
-<span>basis_bootstrap</span> function which downloads, configures, and builds BASIS during the
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html#a1f34dd89a36448adbe1cb991db18c45b">basis_bootstrap()</a> function which downloads, configures, and builds BASIS during the
 configuration of the project. It is called by the default root CMake configuration only if no
 BASIS installation was found on the system.</p>
-<p>The <span>basis_bootstrap</span> function accepts arguments which define the configuration for the
+<p>The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html#a1f34dd89a36448adbe1cb991db18c45b">basis_bootstrap()</a> function accepts arguments which define the configuration for the
 bootstrapped BASIS build. This BASIS configuration should be such that all features of
 BASIS that are required to build the software project are enabled
 (incl. any required documentation generation support). Unused BASIS features should be disabled
@@ -435,17 +435,17 @@ further only be used by this project. Users who wish a single BASIS installation
 packages should download and install BASIS manually.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <span>basis_bootstrap</span> function will only build BASIS in the build tree of
+<p class="last">The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html#a1f34dd89a36448adbe1cb991db18c45b">basis_bootstrap()</a> function will only build BASIS in the build tree of
 the project and use this build directly without installation. An installation
 of BASIS is required, however, if any of the project&#8217;s executable or library
 targets make use of the BASIS Utilities.
-In this case, the <tt class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></tt> must be set by the user to specify an
+In this case, the <code class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></code> must be set by the user to specify an
 installation prefix for the bootstrapped BASIS installation. This installation
-prefix should be either set to the <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> or a subdirectory
+prefix should be either set to the <code class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> or a subdirectory
 within it as this installation should only be used by the software it was built for.</p>
 </div>
-<p>The following excerpt from the root CMakeLists.txt of the <a class="reference internal" href="use-and-customize-templates.html#availabletemplates"><em>basis project template</em></a>
-demonstrates the use of <span>basis_bootstrap</span>:</p>
+<p>The following excerpt from the root CMakeLists.txt of the <a class="reference internal" href="use-and-customize-templates.html#availabletemplates"><span>basis project template</span></a>
+demonstrates the use of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html#a1f34dd89a36448adbe1cb991db18c45b">basis_bootstrap()</a>:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="c"># look for an existing CMake BASIS installation and use it if found</span>
 <span class="nb">find_package</span> <span class="p">(</span><span class="s">BASIS</span> <span class="s">QUIET</span><span class="p">)</span>
 
@@ -474,18 +474,18 @@ demonstrates the use of <span>basis_bootstrap</span>:</p>
 <span class="nb">endif</span> <span class="p">()</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">INFORM_USER</span></tt> option causes <span>basis_bootstrap</span> to display an error message during
+<p>The <code class="docutils literal"><span class="pre">INFORM_USER</span></code> option causes <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisBootstrapping_8cmake.html#a1f34dd89a36448adbe1cb991db18c45b">basis_bootstrap()</a> to display an error message during
 the very first configure step of CMake to inform the user that the CMake BASIS package is
 required to configure and build the software. It further gives users a chance to edit the
-<tt class="docutils literal"><span class="pre">BASIS_DIR</span></tt> path in the CMake GUI to use an existing BASIS installation.</p>
+<code class="docutils literal"><span class="pre">BASIS_DIR</span></code> path in the CMake GUI to use an existing BASIS installation.</p>
 <div class="admonition attention">
 <p class="first admonition-title">Attention</p>
-<p class="last">Do not set the <tt class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></tt> automatically in the root CMakeLists.txt
-of your project, unless the <tt class="docutils literal"><span class="pre">INFORM_USER</span></tt> option of <tt class="docutils literal"><span class="pre">basis_bootstrap</span></tt> is used.
-Any change of the <tt class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></tt> will install BASIS in the new location
+<p class="last">Do not set the <code class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></code> automatically in the root CMakeLists.txt
+of your project, unless the <code class="docutils literal"><span class="pre">INFORM_USER</span></code> option of <code class="docutils literal"><span class="pre">basis_bootstrap</span></code> is used.
+Any change of the <code class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></code> will install BASIS in the new location
 during the next configure run. The user would then possibly end up with (multiple)
-obsolete BASIS installations. The <tt class="docutils literal"><span class="pre">INFORM_USER</span></tt> option gives users at least a
-chance to edit the <tt class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></tt>. They must do so, however, before
+obsolete BASIS installations. The <code class="docutils literal"><span class="pre">INFORM_USER</span></code> option gives users at least a
+chance to edit the <code class="docutils literal"><span class="pre">BASIS_INSTALL_PREFIX</span></code>. They must do so, however, before
 another configure run to avoid multiple installations.</p>
 </div>
 </div>
@@ -498,14 +498,14 @@ This last external project will depend on all the other external projects.</p>
 to use the <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#module:ExternalProject">ExternalProject</a> module of CMake to implement a superbuild. As BASIS will be bootstrapped
 and available already when the external projects of the dependencies are added, no nested superbuild
 is required in this case. Thus, skip the first section of the example superbuild script
-(the one which adds the external project <tt class="docutils literal"><span class="pre">basis</span></tt>) and set <tt class="docutils literal"><span class="pre">BUNDLE_EXTERNAL_PROJECTS</span></tt> to <tt class="docutils literal"><span class="pre">OFF</span></tt>.
+(the one which adds the external project <code class="docutils literal"><span class="pre">basis</span></code>) and set <code class="docutils literal"><span class="pre">BUNDLE_EXTERNAL_PROJECTS</span></code> to <code class="docutils literal"><span class="pre">OFF</span></code>.
 In fact, we suggest to only copy those lines from the nested superbuild example script,
 which are relevant for the non-nested superbuild. The CMake code required for this will be
 less complex and contain considerably fewer lines of code.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">One goal of future BASIS releases will be to automate this proecess such that most
-common dependencies declared in the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file are automatically
+common dependencies declared in the <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file are automatically
 downloaded and build if no existing installation was found and the superbuild is
 enabled for this dependency. Additonal custom superbuild scripts for individual external
 packages would enable the superbuild of non-standard packages which are not yet
@@ -515,18 +515,18 @@ supported by BASIS out-of-the-box as well.</p>
 <div class="section" id="nested-superbuild-of-basis-and-other-dependencies">
 <span id="nestedsuperbuild"></span><h3>Nested Superbuild of BASIS and other Dependencies<a class="headerlink" href="#nested-superbuild-of-basis-and-other-dependencies" title="Permalink to this headline">¶</a></h3>
 <p>The second alternative uses CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#module:ExternalProject">ExternalProject</a> module and a nested super-build approach.
-This approach has been applied first for the superbuild of the <a class="reference external" href="http://www.rad.upenn.edu/sbia/software/dramms/download.html">DRAMMS</a> software package
+This approach has been applied first for the superbuild of the <a class="reference external" href="http://www.cbica.upenn.edu/sbia/software/dramms/download.html">DRAMMS</a> software package
 with an older version of BASIS. If no BASIS installation is found, an external project
 for BASIS is added, which downloads and installs BASIS. A second external project,
-named <tt class="docutils literal"><span class="pre">bundle</span></tt> is used to build all the other dependencies, including the software
+named <code class="docutils literal"><span class="pre">bundle</span></code> is used to build all the other dependencies, including the software
 project itself. This second external project recursively uses the same CMake configuration
-file, but this time with a valid <tt class="docutils literal"><span class="pre">BASIS_DIR</span></tt>. It adds for each package to be build
+file, but this time with a valid <code class="docutils literal"><span class="pre">BASIS_DIR</span></code>. It adds for each package to be build
 after BASIS an external project. Note that these external projects are build targets
-of the <tt class="docutils literal"><span class="pre">bundle</span></tt> target which itself is an external project. Therefore this approach
+of the <code class="docutils literal"><span class="pre">bundle</span></code> target which itself is an external project. Therefore this approach
 is referred to as <em>nested</em> superbuild. All build configurations of the various packages
 which are build by the superbuild have to be specified in the CMakeLists.txt which
 implements this superbuild. Any options and variables which a user should be able to
-modify must be passed to the respective <tt class="docutils literal"><span class="pre">ExternalProject_Add</span></tt> command in this script.</p>
+modify must be passed to the respective <code class="docutils literal"><span class="pre">ExternalProject_Add</span></code> command in this script.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="admonition seealso">
@@ -543,7 +543,7 @@ modify must be passed to the respective <tt class="docutils literal"><span class
 and provide continuous integration testing.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="run-automated-tests.html#howtointegratecdash"><em>CDash Integration</em></a> for more detailed information.</p>
+<p class="last"><a class="reference internal" href="run-automated-tests.html#howtointegratecdash"><span>CDash Integration</span></a> for more detailed information.</p>
 </div>
 </div>
 <div class="section" id="code-coverage">
@@ -553,11 +553,11 @@ to a <a class="reference external" href="http://www.cdash.org/">CDash</a> server
 The analysis of the gcov (or Bullseye) output and its conversion to the XML
 format used by CDash is done by the <a class="reference external" href="http://cmake.org/cmake/help/v2.8.12/ctest.html#command:ctest_coverage">ctest_coverage</a> CTest command.
 The information needed by CTest for the upload is read from a configuration
-file named <tt class="docutils literal"><span class="pre">CTestConfig.cmake</span></tt> which must be located in the top-level directory of the project.
+file named <code class="docutils literal"><span class="pre">CTestConfig.cmake</span></code> which must be located in the top-level directory of the project.
 To get a visual report without a CDash server, the command-line tool
 <a class="reference external" href="http://ltp.sourceforge.net/coverage/lcov.php">lcov</a> can be used to transform the gcov output into an HTML page.</p>
 <p>The relevant compiler options when using the GNU Compiler Collection (GCC) are
-added by the <tt class="docutils literal"><span class="pre">basistest.ctest</span></tt> script when the coverage option is passed in, i.e.,</p>
+added by the <code class="docutils literal"><span class="pre">basistest.ctest</span></code> script when the coverage option is passed in, i.e.,</p>
 <div class="highlight-bash"><div class="highlight"><pre>ctest -S basistest.ctest,coverage
 </pre></div>
 </div>
@@ -574,13 +574,13 @@ added by the <tt class="docutils literal"><span class="pre">basistest.ctest</spa
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="prefix">
 <h3>Prefix<a class="headerlink" href="#prefix" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> is initialized by BASIS based on the platform
+<p>The <code class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> is initialized by BASIS based on the platform
 which the build is configured on and the package vendor ID, i.e., the argument
-of the <tt class="docutils literal"><span class="pre">PACKAGE_VENDOR</span></tt> (short <tt class="docutils literal"><span class="pre">VENDOR</span></tt>) parameter of <span>basis_project()</span>.
+of the <code class="docutils literal"><span class="pre">PACKAGE_VENDOR</span></code> (short <code class="docutils literal"><span class="pre">VENDOR</span></code>) parameter of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>.
 This package vendor ID is usually set to a combination of package provider
 and division or an acronym which the respective division is known by.</p>
 <p>This default installation prefix can be overriden by the project in the
-<tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file. It can also be modified at any time from
+<code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file. It can also be modified at any time from
 the command line, i.e.,</p>
 <div class="highlight-bash"><div class="highlight"><pre>cmake -DCMAKE_INSTALL_PREFIX:PATH<span class="o">=</span>/path/to/installation /path/to/code
 </pre></div>
@@ -588,7 +588,7 @@ the command line, i.e.,</p>
 </div>
 <div class="section" id="rpath">
 <h3>RPATH<a class="headerlink" href="#rpath" title="Permalink to this headline">¶</a></h3>
-<p>By default, BASIS sets the <tt class="docutils literal"><span class="pre">INSTALL_RPATH</span></tt> property of executables and shared libraries
+<p>By default, BASIS sets the <code class="docutils literal"><span class="pre">INSTALL_RPATH</span></code> property of executables and shared libraries
 based on the dependencies of the target. For each shared library which the binary is linked
 to and belongs to the same project (or package bundle), a path relative to the location
 of the binary is added to the RPATH of the installed binary. To figure out all the
@@ -596,11 +596,11 @@ dependencies of a build target, BASIS has to perform a depth search on the depen
 graph which is rather costly. Therefore, this feature can be disabled if desired either
 for performance reasons or because it is preferred that CMake sets the RPATH. There
 are two CMake variables which decide whether the RPATH is set by BASIS. The first is
-the advanced option <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_RPATH"><em class="xref std std-option">-DBASIS_INSTALL_RPATH</em></a> which can be set during the
-configuration of the build system to <tt class="docutils literal"><span class="pre">OFF</span></tt>
+the advanced option <a class="reference internal" href="cmake-options.html#cmdoption-DBASIS_INSTALL_RPATH"><code class="xref std std-option docutils literal"><span class="pre">-DBASIS_INSTALL_RPATH</span></code></a> which can be set during the
+configuration of the build system to <code class="docutils literal"><span class="pre">OFF</span></code>
 (or better before, i.e., on the command-line to avoid the unnecessarily longer configuration time).
 If the feature should always be disabled, add the following line to the
-<tt class="docutils literal"><span class="pre">config/Settings.cmake</span></tt> file of the project.</p>
+<code class="docutils literal"><span class="pre">config/Settings.cmake</span></code> file of the project.</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">set</span> <span class="p">(</span><span class="s">CMAKE_SKIP_RPATH</span> <span class="s">TRUE</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -683,8 +683,8 @@ If the feature should always be disabled, add the following line to the
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

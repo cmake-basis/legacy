@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -65,12 +65,13 @@ stemming from the use of relative or absolute file paths when calling
 executables. It also introduce a name mapping from build target names
 to actual executable file paths. These calling conventions are handled
 through automatically generated utility functions for each supported
-programming language. See <a class="reference internal" href="#callingconventionsimpl"><em>Implementation</em></a> for details on the
+programming language. See <a class="reference internal" href="#callingconventionsimpl"><span>Implementation</span></a> for details on the
 specific implementations in each language.</p>
 <div class="section" id="purpose">
 <h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
 <p>One nice feature about using the target name instead of the actual executable file allows a developer of project B to call executables of project A using the (&#8220;full qualified&#8221;) target names, e.g.,</p>
-<div class="highlight-cmake"><pre>execute(“projecta.utility”);</pre>
+<div class="highlight-cmake"><div class="highlight"><pre>execute(“projecta.utility”);
+</pre></div>
 </div>
 <p>This target has been imported from the export file during CMake configuration and the BASIS execute function will map this target name to the installed executable of project A. The developer of project A can rename the executable or change the installation location as they wish. They only need to keep the internal target name.</p>
 <p>The file name of executable scripts, for example, will be different on Unix and Windows. On Unix, we don’t use file name extensions and instead rely on the <a class="reference external" href="http://en.wikipedia.org/wiki/Shebang_(Unix)">hashbang/shebang #!</a> directive such that script executables look and are used just like binary executables. On Windows, any executable script (i.e., only Python or Perl at the moment) is wrapped into a Windows Command file with the .cmd file name extension. This file contains a few lines additional Windows Command code to invoke the script interpreter with the very same file. The Windows Command code is just a comment to the Python/Perl interpreter which will ignore it.</p>
@@ -78,7 +79,7 @@ specific implementations in each language.</p>
 <div class="section" id="relative-vs-absolute-paths">
 <span id="relvsabsexecpath"></span><h2>Relative vs. Absolute Paths<a class="headerlink" href="#relative-vs-absolute-paths" title="Permalink to this headline">¶</a></h2>
 <p>Relative paths such as only the executable file name require a proper setting
-of the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable. If more than one version of a particular
+of the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable. If more than one version of a particular
 software package should be installed or in case of name conflicts with other
 packages, this is not trivial and it may not be guaranteed that the correct
 executable is executed. Absolute executable file paths, on the other side,
@@ -86,18 +87,18 @@ restrict the relocatability and thus distribution of pre-build binary packages.
 Therefore, BASIS proposes and implements the following convention on how
 absolute paths of (auxiliary) executables are determined at runtime by taking
 the absolute path of the directory of the calling executable into consideration.</p>
-<p>Main executables in the <tt class="docutils literal"><span class="pre">bin/</span></tt> directory call utility executables relative
-to their own location. For example, a <a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a> script called <tt class="docutils literal"><span class="pre">main</span></tt> that executes
-a utility script <tt class="docutils literal"><span class="pre">util</span></tt> in the <tt class="docutils literal"><span class="pre">lib/</span></tt> directory would do so as demonstrated
-in the following example code (for details on the <tt class="docutils literal"><span class="pre">&#64;VAR&#64;</span></tt> patterns, please refer
+<p>Main executables in the <code class="docutils literal"><span class="pre">bin/</span></code> directory call utility executables relative
+to their own location. For example, a <a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a> script called <code class="docutils literal"><span class="pre">main</span></code> that executes
+a utility script <code class="docutils literal"><span class="pre">util</span></code> in the <code class="docutils literal"><span class="pre">lib/</span></code> directory would do so as demonstrated
+in the following example code (for details on the <code class="docutils literal"><span class="pre">&#64;VAR&#64;</span></code> patterns, please refer
 to the <a class="reference internal" href="scripttargets.html"><em>Build of Script Targets</em></a> page):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># among others, defines the get_executable_directory() function</span>
-. <span class="k">${</span><span class="nv">BASIS_Bash_UTILITIES</span><span class="k">}</span> <span class="o">||</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">&quot;Failed to import BASIS utilities!&quot;</span> 1&gt;&amp;2; <span class="nb">exit </span>1; <span class="o">}</span>
+. <span class="si">${</span><span class="nv">BASIS_Bash_UTILITIES</span><span class="si">}</span> <span class="o">||</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">&quot;Failed to import BASIS utilities!&quot;</span> 1&gt;<span class="p">&amp;</span>2<span class="p">;</span> <span class="nb">exit </span>1<span class="p">;</span> <span class="o">}</span>
 <span class="c"># get absolute directory path of auxiliary executable</span>
 exedir _EXEC_DIR <span class="o">&amp;&amp;</span> <span class="nb">readonly </span>_EXEC_DIR
-<span class="nv">_LIBEXEC_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">_EXEC_DIR</span><span class="k">}</span>/@LIBEXEC_DIR@
+<span class="nv">_LIBEXEC_DIR</span><span class="o">=</span><span class="si">${</span><span class="nv">_EXEC_DIR</span><span class="si">}</span>/@LIBEXEC_DIR@
 <span class="c"># call utility executable in libexec directory</span>
-<span class="k">${</span><span class="nv">_LIBEXEC_DIR</span><span class="k">}</span>/util
+<span class="si">${</span><span class="nv">_LIBEXEC_DIR</span><span class="si">}</span>/util
 </pre></div>
 </div>
 <p>where <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisScriptConfig.html#gab41b55712c871a1c6ef0407894d58958">LIBEXEC_DIR</a> is set in the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/BasisScriptConfig_8cmake.html">BasisScriptConfig.cmake</a> configuration file
@@ -114,7 +115,7 @@ tree or not and uses the appropriate path depending on this.</p>
 <p>If an executable in one directory wants to execute another executable in the same
 directory, it can simply do so as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># call other main executable</span>
-<span class="k">${</span><span class="nv">_EXEC_DIR</span><span class="k">}</span>/othermain
+<span class="si">${</span><span class="nv">_EXEC_DIR</span><span class="si">}</span>/othermain
 </pre></div>
 </div>
 </div>
@@ -146,31 +147,31 @@ considerations, the solution aimed at by BASIS is detailed.</p>
 <div class="section" id="unix">
 <span id="unixsearchpaths"></span><h3>Unix<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h3>
 <p>On Unix-based systems (including in particular all variants of Linux and
-Mac OS) executables are searched in directories specified by the <tt class="docutils literal"><span class="pre">PATH</span></tt>
+Mac OS) executables are searched in directories specified by the <code class="docutils literal"><span class="pre">PATH</span></code>
 environment variable. Shared libraries, on the other side, are first
-searched in the directories specified by the <tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> environment
-variable, then in the directories given by the <tt class="docutils literal"><span class="pre">RPATH</span></tt> which is set within
+searched in the directories specified by the <code class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></code> environment
+variable, then in the directories given by the <code class="docutils literal"><span class="pre">RPATH</span></code> which is set within
 the binary files at compile time, and last the directories specified in
-the <tt class="docutils literal"><span class="pre">/etc/ld.so.conf</span></tt> system configuration file.</p>
+the <code class="docutils literal"><span class="pre">/etc/ld.so.conf</span></code> system configuration file.</p>
 <p>The most flexible method which can also easily be applied by a user is
-setting the <tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> environment variable. It is, however, not always
+setting the <code class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></code> environment variable. It is, however, not always
 trivial or possible to set this search path in a way such that all used and
 installed software works correctly. There are many discussions on why this
 method of setting the search path is considered evil among the Unix community
 (see for example <a class="reference external" href="http://xahlee.org/UnixResource_dir/_/ldpath.html">here</a>).
-The second option of setting the <tt class="docutils literal"><span class="pre">RPATH</span></tt> seems to be the
+The second option of setting the <code class="docutils literal"><span class="pre">RPATH</span></code> seems to be the
 most secure way to set the search path at compile time. This, however, only
 for shared libraries which are distributed and installed with the software
-because only in this case can we make use of the <tt class="docutils literal"><span class="pre">$ORIGIN</span></tt> variable in the
+because only in this case can we make use of the <code class="docutils literal"><span class="pre">$ORIGIN</span></code> variable in the
 search path to make it relative to the location of the binary file.
 Otherwise, it is either required that the software is being compiled
 directly on the target system or the paths to the used shared libraries
 on the target system must match the paths of the system on which the
-executable was built. Hence, using the <tt class="docutils literal"><span class="pre">RPATH</span></tt> can complicate or restrict
+executable was built. Hence, using the <code class="docutils literal"><span class="pre">RPATH</span></code> can complicate or restrict
 the relocatability of a software. Furthermore, unfortunately is the
-<tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> considered before the <tt class="docutils literal"><span class="pre">RPATH</span></tt> and hence any user setting
-of the <tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> can still lead to the loading of the wrong shared
-library. The system configuration <tt class="docutils literal"><span class="pre">/etc/ld.so.conf</span></tt> is not an option for
+<code class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></code> considered before the <code class="docutils literal"><span class="pre">RPATH</span></code> and hence any user setting
+of the <code class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></code> can still lead to the loading of the wrong shared
+library. The system configuration <code class="docutils literal"><span class="pre">/etc/ld.so.conf</span></code> is not an option for
 setting the search paths for each individual software. This search path
 should only be set to a limited number of standard system search paths
 as changes affect all users. Furthermore, directories on network drives
@@ -184,9 +185,9 @@ same software package are called by the full absolute path and hence no
 search path needs to be considered. To guarantee that shared libraries
 installed as part of the software package are considered first, the
 directory to which these libraries where installed is prepended to the
-<tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> prior to the execution of any other executable.
-Furthermore, the <tt class="docutils literal"><span class="pre">RPATH</span></tt> of binary executable files is set using the
-<tt class="docutils literal"><span class="pre">$ORIGIN</span></tt> variable to the installation directory of the package&#8217;s
+<code class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></code> prior to the execution of any other executable.
+Furthermore, the <code class="docutils literal"><span class="pre">RPATH</span></code> of binary executable files is set using the
+<code class="docutils literal"><span class="pre">$ORIGIN</span></code> variable to the installation directory of the package&#8217;s
 shared libraries. This ensures that also for the execution of the main
 executable, the package&#8217;s own shared libraries are considered first. To not
 restrict the administrator of the target system on where other external
@@ -212,14 +213,14 @@ will be included in the bundle.</p>
 <div class="section" id="windows">
 <span id="windowssearchpaths"></span><h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>On Windows systems, executable files are first searched in the current
-working directory. Then, the directories specified by the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment
+working directory. Then, the directories specified by the <code class="docutils literal"><span class="pre">PATH</span></code> environment
 variable are considered as search path for executable files where the extensions
-<tt class="docutils literal"><span class="pre">.exe</span></tt>, <tt class="docutils literal"><span class="pre">.com</span></tt>, <tt class="docutils literal"><span class="pre">.bat</span></tt>, and <tt class="docutils literal"><span class="pre">.cmd</span></tt> are considered by default and need not be
+<code class="docutils literal"><span class="pre">.exe</span></code>, <code class="docutils literal"><span class="pre">.com</span></code>, <code class="docutils literal"><span class="pre">.bat</span></code>, and <code class="docutils literal"><span class="pre">.cmd</span></code> are considered by default and need not be
 included in the name of the executable that is to be executed. Shared libraries,
 on the other side, are first searched in the directory where the using module
 is located, then in the current working directory, the Windows system directory
-(e.g., <tt class="docutils literal"><span class="pre">C:\WINDOWS\system32\</span></tt>), and then the Windows installation directory
-(e.g., <tt class="docutils literal"><span class="pre">C:\WINDOWS</span></tt>). Finally, the directories specified by the <tt class="docutils literal"><span class="pre">PATH</span></tt>
+(e.g., <code class="docutils literal"><span class="pre">C:\WINDOWS\system32\</span></code>), and then the Windows installation directory
+(e.g., <code class="docutils literal"><span class="pre">C:\WINDOWS</span></code>). Finally, the directories specified by the <code class="docutils literal"><span class="pre">PATH</span></code>
 environment variable are searched for the shared libraries.</p>
 <p>As described in the previous sections, executables which are part of the
 software package are called by the full absolute path and hence no search path
@@ -232,7 +233,7 @@ considered by the operating system before any other shared libraries.</p>
 <span id="callingconventionsimpl"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 <p>In the following the implementation of the calling conventions in each supported
 programming language is summarized.</p>
-<p>Note that the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisUtilities.html">BASIS Utilities</a> provide an <tt class="docutils literal"><span class="pre">execute()</span></tt> function for each
+<p>Note that the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__BasisUtilities.html">BASIS Utilities</a> provide an <code class="docutils literal"><span class="pre">execute()</span></code> function for each
 of these languages which accepts either an executable file path or
 a build target name as first argument of the command-line to execute.</p>
 <div class="section" id="c">
@@ -251,10 +252,10 @@ the whose documentation is linked here is the one generated for BASIS itself.</p
 function which accepts either an actual executable file
 path or a build target name as first argument of the command-line to execute.
 This function shall be used in C++ code as a substitution for the commonly
-used <a class="reference external" href="http://www.cplusplus.com/reference/clibrary/cstdlib/system/">system()</a> function on Unix. The advantage of <tt class="docutils literal"><span class="pre">execute()</span></tt> is further,
+used <a class="reference external" href="http://www.cplusplus.com/reference/clibrary/cstdlib/system/">system()</a> function on Unix. The advantage of <code class="docutils literal"><span class="pre">execute()</span></code> is further,
 that it is implemented for all operating systems which are supported by BASIS,
-i.e., Linux, Mac OS, and Windows. The declaration of the <tt class="docutils literal"><span class="pre">execute()</span></tt>
-function can be found in the <tt class="docutils literal"><span class="pre">basis.h</span></tt> header file. Note that this file is unique
+i.e., Linux, Mac OS, and Windows. The declaration of the <code class="docutils literal"><span class="pre">execute()</span></code>
+function can be found in the <code class="docutils literal"><span class="pre">basis.h</span></code> header file. Note that this file is unique
 to each BASIS project.</p>
 </div>
 <div class="section" id="java">
@@ -299,9 +300,9 @@ build targets for the absolute file path of the corresponding executables.
 The target names can then be simply used as aliases for the actual executables.
 The initialization of the aliases is, however, at the moment expensive and delays
 the load time of the executable which sources the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/basis_8sh.html">basis.sh</a> module. Note further
-that this approach requires the option <tt class="docutils literal"><span class="pre">expand_aliases</span></tt> to be set via
-<tt class="docutils literal"><span class="pre">shopt</span> <span class="pre">-s</span> <span class="pre">expand_aliases</span></tt> which is done by the <tt class="docutils literal"><span class="pre">basis.sh</span></tt> module if aliases
-were enabled. A <tt class="docutils literal"><span class="pre">shopt</span> <span class="pre">-u</span> <span class="pre">expand_aliases</span></tt> disables the expansion of aliases and
+that this approach requires the option <code class="docutils literal"><span class="pre">expand_aliases</span></code> to be set via
+<code class="docutils literal"><span class="pre">shopt</span> <span class="pre">-s</span> <span class="pre">expand_aliases</span></code> which is done by the <code class="docutils literal"><span class="pre">basis.sh</span></code> module if aliases
+were enabled. A <code class="docutils literal"><span class="pre">shopt</span> <span class="pre">-u</span> <span class="pre">expand_aliases</span></code> disables the expansion of aliases and
 hence should not be used in Bash scripts which execute other executables using
 the aliases defined by <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/basis_8sh.html">basis.sh</a>.</p>
 </div>
@@ -317,7 +318,7 @@ may be added in future releases of BASIS.</p>
 <span id="matlabcallingconventionsimpl"></span><h3>MATLAB<a class="headerlink" href="#matlab" title="Permalink to this headline">¶</a></h3>
 <p>Visit <a class="reference external" href="http://www.mathworks.com/help/techdoc/matlab_external/bp_kqh7.html">this MathWorks page</a>
 for a documentation of external interfaces <a class="reference external" href="http://www.mathworks.com/">MathWorks</a> provides for the development
-of applications in <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a>. An implementation of the <tt class="docutils literal"><span class="pre">execute()</span></tt> function in
+of applications in <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a>. An implementation of the <code class="docutils literal"><span class="pre">execute()</span></code> function in
 MATLAB is yet not provided by BASIS.</p>
 </div>
 </div>
@@ -389,8 +390,8 @@ MATLAB is yet not provided by BASIS.</p>
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

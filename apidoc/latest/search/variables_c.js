@@ -9,11 +9,9 @@ var searchData=
   ['library_5fdir',['LIBRARY_DIR',['../group__BasisScriptConfig.html#ga177c90c2875c7ac1d8e59c6ac254d5e6',1,'BasisScriptConfig.cmake']]],
   ['library_5fdir_5fconfig',['LIBRARY_DIR_CONFIG',['../BasisConfigSettings_8cmake.html#a50335c9e4fa0f0c7b44e75eb2f899646',1,'BasisConfigSettings.cmake']]],
   ['library_5fdir_5fsuffix',['LIBRARY_DIR_SUFFIX',['../group__BasisScriptConfig.html#gab96dae495b58701f2dc2a3b5a6fc036f',1,'BasisScriptConfig.cmake']]],
-  ['license',['LICENSE',['../group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b',1,'basis::LICENSE()'],['../group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b',1,'LICENSE():&#160;Basis.pm'],['../group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b',1,'LICENSE():&#160;utilities.sh'],['../group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b',1,'LICENSE():&#160;Utilities.pm'],['../group__BasisPerlUtilities.html#gaa502d77fd54d4fcc54b4a9bb419d779b',1,'basis.utilities.LICENSE()']]],
+  ['license',['LICENSE',['../namespacebasis.html#a401f70ed9eb6cb36595fac0656b7827d',1,'basis::LICENSE()'],['../utilities_8sh.html#a7469f1c8c49af83d6552e7e8f47fa368',1,'LICENSE():&#160;utilities.sh'],['../namespacebasis_1_1utilities.html#aa8a2f6e15b1b2d8b104575e63973c654',1,'basis.utilities.LICENSE()']]],
   ['licensetag',['licenseTag',['../namespaceupdatefile.html#a13f8711aeb1ad1ce87a7a41e1db027c2',1,'updatefile']]],
-  ['line',['line',['../namespacedoxyfilter-perl.html#a82431360757b456272687b1b3a040df8',1,'doxyfilter-perl.line()'],['../Constants_8pm.html#ac2a4e29fd0e21e0a1480e0facf06b61f',1,'LINE():&#160;Constants.pm']]],
   ['link_5fdir',['LINK_DIR',['../MatlabTools_8cmake.html#ac0bbfbd3d9f551b9f2c3219eaaed8585',1,'MatlabTools.cmake']]],
   ['link_5flib',['LINK_LIB',['../MatlabTools_8cmake.html#a25e003cc8cfe78f55490b8aafe4f3703',1,'MatlabTools.cmake']]],
-  ['lm',['LM',['../FindBLAS_8cmake.html#af4c7484f270e1ccdf385cb6ceb90413e',1,'FindBLAS.cmake']]],
-  ['lparen',['LPAREN',['../Constants_8pm.html#aac6099b67405fbd2b3176e37a4fefbe0',1,'Constants.pm']]]
+  ['lm',['LM',['../FindBLAS_8cmake.html#af4c7484f270e1ccdf385cb6ceb90413e',1,'FindBLAS.cmake']]]
 ];

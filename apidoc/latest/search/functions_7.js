@@ -1,12 +1,8 @@
 var searchData=
 [
   ['get_5fbaseline_5ffilenames',['get_baseline_filenames',['../testdriver_8h.html#a285eb51de4b95d5aef69723ee0f0b105',1,'get_baseline_filenames(string filename_template):&#160;testdriver.h'],['../testdriver_8hxx.html#a285eb51de4b95d5aef69723ee0f0b105',1,'get_baseline_filenames(string filename_template):&#160;testdriver.hxx']]],
-  ['get_5fconfig_5foptions',['get_config_options',['../namespacebasisproject.html#a0e37c7616c4c92dc91f63acc8a4477ce',1,'basisproject']]],
-  ['get_5fdefault',['get_default',['../classbasis_1_1argparse_1_1__ActionsContainer.html#a28a43f8666ee94d4b4339d5d8d677449',1,'basis::argparse::_ActionsContainer']]],
+  ['get_5fdefault',['get_default',['../classbasis_1_1argparse_1_1__ActionsContainer.html#a360f35ab724900c1cb16584825545245',1,'basis::argparse::_ActionsContainer']]],
   ['get_5ffilename_5fcomponent',['get_filename_component',['../group__CMakeUtilities.html#ga134f4cc8ad4d1adf82219a53a95fccc4',1,'CommonTools.cmake']]],
-  ['get_5foriginal_5ftemplate',['get_original_template',['../namespacebasisproject.html#a2ce1b81f5ce15eb49bc8a4236c97db1c',1,'basisproject']]],
-  ['get_5fproject_5fname',['get_project_name',['../namespacebasisproject.html#af4b13de1e81e02b603842174d9c40dcb',1,'basisproject']]],
-  ['get_5ftemplate',['get_template',['../namespacebasisproject.html#a56cb043b8f79ce355e22162e4f72c604',1,'basisproject']]],
   ['get_5fterminal_5fcolumns',['get_terminal_columns',['../group__BasisCxxUtilities.html#gab3267cb5952d8f14b98d88404b289e2e',1,'basis']]],
   ['get_5fterminal_5flines',['get_terminal_lines',['../group__BasisCxxUtilities.html#ga8476530e9ce64c523d3d8278b396050f',1,'basis']]],
   ['get_5fterminal_5fsize',['get_terminal_size',['../group__BasisCxxUtilities.html#ga4872238184e0fe6835c7c4d057e53f97',1,'basis']]],

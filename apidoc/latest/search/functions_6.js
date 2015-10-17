@@ -23,8 +23,8 @@ var searchData=
   ['flags_5freset',['flags_reset',['../shflags_8sh.html#aacbd126099033ddd3d582a96c7586acb',1,'shflags.sh']]],
   ['flags_5fusage',['flags_usage',['../shflags_8sh.html#a14e9470bc5abe96fb01c513472a4c546',1,'shflags.sh']]],
   ['flags_5fversion',['flags_version',['../shflags_8sh.html#a711c5c9d68f344281e9a725f058cb9c9',1,'shflags.sh']]],
-  ['format_5fhelp',['format_help',['../classbasis_1_1argparse_1_1HelpFormatter_1_1__Section.html#ab24537e5263da6f6b863a41c6af851d9',1,'basis.argparse.HelpFormatter._Section.format_help()'],['../classbasis_1_1argparse_1_1HelpFormatter.html#a56f3a8da72d7b76dade2f2b511481c0b',1,'basis.argparse.HelpFormatter.format_help()'],['../classbasis_1_1argparse_1_1ArgumentParser.html#aa20e175f8ae8b99cc8c1990f68a767a3',1,'basis.argparse.ArgumentParser.format_help()']]],
-  ['format_5fusage',['format_usage',['../classbasis_1_1argparse_1_1ArgumentParser.html#a37a4dbc7f17d03de6640260886f65720',1,'basis::argparse::ArgumentParser']]],
-  ['format_5fversion',['format_version',['../classbasis_1_1argparse_1_1ArgumentParser.html#a6486261d9375324ae77a723046df1b7b',1,'basis::argparse::ArgumentParser']]],
+  ['format_5fhelp',['format_help',['../classbasis_1_1argparse_1_1HelpFormatter_1_1__Section.html#af8b4272660d19602bb2fecbfedbd97ac',1,'basis.argparse.HelpFormatter._Section.format_help()'],['../classbasis_1_1argparse_1_1HelpFormatter.html#a8363a2ea8f4047eeac656f1ec6465ca7',1,'basis.argparse.HelpFormatter.format_help()'],['../classbasis_1_1argparse_1_1ArgumentParser.html#a30fa20e1ed983cdf4bd2e78b50df57cf',1,'basis.argparse.ArgumentParser.format_help()']]],
+  ['format_5fusage',['format_usage',['../classbasis_1_1argparse_1_1ArgumentParser.html#a4741056faf650e22b5553961e6565225',1,'basis::argparse::ArgumentParser']]],
+  ['format_5fversion',['format_version',['../classbasis_1_1argparse_1_1ArgumentParser.html#a6b75eff800415e5841f970515df37b4c',1,'basis::argparse::ArgumentParser']]],
   ['full_5foutput',['full_output',['../testdriver_8h.html#a80cc8aa7b708dcadb32c4822b2015d2d',1,'testdriver.h']]]
 ];

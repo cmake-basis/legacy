@@ -1,14 +1,13 @@
 var searchData=
 [
   ['non_2dcmake_20utilities',['Non-CMake Utilities',['../group__CMakeHelpers.html',1,'']]],
-  ['name',['name',['../namespacedoxyfilter-perl.html#ab2995f7a2dae89eda2c4df5417ef18ed',1,'doxyfilter-perl.name()'],['../group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a',1,'NAME():&#160;BasisScriptConfig.cmake']]],
+  ['name',['NAME',['../group__BasisScriptConfig.html#gafc5e96d1c2d1d202f3ce2ab00236b19a',1,'BasisScriptConfig.cmake']]],
   ['name_5fl',['NAME_L',['../group__BasisScriptConfig.html#ga6336377488cd0884f514bacea1f2e93d',1,'BasisScriptConfig.cmake']]],
   ['name_5fu',['NAME_U',['../group__BasisScriptConfig.html#ga6f5572f4e3fd8d2ff91623029b563594',1,'BasisScriptConfig.cmake']]],
   ['namespace',['Namespace',['../classbasis_1_1argparse_1_1Namespace.html',1,'basis::argparse']]],
   ['nargs',['nargs',['../classbasis_1_1argparse_1_1Action.html#a0bbbcc4e29ebac721478197307817f75',1,'basis::argparse::Action']]],
   ['negativevalueconstraint',['NegativeValueConstraint',['../classbasis_1_1NegativeValueConstraint.html',1,'basis']]],
   ['negativevalueconstraint',['NegativeValueConstraint',['../classbasis_1_1NegativeValueConstraint.html#a8c37efd52d3998de4016f1077391d26a',1,'basis::NegativeValueConstraint']]],
-  ['new',['new',['../Bash_8pm.html#abcb00bc585b8e86f973a3c35929bc020',1,'new():&#160;Bash.pm'],['../CMake_8pm.html#abcb00bc585b8e86f973a3c35929bc020',1,'new():&#160;CMake.pm'],['../Python_8pm.html#abcb00bc585b8e86f973a3c35929bc020',1,'new():&#160;Python.pm'],['../DoxyFilter_8pm.html#abcb00bc585b8e86f973a3c35929bc020',1,'new():&#160;DoxyFilter.pm']]],
   ['nifticlib_5fdir',['NiftiCLib_DIR',['../FindNiftiCLib_8cmake.html#a0a5b0b607f79664d2e3354b0d1c6995c',1,'FindNiftiCLib.cmake']]],
   ['nifticlib_5ffound',['NiftiCLib_FOUND',['../FindNiftiCLib_8cmake.html#adf036a0b5b5a8ffbfaa150e724a721fd',1,'FindNiftiCLib.cmake']]],
   ['nifticlib_5finclude_5fdirs',['NiftiCLib_INCLUDE_DIRS',['../FindNiftiCLib_8cmake.html#abd277b747d96c1fecbe3589383c79d7b',1,'FindNiftiCLib.cmake']]],

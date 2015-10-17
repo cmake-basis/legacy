@@ -1,10 +1,8 @@
 var searchData=
 [
   ['shared_5fbuild',['SHARED_BUILD',['../basistest_8ctest.html#a23d08196356ec71e338d57acad81a0ce',1,'basistest.ctest']]],
-  ['shared_5fparser',['shared_parser',['../namespacebasisproject.html#ade9ff6745b2d65dc929e8de52d13b7f3',1,'basisproject']]],
   ['shared_5fsource',['SHARED_SOURCE',['../basistest_8ctest.html#a6bc54f53eea9f1a636cfb94b75cb33ac',1,'basistest.ctest']]],
   ['shtap_5fversion',['SHTAP_VERSION',['../shtap_8sh.html#abb0a9c60d74a9d08f8de72e114b86ebd',1,'shtap.sh']]],
-  ['some_5fkey',['SOME_KEY',['../Readonly_8pm.html#a1ef0697628730fa9f86dcc6e2c685c72',1,'Readonly.pm']]],
   ['sources',['SOURCES',['../glob_8cmake.html#a8744f08ab87757e4c20c5aa81317fd41',1,'glob.cmake']]],
   ['sparsebayes_5finclude_5fdir',['SparseBayes_INCLUDE_DIR',['../FindSparseBayes_8cmake.html#a1ebecb4c03bae32f9d1650e8646c3fb8',1,'FindSparseBayes.cmake']]],
   ['sphinx_5fdir',['Sphinx_DIR',['../FindSphinx_8cmake.html#a408af6d4d74d614c7357d3cf95add383',1,'FindSphinx.cmake']]],
@@ -18,8 +16,6 @@ var searchData=
   ['stderr',['STDERR',['../ExecuteProcess_8cmake.html#ab20831986da2690b9228f9e59561ca8a',1,'ExecuteProcess.cmake']]],
   ['stdout',['STDOUT',['../ExecuteProcess_8cmake.html#afbc6e2c2a315e6ff9bad63c531d5397d',1,'ExecuteProcess.cmake']]],
   ['submit_5fresults',['SUBMIT_RESULTS',['../basistest_8ctest.html#af1de7b4006916ad74d82e108cec15842',1,'basistest.ctest']]],
-  ['subparsers',['subparsers',['../namespacebasisproject.html#a1f677e9129602bdfc1630f9618b9ce2b',1,'basisproject']]],
-  ['subparsers_5factions',['subparsers_actions',['../namespacebasisproject.html#adb43c2aa8e2af909c0b44a7479e45390',1,'basisproject']]],
   ['suffix',['SUFFIX',['../FindOpenCV_8cmake.html#acdc2529c9ddea507e16ee548f570488a',1,'FindOpenCV.cmake']]],
   ['suppress',['SUPPRESS',['../namespacebasis_1_1argparse.html#a8cc70314b1c52dc1427aa6df9d6d7f60',1,'basis::argparse']]],
   ['svmtorch_5fdir',['SVMTorch_DIR',['../FindSVMTorch_8cmake.html#af998dd58f3407bb5753643fce7895045',1,'FindSVMTorch.cmake']]],

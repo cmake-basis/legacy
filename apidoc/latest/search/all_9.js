@@ -11,7 +11,7 @@ var searchData=
   ['head3_2epm',['Head3.pm',['../Head3_8pm.html',1,'']]],
   ['head4_2epm',['Head4.pm',['../Head4_8pm.html',1,'']]],
   ['heading',['heading',['../classbasis_1_1argparse_1_1HelpFormatter_1_1__Section.html#a453d2496baae8f34f7c16c4cc92cd708',1,'basis::argparse::HelpFormatter::_Section']]],
-  ['help',['help',['../classbasis_1_1argparse_1_1Action.html#af6c07ee4d6a4fd3cf972e6d381e3359e',1,'basis.argparse.Action.help()'],['../classget__python__lib_1_1easy__install__default.html#a2d67d30efaa602a6efd19f1f0a40e149',1,'get_python_lib.easy_install_default.help()'],['../namespacebasisproject.html#a4a99f33e3a65262b7c7efc2345286bd0',1,'basisproject.help()'],['../namespaceupdatefile.html#aab871c57dcc6aadc6eb169fa3ab8cbd5',1,'updatefile.help()']]],
+  ['help',['help',['../classbasis_1_1argparse_1_1Action.html#af6c07ee4d6a4fd3cf972e6d381e3359e',1,'basis.argparse.Action.help()'],['../classget__python__lib_1_1easy__install__default.html#a2d67d30efaa602a6efd19f1f0a40e149',1,'get_python_lib.easy_install_default.help()'],['../namespaceupdatefile.html#a44b861b927415f05e7c68f9746a3be60',1,'updatefile.help()']]],
   ['helpformatter',['HelpFormatter',['../classbasis_1_1argparse_1_1HelpFormatter.html',1,'basis::argparse']]],
   ['html_2epm',['HTML.pm',['../HTML_8pm.html',1,'']]],
   ['html_5finstalled',['HTML_INSTALLED',['../DocTools_8cmake.html#a4a33d6b6385339ec8b5360233c90831f',1,'DocTools.cmake']]]

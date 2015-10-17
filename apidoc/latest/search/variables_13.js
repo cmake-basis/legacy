@@ -2,7 +2,6 @@ var searchData=
 [
   ['template',['TEMPLATE',['../GenerateConfig_8cmake.html#a0040f59832079009cf874f34f73c2a6b',1,'GenerateConfig.cmake']]],
   ['template_5fdir_5fconfig',['TEMPLATE_DIR_CONFIG',['../ConfigSettings_8cmake.html#a6bd933eaaed0e10920f77068b37cb198',1,'ConfigSettings.cmake']]],
-  ['template_5fparser',['template_parser',['../namespacebasisproject.html#ae874e0c40e8e2339c509dc9c3b2458ae',1,'basisproject']]],
   ['templatefile',['templateFile',['../namespaceupdatefile.html#acaf1cee8c462de3b4d25a79c2e9a207e',1,'updatefile']]],
   ['test_5ffile',['test_file',['../structRegressionTest.html#a3ba9d984fbab789b91e186099d72e9fe',1,'RegressionTest']]],
   ['test_5flibrary_5fconfig',['TEST_LIBRARY_CONFIG',['../ConfigSettings_8cmake.html#a55d51d36064904b5300dd90f38a46a75',1,'ConfigSettings.cmake']]],
@@ -17,6 +16,7 @@ var searchData=
   ['testing_5fperl_5flibrary_5fdir',['TESTING_PERL_LIBRARY_DIR',['../group__BasisDirectories.html#gaed1a365638b1b25883a6eb91bb6a81e7',1,'Directories.cmake']]],
   ['testing_5fpython_5flibrary_5fdir',['TESTING_PYTHON_LIBRARY_DIR',['../group__BasisDirectories.html#ga2c7b1660a8a3f4854832902c5f6b1f51',1,'Directories.cmake']]],
   ['testing_5fruntime_5fdir',['TESTING_RUNTIME_DIR',['../group__BasisDirectories.html#ga31ad2efddbbabfc434dc242bddf5396d',1,'TESTING_RUNTIME_DIR():&#160;Directories.cmake'],['../DirectoriesSettings_8cmake.html#a31ad2efddbbabfc434dc242bddf5396d',1,'TESTING_RUNTIME_DIR():&#160;DirectoriesSettings.cmake']]],
+  ['text_5ftype',['text_type',['../namespacebasis_1_1utilities.html#a04c46e359276fbc8cea18f65928e592c',1,'basis::utilities']]],
   ['title',['title',['../classbasis_1_1argparse_1_1__ArgumentGroup.html#a3f257fa8487fcc538834bb47d32fbf43',1,'basis::argparse::_ArgumentGroup']]],
   ['tmp',['TMP',['../ExecuteProcess_8cmake.html#a7a0cb2292fa4b19d9207e2efd0833ac9',1,'ExecuteProcess.cmake']]],
   ['tokencustomend',['tokenCustomEnd',['../namespaceupdatefile.html#ae2435161970a2960ee87c6a0cf273ad0',1,'updatefile']]],
@@ -30,7 +30,6 @@ var searchData=
   ['toplevel_5fproject_5fpackage_5fconfig_5fprefix',['TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX',['../group__BasisSettings.html#gaf9178d1334b7788dab09ca77626a9df3',1,'ProjectSettings.cmake']]],
   ['toplevel_5fproject_5fpackage_5fuid',['TOPLEVEL_PROJECT_PACKAGE_UID',['../group__BasisSettings.html#gae093e4f517d06d4252416a3b9720cef7',1,'ProjectSettings.cmake']]],
   ['toplevel_5fproject_5fsource_5fdir',['TOPLEVEL_PROJECT_SOURCE_DIR',['../group__BasisDirectories.html#ga2995d3c4365fb3d4c073936e5be2ae85',1,'TOPLEVEL_PROJECT_SOURCE_DIR():&#160;Directories.cmake'],['../DirectoriesSettings_8cmake.html#a2995d3c4365fb3d4c073936e5be2ae85',1,'TOPLEVEL_PROJECT_SOURCE_DIR():&#160;DirectoriesSettings.cmake']]],
-  ['transitions',['TRANSITIONS',['../Python_8pm.html#a6079dbf045ee7ae49971741a9f01c51d',1,'Python.pm']]],
   ['try',['try',['../testdriver-before-test_8inc.html#abe4cc9788f52e49485473dc699537388',1,'testdriver-before-test.inc']]],
-  ['type',['type',['../classbasis_1_1argparse_1_1Action.html#a4781fb010370e3a9f8a39b0f51b2414c',1,'basis.argparse.Action.type()'],['../namespacebasisproject.html#a652dd054d80096445ca3951dd9d3e4b9',1,'basisproject.type()']]]
+  ['type',['type',['../classbasis_1_1argparse_1_1Action.html#a4781fb010370e3a9f8a39b0f51b2414c',1,'basis::argparse::Action']]]
 ];

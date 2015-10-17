@@ -1,0 +1,13 @@
+digraph "doxyfilter.dir" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_4fa758b3cc2539938ac0fbfc39794c7e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="CMakeFiles" fontname="Helvetica", fontsize="10", URL="dir_4fa758b3cc2539938ac0fbfc39794c7e.html"]
+  subgraph clusterdir_1456f2c6994380e44ee78c7314877d03 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_1456f2c6994380e44ee78c7314877d03.html"];
+    dir_1456f2c6994380e44ee78c7314877d03 [shape=plaintext label="doxyfilter.dir"];
+    dir_261461d4989f150a5c12c59b0c469d50 [shape=box label="build" color="black" fillcolor="white" style="filled" URL="dir_261461d4989f150a5c12c59b0c469d50.html"];
+  }
+  }
+}

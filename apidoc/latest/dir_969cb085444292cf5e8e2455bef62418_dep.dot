@@ -1,0 +1,9 @@
+digraph "build" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_0b172e90828dfcf5ed9fd435b7eb44e2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="basisproject.dir" fontname="Helvetica", fontsize="10", URL="dir_0b172e90828dfcf5ed9fd435b7eb44e2.html"]
+  dir_969cb085444292cf5e8e2455bef62418 [shape=box, label="build", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_969cb085444292cf5e8e2455bef62418.html"];
+  }
+}

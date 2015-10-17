@@ -1,0 +1,28 @@
+digraph "Util.pm"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="Util.pm",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="OptList.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$OptList_8pm.html"];
+  Node2 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Exporter.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Exporter_8pm.html"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Basis.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Basis_8pm.html",tooltip="BASIS utilities of BASIS package."];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="DoxyFilter.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$DoxyFilter_8pm.html",tooltip="Base class for Doxygen filter implementations."];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Which.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Which_8pm.html"];
+  Node6 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Utilities.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Utilities_8pm.html",tooltip="Main module of project-independent BASIS utilities."];
+  Node7 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Readonly.pm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Readonly_8pm.html"];
+  Node8 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

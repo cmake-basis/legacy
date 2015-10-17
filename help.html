@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -58,14 +58,6 @@
   <div class="section" id="getting-help">
 <h1>Getting Help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h1>
 <p>Please report any issues with BASIS, including bug reports, feature requests, or support questions, on <a class="reference external" href="https://github.com/schuhschuh/cmake-basis/issues">GitHub</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">orphan:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
 <div class="section" id="frequently-asked-questions">
 <h2>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="standard-cmake-commands">
@@ -100,18 +92,18 @@ other packages which use BASIS as follows:</p>
 <span class="nb">include</span><span class="p">(</span><span class="o">${</span><span class="nv">BASIS_USE_FILE</span><span class="o">}</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This is done already by the <span>basis_use_package</span> function which in turn
-is called by <span>basis_find_packages</span> for all project dependencies right after
-the respective <span>basis_find_package</span> call. In case of BASIS itself,
-the <tt class="docutils literal"><span class="pre">basis_use_package(BASIS)</span></tt> is called by the <span>basis_project_begin</span> command
-which also calls <span>basis_find_packages</span>.</p>
-<p>Thus, all you need to do is add a call to <span>basis_project_begin</span> to the
+<p>This is done already by the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga176bd65473e5cb933055d56592cc7357">basis_use_package()</a> function which in turn
+is called by <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#ga86649325bef31a56d74a6b3aa57e9c7b">basis_find_packages()</a> for all project dependencies right after
+the respective <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac9a1326ff8b06b17aebbb6b852ca73af">basis_find_package()</a> call. In case of BASIS itself,
+the <code class="docutils literal"><span class="pre">basis_use_package(BASIS)</span></code> is called by the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga2a64dd1aba417c5c92513027ed901bd7">basis_project_begin()</a> command
+which also calls <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#ga86649325bef31a56d74a6b3aa57e9c7b">basis_find_packages()</a>.</p>
+<p>Thus, all you need to do is add a call to <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga2a64dd1aba417c5c92513027ed901bd7">basis_project_begin()</a> to the
 root CMakeLists.txt file of your project. See the root CMakeLists.txt of the default
-<a class="reference internal" href="howto/use-and-customize-templates.html#availabletemplates"><em>project template</em></a> included with BASIS for an example.</p>
+<a class="reference internal" href="howto/use-and-customize-templates.html#availabletemplates"><span>project template</span></a> included with BASIS for an example.</p>
 <p><strong>Is there an easy way for users to get a list of the exported targets in a module?</strong></p>
 <p>No. This should probably be part of the documentation of each respective package/module.
 Generally with CMake, you would have a look at the exports file of a package that
-can usually be found right next to the CMake package configuration file (<tt class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></tt>).</p>
+can usually be found right next to the CMake package configuration file (<code class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></code>).</p>
 <p>Look into the build directory of your BASIS build for an example. There you find the following files:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -125,7 +117,7 @@ can usually be found right next to the CMake package configuration file (<tt cla
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><strong>BASISConfig.cmake</strong></td>
-<td>Package configuration file which is included by CMake&#8217;s <tt class="docutils literal"><span class="pre">find_package</span></tt> command.</td>
+<td>Package configuration file which is included by CMake&#8217;s <code class="docutils literal"><span class="pre">find_package</span></code> command.</td>
 </tr>
 <tr class="row-odd"><td><strong>BASISExports.cmake</strong></td>
 <td>Import statements for exported targets.</td>
@@ -141,29 +133,29 @@ can usually be found right next to the CMake package configuration file (<tt cla
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">These file are generated by BASIS for every project that uses it,
-where <tt class="docutils literal"><span class="pre">BASIS</span></tt> is replaced by package name.</p>
+where <code class="docutils literal"><span class="pre">BASIS</span></code> is replaced by package name.</p>
 </div>
 <p>Note that these files contain the paths to the libraries and executables in the build tree.
 For each of these, BASIS configures also a second version which contains then the paths for
-the installation tree which are all relative to the location of the <tt class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></tt>
+the installation tree which are all relative to the location of the <code class="docutils literal"><span class="pre">&lt;Package&gt;Config.cmake</span></code>
 file and made absolute upon inclusion of these files.</p>
-<p>The export files are generated by the internal CMake function <span>basis_export_targets</span>.
+<p>The export files are generated by the internal CMake function <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeUtilities.html#ga966c3d2d40cf32e3fd0dce2c6929e733">basis_export_targets()</a>.
 This function not only exports the custom targets of a project, but also calls
 CMake&#8217;s <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:export">export</a> and
 <a class="reference external" href="http://www.cmake.org/cmake/help/v2.8.12/cmake.html#command:install">install(EXPORT)</a>
 commands for built-in targets, i.e., C/C++ executables and libraries.
-This happens upon project &#8220;finalization&#8221;, i.e., <span>basis_project_end</span>,
+This happens upon project &#8220;finalization&#8221;, i.e., <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gac399906502062e3885bcf1a00cf623f6">basis_project_end()</a>,
 which must be called at the end of each root CMakeLists.txt, including the CMakeLists.txt
-file in the top-level directory of each <a class="reference internal" href="standard/modules.html#projectmoduledefinition"><em>project module</em></a>.</p>
+file in the top-level directory of each <a class="reference internal" href="standard/modules.html#projectmoduledefinition"><span>project module</span></a>.</p>
 <p>The exported target names are all the &#8220;fully qualified target UIDs&#8221; as used internally
 by BASIS to avoid target name conflicts between packages. The target name specified
-as argument to the <tt class="docutils literal"><span class="pre">basis_add_*</span></tt> target commands is prepended by the name of the package
-(i.e., top-level project name in case of modules, respectively, the <tt class="docutils literal"><span class="pre">PACKAGE_NAME</span></tt>
-specified in the <tt class="docutils literal"><span class="pre">BasisProject.cmake</span></tt> file) and separated by a dot (<tt class="docutils literal"><span class="pre">.</span></tt>).
+as argument to the <code class="docutils literal"><span class="pre">basis_add_*</span></code> target commands is prepended by the name of the package
+(i.e., top-level project name in case of modules, respectively, the <code class="docutils literal"><span class="pre">PACKAGE_NAME</span></code>
+specified in the <code class="docutils literal"><span class="pre">BasisProject.cmake</span></code> file) and separated by a dot (<code class="docutils literal"><span class="pre">.</span></code>).
 For example, the BASIS Utilities library of the CMake BASIS package has the exported
-target name <tt class="docutils literal"><span class="pre">basis.utilities</span></tt>.</p>
+target name <code class="docutils literal"><span class="pre">basis.utilities</span></code>.</p>
 <p>When two modules belong to the same package, the package name prefix of the target
-names can be omitted when calling <span>basis_target_link_libraries</span>, for example.</p>
+names can be omitted when calling <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gab2594b3327126ac531ef4ed806501406">basis_target_link_libraries()</a>, for example.</p>
 </div>
 </div>
 </div>
@@ -226,8 +218,8 @@ names can be omitted when calling <span>basis_target_link_libraries</span>, for 
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

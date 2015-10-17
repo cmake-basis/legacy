@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -59,9 +59,9 @@
             
   <div class="section" id="using-and-customizing-templates">
 <h1>Using and Customizing Templates<a class="headerlink" href="#using-and-customizing-templates" title="Permalink to this headline">¶</a></h1>
-<p>The BASIS Project Templates define how the <tt class="docutils literal"><span class="pre">basisproject</span></tt> utility performs quick project
+<p>The BASIS Project Templates define how the <code class="docutils literal"><span class="pre">basisproject</span></code> utility performs quick project
 setup with mad-libs style text substitution. In other words, the template defines what
-substitution options are available when you run the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command, and what files
+substitution options are available when you run the <code class="docutils literal"><span class="pre">basisproject</span></code> command, and what files
 are created in a new or updated project.</p>
 <div class="section" id="available-templates">
 <span id="availabletemplates"></span><h2>Available Templates<a class="headerlink" href="#available-templates" title="Permalink to this headline">¶</a></h2>
@@ -69,7 +69,7 @@ are created in a new or updated project.</p>
 <colgroup>
 <col width="11%" />
 <col width="10%" />
-<col width="78%" />
+<col width="79%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Name</th>
@@ -87,44 +87,44 @@ To use it simply follow the <a class="reference internal" href="../quickstart.ht
 <tr class="row-odd"><td><a class="reference external" href="https://github.com/schuhschuh/cmake-basis/tree/master/data/templates/sbia">sbia</a></td>
 <td>1.8</td>
 <td>The original template for the
-<a class="reference external" href="http://www.rad.upenn.edu/sbia/">Section of Biomedical Image Analysis (SBIA)</a>
+<a class="reference external" href="http://www.cbica.upenn.edu/sbia/">Section of Biomedical Image Analysis (SBIA)</a>
 of the <a class="reference external" href="http://www.upenn.edu/">University of Pennsylvania</a>. This template
 will only be useful as an example for those that are not a member of this group.</td>
 </tr>
 <tr class="row-even"><td><em>custom</em></td>
 <td>n/a</td>
 <td>You can create your own custom template. For instructions see the
-<a class="reference internal" href="#howtocreateatemplate"><em>Create a Custom Template</em></a> section below.</td>
+<a class="reference internal" href="#howtocreateatemplate"><span>Create a Custom Template</span></a> section below.</td>
 </tr>
 </tbody>
 </table>
-<p>You can find the actual templates provided by BASIS in the <tt class="docutils literal"><span class="pre">data/templates</span></tt> directory.</p>
+<p>You can find the actual templates provided by BASIS in the <code class="docutils literal"><span class="pre">data/templates</span></code> directory.</p>
 </div>
 <div class="section" id="use-a-template">
 <span id="howtouseatemplate"></span><h2>Use a Template<a class="headerlink" href="#use-a-template" title="Permalink to this headline">¶</a></h2>
 <p>To use a template provided by BASIS or one that you have created,
 specify the name of the template including the version as subdirectory
-as part of the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command as follows:</p>
+as part of the <code class="docutils literal"><span class="pre">basisproject</span></code> command as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyProject --template basis/1.1
 </pre></div>
 </div>
 <p>If you want to use your own custom template, simply specify the full path to
 the respective template directory which contains the template configuration file
-named <tt class="docutils literal"><span class="pre">_config.py</span></tt>. A relative file path must be relative to the current
+named <code class="docutils literal"><span class="pre">_config.py</span></code>. A relative file path must be relative to the current
 working directory. Other than that you can use your custom template in
 the same manner as described in
 <a class="reference internal" href="create-and-modify-project.html"><em>The How-To on Creating and Modifying a Project</em></a>.</p>
 <div class="section" id="change-the-default-template">
 <h3>Change the Default Template<a class="headerlink" href="#change-the-default-template" title="Permalink to this headline">¶</a></h3>
 <p>During the installation of BASIS, it is possible to specify a custom template as the
-default used by <tt class="docutils literal"><span class="pre">basisproject</span></tt> when called without the <tt class="docutils literal"><span class="pre">--template</span></tt> argument.
-See the <a class="reference internal" href="../install.html#basisinstallationoptions"><em>CMake Options</em></a> for details.</p>
+default used by <code class="docutils literal"><span class="pre">basisproject</span></code> when called without the <code class="docutils literal"><span class="pre">--template</span></code> argument.
+See the <a class="reference internal" href="../install.html#basisinstallationoptions"><span>CMake Options</span></a> for details.</p>
 </div>
 </div>
 <div class="section" id="create-a-custom-template">
 <span id="howtocreateatemplate"></span><h2>Create a Custom Template<a class="headerlink" href="#create-a-custom-template" title="Permalink to this headline">¶</a></h2>
 <p>The template includes the files that are generated and the parameters that
-are available to the <tt class="docutils literal"><span class="pre">basisproject</span></tt> utility. If you plan to create new
+are available to the <code class="docutils literal"><span class="pre">basisproject</span></code> utility. If you plan to create new
 projects frequently and have some special requirements or files that you
 need it may be worthwhile to create a custom template. That way everything
 can be instantly set up in exactly the way you need.</p>
@@ -133,20 +133,20 @@ can be instantly set up in exactly the way you need.</p>
 <p class="last">The <a class="reference internal" href="../standard/template.html"><em>Project Template Standard</em></a> explains the layout of templates, versioning, and how custom substitutions work.</p>
 </div>
 <p>In addition to creating new projects from an existing project template,
-the <tt class="docutils literal"><span class="pre">basisproject</span></tt> command-line tool can also be used to generate a new
+the <code class="docutils literal"><span class="pre">basisproject</span></code> command-line tool can also be used to generate a new
 <a class="reference internal" href="../standard/template.html"><em>Project Template</em></a> customized for your needs.</p>
-<p>The fastest way to create a new template is to call <tt class="docutils literal"><span class="pre">basisproject</span></tt> with
-the name of the new template and the option <tt class="docutils literal"><span class="pre">--new-template</span></tt>. Use :</p>
+<p>The fastest way to create a new template is to call <code class="docutils literal"><span class="pre">basisproject</span></code> with
+the name of the new template and the option <code class="docutils literal"><span class="pre">--new-template</span></code>. Use :</p>
 <div class="highlight-bash"><div class="highlight"><pre>basisproject create --name MyTemplate --new-template <span class="o">[</span>--optional-command-options<span class="o">]</span>
 </pre></div>
 </div>
-<p>This will create a subdirectory called <tt class="docutils literal"><span class="pre">MyTemplate/1.0</span></tt> under the current
+<p>This will create a subdirectory called <code class="docutils literal"><span class="pre">MyTemplate/1.0</span></code> under the current
 working directory and populate it with the current default project template
 structure and BASIS configuration. To copy an entire existing template,
-use the <tt class="docutils literal"><span class="pre">--full</span></tt> option and possibly <tt class="docutils literal"><span class="pre">--template</span></tt> to specify the location
+use the <code class="docutils literal"><span class="pre">--full</span></code> option and possibly <code class="docutils literal"><span class="pre">--template</span></code> to specify the location
 or name and version of the existing template.</p>
 <p>For a detailed description and overview of the available command options,
-please refer to the output of the <tt class="docutils literal"><span class="pre">basisproject</span> <span class="pre">help</span> <span class="pre">create</span></tt> command.
+please refer to the output of the <code class="docutils literal"><span class="pre">basisproject</span> <span class="pre">help</span> <span class="pre">create</span></code> command.
 The template options of the existing template can be used to specify which
 features to copy when creating the new template.</p>
 <p>With this you can modify the the default substitutions and file contents
@@ -223,8 +223,8 @@ template.</p>
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

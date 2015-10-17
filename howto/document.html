@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -67,24 +67,24 @@
 <a class="reference external" href="http://www.doxygen.org/">Doxygen</a> and <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>.</p>
 <div class="section" id="documentation-quick-start">
 <h2>Documentation Quick Start<a class="headerlink" href="#documentation-quick-start" title="Permalink to this headline">¶</a></h2>
-<p>When you use the <tt class="docutils literal"><span class="pre">basisproject</span></tt> tool to generate a project as described in
-<a class="reference internal" href="create-and-modify-project.html"><em>Create/Modify a Project</em></a>, you will have a tree with a <tt class="docutils literal"><span class="pre">/doc</span></tt>
+<p>When you use the <code class="docutils literal"><span class="pre">basisproject</span></code> tool to generate a project as described in
+<a class="reference internal" href="create-and-modify-project.html"><em>Create/Modify a Project</em></a>, you will have a tree with a <code class="docutils literal"><span class="pre">/doc</span></code>
 directory preconfigured to generate a starter documentation website and PDF
 just like the BASIS website.</p>
 <p>Here is how to create a new project that supports documentation:</p>
 <div class="highlight-bash"><div class="highlight"><pre>basisproject --name docProject --description <span class="s2">&quot;This is a BASIS project.&quot;</span> --full
 </pre></div>
 </div>
-<p>We will assume that you ran this command in your <tt class="docutils literal"><span class="pre">~/</span></tt>
+<p>We will assume that you ran this command in your <code class="docutils literal"><span class="pre">~/</span></code>
 directory for simplicity in the steps below.</p>
 <div class="section" id="writing-documentation">
 <h3>Writing Documentation<a class="headerlink" href="#writing-documentation" title="Permalink to this headline">¶</a></h3>
-<p>Now you can simply open the <tt class="docutils literal"><span class="pre">~/docProject/doc/*.rst</span></tt> files and start editing
+<p>Now you can simply open the <code class="docutils literal"><span class="pre">~/docProject/doc/*.rst</span></code> files and start editing
 the existing  <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> files to create your Sphinx documentation.</p>
 <p>You can also update your
 <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdmainpage">doxygen mainpage</a>
-by opening <tt class="docutils literal"><span class="pre">~/docProject/doc/apidoc/apidoc.dox</span></tt>.</p>
-<p>We also suggest taking a look at the <tt class="docutils literal"><span class="pre">/doc</span></tt> folder of the BASIS source code
+by opening <code class="docutils literal"><span class="pre">~/docProject/doc/apidoc/apidoc.dox</span></code>.</p>
+<p>We also suggest taking a look at the <code class="docutils literal"><span class="pre">/doc</span></code> folder of the BASIS source code
 itself for more examples of how to write documentation.</p>
 </div>
 <div class="section" id="generating-documentation">
@@ -97,30 +97,26 @@ make doc
 make install
 </pre></div>
 </div>
-<p>The web documentation will be in <tt class="docutils literal"><span class="pre">~/docProject-install/doc/html/index.html</span></tt>,
-and the PDF docs will be in <tt class="docutils literal"><span class="pre">~/docProject-install/doc/docProject_Software_Manual.pdf</span></tt>.</p>
+<p>The web documentation will be in <code class="docutils literal"><span class="pre">~/docProject-install/doc/html/index.html</span></code>,
+and the PDF docs will be in <code class="docutils literal"><span class="pre">~/docProject-install/doc/docProject_Software_Manual.pdf</span></code>.</p>
 </div>
 <div class="section" id="serving-website-locally">
 <h3>Serving Website Locally<a class="headerlink" href="#serving-website-locally" title="Permalink to this headline">¶</a></h3>
-<p>Note that simply opening the documentation will not work correctly
-due to security settings built into modern browsers. Instead you will
-need to display your docs via a server. We have found that the
-<a class="reference external" href="https://npmjs.org/package/http-server">node.js http-sever</a> app works well for this purpose.</p>
-<p>Install <tt class="docutils literal"><span class="pre">npm</span></tt>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>curl https://npmjs.org/install.sh | sh
+<p>Note that simply opening the documentation will not render all pages
+correctly due to the use of the iframe HTML tag to embed the Doxygen
+generated API docs and the security settings built into modern browsers.
+Instead, display your docs via a server, for example, using Python by
+running the following command in the root directory of the (installed)
+documentation.</p>
+<p>Python 2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">SimpleHTTPServer</span>
 </pre></div>
 </div>
-<p>Once you have <tt class="docutils literal"><span class="pre">npm</span></tt>, install <tt class="docutils literal"><span class="pre">http-server</span></tt>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>npm install http-server -g
+<p>Python 3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span>
 </pre></div>
 </div>
-<p>Serve up the docs:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/docProject-build/doc/html
-http-server .
-</pre></div>
-</div>
-<p>Then visit your documentation website by typing
-the address <cite>localhost:8080</cite> into your web browser.</p>
+<p>Then go to <a class="reference external" href="http://localhost:8000">localhost:8000</a> to view the pages.</p>
 </div>
 </div>
 <div class="section" id="doxygen-documentation">
@@ -156,7 +152,7 @@ used is commonly C/C++ as this is the language best understood by Doxygen.</p>
 </div>
 <div class="section" id="generating-doxygen">
 <h3>Generating Doxygen<a class="headerlink" href="#generating-doxygen" title="Permalink to this headline">¶</a></h3>
-<p>The <span>basis_add_doxygen_doc</span> CMake command can be used to create your own custom doxygen documentation.</p>
+<p>The <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a6a37a66eb28f7969ef27b004f8faaa3a">basis_add_doxygen_doc()</a> CMake command can be used to create your own custom doxygen documentation.</p>
 </div>
 </div>
 <div class="section" id="sphinx-documentation">
@@ -217,8 +213,8 @@ is readable-wide that is used by the BASIS website.</p>
 <li>traditional</li>
 </ul>
 <p>You can also use your own theme from the web or include it yourself by simply providing
-a path to the theme using the HTML_THEME parameter of <span>basis_add_doc()</span> and
-<span>basis_add_sphinx_doc()</span>.</p>
+a path to the theme using the HTML_THEME parameter of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a> and
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a>.</p>
 </div>
 </div>
 <div class="section" id="markdown">
@@ -237,12 +233,12 @@ on the project page with the marked up formatting.</p>
 <div class="section" id="creating-documentation">
 <h2>Creating Documentation<a class="headerlink" href="#creating-documentation" title="Permalink to this headline">¶</a></h2>
 <p>The best example for creating documenation is the BASIS documentation itself,
-which can be found in the <tt class="docutils literal"><span class="pre">doc/apidoc</span></tt> folder. The most important function
-for generating documentation is <span>basis_add_doc()</span>, which can handle
-the parameters of the related <span>basis_add_sphinx_doc()</span> and
-<span>basis_add_doxygen_doc()</span> commands.</p>
+which can be found in the <code class="docutils literal"><span class="pre">doc/apidoc</span></code> folder. The most important function
+for generating documentation is <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a>, which can handle
+the parameters of the related <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a> and
+<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a6a37a66eb28f7969ef27b004f8faaa3a">basis_add_doxygen_doc()</a> commands.</p>
 <p>Here is the code that generates the integrated Sphinx and Doxygen Documentation:</p>
-<div class="highlight-python"><pre># ============================================================================
+<div class="highlight-python"><div class="highlight"><pre># ============================================================================
 # Copyright (c) 2011-2012 University of Pennsylvania
 # Copyright (c) 2013-2014 Carnegie Mellon University
 # Copyright (c) 2013-2014 Andreas Schuh
@@ -258,12 +254,12 @@ the parameters of the related <span>basis_add_sphinx_doc()</span> and
 #
 # This build configuration builds and/or installs the documentation of the
 # software package. The documentation can be divided into user documentation
-# (e.g., software manual) and developer documentation (e.g., developer's guide).
+# (e.g., software manual) and developer documentation (e.g., developer&#39;s guide).
 # For developers, both those using a library provided by this package and the
 # package maintainers, the documentation of the API is of particular interest.
 # Developers who are responsible for maintaining this software may be provided
 # with even more detailed documentation of the implementation in the so-called
-# developer's guide.
+# developer&#39;s guide.
 #
 # See the basis_add_doc() command for details on the documentation build tools
 # supported by BASIS for the generation of documentation from plain text files
@@ -274,8 +270,8 @@ the parameters of the related <span>basis_add_sphinx_doc()</span> and
 # generic targets
 # ============================================================================
 
-# create custom targets so "make site" and "make manual" always work
-# note that the "doc" target is added automatically which will trigger
+# create custom targets so &quot;make site&quot; and &quot;make manual&quot; always work
+# note that the &quot;doc&quot; target is added automatically which will trigger
 # the build of the complete documentation unless the EXCLUDE_FROM_ALL
 # option is passed to basis_add_doc
 basis_add_custom_target (site)   # build HTML pages
@@ -288,38 +284,38 @@ basis_add_custom_target (manual) # build PDF manual
 # replace &lt; year|contact|copyright|license &gt; pattern in template file which
 # shall be included in documentation to avoid unrecognized xml/html tag warning
 function (basis_sanitize_template_for_doxygen OUTPUT_FILE_VAR TEMPLATE_FILE)
-  get_filename_component (TEMPLATE_NAME "${TEMPLATE_FILE}" NAME)
-  file (READ "${TEMPLATE_FILE}" TEMPLATE)
-  string (REGEX REPLACE "&lt;year&gt;"      "&amp;lt;year&amp;gt;"      TEMPLATE "${TEMPLATE}")
-  string (REGEX REPLACE "&lt;contact&gt;"   "&amp;lt;contact&amp;gt;"   TEMPLATE "${TEMPLATE}")
-  string (REGEX REPLACE "&lt;copyright&gt;" "&amp;lt;copyright&amp;gt;" TEMPLATE "${TEMPLATE}")
-  string (REGEX REPLACE "&lt;license&gt;"   "&amp;lt;license&amp;gt;"   TEMPLATE "${TEMPLATE}")
-  set (OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${TEMPLATE_NAME}")
-  file (WRITE "${OUTPUT_FILE}" "${TEMPLATE}")
-  set (${OUTPUT_FILE_VAR} "${OUTPUT_FILE}" PARENT_SCOPE)
+  get_filename_component (TEMPLATE_NAME &quot;${TEMPLATE_FILE}&quot; NAME)
+  file (READ &quot;${TEMPLATE_FILE}&quot; TEMPLATE)
+  string (REGEX REPLACE &quot;&lt;year&gt;&quot;      &quot;&amp;lt;year&amp;gt;&quot;      TEMPLATE &quot;${TEMPLATE}&quot;)
+  string (REGEX REPLACE &quot;&lt;contact&gt;&quot;   &quot;&amp;lt;contact&amp;gt;&quot;   TEMPLATE &quot;${TEMPLATE}&quot;)
+  string (REGEX REPLACE &quot;&lt;copyright&gt;&quot; &quot;&amp;lt;copyright&amp;gt;&quot; TEMPLATE &quot;${TEMPLATE}&quot;)
+  string (REGEX REPLACE &quot;&lt;license&gt;&quot;   &quot;&amp;lt;license&amp;gt;&quot;   TEMPLATE &quot;${TEMPLATE}&quot;)
+  set (OUTPUT_FILE &quot;${CMAKE_CURRENT_BINARY_DIR}/${TEMPLATE_NAME}&quot;)
+  file (WRITE &quot;${OUTPUT_FILE}&quot; &quot;${TEMPLATE}&quot;)
+  set (${OUTPUT_FILE_VAR} &quot;${OUTPUT_FILE}&quot; PARENT_SCOPE)
 endfunction ()
 
-basis_sanitize_template_for_doxygen (DEPENDS_MODULE   "${PROJECT_DATA_DIR}/templates/basis/1.0/config/Depends.cmake")
-basis_sanitize_template_for_doxygen (BOOTSTRAP_MODULE "${PROJECT_DATA_DIR}/templates/basis/1.1/BasisBootstrapping.cmake")
+basis_sanitize_template_for_doxygen (DEPENDS_MODULE   &quot;${PROJECT_DATA_DIR}/templates/basis/1.0/config/Depends.cmake&quot;)
+basis_sanitize_template_for_doxygen (BOOTSTRAP_MODULE &quot;${PROJECT_DATA_DIR}/templates/basis/1.1/BasisBootstrapping.cmake&quot;)
 
 basis_add_doc (
   apidoc 
   GENERATOR             Doxygen
-  INPUT                 "${DEPENDS_MODULE}" "${BOOTSTRAP_MODULE}"
+  INPUT                 &quot;${DEPENDS_MODULE}&quot; &quot;${BOOTSTRAP_MODULE}&quot;
   EXCLUDE_PATTERNS      # External libraries packaged with BASIS to exclude from final documentation
-                        "*/gmock/*"            # Google Mock
-                        "*/gtest/*"            # Google Test
-                        "*/tclap/*"            # TCLAP library
-                        "*/breathe/*"          # Sphinx extension
-                        "*/doxylink/*"         # Sphinx extension
-                        "*/argh/*"             # Python Argh
-                        "*/test.cxx"           # Google Mock and Test
-                        "*/test_main.cxx"      # main() of unit tests based on GMock
-                        "*/testdriver.cxx"     # testdriver which includes *.inc files
-  HTML_DESTINATION      "${INSTALL_DOC_DIR}/html/apidoc/latest"
-  HTML_HEADER	          "apidoc/doxygen_header.html.in"
-  HTML_FOOTER           "apidoc/doxygen_footer.html.in"
-  HTML_EXTRA_STYLESHEET "apidoc/doxygen_extra.css.in"
+                        &quot;*/gmock/*&quot;            # Google Mock
+                        &quot;*/gtest/*&quot;            # Google Test
+                        &quot;*/tclap/*&quot;            # TCLAP library
+                        &quot;*/breathe/*&quot;          # Sphinx extension
+                        &quot;*/doxylink/*&quot;         # Sphinx extension
+                        &quot;*/argh/*&quot;             # Python Argh
+                        &quot;*/test.cxx&quot;           # Google Mock and Test
+                        &quot;*/test_main.cxx&quot;      # main() of unit tests based on GMock
+                        &quot;*/testdriver.cxx&quot;     # testdriver which includes *.inc files
+  HTML_DESTINATION      &quot;${INSTALL_DOC_DIR}/html/apidoc/latest&quot;
+  HTML_HEADER	          &quot;apidoc/doxygen_header.html.in&quot;
+  HTML_FOOTER           &quot;apidoc/doxygen_footer.html.in&quot;
+  HTML_EXTRA_STYLESHEET &quot;apidoc/doxygen_extra.css.in&quot;
   OUTPUT                html xml
 )
 
@@ -327,50 +323,82 @@ basis_add_doc (
 # software manual
 # ============================================================================
 
+if (NOT LATEX_FOUND) # i.e., USE_LATEX set to OFF by user
+  set (LATEX_PDFLATEX_FOUND FALSE)
+endif ()
+
+# option to auto-update PDF manual in source tree
+option (
+  SOFTWAREMANUAL_PDF_UPDATE
+  &quot;Whether to update software manual PDF file in source tree&quot;
+  ${LATEX_PDFLATEX_FOUND}
+)
+mark_as_advanced (SOFTWAREMANUAL_PDF_UPDATE)
+
+# software manual output formats
+set (SOFTWAREMANUAl_BUILDER html)
+if (LATEX_PDFLATEX_FOUND)
+  list (APPEND SOFTWAREMANUAl_BUILDER pdf)
+elseif (SOFTWAREMANUAL_PDF_UPDATE)
+  message (WARNING &quot;pdflatex not found, disabling option SOFTWAREMANUAL_PDF_UPDATE&quot;)
+  set_property (CACHE SOFTWAREMANUAL_PDF_UPDATE PROPERTY VALUE OFF)
+endif ()
+if (UNIX)
+  list (APPEND SOFTWAREMANUAL_BUILDER man)
+endif ()
+
 # add build target for the generation of the web pages and PDF manual from
 # the same set of reStructuredText input source files
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/manual.rst" AND
-    EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sidebar.rst")
+if (EXISTS &quot;${CMAKE_CURRENT_SOURCE_DIR}/manual.rst&quot; AND
+    EXISTS &quot;${CMAKE_CURRENT_SOURCE_DIR}/sidebar.rst&quot;)
 
   basis_add_doc (
     softwaremanual                                        # documenation build target name
     GENERATOR        Sphinx                               # select Sphinx as the generator
-    BUILDER          html pdf man                         # selected Sphinx output formats
+    BUILDER          ${SOFTWAREMANUAl_BUILDER}            # selected Sphinx output formats
     MAN_SECTION      7                                    # http://en.wikipedia.org/wiki/Man_page#Manual_sections
     HTML_THEME       cmake-basis                          # select the Sphinx layout theme
     HTML_LOGO        logo_title.svg                       # logo to use at heading of documentation
     HTML_FAVICON     favicon.ico                          # icon for bookmark and tab title
     HTML_SIDEBARS    searchbox globaltoc links            # sidebar options to use
-    HTML_DESTINATION "${INSTALL_DOC_DIR}/html"            # output directory for completed documentation
+    HTML_DESTINATION &quot;${INSTALL_DOC_DIR}/html&quot;            # output directory for completed documentation
     SIDEBARWIDTH     300                                  # sidebar width in pixels
-    MASTER_DOC       "sidebar"                            # .rst file to start with when generating HTML
-    LATEX_MASTER_DOC "manual"                             # .rst file to start with when generating LaTeX/PDF
-    LATEX_TITLE      "${PROJECT_NAME} Software Manual"    # title within LaTeX/PDF documents
-    OUTPUT_NAME      "${PROJECT_NAME}_Software_Manual"    # general output file name, e.g., LaTeX/PDF files
+    MASTER_DOC       &quot;sidebar&quot;                            # .rst file to start with when generating HTML
+    LATEX_MASTER_DOC &quot;manual&quot;                             # .rst file to start with when generating LaTeX/PDF
+    LATEX_TITLE      &quot;${PROJECT_NAME} Software Manual&quot;    # title within LaTeX/PDF documents
+    OUTPUT_NAME      &quot;${PROJECT_NAME}_Software_Manual&quot;    # general output file name, e.g., LaTeX/PDF files
     DOXYLINK         apidoc                               # Doxygen generator build target for integrated API reference
-    DOXYLINK_URL     "${PROJECT_WEBSITE}/apidoc/latest"   # location of Doxygen output files
+    DOXYLINK_URL     &quot;${PROJECT_WEBSITE}/apidoc/latest&quot;   # location of Doxygen output files
     NO_HTML_MODINDEX NO_HTML_INDEX                        # disable currently unused index page
+    EXCLUDE_PATTERN  intro.rst                            # .rst files explicitly included only
+    EXCLUDE_PATTERN  faq.rst
+    EXCLUDE_PATTERN  features.rst
   )
-  
-  # the Sphinx :download: link directive requires the download file to
-  # be present in the source tree; thus copy generated PDF to source tree
-  # if it contains modifications since last time
-  basis_add_custom_target (softwaremanual_pdf_update
-    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-      "${CMAKE_CURRENT_BINARY_DIR}/latex/${PROJECT_NAME}_Software_Manual.pdf" 
-      "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_Software_Manual.pdf"
-  )
-  
-  # add dependency such that PDF is re-generated before copied to source tree if it differs
-  basis_add_dependencies (softwaremanual_pdf_update softwaremanual_pdf)
-  # before building the HTML documentation, ensure that source tree version of manual is up-to-date
-  basis_add_dependencies (softwaremanual_html softwaremanual_pdf_update)
-  
-  basis_add_dependencies  (site   softwaremanual_html)       # so "make site"   builds softwaremanual_html
-  basis_add_dependencies  (manual softwaremanual_pdf_update) # so "make manual" builds softwaremanual_pdf
+
+  basis_add_dependencies (site softwaremanual_html)
+
+  if (TARGET softwaremanual_pdf)
+    if (SOFTWAREMANUAL_PDF_UPDATE)
+      # the Sphinx :download: link directive requires the download file to
+      # be present in the source tree; thus copy generated PDF to source tree
+      # if it contains modifications since last time
+      basis_add_custom_target (softwaremanual_pdf_update
+        COMMAND &quot;${CMAKE_COMMAND}&quot; -E copy_if_different
+          &quot;${CMAKE_CURRENT_BINARY_DIR}/latex/${PROJECT_NAME}_Software_Manual.pdf&quot; 
+          &quot;${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_Software_Manual.pdf&quot;
+      )
+      # add dependency such that PDF is re-generated before copied to source tree if it differs
+      basis_add_dependencies (softwaremanual_pdf_update softwaremanual_pdf)
+      basis_add_dependencies (manual softwaremanual_pdf_update)
+      # before building the HTML documentation, ensure that source tree version of manual is up-to-date
+      basis_add_dependencies (softwaremanual_html softwaremanual_pdf_update)
+    else ()
+      basis_add_dependencies (manual softwaremanual_pdf)
+    endif ()
+  endif ()
 
 endif ()
-</pre>
+</pre></div>
 </div>
 </div>
 <div class="section" id="software-manual">
@@ -392,9 +420,9 @@ The main input to this tool are text files written in the lightweight markup lan
 <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>. A default theme for use at SBIA has been created which is part
 of BASIS. This theme together with the text files that define the content and
 structure of the site, the HTML pages of the software web site can be generated
-by <tt class="docutils literal"><span class="pre">sphinx-build</span></tt>. The CMake function <span>basis_add_doc()</span> provides an easy way
+by <code class="docutils literal"><span class="pre">sphinx-build</span></code>. The CMake function <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#ga06f94c5d122393ad4e371f73a0803cfa">basis_add_doc()</a> provides an easy way
 to add such web site target to the build configuration. For example, the
-template <tt class="docutils literal"><span class="pre">doc/CMakeLists.txt</span></tt> file contains the following section:</p>
+template <code class="docutils literal"><span class="pre">doc/CMakeLists.txt</span></code> file contains the following section:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="c"># ----------------------------------------------------------------------------</span>
 <span class="c"># web site (optional)</span>
 <span class="nb">if</span> <span class="p">(</span><span class="s">EXISTS</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/site/index.rst&quot;</span><span class="p">)</span>
@@ -415,20 +443,20 @@ template <tt class="docutils literal"><span class="pre">doc/CMakeLists.txt</span
 <p>where &lt;year&gt; and &lt;author&gt; should be replaced by the proper values. This is usually done
 by the <a class="reference internal" href="create-and-modify-project.html"><em>basisproject</em></a> command-line tool upon creation
 of a new project.</p>
-<p>This CMake code adds a build target named <tt class="docutils literal"><span class="pre">site</span></tt> which invokes <tt class="docutils literal"><span class="pre">sphinx-build</span></tt>
+<p>This CMake code adds a build target named <code class="docutils literal"><span class="pre">site</span></code> which invokes <code class="docutils literal"><span class="pre">sphinx-build</span></code>
 with the proper default configuration to generate a web site from the reST
-source files with file name extension <tt class="docutils literal"><span class="pre">.rst</span></tt> found in the <tt class="docutils literal"><span class="pre">site/</span></tt> subdirectory.
+source files with file name extension <code class="docutils literal"><span class="pre">.rst</span></code> found in the <code class="docutils literal"><span class="pre">site/</span></code> subdirectory.
 The source file of the main page, the so-called master document, of the web site
-must be named <tt class="docutils literal"><span class="pre">index.rst</span></tt>. The main pages which are linked in the top
-navigation bar are named using the <tt class="docutils literal"><span class="pre">RELLINKS</span></tt> option of <span>basis_add_sphinx_doc()</span>,
+must be named <code class="docutils literal"><span class="pre">index.rst</span></code>. The main pages which are linked in the top
+navigation bar are named using the <code class="docutils literal"><span class="pre">RELLINKS</span></code> option of <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/DocTools_8cmake.html#a628468ae6c7b29570a73a2d63eebf257">basis_add_sphinx_doc()</a>,
 the CMake function which implements the addition of a Sphinx documentation target.
 The corresponding source files must be named after these links. For example, given
 above CMake code, the reStructuredText source of the page with the download
-instructions has to be saved in the file <tt class="docutils literal"><span class="pre">site/download.rst</span></tt>.</p>
-<p>See the <a class="reference internal" href="install.html#build"><em>corresponding section</em></a> of the <a class="reference internal" href="../install.html"><em>Installation</em></a>
+instructions has to be saved in the file <code class="docutils literal"><span class="pre">site/download.rst</span></code>.</p>
+<p>See the <a class="reference internal" href="install.html#build"><span>corresponding section</span></a> of the <a class="reference internal" href="../install.html"><em>Installation</em></a>
 guide for details on how to generate the HTML pages from the reST source
 files given the specification of a Sphinx documentation build target such as the
-<tt class="docutils literal"><span class="pre">site</span></tt> target defined by above template CMake code.</p>
+<code class="docutils literal"><span class="pre">site</span></code> target defined by above template CMake code.</p>
 </div>
 </div>
 
@@ -505,8 +533,8 @@ files given the specification of a Sphinx documentation build target such as the
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

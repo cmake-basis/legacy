@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -76,32 +76,32 @@ and is therefore specific to the lab&#8217;s computing environment.</p>
 <div class="section" id="the-basistest-family-of-scripts">
 <span id="basistestscripts"></span><h2>The basistest family of scripts<a class="headerlink" href="#the-basistest-family-of-scripts" title="Permalink to this headline">¶</a></h2>
 <p>The BASIS package comes with a family of scripts whose name starts with
-the prefix <tt class="docutils literal"><span class="pre">basistest</span></tt>. All these scripts respond to the usual command-line
-options such as <tt class="docutils literal"><span class="pre">--help</span></tt> and <tt class="docutils literal"><span class="pre">--version</span></tt> to provide detailed
+the prefix <code class="docutils literal"><span class="pre">basistest</span></code>. All these scripts respond to the usual command-line
+options such as <code class="docutils literal"><span class="pre">--help</span></code> and <code class="docutils literal"><span class="pre">--version</span></code> to provide detailed
 information regarding usage and version. Further, a wrapper script named
-<tt class="docutils literal"><span class="pre">basistest</span></tt> is available which understands the subcommands <tt class="docutils literal"><span class="pre">cron</span></tt>,
-<tt class="docutils literal"><span class="pre">master</span></tt>, <tt class="docutils literal"><span class="pre">slave</span></tt> (the default), and <tt class="docutils literal"><span class="pre">svn</span></tt>.</p>
+<code class="docutils literal"><span class="pre">basistest</span></code> is available which understands the subcommands <code class="docutils literal"><span class="pre">cron</span></code>,
+<code class="docutils literal"><span class="pre">master</span></code>, <code class="docutils literal"><span class="pre">slave</span></code> (the default), and <code class="docutils literal"><span class="pre">svn</span></code>.</p>
 <ul>
 <li><dl class="first docutils">
-<dt><a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a>:</dt>
+<dt><a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a>:</dt>
 <dd><p class="first last">The command executed by the scheduled cron job.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a>:</dt>
+<dt><a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a>:</dt>
 <dd><p class="first last">The master script which runs the scheduled tests.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><a class="reference internal" href="#basistestslave"><em>basistest-slave</em></a>:</dt>
+<dt><a class="reference internal" href="#basistestslave"><span>basistest-slave</span></a>:</dt>
 <dd><p class="first last">The test execution command which is executed by the master script for each test job.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><a class="reference internal" href="#basistestsvn"><em>basistest-svn</em></a>:</dt>
+<dt><a class="reference internal" href="#basistestsvn"><span>basistest-svn</span></a>:</dt>
 <dd><p class="first last">The wrapper for the <a class="reference external" href="http://svnbook.red-bean.com/en/1.7/svn.ref.svn.html">svn</a> command which can be run non-interactively.</p>
 </dd>
 </dl>
@@ -113,44 +113,46 @@ information regarding usage and version. Further, a wrapper script named
 coded into this script, optionally including the submission command used to submit
 test jobs to the batch-queuing system such as the <a class="reference external" href="http://en.wikipedia.org/wiki/Oracle_Grid_Engine">Oracle Grid Engine</a>,
 formerly known as Sun Grid Engine (SGE), in particular. Moreover, the location of the
-test configuration file and test schedule file, both used by the <tt class="docutils literal"><span class="pre">basistest-master</span></tt>
+test configuration file and test schedule file, both used by the <code class="docutils literal"><span class="pre">basistest-master</span></code>
 script, are specified here. Another reason for implementing this script is the setup
 of the environment for the execution of the master script because cron jobs are run
-with a minimal configuration of environment variables. Therefore, the <tt class="docutils literal"><span class="pre">basistest-cron</span></tt>
-script sources the <tt class="docutils literal"><span class="pre">~swtest/.bashrc</span></tt> file of the <tt class="docutils literal"><span class="pre">swtest</span></tt> user which is used at
+with a minimal configuration of environment variables. Therefore, the <code class="docutils literal"><span class="pre">basistest-cron</span></code>
+script sources the <code class="docutils literal"><span class="pre">~swtest/.bashrc</span></code> file of the <code class="docutils literal"><span class="pre">swtest</span></code> user which is used at
 our lab for the automated software testing in order to, for example, add the
-<tt class="docutils literal"><span class="pre">~swtest/bin/</span></tt> directory where all the <tt class="docutils literal"><span class="pre">basistest</span></tt> scripts are installed to the
-<tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable.</p>
+<code class="docutils literal"><span class="pre">~swtest/bin/</span></code> directory where all the <code class="docutils literal"><span class="pre">basistest</span></code> scripts are installed to the
+<code class="docutils literal"><span class="pre">PATH</span></code> environment variable.</p>
 </div>
 <div class="section" id="basistest-master">
 <span id="basistestmaster"></span><h3>basistest-master<a class="headerlink" href="#basistest-master" title="Permalink to this headline">¶</a></h3>
-<p>This so-called master script is executed by the <tt class="docutils literal"><span class="pre">basistest-cron</span></tt> command.
-On each run, it reads in the configuration file given by the <tt class="docutils literal"><span class="pre">--config</span></tt> option
+<p>This so-called master script is executed by the <code class="docutils literal"><span class="pre">basistest-cron</span></code> command.
+On each run, it reads in the configuration file given by the <code class="docutils literal"><span class="pre">--config</span></code> option
 line-by-line. Each line in the configuration file specifies one test job to be executed.
 The format of the configuration file is detailed here. Comments within the configuration
 file start with a pound (#) character at the beginning of each line.</p>
 <p>For each test of a specific branch of a project, the configuration file contains a
 line following the format:</p>
-<div class="highlight-python"><pre>&lt;m&gt; &lt;h&gt; &lt;d&gt; &lt;project&gt; &lt;branch&gt; &lt;model&gt; &lt;options&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;m&gt; &lt;h&gt; &lt;d&gt; &lt;project&gt; &lt;branch&gt; &lt;model&gt; &lt;options&gt;
+</pre></div>
 </div>
 <p>where:</p>
-<div class="highlight-python"><pre>&lt;m&gt;         Interval in minutes between consecutive test runs.
-            Defaults to "0" if "*" is given.
+<div class="highlight-python"><div class="highlight"><pre>&lt;m&gt;         Interval in minutes between consecutive test runs.
+            Defaults to &quot;0&quot; if &quot;*&quot; is given.
 &lt;h&gt;         Interval in hours between consecutive test runs.
-            Defaults to "0" if "*" is given.
+            Defaults to &quot;0&quot; if &quot;*&quot; is given.
 &lt;d&gt;         Interval in days (i.e., multiples of 24 hours) between consecutive
-            test runs. Defaults to "0" if "*" is given.
+            test runs. Defaults to &quot;0&quot; if &quot;*&quot; is given.
 &lt;project&gt;   Name of the BASIS project.
-&lt;branch&gt;    Branch within the project's SVN repository, e.g., "tags/1.0.0".
-            Defaults to "trunk" if a "*" is given.
-&lt;model&gt;     Dashboard model, i.e., either one of "Nightly", "Continuous",
-            and "Experimental". Defaults to "Nightly".
+&lt;branch&gt;    Branch within the project&#39;s SVN repository, e.g., &quot;tags/1.0.0&quot;.
+            Defaults to &quot;trunk&quot; if a &quot;*&quot; is given.
+&lt;model&gt;     Dashboard model, i.e., either one of &quot;Nightly&quot;, &quot;Continuous&quot;,
+            and &quot;Experimental&quot;. Defaults to &quot;Nightly&quot;.
 &lt;options&gt;   Additional options to the CTest script.
-            The "basisctest" script of BASIS is used by default.
-            Run "ctest -S &lt;path&gt;/basistest.ctest,help" to get a list of
+            The &quot;basisctest&quot; script of BASIS is used by default.
+            Run &quot;ctest -S &lt;path&gt;/basistest.ctest,help&quot; to get a list of
             available options. By default, the default options of the
             CTest script are used. Note that this option can in particular
-            be used to define CMake variables for the build configuration.</pre>
+            be used to define CMake variables for the build configuration.
+</pre></div>
 </div>
 <p>Note that either &lt;m&gt;, &lt;h&gt;, or &lt;d&gt; needs to be a positive number such that the
 interval is valid. Otherwise, the master script will report a configuration error
@@ -162,14 +164,15 @@ and skip the test.</p>
 <p>For example, nightly tests of the main development branch (trunk) of the
 project BASIS itself which are run once every day including coverage analysis
 are scheduled by:</p>
-<div class="highlight-python"><pre>* * 1 BASIS trunk Nightly coverage,memcheck</pre>
+<div class="highlight-python"><div class="highlight"><pre>* * 1 BASIS trunk Nightly coverage,memcheck
+</pre></div>
 </div>
 <p>Besides the configuration file, which has to be edited manually, a test schedule
 file is maintained by the testing master. For each configured test job, the master
 consults the current schedule to see whether the test is already due for execution
 given the testing interval specified in the configuration file and the last time
 the test was executed. If the test is due for execution, the testing command,
-i.e., by default the <a class="reference internal" href="#basistestslave"><em>basistest-slave</em></a>, is executed and the test schedule
+i.e., by default the <a class="reference internal" href="#basistestslave"><span>basistest-slave</span></a>, is executed and the test schedule
 updated by the testing master. Otherwise, the execution of the test is skipped.</p>
 </div>
 <div class="section" id="basistest-slave">
@@ -190,26 +193,28 @@ project, i.e., the</p>
 <li>submission of test results to the CDash server.</li>
 </ul>
 <p>Run the following command in a shell to have the CTest script print its help
-to screen and exit. However, the <tt class="docutils literal"><span class="pre">basistest-slave</span></tt> script should be
+to screen and exit. However, the <code class="docutils literal"><span class="pre">basistest-slave</span></code> script should be
 used instead of executing this CTest script directly. The help displayed by this
 command can be used in order to determine which additional options
-are available (such as <tt class="docutils literal"><span class="pre">coverage</span></tt> and <tt class="docutils literal"><span class="pre">memcheck</span></tt>).</p>
-<div class="highlight-python"><pre>ctest -S basistest.ctest,help</pre>
+are available (such as <code class="docutils literal"><span class="pre">coverage</span></code> and <code class="docutils literal"><span class="pre">memcheck</span></code>).</p>
+<div class="highlight-python"><div class="highlight"><pre>ctest -S basistest.ctest,help
+</pre></div>
 </div>
 </div>
 <div class="section" id="basistest-svn">
 <span id="basistestsvn"></span><h3>basistest-svn<a class="headerlink" href="#basistest-svn" title="Permalink to this headline">¶</a></h3>
-<p>This script simply wraps the execution of the <a class="reference external" href="http://svnbook.red-bean.com/en/1.7/svn.ref.svn.html">svn</a> command as the <tt class="docutils literal"><span class="pre">svnuser</span></tt>
+<p>This script simply wraps the execution of the <a class="reference external" href="http://svnbook.red-bean.com/en/1.7/svn.ref.svn.html">svn</a> command as the <code class="docutils literal"><span class="pre">svnuser</span></code>
 user as this allows for non-interactive check outs and updates of working
 copies without the need to provide a user name and password. The code of the
 script is at the moment the single line:</p>
-<div class="highlight-python"><pre>exec sudo -u svnuser /bin/sh /sbia/home/svn/bin/svnwrap "$@"</pre>
+<div class="highlight-python"><div class="highlight"><pre>exec sudo -u svnuser /bin/sh /sbia/home/svn/bin/svnwrap &quot;$@&quot;
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">There is another wrapper script named <tt class="docutils literal"><span class="pre">svnwrap</span></tt> owned by
-the <tt class="docutils literal"><span class="pre">svnuser</span></tt> involved which does the actual invocation of the
-<tt class="docutils literal"><span class="pre">svn</span></tt> command.</p>
+<p class="last">There is another wrapper script named <code class="docutils literal"><span class="pre">svnwrap</span></code> owned by
+the <code class="docutils literal"><span class="pre">svnuser</span></code> involved which does the actual invocation of the
+<code class="docutils literal"><span class="pre">svn</span></code> command.</p>
 </div>
 </div>
 </div>
@@ -222,7 +227,7 @@ Admin interface.</p>
 <p>Finally, you can configure CTest through the <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/CTestConfig_8cmake.html">CTestConfig.cmake</a> file
 which must be in a project&#8217;s top-level directory to specify the URL of the
 CDash server as well as the project to submit test results to.</p>
-<p>Running tests via <tt class="docutils literal"><span class="pre">ctest</span></tt> (<strong>not</strong> <tt class="docutils literal"><span class="pre">make</span> <span class="pre">test</span></tt>) will then try to submit the
+<p>Running tests via <code class="docutils literal"><span class="pre">ctest</span></code> (<strong>not</strong> <code class="docutils literal"><span class="pre">make</span> <span class="pre">test</span></code>) will then try to submit the
 results to the CDash server.</p>
 </div>
 <div class="section" id="administration-of-software-testing">
@@ -230,14 +235,15 @@ results to the CDash server.</p>
 <p>The following describes the setup and configuration of the automated software
 tests at SBIA. Hence, these instructions are only of interest for the
 administrators of the automated software testing at our lab. Other users
-do not have the permission to become the <tt class="docutils literal"><span class="pre">swtest</span></tt> user.
-To become the <tt class="docutils literal"><span class="pre">swtest</span></tt> user execute:</p>
-<div class="highlight-python"><pre>sudo -u swtest sudosh</pre>
+do not have the permission to become the <code class="docutils literal"><span class="pre">swtest</span></code> user.
+To become the <code class="docutils literal"><span class="pre">swtest</span></code> user execute:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo -u swtest sudosh
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">If you want to start with a clean setup, keep in mind that the
-directories <tt class="docutils literal"><span class="pre">~swtest/etc/</span></tt> and <tt class="docutils literal"><span class="pre">~swtest/var/</span></tt> contain
+directories <code class="docutils literal"><span class="pre">~swtest/etc/</span></code> and <code class="docutils literal"><span class="pre">~swtest/var/</span></code> contain
 files which are not part of the BASIS project.
 These need to be preserved and backed up separately.</p>
 </div>
@@ -245,18 +251,18 @@ These need to be preserved and backed up separately.</p>
 <span id="automatedtestinginstallation"></span><h3>Initial BASIS Installation<a class="headerlink" href="#initial-basis-installation" title="Permalink to this headline">¶</a></h3>
 <p>The testing scripts described above are part of the BASIS project.
 As long as this project is not installed system-wide, it has to be
-installed locally for use by the <tt class="docutils literal"><span class="pre">swtest</span></tt> user.
+installed locally for use by the <code class="docutils literal"><span class="pre">swtest</span></code> user.
 Executing the following commands as this testing user will install BASIS
 locally in its home directory.</p>
 <ol class="arabic simple">
-<li>Check-out the BASIS sources into the directory <tt class="docutils literal"><span class="pre">~swtest/src/</span></tt>:</li>
+<li>Check-out the BASIS sources into the directory <code class="docutils literal"><span class="pre">~swtest/src/</span></code>:</li>
 </ol>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span>
 svn --username &lt;your own username&gt; co <span class="s2">&quot;https://sbia-svn/projects/BASIS/trunk&quot;</span> src
 </pre></div>
 </div>
 <p>2. Create a directory for the build tree and configure it such that BASIS
-will be installed in the home directory of the <tt class="docutils literal"><span class="pre">swtest`</span></tt> user:</p>
+will be installed in the home directory of the <code class="docutils literal"><span class="pre">swtest`</span></code> user:</p>
 <div class="highlight-bash"><div class="highlight"><pre>mkdir build
 <span class="nb">cd </span>build
 ccmake -DINSTALL_PREFIX:PATH<span class="o">=</span>~ -DINSTALL_SINFIX:BOOL<span class="o">=</span>OFF <span class="se">\</span>
@@ -268,19 +274,20 @@ ccmake -DINSTALL_PREFIX:PATH<span class="o">=</span>~ -DINSTALL_SINFIX:BOOL<span
 </pre></div>
 </div>
 <ol class="arabic" start="3">
-<li><p class="first">Build and install BASIS with <tt class="docutils literal"><span class="pre">~swtest</span></tt> as installation prefix:</p>
-<div class="highlight-python"><pre>make install</pre>
+<li><p class="first">Build and install BASIS with <code class="docutils literal"><span class="pre">~swtest</span></code> as installation prefix:</p>
+<div class="highlight-python"><div class="highlight"><pre>make install
+</pre></div>
 </div>
 </li>
 </ol>
 <p>The testing scripts described above are then installed in the directory
-<tt class="docutils literal"><span class="pre">~swtest/bin/</span></tt> and the CTest script is located in <tt class="docutils literal"><span class="pre">~swtest/share/cmake/</span></tt>.</p>
+<code class="docutils literal"><span class="pre">~swtest/bin/</span></code> and the CTest script is located in <code class="docutils literal"><span class="pre">~swtest/share/cmake/</span></code>.</p>
 </div>
 <div class="section" id="updating-the-basis-installation">
 <span id="updateofautomatedtestinginstallation"></span><h3>Updating the BASIS Installation<a class="headerlink" href="#updating-the-basis-installation" title="Permalink to this headline">¶</a></h3>
 <p>In order to update the testing scripts, run the following commands as
-the <tt class="docutils literal"><span class="pre">swtest</span></tt> user on <tt class="docutils literal"><span class="pre">olympus</span></tt> (this is important because the cron job which
-executes the tests will run on <tt class="docutils literal"><span class="pre">olympus</span></tt>).</p>
+the <code class="docutils literal"><span class="pre">swtest</span></code> user on <code class="docutils literal"><span class="pre">olympus</span></code> (this is important because the cron job which
+executes the tests will run on <code class="docutils literal"><span class="pre">olympus</span></code>).</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span>
 svn up src
 cmake build
@@ -288,31 +295,31 @@ make -C build install
 make clean
 </pre></div>
 </div>
-<p>This updates the working copy of the BASIS sources in <tt class="docutils literal"><span class="pre">~swtest/src/</span></tt>
-and builds the project in the build tree <tt class="docutils literal"><span class="pre">~swtest/build/</span></tt>.
+<p>This updates the working copy of the BASIS sources in <code class="docutils literal"><span class="pre">~swtest/src/</span></code>
+and builds the project in the build tree <code class="docutils literal"><span class="pre">~swtest/build/</span></code>.
 Finally, the updated BASIS project is installed. Note that the explicit
 execution of CMake might be redundant. However, some modifications may
 not re-trigger a configuration even though it is required. Thus, it is
 better to run CMake manually before the make. The final
-<tt class="docutils literal"><span class="pre">make</span> <span class="pre">clean</span></tt> is optional. It is done in order to remove the temporary
+<code class="docutils literal"><span class="pre">make</span> <span class="pre">clean</span></code> is optional. It is done in order to remove the temporary
 object and binary files from the build tree and thus reduce the disk space occupied.</p>
 </div>
 <div class="section" id="configuring-test-jobs">
 <span id="configurationofautomatedtests"></span><h3>Configuring Test Jobs<a class="headerlink" href="#configuring-test-jobs" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="setting-up-the-test-environment">
 <h4>Setting up the Test Environment<a class="headerlink" href="#setting-up-the-test-environment" title="Permalink to this headline">¶</a></h4>
-<p>All tests are executed by the <tt class="docutils literal"><span class="pre">swtest</span></tt> user. Therefore, the common test
-environment can be set up in the <tt class="docutils literal"><span class="pre">~swtest/.bashrc</span></tt> file. Here, the
+<p>All tests are executed by the <code class="docutils literal"><span class="pre">swtest</span></code> user. Therefore, the common test
+environment can be set up in the <code class="docutils literal"><span class="pre">~swtest/.bashrc</span></code> file. Here, the
 <a class="reference external" href="http://modules.sourceforge.net/">environment modules</a> which are required by all tests should be loaded.
 Moreover, a particular project can depend on another project and should always be
 build using the most recent version of that other project. Every BASIS project,
 in particular, depends on BASIS. Thus, after each successful test of a project
 which is required by other projects, the files of this project are installed
-locally in the home directory of the <tt class="docutils literal"><span class="pre">swtest</span></tt> user. By setting the <tt class="docutils literal"><span class="pre">&lt;Pkg&gt;_DIR</span></tt>
+locally in the home directory of the <code class="docutils literal"><span class="pre">swtest</span></code> user. By setting the <code class="docutils literal"><span class="pre">&lt;Pkg&gt;_DIR</span></code>
 environment variable, CMake will use this reference installation if available.
 Otherwise, it will keep looking in the default system locations.</p>
 <p>For an example on how the test environment can be set up, have a look at the
-following example lines of the <tt class="docutils literal"><span class="pre">~swtest/.bashrc</span></tt>:</p>
+following example lines of the <code class="docutils literal"><span class="pre">~swtest/.bashrc</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># BASIS is required by all tested projects</span>
 module load basis
 <span class="c"># ITK 3.* is required by BASIS (for the test driver), HardiTk, GLISTR</span>
@@ -330,15 +337,15 @@ module load trilinos
 <span class="c">#       installation used by the automated testing infrastructure itself.</span>
 <span class="c">#       In this case, we actually want to install the files in ~swtest/</span>
 <span class="c">#       and not in the DESTDIR set here.</span>
-<span class="k">if</span> ! <span class="o">[[</span> <span class="sb">`</span>hostname<span class="sb">`</span> <span class="o">=</span>~ <span class="s2">&quot;olympus&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">        </span><span class="nb">export </span><span class="nv">DESTDIR</span><span class="o">=</span><span class="s2">&quot;${HOME}/comp_space/destdir&quot;</span>
+<span class="k">if</span> ! <span class="o">[[</span> <span class="sb">`</span>hostname<span class="sb">`</span> <span class="o">=</span>~ <span class="s2">&quot;olympus&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">export </span><span class="nv">DESTDIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/comp_space/destdir&quot;</span>
 <span class="k">fi</span>
 
 <span class="c"># Set &lt;Project&gt;_DIR environment variables such that the most recent</span>
 <span class="c"># installations in DESTDIR are used. If a particular installation is</span>
 <span class="c"># not available yet, the default installation as loaded by the module</span>
 <span class="c"># commands above will be used instead.</span>
-<span class="nb">export </span><span class="nv">BASIS_DIR</span><span class="o">=</span><span class="s2">&quot;${DESTDIR}/usr/local/lib/cmake/basis&quot;</span>
+<span class="nb">export </span><span class="nv">BASIS_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">DESTDIR</span><span class="si">}</span><span class="s2">/usr/local/lib/cmake/basis&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -346,25 +353,25 @@ module load trilinos
 <p class="last">The environment set up this way is common for the build of all tested projects.
 Hence, all projects which use ITK will use ITK version 3.20 in this example.
 If certain projects would require a different ITK version, the environment for these
-test jobs would need to be adjusted before the execution of <tt class="docutils literal"><span class="pre">ctest</span></tt>. This is
+test jobs would need to be adjusted before the execution of <code class="docutils literal"><span class="pre">ctest</span></code>. This is
 currently not further supported by BASIS, but is an open feature to be implemented.</p>
 </div>
 </div>
 <div class="section" id="adding-test-job-to-basistest-configuration">
 <span id="addingteststobasistestconfiguration"></span><h4>Adding Test Job to basistest Configuration<a class="headerlink" href="#adding-test-job-to-basistest-configuration" title="Permalink to this headline">¶</a></h4>
 <p>The automated tests of BASIS projects are configured in the test configuration file
-of the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a> script. The format of this configuration file is detailed
-<a class="reference internal" href="#basistestmaster"><em>here</em></a>. Where this file is located and how it is named is
-configured in the <a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script. By default, the <tt class="docutils literal"><span class="pre">basistest-master</span></tt>
-script looks for the file <tt class="docutils literal"><span class="pre">/etc/basistest.conf</span></tt>, but the current installation is setup
-such that the configuration is located in <tt class="docutils literal"><span class="pre">~swtest/etc/</span></tt>. The current test schedule
-file which is maintained and updated by the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a> script is at the moment
-saved as <tt class="docutils literal"><span class="pre">~swtest/var/run/basistest.schedule</span></tt>. The log files of the test executions are
-saved in the directory <tt class="docutils literal"><span class="pre">~swtest/var/log/</span></tt>. Note that these paths are configured
-in the <a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script. Old log files are deleted by the <a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a>
+of the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a> script. The format of this configuration file is detailed
+<a class="reference internal" href="#basistestmaster"><span>here</span></a>. Where this file is located and how it is named is
+configured in the <a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script. By default, the <code class="docutils literal"><span class="pre">basistest-master</span></code>
+script looks for the file <code class="docutils literal"><span class="pre">/etc/basistest.conf</span></code>, but the current installation is setup
+such that the configuration is located in <code class="docutils literal"><span class="pre">~swtest/etc/</span></code>. The current test schedule
+file which is maintained and updated by the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a> script is at the moment
+saved as <code class="docutils literal"><span class="pre">~swtest/var/run/basistest.schedule</span></code>. The log files of the test executions are
+saved in the directory <code class="docutils literal"><span class="pre">~swtest/var/log/</span></code>. Note that these paths are configured
+in the <a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script. Old log files are deleted by the <a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a>
 script after each execution of the test master.</p>
 <p>An example test jobs configuration file is given below:</p>
-<div class="highlight-python"><pre># MM HH DD   Project Name      Branch   Dashboard   Arguments
+<div class="highlight-python"><div class="highlight"><pre># MM HH DD   Project Name      Branch   Dashboard   Arguments
 #                                                   (e.g., build configuration)
 # -----------------------------------------------------------------------------------
 # Note: The destination directory for installations is specified by the DESTDIR
@@ -385,12 +392,13 @@ script after each execution of the test master.</p>
   0  0  1    HardiTk           trunk    Nightly     install,BUILD_ALL_MODULES=ON
 # -----------------------------------------------------------------------------------
   0  0  1    MICO              trunk    Continuous
-  0  0  7    MICO              trunk    Nightly     doxygen,memcheck,coverage,install</pre>
+  0  0  7    MICO              trunk    Nightly     doxygen,memcheck,coverage,install
+</pre></div>
 </div>
 </div>
 <div class="section" id="adjustment-of-test-schedule">
 <span id="adjustmentoftestschedule"></span><h4>Adjustment of Test Schedule<a class="headerlink" href="#adjustment-of-test-schedule" title="Permalink to this headline">¶</a></h4>
-<p>The current implementation of the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a> script does not allow
+<p>The current implementation of the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a> script does not allow
 to specify specific times at which a test job is to be executed.
 It only allows for the specification of the interval between test executions.
 Hence, if the test master script is executed the first time with a job that
@@ -399,11 +407,11 @@ every 24 hours later. For nightly tests, it is however often desired to actually
 run these tests after midnight (more specifically after the nightly start time
 configured in CDash such that the test results are submitted to the dashboard
 of the current day). To adjust the time when a test job is executed, one has
-to edit the test schedule file (i.e., <tt class="docutils literal"><span class="pre">~swtest/var/run/basistest.schedule</span></tt>)
+to edit the test schedule file (i.e., <code class="docutils literal"><span class="pre">~swtest/var/run/basistest.schedule</span></code>)
 manually. This file lists in the first two columns the date and time after
 when the next execution of the test job corresponding to the particular row
 should be run. Note that the actual execution time depends on when the
-<a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script is executed. So for the example of nightly test jobs,
+<a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script is executed. So for the example of nightly test jobs,
 the time in the second column for this test job should be changed to &#8220;3:30:00&#8221;
 for example. Choosing a time after midnight will show the nightly test results
 on the dashboard page of CDash for the &#8220;following&#8221; work day. The nightly test
@@ -411,14 +419,14 @@ of BASIS itself which is used by the other projects should be executed first
 such that the updated BASIS installation is already used by the other tests.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">As the test schedule file is generated by the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a> script,
-run either this script or the <a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script with the <tt class="docutils literal"><span class="pre">--dry</span></tt>
+<p class="last">As the test schedule file is generated by the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a> script,
+run either this script or the <a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script with the <code class="docutils literal"><span class="pre">--dry</span></code>
 option if this file is missing or was not generated yet. This will skip
 the immediate execution of all tests, but only create the test schedule
 file which then can be edited manually to adjust the times.</p>
 </div>
 <p>The following is an example of such test schedule file:</p>
-<div class="highlight-python"><pre>2012-01-11 13:55:04 BASIS trunk Continuous
+<div class="highlight-python"><div class="highlight"><pre>2012-01-11 13:55:04 BASIS trunk Continuous
 2012-01-11 13:55:05 HardiTk trunk Continuous BUILD_ALL_MODULES=ON
 2012-01-11 18:55:04 DRAMMS trunk Continuous
 2012-01-12 03:00:00 BASIS trunk Nightly doxygen,coverage,memcheck,install
@@ -428,9 +436,10 @@ file which then can be edited manually to adjust the times.</p>
 2012-01-12 12:55:05 MICO trunk Continuous
 2012-01-18 03:30:00 GLISTR trunk Nightly doxygen,memcheck,coverage,install
 2012-01-18 03:30:00 MICO trunk Nightly doxygen,memcheck,coverage,install
-2012-03-12 03:30:00 GLISTR trunk Nightly exclude=sbia</pre>
+2012-03-12 03:30:00 GLISTR trunk Nightly exclude=sbia
+</pre></div>
 </div>
-<p>Remember that the test schedule is processed by the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a>
+<p>Remember that the test schedule is processed by the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a>
 script on every script invocation. It will output the scheduled tests in chronic
 order of their next due date. If a test has been removed from the test configuration
 file, it will also no longer show up in the test schedule.</p>
@@ -438,18 +447,19 @@ file, it will also no longer show up in the test schedule.</p>
 <div class="section" id="setting-up-a-cron-job-for-automated-testing">
 <span id="testingcronjob"></span><h4>Setting up a Cron Job for Automated Testing<a class="headerlink" href="#setting-up-a-cron-job-for-automated-testing" title="Permalink to this headline">¶</a></h4>
 <p>Before you schedule a cron job for the automated software testing, open the
-<a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script located in the <tt class="docutils literal"><span class="pre">~swtest/bin/</span></tt> directory and ensure
+<a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script located in the <code class="docutils literal"><span class="pre">~swtest/bin/</span></code> directory and ensure
 that the settings are correct.</p>
-<p>Then run <a class="reference external" href="http://adminschoice.com/crontab-quick-reference">crontab</a> -e as <tt class="docutils literal"><span class="pre">swtest</span></tt> user on <tt class="docutils literal"><span class="pre">olympus</span></tt> and add an entry such as:</p>
-<div class="highlight-python"><pre>*/5 * * * * /sbia/home/swtest/bin/basistest cron</pre>
+<p>Then run <a class="reference external" href="http://adminschoice.com/crontab-quick-reference">crontab</a> -e as <code class="docutils literal"><span class="pre">swtest</span></code> user on <code class="docutils literal"><span class="pre">olympus</span></code> and add an entry such as:</p>
+<div class="highlight-python"><div class="highlight"><pre>*/5 * * * * /sbia/home/swtest/bin/basistest cron
+</pre></div>
 </div>
-<p>This will run the <a class="reference internal" href="#basistestcron"><em>basistest-cron</em></a> script and hence the testing master
-script every 5 minutes on <tt class="docutils literal"><span class="pre">olympus</span></tt>. Note that the actual interval for executing
+<p>This will run the <a class="reference internal" href="#basistestcron"><span>basistest-cron</span></a> script and hence the testing master
+script every 5 minutes on <code class="docutils literal"><span class="pre">olympus</span></code>. Note that the actual interval for executing
 the test jobs in particular depends on the test configuration. Hence, even when
 the cron job is executed every 5 minutes, the actual tests may only be run once a
 night, a week, a month,... depending on the
-<a class="reference internal" href="#addingteststobasistestconfiguration"><em>configuration file</em></a> which is provided
-for the <a class="reference internal" href="#basistestmaster"><em>basistest-master</em></a> script, no matter if any files were modified or not.</p>
+<a class="reference internal" href="#addingteststobasistestconfiguration"><span>configuration file</span></a> which is provided
+for the <a class="reference internal" href="#basistestmaster"><span>basistest-master</span></a> script, no matter if any files were modified or not.</p>
 </div>
 </div>
 </div>
@@ -522,8 +532,8 @@ for the <a class="reference internal" href="#basistestmaster"><em>basistest-mast
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>

@@ -1,9 +1,9 @@
 <map id="BASIS Modules" name="BASIS Modules">
-<area shape="rect" id="node1" href="$group__BasisDirectories.html" title="CMake variables of project directories. " alt="" coords="189,5,311,32"/>
-<area shape="rect" id="node2" href="$group__BasisScriptConfig.html" title="Script configuration as used for the build of script targets. " alt="" coords="185,56,315,83"/>
-<area shape="rect" id="node3" href="$group__CMakeAPI.html" title="Public interface of CMake modules. " alt="" coords="173,107,327,133"/>
-<area shape="rect" id="node4" href="$group__CMakeTools.html" title="Auxiliary CMake modules included and used by the main modules. " alt="" coords="167,157,333,184"/>
-<area shape="rect" id="node5" href="$group__BasisConfig.html" title="CMake package configuration. " alt="" coords="175,208,325,235"/>
-<area shape="rect" id="node6" href="$group__CMakeFindModules.html" title="CMake Find modules used by basis_find_package() command. " alt="" coords="174,259,326,285"/>
-<area shape="rect" id="node7" href="$group__BasisSettings.html" title="CMake modules defining settings for BASIS. " alt="" coords="217,309,283,336"/>
+<area shape="rect" id="node1" href="$group__BasisDirectories.html" title="CMake variables of project directories. " alt="" coords="190,5,321,32"/>
+<area shape="rect" id="node2" href="$group__BasisScriptConfig.html" title="Script configuration as used for the build of script targets. " alt="" coords="186,56,325,83"/>
+<area shape="rect" id="node3" href="$group__CMakeAPI.html" title="Public interface of CMake modules. " alt="" coords="175,107,335,133"/>
+<area shape="rect" id="node4" href="$group__CMakeTools.html" title="Auxiliary CMake modules included and used by the main modules. " alt="" coords="169,157,341,184"/>
+<area shape="rect" id="node5" href="$group__BasisConfig.html" title="CMake package configuration. " alt="" coords="177,208,334,235"/>
+<area shape="rect" id="node6" href="$group__CMakeFindModules.html" title="CMake Find modules used by basis_find_package() command. " alt="" coords="177,259,334,285"/>
+<area shape="rect" id="node7" href="$group__BasisSettings.html" title="CMake modules defining settings for BASIS. " alt="" coords="220,309,291,336"/>
 </map>

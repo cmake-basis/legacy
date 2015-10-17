@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v3.1',
+        VERSION:     'v3.2 (4b55e89)',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -84,7 +84,7 @@ git clone https://github.com/schuhschuh/cmake-basis.git
 <span class="nb">cd </span>cmake-basis
 </pre></div>
 </div>
-<p>or <a class="reference internal" href="download.html"><em>Download</em></a> a pre-packaged <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> of the latest BASIS release and unpack it using the following command:</p>
+<p>or <a class="reference internal" href="download.html"><em>Download</em></a> a pre-packaged <code class="docutils literal"><span class="pre">.tar.gz</span></code> of the latest BASIS release and unpack it using the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>mkdir -p ~/local/src
 <span class="nb">cd</span> ~/local/src
 tar xzf /path/to/downloaded/cmake-basis-<span class="nv">$version</span>.tar.gz
@@ -100,11 +100,11 @@ ccmake ..
 </pre></div>
 </div>
 <ul class="simple">
-<li>Press <tt class="docutils literal"><span class="pre">c</span></tt> to configure the project.</li>
-<li>Change <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> to <tt class="docutils literal"><span class="pre">~/local</span></tt>.</li>
-<li>Set option <tt class="docutils literal"><span class="pre">BUILD_EXAMPLE</span></tt> to <tt class="docutils literal"><span class="pre">ON</span></tt>.</li>
-<li>Make sure that option <tt class="docutils literal"><span class="pre">BUILD_PROJECT_TOOL</span></tt> is enabled.</li>
-<li>Press <tt class="docutils literal"><span class="pre">g</span></tt> to generate the Makefiles and exit <tt class="docutils literal"><span class="pre">ccmake</span></tt>.</li>
+<li>Press <code class="docutils literal"><span class="pre">c</span></code> to configure the project.</li>
+<li>Change <code class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> to <code class="docutils literal"><span class="pre">~/local</span></code>.</li>
+<li>Set option <code class="docutils literal"><span class="pre">BUILD_EXAMPLE</span></code> to <code class="docutils literal"><span class="pre">ON</span></code>.</li>
+<li>Make sure that option <code class="docutils literal"><span class="pre">BUILD_PROJECT_TOOL</span></code> is enabled.</li>
+<li>Press <code class="docutils literal"><span class="pre">g</span></code> to generate the Makefiles and exit <code class="docutils literal"><span class="pre">ccmake</span></code>.</li>
 </ul>
 </div>
 <div class="section" id="build-and-install-basis">
@@ -118,23 +118,23 @@ ccmake ..
 </pre></div>
 </div>
 <p>As a result, CMake copies the built files into the installation tree as specified by the
-<tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt> variable.</p>
+<code class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> variable.</p>
 </div>
 <div class="section" id="set-up-the-environment">
 <span id="gettingstartedenvironment"></span><h4>Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Permalink to this headline">¶</a></h4>
 <p>For the following tutorial steps, set up your environment as follows. In general, however,
-only the change of the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable is recommended. The other environment
+only the change of the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable is recommended. The other environment
 variables are only needed for the tutorial sessions.</p>
 <p>Using the C or TC shell (csh/tcsh):</p>
-<div class="highlight-bash"><div class="highlight"><pre>setenv PATH <span class="s2">&quot;~/local/bin:${PATH}&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre>setenv PATH <span class="s2">&quot;~/local/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
 setenv BASIS_EXAMPLE_DIR <span class="s2">&quot;~/local/share/basis/example&quot;</span>
-setenv HELLOBASIS_RSC_DIR <span class="s2">&quot;${BASIS_EXAMPLE_DIR}/hellobasis&quot;</span>
+setenv HELLOBASIS_RSC_DIR <span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASIS_EXAMPLE_DIR</span><span class="si">}</span><span class="s2">/hellobasis&quot;</span>
 </pre></div>
 </div>
 <p>Using the Bourne Again SHell (bash):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;~/local/bin:${PATH} &quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;~/local/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2"> &quot;</span>
 <span class="nb">export </span><span class="nv">BASIS_EXAMPLE_DIR</span><span class="o">=</span><span class="s2">&quot;~/local/share/basis/example&quot;</span>
-<span class="nb">export </span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="o">=</span><span class="s2">&quot;${BASIS_EXAMPLE_DIR}/hellobasis&quot;</span>
+<span class="nb">export </span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASIS_EXAMPLE_DIR</span><span class="si">}</span><span class="s2">/hellobasis&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -151,11 +151,11 @@ project tool again, this time with the <cite>update</cite> command.</p>
 <div class="highlight-bash"><div class="highlight"><pre>basisproject update --root ~/local/src/hellobasis --noexample --config-settings
 </pre></div>
 </div>
-<p>Here we removed the <tt class="docutils literal"><span class="pre">example/</span></tt> subdirectory and added some configuration file used by BASIS.
+<p>Here we removed the <code class="docutils literal"><span class="pre">example/</span></code> subdirectory and added some configuration file used by BASIS.
 These options could also have been given to the initial command above instead.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">The guide on how to <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a>, <a class="reference internal" href="standard/template.html#basisproject"><em>BasisProject.cmake</em></a>, and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>.</p>
+<p class="last">The guide on how to <a class="reference internal" href="howto/create-and-modify-project.html"><em>Create/Modify a Project</em></a>, <a class="reference internal" href="standard/template.html#basisproject"><span>BasisProject.cmake</span></a>, and <a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/apidoc/latest/group__CMakeAPI.html#gad82d479d14499d09c5aeda3af646b9f6">basis_project()</a>.</p>
 </div>
 </div>
 <div class="section" id="install-your-project">
@@ -175,22 +175,23 @@ make
 </div>
 <div class="section" id="add-an-executable">
 <h3>Add an Executable<a class="headerlink" href="#add-an-executable" title="Permalink to this headline">¶</a></h3>
-<p>Copy the source file from the example to <tt class="docutils literal"><span class="pre">src/</span></tt>:</p>
+<p>Copy the source file from the example to <code class="docutils literal"><span class="pre">src/</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/helloc++.cxx src/
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/helloc++.cxx src/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;executable target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">src/CMakeLists.txt</span></code> under the section &#8220;executable target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_executable</span><span class="p">(</span><span class="s">helloc++.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Alternatively, you can use the implementation of this example executable in
 Python, Perl, BASH or MATLAB. In case of MATLAB, add also a dependency to MATLAB:</p>
-<div class="highlight-cmake"><pre>basisproject update --root ~/local/src/hellobasis --use MATLAB</pre>
+<div class="highlight-cmake"><div class="highlight"><pre>basisproject update --root ~/local/src/hellobasis --use MATLAB
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <tt class="docutils literal"><span class="pre">basis_add_executable</span></tt> command, if given only a single (existing)
+<p class="last">The <code class="docutils literal"><span class="pre">basis_add_executable</span></code> command, if given only a single (existing)
 source code file or directory as argument, uses the name of this source
 file without extension or the name of the directory containing all
 source files of the executable, respectively, as the build target name.</p>
@@ -198,9 +199,9 @@ source files of the executable, respectively, as the build target name.</p>
 <div class="section" id="change-target-properties">
 <h4>Change target properties<a class="headerlink" href="#change-target-properties" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>The name of the output file is given by the <tt class="docutils literal"><span class="pre">OUTPUT_NAME</span></tt> property.</li>
-<li>To change this property, add the following line to the <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> file
-(<strong>after</strong> <tt class="docutils literal"><span class="pre">basis_add_executable</span></tt>):</li>
+<li>The name of the output file is given by the <code class="docutils literal"><span class="pre">OUTPUT_NAME</span></code> property.</li>
+<li>To change this property, add the following line to the <code class="docutils literal"><span class="pre">src/CMakeLists.txt</span></code> file
+(<strong>after</strong> <code class="docutils literal"><span class="pre">basis_add_executable</span></code>):</li>
 </ul>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_set_target_properties</span><span class="p">(</span><span class="s">helloc++</span> <span class="s">PROPERTIES</span> <span class="s">OUTPUT_NAME</span> <span class="s2">&quot;hellobasis&quot;</span><span class="p">)</span>
 </pre></div>
@@ -210,8 +211,8 @@ source files of the executable, respectively, as the build target name.</p>
 <div class="section" id="test-the-executable">
 <h4>Test the Executable<a class="headerlink" href="#test-the-executable" title="Permalink to this headline">¶</a></h4>
 <p>Now build the executable from the previously added source code. As the build system
-has been configured before using CMake, only GNU <tt class="docutils literal"><span class="pre">make</span></tt> has to be invoked.
-It will recognize the change of the <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> file and therefore reconfigure
+has been configured before using CMake, only GNU <code class="docutils literal"><span class="pre">make</span></code> has to be invoked.
+It will recognize the change of the <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code> file and therefore reconfigure
 the build system before re-building the software.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis/build
 make
@@ -225,10 +226,10 @@ hellobasis
 How is it going?
 </pre></div>
 </div>
-<p>Note that the <tt class="docutils literal"><span class="pre">hellobasis</span></tt> executable was installed into the <tt class="docutils literal"><span class="pre">~/local/bin/</span></tt> directory
-as we set the installation root directory to <tt class="docutils literal"><span class="pre">~/local</span></tt> using the <tt class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></tt>
+<p>Note that the <code class="docutils literal"><span class="pre">hellobasis</span></code> executable was installed into the <code class="docutils literal"><span class="pre">~/local/bin/</span></code> directory
+as we set the installation root directory to <code class="docutils literal"><span class="pre">~/local</span></code> using the <code class="docutils literal"><span class="pre">CMAKE_INSTALL_PREFIX</span></code>
 CMake variable. This directory should be listed in your <em>PATH</em> environment variable
-when you followed the <a class="reference internal" href="#gettingstartedenvironment"><em>environment set up</em></a> steps at the
+when you followed the <a class="reference internal" href="#gettingstartedenvironment"><span>environment set up</span></a> steps at the
 begin of this tutorial.</p>
 </div>
 </div>
@@ -238,17 +239,17 @@ begin of this tutorial.</p>
 We distinguish here between private, public, and script libraries. A private library is a library without
 public interface which is only used by other libraries and in particular executables of the project itself.
 A public library provides a public interface for users of your software. Therefore, the declarations of
-the interface given by <tt class="docutils literal"><span class="pre">.h</span></tt> files in case of C/C++ are copied to the installation directory along with
+the interface given by <code class="docutils literal"><span class="pre">.h</span></code> files in case of C/C++ are copied to the installation directory along with
 the binary library file upon installation. Another kind of library is one written in a scripting
 language such as Python, Perl, or BASH. Such library is more commonly referred to as <em>module</em>.</p>
 <div class="section" id="add-a-private-library">
 <h4>Add a private library<a class="headerlink" href="#add-a-private-library" title="Permalink to this headline">¶</a></h4>
-<p>Copy the files from the example to <tt class="docutils literal"><span class="pre">src/</span></tt>:</p>
+<p>Copy the files from the example to <code class="docutils literal"><span class="pre">src/</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/foo.* src/
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/foo.* src/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">src/CMakeLists.txt</span></code> under the section &#8220;library target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -261,24 +262,24 @@ basisproject update --root . --include
 mkdir include/hellobasis
 </pre></div>
 </div>
-<p>Copy the files from the example. The public interface is given by <tt class="docutils literal"><span class="pre">bar.h</span></tt>.</p>
-<div class="highlight-bash"><div class="highlight"><pre>cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/bar.cxx src/
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/bar.h include/hellobasis/
+<p>Copy the files from the example. The public interface is given by <code class="docutils literal"><span class="pre">bar.h</span></code>.</p>
+<div class="highlight-bash"><div class="highlight"><pre>cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/bar.cxx src/
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/bar.h include/hellobasis/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">src/CMakeLists.txt</span></code> under the section &#8220;library target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">bar</span> <span class="s">bar.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="add-a-scripted-module">
 <h4>Add a scripted module<a class="headerlink" href="#add-a-scripted-module" title="Permalink to this headline">¶</a></h4>
-<p>Copy the example Perl module to <tt class="docutils literal"><span class="pre">src/</span></tt>:</p>
+<p>Copy the example Perl module to <code class="docutils literal"><span class="pre">src/</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/local/src/hellobasis
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/FooBar.pm.in src/
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/FooBar.pm.in src/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">src/CMakeLists.txt</span></code> under the section &#8220;library target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">FooBar.pm</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -286,21 +287,21 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <p class="first admonition-title">Note</p>
 <p class="last">Unlike C++ libraries, which are commonly build from multiple source files,
 libraries written in a scripting language are separate script module files.
-Therefore, <tt class="docutils literal"><span class="pre">basis_add_library</span></tt> can be called with only a single argument,
+Therefore, <code class="docutils literal"><span class="pre">basis_add_library</span></code> can be called with only a single argument,
 the name of the library source file. The name of this source file will be used
-as build target name including the file name extension, with <tt class="docutils literal"><span class="pre">.</span></tt> replaced by <tt class="docutils literal"><span class="pre">_</span></tt>.
+as build target name including the file name extension, with <code class="docutils literal"><span class="pre">.</span></code> replaced by <code class="docutils literal"><span class="pre">_</span></code>.
 This is to avoid name conflicts between library modules written in different
 languages which have the same name such as, for example, the BASIS Utilities
-for Python (<tt class="docutils literal"><span class="pre">basis.py</span></tt>), Perl (<tt class="docutils literal"><span class="pre">basis.pm</span></tt>), and Bash (<tt class="docutils literal"><span class="pre">basis.sh</span></tt>).</p>
+for Python (<code class="docutils literal"><span class="pre">basis.py</span></code>), Perl (<code class="docutils literal"><span class="pre">basis.pm</span></code>), and Bash (<code class="docutils literal"><span class="pre">basis.sh</span></code>).</p>
 </div>
 </div>
 <div class="section" id="the-in-suffix">
 <h4>The .in suffix<a class="headerlink" href="#the-in-suffix" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>Note that some of these files have a <tt class="docutils literal"><span class="pre">.in</span></tt> file name suffix.</li>
-<li>This suffix can be omitted in the <tt class="docutils literal"><span class="pre">basis_add_library</span></tt> statement. It has however an impact on how this function treats this file.</li>
-<li>The .in suffix indicates that the file is not usable as is, but contains patterns such as <tt class="docutils literal"><span class="pre">&#64;PROJECT_NAME&#64;</span></tt> which BASIS should replace during the build of the module.</li>
-<li>The substitution of these <tt class="docutils literal"><span class="pre">&#64;*&#64;</span></tt> patterns is what we refer to as “building” script files.</li>
+<li>Note that some of these files have a <code class="docutils literal"><span class="pre">.in</span></code> file name suffix.</li>
+<li>This suffix can be omitted in the <code class="docutils literal"><span class="pre">basis_add_library</span></code> statement. It has however an impact on how this function treats this file.</li>
+<li>The .in suffix indicates that the file is not usable as is, but contains patterns such as <code class="docutils literal"><span class="pre">&#64;PROJECT_NAME&#64;</span></code> which BASIS should replace during the build of the module.</li>
+<li>The substitution of these <code class="docutils literal"><span class="pre">&#64;*&#64;</span></code> patterns is what we refer to as “building” script files.</li>
 </ul>
 </div>
 <div class="section" id="install-the-libraries">
@@ -321,14 +322,14 @@ more modules or sub-projects, then builds those modules based
 on their dependencies.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">See <a class="reference internal" href="howto/create-and-modify-project.html#howtomodularizeaproject"><em>Modularize a Project</em></a> for usage instructions,
+<p class="last">See <a class="reference internal" href="howto/create-and-modify-project.html#howtomodularizeaproject"><span>Modularize a Project</span></a> for usage instructions,
 <a class="reference internal" href="standard/template.html"><em>Project Template</em></a> for a reference implementation,
 and <a class="reference internal" href="standard/modules.html"><em>Project Modularization</em></a> for the design.</p>
 </div>
 <div class="section" id="create-a-top-level-project">
 <h4>Create a Top Level Project<a class="headerlink" href="#create-a-top-level-project" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">TOPLEVEL_DIR</span><span class="o">=</span><span class="s2">&quot;~/local/src/HelloTopLevel&quot;</span>
-basisproject create --name HelloTopLevel --description <span class="s2">&quot;This is a BASIS TopLevel project. It demonstrates how easy it is to create a simple BASIS project.&quot;</span>  --root <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>  --toplevel
+basisproject create --name HelloTopLevel --description <span class="s2">&quot;This is a BASIS TopLevel project. It demonstrates how easy it is to create a simple BASIS project.&quot;</span>  --root <span class="si">${</span><span class="nv">TOPLEVEL_DIR</span><span class="si">}</span>  --toplevel
 </pre></div>
 </div>
 </div>
@@ -336,13 +337,13 @@ basisproject create --name HelloTopLevel --description <span class="s2">&quot;Th
 <h4>Create a sub-project Containing a Library<a class="headerlink" href="#create-a-sub-project-containing-a-library" title="Permalink to this headline">¶</a></h4>
 <p>Create a sub-project module similarly to how helloBasis was created earlier.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">MODA_DIR</span><span class="o">=</span><span class="s2">&quot;~/local/src/HelloTopLevel/modules/moda&quot;</span>
-basisproject create --name moda --description <span class="s2">&quot;Subproject library to be used elsewhere&quot;</span> --root <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span> --module --include
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/moda.cxx <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/src/
-mkdir <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/include/moda
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/moda.h <span class="k">${</span><span class="nv">MODA_DIR</span><span class="k">}</span>/include/moda/
+basisproject create --name moda --description <span class="s2">&quot;Subproject library to be used elsewhere&quot;</span> --root <span class="si">${</span><span class="nv">MODA_DIR</span><span class="si">}</span> --module --include
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/moda.cxx <span class="si">${</span><span class="nv">MODA_DIR</span><span class="si">}</span>/src/
+mkdir <span class="si">${</span><span class="nv">MODA_DIR</span><span class="si">}</span>/include/moda
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/moda.h <span class="si">${</span><span class="nv">MODA_DIR</span><span class="si">}</span>/include/moda/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></tt> under the section &#8220;library target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></code> under the section &#8220;library target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_library</span><span class="p">(</span><span class="s">moda</span> <span class="s">SHARED</span> <span class="s">moda.cxx</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -350,12 +351,12 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 <div class="section" id="create-a-sub-project-that-uses-the-library">
 <h4>Create a sub-project that uses the Library<a class="headerlink" href="#create-a-sub-project-that-uses-the-library" title="Permalink to this headline">¶</a></h4>
 <p>Create a sub-project module similarly to how helloBasis was created earlier.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">MODB_DIR</span><span class="o">=</span><span class="s2">&quot;${TOPLEVEL_DIR}/modules/modb&quot;</span>
-basisproject create --name modb --description <span class="s2">&quot;User example subproject executable utility repository that uses the library&quot;</span>  --root <span class="k">${</span><span class="nv">MODB_DIR</span><span class="k">}</span> --module --src --use moda
-cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="k">}</span>/userprog.cpp <span class="k">${</span><span class="nv">MODB_DIR</span><span class="k">}</span>/src/
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">MODB_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TOPLEVEL_DIR</span><span class="si">}</span><span class="s2">/modules/modb&quot;</span>
+basisproject create --name modb --description <span class="s2">&quot;User example subproject executable utility repository that uses the library&quot;</span>  --root <span class="si">${</span><span class="nv">MODB_DIR</span><span class="si">}</span> --module --src --use moda
+cp <span class="si">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span class="si">}</span>/userprog.cpp <span class="si">${</span><span class="nv">MODB_DIR</span><span class="si">}</span>/src/
 </pre></div>
 </div>
-<p>Add the following line to <tt class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></tt> under the section &#8220;executable target(s)&#8221;:</p>
+<p>Add the following line to <code class="docutils literal"><span class="pre">${MODB_DIR}/src/CMakeLists.txt</span></code> under the section &#8220;executable target(s)&#8221;:</p>
 <div class="highlight-cmake"><div class="highlight"><pre><span class="nb">basis_add_executable</span><span class="p">(</span><span class="s">userprog.cpp</span><span class="p">)</span>
 <span class="nb">basis_target_link_libraries</span><span class="p">(</span><span class="s">userprog</span> <span class="s">moda</span><span class="p">)</span>
 </pre></div>
@@ -363,8 +364,8 @@ cp <span class="k">${</span><span class="nv">HELLOBASIS_RSC_DIR</span><span clas
 </div>
 <div class="section" id="install-the-projects">
 <h4>Install the Projects<a class="headerlink" href="#install-the-projects" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-bash"><div class="highlight"><pre>mkdir <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>/build
-<span class="nb">cd</span> <span class="k">${</span><span class="nv">TOPLEVEL_DIR</span><span class="k">}</span>/build
+<div class="highlight-bash"><div class="highlight"><pre>mkdir <span class="si">${</span><span class="nv">TOPLEVEL_DIR</span><span class="si">}</span>/build
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">TOPLEVEL_DIR</span><span class="si">}</span>/build
 cmake -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>~/local ..
 
 make install
@@ -380,7 +381,7 @@ your own software project. You have also seen how you can add your own source
 files to your newly created project and build the respective executables
 and libraries. The essentials of any software package! Thanks to BASIS, only
 few lines of CMake code are needed to accomplish this.</p>
-<p>Now check out the <a class="reference internal" href="#tutorials"><em>Advanced Tutorials</em></a> for more details regarding each of the
+<p>Now check out the <a class="reference internal" href="#tutorials"><span>Advanced Tutorials</span></a> for more details regarding each of the
 above steps and in-depth information about the used BASIS commands
 if you like, or move on to the various <a class="reference internal" href="howto.html"><em>How-to Guides</em></a> which
 will introduce you to even more BASIS concepts and best practices.</p>
@@ -390,11 +391,11 @@ will introduce you to even more BASIS concepts and best practices.</p>
 <span id="tutorials"></span><h2>Advanced Tutorials<a class="headerlink" href="#advanced-tutorials" title="Permalink to this headline">¶</a></h2>
 <p>The tutorial slides linked here for download give a slide-by-slide introduction to BASIS and
 its use including in-depth information and references to further documentation. For a less
-comprehensive tutorial-like introduction, please refer to the <a class="reference internal" href="#firststeps"><em>First Steps</em></a> above.</p>
+comprehensive tutorial-like introduction, please refer to the <a class="reference internal" href="#firststeps"><span>First Steps</span></a> above.</p>
 <ol class="arabic simple" start="0">
-<li>Download <a class="reference download internal" href="_downloads/BASIS_Introduction.pptx"><tt class="xref download docutils literal"><span class="pre">BASIS</span> <span class="pre">Introduction</span></tt></a> for an explanation of the components and purpose of BASIS
+<li>Download <a class="reference download internal" href="_downloads/BASIS_Introduction.pptx"><code class="xref download docutils literal"><span class="pre">BASIS</span> <span class="pre">Introduction</span></code></a> for an explanation of the components and purpose of BASIS
 (<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/_downloads/BASIS_Introduction.pptx">ref</a>).</li>
-<li>Download <a class="reference download internal" href="_downloads/BASIS Tutorial - 01 Getting Started.pptx"><tt class="xref download docutils literal"><span class="pre">Getting</span> <span class="pre">Started</span></tt></a>
+<li>Download <a class="reference download internal" href="_downloads/BASIS Tutorial - 01 Getting Started.pptx"><code class="xref download docutils literal"><span class="pre">Getting</span> <span class="pre">Started</span></code></a>
 (<a class="reference external" href="http://opensource.andreasschuh.com/cmake-basis/_downloads/BASIS%20Tutorial%20-%2001%20Getting%20Started.pptx">ref</a>)</li>
 </ol>
 </div>
@@ -463,8 +464,8 @@ comprehensive tutorial-like introduction, please refer to the <a class="referenc
       <div class="clearer"></div>
     </div>
   <div class="footer">
-    &copy; Copyright 2011-12 University of Pennsylvania, 2013-14 Andreas Schuh, 2013-14 Carnegie Mellon University.
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    &copy; Copyright 2011-12 University of Pennsylvania, 2013-15 Andreas Schuh, 2013-14 Carnegie Mellon University.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
   </div>
   
   </body>
