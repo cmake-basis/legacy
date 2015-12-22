@@ -1,0 +1,3 @@
+[submodule "basis"]
+	path = basis
+	url = git@github.com:schuhschuh/cmake-basis-modules.git
