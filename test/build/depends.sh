@@ -3,11 +3,6 @@ set -e
 
 [ -n "$TRAVIS_BUILD_DIR" ] || { echo "Script must be run within Travis CI environment" 1>&2; exit 1; }
 
-# Use HTTPS instead of Git protocol to clone submodules
-[[ $TRAVIS_OS_NAME != linux ]] || sed -i    's/git@github.com:/https:\/\/github.com\//' .gitmodules
-[[ $TRAVIS_OS_NAME != osx   ]] || sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-git submodule update --init --recursive
-
 # Test installation prefix
 [ -n "$prefix" ] || prefix="/tmp/local"
 

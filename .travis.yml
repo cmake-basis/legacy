@@ -2,8 +2,6 @@ language: cpp
 compiler: g++
 
 # Build scripts
-git:
-    submodules: false
 before_install: test/build/depends.sh
 script:         test/build/basis.sh
 
