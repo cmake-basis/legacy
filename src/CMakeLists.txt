@@ -24,7 +24,6 @@
 # which are no executables but to be included by other scripts written in the
 # particular language as libraries.
 
-add_subdirectory (cmake)     # CMake modules
 add_subdirectory (utilities) # implementation utilities
 
 if (Sphinx_FOUND)
