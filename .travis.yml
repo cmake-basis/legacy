@@ -4,11 +4,8 @@ compiler: g++
 # Build scripts
 git:
     submodules: false
-before_install:
-    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-    - git submodule update --init --recursive
-    - test/build/depends.sh
-script: test/build/basis.sh
+before_install: test/build/depends.sh
+script:         test/build/basis.sh
 
 # Branches to test
 branches:
