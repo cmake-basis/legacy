@@ -60,6 +60,10 @@ if (POLICY CMP0017)
   cmake_policy (SET CMP0017 NEW)
 endif ()
 
+if (POLICY CMP0042)
+  cmake_policy (SET CMP0042 NEW)
+endif ()
+
 # ============================================================================
 # required modules
 # ============================================================================
@@ -130,6 +134,7 @@ set (
   BASIS_METADATA_LIST_MULTI
     AUTHORS
     DESCRIPTION
+    LANGUAGES
     DEPENDS
     OPTIONAL_DEPENDS
     TEST_DEPENDS
