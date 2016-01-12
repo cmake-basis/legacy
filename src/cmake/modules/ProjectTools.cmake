@@ -257,8 +257,21 @@ macro (basis_project_check_metadata)
   else ()
     set (TOPLEVEL_PROJECT_DIVISION_LOGO "${PROJECT_DIVISION_LOGO}")
   endif ()
+  # PROJECT_SOVERSION -- **BEFORE** setting PROJECT_VERSION!
+  if ("^${PROJECT_SOVERSION}$" STREQUAL "^$")
+    if (PROJECT_IS_MODULE AND "^${PROJECT_VERSION}$" STREQUAL "^$")
+      set (PROJECT_SOVERSION "${TOPLEVEL_PROJECT_SOVERSION}")
+    endif ()
+  else ()
+    if (NOT PROJECT_SOVERSION MATCHES "^[0-9]+(\\.[0-9]+)?$")
+      message (FATAL_ERROR "Project ${PROJECT_NAME} has invalid API version: ${PROJECT_SOVERSION}!")
+    endif ()
+    if (NOT PROJECT_IS_MODULE)
+      set (TOPLEVEL_PROJECT_SOVERSION "${PROJECT_SOVERSION}")
+    endif ()
+  endif ()
   # PROJECT_VERSION
-  if (PROJECT_VERSION)
+  if (NOT "^${PROJECT_VERSION}$" STREQUAL "^$")
     if (NOT PROJECT_VERSION MATCHES "^[0-9]+(\\.[0-9]+)?(\\.[0-9]+)?(rc[0-9]+|[a-z])?$")
       message (FATAL_ERROR "Project ${PROJECT_NAME} has invalid version: ${PROJECT_VERSION}!")
     endif ()
@@ -330,6 +343,19 @@ macro (basis_project_check_metadata)
     endif ()
     set (TOPLEVEL_PROJECT_DEFAULT_MODULES "${PROJECT_DEFAULT_MODULES}")
   endif ()
+  # PROJECT_EXTERNAL_MODULES
+  if (PROJECT_IS_MODULE)
+    if (PROJECT_EXTERNAL_MODULES)
+      message (FATAL_ERROR "Module ${PROJECT_NAME} specified EXTERNAL_MODULES, but a module cannot have itself modules.")
+    else ()
+      set (PROJECT_EXTERNAL_MODULES "${TOPLEVEL_PROJECT_EXTERNAL_MODULES}")
+    endif ()
+  else ()
+    if (NOT PROJECT_EXTERNAL_MODULES)
+      set (PROJECT_EXTERNAL_MODULES "")
+    endif ()
+    set (TOPLEVEL_PROJECT_EXTERNAL_MODULES "${PROJECT_EXTERNAL_MODULES}")
+  endif ()
   # PROJECT_EXCLUDE_FROM_ALL
   if (PROJECT_IS_MODULE)
     if (NOT DEFINED PROJECT_EXCLUDE_FROM_ALL)
@@ -340,11 +366,22 @@ macro (basis_project_check_metadata)
       message (FATAL_ERROR "EXCLUDE_FROM_ALL option only valid for project modules.")
     endif ()
   endif ()
+  # source tree directories aliases
+  if (PROJECT_INCLUDE_DIR)
+    list (INSERT PROJECT_INCLUDE_DIRS 0 "${PROJECT_INCLUDE_DIR}")
+  endif ()
+  if (PROJECT_CODE_DIR)
+    list (INSERT PROJECT_CODE_DIRS 0 "${PROJECT_CODE_DIR}")
+  endif ()
+  if (PROJECT_TOOLS_DIR)
+    list (INSERT PROJECT_TOOLS_DIRS 0 "${PROJECT_TOOLS_DIR}")
+  endif ()
   # source tree directories
   basis_set_if_empty (PROJECT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
   basis_check_or_set_source_paths (PROJECT_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
   basis_check_or_set_source_paths (PROJECT_CODE_DIRS    "${PROJECT_SOURCE_DIR}/src")
   basis_check_or_set_source_paths (PROJECT_MODULES_DIR  "${PROJECT_SOURCE_DIR}/modules")
+  basis_check_or_set_source_paths (PROJECT_TOOLS_DIRS   "${PROJECT_SOURCE_DIR}/tools")
   basis_check_or_set_source_paths (PROJECT_CONFIG_DIR   "${PROJECT_SOURCE_DIR}/config")
   basis_check_or_set_source_paths (PROJECT_DATA_DIR     "${PROJECT_SOURCE_DIR}/data")
   basis_check_or_set_source_paths (PROJECT_DOC_DIR      "${PROJECT_SOURCE_DIR}/doc")
@@ -352,9 +389,18 @@ macro (basis_project_check_metadata)
   basis_check_or_set_source_paths (PROJECT_EXAMPLE_DIR  "${PROJECT_SOURCE_DIR}/example")
   basis_check_or_set_source_paths (PROJECT_LIBRARY_DIR  "${PROJECT_SOURCE_DIR}/lib")
   basis_check_or_set_source_paths (PROJECT_TESTING_DIR  "${PROJECT_SOURCE_DIR}/test")
+  # PROJECT_HAS_APPLICATIONS
+  set (PROJECT_HAS_APPLICATIONS FALSE)
+  foreach (DIR IN LISTS PROJECT_TOOLS_DIRS)
+    if (EXISTS "${DIR}/CMakeLists.txt")
+      set (PROJECT_HAS_APPLICATIONS TRUE)
+      break()
+    endif ()
+  endforeach ()
   # extract main source code directories from lists
   list (GET PROJECT_INCLUDE_DIRS 0 PROJECT_INCLUDE_DIR)
   list (GET PROJECT_CODE_DIRS    0 PROJECT_CODE_DIR)
+  list (GET PROJECT_TOOLS_DIRS   0 PROJECT_TOOLS_DIR)
   # let basis_project_begin() know that basis_project() was called
   set (BASIS_basis_project_CALLED TRUE)
 endmacro ()
@@ -393,6 +439,12 @@ endmacro ()
 #   which did not change the softwares @api. It is the least important component
 #   of the version number.
 #     </td>
+#   </tr>
+#   <tr>
+#     @tp @b SOVERSION major @endtp
+#     <td>Explicit SOVERSION of shared libraries, must be an integer.
+#         A value of 0 indicates that the API is yet unstable.
+#         (default: PROJECT_VERSION_MAJOR)</td>
 #   </tr>
 #   <tr>
 #     @tp @b DESCRIPTION description @endtp
@@ -500,6 +552,12 @@ endmacro ()
 #         The single value "ALL" can be used to enable all modules.<.td>
 #   </tr>
 #   <tr>
+#     @tp @b EXTERNAL_MODULES module1 [module2...] @endtp
+#     <td>List of external project modules. Only required when directory of external
+#         modules may be empty (i.e., not contain a BasisProject.cmake file) as in
+#         case of an uninitialized Git submodule.<.td>
+#   </tr>
+#   <tr>
 #     @tp @b EXCLUDE_FROM_ALL @endtp
 #     <td>Exclude this project module from @c BUILD_ALL_MODULES.</td>
 #   </tr>
@@ -554,6 +612,17 @@ endmacro ()
 #         or names of external packages which are used only if available.</td>
 #   </tr>
 #   <tr>
+#     @tp @b TOOLS_DEPENDS dep1 [dep2...] @endtp
+#     <td>List of dependencies, i.e., either names of other BASIS (sub)projects
+#         or names of external packages required when BUILD_APPLICATIONS is ON.</td>
+#   </tr>
+#   <tr>
+#     @tp @b OPTIONAL_TOOLS_DEPENDS dep1 [dep2...] @endtp
+#     <td>List of dependencies, i.e., either names of other BASIS (sub)projects
+#         or names of external packages which are used only if available
+#         when BUILD_APPLICATIONS is ON.</td>
+#   </tr>
+#   <tr>
 #     @tp @b TEST_DEPENDS dep1 [dep2...] @endtp
 #     <td>List of dependencies, i.e., either names of other BASIS (sub)projects
 #         or names of external packages which are only required by the tests.</td>
@@ -594,6 +663,21 @@ endmacro ()
 #   <tr>
 #     @tp @b CODE_DIR path @endtp
 #     <td>Alternative option for @p CODE_DIRS which only accepts a single path as argument.</td>
+#   </tr>
+#   <tr>
+#     @tp @b TOOLS_DIRS path1 [path2...] @endtp
+#     <td>A list of directories containing the source code files of applications.
+#         The first diretory path is used as main source directory from which the
+#         subdirectory name of the corresponding build tree directory is derived.
+#         Any configured or generated source files are written to this build tree
+#         source directory. The source files in the specified directories are only
+#         build when the BUILD_APPLICATIONS option is enabled. This option is
+#         automatically added when any of the directories contains a CMakeLists.txt
+#         file. (default: tools)</td>
+#   </tr>
+#   <tr>
+#     @tp @b TOOLS_DIR path @endtp
+#     <td>Alternative option for @p TOOLS_DIRS which only accepts a single path as argument.</td>
 #   </tr>
 #   <tr>
 #     @tp @b LIBRARY_DIR path @endtp
@@ -653,17 +737,23 @@ endmacro ()
 # @retval PROJECT_DIVISION_WEBSITE        See @c DIVISION_WEBSITE.
 # @retval PROJECT_DIVISION_LOGO           See @c DIVISION_LOGO. Value is an absolute path.
 # @retval PROJECT_VERSION                 See @c VERSION.
+# @retval PROJECT_SOVERSION               See @c SOVERSION.
 # @retval PROJECT_DESCRIPTION             See @c DESCRIPTION.
 # @retval PROJECT_LANGUAGES               See @c LANGUAGES.
 # @retval PROJECT_DEPENDS                 See @c DEPENDS.
 # @retval PROJECT_OPTIONAL_DEPENDS        See @c OPTIONAL_DEPENDS.
+# @retval PROJECT_TOOLS_DEPENDS           See @c TOOLS_DEPENDS.
+# @retval PROJECT_OPTIONAL_TOOLS_DEPENDS  See @c OPTIONAL_TOOLS_DEPENDS.
 # @retval PROJECT_TEST_DEPENDS            See @c TEST_DEPENDS.
 # @retval PROJECT_OPTIONAL_TEST_DEPENDS   See @c OPTIONAL_TEST_DEPENDS.
 # @retval PROJECT_IS_SUBPROJECT           See @c TRUE if @c IS_SUBPROJECT option given or @c FALSE otherwise.
 # @retval PROJECT_DEFAULT_MODULES         See @c DEFAULT_MODULES.
+# @retval PROJECT_EXTERNAL_MODULES        See @c EXTERNAL_MODULES.
 #
 # @retval PROJECT_CODE_DIRS               See @c CODE_DIRS.
 # @retval PROJECT_CODE_DIR                First element of @c PROJECT_CODE_DIRS list.
+# @retval PROJECT_TOOLS_DIRS              See @c TOOLS_DIRS.
+# @retval PROJECT_TOOLS_DIR               First element of @c PROJECT_TOOLS_DIRS list.
 # @retval PROJECT_CONFIG_DIR              See @c CONFIG_DIR.
 # @retval PROJECT_DATA_DIR                See @c DATA_DIR.
 # @retval PROJECT_DOC_DIR                 See @c DOC_DIR.
@@ -675,6 +765,8 @@ endmacro ()
 # @retval PROJECT_MODULE_DIRS             See @c MODULE_DIRS.
 # @retval PROJECT_MODULES_DIR             See @c MODULES_DIR.
 # @retval PROJECT_TESTING_DIR             See @c TESTING_DIR.
+#
+# @retval PROJECT_HAS_APPLICATIONS Whether any of the PROJECT_TOOLS_DIRS has a CMakeLists.txt file.
 #
 # @ingroup CMakeAPI
 #
@@ -795,7 +887,7 @@ macro (basis_project_modules)
       message (FATAL_ERROR "basis_module_info(): Missing basis_project() command in ${F}!")
     endif ()
     # remember dependencies
-    foreach (V IN ITEMS DEPENDS OPTIONAL_DEPENDS TEST_DEPENDS OPTIONAL_TEST_DEPENDS)
+    foreach (V IN ITEMS DEPENDS OPTIONAL_DEPENDS TOOLS_DEPENDS OPTIONAL_TOOLS_DEPENDS TEST_DEPENDS OPTIONAL_TEST_DEPENDS)
       set (${V})
       foreach (D ${PROJECT_${V}})
         basis_tokenize_dependency ("${D}" PKG VER CMPS)
@@ -808,14 +900,17 @@ macro (basis_project_modules)
     endforeach ()
     # do not use MODULE instead of PROJECT_NAME in this function as it is not
     # set in the scope of this function but its parent scope only
-    set (${PROJECT_NAME}_DEPENDS               "${DEPENDS}"               PARENT_SCOPE)
-    set (${PROJECT_NAME}_OPTIONAL_DEPENDS      "${OPTIONAL_DEPENDS}"      PARENT_SCOPE)
-    set (${PROJECT_NAME}_TEST_DEPENDS          "${TEST_DEPENDS}"          PARENT_SCOPE)
-    set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS "${OPTIONAL_TEST_DEPENDS}" PARENT_SCOPE)
-    set (${PROJECT_NAME}_DECLARED              TRUE                       PARENT_SCOPE)
+    set (${PROJECT_NAME}_DEPENDS                "${DEPENDS}"                PARENT_SCOPE)
+    set (${PROJECT_NAME}_OPTIONAL_DEPENDS       "${OPTIONAL_DEPENDS}"       PARENT_SCOPE)
+    set (${PROJECT_NAME}_TOOLS_DEPENDS          "${TOOL_DEPENDS}"           PARENT_SCOPE)
+    set (${PROJECT_NAME}_OPTIONAL_TOOLS_DEPENDS "${OPTIONAL_TOOLS_DEPENDS}" PARENT_SCOPE)
+    set (${PROJECT_NAME}_TEST_DEPENDS           "${TEST_DEPENDS}"           PARENT_SCOPE)
+    set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS  "${OPTIONAL_TEST_DEPENDS}"  PARENT_SCOPE)
+    set (${PROJECT_NAME}_DECLARED               TRUE                        PARENT_SCOPE)
+    set (${PROJECT_NAME}_MISSING                FALSE                       PARENT_SCOPE)
     # remember source directories - used by basis_add_doxygen_doc()
-    set (${PROJECT_NAME}_INCLUDE_DIRS "${PROJECT_INCLUDE_DIRS}")
-    set (${PROJECT_NAME}_CODE_DIRS    "${PROJECT_CODE_DIRS}")
+    set (${PROJECT_NAME}_INCLUDE_DIRS "${PROJECT_INCLUDE_DIRS}" PARENT_SCOPE)
+    set (${PROJECT_NAME}_CODE_DIRS    "${PROJECT_CODE_DIRS}"    PARENT_SCOPE)
     # remember if module depends on Slicer - used by basis_find_packages()
     if (PROJECT_IS_SLICER_MODULE)
       foreach (_D IN LISTS BASIS_SLICER_METADATA_LIST)
@@ -850,6 +945,21 @@ macro (basis_project_modules)
     endif ()
   endforeach()
 
+  # add non-existing external modules to list
+  foreach (MODULE IN LISTS PROJECT_EXTERNAL_MODULES)
+    if (NOT ${MODULE}_DECLARED)
+      list (APPEND PROJECT_MODULES "${MODULE}")
+      set (${MODULE}_DEPENDS)
+      set (${MODULE}_OPTIONAL_DEPENDS)
+      set (${MODULE}_TOOLS_DEPENDS)
+      set (${MODULE}_OPTIONAL_TOOLS_DEPENDS)
+      set (${MODULE}_TEST_DEPENDS)
+      set (${MODULE}_OPTIONAL_TEST_DEPENDS)
+      set (${MODULE}_DECLARED TRUE)
+      set (${MODULE}_MISSING  TRUE)
+    endif ()
+  endforeach ()
+
   # validate the module DAG to identify cyclic dependencies
   macro (basis_module_check MODULE NEEDED_BY STACK)
     if (${MODULE}_DECLARED)
@@ -868,6 +978,8 @@ macro (basis_project_modules)
         set (${MODULE}_CHECK_STARTED TRUE)
         foreach (D IN LISTS ${MODULE}_DEPENDS
                             ${MODULE}_OPTIONAL_DEPENDS
+                            ${MODULE}_TOOLS_DEPENDS
+                            ${MODULE}_OPTIONAL_TOOLS_DEPENDS
                             ${MODULE}_TEST_DEPENDS
                             ${MODULE}_OPTIONAL_TEST_DEPENDS)
           basis_module_check (${D} ${MODULE} "${MODULE};${STACK}")
@@ -912,7 +1024,13 @@ macro (basis_project_modules)
         set (MODULE_${MODULE}_DEFAULT ON)
       endif ()
     endif ()
-    option (MODULE_${MODULE} "Request to build the module ${MODULE}." ${MODULE_${MODULE}_DEFAULT})
+    if (${MODULE}_MISSING AND NOT MODULE_${MODULE}_DEFAULT)
+      set (MODULE_${MODULE} NOTFOUND CACHE STRING "Request to build the module ${MODULE}.")
+      set_property (CACHE MODULE_${MODULE} PROPERTY STRINGS "NOTFOUND;ON")
+    else ()
+      option (MODULE_${MODULE} "Request to build the module ${MODULE}." ${MODULE_${MODULE}_DEFAULT})
+      set_property (CACHE MODULE_${MODULE} PROPERTY TYPE BOOL)
+    endif ()
     unset (MODULE_${MODULE}_DEFAULT)
   endforeach ()
 
@@ -930,6 +1048,11 @@ macro (basis_project_modules)
         foreach (D IN LISTS ${MODULE}_DEPENDS)
           basis_module_enable (${D} ${MODULE})
         endforeach ()
+        if (BUILD_APPLICATIONS)
+          foreach (D IN LISTS ${MODULE}_TOOLS_DEPENDS)
+            basis_module_enable (${D} ${MODULE})
+          endforeach ()
+        endif ()
         if (BUILD_TESTING)
           foreach (D IN LISTS ${MODULE}_TEST_DEPENDS)
             basis_module_enable (${D} ${MODULE})
@@ -969,6 +1092,8 @@ macro (basis_project_modules)
     set (${MODULE}_USES
       ${${MODULE}_DEPENDS}
       ${${MODULE}_OPTIONAL_DEPENDS}
+      ${${MODULE}_TOOLS_DEPENDS}
+      ${${MODULE}_OPTIONAL_TOOLS_DEPENDS}
       ${${MODULE}_TEST_DEPENDS}
       ${${MODULE}_OPTIONAL_TEST_DEPENDS}
     )
@@ -1002,11 +1127,25 @@ macro (basis_project_modules)
       message ("Enabled module ${MODULE}, needed by [${${MODULE}_NEEDED_BY}].")
     endif ()
   endforeach ()
- 
+
   # report what will be built
   if (PROJECT_MODULES_ENABLED)
     message (STATUS "Enabled modules [${PROJECT_MODULES_ENABLED}].")
   endif ()
+
+  # check that all enabled external modules do exist
+  foreach (MODULE IN LISTS PROJECT_EXTERNAL_MODULES)
+    if (MODULE_${MODULE} AND ${MODULE}_MISSING)
+      set (msg "External module ${MODULE} is enabled but missing.")
+      if (EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
+        set (msg "${msg} If the module is a Git submodule, ensure that it"
+                 " is properly initialized, i.e.,\n"
+                 "\tgit submodule update --init -- <module_dir>\n")
+      endif ()
+      basis_list_to_string(msg ${msg})
+      message (FATAL_ERROR "${msg}")
+    endif ()
+  endforeach ()
 
   # undefine locally used variables
   unset (F)
@@ -1622,7 +1761,9 @@ macro (basis_project_initialize)
       PROJECT_VERSION_PATCH
   )
 
-  set (PROJECT_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+  if (NOT DEFINED PROJECT_SOVERSION OR PROJECT_SOVERSION STREQUAL "")
+    set (PROJECT_SOVERSION "${PROJECT_VERSION_MAJOR}")
+  endif ()
 
   # version information string
   if (PROJECT_VERSION MATCHES "^0+(\\.0+)?(\\.0+)?")
@@ -1644,6 +1785,9 @@ macro (basis_project_initialize)
     set (PROJECT_RELEASE "v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
     if (PROJECT_VERSION_PATCH)
       set (PROJECT_RELEASE "${PROJECT_RELEASE}.${PROJECT_VERSION_PATCH}")
+    endif ()
+    if (PROJECT_VERSION MATCHES "^[0-9]+(\\.[0-9]+)(\\.[0-9]+)([a-zA-Z][a-zA-Z0-9]*)")
+      set (PROJECT_RELEASE "${PROJECT_RELEASE}${CMAKE_MATCH_3}") # add rc, beta, alpha prefix
     endif ()
     if (PROJECT_REVISION)
       if (PROJECT_IS_GIT_REPOSITORY)
@@ -1838,6 +1982,33 @@ macro (basis_find_packages)
   endforeach ()
 
   # --------------------------------------------------------------------------
+  # application dependencies
+  if (BUILD_APPLICATIONS)
+    # required application dependencies
+    foreach (P IN LISTS PROJECT_TOOLS_DEPENDS)
+      basis_find_package ("${P}") # do not use REQUIRED here to be able to show
+      basis_use_package ("${P}")  # error message below
+      basis_tokenize_dependency ("${P}" P VER CMPS)
+      string (TOUPPER "${P}" U)
+      if (NOT ${P}_FOUND AND NOT ${U}_FOUND)
+        message (FATAL_ERROR "Could not find package ${P}! It is required by "
+                             "the applications of ${PROJECT_NAME}. Either specify "
+                             "package location manually and try again or "
+                             "disable testing by setting BUILD_APPLICATIONS to OFF.")
+        
+      endif ()
+      unset (U)
+      unset (VER)
+      unset (CMPS)
+    endforeach ()
+    # optional application dependencies
+    foreach (P IN LISTS PROJECT_OPTIONAL_TOOLS_DEPENDS)
+      basis_find_package ("${P}" QUIET)
+      basis_use_package ("${P}")
+    endforeach ()
+  endif ()
+
+  # --------------------------------------------------------------------------
   # test dependencies
   if (BUILD_TESTING)
     # required test dependencies
@@ -1953,7 +2124,7 @@ endmacro ()
 
 # ----------------------------------------------------------------------------
 ## @brief Add a project module.
-function (basis_add_module MODULE)
+macro (basis_add_module MODULE)
   if (PROJECT_IS_MODULE)
     message (FATAL_ERROR "A module cannot have submodules by itself!")
   endif ()
@@ -1963,6 +2134,7 @@ function (basis_add_module MODULE)
   #
   # Note: - MODULE_${MODULE}_SOURCE_DIR is the location of the module source code.
   #       - MODULE_${MODULE}_BINARY_DIR is the build directory for the module.
+  #       - ${MODULE}_INCLUDE_DIRS are the locations of public header files.
   if (BASIS_SUPERBUILD_MODULES)
     message (STATUS "Configuring super-build of module ${MODULE}...")
     basis_super_build (${MODULE}) # automatically uses: "${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}"
@@ -1972,7 +2144,16 @@ function (basis_add_module MODULE)
     add_subdirectory ("${MODULE_${MODULE}_SOURCE_DIR}" "${MODULE_${MODULE}_BINARY_DIR}")
     message (STATUS "Configuring module ${MODULE}... - done")
   endif ()
-endfunction ()
+  set (PROJECT_IS_MODULE FALSE)
+  include ("${${MODULE}_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${MODULE}Config.cmake")
+endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Use a previously added project module.
+macro (basis_use_module MODULE)
+  include ("${${MODULE}_USE_FILE}")
+  add_definitions(-DHAVE_${PROJECT_PACKAGE_NAME}_${MODULE})
+endmacro ()
 
 # ----------------------------------------------------------------------------
 ## @brief Marks the begining of a BASIS project.
@@ -2142,14 +2323,37 @@ macro (basis_project_begin)
 
   # add default project directories to list of subdirectories
   # (in reverse order always at beginning of list)
-  if (BUILD_EXAMPLE)
+  if (EXISTS "${PROJECT_EXAMPLE_DIR}/CMakeLists.txt" AND BUILD_EXAMPLE)
     list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_EXAMPLE_DIR}")
   endif ()
-  if (BUILD_TESTING)
+  if (EXISTS "${PROJECT_TESTING_DIR}/CMakeLists.txt" AND BUILD_TESTING)
     list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_TESTING_DIR}")
   endif ()
-  list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_DATA_DIR}")
-  list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_CODE_DIRS}")
+  if (EXISTS "${PROJECT_DATA_DIR}/CMakeLists.txt")
+    list (INSERT PROJECT_SUBDIRS 0 "${PROJECT_DATA_DIR}")
+  endif ()
+  if (BUILD_APPLICATIONS)
+    set (_TOOLS_DIRS)
+    foreach (_TOOLS_DIR IN LISTS PROJECT_TOOLS_DIRS)
+      if (EXISTS "${_TOOLS_DIR}/CMakeLists.txt")
+        list (APPEND _TOOLS_DIRS "${_TOOLS_DIR}")
+      endif ()
+    endforeach ()
+    list (INSERT PROJECT_SUBDIRS 0 "${_TOOLS_DIRS}")
+    unset (_TOOLS_DIR)
+    unset (_TOOLS_DIRS)
+  endif ()
+  set (_CODE_DIRS)
+  foreach (_CODE_DIR IN LISTS PROJECT_CODE_DIRS)
+    if (EXISTS "${_CODE_DIR}/CMakeLists.txt")
+      list (APPEND _CODE_DIRS "${_CODE_DIR}")
+    endif ()
+  endforeach ()
+  if (_CODE_DIRS)
+    list (INSERT PROJECT_SUBDIRS 0 "${_CODE_DIRS}")
+  endif ()
+  unset (_CODE_DIR)
+  unset (_CODE_DIRS)
 
   if (BASIS_DEBUG)
     basis_dump_variables ("${PROJECT_BINARY_DIR}/VariablesAfterInitialization.cmake")
@@ -2224,7 +2428,7 @@ macro (basis_project_end)
   # This is done after all files which may be interesting for inclusion
   # in the documentation are generated. In particular, this has to be done
   # after the configuration of the BASIS utilities.
-  if (IS_DIRECTORY "${PROJECT_DOC_DIR}" AND BUILD_DOCUMENTATION)
+  if (EXISTS "${PROJECT_DOC_DIR}/CMakeLists.txt" AND BUILD_DOCUMENTATION)
     add_subdirectory ("${PROJECT_DOC_DIR}")
   endif ()
 
@@ -2304,6 +2508,7 @@ macro (basis_project_impl)
   if (NOT PROJECT_IS_MODULE)
     foreach (MODULE IN LISTS PROJECT_MODULES_ENABLED)
       basis_add_module (${MODULE})
+      basis_use_module (${MODULE})
     endforeach ()
   endif ()
   # process subdirectories

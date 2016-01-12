@@ -252,6 +252,10 @@ endfunction ()
 #         Default: No exclude patterns.</td>
 #   </tr>
 #   <tr>
+#     @tp @b PREDEFINED name1|name1=value1 [name2|name2=value2...] @endtp
+#     <td>Add preprocessor definitions to be expanded by Doxygen.</td>
+#   </tr>
+#   <tr>
 #     @tp @b OUTPUT fmt @endtp
 #     <td>Specify output formats in which to generate the documentation.
 #         Currently, only @c html and @c xml are supported.</td>
@@ -414,9 +418,9 @@ function (basis_add_doxygen_doc TARGET_NAME)
   )
   CMAKE_PARSE_ARGUMENTS (
     DOXYGEN
-      "EXCLUDE_FROM_DOC;DISABLE_PROJECT_NAME_DISPLAY"
+      "EXCLUDE_FROM_DOC;DISABLE_PROJECT_NAME_DISPLAY;NO_STANDARD_INPUT"
       "${VALUEARGS};${OPTIONAL_FILE_OPTIONS}"
-      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH;IGNORE_PREFIX;ENABLED_SECTIONS;HTML_EXTRA_FILES"
+      "INPUT;OUTPUT;INPUT_FILTER;FILTER_PATTERNS;EXCLUDE_PATTERNS;INCLUDE_PATH;IGNORE_PREFIX;ENABLED_SECTIONS;PREDEFINED;HTML_EXTRA_FILES"
       ${ARGN}
   )
   unset (VALUEARGS)
@@ -522,43 +526,45 @@ function (basis_add_doxygen_doc TARGET_NAME)
     set (DOXYGEN_PROJECT_NAME_DISPLAY "inline")
   endif()
   # standard input files
-  list (APPEND DOXYGEN_INPUT "${PROJECT_SOURCE_DIR}/BasisProject.cmake")
-  if (EXISTS "${PROJECT_CONFIG_DIR}/Depends.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/Depends.cmake")
+  if (NOT DOXYGEN_NO_STANDARD_INPUT)
+    list (APPEND DOXYGEN_INPUT "${PROJECT_SOURCE_DIR}/BasisProject.cmake")
+    if (EXISTS "${PROJECT_CONFIG_DIR}/Depends.cmake")
+      list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/Depends.cmake")
+    endif ()
+    if (EXISTS "${BINARY_CONFIG_DIR}/Directories.cmake")
+      list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/Directories.cmake")
+    endif ()
+    if (EXISTS "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
+      list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
+    endif ()
+    if (EXISTS "${BINARY_CONFIG_DIR}/ProjectSettings.cmake")
+      list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/ProjectSettings.cmake")
+    endif ()
+    if (EXISTS "${BINARY_CONFIG_DIR}/Settings.cmake")
+      list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/Settings.cmake")
+    elseif (EXISTS "${PROJECT_CONFIG_DIR}/Settings.cmake")
+      list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/Settings.cmake")
+    endif ()
+    if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
+      list (APPEND DOXYGEN_INPUT "${BASIS_SCRIPT_CONFIG_FILE}")
+    endif ()
+    if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+      list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
+    endif ()
+    if (EXISTS "${PROJECT_CONFIG_DIR}/ConfigSettings.cmake")
+      list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/ConfigSettings.cmake")
+    endif ()
+    if (EXISTS "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
+      list (APPEND DOXYGEN_INPUT "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
+    endif ()
+    if (EXISTS "${PROJECT_BINARY_DIR}/CTestCustom.cmake")
+      list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/CTestCustom.cmake")
+    endif ()
+    # package configuration files - only exist *after* this function executed
+    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Config.cmake")
+    list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}ConfigVersion.cmake")
+    list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Use.cmake")
   endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/Directories.cmake")
-    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/Directories.cmake")
-  endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
-    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/BasisSettings.cmake")
-  endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/ProjectSettings.cmake")
-    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/ProjectSettings.cmake")
-  endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/Settings.cmake")
-    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/Settings.cmake")
-  elseif (EXISTS "${PROJECT_CONFIG_DIR}/Settings.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/Settings.cmake")
-  endif ()
-  if (EXISTS "${BASIS_SCRIPT_CONFIG_FILE}")
-    list (APPEND DOXYGEN_INPUT "${BASIS_SCRIPT_CONFIG_FILE}")
-  endif ()
-  if (EXISTS "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
-    list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/ScriptConfig.cmake")
-  endif ()
-  if (EXISTS "${PROJECT_CONFIG_DIR}/ConfigSettings.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_CONFIG_DIR}/ConfigSettings.cmake")
-  endif ()
-  if (EXISTS "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_SOURCE_DIR}/CTestConfig.cmake")
-  endif ()
-  if (EXISTS "${PROJECT_BINARY_DIR}/CTestCustom.cmake")
-    list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/CTestCustom.cmake")
-  endif ()
-  # package configuration files - only exist *after* this function executed
-  list (APPEND DOXYGEN_INPUT "${BINARY_CONFIG_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Config.cmake")
-  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}ConfigVersion.cmake")
-  list (APPEND DOXYGEN_INPUT "${PROJECT_BINARY_DIR}/${PROJECT_PACKAGE_CONFIG_PREFIX}Use.cmake")
   # input directories
   foreach (_DIR IN LISTS BINARY_INCLUDE_DIR PROJECT_INCLUDE_DIRS BINARY_CODE_DIR PROJECT_CODE_DIRS)
     if (IS_DIRECTORY ${_DIR})
@@ -598,22 +604,24 @@ function (basis_add_doxygen_doc TARGET_NAME)
   file (GLOB_RECURSE DOX_FILES "${PROJECT_DOC_DIR}/*.dox")
   list (SORT DOX_FILES) # alphabetic order
   list (APPEND DOXYGEN_INPUT ${DOX_FILES})
-  # add .dox files of BASIS modules
-  list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Modules.dox")
-  # add .dox files of used BASIS utilities
-  list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox")
-  list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/CxxUtilities.dox")
-  foreach (L IN ITEMS Cxx Java Python Perl Bash Matlab)
-    string (TOUPPER "${L}" U)
-    basis_get_project_property (USES_${U}_UTILITIES PROPERTY PROJECT_USES_${U}_UTILITIES)
-    if (USES_${U}_UTILITIES)
-      list (FIND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox" IDX)
-      if (IDX EQUAL -1)
-        list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox")
+  if (BASIS_DIR AND NOT DOXYGEN_NO_STANDARD_INPUT)
+    # add .dox files of BASIS modules
+    list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Modules.dox")
+    # add .dox files of used BASIS utilities
+    list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox")
+    list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/CxxUtilities.dox")
+    foreach (L IN ITEMS Cxx Java Python Perl Bash Matlab)
+      string (TOUPPER "${L}" U)
+      basis_get_project_property (USES_${U}_UTILITIES PROPERTY PROJECT_USES_${U}_UTILITIES)
+      if (USES_${U}_UTILITIES)
+        list (FIND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox" IDX)
+        if (IDX EQUAL -1)
+          list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/Utilities.dox")
+        endif ()
+        list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/${L}Utilities.dox")
       endif ()
-      list (APPEND DOXYGEN_INPUT "${BASIS_MODULE_PATH}/${L}Utilities.dox")
-    endif ()
-  endforeach ()
+    endforeach ()
+  endif ()
   # include path - Disabled as this increases the runtime of Doxygen but
   #                generally the source of third-party packages are not
   #                really referenced. Only the source files of this
@@ -636,6 +644,11 @@ function (basis_add_doxygen_doc TARGET_NAME)
     DOXYGEN_INPUT "\"\nINPUT                 += \"" ${DOXYGEN_INPUT}
   )
   set (DOXYGEN_INPUT "\"${DOXYGEN_INPUT}\"")
+  # preprocessor definitions
+  basis_list_to_delimited_string (
+    DOXYGEN_PREDEFINED "\"\nPREDEFINED            += \"" ${DOXYGEN_PREDEFINED}
+  )
+  set (DOXYGEN_PREDEFINED "\"${DOXYGEN_PREDEFINED}\"")
   # outputs
   if (NOT DOXYGEN_OUTPUT_DIRECTORY)
     set (DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME_L}")
@@ -1313,7 +1326,7 @@ function (basis_add_sphinx_doc TARGET_NAME)
       if (ARG MATCHES "^(autodoc|autosummary|doctest|intersphinx|pngmath|jsmath|mathjax|graphvis|inheritance_graph|ifconfig|coverage|todo|extlinks|viewcode)$")
         set (ARG "sphinx.ext.${CMAKE_MATCH_0}")
       # map originial name of extensions included with BASIS
-      elseif (ARG MATCHES "^sphinx-contrib.(doxylink)$")
+      elseif (BASIS_SPHINX_EXTENSIONS_PATH AND ARG MATCHES "^sphinxcontrib.(doxylink)$")
         set (ARG "${CMAKE_MATCH_1}")
       endif ()
       list (APPEND SPHINX_EXTENSIONS "'${ARG}'")
@@ -1484,8 +1497,16 @@ function (basis_add_sphinx_doc TARGET_NAME)
     endforeach ()
   endif ()
   # enable required extension
-  if (SPHINX_DOXYLINK_TARGETS AND NOT SPHINX_EXTENSIONS MATCHES "(^|;)?doxylink(;|$)?")
-    list (APPEND SPHINX_EXTENSIONS "'doxylink'")
+  if (SPHINX_DOXYLINK_TARGETS)
+    if (BASIS_SPHINX_EXTENSIONS_PATH)
+      if (NOT SPHINX_EXTENSIONS MATCHES "(^|;)?doxylink(;|$)?")
+        list (APPEND SPHINX_EXTENSIONS "'doxylink'")
+      endif ()
+    else ()
+      if (NOT SPHINX_EXTENSIONS MATCHES "(^|;)?sphinxcontrib.doxylink(;|$)?")
+        list (APPEND SPHINX_EXTENSIONS "'sphinxcontrib.doxylink'")
+      endif ()
+    endif ()
   endif ()
   if (SPHINX_BREATHE_TARGETS AND NOT SPHINX_EXTENSIONS MATCHES "(^|;)?breathe(;|$)?")
     list (APPEND SPHINX_EXTENSIONS "'breathe'")
