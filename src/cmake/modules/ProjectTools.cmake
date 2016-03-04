@@ -1,7 +1,7 @@
 # ============================================================================
 # Copyright (c) 2011-2012 University of Pennsylvania
 # Copyright (c) 2013-2014 Carnegie Mellon University
-# Copyright (c) 2013-2014 Andreas Schuh
+# Copyright (c) 2013-2016 Andreas Schuh
 # All rights reserved.
 #
 # See COPYING file for license information or visit
@@ -80,6 +80,22 @@ endmacro ()
 # ----------------------------------------------------------------------------
 ## @brief Check meta-data and set defaults.
 #
+# This command sets PROJECT_IS_SUBPROJECT and PROJECT_IS_SUBMODULE. A project
+# is a (loosely coupled) "subproject" when it uses the SUBPROJECT option of
+# basis_project to define the name of the subproject. It then also must specify
+# the name of the PACKAGE this subproject belongs to. When a project uses the
+# NAME option instead to declare its name, it can be either an independent
+# project or a (tighly coupled) "submodule" of another project. A project is
+# regarded a "submodule" when it is not a subproject but specifies a PACKAGE
+# it belongs to. Otherwise, when only a project has only a NAME, but no PACKAGE
+# the PACKAGE name is set equal the project NAME and the project is regarded
+# as neither a subproject nor a submodule. When either a subproject or submodule
+# is built as part of a top-level project (usually the PACKAGE it belongs to),
+# the CMake variable PROJECT_IS_MODULE is furthermore set to TRUE by the
+# basis_add_module command. The PROJECT_IS_SUBPROJECT and PROJECT_IS_SUBMODULE
+# flags are used by the BASIS commands to decide to which "namespace" the
+# targets of a project belong to and what components to install.
+#
 # @sa basis_project()
 # @sa basis_slicer_module()
 macro (basis_project_check_metadata)
@@ -129,6 +145,11 @@ macro (basis_project_check_metadata)
   endif ()
   if (PROJECT_PACKAGE)
     set (PROJECT_PACKAGE_NAME "${PROJECT_PACKAGE}")
+  endif ()
+  if (PROJECT_PACKAGE_NAME AND NOT PROJECT_IS_SUBPROJECT)
+    set (PROJECT_IS_SUBMODULE TRUE)
+  else ()
+    set (PROJECT_IS_SUBMODULE FALSE)
   endif ()
   if (NOT PROJECT_PACKAGE_NAME)
     if (PROJECT_IS_MODULE)
@@ -746,7 +767,8 @@ endmacro ()
 # @retval PROJECT_OPTIONAL_TOOLS_DEPENDS  See @c OPTIONAL_TOOLS_DEPENDS.
 # @retval PROJECT_TEST_DEPENDS            See @c TEST_DEPENDS.
 # @retval PROJECT_OPTIONAL_TEST_DEPENDS   See @c OPTIONAL_TEST_DEPENDS.
-# @retval PROJECT_IS_SUBPROJECT           See @c TRUE if @c IS_SUBPROJECT option given or @c FALSE otherwise.
+# @retval PROJECT_IS_SUBPROJECT           @c TRUE if @c SUBPROJECT used instead of NAME or @c FALSE otherwise.
+# @retval PROJECT_IS_SUBMODULE            @c TRUE when project @c NAME and @c PACKAGE name is given, @c FALSE otherwise.
 # @retval PROJECT_DEFAULT_MODULES         See @c DEFAULT_MODULES.
 # @retval PROJECT_EXTERNAL_MODULES        See @c EXTERNAL_MODULES.
 #
@@ -869,9 +891,13 @@ macro (basis_project_modules)
     if (EXISTS "${_PATH}/BasisProject.cmake")
       list (APPEND MODULE_INFO_FILES "${_PATH}/BasisProject.cmake")
     else ()
-      message (FATAL_ERROR "Check your top-level ${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake"
-                           " file because the module ${_PATH}/BasisProject.cmake"
-                           " file does not appear to exist.")
+      get_filename_component(MODULE "${_PATH}" NAME)
+      list(FIND PROJECT_EXTERNAL_MODULES "${MODULE}" IDX)
+      if (IDX EQUAL -1)
+        message (FATAL_ERROR "Check your top-level ${CMAKE_CURRENT_SOURCE_DIR}/BasisProject.cmake"
+                             " file because the module ${_PATH}/BasisProject.cmake"
+                             " file does not appear to exist.")
+      endif ()
     endif ()
   endforeach ()
   unset (_PATH)
@@ -930,6 +956,8 @@ macro (basis_project_modules)
 
   set (PROJECT_MODULES)
   foreach (F IN LISTS MODULE_INFO_FILES)
+    # clean path without // to fix issue with UNC paths on Windows
+    get_filename_component (F "${F}" ABSOLUTE)
     basis_module_info (${F})
     list (APPEND PROJECT_MODULES ${MODULE})
     get_filename_component (${MODULE}_BASE ${F} PATH)
@@ -1919,7 +1947,7 @@ macro (basis_initialize_settings)
   endif ()
   # package configuration
   set (_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX "${TOPLEVEL_PROJECT_PACKAGE_NAME}")
-  if (PROJECT_IS_MODULE)
+  if (PROJECT_IS_MODULE OR PROJECT_IS_SUBMODULE)
     set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PROJECT_NAME}")
   else ()
     set (_PROJECT_PACKAGE_CONFIG_PREFIX "${_TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}")
@@ -1986,18 +2014,28 @@ macro (basis_find_packages)
   if (BUILD_APPLICATIONS)
     # required application dependencies
     foreach (P IN LISTS PROJECT_TOOLS_DEPENDS)
-      basis_find_package ("${P}") # do not use REQUIRED here to be able to show
-      basis_use_package ("${P}")  # error message below
-      basis_tokenize_dependency ("${P}" P VER CMPS)
-      string (TOUPPER "${P}" U)
-      if (NOT ${P}_FOUND AND NOT ${U}_FOUND)
-        message (FATAL_ERROR "Could not find package ${P}! It is required by "
-                             "the applications of ${PROJECT_NAME}. Either specify "
-                             "package location manually and try again or "
-                             "disable testing by setting BUILD_APPLICATIONS to OFF.")
-        
+      basis_find_package ("${P}" REQUIRED NO_NOTFOUND_ERROR)
+      basis_tokenize_dependency ("${P}" PKG VER CMPS)
+      string (TOUPPER "${PKG}" PKG_U)
+      if (NOT ${PKG}_FOUND AND NOT ${PKG_U}_FOUND)
+        set (msg "Could not find package ${PKG}! It is required by the applications"
+                 " of ${PROJECT_NAME}. Please ensure that the package is installed"
+                 " in a standard system location or set DEPENDS_${PKG}_DIR to the"
+                 " installation prefix (i.e., top-level directory of the installation).")
+        if (DEFINED ${PKG}_DIR OR DEFINED ${PKG_U}_DIR)
+          string (TOLOWER "${PKG}" PKG_L)
+          set (msg "${msg}\nThe DEPENDS_${PKG}_DIR variable can alternatively be set"
+                   " to the directory containing a ${PKG}Config.cmake or ${PKG_L}-config.cmake"
+                   " file. If no such file exists, contact either the developer of"
+                   " this project or CMake BASIS to provide a Find${PKG}.cmake file.")
+        endif ()
+        set (msg "${msg}\nTo disable the build of the applications, set BUILD_APPLICATIONS to OFF.")
+        basis_list_to_string(msg ${msg})
+        message (FATAL_ERROR "\n${msg}\n")
       endif ()
-      unset (U)
+      basis_use_package ("${P}" REQUIRED)
+      unset (PKG_U)
+      unset (PKG)
       unset (VER)
       unset (CMPS)
     endforeach ()
@@ -2013,18 +2051,28 @@ macro (basis_find_packages)
   if (BUILD_TESTING)
     # required test dependencies
     foreach (P IN LISTS PROJECT_TEST_DEPENDS)
-      basis_find_package ("${P}") # do not use REQUIRED here to be able to show
-      basis_use_package ("${P}")  # error message below
-      basis_tokenize_dependency ("${P}" P VER CMPS)
-      string (TOUPPER "${P}" U)
-      if (NOT ${P}_FOUND AND NOT ${U}_FOUND)
-        message (FATAL_ERROR "Could not find package ${P}! It is required by "
-                             "the tests of ${PROJECT_NAME}. Either specify "
-                             "package location manually and try again or "
-                             "disable testing by setting BUILD_TESTING to OFF.")
-        
+      basis_find_package ("${P}" REQUIRED NO_NOTFOUND_ERROR)
+      basis_tokenize_dependency ("${P}" PKG VER CMPS)
+      string (TOUPPER "${PKG}" PKG_U)
+      if (NOT ${PKG}_FOUND AND NOT ${PKG_U}_FOUND)
+        set (msg "Could not find package ${PKG}! It is required by the tests"
+                 " of ${PROJECT_NAME}. Please ensure that the package is installed"
+                 " in a standard system location or set DEPENDS_${PKG}_DIR to the"
+                 " installation prefix (i.e., top-level directory of the installation).")
+        if (DEFINED ${PKG}_DIR OR DEFINED ${PKG_U}_DIR)
+          string (TOLOWER "${PKG}" PKG_L)
+          set (msg "${msg}\nThe DEPENDS_${PKG}_DIR variable can alternatively be set"
+                   " to the directory containing a ${PKG}Config.cmake or ${PKG_L}-config.cmake"
+                   " file. If no such file exists, contact either the developer of"
+                   " this project or CMake BASIS to provide a Find${PKG}.cmake file.")
+        endif ()
+        set (msg "${msg}\nTo disable the build of the tests, set BUILD_TESTING to OFF.")
+        basis_list_to_string(msg ${msg})
+        message (FATAL_ERROR "\n${msg}\n")
       endif ()
-      unset (U)
+      basis_use_package ("${P}" REQUIRED)
+      unset (PKG_U)
+      unset (PKG)
       unset (VER)
       unset (CMPS)
     endforeach ()
@@ -2112,11 +2160,9 @@ endmacro ()
 # ----------------------------------------------------------------------------
 ## @brief Add subdirectory or ignore it if it does not exist.
 macro (basis_add_subdirectory SUBDIR)
-  if (NOT IS_ABSOLUTE "${SUBDIR}")
-    set (SUBDIR "${CMAKE_CURRENT_SOURCE_DIR}/${SUBDIR}")
-  endif ()
-  if (IS_DIRECTORY "${SUBDIR}")
-    add_subdirectory ("${SUBDIR}")
+  get_filename_component(_SUBDIR "${SUBDIR}" ABSOLUTE)
+  if (IS_DIRECTORY "${_SUBDIR}")
+    add_subdirectory ("${_SUBDIR}")
   elseif (BASIS_VERBOSE)
     message (WARNING "Skipping non-existing subdirectory ${SUBDIR}.")
   endif ()
@@ -2151,6 +2197,7 @@ endmacro ()
 # ----------------------------------------------------------------------------
 ## @brief Use a previously added project module.
 macro (basis_use_module MODULE)
+  set (NO_${MODULE}_IMPORTS TRUE)
   include ("${${MODULE}_USE_FILE}")
   add_definitions(-DHAVE_${PROJECT_PACKAGE_NAME}_${MODULE})
 endmacro ()
@@ -2339,7 +2386,9 @@ macro (basis_project_begin)
         list (APPEND _TOOLS_DIRS "${_TOOLS_DIR}")
       endif ()
     endforeach ()
-    list (INSERT PROJECT_SUBDIRS 0 "${_TOOLS_DIRS}")
+    if (_TOOLS_DIRS)
+      list (INSERT PROJECT_SUBDIRS 0 "${_TOOLS_DIRS}")
+    endif ()
     unset (_TOOLS_DIR)
     unset (_TOOLS_DIRS)
   endif ()
@@ -2462,7 +2511,10 @@ macro (basis_project_end)
  
     # --------------------------------------------------------------------------
     # add installation rule to register package with CMake
-    if (BASIS_REGISTER AND NOT PROJECT_IS_MODULE AND PROJECT_VERSION VERSION_GREATER 0.0.0)
+    if (BASIS_REGISTER
+        AND NOT PROJECT_IS_MODULE
+        AND NOT PROJECT_IS_SUBMODULE
+        AND PROJECT_VERSION VERSION_GREATER 0.0.0)
       basis_register_package ()
     endif ()
  
