@@ -928,7 +928,7 @@ macro (basis_project_modules)
     # set in the scope of this function but its parent scope only
     set (${PROJECT_NAME}_DEPENDS                "${DEPENDS}"                PARENT_SCOPE)
     set (${PROJECT_NAME}_OPTIONAL_DEPENDS       "${OPTIONAL_DEPENDS}"       PARENT_SCOPE)
-    set (${PROJECT_NAME}_TOOLS_DEPENDS          "${TOOL_DEPENDS}"           PARENT_SCOPE)
+    set (${PROJECT_NAME}_TOOLS_DEPENDS          "${TOOLS_DEPENDS}"          PARENT_SCOPE)
     set (${PROJECT_NAME}_OPTIONAL_TOOLS_DEPENDS "${OPTIONAL_TOOLS_DEPENDS}" PARENT_SCOPE)
     set (${PROJECT_NAME}_TEST_DEPENDS           "${TEST_DEPENDS}"           PARENT_SCOPE)
     set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS  "${OPTIONAL_TEST_DEPENDS}"  PARENT_SCOPE)
@@ -961,10 +961,9 @@ macro (basis_project_modules)
     basis_module_info (${F})
     list (APPEND PROJECT_MODULES ${MODULE})
     get_filename_component (${MODULE}_BASE ${F} PATH)
+    basis_get_relative_path (${MODULE}_BASE_REL "${CMAKE_CURRENT_SOURCE_DIR}" "${${MODULE}_BASE}")
     set (MODULE_${MODULE}_SOURCE_DIR "${${MODULE}_BASE}")
-    # use module name as subdirectory name such that the default package
-    # configuration file knows where to find the module configurations
-    set (MODULE_${MODULE}_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/modules/${MODULE}")
+    set (MODULE_${MODULE}_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${${MODULE}_BASE_REL}")
     # help modules to find each other using basis_find_package()
     set (${MODULE}_DIR "${MODULE_${MODULE}_BINARY_DIR}")
     # only set EXCLUDE_<MODULE>_FROM_ALL when not specified on command-line using -D switch
@@ -2191,7 +2190,7 @@ macro (basis_add_module MODULE)
     message (STATUS "Configuring module ${MODULE}... - done")
   endif ()
   set (PROJECT_IS_MODULE FALSE)
-  include ("${${MODULE}_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${MODULE}Config.cmake")
+  include ("${BINARY_LIBCONF_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${MODULE}Config.cmake")
 endmacro ()
 
 # ----------------------------------------------------------------------------
