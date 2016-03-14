@@ -31,6 +31,7 @@ set (
     "ProjectTools.cmake"            # main project/module helpers
     "RevisionTools.cmake"           # revision control system support
     "SlicerTools.cmake"             # support build of Slicer Extensions
+    "SuperBuildTools.cmake"         # super-build of project modules
     "TargetTools.cmake"             # addition of build target
     "TopologicalSort.cmake"         # topological sorting of build dependencies
     "UtilitiesTools.cmake"          # generation/configuration of utilities
@@ -61,10 +62,11 @@ set (
     "ModuleConfigUse.cmake.in"            # default <Pkg>Use.cmake template for modules
     "GenerateConfig.cmake"                # generation/configuration of <Pkg>Config.cmake et al.
     # documentation generation
-    "doxygen_header.html"                 # header of Doxygen documentation
-    "doxygen_footer.html"                 # footer of Doxygen documentation
-    "doxygen_sbia.css"                    # stylesheet for Doxygen documentation
+    "doxygen_header.html.in"              # header of Doxygen documentation
+    "doxygen_footer.html.in"              # footer of Doxygen documentation
+    "doxygen_extra.css.in"                # stylesheet for Doxygen documentation
     "sphinx_conf.py.in"                   # default Sphinx configuration
+    "sphinx_make.sh.in"                   # shell script to execute Sphinx
     "logo_sbia.png"                       # the logo of SBIA
     "logo_penn.gif"                       # the logo of UPenn
     # other
@@ -90,9 +92,12 @@ set (
 set (
   CMAKE_FIND_MODULES
     "FindAFNI.cmake"
+    "FindARPACK.cmake"
     "FindBASH.cmake"
     "FindBLAS.cmake"
     "FindBoostNumericBindings.cmake"
+    "FindEigen3.cmake"
+    "FindFLANN.cmake"
     "FindGMock.cmake"
     "FindGTest.cmake"
     "FindITK.cmake"
@@ -110,6 +115,8 @@ set (
     "FindSparseBayes.cmake"
     "FindSphinx.cmake"
     "FindSVMTorch.cmake"
+    "FindTBB.cmake"
+    "FindUMFPACK.cmake"
     "FindWeka.cmake"
 )
 
@@ -148,7 +155,7 @@ foreach (F IN LISTS MODULES)
       list (FIND CMAKE_FIND_MODULES "${F}" IDX)
     endif ()
     if (IDX EQUAL -1)
-      message (WARNING "Seems like ${CMAKE_CURRENT_SOURCE_DIR}/${F} will not be installed!")
+      message (WARNING "Seems like ${CMAKE_CURRENT_SOURCE_DIR}/modules/${F} will not be installed!")
     endif ()
   endif ()
 endforeach ()
