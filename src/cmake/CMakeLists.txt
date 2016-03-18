@@ -79,6 +79,8 @@ set (
     "doxyfilter.bat.in"                   # wraps Doxygen filter command on Windows
     "ExecuteProcess.cmake"                # wraps CMake's execute_process() function
     "generate_matlab_executable.cmake.in" # build command for alternative build of MCC targets
+    "GenerateExportHeader.cmake"          # GenerateExportHeader of CMake 3.6
+    "exportheader.cmake.in"               # template header file used by GenerateExportHeader
     "get_python_lib.py"                   # auxiliary script to determine site-packages directory
     "glob.cmake"                          # used to glob for source files
     "ScriptConfig.cmake.in"               # default script configuration file
