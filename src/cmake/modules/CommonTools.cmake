@@ -1,7 +1,7 @@
 # ============================================================================
 # Copyright (c) 2011-2012 University of Pennsylvania
 # Copyright (c) 2013-2014 Carnegie Mellon University
-# Copyright (c) 2013-2014 Andreas Schuh
+# Copyright (c) 2013-2016 Andreas Schuh
 # All rights reserved.
 #
 # See COPYING file for license information or visit
@@ -46,7 +46,7 @@ include (CMakeParseArguments)
 # has modified these variables, but not restored their initial value.
 macro (find_package)
   if (BASIS_DEBUG)
-    message ("find_package(${ARGV})")
+    message ("** find_package(${ARGV})")
   endif ()
   # attention: find_package() can be recursive. Hence, use "stack" to keep
   #            track of library suffixes. Further note that we need to
@@ -54,16 +54,16 @@ macro (find_package)
   list (APPEND _BASIS_FIND_LIBRARY_SUFFIXES "{${CMAKE_FIND_LIBRARY_SUFFIXES}}")
   list (APPEND _BASIS_FIND_EXECUTABLE_SUFFIX "${CMAKE_FIND_EXECUTABLE_SUFFIX}")
   _find_package(${ARGV})
-  # map obsolete <PKG>_* variables to case-sensitive <Pkg>_*
+  # map common uppercase <PKG>_* variables to case-preserving <Pkg>_*
   string (TOUPPER "${ARGV0}" _FP_ARGV0_U)
   foreach (_FP_VAR IN ITEMS FOUND DIR USE_FILE
                             VERSION VERSION_STRING
                             VERSION_MAJOR VERSION_MINOR VERSION_SUBMINOR VERSION_PATCH
-                            MAJOR_VERSION MINOR_VERSION SUBMINOR_VERSION PATCH_VERSION_PATCH
+                            MAJOR_VERSION MINOR_VERSION SUBMINOR_VERSION PATCH_VERSION
                             INCLUDE_DIR INCLUDE_DIRS INCLUDE_PATH
                             LIBRARY_DIR LIBRARY_DIRS LIBRARY_PATH
                             EXECUTABLE COMPILER CONVERTER)
-    if (NOT DEFINED ${ARGV0}_${_FP_VAR} AND DEFINED ${_FP_ARGV0_U}_${_FP_VAR})
+    if (NOT ${ARGV0}_${_FP_VAR} AND DEFINED ${_FP_ARGV0_U}_${_FP_VAR})
       set (${ARGV0}_${_FP_VAR} "${${_FP_ARGV0_U}_${_FP_VAR}}")
     endif ()
   endforeach ()
@@ -137,14 +137,15 @@ function (_basis_config_to_prefix_dir PKG PKG_DIR PREFIX)
       endif ()
     endif ()
     string (REGEX REPLACE "/+(cmake|CMake)/*$" "" prefix "${PKG_DIR}")
-    if (UNIX)
+    set (SUBDIR_RE "/+(lib[0-9]*(/[^/]+)?|share)(/+cmake)?")
+    if (UNIX AND prefix MATCHES "${SUBDIR_RE}(/+[^/]+|/*$)")
       get_filename_component (subdir "${prefix}" NAME)
       string (TOLOWER "${subdir}" subdir)
       string (TOLOWER "${PKG}"    pkg)
       if ("^${subdir}$" STREQUAL "^${pkg}$")
         get_filename_component (prefix "${prefix}" PATH)
       endif ()
-      string(REGEX REPLACE "/+(lib(/[^/]+)?|share)(/+cmake)?/*$" "" prefix "${prefix}")
+      string(REGEX REPLACE "${SUBDIR_RE}/*$" "" prefix "${prefix}")
     endif ()
   else ()
     set(prefix "NOTFOUND")
@@ -229,16 +230,14 @@ macro (basis_find_package PACKAGE)
   # ------------------------------------------------------------------------
   # tokenize dependency specification
   basis_tokenize_dependency ("${PACKAGE}" PKG _BFP_VERSIONS _BFP_COMPONENTS)
-  list (APPEND _BFP_ARGN_COMPONENTS ${_BFP_COMPONENTS})
-  unset (_BFP_COMPONENTS)
   list (GET _BFP_ARGN_UNPARSED_ARGUMENTS 0 _BFP_VERSION)
-  if (_BFP_VERSION MATCHES "^[0-9]+(\\.[0-9]+)*$")
-    list (REMOVE_AT _BFP_ARGN_UNPARSED_ARGUMENTS 0)
+  if (_BFP_VERSION MATCHES "^[0-9]+(\\.[0-9]+)*(\\|[0-9]+(\\.[0-9]+)*)*$")
     if (_BFP_VERSIONS)
       message (FATAL_ERROR "Cannot use both version specification as part of "
                            "package name and explicit version argument.")
     endif ()
-    set (_BFP_VERSIONS "${_BFP_VERSION}")
+    list (REMOVE_AT _BFP_ARGN_UNPARSED_ARGUMENTS 0)
+    string(REPLACE "|" ";" _BFP_VERSIONS ${_BFP_VERSION})
   endif ()
   list (LENGTH _BFP_VERSIONS _BFP_VERSIONS_COUNT)
   if (_BFP_ARGN_MODULE AND _BFP_VERSIONS GREATER 1)
@@ -249,6 +248,28 @@ macro (basis_find_package PACKAGE)
   endif ()
   string (TOLOWER "${PKG}" PKG_L)
   string (TOUPPER "${PKG}" PKG_U)
+  # ------------------------------------------------------------------------
+  # set <PKG>_FIND_REQUIRED_<CMP>
+  foreach (_BFP_CMP IN LISTS _BFP_COMPONENTS)
+    set (${PKG}_FIND_REQUIRED_${_BFP_CMP} ${_BFP_ARGN_REQUIRED})
+  endforeach ()
+  foreach (_BFP_CMP IN LISTS _BFP_ARGN_COMPONENTS)
+    set (${PKG}_FIND_REQUIRED_${_BFP_CMP} TRUE)
+  endforeach ()
+  foreach (_BFP_CMP IN LISTS _BFP_ARGN_OPTIONAL_COMPONENTS)
+    set (${PKG}_FIND_REQUIRED_${_BFP_CMP} FALSE)
+  endforeach ()
+  list (APPEND _BFP_ARGN_COMPONENTS ${_BFP_COMPONENTS})
+  if (_BFP_ARGN_COMPONENTS)
+    list (REMOVE_DUPLICATES _BFP_ARGN_COMPONENTS)
+  endif ()
+  # ------------------------------------------------------------------------
+  # prefix of package variable names set by Find<Pkg> or <Pkg>Config
+  if (PKG MATCHES "^((P|J)ython)Interp$")
+    string (TOUPPER "${CMAKE_MATCH_1}" _BFP_NS)
+  else ()
+    set (_BFP_NS "${PKG}")
+  endif ()
   # ------------------------------------------------------------------------
   # some debugging output
   if (BASIS_DEBUG)
@@ -287,14 +308,6 @@ macro (basis_find_package PACKAGE)
     unset (_BFP_ARGS)
   endif ()
   # ------------------------------------------------------------------------
-  # set <PKG>_FIND_REQUIRED_<CMP>
-  foreach (_BFP_CMP IN LISTS _BFP_ARGN_COMPONENTS)
-    set (${PKG}_FIND_REQUIRED_${_BFP_CMP} TRUE)
-  endforeach ()
-  foreach (_BFP_CMP IN LISTS _BFP_ARGN_OPTIONAL_COMPONENTS)
-    set (${PKG}_FIND_REQUIRED_${_BFP_CMP} FALSE)
-  endforeach ()
-  # ------------------------------------------------------------------------
   # find other modules of same project
   set (_BFP_IS_PROJECT FALSE)
   set (_BFP_IS_MODULE  FALSE)
@@ -312,19 +325,32 @@ macro (basis_find_package PACKAGE)
             message (FATAL_ERROR "Module ${PROJECT_NAME} has module ${_BFP_CMP} of top-level project ${PKG}"
                                  " as dependency, but no such module exists.")
           endif ()
-          if (${PKG}_FIND_REQUIRED_${_BFP_CMP})
-            list (FIND PROJECT_MODULES_ENABLED "${_BFP_CMP}" _BFP_CMPIDX)
-            if (_BFP_CMPIDX EQUAL -1)
-              message (FATAL_ERROR "Module ${PROJECT_NAME} requires module ${_BFP_CMP}"
-                                   " of top-level project ${PKG}, but module ${_BFP_CMP}"
-                                   " is not enabled.")
+          list (FIND PROJECT_MODULES_ENABLED "${_BFP_CMP}" _BFP_CMPIDX)
+          if (_BFP_CMPIDX EQUAL -1)
+            if (BASIS_DEBUG)
+              message ("**     Identified it as disabled module of this project.")
             endif ()
+            if (${PKG}_FIND_REQUIRED_${_BFP_CMP})
+              if (_BFP_ARGN_REQUIRED)
+                message (FATAL_ERROR
+                  "Module ${PROJECT_NAME} requires module ${_BFP_CMP} of top-level project ${PKG},"
+                  " but module ${_BFP_CMP} is not enabled."
+                )
+              elseif (NOT _BFP_ARGN_QUIET)
+                message (STATUS
+                  "Module ${PROJECT_NAME} optionally uses module ${_BFP_CMP} of top-level project ${PKG},"
+                  " but module ${_BFP_CMP} is not enabled."
+                )
+              endif ()
+            endif ()
+            set (${PKG}_${_BFP_CMP}_FOUND FALSE)
+          else ()
+            if (BASIS_DEBUG)
+              message ("**     Identified it as enabled module of this project.")
+            endif ()
+            include ("${BINARY_LIBCONF_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${_BFP_CMP}Config.cmake")
+            set (${PKG}_${_BFP_CMP}_FOUND TRUE)
           endif ()
-          if (BASIS_DEBUG)
-            message ("**     Identified it as other module of this project.")
-          endif ()
-          include ("${BINARY_LIBCONF_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${_BFP_CMP}Config.cmake")
-          set (${PKG}_${_BFP_CMP}_FOUND TRUE)
         endforeach ()
       else ()
         if (BASIS_DEBUG)
@@ -339,14 +365,28 @@ macro (basis_find_package PACKAGE)
       if (NOT _BFP_PKGIDX EQUAL -1)
         set (_BFP_IS_MODULE TRUE)
         list (FIND PROJECT_MODULES_ENABLED "${PKG}" _BFP_PKGIDX)
-        if (NOT _BFP_PKGIDX EQUAL -1)
+        if (_BFP_PKGIDX EQUAL -1)
           if (BASIS_DEBUG)
-            message ("**     Identified it as other module of this project.")
+            message ("**     Identified it as disable module of this project.")
+          endif ()
+          if (_BFP_ARGN_REQUIRED)
+            message (FATAL_ERROR
+              "Module ${PROJECT_NAME} requires module ${_BFP_CMP} of top-level project ${PKG},"
+              " but module ${_BFP_CMP} is not enabled."
+            )
+          elseif (NOT _BFP_ARGN_QUIET)
+            message (STATUS
+              "Module ${PROJECT_NAME} optionally uses module ${_BFP_CMP} of top-level project ${PKG},"
+              " but module ${_BFP_CMP} is not enabled."
+            )
+          endif ()
+          set (${PKG}_FOUND FALSE)
+        else ()
+          if (BASIS_DEBUG)
+            message ("**     Identified it as enabled module of this project.")
           endif ()
           include ("${BINARY_LIBCONF_DIR}/${TOPLEVEL_PROJECT_PACKAGE_CONFIG_PREFIX}${PKG}Config.cmake")
           set (${PKG}_FOUND TRUE)
-        else ()
-          set (${PKG}_FOUND FALSE)
         endif ()
       endif ()
     endif ()
@@ -483,25 +523,27 @@ macro (basis_find_package PACKAGE)
         basis_update_value (DEPENDS_${PKG}_DIR "${_BFP_PREFIX}")
       endif ()
       # --------------------------------------------------------------------
-      # reset <PKG>[_-]* cache entries when DEPENDS_<PKG>_DIR has changed
+      # reset _?<PKG>[_-]* variables when DEPENDS_<PKG>_DIR has changed
       if (_DEPENDS_${PKG}_DIR AND DEPENDS_${PKG}_DIR)
         if (NOT "^${_DEPENDS_${PKG}_DIR}$" STREQUAL "^${DEPENDS_${PKG}_DIR}$")
-          set (${PKG}_FOUND FALSE) # need to start a new search
           get_cmake_property (_BFP_VARS VARIABLES)
-          basis_sanitize_for_regex (PKG_RE "${PKG}")
+          basis_sanitize_for_regex (PKG_RE     "${PKG}")
+          basis_sanitize_for_regex (PKG_U_RE   "${PKG_U}")
+          basis_sanitize_for_regex (_BFP_NS_RE "${_BFP_NS}")
           foreach (_BFP_VAR IN LISTS _BFP_VARS)
-            if (_BFP_VAR MATCHES "^${PKG_RE}[_-]")
+            if (_BFP_VAR MATCHES "^_?(${_BFP_NS_RE}|${PKG_RE}|${PKG_U_RE})[_-]")
               basis_is_cached (_BFP_CACHED ${_BFP_VAR})
               if (_BFP_CACHED)
-                get_property (_BFP_TYPE CACHE ${_BFP_VAR} PROPERTY TYPE)
-                if (NOT "^${_BFP_TYPE}$" STREQUAL "^INTERNAL$")
-                  set_property (CACHE ${_BFP_VAR} PROPERTY VALUE "${_BFP_VAR}-NOTFOUND")
-                  set_property (CACHE ${_BFP_VAR} PROPERTY TYPE  INTERNAL)
-                endif ()
+                set_property (CACHE ${_BFP_VAR} PROPERTY VALUE "${_BFP_VAR}-NOTFOUND")
+                set_property (CACHE ${_BFP_VAR} PROPERTY TYPE  INTERNAL)
+              elseif (NOT _BFP_VAR MATCHES "^${PKG_RE}_FIND_")
+                unset (${_BFP_VAR})
               endif ()
             endif ()
           endforeach ()
           unset (PKG_RE)
+          unset (PKG_U_RE)
+          unset (_BFP_NS_RE)
         endif ()
       endif ()
       # ----------------------------------------------------------------------
@@ -551,8 +593,8 @@ macro (basis_find_package PACKAGE)
         mark_as_advanced (FORCE DEPENDS_${PKG}_DIR)
       else ()
         # status message with information what we are looking for
-        if (PKG MATCHES "^(MFC|wxWidgets)$")
-          set (_BFP_STATUS) # Find<Pkg> module prints status already
+        if (_BFP_ARGN_QUIET)
+          set (_BFP_STATUS)
         else ()
           set (_BFP_STATUS "Looking for ${PKG}")
           if (_BFP_VERSIONS)
@@ -574,9 +616,9 @@ macro (basis_find_package PACKAGE)
         endif ()
         # make copy of previous <Pkg>_VERSION_STRING if already set which is used
         # as "last resort" when variable not set by the following find_package
-        set (_BFP_VERSION_STRING "${${PKG}_VERSION_STRING}")
-        unset (${PKG}_VERSION_STRING)
-        # set internal <PKG>_DIR used by find_package to locate <Pkg>Config
+        set (_BFP_VERSION_STRING "${${_BFP_NS}_VERSION_STRING}")
+        unset (${_BFP_NS}_VERSION_STRING)
+        # set internal <Pkg>_DIR used by find_package to locate <Pkg>Config
         set (${PKG}_DIR "${DEPENDS_${PKG}_DIR}" CACHE INTERNAL "Directory containing ${PKG}Config.cmake file." FORCE)
         # call find_package if not all components found yet
         set (_BFP_FOUND "${${PKG}_FOUND}") # used to decide what the intersection of
@@ -585,23 +627,24 @@ macro (basis_find_package PACKAGE)
                                            # for the setting of <PKG>_FOUND
         if (NOT _BFP_NO_FIND_PACKAGE)
           # reset <PKG>_FOUND
-          set (${PKG}_FOUND FALSE)
+          set (${PKG}_FOUND   FALSE)
+          set (${PKG_U}_FOUND FALSE)
           # make copy of find_* search path variables
           foreach (_BFP_VAR IN ITEMS CMAKE_PREFIX_PATH CMAKE_PROGRAM_PATH)
             set (_BFP_${_BFP_VAR} "${${_BFP_VAR}}")
           endforeach ()
-          # insert <PKG>_DIR into find_* search path variables
-          if (IS_DIRECTORY "${${PKG}_DIR}")
+          # insert DEPENDS_<PKG>_DIR into find_* search paths
+          if (IS_DIRECTORY "${DEPENDS_${PKG}_DIR}")
             # add directory to CMAKE_PROGRAM_PATH when the name
             # of the last subdirectory is "bin", "Bin", "sbin",
             # or "texbin" (i.e., MacTeX's "/Library/TeX/texbin" path)
-            if (${PKG}_DIR MATCHES "/([bB]in|sbin|texbin)/+$")
-              list (INSERT CMAKE_PROGRAM_PATH 0 "${${PKG}_DIR}")
+            if (DEPENDS_${PKG}_DIR MATCHES "/([bB]in|sbin|texbin)/+$")
+              list (INSERT CMAKE_PROGRAM_PATH 0 "${DEPENDS_${PKG}_DIR}")
             # add directory to CMAKE_PREFIX_PATH otherwise as users
             # tend to specify the installation prefix instead of the
             # actual directory containing the package configuration file
             else ()
-              list (INSERT CMAKE_PREFIX_PATH 0 "${${PKG}_DIR}")
+              list (INSERT CMAKE_PREFIX_PATH 0 "${DEPENDS_${PKG}_DIR}")
             endif ()
           endif ()
           # now look for the package using find_package
@@ -622,9 +665,6 @@ macro (basis_find_package PACKAGE)
             foreach (_BFP_VERSION ${_BFP_VERSIONS})
               find_package (${PKG} ${_BFP_VERSION} ${_BFP_FIND_PACKAGE_ARGS} QUIET)
               if (${PKG}_FOUND)
-                if (NOT _BFP_ARGN_QUIET)
-                  find_package (${PKG} ${_BFP_VERSION} ${_BFP_FIND_PACKAGE_ARGS})
-                endif ()
                 break ()
               endif ()
             endforeach ()
@@ -635,7 +675,7 @@ macro (basis_find_package PACKAGE)
             if (_BFP_ARGN_NO_MODULE OR _BFP_ARGN_CONFIG)
               list (APPEND _BFP_FIND_PACKAGE_ARGS CONFIG)
             endif ()
-            find_package (${PKG} ${_BFP_VERSIONS} ${_BFP_FIND_PACKAGE_ARGS})
+            find_package (${PKG} ${_BFP_VERSIONS} ${_BFP_FIND_PACKAGE_ARGS} QUIET)
           endif ()
           unset (_BFP_FIND_PACKAGE_ARGS)
           # restore find_* search path variables
@@ -656,76 +696,66 @@ macro (basis_find_package PACKAGE)
           endif ()
         endif () # NOT _BFP_NO_FIND_PACKAGE
         # set common <Pkg>_VERSION_STRING variable if possible and not set
-        if (NOT DEFINED ${PKG}_VERSION_STRING)
-          if ("^${PKG}$" STREQUAL "^PythonInterp$") # FindPythonInterp
-            set (${PKG}_VERSION_STRING ${PYTHON_VERSION_STRING})
-          elseif ("^${PKG}$" STREQUAL "^JythonInterp$") # FindJythonInterp
-            set (${PKG}_VERSION_STRING ${JYTHON_VERSION_STRING})
-          elseif (DEFINED ${PKG}_VERSION_MAJOR)
-            set (${PKG}_VERSION_STRING ${${PKG}_VERSION_MAJOR})
-            if (DEFINED ${PKG}_VERSION_MINOR)
-              set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_VERSION_MINOR})
-              if (DEFINED ${PKG}_VERSION_PATCH)
-                set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_VERSION_PATCH})
-              elseif (DEFINED ${PKG}_SUBMINOR_VERSION) # e.g., FindBoost
-                set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_SUBMINOR_VERSION})
+        if (NOT DEFINED ${_BFP_NS}_VERSION_STRING)
+          if (DEFINED ${_BFP_NS}_VERSION_MAJOR)
+            set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_MAJOR})
+            if (DEFINED ${_BFP_NS}_VERSION_MINOR)
+              set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_VERSION_MINOR})
+              if (DEFINED ${_BFP_NS}_VERSION_PATCH)
+                set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_VERSION_PATCH})
+              elseif (DEFINED ${_BFP_NS}_SUBMINOR_VERSION) # e.g., FindBoost
+                set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_SUBMINOR_VERSION})
               endif ()
             endif ()
-          elseif (DEFINED ${PKG}_MAJOR_VERSION)
-            set (${PKG}_VERSION_STRING ${${PKG}_MAJOR_VERSION})
-            if (DEFINED ${PKG}_MINOR_VERSION)
-              set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_MINOR_VERSION})
+          elseif (DEFINED ${_BFP_NS}_MAJOR_VERSION)
+            set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_MAJOR_VERSION})
+            if (DEFINED ${_BFP_NS}_MINOR_VERSION)
+              set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_MINOR_VERSION})
               if (DEFINED ${PKG}_PATCH_VERSION)
-                set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_PATCH_VERSION})
-              elseif (DEFINED ${PKG}_SUBMINOR_VERSION) # e.g., FindBoost
-                set (${PKG}_VERSION_STRING ${${PKG}_VERSION_STRING}.${${PKG}_SUBMINOR_VERSION})
+                set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_PATCH_VERSION})
+              elseif (DEFINED ${_BFP_NS}_SUBMINOR_VERSION) # e.g., FindBoost
+                set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION_STRING}.${${_BFP_NS}_SUBMINOR_VERSION})
               endif ()
             endif ()
-          elseif (DEFINED ${PKG}_VERSION)
-            set (${PKG}_VERSION_STRING ${${PKG}_VERSION})
+          elseif (DEFINED ${_BFP_NS}_VERSION)
+            set (${_BFP_NS}_VERSION_STRING ${${_BFP_NS}_VERSION})
           else ()
-            set (${PKG}_VERSION_STRING "${_BFP_VERSION_STRING}")
+            set (${_BFP_NS}_VERSION_STRING "${_BFP_VERSION_STRING}")
           endif ()
         endif ()
         unset (_BFP_VERSION_STRING)
         # update DEPENDS_<PKG>_DIR from variables set by find_package
-        set (_BFP_PREFIX "NOTFOUND")
         if (${PKG}_FOUND)
-          if (${PKG}_DIR)
-            list (GET ${PKG}_DIR 0 _BFP_PREFIX)
-            _basis_config_to_prefix_dir(${PKG} "${_BFP_PREFIX}" _BFP_PREFIX)
-          else ()
-            if (${PKG}_INCLUDE_DIR)
-              list (GET ${PKG}_INCLUDE_DIR 0 _BFP_PREFIX)
+          if (${PKG}_DIR AND IS_ABSOLUTE "${${PKG}_DIR}" AND
+              (EXISTS "${${PKG}_DIR}/${PKG}Config.cmake" OR
+               EXISTS "${${PKG}_DIR}/${PKG_L}-config.cmake"))
+            _basis_config_to_prefix_dir(${PKG} "${${PKG}_DIR}" _BFP_PREFIX)
+            basis_update_value (DEPENDS_${PKG}_DIR "${_BFP_PREFIX}")
+          elseif (NOT DEPENDS_${PKG}_DIR)
+            if (${_BFP_NS}_INCLUDE_DIR)
+              list (GET ${_BFP_NS}_INCLUDE_DIR 0 _BFP_PREFIX)
               string (REGEX REPLACE "^(.*)/[iI]ncludes?(/.*)?$" "\\1" _BFP_PREFIX "${_BFP_PREFIX}")
-            elseif (${PKG}_LIBRARY_DIR)
-              list (GET ${PKG}_LIBRARY_DIR 0 _BFP_PREFIX)
+            elseif (${_BFP_NS}_LIBRARY_DIR)
+              list (GET ${_BFP_NS}_LIBRARY_DIR 0 _BFP_PREFIX)
               string (REGEX REPLACE "^(.*)/[lL]ib(s|exec|64)?(/.*)?$" "\\1" _BFP_PREFIX "${_BFP_PREFIX}")
             else ()
               set (_BFP_VARS
-                ${PKG}_EXECUTABLE   # e.g., FindBash
-                ${PKG}_COMPILER     # e.g., FindLATEX
-                ${PKG}_CONVERTER    # e.g., FindLATEX
+                ${_BFP_NS}_EXECUTABLE # e.g., FindBASH
+                ${_BFP_NS}_COMPILER   # e.g., FindLATEX
+                ${_BFP_NS}_CONVERTER  # e.g., FindLATEX
               )
-              list (REMOVE_DUPLICATES _BFP_VARS)
               foreach (_BFP_VAR IN LISTS _BFP_VARS)
                 if (${_BFP_VAR})
-                  if (${_BFP_VAR} MATCHES "^(.*)/[bB]in(/+.*)?$")
-                    if (CMAKE_MATCH_1)
-                      set (_BFP_PREFIX "${CMAKE_MATCH_1}")
-                    else ()
-                      set (_BFP_PREFIX "/")
-                    endif ()
-                  else ()
-                    get_filename_component (_BFP_PREFIX "${${_BFP_VAR}}" PATH)
-                  endif ()
+                  get_filename_component (_BFP_PREFIX "${${_BFP_VAR}}" PATH)
                   break ()
                 endif ()
               endforeach ()
             endif ()
+            basis_update_value (DEPENDS_${PKG}_DIR "${_BFP_PREFIX}")
           endif ()
+        else ()
+          basis_update_value (DEPENDS_${PKG}_DIR "NOTFOUND")
         endif ()
-        basis_update_value (DEPENDS_${PKG}_DIR "${_BFP_PREFIX}")
         # make internal copy of DEPENDS_<PKG>_DIR used to detect change
         set (_DEPENDS_${PKG}_DIR "${DEPENDS_${PKG}_DIR}" CACHE INTERNAL "(Previous) DEPENDS_${PKG}_DIR value." FORCE)
         # make internal search path cache entries consistent with DEPENDS_<PKG>_DIR
@@ -737,8 +767,8 @@ macro (basis_find_package PACKAGE)
         endforeach ()
         # make internal copy of <PKG>_DIR used to detect change via -D option
         #
-        # Note: All other alternative variables such as <PKG>_ROOT are forced to be
-        #       equal DEPENDS_<PKG>_DIR. Only <PKG>_DIR usually points to the
+        # Note: All other alternative variables such as <PKG>_ROOT are forced to
+        #       be equal DEPENDS_<PKG>_DIR. Only <PKG>_DIR usually points to the
         #       <PKG>Config, while DEPENDS_<PKG>_DIR is the installation prefix.
         set (_${PKG}_DIR "${${PKG}_DIR}" CACHE INTERNAL "(Previous) ${PKG}_DIR value." FORCE)
         # status message with information about found package
@@ -746,9 +776,9 @@ macro (basis_find_package PACKAGE)
           if (${PKG}_FOUND)
             set (_BFP_STATUS "${_BFP_STATUS} - found")
             if ("^${PKG}$" STREQUAL "^Boost$")
-              set (_BFP_STATUS "${_BFP_STATUS} v${${PKG}_MAJOR_VERSION}.${${PKG}_MINOR_VERSION}.${${PKG}_SUBMINOR_VERSION}")
-            elseif (DEFINED ${PKG}_VERSION_STRING AND NOT ${PKG}_VERSION_STRING MATCHES "^(0(\\.0)?(\\.0)?)?$")
-              set (_BFP_STATUS "${_BFP_STATUS} v${${PKG}_VERSION_STRING}")
+              set (_BFP_STATUS "${_BFP_STATUS} v${${_BFP_NS}_MAJOR_VERSION}.${${_BFP_NS}_MINOR_VERSION}.${${_BFP_NS}_SUBMINOR_VERSION}")
+            elseif (DEFINED ${_BFP_NS}_VERSION_STRING AND NOT ${_BFP_NS}_VERSION_STRING MATCHES "^(0(\\.0)?(\\.0)?)?$")
+              set (_BFP_STATUS "${_BFP_STATUS} v${${_BFP_NS}_VERSION_STRING}")
             endif ()
             if (BASIS_VERBOSE AND DEPENDS_${PKG}_DIR)
               set (_BFP_STATUS "${_BFP_STATUS} at ${DEPENDS_${PKG}_DIR}")
@@ -759,14 +789,6 @@ macro (basis_find_package PACKAGE)
           message (STATUS "${_BFP_STATUS}")
         endif ()
         unset (_BFP_STATUS)
-        # show/hide DEPENDS_<PKG>_DIR in GUI
-        if (DEPENDS_${PKG}_DIR
-            OR (NOT _BFP_ARGN_REQUIRED AND NOT WITH_${PKG})
-            OR (DEFINED USE_${PKG}     AND NOT USE_${PKG}))
-          mark_as_advanced (FORCE DEPENDS_${PKG}_DIR)
-        else ()
-          mark_as_advanced (CLEAR DEPENDS_${PKG}_DIR)
-        endif ()
         # raise error when a required package was not found
         if (NOT ${PKG}_FOUND AND NOT _BFP_ARGN_NO_NOTFOUND_ERROR AND (_BFP_ARGN_REQUIRED OR WITH_${PKG}))
           set (_BFP_ERROR)
@@ -832,6 +854,7 @@ macro (basis_find_package PACKAGE)
   foreach (_BFP_VAR IN LISTS _BFP_OPTIONS _BFP_MULTI_ARGS)
     unset (_BFP_ARGN_${_BFP_VAR})
   endforeach ()
+  unset (_BFP_COMPONENTS)
   unset (_BFP_ARGN_UNPARSED_ARGUMENTS)
   unset (_BFP_OPTIONS)
   unset (_BFP_MULTI_ARGS)
@@ -852,6 +875,7 @@ macro (basis_find_package PACKAGE)
   unset (_BFP_FIND_COMPONENTS)
   unset (_BFP_FIND_OPTIONAL_COMPONENTS)
   unset (_BFP_NO_FIND_PACKAGE)
+  unset (_BFP_NS)
   unset (PKG)
   unset (PKG_L)
   unset (PKG_U)
@@ -1518,7 +1542,7 @@ endmacro ()
 # @note This function may only be used in script configurations such as
 #       in particular the ScriptConfig.cmake.in file. It requires that the
 #       variables @c __DIR__ and @c BUILD_INSTALL_SCRIPT are set properly.
-#       These variables are set by the configure_script() function.
+#       These variables are set by the basis_configure_script() function.
 #       Moreover, it makes use of the global @c CMAKE_INSTALL_PREFIX and
 #       @c PROJECT_SOURCE_DIR variables.
 #
@@ -2997,6 +3021,9 @@ endmacro ()
 #         format exists for the specific scripting language. For example,
 #         Python modules can be compiled.</td>
 #   </tr>
+#     @tp @b CONFIGURATION <name> @endtp
+#     <td>Name of build configuration.</td>
+#   </tr>
 #   <tr>
 #     @tp @b COPYONLY @endtp
 #     <td>Whether to only copy the script file without replacing CMake variables
@@ -3011,6 +3038,14 @@ endmacro ()
 #         file name contains a file name extension, the given script file is
 #         configured as module script. A script file with an output file name
 #         that has no extension, is always considered to be an executable.</td>
+#   </tr>
+#   <tr>
+#     @tp @b DIRECTORY dir @endtp
+#     <td>Build tree directory of configured script. By default, the directory
+#         of the output script file is used to set the @c __DIR__ variable
+#         used to make absolute file paths relative to the configured build
+#         tree script file in the script configuration file
+#         (see basis_set_script_path()).
 #   </tr>
 #   <tr>
 #     @tp @b DESTINATION dir @endtp
@@ -3057,7 +3092,7 @@ function (basis_configure_script INPUT OUTPUT)
   CMAKE_PARSE_ARGUMENTS (
     ARGN
       "COMPILE;COPYONLY;EXECUTABLE"
-      "DESTINATION;LANGUAGE"
+      "DIRECTORY;DESTINATION;LANGUAGE;CONFIGURATION"
       "CACHE_FILE;CONFIG_FILE;LINK_DEPENDS"
     ${ARGN}
   )
@@ -3077,12 +3112,9 @@ function (basis_configure_script INPUT OUTPUT)
     include ("${_F}")
   endforeach ()
   # --------------------------------------------------------------------------
-  # set general variables for use in scripts
-  set (__FILE__ "${_OUTPUT_FILE}")
-  get_filename_component (__NAME__ "${_OUTPUT_FILE}" NAME)
-  # --------------------------------------------------------------------------
-  # variables mainly intended for use in script configurations, in particular,
-  # these are used by basis_set_script_path() to make absolute paths relative
+  # general variables for use in scripts and those intended for use in script
+  # configurations. The __DIR__ is in particular used by basis_set_script_path()
+  # to make absolute paths relative to the script file location
   if (ARGN_DESTINATION)
     if (NOT IS_ABSOLUTE "${ARGN_DESTINATION}")
       set (ARGN_DESTINATION "${CMAKE_INSTALL_PREFIX}/${ARGN_DESTINATION}")
@@ -3091,8 +3123,19 @@ function (basis_configure_script INPUT OUTPUT)
     set (__DIR__ "${ARGN_DESTINATION}")
   else ()
     set (BUILD_INSTALL_SCRIPT FALSE)
-    get_filename_component (__DIR__ "${_OUTPUT_FILE}" PATH)
+    if (ARGN_DIRECTORY)
+      if (NOT IS_ABSOLUTE "${ARGN_DIRECTORY}")
+        message (FATAL_ERROR "Build tree script DIRECTORY must be an absolute path")
+      endif ()
+      set (__DIR__ "${ARGN_DIRECTORY}")
+      string (REPLACE "$<CONFIGURATION>" "${ARGN_CONFIGURATION}" __DIR__ "${__DIR__}")
+    else ()
+      get_filename_component (__DIR__ "${_OUTPUT_FILE}" PATH)
+    endif ()
   endif ()
+  get_filename_component (__NAME__ "${_OUTPUT_FILE}" NAME)
+  set (__FILE__   "${__DIR__}/${__NAME__}")
+  set (__CONFIG__ "${ARGN_CONFIGURATION}")
   # --------------------------------------------------------------------------
   # include script configuration files
   foreach (_F IN LISTS ARGN_CONFIG_FILE)
@@ -3405,7 +3448,7 @@ function (basis_get_target_location VAR TARGET_NAME PART)
           endif ()
         endforeach ()
       endif ()
-      # make path relative to CMAKE_INSTALL_PREFIX if POST_CMAKE_INSTALL_PREFIX given
+      # make path relative to CMAKE_INSTALL_PREFIX if POST_INSTALL_RELATIVE given
       if (LOCATION AND ARGV2 MATCHES "POST_INSTALL_RELATIVE")
         file (RELATIVE_PATH LOCATION "${CMAKE_INSTALL_PREFIX}" "${LOCATION}")
       endif ()
@@ -3420,6 +3463,20 @@ function (basis_get_target_location VAR TARGET_NAME PART)
           get_target_property (DIRECTORY ${TARGET_UID} INSTALL_DIRECTORY)
         else ()
           get_target_property (DIRECTORY ${TARGET_UID} OUTPUT_DIRECTORY)
+          if (DIRECTORY AND CMAKE_GENERATOR MATCHES "Visual Studio|Xcode")
+            set (DIRECTORY "${DIRECTORY}/$<CONFIGURATION>")
+          endif ()
+        endif ()
+        get_target_property (FNAME ${TARGET_UID} OUTPUT_NAME)
+      elseif (TYPE STREQUAL "^SCRIPT_MODULE$")
+        if (PART MATCHES "POST_INSTALL")
+          get_target_property (DIRECTORY ${TARGET_UID} INSTALL_DIRECTORY)
+        else ()
+          get_target_property (COMPILE   ${TARGET_UID} COMPILE)
+          get_target_property (DIRECTORY ${TARGET_UID} OUTPUT_DIRECTORY)
+          if (DIRECTORY AND (COMPILE OR CMAKE_GENERATOR MATCHES "Visual Studio|Xcode"))
+            set (DIRECTORY "${DIRECTORY}/$<CONFIGURATION>")
+          endif ()
         endif ()
         get_target_property (FNAME ${TARGET_UID} OUTPUT_NAME)
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3544,9 +3601,9 @@ function (basis_get_target_link_libraries LINK_DEPENDS TARGET_NAME)
     message (FATAL_ERROR "basis_get_target_link_libraries(): Unknown target: ${TARGET_UID}")
   endif ()
   if (BASIS_DEBUG AND BASIS_VERBOSE)
-    message (STATUS "** basis_get_target_link_libraries():")
-    message (STATUS "**   TARGET_NAME:     ${TARGET_NAME}")
-    message (STATUS "**   CURRENT_DEPENDS: ${ARGN}")
+    message ("** basis_get_target_link_libraries():")
+    message ("**   TARGET_NAME:     ${TARGET_NAME}")
+    message ("**   CURRENT_DEPENDS: ${ARGN}")
   endif ()
   # get type of target
   get_target_property (BASIS_TYPE ${TARGET_UID} BASIS_TYPE)
