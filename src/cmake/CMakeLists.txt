@@ -101,7 +101,6 @@ set (
     "FindEigen3.cmake"
     "FindFLANN.cmake"
     "FindGMock.cmake"
-    "FindGTest.cmake"
     "FindITK.cmake"
     "FindJython.cmake"
     "FindJythonInterp.cmake"
