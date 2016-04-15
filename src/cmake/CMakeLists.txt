@@ -67,8 +67,6 @@ set (
     "doxygen_extra.css.in"                # stylesheet for Doxygen documentation
     "sphinx_conf.py.in"                   # default Sphinx configuration
     "sphinx_make.sh.in"                   # shell script to execute Sphinx
-    "logo_sbia.png"                       # the logo of SBIA
-    "logo_penn.gif"                       # the logo of UPenn
     # other
     "buildtimestamp.cmd"                  # get build timestamp on Windows
     "CheckPublicHeaders.cmake"            # check if header files were added/removed
@@ -140,7 +138,7 @@ basis_install (
 #            This directory is added to the build configuration of each
 #            BASIS project (including BASIS) at the end of basis_project_impl().
 basis_install (
-  FILES       "uninstall/CMakeLists.txt"
+  FILES       "modules/uninstall/CMakeLists.txt"
   DESTINATION "${INSTALL_MODULES_DIR}/uninstall"
 )
 
