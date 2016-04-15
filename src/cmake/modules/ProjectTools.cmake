@@ -87,14 +87,15 @@ endmacro ()
 # NAME option instead to declare its name, it can be either an independent
 # project or a (tighly coupled) "submodule" of another project. A project is
 # regarded a "submodule" when it is not a subproject but specifies a PACKAGE
-# it belongs to. Otherwise, when only a project has only a NAME, but no PACKAGE
+# it belongs to. Otherwise, when a project has only a NAME but no PACKAGE,
 # the PACKAGE name is set equal the project NAME and the project is regarded
 # as neither a subproject nor a submodule. When either a subproject or submodule
 # is built as part of a top-level project (usually the PACKAGE it belongs to),
 # the CMake variable PROJECT_IS_MODULE is furthermore set to TRUE by the
-# basis_add_module command. The PROJECT_IS_SUBPROJECT and PROJECT_IS_SUBMODULE
-# flags are used by the BASIS commands to decide to which "namespace" the
-# targets of a project belong to and what components to install.
+# basis_add_module and basis_add_subdirectory command, respectively.
+# The boolean PROJECT_IS_SUBPROJECT and PROJECT_IS_SUBMODULE variables are
+# used by the BASIS commands to decide to which "namespace" the targets of a
+# project belong to and what components to install.
 #
 # @sa basis_project()
 # @sa basis_slicer_module()
@@ -386,6 +387,14 @@ macro (basis_project_check_metadata)
     if (PROJECT_EXCLUDE_FROM_ALL)
       message (FATAL_ERROR "EXCLUDE_FROM_ALL option only valid for project modules.")
     endif ()
+  endif ()
+  # prefix used for CMake variables in <Pkg>[<Module>]Config.cmake (cf. GenerateConfig.cmake)
+  if (PROJECT_IS_SUBMODULE)
+    set (PROJECT_CONFIG_PREFIX "${PROJECT_PACKAGE_NAME}_${PROJECT_NAME}")
+  elseif (PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
+    set (PROJECT_CONFIG_PREFIX "${PROJECT_NAME}")
+  else ()
+    set (PROJECT_CONFIG_PREFIX "${PROJECT_PACKAGE_NAME}")
   endif ()
   # source tree directories aliases
   if (PROJECT_INCLUDE_DIR)
@@ -907,6 +916,9 @@ function (basis_get_module_info MODULE_NAME F)
   set (${PROJECT_NAME}_OPTIONAL_TEST_DEPENDS  "${OPTIONAL_TEST_DEPENDS}"  PARENT_SCOPE)
   set (${PROJECT_NAME}_DECLARED               TRUE                        PARENT_SCOPE)
   set (${PROJECT_NAME}_MISSING                FALSE                       PARENT_SCOPE)
+  set (${PROJECT_NAME}_IS_SUBPROJECT          "${PROJECT_IS_SUBPROJECT}"  PARENT_SCOPE)
+  set (${PROJECT_NAME}_IS_SUBMODULE           "${PROJECT_IS_SUBMODULE}"   PARENT_SCOPE)
+  set (${PROJECT_NAME}_CONFIG_PREFIX          "${PROJECT_CONFIG_PREFIX}"  PARENT_SCOPE)
   # remember source directories - used by basis_add_doxygen_doc()
   set (${PROJECT_NAME}_INCLUDE_DIRS "${PROJECT_INCLUDE_DIRS}" PARENT_SCOPE)
   set (${PROJECT_NAME}_CODE_DIRS    "${PROJECT_CODE_DIRS}"    PARENT_SCOPE)
@@ -1209,6 +1221,93 @@ macro (basis_project_modules)
   unset (CMPS)
 
 endmacro ()
+
+# ----------------------------------------------------------------------------
+## @brief Check if named project module depends on the specified package
+#
+# @param[out] result  Name of boolean return variable.
+# @param[in]  module  Name of project module.
+# @param[in]  package Name of (external) package.
+#
+# @returns Sets @p result variable to either @c TRUE or @c FALSE.
+function (basis_check_if_module_depends_on_package result module package)
+  if (ARGN)
+    cmake_parse_arguments(ARGN "REQUIRED;OPTIONAL" "" "" ${ARGN})
+    if (ARGN_UNPARSED_ARGUMENTS)
+      message(FATAL_ERROR "Too many arguments: ${ARGN_UNPARSED_ARGUMENTS}")
+    endif ()
+  else ()
+    set(ARGN_REQUIRED TRUE)
+    set(ARGN_OPTIONAL TRUE)
+  endif ()
+  basis_tokenize_dependency ("${package}" pkg_name pkg_version pkg_comps)
+  set(depends)
+  if (ARGN_REQUIRED)
+    list(APPEND depends ${${module}_DEPENDS})
+    if (BUILD_APPLICATIONS)
+      list(APPEND depends ${${module}_TOOLS_DEPENDS})
+    endif ()
+    if (BUILD_TESTING)
+      list(APPEND depends ${${module}_TEST_DEPENDS})
+    endif ()
+  endif ()
+  if (ARGN_OPTIONAL)
+    set(depends ${${module}_OPTIONAL_DEPENDS})
+    if (BUILD_APPLICATIONS)
+      list(APPEND depends ${${module}_OPTIONAL_TOOLS_DEPENDS})
+    endif ()
+    if (BUILD_TESTING)
+      list(APPEND depends ${${module}_OPTIONAL_TEST_DEPENDS})
+    endif ()
+  endif ()
+  set(pkg_found FALSE)
+  foreach (dep IN LISTS depends)
+    basis_tokenize_dependency ("${dep}" dep_name dep_version dep_comps)
+    if ("^${dep_name}$" STREQUAL "^${pkg_name}$")
+      if (pkg_comps)
+        foreach (comp IN LISTS pkg_comps)
+          list(FIND dep_comps ${comp} idx)
+          if (NOT idx EQUAL -1)
+            set(pkg_found TRUE)
+            break()
+          endif ()
+        endforeach ()
+        if (pkg_found)
+          break()
+        endif ()
+      else ()
+        set(pkg_found TRUE)
+        break()
+      endif ()
+    endif ()
+  endforeach ()
+  set(${result} ${pkg_found} PARENT_SCOPE)
+endfunction ()
+
+# ----------------------------------------------------------------------------
+## @brief Check if any of the named/enabled modules depends on the specified package
+#
+# @param[out] result  Name of boolean return variable.
+# @param[in]  package Name of (external) package.
+# @param[in]  ARGN    Names of project modules. If none specified,
+#                     the list of enabled modules is used instead.
+#
+# @returns Sets @p result variable to either @c TRUE or @c FALSE.
+function (basis_check_if_package_is_needed_by_modules result package)
+  if (ARGN)
+    set(modules ${ARGN})
+  else ()
+    set(modules ${PROJECT_MODULES_ENABLED})
+  endif ()
+  set(pkg_found FALSE)
+  foreach (module IN LISTS modules)
+    basis_check_if_module_depends_on_package(pkg_found ${module} ${package})
+    if (pkg_found)
+      break()
+    endif ()
+  endforeach ()
+  set(${result} ${pkg_found} PARENT_SCOPE)
+endfunction ()
 
 # ----------------------------------------------------------------------------
 ## @brief Configure public header files.
@@ -2240,7 +2339,7 @@ endmacro ()
 ## @brief Use a previously added project module.
 macro (basis_use_module MODULE)
   set (NO_${MODULE}_IMPORTS TRUE)
-  include ("${${MODULE}_USE_FILE}")
+  include ("${${${MODULE}_CONFIG_PREFIX}_USE_FILE}")
   add_definitions(-DHAVE_${PROJECT_PACKAGE_NAME}_${MODULE})
 endmacro ()
 
@@ -2495,11 +2594,12 @@ macro (basis_project_end)
   #
   # Note: Must be done *after* the TARGETS project properties of the modules
   #       were copied as basis_finalize_targets() iterates over this list.
+
+  # add missing build commands for custom targets
+  basis_finalize_targets ()
   if (NOT PROJECT_IS_MODULE OR PROJECT_IS_SUBPROJECT)
     # configure the BASIS utilities
     basis_configure_utilities ()
-    # add missing build commands for custom targets
-    basis_finalize_targets ()
     # add build target for missing __init__.py files of Python package
     if (BASIS_PYTHON_TEMPLATES_DIR)
       if (PythonInterp_FOUND OR JythonInterp_FOUND)
